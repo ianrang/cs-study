@@ -1,4 +1,4 @@
-package sutdy.part3a.section8generic.practice;
+package java.part3a.section8generic.practice;
 
 public class GenericMain {
     public static void main(String[] args) {

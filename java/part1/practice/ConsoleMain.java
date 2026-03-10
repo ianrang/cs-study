@@ -1,4 +1,4 @@
-package sutdy.part1.practice;
+package java.part1.practice;
 
 import java.io.IOException;
 

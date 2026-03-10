@@ -1,4 +1,4 @@
-package sutdy.part3a.section8generic.practice;
+package java.part3a.section8generic.practice;
 
 import java.util.ArrayList;
 

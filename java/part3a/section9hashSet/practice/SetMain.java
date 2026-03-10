@@ -1,4 +1,4 @@
-package sutdy.part3a.section9hashSet.practice;
+package java.part3a.section9hashSet.practice;
 
 import java.util.HashSet;
 import java.util.Iterator;
