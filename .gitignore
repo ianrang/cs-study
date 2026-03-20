@@ -1,2 +1,3 @@
 *.class
 .obsidian/
+.claude/settings.local.json
