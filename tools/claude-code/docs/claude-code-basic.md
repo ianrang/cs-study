@@ -3,7 +3,7 @@
 ## 1. 개요
 
 - CLI(터미널) 기반 개발 환경으로, 다양한 IDE 사용 환경에서 공통으로 사용 가능
-- 적합한 코드베이스 규모: 약 1,000줄 내외
+- Opus 4.6 기준 1M 컨텍스트 윈도우 지원 (Max, Team, Enterprise)
 
 ## 2. 요금제 및 사용량
 
@@ -28,7 +28,7 @@
 ### 터미널
 - `!` 접두사로 명령어 즉시 실행 (예: `!ls`)
 - 여러 터미널을 열어 동시 작업 가능
-- ESC: 진행 중 작업 중단 / ESC 두 번: 이전 대화 시점으로 복귀 후 새 세션
+- ESC: 진행 중 작업 중단 / ESC 두 번: 이전 응답을 되감기(Rewind/Summarize)
 
 ### 편집
 - Vim 모드: 0, W, DD 등 제한적 지원
@@ -40,15 +40,17 @@
 
 | 명령어 | 용도 |
 |--------|------|
-| `/mcp` | Claude Desktop MCP를 터미널에서 사용 |
 | `/init` | 코드베이스 학습 → CLAUDE.md 생성 |
 | `/compact` | 불필요한 컨텍스트 제거, 토큰 절약 |
+| `/clear` | 컨텍스트 완전 초기화 |
 | `/continue` | 최신 대화로 이어서 진행 |
 | `/resume` | 이전 대화 기록 중 선택해 복귀 |
-| `#` | 메모 즉시 저장 |
+| `/memory` | Auto Memory 확인/편집 |
+| `/mcp` | MCP 서버 상태 확인 및 인증 관리 |
+| `/hooks` | 설정된 hooks 목록 확인 |
 | `/model` | LLM 모델 변경 |
-| `/memory` | 메모리 관리 |
-| `/terminal-setup` | 터미널 설정 |
+| `/config` | 설정 옵션 관리 |
+| `#` | 메모 즉시 저장 |
 
 ## 5. 실전 활용
 
@@ -72,16 +74,16 @@
 
 ---
 
-고급 기능(Simplify, Batch, Remote Control, Ralph Loop 등)은 [02.update.md](02.update.md) 참조.
+고급 기능(Simplify, Batch, Remote Control, Ralph Loop 등)은 [update.md](update.md) 참조.
 
+## 7. 메모리 시스템
 
-기억을 저장하는 3가지 방법
-1) Context > CLAUDE.md
-  프로젝트 구조, 코딩 규칙 작성
-  세션 마다 자동 로딩
-2) Memory > MEMORY.md
-  대화 중 배운 것들을 자동으로 기록
-  세션 간 기억 저장
-3) Handoff
-   HANDFF.md
-   작업 상태 정리 -> 이어가기
+| 계층 | 파일 | 역할 | 로딩 |
+|------|------|------|------|
+| 프로젝트 지침 | `CLAUDE.md` 또는 `.claude/CLAUDE.md` | 프로젝트 구조, 코딩 규칙, 명령어 | 매 세션 자동 로딩 |
+| 규칙 파일 | `.claude/rules/*.md` | 주제별 분리된 보조 규칙 | 매 세션 자동 탐색 (path 스코핑 가능) |
+| Auto Memory | `~/.claude/projects/<project>/memory/` | 대화 중 Claude가 자동 학습한 내용 | MEMORY.md 첫 200줄 자동 로딩 |
+| 세션 이어가기 | `claude -c` 또는 `/resume` | 이전 대화 복원 | 명시적 호출 시 |
+
+- `/memory` 명령으로 Auto Memory 확인/편집 가능
+- CLAUDE.md는 200줄 이내 권장, 상세 내용은 `.claude/rules/`나 별도 파일로 분리
