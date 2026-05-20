@@ -1,0 +1,89 @@
+# LLM-meta config — 외부 LLM 호출 통제 단일 변경점
+# Scope: Ollama + 외부 LLM API 호출 (scripts/, plugin) 한정.
+# Claude Code 본체 + 9 portfolio subagent 모델은 `/model` 명령으로 결정 (본 파일 scope 외부).
+# 자세한 scope 분리는 AGENTS.md "Scope 분리 (B0)" 참고.
+
+version: 1
+
+# 호출 site 가 인용하는 alias. model_id 직접 인용 금지 (lint.py grep 차단).
+profiles:
+  default: claude-code-opus       # 미지정 시 fallback
+  ingest: claude-code-opus        # raw → wiki 합성
+  lint: claude-code-sonnet        # lint.py LLM judge 단계
+  tagging: ollama-qwen-7b         # LLM Tagger plugin
+  embedding: ollama-nomic-embed   # Smart Connections plugin
+  query: claude-code-opus         # wiki query
+  grounding: claude-code-opus     # citation 검증 (subagent 외부 호출 시)
+  logic-check: claude-code-opus   # 명제 모순 검증 (subagent 외부 호출 시)
+
+# profile 별 일일 호출 cap (B6). 초과 시 batch 또는 alert.
+daily_call_cap:
+  ingest: 100
+  lint: 200
+  tagging: 500
+  embedding: 5000   # embedding 은 호출당 비용 0 (로컬 Ollama)
+  query: 50
+  grounding: 100
+  logic-check: 100
+
+# 모델 정의. alias → spec.
+models:
+  claude-code-opus:
+    provider: claude-code
+    model_id: claude-opus-4-7
+    context: 1000000
+    cost_tier: high
+    fallback: claude-code-sonnet     # B4 — 동일 또는 더 낮은 cost_tier
+    fallback_max_tier: medium        # B4 — fallback chain ceiling
+    deprecated: false
+
+  claude-code-sonnet:
+    provider: claude-code
+    model_id: claude-sonnet-4-6
+    context: 200000
+    cost_tier: medium
+    fallback: claude-code-haiku
+    fallback_max_tier: low
+    deprecated: false
+
+  claude-code-haiku:
+    provider: claude-code
+    model_id: claude-haiku-4-5-20251001
+    context: 200000
+    cost_tier: low
+    fallback: ollama-qwen-7b
+    fallback_max_tier: free
+    deprecated: false
+
+  ollama-qwen-7b:
+    provider: ollama
+    endpoint: http://localhost:11434
+    model_id: qwen2.5:7b-instruct-q4
+    context: 32768
+    cost_tier: free
+    fallback: null                    # 로컬 — fallback 없음
+    fallback_max_tier: free
+    deprecated: false
+
+  ollama-nomic-embed:
+    provider: ollama
+    endpoint: http://localhost:11434
+    model_id: nomic-embed-text
+    context: 8192
+    cost_tier: free
+    fallback: null
+    fallback_max_tier: free
+    deprecated: false
+
+# Resolver 동작 규약 (scripts/llm_config.py LLMResolver).
+resolver:
+  cache_ttl_seconds: 30               # B8 — invalidation 후 30s 내 회복
+  env_override: KURNELL_LLM_PROFILE_  # 예: KURNELL_LLM_PROFILE_INGEST=ollama-qwen-7b 로 한 profile 임시 override
+  invalidate_on_save: true            # 본 파일 수정 시 자동 invalidate
+
+# Cost tier 정의.
+cost_tiers:
+  high: { description: "Opus 등 high-end. Max plan 5시간 한도 burning 큼" }
+  medium: { description: "Sonnet 등 mid. 일상 작업" }
+  low: { description: "Haiku 등 low. 단순 작업" }
+  free: { description: "로컬 Ollama. 호출당 비용 0" }

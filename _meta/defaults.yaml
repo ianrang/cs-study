@@ -1,0 +1,64 @@
+# Lazy fallback defaults — cs/, development/, coding-test/, lang/, tools/ 의 frontmatter 부재 시 ingest 시점 추정 값.
+# Panel A C5d / D2=A — bulk-frontmatter-add.py 폐기. lazy fallback 단독.
+# 본 default 가 적용되면 페이지 frontmatter 가 inferred=true 마킹됨 (실제 값 아님 표시).
+
+# 적용 path → default 값 매핑.
+# path 패턴 우선순위는 위에서 아래.
+
+paths:
+  - pattern: "cs/**"
+    defaults:
+      tier: human-note
+      human_authored: true
+      page_type: concept              # 보통 학습 노트 = concept
+      domain: information-security    # cs/* 의 최다 비중 — 명시 노트는 override
+      inferred: true
+      source_paths: []
+      provenance: extracted
+
+  - pattern: "development/**"
+    defaults:
+      tier: human-note
+      human_authored: true
+      page_type: concept
+      domain: software-engineering
+      inferred: true
+      source_paths: []
+      provenance: extracted
+
+  - pattern: "coding-test/**"
+    defaults:
+      tier: human-note
+      human_authored: true
+      page_type: method               # 코딩테스트 = 알고리즘·기법
+      domain: algorithms
+      inferred: true
+      source_paths: []
+      provenance: extracted
+
+  - pattern: "lang/**"
+    defaults:
+      tier: human-note
+      human_authored: true
+      page_type: concept
+      domain: programming-language
+      inferred: true
+      source_paths: []
+      provenance: extracted
+
+  - pattern: "tools/**"
+    defaults:
+      tier: human-note
+      human_authored: true
+      page_type: method               # 도구 사용법
+      domain: developer-tools
+      inferred: true
+      source_paths: []
+      provenance: extracted
+
+# 사용자가 의도적으로 frontmatter 추가 시 lazy default 가 무시된다 (사용자 명시 값 우선).
+# 본 파일은 ingest.py / lint.py 가 참조. 본문 변경 0.
+
+# 사용자가 어떤 cs/ 노트가 LLM paste 라 표시하고 싶을 때:
+# 옵션 A — 노트 frontmatter 에 `human_authored: partial` + `source: "..."` 직접 추가
+# 옵션 B — wiki/_meta/provenance.json 외부 인덱스에 entry 추가 (cs/ 본문 무변경)

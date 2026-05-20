@@ -1,3 +1,17 @@
 *.class
 .obsidian/
 .claude/settings.local.json
+
+# LLM Wiki v3 — 재생성 가능 artifact (Panel A C2 결정)
+_meta/backlinks.json
+_meta/.cache/
+scripts/__pycache__/
+*.pyc
+
+# Resolver / lint local state
+.llm-cache/
+.lint-cache/
+
+# Obsidian workspace state (per-machine, 같이 push 시 충돌)
+.obsidian/workspace.json
+.obsidian/cache
