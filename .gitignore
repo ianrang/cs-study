@@ -12,6 +12,9 @@ scripts/__pycache__/
 .llm-cache/
 .lint-cache/
 
+# Exam OCR / cbtbank fetch intermediates (regenerable via scripts/)
+.tmp/
+
 # Obsidian workspace state (per-machine, 같이 push 시 충돌)
 .obsidian/workspace.json
 .obsidian/cache
