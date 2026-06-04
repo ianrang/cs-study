@@ -122,7 +122,24 @@
 
 **네이밍**: 파일 lowercase(video_id는 YouTube가 부여한 case-sensitive id 그대로 — 고유성 우선). ADR `NNNN-kebab-title.md`.
 
-## 7. LLM synthesis seam (FR-13 — 이연, 문서만)
+## 7. 파이프라인 오케스트레이션 + LLM synthesis seam
+
+### 7.1 extract→ingest 오케스트레이터 (구현됨)
+
+한 명령으로 추출(stage 1) + 적재(stage 2). `scripts/pipeline.py` + `_meta/pipeline.yaml`.
+
+```
+pipeline.py ──(subprocess: uv run ytscript URL --print-json-path)──► canonical JSON 경로 회수
+            ──(import ingest)──────────────────────────────────────► raw/sources/video/<id>.{md,json}
+            ──(wiki.enabled 면)────────────────────────────────────► 사람 review 게이트에서 정지(안내만)
+```
+
+- **단방향**: ytscript 는 subprocess(CLI 계약), ingest 는 cs-study 내부 모듈. pipeline.py 는 ytscript 를 **python import 하지 않는다**(canonical 포맷·CLI 에만 의존 → 순환 0).
+- **추출기 의존**: ytscript `--print-json-path`(007 `feat/emit-json-path`) — 산출 canonical 경로를 stdout 1줄로 emit. 추출기는 여전히 cs-study 무지.
+- **wiki(stage 3)** 는 raw→wiki 사람 게이트(AGENTS.md:85-91)라 자동 경계 밖 — `wiki.enabled` 여도 정지하고 안내만.
+- 사용: `python3 scripts/pipeline.py <URL> [--config _meta/pipeline.yaml] [--force]`
+
+### 7.2 wiki synthesis seam (FR-13 — 이연)
 
 본 라운드는 raw까지. 2차 라운드(별도 PRD)가 plug-in 할 **핸드오프 경계**:
 
