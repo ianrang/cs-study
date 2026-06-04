@@ -60,6 +60,9 @@ def run_extractor(url: str, ex_cfg: dict) -> Path:
 
     cmd = ["uv", "run", "--project", str(project), "ytscript", url,
            "--output-dir", str(output_dir), "--print-json-path"]
+    cfg_file = ex_cfg.get("config")
+    if cfg_file:  # ytscript --config 전달 — 모든 추출기 옵션을 한 파일로(우선순위: per-flag > config)
+        cmd += ["--config", str(Path(cfg_file).expanduser())]
     for key in _PASSTHROUGH:
         val = ex_cfg.get(key)
         if val not in (None, ""):

@@ -6,7 +6,8 @@ version: 1
 extractor:
   project: ~/dev/personal/007_youtube-script          # uv --project 대상 (ytscript 실행 위치)
   output_dir: ~/dev/personal/007_youtube-script/out    # canonical 산출 위치(절대 경로 권장)
-  # ytscript passthrough 옵션 (생략 시 추출기 기본/그쪽 config.yaml 사용)
+  # config: ~/dev/personal/007_youtube-script/config.yaml  # ytscript --config 전달(모든 추출기 옵션 한 파일로)
+  # 아래 per-flag passthrough 는 config 보다 우선(생략 시 추출기 기본 사용). boolean(fallback_stt) 은 config 로 설정.
   source: auto                                          # auto | manual | auto_sub | stt
   whisper_model: medium
   # langs: [ko, en]

@@ -80,6 +80,28 @@ def test_run_extractor_captures_path(monkeypatch_target=None):
 
 
 @test
+def test_run_extractor_forwards_config():
+    """extractor.config 지정 시 ytscript 에 --config <path> 전달."""
+    with tempfile.TemporaryDirectory() as d:
+        proj = Path(d)
+        jp = _canonical_file(proj, "c.json")
+        captured = {}
+        real = pipeline.subprocess.run
+
+        def fake(cmd, *a, **k):
+            captured["cmd"] = cmd
+            return _fake_proc(0, stdout=f"{jp}\n")
+
+        pipeline.subprocess.run = fake
+        try:
+            pipeline.run_extractor("URL", {"project": str(proj), "config": "/tmp/x.yaml"})
+            assert "--config" in captured["cmd"]
+            assert "/tmp/x.yaml" in captured["cmd"]
+        finally:
+            pipeline.subprocess.run = real
+
+
+@test
 def test_run_extractor_failure():
     with tempfile.TemporaryDirectory() as d:
         real = pipeline.subprocess.run
