@@ -1,6 +1,6 @@
 # ADR-0001: 페이지 본문 model_id/자기추론 grep 규칙 폐기 (LLM 호출·프롬프트 한정으로 정정)
 
-- Status: **Proposed** (사용자 승인 대기 — 스키마 공진화 게이트, AGENTS.md:27 / PRD NFR-6)
+- Status: **Accepted** (사용자 승인 2026-06-04 · 구현 완료 — 스키마 공진화 게이트, AGENTS.md:27 / PRD NFR-6)
 - Date: 2026-06-04
 - 관련: PRD FR-10, business-logic P-ADR-1/2, Claude 메모리 `project-youtube-script` 이연 검증 항목
 - 정정 이력: 초안은 "raw 한정 advisory 강등" 이었으나, 사용자 검토(2026-06-04)에서 본 규칙이 *사용자 커밋 규칙이 아니며* cs-study 자체 directive의 **과잉 적용**임이 확인되어 "본문 grep 규칙 폐기"로 정정.

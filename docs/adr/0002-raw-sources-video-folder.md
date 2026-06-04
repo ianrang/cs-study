@@ -1,6 +1,6 @@
 # ADR-0002: `raw/sources/video/` 폴더 신설
 
-- Status: **Proposed** (사용자 승인 대기 — 스키마 공진화 게이트, AGENTS.md:27 / PRD NFR-6)
+- Status: **Accepted** (사용자 승인 2026-06-04 · 구현 완료 — 스키마 공진화 게이트, AGENTS.md:27 / PRD NFR-6)
 - Date: 2026-06-04
 - 관련: PRD FR-11, business-logic P-ADR-3
 
