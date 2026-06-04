@@ -1,0 +1,20 @@
+# extract→ingest 파이프라인 설정. scripts/pipeline.py 가 읽는다.
+# 우선순위: CLI 인자 > 본 YAML > 기본값.
+# 단방향: pipeline.py 가 ytscript 를 subprocess(CLI)로, ingest 를 내부 모듈로 호출.
+version: 1
+
+extractor:
+  project: ~/dev/personal/007_youtube-script          # uv --project 대상 (ytscript 실행 위치)
+  output_dir: ~/dev/personal/007_youtube-script/out    # canonical 산출 위치(절대 경로 권장)
+  # ytscript passthrough 옵션 (생략 시 추출기 기본/그쪽 config.yaml 사용)
+  source: auto                                          # auto | manual | auto_sub | stt
+  whisper_model: medium
+  # langs: [ko, en]
+  # whisper_prompt: ""
+
+ingest:
+  out: raw/sources/video    # cs-study raw 페이지 위치 (REPO_ROOT 기준 상대)
+  force: false
+
+wiki:
+  enabled: false            # 2차 라운드. true 여도 raw→wiki 승격은 사람 review 게이트에서 정지(AGENTS.md:85-91)
