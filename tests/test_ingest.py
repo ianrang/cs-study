@@ -115,6 +115,23 @@ def test_non_stt_omits_stt_fields():
 
 
 @test
+def test_stt_missing_model_omits_null():
+    """method=stt 인데 model/engine 누락 → 키 자체를 생략(null 방출 금지)."""
+    fm = ingest.build_frontmatter(
+        _canonical(extraction={"method": "stt", "model": None, "engine": None}), "2026-06-10"
+    )
+    assert "stt_model" not in fm and "stt_engine" not in fm
+
+
+@test
+def test_now_normalized_to_utc():
+    """--now 가 비-UTC offset 이면 UTC 날짜로 정규화 (P-MAP-6)."""
+    assert ingest._utc_date("2026-06-04T02:00:00+09:00") == "2026-06-03"  # UTC 전날
+    assert ingest._utc_date("2026-06-04") == "2026-06-04"                  # date-only
+    assert ingest._utc_date("2026-06-04T23:00:00+00:00") == "2026-06-04"
+
+
+@test
 def test_verbatim_body():
     """full_text + segment text 가 무수정으로 본문에 포함 (BR-BODY-1)."""
     data = _canonical()

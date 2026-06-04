@@ -107,6 +107,19 @@ def _date_of(iso: str | None) -> str:
         return str(iso)[:10]
 
 
+def _utc_date(now: str | None) -> str:
+    """ingested_date — UTC date (P-MAP-6). now 주입 시 타임존 정규화 후 UTC 날짜."""
+    if not now:
+        return datetime.now(timezone.utc).date().isoformat()
+    try:
+        dt = datetime.fromisoformat(now)
+    except ValueError:
+        return now[:10]
+    if dt.tzinfo is not None:
+        dt = dt.astimezone(timezone.utc)
+    return dt.date().isoformat()
+
+
 def build_frontmatter(data: dict, ingested_date: str) -> dict:
     """canonical → raw frontmatter. 키 순서 고정(결정성). P-MAP-1~10."""
     video = data["video"]
@@ -123,8 +136,10 @@ def build_frontmatter(data: dict, ingested_date: str) -> dict:
         "extraction_method": extraction.get("method", ""),   # P-MAP-8
     }
     if extraction.get("method") == "stt":                     # P-MAP-9
-        fm["stt_model"] = extraction.get("model")
-        fm["stt_engine"] = extraction.get("engine")
+        if extraction.get("model") is not None:
+            fm["stt_model"] = extraction.get("model")
+        if extraction.get("engine") is not None:
+            fm["stt_engine"] = extraction.get("engine")
     fm["channel"] = video.get("channel") or ""               # P-MAP-10
     fm["duration_seconds"] = duration if duration is not None else ""
     fm["language"] = video.get("language") or extraction.get("language") or ""
@@ -198,7 +213,7 @@ def ingest(
     target: Path, *, out_dir: Path = DEFAULT_OUT, force: bool = False, now: str | None = None
 ) -> tuple[Path, Path, bool]:
     """canonical 입력 → raw/sources/video 페이지. (md_path, json_path, skipped)."""
-    ingested_date = now[:10] if now else datetime.now(timezone.utc).date().isoformat()
+    ingested_date = _utc_date(now)
     _, data = resolve_input(target)
     video_id = data["video"]["id"]
     if "/" in video_id or "\\" in video_id:

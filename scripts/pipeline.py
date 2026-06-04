@@ -73,7 +73,10 @@ def run_extractor(url: str, ex_cfg: dict) -> Path:
     lines = [ln.strip() for ln in proc.stdout.splitlines() if ln.strip()]
     if not lines:
         raise PipelineError("추출기가 canonical JSON 경로를 출력하지 않음 (--print-json-path)")
-    json_path = Path(lines[-1])
+    candidate = lines[-1]
+    if not candidate.endswith(".json"):
+        raise PipelineError(f"추출기 stdout 마지막 줄이 canonical JSON 경로가 아님: {candidate!r}")
+    json_path = Path(candidate)
     if not json_path.is_absolute():
         json_path = (project / json_path).resolve()
     if not json_path.exists():
