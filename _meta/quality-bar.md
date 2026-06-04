@@ -95,9 +95,9 @@
 **검증 도구**: `scripts/lint.py` 정규식 grep.
 
 **대표 grep 룰**:
-- `model_id` 직접 인용 차단: `claude-opus-4-[0-9]+|claude-sonnet-4-[0-9]+|qwen2\.5|nomic-embed`
-- 자기 추론 어휘 차단: `I am (Claude|Opus|Sonnet|GPT|Qwen)`
 - write scope 위반: cs/, development/, coding-test/, lang/, tools/ 의 변경이 swan-bot author commit 일 시 거부
+
+**ADR-0001 (2026-06-04)**: `model_id` 직접 인용·자기추론 어휘의 **페이지 본문 grep 규칙은 폐기**. 모델명은 `taxonomy.md` 가 wiki entity vocab 으로 요구(예: `gpt-5`, `claude-opus-4-7`)하므로 본문 grep 은 taxonomy 와 모순이며 raw verbatim 원본 보존도 위반. `model_id` alias 규율은 **LLM 호출 site(scripts/)** 코드 규약으로만 유지(마크다운 검사 아님).
 
 ## hard-fail / soft-warn 분리 원칙
 

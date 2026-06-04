@@ -21,7 +21,7 @@
 
 | 등급 | 위치 | 변경권 (write) | 역할 |
 |---|---|---|---|
-| **raw** | `raw/sources/{papers,web,conversations,urls}/`, `raw/assets/` | LLM + 사용자 (Web Clipper / Paper Importer / ingest-url / claude-history-ingest) | 외부 1차 자료. 원본 불변. wiki 합성 source |
+| **raw** | `raw/sources/{papers,web,conversations,urls,video}/`, `raw/assets/` | LLM + 사용자 (Web Clipper / Paper Importer / ingest-url / claude-history-ingest / video importer) | 외부 1차 자료. 원본 불변. wiki 합성 source |
 | **authored** | `cs/`, `development/`, `coding-test/`, `lang/`, `tools/` | **사용자 only** (LLM read-only) | 사용자 1차 학습 노트. wiki 합성 source |
 | **synthesis** | `wiki/{overview,index,log,domains/<domain>/,global/,staging/,archive/,templates/}` | **LLM only** (사용자 review · 승인) | LLM 합성 페이지. AI ground truth |
 | **schema** | `_meta/`, `scripts/`, `AGENTS.md` | 사용자 + LLM 공진화 | 운영 규약 |
@@ -112,9 +112,9 @@ ingest universe = `raw/sources/` + `cs/` + `development/`. source_tier 가중치
 
 ## LLM 호출 규약
 
-- `model_id` 직접 인용 금지 (lint.py grep 룰)
-- `_meta/llm-config.yaml` profile alias 만 사용
-- 자기 추론 어휘 (`I am Claude`, `I am Opus`, ...) prompt 본문 등장 금지
+- `model_id` 직접 인용 금지 — **LLM 호출 설정·프롬프트(scripts/)** 한정 (ADR-0001). `_meta/llm-config.yaml` profile alias 만 사용
+- 페이지 본문(raw·wiki)의 모델명은 검열하지 않음 — `taxonomy.md` 가 모델명을 entity vocab 으로 요구 (ADR-0001, model_id 본문 grep 폐기)
+- 자기 추론 어휘 (`I am Claude`, `I am Opus`, ...) 는 **prompt 본문** 에 등장 금지 (페이지 본문 grep 아님)
 - runtime canary 가 1일 주기 검증
 
 ## Commit 규약
