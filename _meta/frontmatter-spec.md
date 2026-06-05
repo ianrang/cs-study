@@ -26,7 +26,7 @@ evergreen: false                               # foundational paper 면제 시 t
 ---
 ```
 
-## raw/sources/ (raw 등급) — 최소 4 필드
+## raw/sources/ (raw 등급) — 최소 6 필드
 
 ```yaml
 ---
@@ -39,6 +39,8 @@ ingested_date: 2026-05-20
 tier: raw
 ---
 ```
+
+`source_type: video` 페이지는 `raw/sources/video/<video_id>.md` 에 저장하고 canonical 원본을 `<video_id>.json` 으로 동반 보관한다 (ADR-0002, video importer).
 
 선택 필드 (자동 채워짐 — Paper Importer 등):
 - `authors`, `abstract`, `doi`, `arxiv_id`, `isbn`, `pages`
@@ -112,7 +114,7 @@ cs/, development/ 노트의 `human_authored` 메타는 **frontmatter 가 아닌 
 ## 검증 (lint.py)
 
 - wiki/ 페이지: 14 필드 hard-fail
-- raw/ 페이지: 최소 4 필드 hard-fail
+- raw/ 페이지: 최소 6 필드(lint.py `RAW_REQUIRED_FIELDS`) hard-fail
 - cs/, dev/ 노트: lazy fallback 적용 (검증 면제)
 - 모든 페이지 `last_verified` 임계 검증 (재현성·시의성 축)
 

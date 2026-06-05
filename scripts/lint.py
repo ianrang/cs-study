@@ -15,7 +15,8 @@ LLM Wiki Lint — 6축 + AGENTS.md directive 자동 검증.
     4. 논리성 (Logical)      : page 간 모순 — logic-proposition-checker 호출 (별도 wrapper)
     5. 정합성 (Integrity)    : orphan / broken link / index 등재 / log 추적
     6. 재현성·시의성         : source_date + last_verified + superseded
-    + AGENTS.md directive    : model_id 직접 인용 / 자기 추론 어휘 / write scope 위반
+    + raw 필수 필드          : raw/sources/ 페이지 RAW_REQUIRED_FIELDS 강제
+    + AGENTS.md directive    : write scope 위반 (model_id 본문 grep 은 ADR-0001 로 폐기)
 
 본 파일은 skeleton. dogfood 1주 후 calibration (P50/P90) 으로 임계 조정.
 """
@@ -40,18 +41,10 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 META_DIR = REPO_ROOT / "_meta"
 WIKI_DIR = REPO_ROOT / "wiki"
 
-# AGENTS.md directive — model_id 직접 인용 차단 (B1)
-MODEL_ID_PATTERN = re.compile(
-    r"\b(claude-opus-4-[0-9]+|claude-sonnet-4-[0-9]+|claude-haiku-4-[0-9]+|"
-    r"gpt-[0-9]+\.[0-9]+|gpt-[0-9]+|qwen[0-9]?\.[0-9]+|nomic-embed-text|llama-[0-9])\b",
-    re.IGNORECASE,
-)
-
-# 자기 추론 어휘 차단 (B1)
-SELF_REFERENTIAL_PATTERN = re.compile(
-    r"\b(I am|I'm)\s+(Claude|Opus|Sonnet|Haiku|GPT|Qwen|Llama|Gemini)\b",
-    re.IGNORECASE,
-)
+# ADR-0001 (2026-06-04): 페이지 본문 model_id/자기추론 grep 규칙 폐기.
+# 모델명은 taxonomy.md 가 wiki entity vocab 으로 요구(예: gpt-5, claude-opus-4-7)하므로
+# 본문 grep 은 taxonomy 와 모순 + raw verbatim 원본 보존(AGENTS.md raw 등급) 위반.
+# model_id alias 규율은 LLM 호출 site(scripts) 코드 규약으로만 유지(마크다운 검사 아님).
 
 # wiki/ frontmatter 필수 필드 (frontmatter-spec.md §wiki §14 필드)
 WIKI_REQUIRED_FIELDS = {
@@ -176,31 +169,22 @@ def check_axis_6_recency(path: Path, fm: dict | None) -> list[Finding]:
     return findings
 
 
-def check_directive_model_id_grep(path: Path, text: str) -> list[Finding]:
-    """AGENTS.md directive — model_id 직접 인용 차단 (B1)."""
+def check_raw_required_fields(path: Path, fm: dict | None) -> list[Finding]:
+    """frontmatter-spec.md §raw — raw/sources/ 페이지 필수 필드 강제.
+
+    ADR-0001 / frontmatter-spec.md 의 'raw 최소 필드 hard-fail' 을 실제 구현
+    (RAW_REQUIRED_FIELDS 가 선언만 되고 미호출이던 skeleton 갭 완성).
+    """
     findings = []
-    # _meta/llm-config.yaml 는 model_id 정의 영역이므로 제외
-    if path.name == "llm-config.yaml":
+    if "raw/sources/" not in str(path.relative_to(REPO_ROOT)):
         return findings
-    for lineno, line in enumerate(text.splitlines(), 1):
-        # 주석·메타 인용 영역에서 사용 허용 (예: `# 예: claude-opus-4-7`)
-        if line.lstrip().startswith("#"):
-            continue
-        m = MODEL_ID_PATTERN.search(line)
-        if m:
-            findings.append(Finding("HIGH", "directive", path, lineno,
-                                    f"model_id 직접 인용 차단: '{m.group(0)}'. profile alias 사용"))
-    return findings
-
-
-def check_directive_self_referential(path: Path, text: str) -> list[Finding]:
-    """AGENTS.md directive — 자기 추론 어휘 차단 (B1)."""
-    findings = []
-    for lineno, line in enumerate(text.splitlines(), 1):
-        m = SELF_REFERENTIAL_PATTERN.search(line)
-        if m:
-            findings.append(Finding("HIGH", "directive", path, lineno,
-                                    f"자기 추론 어휘 차단: '{m.group(0)}'"))
+    if not fm:
+        findings.append(Finding("HIGH", "frontmatter", path, 1, "raw 페이지 frontmatter 부재"))
+        return findings
+    missing = sorted(RAW_REQUIRED_FIELDS - set(fm.keys()))
+    if missing:
+        findings.append(Finding("HIGH", "frontmatter", path, 1,
+                                f"raw 필수 필드 누락: {', '.join(missing)}"))
     return findings
 
 
@@ -230,8 +214,7 @@ def collect_findings(paths: list[Path]) -> list[Finding]:
         findings.extend(check_axis_1_accuracy(path, text, fm))
         findings.extend(check_axis_5_integrity_broken_links(path, text))
         findings.extend(check_axis_6_recency(path, fm))
-        findings.extend(check_directive_model_id_grep(path, text))
-        findings.extend(check_directive_self_referential(path, text))
+        findings.extend(check_raw_required_fields(path, fm))
         findings.extend(check_directive_write_scope(path, fm))
         # 축 3 (taxonomy controlled vocab) · 축 5 (orphan) 은 별도 wrapper 필요 — TODO
         # 축 4 (logic-proposition-checker 호출) 은 외부 subagent — TODO
