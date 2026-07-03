@@ -11,9 +11,10 @@ date_created: 2026-07-03
 date_updated: 2026-07-03
 source_paths:
   - "https://it-utopia.tistory.com/entry/정보보안기사-2023년-23회-정보보안기사-실기-기출문제-복원"
-source_count: 1
+  - "https://blog.naver.com/stereok2/223202583456"
+source_count: 2
 provenance: inferred
-summary: "정보보안기사 실기 23회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: direct web reconstruction."
+summary: "정보보안기사 실기 23회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: direct web reconstruction, Naver blog cross-check."
 evergreen: false
 ---
 
@@ -21,7 +22,7 @@ evergreen: false
 
 ## Scope
 - Exam mapping: 2023년 2회 실기.
-- Source status: direct web reconstruction; confidence: high.
+- Source status: direct web reconstruction cross-checked with Naver blog `stereok2/223202583456`; confidence: high for topic coverage, official wording still unverified.
 - This file stores paraphrased reconstruction notes, not verbatim source text.
 - Local PDFs supplied for 1~28회 are password-protected in this environment, so PDF-level validation is pending.
 
@@ -43,12 +44,12 @@ evergreen: false
 | 12 | short | 위험관리를 위한 정보자산 분석 절차에 대한 설명이다. ( )에 들어갈 단계명을 기술하시오. - ( A ) : 보호받을 가치가 있는 자산을 식별하고, 이를 정보자산의 형태, 소유자, 관리자, 특성 등을 포함하여 자산 목록을 작성 - 자산 관리자 지정 : 식별된 정보자산에 대하여 책임자 및 관리자 지정 - ( B ) : 식별된 자산에 대해 침해 사고가 발생할 경우 그 영향을 기밀성, 무결성, 가용성 측면에서 파악하여 자산의 중요도를 선정 | (A) : 정보자산 식별, (B) : 정보자산 중요도 평가 (서술형) | source-derived; exact wording unverified |
 | 13 | essay | PHP로 작성된 게시판의 소스코드이다. 해당 게시판의 취약점명, 업로드 로직을 우회하는 기법, 공격이 성공하기 위한 조건을 설명하시오. (게시판 소스 코드) <? //파일 확장자 중 업로드를 허용할 확장자를 정의함 $full_filename = explode(".", $_FILES('userfile')('name')); $extension = $full_filename(sizeof($full_filename)-1); if(!(ereg($extension", "hwp") \|\| ereg($extension", "pdf") \|\| ereg($extension", "jpg"))) print "업로드 금지 파일입니다"; exit; if(($_FILES("file")("type") == "image/gif") \|\| ($_FILES("file")("type") == "image/jpeg") \|\| ($_FILES("file")("type") == "image/JPG") \|\| ($_FILES("file")("type"... | FileMatch 지시자에 따라 직접 URL 호출 금지 | source-derived; exact wording unverified |
 | 14 | essay | TCP 헤더에 포함되어 있는 6비트의 Flag에 대한 설명이다. ( )에 적절한 설명을 기술하시오. - URG : 긴급하게 전송할 데이터가 있는 경우 사용하며, 순서에 상관없이 우선순위를 높여 처리됨 - PSH : 버퍼링된 데이터를 버퍼가 찰 때까지 기다리지 않고 수신 즉시 애플리케이션 계층으로 전달 - SYN : ( A ) - ACK : ( B ) - FIN : ( C ) | RST : ( D ) (A) : 최초 연결 수립을 요청하고, 순서 번호를 동기화할 때 사용됨 (B) : 상대로부터 패킷을 받았다는 것을 알려주며, 일반적으로 받은 시퀀스 번호에 +1 하여 응답을 보냄 (C) : 송신 장비가 연결 종료를 요청 시 사용 (D) : 연결 상의 문제가 발생한 비정상 세션을 강제로 끊을 때 사용 | source-derived; exact wording unverified |
-| 15 | essay | 윈도우OS에서 사용하는 NetBIOS 바인딩이 보안상 취약한 이유와 보안 설정하는 방법을 설명하시오(보안 설정은 ncpa.cpl을 이용하여 설명). 1) 보안상 취약한 이유 : 인터넷에 직접 연결되어 있는 윈도우 시스템에 NetBIOS TCP/IP 바인딩이 활성화되어 있는 경우, 공격자가 원격에서 네트워크 공유자원을 사용할 우려가 존재하기 때문 2) 보안설정 방법 : 윈도우 OS에서 시작 > 실행 > ncpa.cpl > 로컬 영역 연결 > 속성 > TCP/IP > (일반) 탭에서 (고급) 클릭 > (WINS) 탭에서 TCP/IP에서 "NetBIOS 사용 안 함" 또는 "NetBIOS over TCP/IP 사용 안 함" 선택 | answer not explicit in extracted block | source-derived; exact wording unverified |
-| 16 | essay | 보안 이벤트 분석 결과 1초에 1000번 이상 다음과 같은 패킷이 유입되고 있는 것이 확인되었다. 패킷 헤더 중 a, b를 보고 어떤 공격인지 설명하시오. (HTTP Request) GET /test.jsp Host : webserver.com User-Agent : Mozilla/5.0 | answer not explicit in extracted block | source-derived; exact wording unverified |
-| 17 | practical | 코로나 극복 후 새로운 서비스를 재개하려는 소상공인이 있다. 기존에 보유하고 있던 1만명 미만의 고객 정보를 프리미엄 서비스에 활용하는 경우 개인정보의 안전성 확보조치 기준에 따라 개인정보처리시스템 접근권한 관리, 접근통제를 위해 준수해야 할 사항을 기술하시오. 1) 개인정보처리시스템 접근권한 관리 ② 개인정보처리자는 전보 또는 퇴직 등 인사이동이 발생하여 개인정보취급자가 변경되었을 경우 지체없이 개인정보처리시스템의 접근 권한을 변경 또는 말소하여야 한다. ③ 개인정보처리자는 제1항 및 제2항에 의한 권한 부여, 변경 또는 말소에 대한 내역을 기록하고, 그 기록을 최소 3년간 보관하여야 한다. ④ 개인정보처리자는 개인정보처리시스템에 접속할 수 있는 사용자계정을 발급하는 경우 개인정보취급자 별로 사용자계정을 발급하여야 하며, 다른 개인정보처리자와 공유되지 않도록 하여야 한다. | answer not explicit in extracted block | source-derived; exact wording unverified |
-| 18 | practical | Korea.co.kr 도메인의 존 파일을 설정하려고 한다. MASTER와 SLAVE DNS 서버의 named.conf 설정값을 각각 작성하시오(zone 파일은 ns.korea.co.kr.zone 이다.). - master name 서버 : ns1.korea.co.kr (192.168.1.53) | slave name 서버 : ns2.korea.co.kr (192.168.2.53) 1) Master DNS 서버의 zone 파일 설정 /etc/named.conf zone "ns.korea.co.kr" IN { type (master); file "ns.korea.co.kr.zone"; allow-update {192.168.2.53} }; 2) Slave DNS 서버의 zone 파일 설정 /etc/named.conf zone "ns.korea.co.kr" IN { type (slave); file "slave/ns.korea.oc.kr.zone"; masters {192.168.1.53} allow-update {none} }; ※ 이전회차 정보보안기사 기출문제 버튼을 클릭하시면 정보보안기사 22회 실기 복원으로 이동합니다. 버튼을 클릭하시면 정보보안기사 21회 실기 복원으로 이동합니다. 버튼을 클릭하시면 정보보안기사 20회 실기 복원으로 이동합니다. 반응형 | source-derived; exact wording unverified |
+| 15 | essay | 윈도우OS에서 사용하는 NetBIOS 바인딩이 보안상 취약한 이유와 보안 설정하는 방법을 설명하시오(보안 설정은 ncpa.cpl을 이용하여 설명). 1) 보안상 취약한 이유 : 인터넷에 직접 연결되어 있는 윈도우 시스템에 NetBIOS TCP/IP 바인딩이 활성화되어 있는 경우, 공격자가 원격에서 네트워크 공유자원을 사용할 우려가 존재하기 때문 2) 보안설정 방법 : 윈도우 OS에서 시작 > 실행 > ncpa.cpl > 로컬 영역 연결 > 속성 > TCP/IP > (일반) 탭에서 (고급) 클릭 > (WINS) 탭에서 TCP/IP에서 "NetBIOS 사용 안 함" 또는 "NetBIOS over TCP/IP 사용 안 함" 선택 | NetBIOS over TCP/IP 바인딩을 비활성화하여 원격 공유자원 노출 위험을 줄인다. | source-derived; Naver cross-checked; official wording unverified |
+| 16 | essay | 보안 이벤트 분석 결과 1초에 1000번 이상 다음과 같은 패킷이 유입되고 있는 것이 확인되었다. 패킷 헤더 중 a, b를 보고 어떤 공격인지 설명하시오. (HTTP Request) GET /test.jsp Host : webserver.com User-Agent : Mozilla/5.0 | HTTP GET Flooding with Cache-Control. Cache-Control 요청 헤더의 max-age=0 옵션으로 캐시 서버가 아니라 원본 웹서버 부하를 가중시키며, Referer가 공격 대상 Host와 달라 제3의 호스트 경유 요청으로 판단한다. | source-derived; Naver cross-checked; official wording unverified |
+| 17 | practical | 코로나 극복 후 새로운 서비스를 재개하려는 소상공인이 있다. 기존에 보유하고 있던 1만명 미만의 고객 정보를 프리미엄 서비스에 활용하는 경우 개인정보의 안전성 확보조치 기준에 따라 개인정보처리시스템 접근권한 관리, 접근통제를 위해 준수해야 할 사항을 기술하시오. | 접근권한 관리: 인사이동 시 접근권한을 지체 없이 변경·말소하고, 권한 부여·변경·말소 내역을 최소 3년 보관하며, 개인정보취급자별 사용자계정을 발급하고 공유를 금지한다. 접근통제: IP 등으로 인가받지 않은 접근을 제한하고, 접속 IP 등을 분석해 불법 개인정보 유출 시도를 탐지·대응한다. | source-derived; Naver cross-checked; official wording unverified |
+| 18 | practical | Korea.co.kr 도메인의 존 파일을 설정하려고 한다. MASTER와 SLAVE DNS 서버의 named.conf 설정값을 각각 작성하시오(zone 파일은 ns.korea.co.kr.zone 이다.). - master name 서버 : ns1.korea.co.kr (192.168.1.53) - slave name 서버 : ns2.korea.co.kr (192.168.2.53) | Master: `zone "ns.korea.co.kr" IN { type master; file "ns.korea.co.kr.zone"; allow-update { 192.168.2.53; }; };` Slave: `zone "ns.korea.co.kr" IN { type slave; file "slave/ns.korea.co.kr.zone"; masters { 192.168.1.53; }; allow-update { none; }; };` | source-derived; Naver cross-checked; official wording unverified |
 
 ## Verification Notes
 - Exact official KCA/KISA practical question wording is not available in this workspace.
-- Rows are normalized from accessible web reconstructions and must be rechecked against the password-protected PDFs when the password is available.
+- Rows are normalized from accessible web reconstructions and cross-checked against the Naver blog reconstruction listed in `source_paths`; they must still be rechecked against the password-protected PDFs when the password is available.
 - Legal/regulatory answers should be checked against current statutes before memorization.
