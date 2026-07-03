@@ -13,7 +13,13 @@ source_paths:
   - "reference-source-index.md"
   - "document-architecture.md"
   - "raw/sources/web/information-security-exam-references/kisa-secure-coding-guide-2021-12-29.md"
-source_count: 3
+  - "https://owasp.org/www-project-top-ten/"
+  - "https://owasp.org/www-project-mobile-top-10/"
+  - "https://nvd.nist.gov/vuln/"
+  - "https://cwe.mitre.org/top25/"
+  - "https://www.first.org/cvss/v4.0/"
+  - "https://attack.mitre.org/"
+source_count: 9
 provenance: inferred
 summary: "필수 참고문서 원문 패칭 결과를 SSOT, 독립성, 추출 가능성, 공식성 기준으로 검토한다."
 evergreen: false
@@ -26,6 +32,7 @@ evergreen: false
 - Pass: 공식 URL이 확인된 원천만 `patched` 또는 `partial`로 올렸다.
 - Pass: 공식 URL이 확인되지 않은 문서는 `pending`으로 남기고 raw 원문을 저장하지 않는 fail-closed 원칙을 유지했다.
 - Pass: KCA 출제기준, PIPC 개인정보 문서 2개, KISA ISMS-P 인증기준 안내서, KISA 주요정보통신기반시설 기술적 취약점 상세가이드, KISA 소프트웨어 개발보안 가이드는 완전 패칭됐다.
+- Pass: OWASP Top 10 Web, OWASP Mobile Top 10, NVD CVE detail, CWE Top 25, FIRST CVSS, MITRE ATT&CK는 공식 페이지가 확인됐지만 raw/source asset 저장을 수행하지 않았으므로 `official page confirmed`로만 올렸다.
 
 ## Checks
 
@@ -47,6 +54,8 @@ evergreen: false
 | 소프트웨어 개발보안 가이드 PDF 다운로드 | pass | KISA `menuSeq=2060204`, `postSeq=5`, `attachSeq=1`, SHA-256 `fcd8c4343f5f3ec0d7a1beda7ba4a6f86b67f5d6267664241fb66f6710ca0407` |
 | 소프트웨어 개발보안 가이드 텍스트 추출 | pass | `pdftotext` 성공, 380 pages, SQL 삽입/PreparedStatement 등 시큐어코딩 항목 추출 확인 |
 | 행안부 보조 게시글 확인 | pass | 행안부 `nttId=88956` 게시글은 동일 주제 공식 맥락을 확인했으나, 검색에 노출된 `FILE_000000000046958` 직접 첨부는 8쪽짜리 2013 PDF라 raw asset으로 사용하지 않음 |
+| OWASP/CVE/CWE/CVSS/MITRE 공식 페이지 확인 | pass | OWASP Top 10 Web 2025 current release, OWASP Mobile Top 10 2024 final release, NVD CVE detail, CWE Top 25, FIRST CVSS v4.0, MITRE ATT&CK 공식 페이지 확인 |
+| OWASP/CVE/CWE/CVSS/MITRE raw asset 저장 | not run | 이번 작업은 공식 페이지 확인과 item-reference-map 보강 범위. raw/source asset 저장은 후속 패칭으로 분리 |
 
 ## Review Findings
 
@@ -54,6 +63,7 @@ evergreen: false
 |---|---|---|
 | LOW | 소프트웨어 개발보안 가이드는 KISA 공식 첨부로 패칭 완료됐고, 행안부 보조 게시글의 다른 첨부와 혼동 가능성이 있다. | source metadata와 source index에 KISA 다운로드 패턴과 비원천 행안부 첨부 주의사항을 유지한다. |
 | MEDIUM | ISMS-P 전용 도메인 `isms.kisa.or.kr`은 로컬 DNS 문제로 다운로드 검증이 실패했으나, KISA 공식 사이트의 동일 안내서 첨부는 패칭됐다. | 후속 작업에서 전용 도메인 복구 시 동일성 비교를 수행한다. |
+| LOW | OWASP/CVE/CWE/CVSS/MITRE 계열 원천은 공식 페이지 확인으로 6개 medium 문항을 high로 승격했지만, raw/source asset 저장은 아직 없다. | 재현 가능한 오프라인 원천 보존이 필요하면 별도 raw/source 패칭 작업으로 승격한다. |
 
 ## Architecture Review
 

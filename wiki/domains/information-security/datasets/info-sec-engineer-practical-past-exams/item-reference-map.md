@@ -34,6 +34,7 @@ evergreen: false
 - 현재 범위는 23회~29회 Naver 블로그 복원본과 30회 기존 wiki 복원본을 기준으로 정리한 최근 23회~30회 144개 문항이다.
 - 문항 원문 전체는 회차별 복원 문서가 SSOT이므로 이 문서에는 반복하지 않는다.
 - `REF-KCA-INFOSEC-PRACTICAL-CRITERIA`는 모든 행의 1차 기준이다. 다른 ref_id는 보조 참고문서로만 연결하며, `KCA가 해당 문서를 참고했다`고 단정하지 않는다.
+- `official page confirmed` 상태의 ref_id는 공식 URL을 확인했지만 raw/source 원문 저장은 아직 하지 않은 보조 원천이다.
 
 ## Mapping
 
@@ -48,7 +49,7 @@ evergreen: false
 | R23-Q7 | 23회 | 7 | 운영체제별 보안특성 파악 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-CIIP-VULN-ASSESSMENT-GUIDE | PAM은 Linux 인증 모듈 체계다. | high | 인증 설정 점검과 연결 |
 | R23-Q8 | 23회 | 8 | 프로토콜별 보안특성 파악 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | `hping3`는 TCP/IP 패킷 생성·스캔·공격 테스트 도구다. | high | 패킷/프로토콜 실무 도구 |
 | R23-Q9 | 23회 | 9 | 취약점 점검이력과 보완내용 관리 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-CIIP-VULN-ASSESSMENT-GUIDE | Tripwire와 Nessus는 무결성 점검·취약점 점검 도구다. | high | 점검 도구와 이력관리 축 |
-| R23-Q10 | 23회 | 10 | 취약점 점검이력과 보완내용 관리 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | Heartbleed는 OpenSSL 취약점과 영향 범위 판단 주제다. | medium | CVE 원천 패칭 후 보강 가능 |
+| R23-Q10 | 23회 | 10 | 취약점 점검이력과 보완내용 관리 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-NVD-CVE-DETAILS; REF-CWE-TOP-25; REF-FIRST-CVSS | Heartbleed는 OpenSSL 취약점과 영향 범위 판단 주제이며 NVD CVE detail에서 CVE-2014-0160 설명과 CVSS 3.1 점수가 확인된다. | high | 공식 CVE/NVD/CVSS 계열 보조 원천 확인, 공식 시험 원문 문구는 미검증 |
 | R23-Q11 | 23회 | 11 | 위험평가 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | 위험관리 3단계는 위험분석·평가·대응 절차다. | high | 위험평가 직접 연결 |
 | R23-Q12 | 23회 | 12 | IT 자산 위협 분석 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | 정보자산 관리의 구성요소와 보안 목적은 자산 식별·보호대책 선정의 전제다. | high | 자산관리 기본 |
 | R23-Q13 | 23회 | 13 | 서비스 보안설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-SECURE-CODING-GUIDE | 파일 업로드 취약점은 위험한 형식 파일 업로드와 웹셸 실행 조건을 다룬다. | high | 시큐어코딩 파일 업로드 항목과 연결 |
@@ -68,7 +69,7 @@ evergreen: false
 | R24-Q9 | 24회 | 9 | 운영체제별 보안특성 파악 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-CIIP-VULN-ASSESSMENT-GUIDE | `/proc` 기반 은닉 프로세스 탐지는 Linux 프로세스 점검이다. | high | OS 점검 명령 |
 | R24-Q10 | 24회 | 10 | 로그분석 및 대응 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | Apache 접근 로그 해석은 웹 로그 분석으로 침입 원인을 파악하는 주제다. | high | 로그분석 직접 연결 |
 | R24-Q11 | 24회 | 11 | IT 자산 위협 분석 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | 랜덤 라운딩은 개인정보 통계 공개 시 재식별 위험 완화 기법이다. | medium | 가명정보/통계처리 원천 보강 가능 |
-| R24-Q12 | 24회 | 12 | 취약점 점검이력과 보완내용 관리 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | Log4j 취약점은 취약 버전 식별과 보완 조치 관리 주제다. | medium | CVE/CWE 원천 패칭 후 보강 가능 |
+| R24-Q12 | 24회 | 12 | 취약점 점검이력과 보완내용 관리 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-NVD-CVE-DETAILS; REF-CWE-TOP-25; REF-FIRST-CVSS | Log4j 취약점은 취약 버전 식별과 보완 조치 관리 주제이며 NVD CVE detail과 CVSS 기준으로 보조 검증 가능하다. | high | 공식 CVE/NVD/CVSS 계열 보조 원천 확인, 공식 시험 원문 문구는 미검증 |
 | R24-Q13 | 24회 | 13 | 운영체제 보안설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-CIIP-VULN-ASSESSMENT-GUIDE | 특수비트와 소유자 권한 조정은 Unix 파일 권한 점검이다. | high | Linux/Unix 권한 점검 |
 | R24-Q14 | 24회 | 14 | 운영체제 보안설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-CIIP-VULN-ASSESSMENT-GUIDE | `.rhosts` 신뢰 파일 제거는 원격접속 보안설정 보완이다. | high | Unix 원격접속 점검 |
 | R24-Q15 | 24회 | 15 | 네트워크 및 보안장비 설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-CIIP-VULN-ASSESSMENT-GUIDE | IPTables 정책은 방화벽 룰 기반 네트워크 통제 설정이다. | high | Firewall 키워드 연결 |
@@ -96,10 +97,10 @@ evergreen: false
 | R26-Q1 | 26회 | 1 | 운영체제 보안설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-CIIP-VULN-ASSESSMENT-GUIDE | `login.defs` 패스워드 정책은 Linux 계정 보안 설정이다. | high | 운영체제 계정 정책 |
 | R26-Q2 | 26회 | 2 | 프로토콜별 보안특성 파악 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | CSMA/CA와 RTS/CTS는 무선 매체 접근 제어 특성이다. | high | 무선 프로토콜 |
 | R26-Q3 | 26회 | 3 | 서비스별 보안특성 파악 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | Recursive/Authoritative DNS 구분은 DNS 서비스 동작 특성이다. | high | DNS 서비스 특성 |
-| R26-Q4 | 26회 | 4 | 서비스 보안설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-SECURE-CODING-GUIDE | HTTP request smuggling은 HTTP 요청 해석 차이를 악용하는 웹 취약점이다. | medium | OWASP 원천 패칭 후 보강 가능 |
+| R26-Q4 | 26회 | 4 | 서비스 보안설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-SECURE-CODING-GUIDE; REF-OWASP-TOP-10-WEB | HTTP request smuggling은 HTTP 요청 해석 차이를 악용하는 웹 취약점이며 OWASP Top 10 Web은 웹 애플리케이션 위험의 상위 분류 보조 원천으로 쓸 수 있다. | medium | OWASP 공식 페이지 확인. Request smuggling 전용 원천은 별도 확인 필요 |
 | R26-Q5 | 26회 | 5 | 정보수집 및 모니터링 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | false positive/negative는 탐지 시스템 정확도 평가 개념이다. | high | IDS/관제 운영 |
 | R26-Q6 | 26회 | 6 | 서비스 보안설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-SECURE-CODING-GUIDE | XML 조회 조건의 자료형 검증은 입력값 검증과 보안약점 방지다. | high | 시큐어코딩 입력검증 |
-| R26-Q7 | 26회 | 7 | 로그분석 및 대응 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | APT는 단계적 침투와 장기 은닉을 전제로 한 침해 분석 주제다. | medium | ATT&CK 등 위협 원천 보강 가능 |
+| R26-Q7 | 26회 | 7 | 로그분석 및 대응 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-MITRE-ATTACK | APT는 단계적 침투와 장기 은닉을 전제로 한 침해 분석 주제이며 MITRE ATT&CK는 실제 관찰 기반 공격 전술·기술 knowledge base다. | high | MITRE ATT&CK 공식 보조 원천 확인 |
 | R26-Q8 | 26회 | 8 | 서비스 보안설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | Slow Read Attack은 HTTP 연결 유지와 응답 수신 지연을 악용하는 DoS다. | high | 웹 서비스 DoS 설정 |
 | R26-Q9 | 26회 | 9 | 서비스 보안설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-SECURE-CODING-GUIDE | XSS 유형 구분은 웹 입력·출력 검증 취약점 주제다. | high | 시큐어코딩 XSS 항목 |
 | R26-Q10 | 26회 | 10 | 정보수집 및 모니터링 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | HIDS/NIDS 비교는 침입탐지 시스템 배치와 모니터링 범위다. | high | IDS 관제 |
@@ -110,7 +111,7 @@ evergreen: false
 | R26-Q15 | 26회 | 15 | 프로토콜별 보안특성 파악 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | promiscuous 모드 스니핑 탐지는 네트워크 인터페이스와 패킷 수신 특성이다. | high | 스니핑 특성 |
 | R26-Q16 | 26회 | 16 | 서비스 보안설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-SECURE-CODING-GUIDE | XSS 정의와 유형은 웹 애플리케이션 입력/출력 보안약점이다. | high | 시큐어코딩 XSS 항목 |
 | R26-Q17 | 26회 | 17 | 서비스 보안설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-CIIP-VULN-ASSESSMENT-GUIDE | DB 권한 부여 제한과 접근권한 최소화는 DB 서비스 보안설정 점검이다. | high | DBMS 점검 |
-| R26-Q18 | 26회 | 18 | 취약점 점검이력과 보완내용 관리 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | Heartbleed 보완은 취약 라이브러리 식별과 패치 조치 관리다. | medium | CVE 원천 패칭 후 보강 가능 |
+| R26-Q18 | 26회 | 18 | 취약점 점검이력과 보완내용 관리 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-NVD-CVE-DETAILS; REF-CWE-TOP-25; REF-FIRST-CVSS | Heartbleed 보완은 취약 라이브러리 식별과 패치 조치 관리이며 NVD CVE detail에서 영향 버전·취약점 설명·CVSS 기준을 보조 확인할 수 있다. | high | 공식 CVE/NVD/CVSS 계열 보조 원천 확인, 공식 시험 원문 문구는 미검증 |
 | R27-Q1 | 27회 | 1 | 운영체제별 보안특성 파악 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | DAC/MAC/RBAC는 접근통제 모델과 권한 관리 방식이다. | high | 인증·접근통제 |
 | R27-Q2 | 27회 | 2 | 프로토콜별 보안특성 파악 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | RARP는 MAC 주소에서 IP 주소를 얻는 네트워크 프로토콜이다. | high | TCP/IP 주소 체계 |
 | R27-Q3 | 27회 | 3 | 보안장비 및 네트워크 장비별 보안특성 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-CIIP-VULN-ASSESSMENT-GUIDE | VLAN 구성 방식은 네트워크 장비 기반 논리 분리 운영이다. | high | VLAN 키워드 연결 |
@@ -140,7 +141,7 @@ evergreen: false
 | R28-Q9 | 28회 | 9 | IT 자산 위협 분석 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | 정보자산 중요도 산정은 CIA 기준으로 자산을 식별·분류한다. | high | 위험분석 수행준거와 직접 연결 |
 | R28-Q10 | 28회 | 10 | 위험평가 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | 위험관리계획은 위험분석 범위·방법·대응 활동을 정한다. | high | 위험분석 계획 수립 |
 | R28-Q11 | 28회 | 11 | IT 자산 위협 분석 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-ISMSP-CRITERIA-GUIDE | 보호구역·출입권한·접근통제는 ISMS-P 물리보안 보호대책이다. | high | ISMS-P 인증기준 안내서 연결 |
-| R28-Q12 | 28회 | 12 | 서비스별 보안특성 파악 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | Deep link는 모바일 앱 기능 이동 기술이다. | medium | 모바일 앱 보안 범위와 연결 |
+| R28-Q12 | 28회 | 12 | 서비스별 보안특성 파악 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-OWASP-MOBILE-TOP-10 | Deep link는 모바일 앱 기능 이동 기술이며 OWASP Mobile Top 10 2024는 unprotected endpoints에 deep link를 향후 고려 후보로 명시한다. | high | OWASP Mobile 공식 보조 원천 확인 |
 | R28-Q13 | 28회 | 13 | 운영체제별 보안특성 파악 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | Shell은 사용자 명령 해석과 커널 전달을 담당한다. | high | 운영체제 기본 보안특성 |
 | R28-Q14 | 28회 | 14 | 운영체제 보안설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-CIIP-VULN-ASSESSMENT-GUIDE | NetBIOS over TCP/IP 비활성화는 Windows 서비스 노출 완화 설정이다. | high | Naver 답안 순서 기준: 14번 NetBIOS |
 | R28-Q15 | 28회 | 15 | 프로토콜별 보안특성 파악 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | IPsec의 AH/ESP/IKE와 터널·전송 모드는 프로토콜별 보안특성이다. | high | Naver 답안 순서 기준: 15번 IPSec |
@@ -159,7 +160,7 @@ evergreen: false
 | R29-Q10 | 29회 | 10 | IT 자산 위협 분석 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | 정보통신망 정의는 법적 준거성·정보자산 범위 식별에 쓰인다. | medium | 최신 법령 확인 필요 |
 | R29-Q11 | 29회 | 11 | 서비스 보안설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-CIIP-VULN-ASSESSMENT-GUIDE | Apache `Options Indexes` 제거는 웹 서버 디렉터리 리스팅 방지 설정이다. | high | WEB/WAS 설정 점검 |
 | R29-Q12 | 29회 | 12 | 운영체제별 보안특성 파악 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | `lastcomm`은 Linux process accounting 기반 명령 이력 확인이다. | medium | accounting 활성화 조건 주의 |
-| R29-Q13 | 29회 | 13 | 프로토콜별 보안특성 파악 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | 인증서 고정은 TLS/모바일 통신에서 MITM 완화 목적으로 쓰인다. | medium | 모바일 구현 세부는 별도 원천 보강 가능 |
+| R29-Q13 | 29회 | 13 | 프로토콜별 보안특성 파악 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-OWASP-MOBILE-TOP-10 | 인증서 고정은 TLS/모바일 통신에서 MITM 완화 목적으로 쓰이며 OWASP Mobile Top 10의 insecure communication·binary protection 계열과 보조 연결된다. | high | OWASP Mobile 공식 보조 원천 확인 |
 | R29-Q14 | 29회 | 14 | 서비스 보안설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-SECURE-CODING-GUIDE | 파일 업로드 우회와 웹셸 실행 조건은 웹 서비스 취약점 보완 주제다. | high | 업로드 파일 검증 항목과 연결 |
 | R29-Q15 | 29회 | 15 | 정보수집 및 모니터링 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | 에이전트·정보수집 서버·통합관제 시스템은 보안관제 구성요소다. | high | 정보수집 및 모니터링 직접 연결 |
 | R29-Q16 | 29회 | 16 | 위험평가 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-ISMSP-CRITERIA-GUIDE | 위험 수용·감소·전가·회피는 위험 처리 전략이다. | high | ISMS-P 위험관리 연결 |
@@ -173,11 +174,11 @@ evergreen: false
 | R30-Q6 | 30회 | 6 | 로그분석 및 대응 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | 디지털 포렌식은 침해 증거 수집·보존·분석 절차다. | high | 침입 원인 분석과 대응 |
 | R30-Q7 | 30회 | 7 | IT 자산 위협 분석 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-ISMSP-CRITERIA-GUIDE | 물리적·논리적 접근통제는 자산 보호대책 유형이다. | high | ISMS-P 접근통제 연결 |
 | R30-Q8 | 30회 | 8 | 운영체제 보안설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | 유출 자격증명 악용은 계정 보안과 인증 취약점 점검 주제다. | medium | source answer와 엄밀한 용어 차이 주의 |
-| R30-Q9 | 30회 | 9 | 취약점 점검이력과 보완내용 관리 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | 제로데이는 공개 전 또는 패치 전 취약점 악용 개념이다. | medium | CVE/CWE 원천 패칭 후 보강 후보 |
+| R30-Q9 | 30회 | 9 | 취약점 점검이력과 보완내용 관리 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-NVD-CVE-DETAILS; REF-CWE-TOP-25 | 제로데이는 공개 전 또는 패치 전 취약점 악용 개념이며 CVE/NVD/CWE는 공개 취약점 식별과 weakness 분류의 보조 원천이다. | medium | 제로데이 일반 정의 전용 공식 원천은 별도 확인 필요 |
 | R30-Q10 | 30회 | 10 | 운영체제별 보안특성 파악 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | `net share`는 Windows 공유 목록·생성·삭제 명령이다. | high | Windows 공유 관리 |
 | R30-Q11 | 30회 | 11 | 서비스 보안설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-PRIVACY-SAFETY-MEASURES | DB 개인정보 마스킹은 개인정보처리시스템/DB 보호조치와 연결된다. | medium | 마스킹 세부 원천 보강 가능 |
 | R30-Q12 | 30회 | 12 | 정보자산 위협 및 취약점 분석 정리 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | 자산 분석과 취약성 분석은 위험분석 기본 단계다. | high | 위험분석 직접 연결 |
-| R30-Q13 | 30회 | 13 | 운영체제별 보안특성 파악 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | MDM·컨테이너화·모바일 가상화는 모바일 오피스 단말 보안 기술이다. | medium | 모바일 보안 세부 원천 보강 가능 |
+| R30-Q13 | 30회 | 13 | 운영체제별 보안특성 파악 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-CIIP-VULN-ASSESSMENT-GUIDE; REF-OWASP-MOBILE-TOP-10 | MDM·컨테이너화·모바일 가상화는 모바일 오피스 단말 보안 기술이며 OWASP Mobile Top 10은 모바일 앱 위험의 보조 원천으로 쓸 수 있다. | medium | MDM/컨테이너화/모바일 가상화 전용 공식 원천은 별도 확인 필요 |
 | R30-Q14 | 30회 | 14 | 위험평가 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA | 자산·위협·취약성 관계는 위험 산정의 기본 모델이다. | high | 위험분석 직접 연결 |
 | R30-Q15 | 30회 | 15 | IT 자산 위협 분석 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-ISMSP-CRITERIA-GUIDE | EAM/IAM은 계정·권한 수명주기와 접근권한 관리 체계다. | medium | 벤더 용어 차이 주의 |
 | R30-Q16 | 30회 | 16 | 보안장비 및 네트워크 장비별 보안특성 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-CIIP-VULN-ASSESSMENT-GUIDE | Snort 탐지 룰 조건 정의는 IDS 운영 정확도와 연결된다. | high | IDS/IPS 키워드 직접 연결 |
@@ -188,16 +189,17 @@ evergreen: false
 
 | range | mapped_items | high | medium | low |
 |---|---:|---:|---:|---:|
-| 23회 | 18 | 16 | 2 | 0 |
-| 24회 | 18 | 14 | 4 | 0 |
+| 23회 | 18 | 17 | 1 | 0 |
+| 24회 | 18 | 15 | 3 | 0 |
 | 25회 | 18 | 15 | 3 | 0 |
-| 26회 | 18 | 15 | 3 | 0 |
+| 26회 | 18 | 17 | 1 | 0 |
 | 27회 | 18 | 16 | 2 | 0 |
-| 28회 | 18 | 16 | 2 | 0 |
-| 29회 | 18 | 12 | 6 | 0 |
+| 28회 | 18 | 17 | 1 | 0 |
+| 29회 | 18 | 13 | 5 | 0 |
 | 30회 | 18 | 13 | 5 | 0 |
-| 합계 | 144 | 117 | 27 | 0 |
+| 합계 | 144 | 123 | 21 | 0 |
 
 ## Follow-Up
 - 23~27회는 Naver 블로그 기반으로 회차별 복원 문항을 보강하고 같은 스키마로 확장했다. 28~29회도 Naver 카테고리에서 회차별 분석 글이 확인되었고, 30회는 기존 wiki 복원본 기준이다. 공식 PDF 직접 대조는 아직 미검증이다.
-- CVE/CWE/CVSS/MITRE, OWASP Top 10, 모바일 보안 세부 원천은 medium confidence 행 보강 후보로 둔다.
+- CVE/NVD/CWE/CVSS/MITRE ATT&CK, OWASP Top 10 Web, OWASP Mobile Top 10 공식 페이지 확인으로 6개 medium 행을 high로 승격했다.
+- 남은 21개 medium 행은 전용 공식 원천이 더 필요하거나 법령 최신성·전문 개념·제품/운영 용어 차이 확인이 필요하므로 보수적으로 유지한다.

@@ -15,7 +15,13 @@ source_paths:
   - "index.md"
   - "subject-type-matrix.md"
   - "subject-type-classification-detail.md"
-source_count: 5
+  - "https://owasp.org/www-project-top-ten/"
+  - "https://owasp.org/www-project-mobile-top-10/"
+  - "https://nvd.nist.gov/vuln/"
+  - "https://cwe.mitre.org/top25/"
+  - "https://www.first.org/cvss/v4.0/"
+  - "https://attack.mitre.org/"
+source_count: 11
 provenance: inferred
 summary: "정보보안기사 실기 출제기준과 기출 문항 연결 분석에 사용할 공식·준공식 참고문서 후보를 상태별로 정리한다."
 evergreen: false
@@ -83,8 +89,9 @@ evergreen: false
 | ISMS-P 인증기준 안내서/해설서 | 원문 패칭 완료 | ISMS-P 영역·통제항목 문항과 연결 가능 | 1 | 23회 #4, 28회 #11, 29회 #16 |
 | 주요정보통신기반시설 기술적 취약점 분석·평가 방법 상세가이드 | 원문 패칭 완료 | KCA 출제기준의 취약점 점검·보완, 운영체제/서비스/네트워크/보안장비 점검과 강하게 연결 | 1 | 서버/네트워크/DB/웹 취약점 점검, SNMP, FTP, DNS, NTP |
 | 소프트웨어 개발보안 가이드 / 시큐어코딩 가이드 | 원문 패칭 완료 | KISA 공식 첨부 확인, KCA 필기 출제기준에 Secure Coding, 실기 기출에 SQL Injection/XSS/파일 업로드/SSRF/Prepared Statement 반복 | 1 | 23회 #6/#13, 26회 #16, 27회 #17, 30회 #18 |
-| OWASP Top 10 | 후보 | 16회 복원 문항에 OWASP Top 10/XXE 직접 등장, 웹 취약점 유형과 연결 | 2 | XXE, XSS, SQL Injection, SSRF, 파일 업로드 |
-| CVE/CWE/CVSS/MITRE 자료 | 후보 | CVE, 취약점 식별, 보안취약점 분석 기준 문항과 연결 가능 | 2 | 5회 #2, 17회 #5, 23회 #10 |
+| OWASP Top 10 Web Application Security Risks | 공식 페이지 확인 | OWASP 공식 Top Ten 페이지에서 2025 current release와 2021/2017 archive가 확인된다. 웹 취약점 유형과 연결 가능 | 2 | XXE, XSS, SQL Injection, SSRF, 파일 업로드, HTTP request smuggling |
+| OWASP Mobile Top 10 | 공식 페이지 확인 | OWASP Mobile Top 10 2024 final release가 확인된다. 모바일 앱 인증·통신·저장·binary protection 주제와 연결 가능 | 2 | Deep link, 인증서 고정, MDM/컨테이너화/모바일 가상화 |
+| CVE/NVD/CWE/CVSS/MITRE ATT&CK 자료 | 공식 페이지 확인 | NVD CVE detail, MITRE CWE Top 25, FIRST CVSS, MITRE ATT&CK 공식 페이지가 확인된다. 취약점 식별·심각도·weakness·위협모델 문항과 연결 가능 | 2 | Heartbleed, Log4j, CVSS, APT, zero-day |
 | KISA 보안취약점 점검 체크리스트류 | 후보 | KISA 지식플랫폼에 분야별 보안취약점 점검 자료가 존재하며, 출제기준의 점검/보완 축과 연결 가능 | 2 | 취약점 점검 도구, 점검 결과 해석, 보완 방안 |
 
 ## 3-1. 참고문서 패칭 정책
@@ -92,7 +99,7 @@ evergreen: false
 | 등급 | 패칭 여부 | 기준 | 예시 |
 |---|---|---|---|
 | 필수 | 패칭 필요 | 기출에 문서명·법령명·고시명이 직접 등장하거나, KCA 실기 출제기준 세세항목과 직접 대응 | KCA 출제기준 PDF, 개인정보의 안전성 확보조치 기준, 개인정보영향평가 수행 안내서, ISMS-P 인증기준, 주요정보통신기반시설 취약점 분석·평가 기준/상세가이드, 소프트웨어 개발보안 가이드 |
-| 우선 후보 | 패칭 권장 | 최근 기출에 반복 등장하고 예상문제 근거로 쓸 수 있음 | OWASP Top 10, CWE Top 25, CVE/CVSS 공식 설명, MITRE ATT&CK/CWE/CVE 자료 |
+| 우선 후보 | 패칭 권장 | 최근 기출에 반복 등장하고 예상문제 근거로 쓸 수 있음 | OWASP Top 10 Web, OWASP Mobile Top 10, CWE Top 25, NVD CVE detail, FIRST CVSS, MITRE ATT&CK |
 | 보류 | 즉시 패칭 불필요 | 범위가 넓거나 특정 회차 연결 근거가 아직 약함 | 일반 보안 백서, 벤더별 제품 매뉴얼, 최신 위협 동향 보고서 |
 
 패칭 산출물은 원문 전체 복사가 아니라 `공식 URL`, `발행기관`, `문서명`, `버전/시행일`, `핵심 목차`, `기출 연결 후보`, `최신성 확인일` 중심으로 관리한다. 저작권 있는 원문은 장문 복제하지 않고 링크·요약·문항 연결 근거만 기록한다.
@@ -120,4 +127,5 @@ evergreen: false
 
 - 2023~2026 실기 분석의 1차 기준은 KCA `정보보안기사 실기 출제기준(2023.1.1. ~ 2026.12.31.)`이다.
 - 참고문서는 `KCA 공식 참고문헌`으로 단정하지 않고, `기출 문항과 연결 가능한 법령·고시·공공 가이드`로 관리한다.
-- 다음 작업은 기출 문항마다 KCA 출제기준 항목과 참고문서 후보를 연결하는 `item-reference-map`을 만드는 것이다.
+- OWASP Top 10 Web, OWASP Mobile Top 10, NVD CVE detail, CWE Top 25, FIRST CVSS, MITRE ATT&CK는 공식 페이지가 확인됐으므로 medium confidence 문항의 보조 근거로 사용할 수 있다.
+- 다만 현재 작업에서는 원문 asset/raw source 저장을 수행하지 않았으므로 `reference-source-index.md`에서는 `official page confirmed` 상태로 유지한다.
