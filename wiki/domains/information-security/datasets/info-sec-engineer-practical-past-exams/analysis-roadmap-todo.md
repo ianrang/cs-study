@@ -43,7 +43,7 @@ evergreen: false
 | 1-1 | PDF 비밀번호 확보 또는 대체 원천 확보 | 진행 중 | source update notes | PDF/웹/문제집 등 원천별 신뢰도 기록 |
 | 1-2 | 저신뢰 회차 보강 | 대기 | 보강된 회차 파일 | 11회, 15회, 19~22회 등 미분류·제외 비율 높은 회차 개선 |
 | 2 | 기출 문제 분류 | 진행 중 | `subject-type-classification-detail.md`, `subject-type-matrix.md` | 5개 과목 + 단답형/서술형/실무형 분류와 근거 기록 |
-| 2-1 | 분류 교차검증 | 진행 중 | `subject-type-cross-verify-report.md` | 명백한 오분류/HIGH finding 해소 |
+| 2-1 | 분류 교차검증 | 진행 중 | `subject-type-cross-verify-report.md` | 미분류 HIGH finding 해소, 남은 source_quality/keyword conflict 검토 |
 | 3 | 출제기준 및 참고문서 카탈로그 작성 | 완료 | `exam-criteria-and-reference-catalog.md` | KCA 출제기준, 법령/고시/가이드 후보 상태 분리 |
 | 3-0 | 참고문서 패칭 범위 확정 | 완료 | `reference-source-index.md` | 필수 1차 문서 중 KCA/PIPC/ISMS-P/기반시설/시큐어코딩 패칭 완료 |
 | 3-1 | 참고문서 원문 URL/파일 확보 | 완료 | `reference-source-index.md` | 각 문서별 공식 URL, 버전, 발행기관, 적용일 기록 |
@@ -64,7 +64,7 @@ evergreen: false
 
 | 우선순위 | 작업 | 이유 |
 |---:|---|---|
-| 1 | `subject-type-cross-verify-report.md`의 HIGH finding 수정 | 현재 분류표에 명백한 오분류/미분류가 있어 이후 빈도 분석을 왜곡함 |
+| 1 | `subject-type-cross-verify-report.md`의 잔여 finding 검토 | 미분류 HIGH finding은 해소됐고, 남은 source_quality/keyword conflict는 원천 품질 또는 분류 정책 판단이 필요함 |
 | 2 | 참고문서 패칭 범위 확정 및 원문 URL 확보 | 문항-근거 연결의 기준점이 필요하고, 최신 법령·고시·가이드 변경이 시험 대비 정확도에 직접 영향을 줌 |
 | 3 | `item-reference-map.md` 작성 | 기출과 공식/준공식 문서 연결의 핵심 산출물 |
 | 4 | 23~30회 고신뢰 회차부터 문항-문서 연결 | 최근 출제 경향과 2026년 대비 관련성이 큼 |
@@ -84,8 +84,8 @@ evergreen: false
 
 ## 다음 작업 후보
 
-1. `subject-type-cross-verify-report.md` HIGH finding 수정.
-2. 23~27회 분류 finding 보정 후 `item-reference-map.md` 확장.
+1. `subject-type-cross-verify-report.md` 잔여 MEDIUM finding 판단 또는 저신뢰 회차 원천 보강.
+2. 23~27회 보정된 분류 기준으로 `item-reference-map.md` 확장.
 3. OWASP/CVE/CWE 계열 참고문서 패칭 필요성 결정.
 4. 저신뢰 회차 보강.
 5. 2026년 2회 대비 우선 학습 주제 초안 작성.

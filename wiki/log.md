@@ -60,6 +60,17 @@ wiki/ 의 모든 변경 시간순 기록. append-only. 각 entry prefix = `## [Y
 
 ---
 
+## [2026-07-03] refactor | 정보보안기사 실기 과목 분류 finding 보정
+
+- 갱신: `wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/subject-type-classification-detail.md`
+- 갱신: `wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/subject-type-matrix.md`
+- 갱신: `wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/subject-type-cross-verify-report.md`
+- 갱신: `wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/analysis-roadmap-todo.md`
+- 범위: 미분류 HIGH finding 5건 해소, 23~28회 문항-근거 매핑 확장을 막는 명백한 과목 충돌 일부 보정
+- 검증: 매트릭스/상세표 영향 회차 재계산 일치, `python3 ../../../scripts/lint.py` HIGH=0 MEDIUM=0
+
+---
+
 **Log 형식 규약**:
 - prefix: `## [YYYY-MM-DD] operation | title`
 - operation enum: `init | ingest | query | lint | wiki-sync | adr | refactor | archive`
