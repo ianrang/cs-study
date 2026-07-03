@@ -10,13 +10,14 @@ status: active
 date_created: 2026-07-03
 date_updated: 2026-07-03
 source_paths:
+  - "document-management-scaffold.md"
   - "reference-patching-review.md"
   - "reference-source-index.md"
   - "analysis-roadmap-todo.md"
   - "exam-criteria-and-reference-catalog.md"
   - "subject-type-matrix.md"
   - "subject-type-classification-detail.md"
-source_count: 6
+source_count: 7
 provenance: inferred
 summary: "정보보안기사 실기 기출 분석 문서군의 SSOT, 책임 경계, 참조 방향, 중복 방지 규칙을 정의한다."
 evergreen: false
@@ -39,6 +40,7 @@ evergreen: false
 
 | 레이어 | 역할 | 문서 | 책임 |
 |---|---|---|---|
+| Management | 문서 운영 규칙 | `document-architecture.md`, `document-management-scaffold.md`, `analysis-roadmap-todo.md` | SSOT, 응집도, 진입점, 변경 절차, 작업 상태를 관리한다. 분석 본문을 넣지 않는다. |
 | Source | 원천 보존 | `raw/sources/` 원문 파일 | PDF/HWP/HTML 등 원문 보존. wiki 문서가 원문을 장문 복제하지 않는다. |
 | Source Index | 원천 메타데이터 | `reference-source-index.md` | 공식 URL, 발행기관, 버전, 시행일, 저장 경로, 추출 가능 여부만 관리한다. |
 | Criteria Catalog | 출제기준/참고문서 의미 카탈로그 | `exam-criteria-and-reference-catalog.md` | KCA 출제기준 구조와 참고문서 후보의 상태·우선순위를 관리한다. |
@@ -54,6 +56,10 @@ evergreen: false
 ## 참조 방향
 
 ```text
+document-management-scaffold.md
+  -> document-architecture.md
+  -> analysis-roadmap-todo.md
+
 raw/sources/
   -> reference-source-index.md
   -> exam-criteria-and-reference-catalog.md
@@ -84,6 +90,7 @@ raw/sources/
 | 빈도/재출제 계산 결과 | `frequency-analysis.md`, `recurrence-analysis.md` | 결과 표 인용만 허용 |
 | 학습 우선순위 | `study-strategy-2026-02.md` | 전략 문서에서만 본문 관리 |
 | 예상문제 | `predicted-practical-questions-2026-02.md` | 예상문제 문서에서만 본문 관리 |
+| 문서 운영 규칙 | `document-architecture.md`, `document-management-scaffold.md` | 문서 역할·진입점·변경 절차만 참조 |
 
 ## 문서 ID 규칙
 
@@ -114,6 +121,7 @@ raw/sources/
 | 참고문서 연결 수정 | `item-reference-map.md` | 분석 문서, 전략 문서, 예상문제 |
 | 빈도 계산 수정 | `frequency-analysis.md` | 전략 문서, 예상문제 |
 | 예상문제 수정 | `predicted-practical-questions-2026-02.md` | 없음 |
+| 문서 관리 규칙 수정 | `document-architecture.md` 또는 `document-management-scaffold.md` | `analysis-roadmap-todo.md`, `index.md` |
 
 ## 검증 체크리스트
 
@@ -124,6 +132,7 @@ raw/sources/
 | OCP | 새 문서는 기존 문서 본문 복제 없이 ID/행 추가로 연결된다. | pass |
 | 단일 책임 | 각 문서는 하나의 변경 이유만 가진다. | pass |
 | 복잡성 | 분석 문서와 전략 문서를 분리해 장문 단일 문서화를 피한다. | pass |
+| 물리 스캐폴딩 | 같은 디렉터리 링크 전제를 유지하며, 이동은 별도 마이그레이션으로만 수행한다. | pass |
 
 ## 금지 사항
 

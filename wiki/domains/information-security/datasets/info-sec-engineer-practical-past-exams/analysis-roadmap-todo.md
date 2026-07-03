@@ -13,13 +13,23 @@ source_paths:
   - "reference-patching-review.md"
   - "reference-source-index.md"
   - "document-architecture.md"
+  - "document-management-scaffold.md"
   - "exam-criteria-and-reference-catalog.md"
   - "item-reference-map.md"
   - "subject-type-matrix.md"
   - "subject-type-classification-detail.md"
   - "subject-type-cross-verify-report.md"
   - "prompt-completeness-cross-verify-report.md"
-source_count: 9
+  - "frequency-analysis.md"
+  - "recurrence-analysis.md"
+  - "pattern-analysis.md"
+  - "significance-review.md"
+  - "analysis-cross-verify-report.md"
+  - "session-slot-pattern-analysis.md"
+  - "study-strategy-2026-02.md"
+  - "predicted-practical-questions-2026-02.md"
+  - "prediction-validation-report.md"
+source_count: 19
 provenance: inferred
 summary: "정보보안기사 실기 합격 전략을 위해 기출 복원부터 예상문제 생성까지 단계별 작업을 추적한다."
 evergreen: false
@@ -41,6 +51,7 @@ evergreen: false
 | 단계 | 작업 | 상태 | 산출물 | 완료 기준 |
 |---:|---|---|---|---|
 | 0 | 문서 아키텍처 고정 | 완료 | `document-architecture.md` | SSOT, 단일 책임, 참조 방향, 중복 방지 규칙 정의 |
+| 0-1 | 문서 관리 스캐폴딩 고정 | 완료 | `document-management-scaffold.md` | 문서 그룹, 진입점, 변경 시작점, 물리 이동 보류 기준 정의 |
 | 1 | 기출 문제 복원 | 진행 중 | 회차별 `*-practical-*.md` | 각 회차 문항 원문/답/출처/확신도 기록 |
 | 1-1 | PDF 비밀번호 확보 또는 대체 원천 확보 | 진행 중 | source update notes | PDF/웹/문제집 등 원천별 신뢰도 기록 |
 | 1-2 | 저신뢰 회차 보강 | 진행 중 | 보강된 회차 파일 | Naver 카테고리에서 확인 가능한 13~29회 보강 완료, 1~12회는 Information Security Tistory 직접 복원글로 보강 완료 |
@@ -55,26 +66,27 @@ evergreen: false
 | 4 | 문항-출제기준-참고문서 연결 | 진행 중 | `item-reference-map.md` | 23~30회 144개 문항 1차 매핑 완료, OWASP/CVE/CWE/CVSS/MITRE/모바일 공식 페이지와 IETF/NIST/GNU/법령 보조 원천, 기존 PIPC 원천 재검토 반영 후 medium 27개 → 4개 |
 | 4-1 | 직접 연결 문항 식별 | 진행 중 | direct-reference table | 23~30회에서 ISMS-P, 시큐어코딩, 기반시설 상세가이드 등 직접 연결 후보 반영 |
 | 4-2 | 개념 연결 문항 식별 | 진행 중 | conceptual-reference table | 23~30회 키워드/개념 기준 연결, confidence high/medium 표시 |
-| 5 | 기출 패턴과 유형 검토 | 대기 | `pattern-analysis.md` | 과목별·문항유형별·출제기준 항목별 반복 패턴 정리 |
-| 5-1 | 빈도 수 분석 | 대기 | `frequency-analysis.md` | 회차별/연도별/과목별/참고문서별 빈도 표 생성 |
-| 5-2 | 재출제/변형출제 분석 | 대기 | `recurrence-analysis.md` | 동일 개념 반복, 변형 패턴, 출제 간격 기록 |
-| 5-3 | 유의미성 검토 | 대기 | `significance-review.md` | 단순 빈도와 최근성, 출제기준 중요도, 법령 개정성을 함께 평가 |
-| 6 | 학습 전략 수립 | 대기 | `study-strategy-2026-02.md` | 고득점 우선순위, 단기 암기표, 서술형 템플릿, 실무형 대응 전략 |
-| 7 | 예상 기출 문제 생성 | 대기 | `predicted-practical-questions-2026-02.md` | 근거 문서/기출 패턴/출제기준 항목을 붙인 예상문제 작성 |
-| 7-1 | 예상문제 정답·채점포인트 작성 | 대기 | answer key | 단답형 키워드, 서술형 채점요소, 실무형 절차 답안 포함 |
-| 7-2 | 예상문제 검증 | 대기 | prediction-validation report | 근거 없는 문제 제거, 문서 연결 누락 보정 |
+| 5 | 기출 패턴과 유형 검토 | 완료 | `pattern-analysis.md` | 과목별·문항유형별·출제기준 항목별 반복 패턴 정리 |
+| 5-1 | 빈도 수 분석 | 완료 | `frequency-analysis.md` | 회차별/연도별/과목별/참고문서별 빈도 표 생성 |
+| 5-2 | 재출제/변형출제 분석 | 완료 | `recurrence-analysis.md` | 동일 개념 반복, 변형 패턴, 출제 간격 기록 |
+| 5-3 | 유의미성 검토 | 완료 | `significance-review.md`, `analysis-cross-verify-report.md` | 단순 빈도와 최근성, 출제기준 중요도, 법령 개정성을 함께 평가하고 수량 교차검증 |
+| 5-4 | 연도·회차 슬롯 패턴 검토 | 완료 | `session-slot-pattern-analysis.md` | 1회/2회/4회 슬롯별 과목·개념·전이 패턴 검토, 강한 법칙과 보조 신호 분리 |
+| 6 | 학습 전략 수립 | 완료 | `study-strategy-2026-02.md` | 고득점 우선순위, 단기 암기표, 서술형 템플릿, 실무형 대응 전략 |
+| 7 | 예상 기출 문제 생성 | 완료 | `predicted-practical-questions-2026-02.md` | 근거 문서/기출 패턴/출제기준 항목을 붙인 예상문제 작성 |
+| 7-1 | 예상문제 정답·채점포인트 작성 | 완료 | `predicted-practical-questions-2026-02.md` | 단답형 키워드, 서술형 채점요소, 실무형 절차 답안 포함 |
+| 7-2 | 예상문제 검증 | 완료 | `prediction-validation-report.md` | 근거 없는 문제 제거, 문서 연결 누락 보정 |
 
 ## 우선순위
 
 | 우선순위 | 작업 | 이유 |
 |---:|---|---|
 | 1 | `subject-type-cross-verify-report.md`의 잔여 finding 검토 | 1~12회 source_quality finding은 해소됐고, 남은 항목은 공식 PDF 미검증 및 일부 keyword conflict 판단임 |
-| 2 | 빈도·재출제 분석 | 전략 학습과 예상문제 생성을 위한 통계 기반 |
+| 2 | 학습 전략 실천 및 오답 보강 | 3주 압축 전략과 예상문제 산출이 완료되어 실제 풀이·오답 회전 단계 |
 | 3 | `item-reference-map.md` 유지보수 | 기출과 공식/준공식 문서 연결의 핵심 산출물 |
 | 4 | 공식 PDF 대조 또는 추가 독립 원천 보강 | 현재 1~12회는 Tistory 직접 복원글로 보강됐으나 공식 PDF 원문 대조는 아직 미완료 |
 | 5 | 남은 medium confidence 행의 보조 원천 보강 | 현재 로컬 reference와 raw/source만으로는 high 승격하지 않는다. 무선랜 세부 표준, Cyber Kill Chain 전용 원천, DB 마스킹 방식명, EAM/IAM 벤더 용어 차이에 직접 대응하는 신규 공식·표준·공공기관·벤더 1차 원천이 확보될 때 재개한다. |
 | 6 | 보조 원천 raw/source 선별 패칭 | 현재는 대량 패칭하지 않는다. 학습전략·예상문제의 핵심 반복 근거 또는 외부 삭제 위험이 확인된 원천만 선별 패칭한다. |
-| 7 | 2026년 2회 예상문제 생성 | 최종 학습 산출물 |
+| 7 | 문서 물리 디렉터리 분리 | 현재는 same-directory 링크와 `source_paths` 정합을 우선해 보류한다. 필요 시 별도 마이그레이션 작업으로 수행한다. |
 
 ## 현재 리스크
 
@@ -92,6 +104,6 @@ evergreen: false
 
 1. `subject-type-cross-verify-report.md` 잔여 MEDIUM finding 판단 또는 저신뢰 회차 원천 보강.
 2. 공식 PDF 비밀번호 확보 시 1~28회 원문 문구 최종 대조.
-3. 빈도·재출제 분석에 진입한다.
+3. 예상문제 풀이 결과를 오답표로 회수해 `study-strategy-2026-02.md`의 priority 1~2를 보강한다.
 4. 남은 4개 medium confidence 행은 현재 레퍼런스로 보강하지 않는다. 추후 직접 대응 가능한 신규 공식·표준·공공기관·벤더 1차 원천이 생기면 재개한다.
 5. 보조 원천 raw/source는 대량 저장하지 않는다. 핵심 반복 근거 또는 외부 삭제 위험이 확인된 원천만 선별 패칭한다.

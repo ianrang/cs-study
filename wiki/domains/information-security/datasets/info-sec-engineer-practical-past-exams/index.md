@@ -10,6 +10,7 @@ status: active
 date_created: 2026-07-03
 date_updated: 2026-07-03
 source_paths:
+  - "document-management-scaffold.md"
   - "https://nhustler.tistory.com/category/IT 전문가의 길: 기술과 자격/정보보안기사?page=1..5"
   - "https://information-security.tistory.com/293"
   - "https://blog.naver.com/stereok2/221751404526"
@@ -20,13 +21,24 @@ source_paths:
   - "https://itwiki.kr/w/정보보안기사"
   - "/Users/ian/Downloads/[문제+답] 1회~28회 정보보안기사 실기 단답형.pdf"
   - "/Users/ian/Downloads/[문제+답] 1회~27회 정보보안기사 실기 서술형.pdf"
-source_count: 10
+source_count: 11
 provenance: inferred
 summary: "정보보안기사 실기 1회부터 30회까지의 복원 파일과 출처·검증 상태를 추적하는 인덱스."
 evergreen: false
 ---
 
 # 정보보안기사 실기 기출 복원 인덱스
+
+## Document Entry Points
+
+| 목적 | 문서 |
+|---|---|
+| 문서 역할과 변경 규칙 | [document-architecture.md](document-architecture.md), [document-management-scaffold.md](document-management-scaffold.md) |
+| 작업 상태와 다음 작업 | [analysis-roadmap-todo.md](analysis-roadmap-todo.md) |
+| 과목/유형 분류 | [subject-type-matrix.md](subject-type-matrix.md), [subject-type-classification-detail.md](subject-type-classification-detail.md) |
+| 참고문서와 매핑 | [reference-source-index.md](reference-source-index.md), [exam-criteria-and-reference-catalog.md](exam-criteria-and-reference-catalog.md), [item-reference-map.md](item-reference-map.md) |
+| 분석 결과 | [frequency-analysis.md](frequency-analysis.md), [recurrence-analysis.md](recurrence-analysis.md), [pattern-analysis.md](pattern-analysis.md), [session-slot-pattern-analysis.md](session-slot-pattern-analysis.md) |
+| 학습 산출물 | [study-strategy-2026-02.md](study-strategy-2026-02.md), [predicted-practical-questions-2026-02.md](predicted-practical-questions-2026-02.md) |
 
 ## Source Sweep
 - Scope: 1회(2013년 1회) through 30회(2025년 4회).
