@@ -18,7 +18,8 @@ source_paths:
   - "raw/sources/web/information-security-exam-references/pipc-privacy-safety-measures-guide-2025-11.md"
   - "raw/sources/web/information-security-exam-references/kisa-ciip-technical-vulnerability-assessment-guide-2026.md"
   - "raw/sources/web/information-security-exam-references/kisa-ismsp-criteria-guide-2023-11.md"
-source_count: 8
+  - "raw/sources/web/information-security-exam-references/kisa-secure-coding-guide-2021-12-29.md"
+source_count: 9
 provenance: extracted
 summary: "정보보안기사 실기 기출-근거문서 연결을 위한 공식 참고문서 원천 URL, 패칭 상태, 추출 상태를 관리한다."
 evergreen: false
@@ -38,7 +39,7 @@ evergreen: false
 | REF-PIPC-PIA-GUIDE | 개인정보 영향평가 수행안내서 | 개인정보보호위원회 | https://www.pipc.go.kr/np/cop/bbs/selectBoardArticle.do?bbsId=BS217&mCode=D010030000&nttId=11680 | patched | raw/sources/web/information-security-exam-references/pipc-privacy-impact-assessment-guide-2025-10.md | raw/assets/information-security-exam-references/pipc-privacy-impact-assessment-guide-2025-10.pdf | 2025.10 개정, 2025-12-12 파일수정게시 | success | 1 | 공식 첨부 PDF 저장 및 텍스트 추출 성공 |
 | REF-ISMSP-CRITERIA-GUIDE | 정보보호 및 개인정보보호 관리체계 인증기준 안내서 | KISA | https://www.kisa.or.kr/2060301/form?postSeq=54&page=1 | patched | raw/sources/web/information-security-exam-references/kisa-ismsp-criteria-guide-2023-11.md | raw/assets/information-security-exam-references/kisa-ismsp-criteria-guide-2023-11.pdf | 2023.11 guide, posted 2025-10-15 | success | 1 | 기존 ISMS-P 전용 도메인 상세 페이지도 확인됐으나 로컬 DNS 문제로 KISA 공식 사이트 첨부를 원천으로 패칭 |
 | REF-CIIP-VULN-ASSESSMENT-GUIDE | 주요정보통신기반시설 기술적 취약점 분석·평가 방법 상세가이드 | KISA | https://www.kisa.or.kr/2060204/form?page=1&postSeq=22 | patched | raw/sources/web/information-security-exam-references/kisa-ciip-technical-vulnerability-assessment-guide-2026.md | raw/assets/information-security-exam-references/kisa-ciip-technical-vulnerability-assessment-guide-2026.pdf | 2026 guide, posted 2025-12-24 | success | 1 | Unix/Windows/웹/보안장비/네트워크/제어시스템/DBMS/가상화/클라우드/모바일/5G/API 보안 점검 항목 연결 후보 |
-| REF-SECURE-CODING-GUIDE | 소프트웨어 개발보안 가이드 | 행정안전부/KISA 계열 | pending official URL | pending | - | - | unknown | none | 1 | SQL Injection, XSS, 파일 업로드, SSRF, Prepared Statement 문항 연결 후보 |
+| REF-SECURE-CODING-GUIDE | 소프트웨어 개발보안 가이드 | KISA | https://www.kisa.or.kr/2060204/form?postSeq=5 | patched | raw/sources/web/information-security-exam-references/kisa-secure-coding-guide-2021-12-29.md | raw/assets/information-security-exam-references/kisa-secure-coding-guide-2021-12-29.pdf | 2021.12.29 PDF, posted 2021-11-29 | success | 1 | SQL Injection, XSS, 파일 업로드, SSRF, Prepared Statement 문항 연결 후보. 행안부 게시글도 확인했으나 KISA 첨부를 원천 asset으로 사용 |
 
 ## Status Semantics
 
@@ -53,4 +54,4 @@ evergreen: false
 
 | priority | ref_id | next action |
 |---:|---|---|
-| 1 | REF-SECURE-CODING-GUIDE | 소프트웨어 개발보안 가이드 공식 URL 확인 |
+| 1 | REF-OWASP-TOP-10 | OWASP Top 10 공식 원천 패칭 여부 결정 |

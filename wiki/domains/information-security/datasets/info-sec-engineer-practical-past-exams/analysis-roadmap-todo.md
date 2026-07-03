@@ -45,12 +45,12 @@ evergreen: false
 | 2 | 기출 문제 분류 | 진행 중 | `subject-type-classification-detail.md`, `subject-type-matrix.md` | 5개 과목 + 단답형/서술형/실무형 분류와 근거 기록 |
 | 2-1 | 분류 교차검증 | 진행 중 | `subject-type-cross-verify-report.md` | 명백한 오분류/HIGH finding 해소 |
 | 3 | 출제기준 및 참고문서 카탈로그 작성 | 완료 | `exam-criteria-and-reference-catalog.md` | KCA 출제기준, 법령/고시/가이드 후보 상태 분리 |
-| 3-0 | 참고문서 패칭 범위 확정 | 진행 중 | `reference-source-index.md` | 필수 1차 문서 중 KCA/PIPC/ISMS-P/기반시설은 패칭 완료, 시큐어코딩 공식 원천 확인 필요 |
-| 3-1 | 참고문서 원문 URL/파일 확보 | 진행 중 | `reference-source-index.md` | 각 문서별 공식 URL, 버전, 발행기관, 적용일 기록 |
-| 3-2 | 참고문서 텍스트 추출 | 진행 중 | raw asset + extraction status | 패칭 완료 PDF는 `pdftotext` 성공, 시큐어코딩 문서는 원문 확보 후 수행 |
-| 4 | 문항-출제기준-참고문서 연결 | 대기 | `item-reference-map.md` | 각 문항에 KCA 주요항목/세부항목/세세항목 + 참고문서 연결 |
-| 4-1 | 직접 연결 문항 식별 | 대기 | direct-reference table | 문항에 문서명/법령명/고시명이 직접 등장한 항목 분리 |
-| 4-2 | 개념 연결 문항 식별 | 대기 | conceptual-reference table | 키워드/개념 기준 연결, 확신도 high/medium/low 표시 |
+| 3-0 | 참고문서 패칭 범위 확정 | 완료 | `reference-source-index.md` | 필수 1차 문서 중 KCA/PIPC/ISMS-P/기반시설/시큐어코딩 패칭 완료 |
+| 3-1 | 참고문서 원문 URL/파일 확보 | 완료 | `reference-source-index.md` | 각 문서별 공식 URL, 버전, 발행기관, 적용일 기록 |
+| 3-2 | 참고문서 텍스트 추출 | 완료 | raw asset + extraction status | 패칭 완료 PDF는 `pdftotext` 성공 |
+| 4 | 문항-출제기준-참고문서 연결 | 진행 중 | `item-reference-map.md` | 28~30회 54개 문항 1차 매핑 완료, 23~27회 확장 필요 |
+| 4-1 | 직접 연결 문항 식별 | 진행 중 | direct-reference table | 28~30회에서 ISMS-P, 시큐어코딩, 기반시설 상세가이드 등 직접 연결 후보 반영 |
+| 4-2 | 개념 연결 문항 식별 | 진행 중 | conceptual-reference table | 28~30회 키워드/개념 기준 연결, confidence high/medium 표시 |
 | 5 | 기출 패턴과 유형 검토 | 대기 | `pattern-analysis.md` | 과목별·문항유형별·출제기준 항목별 반복 패턴 정리 |
 | 5-1 | 빈도 수 분석 | 대기 | `frequency-analysis.md` | 회차별/연도별/과목별/참고문서별 빈도 표 생성 |
 | 5-2 | 재출제/변형출제 분석 | 대기 | `recurrence-analysis.md` | 동일 개념 반복, 변형 패턴, 출제 간격 기록 |
@@ -85,7 +85,7 @@ evergreen: false
 ## 다음 작업 후보
 
 1. `subject-type-cross-verify-report.md` HIGH finding 수정.
-2. KISA/PIPC/시큐어코딩/OWASP/CVE 계열 참고문서 패칭 범위 확정.
-3. 참고문서 원문 URL/발행기관/버전 확인용 `reference-source-index.md` 생성.
-4. 최근 23~30회부터 `item-reference-map.md` 작성.
+2. 23~27회 분류 finding 보정 후 `item-reference-map.md` 확장.
+3. OWASP/CVE/CWE 계열 참고문서 패칭 필요성 결정.
+4. 저신뢰 회차 보강.
 5. 2026년 2회 대비 우선 학습 주제 초안 작성.

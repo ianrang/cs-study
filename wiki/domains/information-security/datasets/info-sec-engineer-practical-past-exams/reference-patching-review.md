@@ -12,7 +12,8 @@ date_updated: 2026-07-03
 source_paths:
   - "reference-source-index.md"
   - "document-architecture.md"
-source_count: 2
+  - "raw/sources/web/information-security-exam-references/kisa-secure-coding-guide-2021-12-29.md"
+source_count: 3
 provenance: inferred
 summary: "필수 참고문서 원문 패칭 결과를 SSOT, 독립성, 추출 가능성, 공식성 기준으로 검토한다."
 evergreen: false
@@ -23,8 +24,8 @@ evergreen: false
 ## Verdict
 - Pass: 문서 아키텍처의 SSOT/단일 책임/단방향 참조 원칙을 유지했다.
 - Pass: 공식 URL이 확인된 원천만 `patched` 또는 `partial`로 올렸다.
-- Fail-closed: 공식 URL이 확인되지 않은 문서는 `pending`으로 남겼고 raw 원문을 저장하지 않았다.
-- Risk: KCA 출제기준, PIPC 개인정보 문서 2개, KISA ISMS-P 인증기준 안내서, KISA 주요정보통신기반시설 기술적 취약점 상세가이드는 완전 패칭됐다. 시큐어코딩 문서는 공식 URL이 아직 미확정이다.
+- Pass: 공식 URL이 확인되지 않은 문서는 `pending`으로 남기고 raw 원문을 저장하지 않는 fail-closed 원칙을 유지했다.
+- Pass: KCA 출제기준, PIPC 개인정보 문서 2개, KISA ISMS-P 인증기준 안내서, KISA 주요정보통신기반시설 기술적 취약점 상세가이드, KISA 소프트웨어 개발보안 가이드는 완전 패칭됐다.
 
 ## Checks
 
@@ -42,13 +43,16 @@ evergreen: false
 | ISMS-P 인증기준 공식 상세 페이지 | pass | KISA 안내서 상세 페이지와 첨부 파일명 확인 |
 | ISMS-P 인증기준 PDF 다운로드 | pass | KISA `menuSeq=2060301`, `postSeq=54`, `attachSeq=1`, SHA-256 `6df06f8ddf007094952ec714341bc466266a4fc5459470b1744495725049e599` |
 | ISMS-P 인증기준 텍스트 추출 | pass | `pdftotext` 성공 |
-| 소프트웨어 개발보안 가이드 공식 URL | pending | 임의 재배포 문서로 패칭하지 않음 |
+| 소프트웨어 개발보안 가이드 공식 상세 페이지 | pass | KISA `menuSeq=2060204`, `postSeq=5`, 게시일 `2021-11-29`, 첨부명 `소프트웨어_개발보안_가이드(2021.12.29).pdf` 확인 |
+| 소프트웨어 개발보안 가이드 PDF 다운로드 | pass | KISA `menuSeq=2060204`, `postSeq=5`, `attachSeq=1`, SHA-256 `fcd8c4343f5f3ec0d7a1beda7ba4a6f86b67f5d6267664241fb66f6710ca0407` |
+| 소프트웨어 개발보안 가이드 텍스트 추출 | pass | `pdftotext` 성공, 380 pages, SQL 삽입/PreparedStatement 등 시큐어코딩 항목 추출 확인 |
+| 행안부 보조 게시글 확인 | pass | 행안부 `nttId=88956` 게시글은 동일 주제 공식 맥락을 확인했으나, 검색에 노출된 `FILE_000000000046958` 직접 첨부는 8쪽짜리 2013 PDF라 raw asset으로 사용하지 않음 |
 
 ## Review Findings
 
 | severity | finding | action |
 |---|---|---|
-| HIGH | 필수 참고문서 중 소프트웨어 개발보안 가이드는 공식 URL이 아직 확정되지 않았다. | 다음 작업에서 공식 URL 탐색을 계속 수행한다. |
+| LOW | 소프트웨어 개발보안 가이드는 KISA 공식 첨부로 패칭 완료됐고, 행안부 보조 게시글의 다른 첨부와 혼동 가능성이 있다. | source metadata와 source index에 KISA 다운로드 패턴과 비원천 행안부 첨부 주의사항을 유지한다. |
 | MEDIUM | ISMS-P 전용 도메인 `isms.kisa.or.kr`은 로컬 DNS 문제로 다운로드 검증이 실패했으나, KISA 공식 사이트의 동일 안내서 첨부는 패칭됐다. | 후속 작업에서 전용 도메인 복구 시 동일성 비교를 수행한다. |
 
 ## Architecture Review
