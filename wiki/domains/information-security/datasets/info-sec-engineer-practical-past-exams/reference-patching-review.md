@@ -19,7 +19,22 @@ source_paths:
   - "https://cwe.mitre.org/top25/"
   - "https://www.first.org/cvss/v4.0/"
   - "https://attack.mitre.org/"
-source_count: 9
+  - "https://www.rfc-editor.org/rfc/rfc9111"
+  - "https://cwe.mitre.org/data/definitions/444.html"
+  - "https://csrc.nist.gov/glossary/term/data_loss_prevention"
+  - "https://csrc.nist.gov/glossary/term/security_orchestration_automation_and_response"
+  - "https://csrc.nist.gov/glossary/term/TEMPEST"
+  - "https://csrc.nist.gov/pubs/sp/800/83/r1/final"
+  - "https://csrc.nist.gov/pubs/sp/800/34/r1/final"
+  - "https://csrc.nist.gov/glossary/term/end_to_end_encryption"
+  - "https://www.gnu.org/software/acct/manual/accounting.html"
+  - "https://owasp.org/www-community/attacks/Credential_stuffing"
+  - "https://csrc.nist.gov/glossary/term/zero_day_attack"
+  - "https://csrc.nist.gov/pubs/sp/800/124/r2/final"
+  - "https://www.law.go.kr/법령/전자금융거래법"
+  - "https://www.law.go.kr/법령/정보통신망이용촉진및정보보호등에관한법률"
+  - "https://www.law.go.kr/법령/개인정보보호법"
+source_count: 24
 provenance: inferred
 summary: "필수 참고문서 원문 패칭 결과를 SSOT, 독립성, 추출 가능성, 공식성 기준으로 검토한다."
 evergreen: false
@@ -32,7 +47,7 @@ evergreen: false
 - Pass: 공식 URL이 확인된 원천만 `patched` 또는 `partial`로 올렸다.
 - Pass: 공식 URL이 확인되지 않은 문서는 `pending`으로 남기고 raw 원문을 저장하지 않는 fail-closed 원칙을 유지했다.
 - Pass: KCA 출제기준, PIPC 개인정보 문서 2개, KISA ISMS-P 인증기준 안내서, KISA 주요정보통신기반시설 기술적 취약점 상세가이드, KISA 소프트웨어 개발보안 가이드는 완전 패칭됐다.
-- Pass: OWASP Top 10 Web, OWASP Mobile Top 10, NVD CVE detail, CWE Top 25, FIRST CVSS, MITRE ATT&CK는 공식 페이지가 확인됐지만 raw/source asset 저장을 수행하지 않았으므로 `official page confirmed`로만 올렸다.
+- Pass: OWASP Top 10 Web, OWASP Mobile Top 10, NVD CVE detail, CWE Top 25, FIRST CVSS, MITRE ATT&CK, IETF RFC 9111, CWE-444, NIST CSRC glossary/SP, GNU Accounting Utilities, OWASP Credential Stuffing, 국가법령정보센터 현행 법령 페이지는 공식 페이지가 확인됐지만 raw/source asset 저장을 수행하지 않았으므로 `official page confirmed`로만 올렸다.
 
 ## Checks
 
@@ -56,6 +71,8 @@ evergreen: false
 | 행안부 보조 게시글 확인 | pass | 행안부 `nttId=88956` 게시글은 동일 주제 공식 맥락을 확인했으나, 검색에 노출된 `FILE_000000000046958` 직접 첨부는 8쪽짜리 2013 PDF라 raw asset으로 사용하지 않음 |
 | OWASP/CVE/CWE/CVSS/MITRE 공식 페이지 확인 | pass | OWASP Top 10 Web 2025 current release, OWASP Mobile Top 10 2024 final release, NVD CVE detail, CWE Top 25, FIRST CVSS v4.0, MITRE ATT&CK 공식 페이지 확인 |
 | OWASP/CVE/CWE/CVSS/MITRE raw asset 저장 | not run | 이번 작업은 공식 페이지 확인과 item-reference-map 보강 범위. raw/source asset 저장은 후속 패칭으로 분리 |
+| IETF/NIST/GNU/OWASP Credential Stuffing/법령 공식 페이지 확인 | pass | RFC 9111, CWE-444, NIST DLP/SOAR/TEMPEST/E2EE/zero-day glossary, NIST SP 800-83/SP 800-34/SP 800-124, GNU Accounting Utilities, OWASP Credential Stuffing, 국가법령정보센터 개인정보보호법/전자금융거래법/정보통신망법 공식 페이지 확인 |
+| IETF/NIST/GNU/OWASP Credential Stuffing/법령 raw asset 저장 | not run | 이번 작업은 공식 페이지 확인과 item-reference-map 보강 범위. raw/source asset 저장은 후속 패칭으로 분리 |
 
 ## Review Findings
 
@@ -64,6 +81,7 @@ evergreen: false
 | LOW | 소프트웨어 개발보안 가이드는 KISA 공식 첨부로 패칭 완료됐고, 행안부 보조 게시글의 다른 첨부와 혼동 가능성이 있다. | source metadata와 source index에 KISA 다운로드 패턴과 비원천 행안부 첨부 주의사항을 유지한다. |
 | MEDIUM | ISMS-P 전용 도메인 `isms.kisa.or.kr`은 로컬 DNS 문제로 다운로드 검증이 실패했으나, KISA 공식 사이트의 동일 안내서 첨부는 패칭됐다. | 후속 작업에서 전용 도메인 복구 시 동일성 비교를 수행한다. |
 | LOW | OWASP/CVE/CWE/CVSS/MITRE 계열 원천은 공식 페이지 확인으로 6개 medium 문항을 high로 승격했지만, raw/source asset 저장은 아직 없다. | 재현 가능한 오프라인 원천 보존이 필요하면 별도 raw/source 패칭 작업으로 승격한다. |
+| LOW | IETF/NIST/GNU/OWASP Credential Stuffing/법령 계열 원천은 공식 페이지 확인으로 16개 medium 문항을 high로 승격했지만, raw/source asset 저장은 아직 없다. | 재현 가능한 오프라인 원천 보존이 필요하면 별도 raw/source 패칭 작업으로 승격한다. |
 
 ## Architecture Review
 

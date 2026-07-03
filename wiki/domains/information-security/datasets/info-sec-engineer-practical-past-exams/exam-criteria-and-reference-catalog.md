@@ -21,7 +21,22 @@ source_paths:
   - "https://cwe.mitre.org/top25/"
   - "https://www.first.org/cvss/v4.0/"
   - "https://attack.mitre.org/"
-source_count: 11
+  - "https://www.rfc-editor.org/rfc/rfc9111"
+  - "https://cwe.mitre.org/data/definitions/444.html"
+  - "https://csrc.nist.gov/glossary/term/data_loss_prevention"
+  - "https://csrc.nist.gov/glossary/term/security_orchestration_automation_and_response"
+  - "https://csrc.nist.gov/glossary/term/TEMPEST"
+  - "https://csrc.nist.gov/pubs/sp/800/83/r1/final"
+  - "https://csrc.nist.gov/pubs/sp/800/34/r1/final"
+  - "https://csrc.nist.gov/glossary/term/end_to_end_encryption"
+  - "https://www.gnu.org/software/acct/manual/accounting.html"
+  - "https://owasp.org/www-community/attacks/Credential_stuffing"
+  - "https://csrc.nist.gov/glossary/term/zero_day_attack"
+  - "https://csrc.nist.gov/pubs/sp/800/124/r2/final"
+  - "https://www.law.go.kr/법령/전자금융거래법"
+  - "https://www.law.go.kr/법령/정보통신망이용촉진및정보보호등에관한법률"
+  - "https://www.law.go.kr/법령/개인정보보호법"
+source_count: 26
 provenance: inferred
 summary: "정보보안기사 실기 출제기준과 기출 문항 연결 분석에 사용할 공식·준공식 참고문서 후보를 상태별로 정리한다."
 evergreen: false
@@ -73,9 +88,10 @@ evergreen: false
 
 | 문서 | 상태 | 담당/출처 성격 | 연결되는 기출 주제 | 비고 |
 |---|---|---|---|---|
-| 개인정보 보호법 | 확인 필요 | 법률 | 개인정보처리자, 개인정보취급자, CCTV, 가명정보/익명정보, 동의/처리 근거 | 최신 시행일 확인 필요 |
+| 개인정보 보호법 | 공식 페이지 확인 | 법률 | 개인정보처리자, 개인정보취급자, CCTV, 가명정보/익명정보, 동의/처리 근거 | 국가법령정보센터 현행 법령 페이지 확인. 조문별 raw/source 저장은 미수행 |
 | 개인정보의 안전성 확보조치 기준 | 원문 패칭 완료 | 고시/안내서 | 접근권한 관리, 접속기록, 암호화, 접근통제, 개인정보처리시스템 | 1회, 23회 등에서 직접 주제 출현 |
-| 정보통신망 이용촉진 및 정보보호 등에 관한 법률 | 확인 필요 | 법률 | 정보통신망, 정보보호조치, 정보보호관리체계, 정보통신서비스 제공자 | 법령 개정 반영 필요 |
+| 정보통신망 이용촉진 및 정보보호 등에 관한 법률 | 공식 페이지 확인 | 법률 | 정보통신망, 정보보호조치, 정보보호관리체계, 정보통신서비스 제공자 | 국가법령정보센터 현행 법령 페이지 확인. 조문별 raw/source 저장은 미수행 |
+| 전자금융거래법 | 공식 페이지 확인 | 법률 | 전자금융기반시설, 정보보호최고책임자, 금융 분야 정보보호 책임 | 국가법령정보센터 현행 법령 페이지 확인. 조문별 raw/source 저장은 미수행 |
 | 정보통신기반 보호법 | 확인 필요 | 법률 | 주요정보통신기반시설, 취약점 분석·평가, 보호대책 | 취약점 점검·기반시설 문항 후보 |
 | ISMS-P 인증기준 | 원문 패칭 완료 | 인증기준/고시/안내서 | 관리체계 수립 및 운영, 보호대책 요구사항, 개인정보 처리 단계별 요구사항 | 23회, 28회, 29회 등에서 반복 |
 
@@ -92,6 +108,10 @@ evergreen: false
 | OWASP Top 10 Web Application Security Risks | 공식 페이지 확인 | OWASP 공식 Top Ten 페이지에서 2025 current release와 2021/2017 archive가 확인된다. 웹 취약점 유형과 연결 가능 | 2 | XXE, XSS, SQL Injection, SSRF, 파일 업로드, HTTP request smuggling |
 | OWASP Mobile Top 10 | 공식 페이지 확인 | OWASP Mobile Top 10 2024 final release가 확인된다. 모바일 앱 인증·통신·저장·binary protection 주제와 연결 가능 | 2 | Deep link, 인증서 고정, MDM/컨테이너화/모바일 가상화 |
 | CVE/NVD/CWE/CVSS/MITRE ATT&CK 자료 | 공식 페이지 확인 | NVD CVE detail, MITRE CWE Top 25, FIRST CVSS, MITRE ATT&CK 공식 페이지가 확인된다. 취약점 식별·심각도·weakness·위협모델 문항과 연결 가능 | 2 | Heartbleed, Log4j, CVSS, APT, zero-day |
+| IETF RFC 9111 HTTP Caching | 공식 페이지 확인 | RFC Editor의 Internet Standard 페이지에서 HTTP cache와 관련 header field 정의를 확인했다. | 2 | Cache-Control, HTTP 캐시 우회/원본 서버 부하 문항 |
+| NIST CSRC glossary / SP 문서군 | 공식 페이지 확인 | DLP, SOAR, TEMPEST, zero-day, end-to-end encryption glossary와 SP 800-83, SP 800-34, SP 800-124 Rev. 2 공식 페이지를 확인했다. | 2 | DLP, SOAR, TEMPEST, 악성코드 분석, DR site, 종단 간 암호화, MDM |
+| GNU Accounting Utilities Manual | 공식 페이지 확인 | GNU manual에서 process accounting과 `lastcomm` 명령의 역할을 확인했다. | 2 | Linux accounting, `lastcomm` |
+| OWASP Credential Stuffing | 공식 페이지 확인 | OWASP community attack page에서 credential stuffing 설명을 확인했다. | 2 | 유출 자격증명 악용 |
 | KISA 보안취약점 점검 체크리스트류 | 후보 | KISA 지식플랫폼에 분야별 보안취약점 점검 자료가 존재하며, 출제기준의 점검/보완 축과 연결 가능 | 2 | 취약점 점검 도구, 점검 결과 해석, 보완 방안 |
 
 ## 3-1. 참고문서 패칭 정책
@@ -99,7 +119,7 @@ evergreen: false
 | 등급 | 패칭 여부 | 기준 | 예시 |
 |---|---|---|---|
 | 필수 | 패칭 필요 | 기출에 문서명·법령명·고시명이 직접 등장하거나, KCA 실기 출제기준 세세항목과 직접 대응 | KCA 출제기준 PDF, 개인정보의 안전성 확보조치 기준, 개인정보영향평가 수행 안내서, ISMS-P 인증기준, 주요정보통신기반시설 취약점 분석·평가 기준/상세가이드, 소프트웨어 개발보안 가이드 |
-| 우선 후보 | 패칭 권장 | 최근 기출에 반복 등장하고 예상문제 근거로 쓸 수 있음 | OWASP Top 10 Web, OWASP Mobile Top 10, CWE Top 25, NVD CVE detail, FIRST CVSS, MITRE ATT&CK |
+| 우선 후보 | 패칭 권장 | 최근 기출에 반복 등장하고 예상문제 근거로 쓸 수 있음 | OWASP Top 10 Web, OWASP Mobile Top 10, CWE Top 25, NVD CVE detail, FIRST CVSS, MITRE ATT&CK, NIST CSRC glossary/SP, IETF RFC, GNU accounting utilities |
 | 보류 | 즉시 패칭 불필요 | 범위가 넓거나 특정 회차 연결 근거가 아직 약함 | 일반 보안 백서, 벤더별 제품 매뉴얼, 최신 위협 동향 보고서 |
 
 패칭 산출물은 원문 전체 복사가 아니라 `공식 URL`, `발행기관`, `문서명`, `버전/시행일`, `핵심 목차`, `기출 연결 후보`, `최신성 확인일` 중심으로 관리한다. 저작권 있는 원문은 장문 복제하지 않고 링크·요약·문항 연결 근거만 기록한다.
@@ -127,5 +147,5 @@ evergreen: false
 
 - 2023~2026 실기 분석의 1차 기준은 KCA `정보보안기사 실기 출제기준(2023.1.1. ~ 2026.12.31.)`이다.
 - 참고문서는 `KCA 공식 참고문헌`으로 단정하지 않고, `기출 문항과 연결 가능한 법령·고시·공공 가이드`로 관리한다.
-- OWASP Top 10 Web, OWASP Mobile Top 10, NVD CVE detail, CWE Top 25, FIRST CVSS, MITRE ATT&CK는 공식 페이지가 확인됐으므로 medium confidence 문항의 보조 근거로 사용할 수 있다.
+- OWASP Top 10 Web, OWASP Mobile Top 10, NVD CVE detail, CWE Top 25, FIRST CVSS, MITRE ATT&CK, IETF RFC 9111, NIST CSRC glossary/SP, GNU Accounting Utilities, OWASP Credential Stuffing, 국가법령정보센터 현행 법령 페이지는 공식 페이지가 확인됐으므로 medium confidence 문항의 보조 근거로 사용할 수 있다.
 - 다만 현재 작업에서는 원문 asset/raw source 저장을 수행하지 않았으므로 `reference-source-index.md`에서는 `official page confirmed` 상태로 유지한다.

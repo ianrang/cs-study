@@ -19,6 +19,21 @@ source_paths:
   - "https://cwe.mitre.org/top25/"
   - "https://www.first.org/cvss/v4.0/"
   - "https://attack.mitre.org/"
+  - "https://www.rfc-editor.org/rfc/rfc9111"
+  - "https://cwe.mitre.org/data/definitions/444.html"
+  - "https://csrc.nist.gov/glossary/term/data_loss_prevention"
+  - "https://csrc.nist.gov/glossary/term/security_orchestration_automation_and_response"
+  - "https://csrc.nist.gov/glossary/term/TEMPEST"
+  - "https://csrc.nist.gov/pubs/sp/800/83/r1/final"
+  - "https://csrc.nist.gov/pubs/sp/800/34/r1/final"
+  - "https://csrc.nist.gov/glossary/term/end_to_end_encryption"
+  - "https://www.gnu.org/software/acct/manual/accounting.html"
+  - "https://owasp.org/www-community/attacks/Credential_stuffing"
+  - "https://csrc.nist.gov/glossary/term/zero_day_attack"
+  - "https://csrc.nist.gov/pubs/sp/800/124/r2/final"
+  - "https://www.law.go.kr/법령/전자금융거래법"
+  - "https://www.law.go.kr/법령/정보통신망이용촉진및정보보호등에관한법률"
+  - "https://www.law.go.kr/법령/개인정보보호법"
   - "raw/sources/web/information-security-exam-references/kca-info-security-engineer-practical-criteria-2023-2026.md"
   - "raw/sources/web/information-security-exam-references/privacy-safety-measures-law-go-kr.md"
   - "raw/sources/web/information-security-exam-references/pipc-privacy-impact-assessment-guide-2025-10.md"
@@ -26,7 +41,7 @@ source_paths:
   - "raw/sources/web/information-security-exam-references/kisa-ciip-technical-vulnerability-assessment-guide-2026.md"
   - "raw/sources/web/information-security-exam-references/kisa-ismsp-criteria-guide-2023-11.md"
   - "raw/sources/web/information-security-exam-references/kisa-secure-coding-guide-2021-12-29.md"
-source_count: 16
+source_count: 31
 provenance: extracted
 summary: "정보보안기사 실기 기출-근거문서 연결을 위한 공식 참고문서 원천 URL, 패칭 상태, 추출 상태를 관리한다."
 evergreen: false
@@ -53,6 +68,21 @@ evergreen: false
 | REF-CWE-TOP-25 | CWE Top 25 Most Dangerous Software Weaknesses | MITRE CWE | https://cwe.mitre.org/top25/ | official page confirmed | - | - | current page plus archives, checked 2026-07-03 | not stored | 2 | 취약점 root cause, weakness 분류, CWE 기반 보안약점 문항의 보조 원천 |
 | REF-FIRST-CVSS | Common Vulnerability Scoring System | FIRST CVSS SIG | https://www.first.org/cvss/v4.0/ | official page confirmed | - | - | CVSS v4.0 documentation, v3.1 archive retained | not stored | 2 | CVSS 점수·벡터·취약점 심각도 문항의 보조 원천 |
 | REF-MITRE-ATTACK | MITRE ATT&CK | MITRE | https://attack.mitre.org/ | official page confirmed | - | - | enterprise matrix, checked 2026-07-03 | not stored | 2 | APT, 공격 전술·기술, 침해 분석 단계 모델 문항의 보조 원천 |
+| REF-IETF-HTTP-CACHING | RFC 9111 HTTP Caching | IETF / RFC Editor | https://www.rfc-editor.org/rfc/rfc9111 | official page confirmed | - | - | Internet Standard, 2022, checked 2026-07-03 | not stored | 2 | HTTP cache와 Cache-Control 헤더 동작 보조 원천 |
+| REF-CWE-444-HTTP-SMUGGLING | CWE-444 HTTP Request/Response Smuggling | MITRE CWE | https://cwe.mitre.org/data/definitions/444.html | official page confirmed | - | - | CWE entry, checked 2026-07-03 | not stored | 2 | HTTP request smuggling 전용 weakness 원천 |
+| REF-NIST-DLP-GLOSSARY | NIST CSRC Data Loss Prevention glossary | NIST CSRC | https://csrc.nist.gov/glossary/term/data_loss_prevention | official page confirmed | - | - | checked 2026-07-03 | not stored | 2 | DLP 정의와 data in use/in motion/at rest 보호 범위 보조 원천 |
+| REF-NIST-SOAR-GLOSSARY | NIST CSRC SOAR glossary | NIST CSRC | https://csrc.nist.gov/glossary/term/security_orchestration_automation_and_response | official page confirmed | - | - | checked 2026-07-03 | not stored | 2 | 보안 오케스트레이션·자동화·대응 용어 보조 원천 |
+| REF-NIST-TEMPEST-GLOSSARY | NIST CSRC TEMPEST glossary | NIST CSRC | https://csrc.nist.gov/glossary/term/TEMPEST | official page confirmed | - | - | checked 2026-07-03 | not stored | 2 | 비의도 방사·전자파 정보유출 통제 개념 보조 원천 |
+| REF-NIST-MALWARE-INCIDENT-GUIDE | NIST SP 800-83 Rev. 1 Malware Incident Guide | NIST CSRC | https://csrc.nist.gov/pubs/sp/800/83/r1/final | official page confirmed | - | - | July 2013, checked 2026-07-03 | not stored | 2 | 악성코드 침해 예방·대응과 분석 문항 보조 원천 |
+| REF-NIST-CONTINGENCY-PLANNING | NIST SP 800-34 Rev. 1 Contingency Planning Guide | NIST CSRC | https://csrc.nist.gov/pubs/sp/800/34/r1/final | official page confirmed | - | - | May 2010, checked 2026-07-03 | not stored | 2 | 재해복구·contingency planning·DR site 유형 보조 원천 |
+| REF-NIST-E2EE-GLOSSARY | NIST CSRC End-to-End Encryption glossary | NIST CSRC | https://csrc.nist.gov/glossary/term/end_to_end_encryption | official page confirmed | - | - | checked 2026-07-03 | not stored | 2 | 종단 간 암호화 용어 보조 원천 |
+| REF-GNU-ACCOUNTING-UTILITIES | GNU Accounting Utilities Manual | GNU Project | https://www.gnu.org/software/acct/manual/accounting.html | official page confirmed | - | - | edition 6.6.2, checked 2026-07-03 | not stored | 2 | `lastcomm`과 process accounting 명령 이력 확인 보조 원천 |
+| REF-OWASP-CREDENTIAL-STUFFING | OWASP Credential Stuffing | OWASP Foundation | https://owasp.org/www-community/attacks/Credential_stuffing | official page confirmed | - | - | checked 2026-07-03 | not stored | 2 | 유출 자격증명 악용·credential stuffing 보조 원천 |
+| REF-NIST-ZERO-DAY-GLOSSARY | NIST CSRC Zero Day Attack glossary | NIST CSRC | https://csrc.nist.gov/glossary/term/zero_day_attack | official page confirmed | - | - | checked 2026-07-03 | not stored | 2 | 제로데이 공격 정의 보조 원천 |
+| REF-NIST-MOBILE-DEVICE-SECURITY | NIST SP 800-124 Rev. 2 Mobile Device Security | NIST CSRC | https://csrc.nist.gov/pubs/sp/800/124/r2/final | official page confirmed | - | - | May 2023, checked 2026-07-03 | not stored | 2 | MDM, enterprise mobility management, BYOD 모바일 보안 보조 원천 |
+| REF-LAW-ELECTRONIC-FINANCIAL-TRANSACTION | 전자금융거래법 | 국가법령정보센터 | https://www.law.go.kr/법령/전자금융거래법 | official page confirmed | - | - | current law page checked 2026-07-03 | not stored | 2 | CISO 지정과 전자금융 법적 준거성 보조 원천 |
+| REF-LAW-NETWORK-ACT | 정보통신망 이용촉진 및 정보보호 등에 관한 법률 | 국가법령정보센터 | https://www.law.go.kr/법령/정보통신망이용촉진및정보보호등에관한법률 | official page confirmed | - | - | current law page checked 2026-07-03 | not stored | 2 | 정보통신망 정의와 정보보호 법적 준거성 보조 원천 |
+| REF-LAW-PIPA | 개인정보 보호법 | 국가법령정보센터 | https://www.law.go.kr/법령/개인정보보호법 | official page confirmed | - | - | current law page checked 2026-07-03 | not stored | 2 | CCTV, 영상정보처리기기, 개인정보 처리 근거 보조 원천 |
 
 ## Status Semantics
 
@@ -70,3 +100,4 @@ evergreen: false
 | 1 | REF-OWASP-TOP-10-WEB | 원문 asset 저장이 필요하면 OWASP 2025/2021 페이지 또는 GitHub release를 raw/source로 패칭 |
 | 2 | REF-OWASP-MOBILE-TOP-10 | 모바일 문항 보강 범위가 커지면 2024 final release를 raw/source로 패칭 |
 | 3 | REF-NVD-CVE-DETAILS / REF-CWE-TOP-25 / REF-FIRST-CVSS / REF-MITRE-ATTACK | 취약점·위협모델 문항 확대 시 CVE별 상세 페이지와 CWE/CVSS/ATT&CK 원천을 raw/source로 패칭 |
+| 4 | REF-IETF-HTTP-CACHING / REF-CWE-444-HTTP-SMUGGLING / REF-NIST-* / REF-LAW-* / REF-GNU-ACCOUNTING-UTILITIES / REF-OWASP-CREDENTIAL-STUFFING | 이번 보강에서 official page confirmed로 추가한 원천. 재현 가능한 오프라인 보존이 필요하면 raw/source 패칭 |
