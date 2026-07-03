@@ -37,7 +37,7 @@ evergreen: false
 | 4 | short | BCP 수립 단계. | 프로젝트 범위 설정, BIA, 복구전략 수립, 계획 개발, 교육·훈련·유지관리 등 | source-derived; Naver cross-checked; official wording unverified |
 | 5 | short | 지능형 지속 공격. | APT(Advanced Persistent Threat) | source-derived; Naver cross-checked; official wording unverified |
 | 6 | short | 불완전한 암호화 저장 취약점 점검 방법. | 중요정보 저장 여부와 암호화·해시·키관리 적정성 점검 | source-derived; Naver cross-checked; official wording unverified |
-| 7 | short | IPSec 관련 빈칸 또는 기능 확인 문제. | AH/ESP, 터널/전송 모드, 인증·무결성·기밀성 등 IPSec 구성요소 | source-derived; Naver cross-checked; exact prompt wording unverified |
+| 7 | short | TCP/IP 인터넷 계층에서 동작하는 VPN 보안 프로토콜과 그 세부 프로토콜 중 무결성·메시지 인증을 제공하는 항목, 암호화를 통한 기밀성을 제공하는 항목의 빈칸 (A), (B), (C)를 채우시오. | (A) IPSec, (B) AH(Authentication Header), (C) ESP(Encapsulating Security Payload) | source-derived; N-hustler problem text cross-checked; exact official wording unverified |
 | 8 | short | 위험분석 방법 구분. | 기준선 접근법, 상세 위험분석, 복합 접근법 등 | source-derived; Naver cross-checked; official wording unverified |
 | 9 | short | 취약점 공격에 쓰이는 익스플로잇 코드. | Exploit 또는 Exploit Code | source-derived; Naver cross-checked; official wording unverified |
 | 10 | short | Apache 업로드 가능 파일 크기 제한 명령/지시자. | `LimitRequestBody` | source-derived; Naver cross-checked; official wording unverified |

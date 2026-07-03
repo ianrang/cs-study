@@ -28,16 +28,16 @@ evergreen: false
 ## Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
-| 1 | short | 다음에서 설명하는 리눅스 파일 시스템의 기능을 쓰시오. | 저널링(Journaling) | source-derived from Information Security Tistory; answer block present |
-| 2 | short | 다음에서 설명하는 보안 표준의 명칭을 쓰시오. | CVE(Common Vulnerabilities and Exposures) | source-derived from Information Security Tistory; answer block present |
+| 1 | short | 리눅스 파일 시스템에서 ext3부터 지원하며, 명령 수행 로그를 남겨 갑작스러운 종료 등으로 파일 시스템이 손상될 때 기존 로그로 복구하는 기능의 명칭을 쓰시오. | 저널링(Journaling) | source-derived from Information Security Tistory; answer block present |
+| 2 | short | 여러 기관이 보안 취약점을 일관성 없이 표현하던 문제를 줄이기 위해, 특정 취약점을 공통으로 지칭하고 공유하도록 만든 표준화된 취약점 코드 체계의 명칭을 쓰시오. | CVE(Common Vulnerabilities and Exposures) | source-derived from Information Security Tistory; answer block present |
 | 3 | short | FTP 서비스를 운영하는 서버에서 다음과 같은 현상이 확인되었다. 어떤 유형의 공격인지 쓰시오. | TCP SYN Flooding 공격 | source-derived from Information Security Tistory; answer block present |
 | 4 | short | 다음 웹 서버 로그에서 확인되는 공격의 명칭을 쓰시오. | SQL Injection 공격 (URL 디코딩: id='user' and pw='1' or 1=1 형태의 SQL 조건 삽입) | source-derived from Information Security Tistory; answer block present |
-| 5 | short | 다음 빈칸 (A), (B), (C)를 채우시오. | A : 5년 B : 월 1회 C : 6개월 | source-derived from Information Security Tistory; answer block present |
-| 6 | short | 다음에서 설명하는 공격의 명칭을 각각 쓰시오. | A : 파일 업로드 공격(웹쉘 업로드) B : SQL Injection 공격 | source-derived from Information Security Tistory; answer block present |
+| 5 | short | 개인정보의 기술적·관리적 보호조치 기준에서 권한 부여·변경·말소 이력 보관 기간, 개인정보취급자 접속기록 정기 확인 주기, 시스템 이상 확인 등을 위한 접속기록 보존 기간의 빈칸 (A), (B), (C)를 채우시오. | A : 5년 B : 월 1회 C : 6개월 | source-derived from Information Security Tistory; answer block present |
+| 6 | short | 실행 가능한 스크립트 파일을 서버에 업로드해 원격 제어하는 공격과, 입력 인자에 질의문을 삽입해 데이터베이스 질의문을 조작하는 공격의 명칭을 각각 쓰시오. | A : 파일 업로드 공격(웹쉘 업로드) B : SQL Injection 공격 | source-derived from Information Security Tistory; answer block present |
 | 7 | short | 원격 파일 인클루드(Remote File Include) 취약점에 관한 설명이다. 빈칸 (A), (B), (C)를 채우시오. | A : include/require B : php.ini C : off | source-derived from Information Security Tistory; answer block present |
 | 8 | short | 위험 평가와 관련된 설명이다. 빈칸 (A), (B), (C)를 채우시오. | A : 취약점(Vulnerability) B : 위협(Threat) C : 목표 위험 수준 | source-derived from Information Security Tistory; answer block present |
 | 9 | short | 위험 관리 기법 중 위험을 인지하였으나 별도의 통제를 수행하지 않고 그대로 받아들이며 진행하는 방식의 명칭을 쓰시오. | 위험 수용(Risk Acceptance) | source-derived from Information Security Tistory; answer block present |
-| 10 | short | 다음 빈칸 (A), (B), (C)를 채우시오. | A : 무결성(Integrity) B : 가용성(Availability) C : 업무영향분석(BIA, Business Impact Analysis) | source-derived from Information Security Tistory; answer block present |
+| 10 | short | 정보보안의 세 가지 목적 중 기밀성 외의 두 요소와, 위험관리계획 수립 시 업무 우선순위 선정 및 보호대책 수준 도출에 사용하는 분석의 빈칸 (A), (B), (C)를 채우시오. | A : 무결성(Integrity) B : 가용성(Availability) C : 업무영향분석(BIA, Business Impact Analysis) | source-derived from Information Security Tistory; answer block present |
 | 11 | essay | 다음은 드라이브 바이 다운로드(Drive By Download) 공격의 단계이다. 물음에 답하시오. | (1) Drive By Download(드라이브 바이 다운로드) (2) 악성코드 유포 사이트(최종 유포지) (3) 정적 분석 : 룰 엔진 기반의 악성코드 패턴 비교, 악성코드 유포 사이트 페이지의 DOM 구조 검증 동적 분석 : 샌드박스(SandBox) 환경에서 동작 분석, 특정 포트 백도어 생성 여부 모니터링 | source-derived from Information Security Tistory; answer block present |
 | 12 | essay | 정보통신기반보호법 제16조에 따라 정보공유·분석센터(ISAC)가 수행하는 역할 2가지를 서술하시오. | (1) 취약점 및 침해 요인과 그 대응 방안에 관한 정보 제공 (2) 침해사고 발생 시 실시간 경보·분석 체계 운영 | source-derived from Information Security Tistory; answer block present |
 | 13 | essay | 특정 웹 페이지에 실행 가능한 스크립트를 삽입하여 페이지 방문자의 개인정보나 쿠키 정보를 탈취하는 공격의 명칭과 대응 방안을 서술하시오. | 공격 명칭 : XSS(Cross Site Script) 대응 방안 : 사용자 입력값에 대해 HTML 특수문자(<, >, ", ', & 등)를 엔티티 코드로 인코딩하여 스크립트 실행을 차단한다. 쿠키에 HttpOnly 속성을 적용하여 자바스크립트를 통한 쿠키 접근을 차단한다. 웹 방화벽(WAF)을 적용하여 악성 스크립트 패턴을 탐지·차단한다. | source-derived from Information Security Tistory; answer block present |

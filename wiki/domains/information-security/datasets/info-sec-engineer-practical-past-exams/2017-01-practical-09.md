@@ -28,14 +28,14 @@ evergreen: false
 ## Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
-| 1 | short | 다음에서 설명하는 파일의 이름을 쓰시오. | hosts | source-derived from Information Security Tistory; answer block present |
+| 1 | short | 운영체제별로 경로는 다르지만 DNS 정보를 담고 있으며, Windows 7 이상에서는 관리자 외 수정이 제한되는 파일의 이름을 쓰시오. | hosts | source-derived from Information Security Tistory; answer block present |
 | 2 | short | 스머프(Smurf) 공격 과정이다. 빈칸 (A), (B), (C)를 채우시오. | A : Echo Request B : Echo Reply C : Directed Broadcast | source-derived from Information Security Tistory; answer block present |
 | 3 | short | 버퍼 오버플로우의 유형에 관한 설명이다. 빈칸 (A), (B)를 채우시오. | A : 스택 버퍼 오버플로우(Stack Buffer Overflow) B : 힙 버퍼 오버플로우(Heap Buffer Overflow) | source-derived from Information Security Tistory; answer block present |
 | 4 | short | Trustwave사가 개발하여 Apache 웹 서버와 IIS에서 사용 가능한 공개용 웹 방화벽(WAF)의 명칭을 쓰시오. | ModSecurity | source-derived from Information Security Tistory; answer block present |
 | 5 | essay | 다음은 단편화된 tcpdump 패킷 정보이다. 각 항목이 의미하는 바를 서술하시오. | A : Fragment ID (단편화 식별자) - 같은 원본 패킷에서 분리된 단편임을 나타내는 ID B : Size (단편의 크기) - 해당 단편의 데이터 크기(1480바이트) C : Offset (오프셋) - 원본 패킷에서 해당 단편이 시작되는 위치(2920바이트 지점) | source-derived from Information Security Tistory; answer block present |
 | 6 | short | 정보통신망 이용촉진 및 정보보호 등에 관한 법률 제23조의2에 관한 설명이다. 빈칸 (a), (b)를 채우시오. | a : 본인확인기관 b : 대체수단 | source-derived from Information Security Tistory; answer block present |
 | 7 | short | SSL/TLS 레코드 프로토콜이 메시지를 암호화하여 통신하는 처리 과정이다. 빈칸 (A), (B), (C), (D)를 순서대로 채우시오. | A : 단편화(Fragmentation) B : 압축(Compression) C : MAC(Message Authentication Code) 추가 D : 암호화(Encryption) | source-derived from Information Security Tistory; answer block present |
-| 8 | essay | 다음에서 설명하는 위험 분석 기법의 명칭을 쓰시오. | 델파이법(Delphi Method) | source-derived from Information Security Tistory; answer block present |
+| 8 | essay | 정보시스템에 관한 전문 지식을 가진 전문가 집단이 다양한 위협과 취약성을 토론으로 분석하는 위험 분석 기법의 명칭을 쓰시오. | 델파이법(Delphi Method) | source-derived from Information Security Tistory; answer block present |
 | 9 | short | 정보보호 시스템 공통평가기준(CC)에 관한 설명이다. 빈칸 (A), (B), (C)를 채우시오. | A : 보호 프로파일(PP, Protection Profile) B : 보안 목표 명세서(ST, Security Target) C : 평가 보증 등급(EAL, Evaluation Assurance Level) | source-derived from Information Security Tistory; answer block present |
 | 10 | short | 위험을 구성하는 4가지 기본 요소를 쓰시오. | 자산(Asset), 취약성(Vulnerability), 위협(Threat), 정보보호 대책(Countermeasure) | source-derived from Information Security Tistory; answer block present |
 | 11 | short | 전자서명법에 따라 공인인증서의 효력이 소멸하는 4가지 사유를 쓰시오. | (1) 공인인증서의 유효기간이 경과한 경우 (2) 공인인증기관의 지정이 취소된 경우 (3) 공인인증서의 효력이 정지된 경우 (4) 공인인증서가 폐지된 경우 | source-derived from Information Security Tistory; answer block present |

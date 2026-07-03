@@ -46,7 +46,7 @@ evergreen: false
 | 10 | short | 위험분석의 방법·범위·예산·인력과 위험대응 활동을 정하는 계획 문서. | 위험관리계획 | KCA criteria includes risk-analysis planning and risk treatment planning. |
 | 11 | short | ISMS-P 물리보안 관점의 보호대책 예시 세 가지. | 보호구역 지정, 출입통제, 정보시스템 보호, 보호설비 운영, 보호구역 내 작업 통제, 반출입 기기 통제, 업무환경 보안 중 3개 | Naver answer cross-check; KISA ISMS-P physical security controls align. |
 | 12 | short | 모바일 앱의 특정 화면·기능으로 직접 이동시키는 링크 기술. | Deep link | Mobile/app security topic; source wording used DeepLink. |
-| 13 | essay | Shell의 역할과 주요 기능 2가지를 설명하는 문항. | 운영체제와 사용자 사이의 명령 인터페이스이며, 명령 해석·커널 전달·환경 설정·스크립트 자동화 등을 수행한다. | OS basics in KCA practical criteria and round-1 Linux notes support the answer. |
+| 13 | essay | Shell의 역할과 주요 기능 2가지를 설명하시오. | 운영체제와 사용자 사이의 명령 인터페이스이며, 명령 해석·커널 전달·환경 설정·스크립트 자동화 등을 수행한다. | OS basics in KCA practical criteria and round-1 Linux notes support the answer. |
 | 14 | essay | Windows NetBIOS 바인딩 활성화 위험과 ncpa.cpl 기반 보안 설정 방법. | 인터넷 연결 Windows에서 NetBIOS over TCP/IP가 활성화되면 원격 공유자원 접근 위험이 있다. ncpa.cpl에서 네트워크 어댑터 속성 > TCP/IP 고급 > WINS 탭에서 NetBIOS over TCP/IP 사용 안 함을 선택한다 | Naver answer cross-check; Windows/server hardening scope covers service and share exposure. |
 | 15 | essay | IPsec의 정의와 보안 모드 두 가지. | 네트워크/IP 계층에서 IP 패킷 단위 인증(AH), 암호화(ESP), 키관리(IKE)를 수행하는 프로토콜이다. 터널모드는 새 IP 헤더를 추가해 패킷 전체를 보호하고, 전송모드는 원 IP 헤더 외 데이터 부분을 보호한다 | Naver answer cross-check; KCA criteria explicitly mentions IPSec protocols. |
 | 16 | essay | 정보자산 중요도 산정의 개념과 필수 기준 3가지. | 자산이 조직에 주는 가치와 손실 영향을 평가해 보호 우선순위를 정하는 절차다. 해당 자산의 기밀성, 무결성, 가용성 등급을 평가해 중요도를 산정한다 | Naver answer cross-check; round-1 risk assessment notes define asset value and CIA criteria. |

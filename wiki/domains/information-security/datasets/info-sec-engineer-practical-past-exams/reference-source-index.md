@@ -93,11 +93,13 @@ evergreen: false
 | official page confirmed | 공식 상세 페이지는 확인했으나 첨부 원문 다운로드 또는 asset 저장이 아직 미완료 |
 | pending | 공식 URL 또는 원문 파일을 아직 확인하지 못함 |
 
-## Next Patch Targets
+## Selective Raw/Source Policy
 
-| priority | ref_id | next action |
-|---:|---|---|
-| 1 | REF-OWASP-TOP-10-WEB | 원문 asset 저장이 필요하면 OWASP 2025/2021 페이지 또는 GitHub release를 raw/source로 패칭 |
-| 2 | REF-OWASP-MOBILE-TOP-10 | 모바일 문항 보강 범위가 커지면 2024 final release를 raw/source로 패칭 |
-| 3 | REF-NVD-CVE-DETAILS / REF-CWE-TOP-25 / REF-FIRST-CVSS / REF-MITRE-ATTACK | 취약점·위협모델 문항 확대 시 CVE별 상세 페이지와 CWE/CVSS/ATT&CK 원천을 raw/source로 패칭 |
-| 4 | REF-IETF-HTTP-CACHING / REF-CWE-444-HTTP-SMUGGLING / REF-NIST-* / REF-LAW-* / REF-GNU-ACCOUNTING-UTILITIES / REF-OWASP-CREDENTIAL-STUFFING | 이번 보강에서 official page confirmed로 추가한 원천. 재현 가능한 오프라인 보존이 필요하면 raw/source 패칭 |
+현재 `official page confirmed` 보조 원천은 정보보안기사 실기 준비와 문항-근거 연결에 필요한 URL, 버전, 상태 메타데이터가 확보되어 있으므로 대량 raw/source 패칭을 수행하지 않는다. LLM wiki에는 보조 원천 전문보다 `ref_id`, 공식 URL, 버전·시행일, 문항 연결 이유, confidence를 우선 보존한다.
+
+| 조건 | raw/source 처리 |
+|---|---|
+| 국내 시험 직접 원천 또는 반복 인용되는 1차 기준 문서 | `patched` 유지 또는 신규 패칭 |
+| 남은 medium 행을 high로 올릴 직접 공식·표준·공공기관·벤더 1차 원천 | 발견 시 해당 원천만 선별 패칭 |
+| 학습전략·예상문제에서 핵심 근거로 반복 인용되고 외부 변경·삭제 위험이 큰 원천 | 필요 시 해당 원천만 선별 패칭 |
+| OWASP/CVE/NVD/CWE/CVSS/MITRE/IETF/NIST/GNU/법령 계열 보조 원천 | 현재는 `official page confirmed` 유지, 대량 패칭 보류 |

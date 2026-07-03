@@ -48,6 +48,7 @@ evergreen: false
 - Pass: 공식 URL이 확인되지 않은 문서는 `pending`으로 남기고 raw 원문을 저장하지 않는 fail-closed 원칙을 유지했다.
 - Pass: KCA 출제기준, PIPC 개인정보 문서 2개, KISA ISMS-P 인증기준 안내서, KISA 주요정보통신기반시설 기술적 취약점 상세가이드, KISA 소프트웨어 개발보안 가이드는 완전 패칭됐다.
 - Pass: OWASP Top 10 Web, OWASP Mobile Top 10, NVD CVE detail, CWE Top 25, FIRST CVSS, MITRE ATT&CK, IETF RFC 9111, CWE-444, NIST CSRC glossary/SP, GNU Accounting Utilities, OWASP Credential Stuffing, 국가법령정보센터 현행 법령 페이지는 공식 페이지가 확인됐지만 raw/source asset 저장을 수행하지 않았으므로 `official page confirmed`로만 올렸다.
+- Pass: 현재 `official page confirmed` 보조 원천은 정보보안기사 실기 준비에 필요한 메타데이터와 문항 연결 근거가 확보되어 있으므로 대량 raw/source 패칭하지 않고, 직접 1차 원천이 새로 필요해질 때만 선별 패칭한다.
 
 ## Checks
 
@@ -70,9 +71,9 @@ evergreen: false
 | 소프트웨어 개발보안 가이드 텍스트 추출 | pass | `pdftotext` 성공, 380 pages, SQL 삽입/PreparedStatement 등 시큐어코딩 항목 추출 확인 |
 | 행안부 보조 게시글 확인 | pass | 행안부 `nttId=88956` 게시글은 동일 주제 공식 맥락을 확인했으나, 검색에 노출된 `FILE_000000000046958` 직접 첨부는 8쪽짜리 2013 PDF라 raw asset으로 사용하지 않음 |
 | OWASP/CVE/CWE/CVSS/MITRE 공식 페이지 확인 | pass | OWASP Top 10 Web 2025 current release, OWASP Mobile Top 10 2024 final release, NVD CVE detail, CWE Top 25, FIRST CVSS v4.0, MITRE ATT&CK 공식 페이지 확인 |
-| OWASP/CVE/CWE/CVSS/MITRE raw asset 저장 | not run | 이번 작업은 공식 페이지 확인과 item-reference-map 보강 범위. raw/source asset 저장은 후속 패칭으로 분리 |
+| OWASP/CVE/CWE/CVSS/MITRE raw asset 저장 | not selected | 현재는 공식 URL·버전·상태 메타데이터만 보존한다. 핵심 근거로 반복 인용되거나 외부 변경·삭제 위험이 커질 때 해당 원천만 선별 패칭 |
 | IETF/NIST/GNU/OWASP Credential Stuffing/법령 공식 페이지 확인 | pass | RFC 9111, CWE-444, NIST DLP/SOAR/TEMPEST/E2EE/zero-day glossary, NIST SP 800-83/SP 800-34/SP 800-124, GNU Accounting Utilities, OWASP Credential Stuffing, 국가법령정보센터 개인정보보호법/전자금융거래법/정보통신망법 공식 페이지 확인 |
-| IETF/NIST/GNU/OWASP Credential Stuffing/법령 raw asset 저장 | not run | 이번 작업은 공식 페이지 확인과 item-reference-map 보강 범위. raw/source asset 저장은 후속 패칭으로 분리 |
+| IETF/NIST/GNU/OWASP Credential Stuffing/법령 raw asset 저장 | not selected | 현재는 공식 URL·버전·상태 메타데이터만 보존한다. 조문·정의·문서 원문이 핵심 근거로 반복 인용될 때 해당 원천만 선별 패칭 |
 
 ## Review Findings
 
@@ -80,8 +81,8 @@ evergreen: false
 |---|---|---|
 | LOW | 소프트웨어 개발보안 가이드는 KISA 공식 첨부로 패칭 완료됐고, 행안부 보조 게시글의 다른 첨부와 혼동 가능성이 있다. | source metadata와 source index에 KISA 다운로드 패턴과 비원천 행안부 첨부 주의사항을 유지한다. |
 | MEDIUM | ISMS-P 전용 도메인 `isms.kisa.or.kr`은 로컬 DNS 문제로 다운로드 검증이 실패했으나, KISA 공식 사이트의 동일 안내서 첨부는 패칭됐다. | 후속 작업에서 전용 도메인 복구 시 동일성 비교를 수행한다. |
-| LOW | OWASP/CVE/CWE/CVSS/MITRE 계열 원천은 공식 페이지 확인으로 6개 medium 문항을 high로 승격했지만, raw/source asset 저장은 아직 없다. | 재현 가능한 오프라인 원천 보존이 필요하면 별도 raw/source 패칭 작업으로 승격한다. |
-| LOW | IETF/NIST/GNU/OWASP Credential Stuffing/법령 계열 원천은 공식 페이지 확인으로 16개 medium 문항을 high로 승격했지만, raw/source asset 저장은 아직 없다. | 재현 가능한 오프라인 원천 보존이 필요하면 별도 raw/source 패칭 작업으로 승격한다. |
+| LOW | OWASP/CVE/CWE/CVSS/MITRE 계열 원천은 공식 페이지 확인으로 6개 medium 문항을 high로 승격했지만, raw/source asset 저장은 선별 대상이 아니다. | 대량 패칭하지 않는다. 학습전략·예상문제의 핵심 근거로 반복 인용되거나 삭제 위험이 확인되면 해당 원천만 선별 패칭한다. |
+| LOW | IETF/NIST/GNU/OWASP Credential Stuffing/법령 계열 원천은 공식 페이지 확인으로 16개 medium 문항을 high로 승격했지만, raw/source asset 저장은 선별 대상이 아니다. | 대량 패칭하지 않는다. 조문·정의·문서 원문이 핵심 근거로 반복 인용되면 해당 원천만 선별 패칭한다. |
 
 ## Architecture Review
 

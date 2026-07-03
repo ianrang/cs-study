@@ -31,7 +31,7 @@ evergreen: false
 | 1 | short | 다음은 MySQL 설정 파일의 일부이다. 외부 접속을 허용하도록 설정을 변경하시오. | bind-address = 127.0.0.1 부분을 주석 처리하거나 삭제하거나, 허용할 외부 IP 또는 0.0.0.0으로 변경한다. (예: bind-address = 0.0.0.0 또는 해당 행을 #으로 주석 처리) | source-derived from Information Security Tistory; answer block present |
 | 2 | short | 정보보호관리체계(ISMS) 인증 도입을 위한 정보보호 대책 항목 중 빈칸 (1), (2), (3)을 채우시오. | (1) 정보보호 조직 (2) 외부자 보안 (3) 접근 통제 | source-derived from Information Security Tistory; answer block present |
 | 3 | short | WEP 무선 보안 프로토콜에 관한 설명이다. 빈칸 (A), (B)를 채우시오. | A : RC4 B : IV(Initial Vector, 초기화 벡터) | source-derived from Information Security Tistory; answer block present |
-| 4 | short | 다음에서 설명하는 리눅스 디렉토리의 명칭을 쓰시오. | /proc | source-derived from Information Security Tistory; answer block present |
+| 4 | short | 현재 실행 중인 프로세스의 정보를 기록하는 가상 파일 시스템이 위치하는 리눅스 디렉토리의 명칭을 쓰시오. | /proc | source-derived from Information Security Tistory; answer block present |
 | 5 | short | 정보보호의 5가지 목표 중 빈칸 (A), (B), (C)를 채우시오. | A : 가용성(Availability) B : 인증(Authentication) C : 부인방지(Non-Repudiation) | source-derived from Information Security Tistory; answer block present |
 | 6 | short | TCP 3-Way Handshake 과정에서 빈칸 (A), (B), (C)를 채우시오. | A : 3479 (클라이언트 SYN 번호 3478 + 1) B : 3479 (서버의 ACK 번호를 그대로 사용) C : 2325 (서버 SYN 번호 2324 + 1) | source-derived from Information Security Tistory; answer block present |
 | 7 | essay | 다음 setuid 관련 함수 호출에 관한 물음에 답하시오. | (1) ruid : (실행 사용자 UID), euid : 0 (root), suid : 0 (root) (2) ruid : 600, euid : 600, suid : 600 | source-derived from Information Security Tistory; answer block present |

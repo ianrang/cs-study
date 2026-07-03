@@ -34,7 +34,7 @@ evergreen: false
 | 4 | short | VLAN의 목적에 관한 설명이다. 빈칸 (A), (B), (C)를 채우시오. | A : 보안 B : 크기(브로드캐스트 도메인 크기) C : 성능 | source-derived from Information Security Tistory; answer block present |
 | 5 | short | 위험 처리 방법 중 보험이나 외주를 통해 잠재적 손실 비용을 제3자에게 이전하는 방법의 명칭을 쓰시오. | 위험 전가(Risk Transfer) | source-derived from Information Security Tistory; answer block present |
 | 6 | short | 정보통신기반보호법 제8조에 따른 주요정보통신기반시설 지정 시 고려 사항이다. 빈칸 (A), (B), (C)를 채우시오. | A : 의존도 B : 상호연계성 C : 용이성 | source-derived from Information Security Tistory; answer block present |
-| 7 | short | 다음 설명에 해당하는 재난 복구 사이트의 유형을 각각 쓰시오. | A : 웜 사이트(Warm Site) B : 핫 사이트(Hot Site) C : 콜드 사이트(Cold Site) | source-derived from Information Security Tistory; answer block present |
+| 7 | short | 재해복구 사이트 유형에 관한 설명이다. (A)는 중요도가 높은 정보기술 자원만 부분적으로 사이트에 보유하며 백업 장치나 테이프 등을 구비한다. (B)는 주 센터와 동일한 수준의 정보기술 자원을 사이트에 보유하면서 데이터를 최신 상태로 유지한다. (C)는 컴퓨터실 같은 장소만 확보하고 정보 자원은 확보하지 않은 상태로, 재해 발생 시 정보 자원을 새로 반입한다. 빈칸 (A), (B), (C)를 채우시오. | A : 웜 사이트(Warm Site) B : 핫 사이트(Hot Site) C : 콜드 사이트(Cold Site) | source-derived from Information Security Tistory; user-provided source image cross-checked |
 | 8 | essay | 개인정보 안전성 확보조치 기준에 관한 설명이다. 빈칸 (A), (B), (C)를 채우시오. | A : 개인정보처리시스템 B : 비밀번호 C : 내부망 | source-derived from Information Security Tistory; answer block present |
 | 9 | short | 정보통신망 이용촉진 및 정보보호 등에 관한 법률 제25조에 따라 개인정보의 처리 위탁 시 공개해야 하는 사항 2가지를 쓰시오. | (1) 개인정보 처리 위탁을 받는 자 (2) 개인정보 처리 위탁을 하는 업무의 내용 | source-derived from Information Security Tistory; answer block present |
 | 10 | short | 위험 관리에 관한 설명이다. 빈칸 (A), (B), (C)를 채우시오. | A : 취약성(Vulnerability) B : 감소(위험 감소) C : 보유(위험 수용) | source-derived from Information Security Tistory; answer block present |

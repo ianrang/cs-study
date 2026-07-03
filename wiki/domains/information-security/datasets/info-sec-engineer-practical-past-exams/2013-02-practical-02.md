@@ -28,15 +28,15 @@ evergreen: false
 ## Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
-| 1 | short | 다음 설명의 빈칸 (가), (나), (다)를 채우시오. | 가 : Ingress 필터링 나 : Egress 필터링 다 : Blackhole 필터링(Null Routing) | source-derived from Information Security Tistory; answer block present |
+| 1 | short | 소스 IP가 정당한 범위인지 기준으로 트래픽을 허용하는 필터링 방식에서, 로컬 네트워크로 들어오는 트래픽 필터링, 로컬 네트워크에서 나가는 트래픽 필터링, 특정 IP 또는 대역을 가상 인터페이스로 보내 차단하는 기법의 빈칸 (가), (나), (다)를 채우시오. | 가 : Ingress 필터링 나 : Egress 필터링 다 : Blackhole 필터링(Null Routing) | source-derived from Information Security Tistory; answer block present |
 | 2 | essay | 위험 분석 방법론에 관한 설명이다. 빈칸 (A), (B), (C)를 채우시오. | A : 델파이법 B : 시나리오법 C : 순위결정법 | source-derived from Information Security Tistory; answer block present |
-| 3 | short | 다음에서 설명하는 공격의 명칭을 각각 쓰시오. | A : TFTP 공격 B : Anonymous FTP 공격 C : FTP Bounce Attack | source-derived from Information Security Tistory; answer block present |
+| 3 | short | UDP 69번 포트의 인증 없는 파일 전송 서비스를 악용하는 공격, 익명 FTP 접근 허용으로 발생하는 공격, FTP가 데이터 전송 목적지를 충분히 검사하지 않는 설계 문제를 이용해 제3의 시스템을 공격하는 기법의 명칭을 각각 쓰시오. | A : TFTP 공격 B : Anonymous FTP 공격 C : FTP Bounce Attack | source-derived from Information Security Tistory; answer block present |
 | 4 | short | 정보보호 정책에 관한 설명이다. 빈칸 (A), (B), (C), (D)를 채우시오. | A : 목적 B : 적용범위 C : 책임 D : 문서 | source-derived from Information Security Tistory; answer block present |
 | 5 | short | 다음 보안 취약점 점검 도구에 관한 설명이다. 빈칸 (A), (B)를 채우시오. | A : 무결성 B : Nessus | source-derived from Information Security Tistory; answer block present |
-| 6 | short | 다음에서 설명하는 보안 도구와 관련 파일에 관한 설명이다. 빈칸 (A), (B), (C)를 채우시오. | A : TCP Wrapper(tcpwrapper) B : hosts.deny C : hosts.allow | source-derived from Information Security Tistory; answer block present |
+| 6 | short | 유닉스 기반 방화벽 룰로 외부 TCP 연결로부터 네트워크 서비스를 보호하고 허용·거부 정책 파일로 통제하는 도구, 명시적 접근 거부 파일, 명시적 접근 허용 파일의 빈칸 (A), (B), (C)를 채우시오. | A : TCP Wrapper(tcpwrapper) B : hosts.deny C : hosts.allow | source-derived from Information Security Tistory; answer block present |
 | 7 | short | 정보보안의 3요소에 관한 설명이다. 빈칸 (A), (B), (C)를 채우시오. | A : 기밀성(Confidentiality) B : 무결성(Integrity) C : 가용성(Availability) | source-derived from Information Security Tistory; answer block present |
-| 8 | short | 다음에서 설명하는 공격의 명칭과 대응 방법에 관한 설명이다. 빈칸 (A), (B), (C)를 채우시오. | A : 스머프(Smurf) B : Directed Broadcast C : ICMP Echo Request | source-derived from Information Security Tistory; answer block present |
-| 9 | short | 다음에서 설명하는 스위치 환경의 스니핑 공격 기법의 명칭을 쓰시오. | Switch Jamming(스위치 재밍) 또는 MAC Flooding | source-derived from Information Security Tistory; answer block present |
+| 8 | short | 여러 호스트가 특정 대상에게 다량의 ICMP Echo Request를 보내게 하여 서비스 거부를 유발하는 공격, 라우터에서 차단해야 하는 브로드캐스트 패킷, 호스트가 IP Broadcast Address 수신 시 응답하지 않아야 하는 패킷의 빈칸 (A), (B), (C)를 채우시오. | A : 스머프(Smurf) B : Directed Broadcast C : ICMP Echo Request | source-derived from Information Security Tistory; answer block present |
+| 9 | short | 공격자가 위조 MAC 주소를 지속적으로 전송해 스위치 MAC 주소 테이블을 가득 채우고, 스위치가 허브처럼 트래픽을 브로드캐스트하게 만들어 스니핑하는 공격 기법의 명칭을 쓰시오. | Switch Jamming(스위치 재밍) 또는 MAC Flooding | source-derived from Information Security Tistory; answer block present |
 | 10 | essay | 위험 분석의 구성 요소에 관한 설명이다. 빈칸 (A), (B), (C)를 채우시오. | A : 자산(Asset) B : 위협(Threat) C : 취약성(Vulnerability) | source-derived from Information Security Tistory; answer block present |
 | 11 | essay | 소프트웨어 보안 취약점의 7가지 유형을 각각 명칭과 함께 간략히 설명하시오. | (1) 입력 데이터 검증 및 표현 : 입력값에 대한 검증 부재로 발생하는 취약점 (SQL 인젝션, XSS 등) (2) 보안 기능 : 인증, 접근 제어, 암호화 등 보안 기능의 부적절한 구현 (3) 시간 및 상태 : 병렬 시스템에서 자원의 상태를 잘못 관리하는 경우 (레이스 컨디션 등) (4) 에러 처리 : 에러 발생 시 민감한 정보를 외부에 노출하거나 예외 처리 미흡 (5) 코드 품질 : 메모리 누수, 버퍼 오버플로우 등 코드 구현상의 결함 (6) 캡슐화 : 내부 데이터와 함수를 적절히 은닉하지 않아 발생하는 취약점 (7) API 오용 : 의도된 사용 방법과 다르게 API를 사용하여 발생하는 취약점 | source-derived from Information Security Tistory; answer block present |
 | 12 | essay | 다음 Snort 룰을 분석하여 각 물음에 답하시오. | (1) GET Flooding (2) 대소문자를 구분하지 않고 패턴을 탐지한다. (3) 패킷 페이로드에 "GET / HTTP1." 문자열이 포함된 경우 탐지한다. (4) 목적지 IP 주소를 기준으로 1초 동안 10번째마다 alert 액션을 수행한다. | source-derived from Information Security Tistory; answer block present |

@@ -28,9 +28,9 @@ evergreen: false
 ## Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
-| 1 | short | 다음에서 설명하는 공격 기법의 명칭을 쓰시오. | Malvertising(멀버타이징) | source-derived from Information Security Tistory; answer block present |
+| 1 | short | 악성코드와 광고의 합성어로, 온라인 광고 네트워크를 이용해 정상 광고처럼 위장하고 사용자가 클릭하거나 광고가 로드될 때 악성코드를 전파하는 공격 기법의 명칭을 쓰시오. | Malvertising(멀버타이징) | source-derived from Information Security Tistory; answer block present |
 | 2 | short | IPSec에 관한 설명이다. 빈칸 (A), (B), (C)를 채우시오. | A : 네트워크 계층(3계층) B : AH(Authentication Header) C : ESP(Encapsulating Security Payload) | source-derived from Information Security Tistory; answer block present |
-| 3 | short | 다음에서 설명하는 HTTP 취약점 공격에서 사용되는 개행 문자 빈칸 (A), (B)를 채우시오. | A : CR(%0D) B : LF(%0A) | source-derived from Information Security Tistory; answer block present |
+| 3 | short | HTTP Request의 파라미터가 HTTP Response 응답 헤더로 다시 전달될 때, 파라미터 내에 개행문자 (A) 혹은 (B)가 존재하면 HTTP 응답이 여러 개로 분리될 수 있다. 이 취약점을 통해 응답 메시지에 악의적인 코드를 주입하여 XSS 및 캐시 훼손을 유발하는 공격이다. 빈칸 (A), (B)를 채우시오. | A : CR(%0D) B : LF(%0A) | source-derived from Information Security Tistory; user-provided source image cross-checked |
 | 4 | short | 데이터베이스 보안 위협에 관한 설명이다. 빈칸 (A), (B), (C)를 채우시오. | A : 집성(Aggregation) B : 추론(Inference) C : 데이터 디들링(Data Diddling) | source-derived from Information Security Tistory; answer block present |
 | 5 | short | logrotate 설정 파일의 각 옵션에 관한 설명이다. 빈칸 (A), (B), (C)를 채우시오. | A : weekly B : create C : compress | source-derived from Information Security Tistory; answer block present |
 | 6 | essay | 클라우드 서비스 유형 3가지를 명칭과 함께 서술하시오. | IaaS(Infrastructure as a Service) : 서버, 저장장치, 네트워크 등의 인프라 자원을 서비스 형태로 제공한다. PaaS(Platform as a Service) : 응용 프로그램 개발·배포·운영·관리 등을 위한 플랫폼 환경을 서비스 형태로 제공한다. SaaS(Software as a Service) : 응용 프로그램 소프트웨어를 서비스 형태로 제공한다. | source-derived from Information Security Tistory; answer block present |

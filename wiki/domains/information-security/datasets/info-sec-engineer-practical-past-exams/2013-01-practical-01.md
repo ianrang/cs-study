@@ -28,15 +28,15 @@ evergreen: false
 ## Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
-| 1 | short | 다음 설명의 빈칸 (A), (B), (C)를 채우시오. | A : 위험평가 B : 위험관리 C : 위험관리계획 | source-derived from Information Security Tistory; answer block present |
-| 2 | short | 다음 설명의 빈칸 (A), (B), (C)를 채우시오. | A : Polling B : Event Reporting C : syslog | source-derived from Information Security Tistory; answer block present |
+| 1 | short | 위협의 종류·영향·발생 가능성을 평가하는 과정, 그 결과로 비용 대비 통제 방안을 선택해 위협을 통제하는 과정, 선택한 통제의 목적·방안·적용 주체·시점·대상을 문서화한 계획의 빈칸 (A), (B), (C)를 채우시오. | A : 위험평가 B : 위험관리 C : 위험관리계획 | source-derived from Information Security Tistory; answer block present |
+| 2 | short | NMS 서버가 장비 상태와 통계를 주기적으로 수집하는 방식, 장비가 특정 이벤트를 실시간 전달하는 방식, 장비 이벤트 정보를 서버로 전송하는 방식의 빈칸 (A), (B), (C)를 채우시오. | A : Polling B : Event Reporting C : syslog | source-derived from Information Security Tistory; answer block present |
 | 3 | essay | 다음은 개인정보의 안전성 확보조치 기준에 따라 개인정보처리자가 수립·시행해야 하는 사항이다. 이와 같이 내부적으로 수립하고 시행해야 하는 계획의 명칭을 쓰시오. | 내부관리계획 | source-derived from Information Security Tistory; answer block present |
 | 4 | short | 유닉스(UNIX) 솔라리스(Solaris) 운영체제의 사용 로그 파일에 관한 설명이다. 빈칸 (A), (B), (C)를 채우시오. | A : lastlog B : sulog C : loginlog | source-derived from Information Security Tistory; answer block present |
-| 5 | short | 다음 설명의 빈칸 (A), (B), (C)를 채우시오. | A : 표준 B : 지침 C : 절차 | source-derived from Information Security Tistory; answer block present |
+| 5 | short | 정보보호 정책을 구현하기 위해 개발하는 문서 유형에 관한 빈칸 (A), (B), (C)를 채우시오. (A)와 (B)는 시스템 보안을 위한 기술·방법을 구체화하고, (C)는 필요한 기술과 파라미터 설정을 일관성 있게 기술한 강제사항이다. | A : 표준 B : 지침 C : 절차 | source-derived from Information Security Tistory; answer block present |
 | 6 | short | SIEM의 주요 기능에 관한 설명이다. 빈칸 (A), (B), (C), (D)를 채우시오. | A : 로그 수집 B : 로그 분류 C : 로그 변환 D : 로그 분석 | source-derived from Information Security Tistory; answer block present |
 | 7 | short | IDS의 종류에 관한 설명이다. 빈칸 (A), (B)를 채우시오. | A : 호스트(Host) B : 네트워크(Network) | source-derived from Information Security Tistory; answer block present |
 | 8 | short | 리눅스 시스템의 로그 파일에 관한 설명이다. 빈칸 (A), (B), (C)를 채우시오. | A : lastlog B : btmp C : xferlog | source-derived from Information Security Tistory; answer block present |
-| 9 | short | 다음 설명의 빈칸 (A), (B), (C)를 채우시오. | A : 개인정보처리자 B : 개인정보취급자 C : 개인정보처리시스템 | source-derived from Information Security Tistory; answer block present |
+| 9 | short | 업무 목적으로 개인정보파일을 운용하며 개인정보를 처리하는 주체, 그 지휘·감독을 받아 개인정보를 처리하는 사람, 개인정보 처리를 위해 체계적으로 구성한 데이터베이스 시스템의 빈칸 (A), (B), (C)를 채우시오. | A : 개인정보처리자 B : 개인정보취급자 C : 개인정보처리시스템 | source-derived from Information Security Tistory; answer block present |
 | 10 | short | 자산 관리 절차에 관한 설명이다. 빈칸 (A), (B)를 채우시오. | A : 자산목록 B : 자산분류(자산분석) | source-derived from Information Security Tistory; answer block present |
 | 11 | essay | 다음 파일 및 디렉토리의 권한 설정에 관한 설명을 각각 서술하시오. | /usr/bin/passwd : 소유자(owner) 권한이 r-s로 setuid가 설정되어 있으며, 기타 사용자(other) 권한이 r-x로 실행 권한이 있다. 따라서 모든 사용자가 passwd 명령을 실행할 때 소유자인 root 권한으로 수행된다. /usr/bin/mail : 그룹(group) 권한이 r-s로 setgid가 설정되어 있다. 해당 파일 실행 시 mail 그룹 권한으로 수행된다. /tmp : 퍼미션이 rwt로 sticky bit가 설정되어 있다. 해당 디렉토리에 생성된 파일은 누구든지 읽기·쓰기는 가능하지만, 삭제는 파일 소유자와 root만 가능하다. | source-derived from Information Security Tistory; answer block present |
 | 12 | essay | /etc/apache/conf 디렉토리 내에서 10일 이내에 내용이 변경된 파일을 검색하는 find 명령어를 한 줄로 작성하시오. | find /etc/apache/conf -type f -mtime -10 | source-derived from Information Security Tistory; answer block present |

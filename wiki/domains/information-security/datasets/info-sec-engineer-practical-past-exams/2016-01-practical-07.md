@@ -32,12 +32,12 @@ evergreen: false
 | 2 | essay | 익스플로잇과 관련된 용어에 관한 물음에 답하시오. | A : 쉘코드(Shellcode) B : 0x90 C : jmp esp | source-derived from Information Security Tistory; answer block present |
 | 3 | short | 윈도우 DNS 서버에서 DNS 설정 시 사용하는 두 가지 설정을 쓰시오. | A : Zone 설정 B : 리소스 레코드 설정 | source-derived from Information Security Tistory; answer block present |
 | 4 | short | 다음은 Snort 룰에서 패킷 페이로드의 10번째 바이트부터 2바이트 범위(10~12바이트)에서 FFFF 바이트를 탐지하는 룰이다. 빈칸 (A), (B), (C)를 채우시오. | A : content B : offset C : depth | source-derived from Information Security Tistory; answer block present |
-| 5 | short | 다음에서 설명하는 악성코드의 명칭을 각각 쓰시오. | A : 드롭퍼(Dropper) B : 인젝터(Injector) | source-derived from Information Security Tistory; answer block present |
+| 5 | short | 악성코드를 설치하는 프로그램과, 그 한 종류로 메모리에 상주하며 악성코드를 감염시키는 프로그램의 명칭을 각각 쓰시오. | A : 드롭퍼(Dropper) B : 인젝터(Injector) | source-derived from Information Security Tistory; answer block present |
 | 6 | short | 와이어샤크(Wireshark)에서 DNS 응답(Response) 패킷만 출력하는 필터 표현식을 쓰시오. | dns.flags.response == 1 또는 dns.response_to | source-derived from Information Security Tistory; answer block present |
-| 7 | short | 다음에서 설명하는 공격의 명칭을 쓰시오. | WebShell(웹쉘) | source-derived from Information Security Tistory; answer block present |
-| 8 | short | 다음에서 설명하는 APT 대응 방법론의 명칭을 쓰시오. | 사이버 킬 체인(Cyber Kill Chain) | source-derived from Information Security Tistory; answer block present |
+| 7 | short | 공격자가 원격에서 웹 서버 명령을 수행할 수 있는 스크립트 파일을 업로드해 관리자 권한 획득, 소스코드 열람, 파일 조작, 백도어 설치 등을 수행하는 공격의 명칭을 쓰시오. | WebShell(웹쉘) | source-derived from Information Security Tistory; answer block present |
+| 8 | short | APT 공격의 정찰·무기화·배달·취약점 공격·설치·명령 및 제어·표적 행동 단계를 분석해 취약한 절차에 선제 대응하는 록히드마틴사의 대응 방법론 명칭을 쓰시오. | 사이버 킬 체인(Cyber Kill Chain) | source-derived from Information Security Tistory; answer block present |
 | 9 | short | 통제 시점에 따른 분류에 관한 설명이다. 빈칸 (A), (B), (C)를 채우시오. | A : 예방 통제 B : 탐지 통제 C : 교정 통제(시정 통제) | source-derived from Information Security Tistory; answer block present |
-| 10 | short | 다음에서 설명하는 용어를 쓰시오. | 내부관리계획 | source-derived from Information Security Tistory; answer block present |
+| 10 | short | 개인정보의 안전한 취급을 위해 개인정보 보호 조직 구성, 개인정보취급자 교육, 개인정보 보호 조치 등을 규정하고 내부 의사결정 절차로 수립·시행하는 내부 기준의 명칭을 쓰시오. | 내부관리계획 | source-derived from Information Security Tistory; answer block present |
 | 11 | essay | 스머프(Smurf) 공격에 관한 물음에 답하시오. | (A) 공격자는 출발지 IP를 공격 대상 호스트의 IP로 위조한 ICMP Echo Request 패킷을 증폭 네트워크의 브로드캐스트 주소로 전송한다. 근처의 호스트들이 위조된 출발지 IP(공격 대상)로 다량의 ICMP Echo Reply를 전송하여 공격 대상에게 서비스 거부를 유발한다. (B) 라우터에서 외부 네트워크로부터 들어오는 IP Directed Broadcast 패킷을 차단한다. (no ip directed-broadcast) 호스트를 IP 브로드캐스트 주소로 전송된 ICMP Echo Request 패킷에 응답하지 않도록 설정한다. | source-derived from Information Security Tistory; answer block present |
 | 12 | essay | 위험 분석 관련 수치에 관한 물음에 답하시오. | (1) SLE(단일 손실 예상액) : 위협이 한 번 발생했을 때 예상되는 손실 금액이다. (2) SLE = AV(자산 가치) × EF(노출 계수) (3) ARO(Annual Rate of Occurrence, 연간 발생률) (4) ROI = ALE - X (보안 투자 비용 X는 ALE보다 작아야 투자 효과가 있다.) | source-derived from Information Security Tistory; answer block present |
 | 13 | short | 정보통신망 이용촉진 및 정보보호 등에 관한 법률에 따라 개인정보 유출 사실을 알았을 때 이용자에게 지체 없이 알려야 하는 사항 5가지를 쓰시오. | (1) 유출된 개인정보 항목 (2) 유출이 발생한 시점 (3) 이용자가 취할 수 있는 조치 (4) 정보통신서비스 제공자 등의 대응 조치 (5) 신고 접수를 할 수 있는 담당 부서 및 연락처 | source-derived from Information Security Tistory; answer block present |
