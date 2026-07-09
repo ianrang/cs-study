@@ -1,0 +1,151 @@
+---
+title: "정보보안기사 실기 출제기준 및 참고문서 카탈로그"
+tier: llm-synthesis
+page_type: dataset
+domain: information-security
+domain_confidence: high
+shared_scope: domain
+tags: [information-security, certification, exam-criteria, references]
+status: active
+date_created: 2026-07-03
+date_updated: 2026-07-09
+source_paths:
+  - "reference-source-index.md"
+  - "../00-management/document-architecture.md"
+  - "../index.md"
+  - "../03-classification/subject-type-matrix.md"
+  - "../03-classification/subject-type-classification-detail.md"
+  - "https://owasp.org/www-project-top-ten/"
+  - "https://owasp.org/www-project-mobile-top-10/"
+  - "https://nvd.nist.gov/vuln/"
+  - "https://cwe.mitre.org/top25/"
+  - "https://www.first.org/cvss/v4.0/"
+  - "https://attack.mitre.org/"
+  - "https://www.rfc-editor.org/rfc/rfc9111"
+  - "https://cwe.mitre.org/data/definitions/444.html"
+  - "https://csrc.nist.gov/glossary/term/data_loss_prevention"
+  - "https://csrc.nist.gov/glossary/term/security_orchestration_automation_and_response"
+  - "https://csrc.nist.gov/glossary/term/TEMPEST"
+  - "https://csrc.nist.gov/pubs/sp/800/83/r1/final"
+  - "https://csrc.nist.gov/pubs/sp/800/34/r1/final"
+  - "https://csrc.nist.gov/glossary/term/end_to_end_encryption"
+  - "https://www.gnu.org/software/acct/manual/accounting.html"
+  - "https://owasp.org/www-community/attacks/Credential_stuffing"
+  - "https://csrc.nist.gov/glossary/term/zero_day_attack"
+  - "https://csrc.nist.gov/pubs/sp/800/124/r2/final"
+  - "https://www.law.go.kr/법령/전자금융거래법"
+  - "https://www.law.go.kr/법령/정보통신망이용촉진및정보보호등에관한법률"
+  - "https://www.law.go.kr/법령/개인정보보호법"
+source_count: 26
+provenance: inferred
+summary: "정보보안기사 실기 출제기준과 기출 문항 연결 분석에 사용할 공식·준공식 참고문서 후보를 상태별로 정리한다."
+evergreen: false
+---
+
+# 정보보안기사 실기 출제기준 및 참고문서 카탈로그
+
+## 원칙
+- 이 문서는 `KCA가 실제 출제 시 특정 문서를 참고한다`고 단정하지 않는다.
+- 공개적으로 확인 가능한 것은 `공식 출제기준`, `법령·고시·공공 가이드 존재`, `기출 문항과 문서 주제의 연결성`이다.
+- 각 문서는 `확인됨`, `기출 명시/원문 확인 필요`, `후보`로 나눈다.
+- 기출과 연결할 때는 문항별로 `출제기준 항목`, `참고문서`, `연결 근거`, `확신도`를 별도 기록한다.
+
+## 1. 공식 출제 기준
+
+| 구분 | 문서/페이지 | 상태 | 확인 내용 | 연결할 기출 범위 |
+|---|---|---|---|---|
+| KCA 종목 페이지 | KCA 국가기술자격검정 `정보보안기사` 페이지 | 확인됨 | 필기 5과목, 실기 `정보보안 실무`, 필답형 3시간, 60점 이상, 출제기준 다운로드 제공 | 전체 회차의 최상위 기준 |
+| KCA 출제기준 PDF | `정보보안기사 실기 출제기준`, 적용기간 `2023.1.1. ~ 2026.12.31.` | 확인됨 | 실기 직무내용, 수행준거, 주요항목·세부항목·세세항목 제공 | 특히 2023~2026 시험 분석의 1차 기준 |
+
+### KCA 실기 수행준거
+
+| 번호 | 수행준거 | 분석 축 |
+|---:|---|---|
+| 1 | 보안정책 운영을 위해 운영체제별, 프로토콜별, 서비스별, 보안장비 및 네트워크 장비별 보안 특성을 파악하고 설정 및 점검 등을 수행할 수 있다. | 시스템/네트워크/서비스/장비 설정 문항 |
+| 2 | 운영체제, 서비스, 보안장비 및 네트워크 장비 등의 취약점 점검을 통해 원인파악, 보완 및 이력사항을 관리할 수 있다. | 취약점 점검, 보완, 이력관리 문항 |
+| 3 | 시스템 로그 및 패킷 로그를 분석하여 침입 원인을 파악하고 보완할 수 있다. | 로그 분석, 패킷 분석, 보안관제 문항 |
+| 4 | 조직의 정보자산을 식별하고 내·외부 위협요인을 분석·평가하여 적절한 정보보호대책 선정 및 이행계획을 수립할 수 있다. | 위험분석, 자산/위협/취약점, 관리체계, 법적 준거성 문항 |
+
+### KCA 실기 주요항목 구조
+
+| 주요항목 | 세부항목 | 대표 키워드 | 기출 연결 예시 |
+|---|---|---|---|
+| 시스템 및 네트워크 보안 특성 파악 | 운영체제별 보안특성 파악 | 운영체제, 인증, 접근통제, 보안업데이트, 로그파일 | 리눅스/윈도우 로그, 계정/권한, 패치, Heartbleed/OpenSSL |
+| 시스템 및 네트워크 보안 특성 파악 | 프로토콜별 보안특성 파악 | OSI, TCP/IP, IP, ARP, ICMP, Routing, TCP, UDP, SSL/TLS, IPSec, DoS/DDoS, 무선 | ARP Spoofing, DNS, NTP, IPSec/VPN, TCP SYN Flooding |
+| 시스템 및 네트워크 보안 특성 파악 | 서비스별 보안특성 파악 | FTP, 메일, 웹, DNS, DB, 전자서명, PKI | FTP/Telnet 전환, 메일 보안, DNS 보안, DB 암호화/마스킹 |
+| 시스템 및 네트워크 보안 특성 파악 | 보안장비 및 네트워크 장비별 보안특성 | SNMP, 스캐닝 도구, 라우터, VLAN, Firewall, IPS/IDS, WAF, VPN, NAT | Snort, IDS/IPS, 라우터 명령, SNMP 보안설정, WAF |
+| 취약점 점검 및 보완 | 운영체제 보안설정 점검과 보완 | 불필요 계정, 악성코드, 파일/폴더 권한, 이벤트 로그, 버전 노출, 원격접속, 패치관리 | chmod/chown/find, 로그 분석, 취약 버전 판단 |
+| 취약점 점검 및 보완 | 서비스 보안설정 점검과 보완 | 파일서버, FTP, 공유폴더, SMTP/POP/IMAP, WEB/WAS, DNS, DB | FTP 취약 설정, 메일 릴레이, 웹 취약점, DNS zone transfer, DB 접근통제 |
+| 취약점 점검 및 보완 | 네트워크 및 보안장비 설정 점검과 보완 | 네트워크 관리자 계정, Firewall, IDS/IPS, NAT, 무선, WAF, Anti-DDoS, Anti-APT | 방화벽 룰, IDS/Snort, NAT, DDoS 대응 |
+| 취약점 점검 및 보완 | 취약점 점검이력과 보완내용 관리 | 보안점검 내용, 방법, 도구, 발견 취약점, 보완사항 기록 | Nessus, Tripwire, 취약점 점검 결과 해석 |
+| 보안관제 및 대응 | 정보수집 및 모니터링 | FTP, 메일, WWW, DNS, DB 로그, Firewall, IDS, IPS, Switch, Router, AP 로그 | 로그/패킷 분석, 보안관제 솔루션 |
+| 보안관제 및 대응 | 로그분석 및 대응 | 통합 보안로그, 공격 시도, 침투 여부, 비정상 접근, 변경 여부 | 침입 원인 파악, 패킷/로그 기반 공격 식별 |
+| 위험분석 및 정보보호 대책 수립 | IT 자산 위협 분석 | 시스템/네트워크 구성도, 서버, 애플리케이션, DBMS, WEB/WAS, PC, 법적 준거성 | 위험관리, 개인정보/정보보호 법규, ISMS-P |
+| 위험분석 및 정보보호 대책 수립 | 정보자산 위협 및 취약점 분석 정리 | H/W, S/W, 기업정보, 고객정보, 위협, 취약점 | 개인정보 영향평가, 자산가치/위험도 산정 |
+| 위험분석 및 정보보호 대책 수립 | 위험평가 | 위험도 산정, 목표 위험수준, 초과 위험 식별 | 위험 수용/감소/전가/회피, 위험평가 단계 |
+
+## 2. 법령·고시·인증 기준
+
+| 문서 | 상태 | 담당/출처 성격 | 연결되는 기출 주제 | 비고 |
+|---|---|---|---|---|
+| 개인정보 보호법 | 공식 페이지 확인 | 법률 | 개인정보처리자, 개인정보취급자, CCTV, 가명정보/익명정보, 동의/처리 근거 | 국가법령정보센터 현행 법령 페이지 확인. 조문별 raw/source 저장은 미수행 |
+| 개인정보의 안전성 확보조치 기준 | 원문 패칭 완료 | 고시/안내서 | 접근권한 관리, 접속기록, 암호화, 접근통제, 개인정보처리시스템 | 1회, 23회 등에서 직접 주제 출현 |
+| 정보통신망 이용촉진 및 정보보호 등에 관한 법률 | 공식 페이지 확인 | 법률 | 정보통신망, 정보보호조치, 정보보호관리체계, 정보통신서비스 제공자 | 국가법령정보센터 현행 법령 페이지 확인. 조문별 raw/source 저장은 미수행 |
+| 전자금융거래법 | 공식 페이지 확인 | 법률 | 전자금융기반시설, 정보보호최고책임자, 금융 분야 정보보호 책임 | 국가법령정보센터 현행 법령 페이지 확인. 조문별 raw/source 저장은 미수행 |
+| 정보통신기반 보호법 | 확인 필요 | 법률 | 주요정보통신기반시설, 취약점 분석·평가, 보호대책 | 취약점 점검·기반시설 문항 후보 |
+| ISMS-P 인증기준 | 원문 패칭 완료 | 인증기준/고시/안내서 | 관리체계 수립 및 운영, 보호대책 요구사항, 개인정보 처리 단계별 요구사항 | 23회, 28회, 29회 등에서 반복 |
+
+## 3. 공공 가이드·안내서 후보
+
+| 문서 | 상태 | 연결 근거 | 우선순위 | 연결되는 기출 예시 |
+|---|---|---|---:|---|
+| 개인정보영향평가 수행 안내서 | 원문 패칭 완료 | 24회 복원 문항에 `개인정보보호위원회와 한국인터넷진흥원에서 발간한` 문구가 직접 등장 | 1 | 24회 #1 위험도 산정 공식 |
+| 개인정보의 안전성 확보조치 기준 해설서 | 후보 | 개인정보 안전성 확보조치 기준 문항의 해설 기준으로 활용 가능 | 1 | 1회 #3/#15, 23회 #17 |
+| 가명정보 처리 가이드라인 | 후보 | 가명처리/익명정보/가명정보 문항과 직접 연결 가능 | 2 | 17회 #11, 24회 #11 |
+| ISMS-P 인증기준 안내서/해설서 | 원문 패칭 완료 | ISMS-P 영역·통제항목 문항과 연결 가능 | 1 | 23회 #4, 28회 #11, 29회 #16 |
+| 주요정보통신기반시설 기술적 취약점 분석·평가 방법 상세가이드 | 원문 패칭 완료 | KCA 출제기준의 취약점 점검·보완, 운영체제/서비스/네트워크/보안장비 점검과 강하게 연결 | 1 | 서버/네트워크/DB/웹 취약점 점검, SNMP, FTP, DNS, NTP |
+| 소프트웨어 개발보안 가이드 / 시큐어코딩 가이드 | 원문 패칭 완료 | KISA 공식 첨부 확인, KCA 필기 출제기준에 Secure Coding, 실기 기출에 SQL Injection/XSS/파일 업로드/SSRF/Prepared Statement 반복 | 1 | 23회 #6/#13, 26회 #16, 27회 #17, 30회 #18 |
+| OWASP Top 10 Web Application Security Risks | 공식 페이지 확인 | OWASP 공식 Top Ten 페이지에서 2025 current release와 2021/2017 archive가 확인된다. 웹 취약점 유형과 연결 가능 | 2 | XXE, XSS, SQL Injection, SSRF, 파일 업로드, HTTP request smuggling |
+| OWASP Mobile Top 10 | 공식 페이지 확인 | OWASP Mobile Top 10 2024 final release가 확인된다. 모바일 앱 인증·통신·저장·binary protection 주제와 연결 가능 | 2 | Deep link, 인증서 고정, MDM/컨테이너화/모바일 가상화 |
+| CVE/NVD/CWE/CVSS/MITRE ATT&CK 자료 | 공식 페이지 확인 | NVD CVE detail, MITRE CWE Top 25, FIRST CVSS, MITRE ATT&CK 공식 페이지가 확인된다. 취약점 식별·심각도·weakness·위협모델 문항과 연결 가능 | 2 | Heartbleed, Log4j, CVSS, APT, zero-day |
+| IETF RFC 9111 HTTP Caching | 공식 페이지 확인 | RFC Editor의 Internet Standard 페이지에서 HTTP cache와 관련 header field 정의를 확인했다. | 2 | Cache-Control, HTTP 캐시 우회/원본 서버 부하 문항 |
+| NIST CSRC glossary / SP 문서군 | 공식 페이지 확인 | DLP, SOAR, TEMPEST, zero-day, end-to-end encryption glossary와 SP 800-83, SP 800-34, SP 800-124 Rev. 2 공식 페이지를 확인했다. | 2 | DLP, SOAR, TEMPEST, 악성코드 분석, DR site, 종단 간 암호화, MDM |
+| GNU Accounting Utilities Manual | 공식 페이지 확인 | GNU manual에서 process accounting과 `lastcomm` 명령의 역할을 확인했다. | 2 | Linux accounting, `lastcomm` |
+| OWASP Credential Stuffing | 공식 페이지 확인 | OWASP community attack page에서 credential stuffing 설명을 확인했다. | 2 | 유출 자격증명 악용 |
+| KISA 보안취약점 점검 체크리스트류 | 후보 | KISA 지식플랫폼에 분야별 보안취약점 점검 자료가 존재하며, 출제기준의 점검/보완 축과 연결 가능 | 2 | 취약점 점검 도구, 점검 결과 해석, 보완 방안 |
+
+## 3-1. 참고문서 패칭 정책
+
+| 등급 | 패칭 여부 | 기준 | 예시 |
+|---|---|---|---|
+| 필수 | 패칭 필요 | 기출에 문서명·법령명·고시명이 직접 등장하거나, KCA 실기 출제기준 세세항목과 직접 대응 | KCA 출제기준 PDF, 개인정보의 안전성 확보조치 기준, 개인정보영향평가 수행 안내서, ISMS-P 인증기준, 주요정보통신기반시설 취약점 분석·평가 기준/상세가이드, 소프트웨어 개발보안 가이드 |
+| 우선 후보 | 패칭 권장 | 최근 기출에 반복 등장하고 예상문제 근거로 쓸 수 있음 | OWASP Top 10 Web, OWASP Mobile Top 10, CWE Top 25, NVD CVE detail, FIRST CVSS, MITRE ATT&CK, NIST CSRC glossary/SP, IETF RFC, GNU accounting utilities |
+| 보류 | 즉시 패칭 불필요 | 범위가 넓거나 특정 회차 연결 근거가 아직 약함 | 일반 보안 백서, 벤더별 제품 매뉴얼, 최신 위협 동향 보고서 |
+
+패칭 산출물은 원문 전체 복사가 아니라 `공식 URL`, `발행기관`, `문서명`, `버전/시행일`, `핵심 목차`, `기출 연결 후보`, `최신성 확인일` 중심으로 관리한다. 저작권 있는 원문은 장문 복제하지 않고 링크·요약·문항 연결 근거만 기록한다.
+
+## 4. 문항 연결용 스키마
+
+향후 각 문항은 아래 필드를 추가해 연결한다.
+
+| 필드 | 의미 | 예시 |
+|---|---|---|
+| `round` | 회차 | 23회 |
+| `item_no` | 문항 번호 | 17 |
+| `exam_type` | 단답형/서술형/실무형 | 서술형/실무형 |
+| `subject` | 5개 과목 분류 | 정보보안 관리 및 법규 |
+| `criteria_major` | KCA 실기 주요항목 | 위험분석 및 정보보호 대책 수립 |
+| `criteria_detail` | KCA 실기 세부항목 | IT 자산 위협 분석하기 |
+| `criteria_micro` | KCA 실기 세세항목 | 정보보호 및 개인정보보호 관련 법적 준거성 위험 식별 |
+| `reference_doc` | 연결 참고문서 | 개인정보의 안전성 확보조치 기준 |
+| `reference_status` | 확인됨/기출 명시/후보 | 기출 명시/원문 확인 필요 |
+| `evidence` | 연결 근거 | 문항에 기준명 직접 등장 |
+| `confidence` | high/medium/low | high |
+| `needs_verification` | 추가 확인 필요 여부 | true |
+
+## 5. 현재 결론
+
+- 2023~2026 실기 분석의 1차 기준은 KCA `정보보안기사 실기 출제기준(2023.1.1. ~ 2026.12.31.)`이다.
+- 참고문서는 `KCA 공식 참고문헌`으로 단정하지 않고, `기출 문항과 연결 가능한 법령·고시·공공 가이드`로 관리한다.
+- OWASP Top 10 Web, OWASP Mobile Top 10, NVD CVE detail, CWE Top 25, FIRST CVSS, MITRE ATT&CK, IETF RFC 9111, NIST CSRC glossary/SP, GNU Accounting Utilities, OWASP Credential Stuffing, 국가법령정보센터 현행 법령 페이지는 공식 페이지가 확인됐으므로 medium confidence 문항의 보조 근거로 사용할 수 있다.
+- 다만 현재 작업에서는 원문 asset/raw source 저장을 수행하지 않았으므로 `reference-source-index.md`에서는 `official page confirmed` 상태로 유지한다.
