@@ -1,0 +1,234 @@
+---
+title: "정보보안기사 실기 2026년 2회 대비 학습 로드맵"
+tier: llm-synthesis
+page_type: dataset
+domain: information-security
+domain_confidence: high
+shared_scope: domain
+tags: [information-security, certification, study-strategy, roadmap]
+status: active
+date_created: 2026-07-03
+date_updated: 2026-07-06
+source_paths:
+  - "../05-analysis/frequency-analysis.md"
+  - "../05-analysis/recurrence-analysis.md"
+  - "../05-analysis/pattern-analysis.md"
+  - "../05-analysis/significance-review.md"
+  - "../05-analysis/session-slot-pattern-analysis.md"
+  - "../04-mapping/item-reference-map.md"
+  - "../03-classification/subject-type-matrix.md"
+  - "../08-prediction/predicted-practical-questions-2026-02.md"
+  - "/Users/ian/Downloads/정보보안기사+핵심전략+1.3.pdf-20260622004728.pdf"
+  - "/Users/ian/Downloads/정보기실기 AI 요약.pdf"
+  - "/Users/ian/Downloads/정보보안기사+실기+-+문제풀이+중심+(2023+대비)+Part.1+정보보호+일반,+보안과+암호,+접근통제.zip"
+  - "/Users/ian/Downloads/정보보안기사+실기+-+문제풀이+중심+(2023+대비)+Part.2+네트워크+보안.zip"
+  - "/Users/ian/Downloads/정보보안기사+실기+-+문제풀이+중심+(2023+대비)+Part.3+어플리케이션+보안.zip"
+  - "/Users/ian/Downloads/정보보안기사+실기+-+문제풀이+중심+(2023+대비)+Part.4+시스템+보안.zip"
+  - "/Users/ian/Downloads/정보보안기사+실기+-+문제풀이+중심+(2023+대비)+Part.5+정보보안+관리,+법률.zip"
+source_count: 15
+provenance: inferred
+summary: "정보보안기사 실기 2026년 2회차를 약 3주 남긴 상황에서 60점 이상 합격을 목표로, 기출 빈도·최근성·회차 슬롯·출제항목·핵심전략·AI요약·문제풀이 자료를 연결한 실행형 학습 로드맵."
+evergreen: false
+---
+
+# 정보보안기사 실기 2026년 2회 대비 학습 로드맵
+
+## 사용 원칙
+- 이 로드맵은 `기출 빈도 → 반복 개념 → 이해 순서 → 답안 작성 → 예상문제` 순서로 공부하기 위한 실행 문서다.
+- 암기 순서가 아니라 이해 순서로 배치한다. 관리/위험 원리로 시험의 큰 틀을 잡고, 시스템·네트워크·애플리케이션 실무 개념을 연결한 뒤, 법규와 답안 작성으로 닫는다.
+- 2026년 2회차는 2회 슬롯 보조 신호상 시스템 보안, 관리/법규, Linux/Unix 로그·명령, 웹 취약점, DNS/SNMP/VLAN을 조금 더 높게 본다.
+- 슬롯 패턴은 보조 가중치다. 결정적 예측 규칙으로 사용하지 않는다.
+- 공부량은 `전체 1~30회 495문항 비중`, `최근 23~30회 144문항 비중`, `반복 concept group`, `KCA 세부 출제항목`을 함께 반영한다.
+- 1~28회 thodi-lab/blog-source PDF 편집본은 대조했지만 KCA 공식 원문 문구는 미주장이므로, 문제 문구 암기가 아니라 개념·답안 키워드·설정/명령·판단근거 중심으로 학습한다.
+
+## 학습 자료 역할
+| 자료 | 역할 | 사용 방식 |
+|---|---|---|
+| `정보보안기사+핵심전략+1.3.pdf` | 킬러토픽, 최근 기출 분석, 답안 작성법 | 우선순위 판단과 서술형 답안 구조 확인 |
+| `정보기실기 AI 요약.pdf` | 과목별 개념 설명과 시험 포인트 | 개념을 처음 이해할 때 1차 교재로 사용 |
+| `Part.1 정보보호 일반, 보안과 암호, 접근통제` | 암호, 접근통제, 보안 일반 문제풀이 | 접근통제/암호/인증 개념 확인과 문제 적용 |
+| `Part.2 네트워크 보안` | 네트워크·프로토콜·공격·장비 문제풀이 | DNS/SNMP/VLAN/IPSec/DoS/스푸핑 문제 적용 |
+| `Part.3 어플리케이션 보안` | 웹, 메일, DB, SSL/TLS, DNS/IPSec 응용 문제풀이 | 웹 취약점과 서비스 설정형 문제 적용 |
+| `Part.4 시스템 보안` | OS, Linux/Unix, Windows, 로그, 권한, 취약점 문제풀이 | Linux/Unix 명령·파일·권한·로그 집중 훈련 |
+| `Part.5 정보보안 관리, 법률` | 위험관리, ISMS-P, 개인정보, 법규 문제풀이 | 관리/법규/개인정보 답안 키워드 고정 |
+| `predicted-practical-questions-2026-02.md` | 36문항 예상문제 | 3주차 실전 답안 작성과 오답 회수 |
+
+## 최종 우선순위
+| 우선순위 | 학습 축 | 근거 | 목표 |
+|---:|---|---|---|
+| P0 | 답안 작성 방식 | 실기 주관식 특성상 알고 있어도 못 쓰면 감점 | 모든 서술형 답안을 `무엇인가 → 왜 중요한가/문제인가 → 어떻게 적용·대응하는가`로 쓴다. |
+| P1 | 위험관리, 접근통제, 서비스 보안설정, Linux/Unix 로그·명령 | 반복성 very high/high, 최근성 high, 2회 슬롯 보조 신호 | 단답형 즉답 + 서술형 부분점수 확보 |
+| P2 | 웹 취약점, DNS/SNMP/VLAN, 개인정보/ISMS-P/법규, IDS/IPS/Snort | 최근 23~30회와 KCA 세부항목 연결 강함 | 공격명·판단근거·대응방안·설정값 연결 |
+| P3 | IPSec/TLS/암호통신, DB/데이터보호, 악성코드/APT/포렌식, 무선/모바일 | medium-high 또는 최근 확장 | 빈출 핵심과 medium confidence 항목을 보수적으로 확인 |
+| P4 | 저빈도 특수 표준·벤더 용어 | 직접 근거 부족 또는 변동성 있음 | 시험 전날 용어 수준으로만 점검 |
+
+## 학습량 배정
+| 과목/축 | 전체 1~30회 비중 | 최근 23~30회 비중 | 3주 학습량 | 이유 |
+|---|---:|---:|---:|---|
+| 정보보안 관리 및 법규 | 30.5% | 27.1% | 25% | 전체 최다 과목이고 위험관리·개인정보·ISMS-P가 단답/서술형 모두에 반복된다. |
+| 네트워크 보안 | 28.1% | 26.4% | 22% | 전체 2위 과목이며 DNS/SNMP/VLAN, IPSec, DoS/DRDoS, 장비 설정이 실무형으로 변형된다. |
+| 시스템 보안 | 14.1% | 21.5% | 22% | 최근 비중이 크게 상승했고 2026년 2회 슬롯 보조 신호에서도 Linux/Unix 로그·명령이 강하다. |
+| 어플리케이션 보안 | 18.2% | 18.8% | 20% | 웹 취약점, 웹서버 설정, DB/메일/쿠키/HTTP가 고득점 분기점이다. |
+| 정보보안 일반 | 9.1% | 6.3% | 6% | 암호·인증·접근통제의 기반 개념 중심으로 압축한다. |
+| 실전 답안/오답 회수 | - | - | 5% | 실기는 주관식이므로 마지막 1주에는 키워드를 문장으로 쓰는 훈련이 필요하다. |
+
+## 기출 패턴 기반 출제 항목
+| 출제 패턴 | 최근/반복 근거 | 반드시 공부할 항목 | 훈련 방식 |
+|---|---|---|---|
+| 서비스 보안설정 점검과 보완 | 최근 23~30회 KCA 세부항목 28건 | Apache/IIS, DNS zone transfer, SNMP, NTP, SMTP relay, DB 권한·감사, MySQL 보안설정 | 설정 파일/지시자/보안 의미를 함께 쓰기 |
+| 운영체제별 보안특성 파악 | 최근 23~30회 KCA 세부항목 22건 | Linux 계정·권한·로그, `/etc/passwd`, `/etc/shadow`, `/proc`, SUID/SGID/sticky, xinetd, iptables, Windows SAM/SID/NTLM | 파일명·명령어·로그 의미를 단답으로 즉시 쓰기 |
+| IT 자산 위협 분석 | 최근 23~30회 KCA 세부항목 18건 | 자산·위협·취약점, 위험분석, 개인정보 안전조치, 통제 선택, BCP/DRP | 상황에서 위험요소와 대응통제를 연결하기 |
+| 프로토콜별 보안특성 파악 | 최근 23~30회 KCA 세부항목 18건 | TCP/IP, ARP/ICMP, DNS, SNMP, VLAN, IPSec AH/ESP/IKE, SSL/TLS, 무선 보안 | 프로토콜 동작 → 공격 방식 → 대응 설정 순서로 설명하기 |
+| 위험평가 | 최근 23~30회 KCA 세부항목 12건, 전 회차 반복 concept | 정량/정성, 기준선/상세/복합, SLE/ALE/ARO, 위험수용/감소/전가/회피 | 공식/용어/사례형 답안을 모두 작성하기 |
+| 운영체제 보안설정 점검과 보완 | 최근 23~30회 KCA 세부항목 12건 | 패스워드 정책, 계정 잠금, 권한관리, 불필요 서비스 제거, 로그 보관, 파일 무결성 | 취약 설정과 보완 설정을 짝으로 암기하기 |
+| 보안장비 및 네트워크 장비별 보안특성 | 최근 23~30회 KCA 세부항목 9건 | IDS/IPS, Snort, HIDS/NIDS, SIEM/SOAR, 라우터 ACL, ingress/egress/uRPF | 룰/로그/탐지 기준을 보고 장비·대응을 식별하기 |
+| 정보수집 및 모니터링 | 최근 23~30회 KCA 세부항목 7건 | 로그분석, 취약점 스캐너, Tripwire, chkrootkit, Nessus/Nikto, rpm 무결성 | 도구명·목적·결과 해석을 같이 정리하기 |
+| 로그분석 및 대응 | 최근 23~30회 KCA 세부항목 5건 | `last`, `lastb`, `lastlog`, `lastcomm`, 웹 로그, Snort alert, 인증 실패 로그 | 로그 증거 → 공격/이상행위 → 조치 순서로 쓰기 |
+
+## 반복 개념군별 목표 학습량
+| 반복 개념군 | 전체/최근 신호 | 목표 학습량 | 완료 기준 |
+|---|---|---:|---|
+| 위험관리/위험평가 | 79건, 전 30회 등장, 최근 25건 | 12세트 | 정의형 4, 계산/비교형 4, 상황형 4를 직접 작성 |
+| 접근통제/권한관리 | 74건, 28개 회차, 최근 31건 | 10세트 | DAC/MAC/RBAC, PAM, 패스워드, 계정권한, IAM/EAM을 비교 작성 |
+| 개인정보/ISMS-P/법규 | 56건, 27개 회차, 최근 13건 | 8세트 | 안전성 확보조치, 유출통지, 위탁, CISO, ISMS-P를 상황형으로 작성 |
+| HTTP/웹서버 설정 | 55건, 28개 회차, 최근 16건 | 8세트 | Apache/IIS, HTTP method/header, 쿠키, robots.txt, CRLF 대응 작성 |
+| DNS/SNMP/VLAN/네트워크장비 | 54건, 26개 회차, 최근 17건 | 8세트 | DNS/SNMP/VLAN/ACL/uRPF를 단답+설정형으로 작성 |
+| IDS/IPS/Snort/관제 | 52건, 26개 회차, 최근 16건 | 7세트 | Snort 룰 10개 해석, IDS/IPS/HIDS/NIDS/FP/FN 비교 |
+| Linux/Unix 로그·명령 | 52건, 26개 회차, 최근 21건 | 9세트 | 로그파일·명령·권한·xinetd·iptables를 빈칸 없이 작성 |
+| 네트워크 공격/스캔 | 49건, 23개 회차, 최근 9건 | 6세트 | SYN/Smurf/DRDoS/ARP spoofing/scan/sniffing의 근거와 대응 작성 |
+| 웹 취약점/시큐어코딩 | 36건, 22개 회차, 최근 15건 | 7세트 | SQLi/XSS/SSRF/XXE/upload/PreparedStatement를 코드·대응과 연결 |
+| IPSec/VPN/암호통신 | 34건, 22개 회차, 최근 8건 | 5세트 | AH/ESP/IKE, 전송/터널, TLS 취약점, 인증서 관련 비교 |
+| 업무연속성/재해복구 | 26건, 16개 회차, 최근 5건 | 4세트 | BCP/DRP/RTO/RPO/핫·웜·콜드 사이트 비교 |
+| 악성코드/APT/포렌식 | 26건, 18개 회차, 최근 10건 | 5세트 | Kill Chain, 포렌식 원칙, 루트킷/웹쉘/제로데이 대응 작성 |
+| 데이터베이스/데이터보호 | 19건, 14개 회차, 최근 7건 | 4세트 | GRANT/REVOKE, 감사, 암호화, 마스킹, DLP 작성 |
+| 무선/모바일 | 12건, 11개 회차, 최근 5건 | 3세트 | WEP/WPA/WPA2, CSMA/CA, MDM/BYOD/deep link 용어 확인 |
+
+## 개념 연결 순서
+| 순서 | 먼저 이해할 개념 | 이어서 공부할 개념 | 이유 |
+|---:|---|---|---|
+| 1 | CIA, 식별·인증·인가·감사, 위험의 구성요소 | 위험관리, 접근통제, ISMS-P | 모든 관리/법규/접근통제 답안의 공통 언어다. |
+| 2 | 위험관리와 자산·위협·취약점 | BIA, BCP/DRP, 개인정보 안전조치 | 관리 문제는 위험을 줄이는 통제 선택 문제로 변형된다. |
+| 3 | 접근통제 DAC/MAC/RBAC | OS 계정·권한·PAM·패스워드 정책 | 접근통제 모델과 실제 시스템 권한 문제가 연결된다. |
+| 4 | Linux/Unix 계정·파일·로그 | xinetd, iptables, 취약 서비스, 침해사고 로그 | 최근 시스템 보안 상승과 2회 슬롯 보조 신호를 반영한다. |
+| 5 | OSI/TCP/IP/포트/ARP/ICMP | DNS, SNMP, VLAN, IPSec, DoS/DRDoS | 네트워크 공격·장비 설정·프로토콜 보안을 한 흐름으로 묶는다. |
+| 6 | HTTP 요청/응답, 쿠키, 웹서버 설정 | SQLi, XSS, SSRF, XXE, 파일 업로드, CRLF | 웹 취약점은 HTTP/서버 설정을 모르면 답안이 얕아진다. |
+| 7 | DB 권한·감사·암호화 | 개인정보 암호화, DLP, 마스킹 | 데이터보호와 개인정보 안전조치가 함께 출제된다. |
+| 8 | IDS/IPS, Snort, 로그분석 | APT/Kill Chain, 포렌식, 주요 CVE | 탐지·분석·대응형 서술 문제를 준비한다. |
+| 9 | 법규 숫자·주체·의무 | 위탁, 유출 통지, CISO, ISMS-P | 시험 직전에는 이해보다 정확한 키워드와 기간 암기가 중요하다. |
+
+## P0. 답안 작성 방식
+모든 서술형 답안은 하나의 3단 템플릿으로 통일한다.
+
+| 단계 | 질문 | 답안에 넣을 내용 | 의미 |
+|---:|---|---|---|
+| 1 | 무엇인가? | 개념명, 정의, 구성요소, 식별 키워드 | 채점자가 답의 주제를 바로 확인하게 한다. |
+| 2 | 왜 중요한가/문제인가? | 목적, 위험, 영향, 판단근거, 보안상 이유 | 단순 암기가 아니라 문제 상황을 이해했음을 보인다. |
+| 3 | 어떻게 적용·대응하는가? | 설정값, 명령어, 통제, 대응방안, 절차, 효과 | 실기 답안의 부분점수와 완전성을 확보한다. |
+
+기본 문장 구조는 다음과 같다.
+
+`[무엇인가]는 ...이다. [왜] ... 때문에 중요하거나 문제가 된다. 따라서 [어떻게] ...로 설정/통제/대응한다.`
+
+| 문제 유형 | 3단 템플릿 적용 예 |
+|---|---|
+| 개념 설명 | `개념명/정의 → 목적/보안상 의미 → 대표 구성요소 또는 적용 예` |
+| 공격 분석 | `공격명/식별근거 → 영향/위험 → 대응방안 2~3개` |
+| 설정/명령 | `파일/명령/지시자 → 보안상 이유 → 권장 설정/조치` |
+| 법규/관리 | `적용 주체/요구사항 → 위험 또는 의무 → 기록/보관/통지/점검 조치` |
+| 계산/비교 | `공식/비교대상 → 차이 또는 산정 이유 → 결론/적용 상황` |
+
+## P1. 최우선 학습 축
+| 축 | 같이 공부할 개념 | 반드시 쓸 수 있어야 하는 답안 키워드 | 자료 |
+|---|---|---|---|
+| 위험관리/위험평가 | CIA, 자산·위협·취약점, BIA, BCP/DRP, ISMS-P 위험처리 | 위험수용/감소/전가/회피, 기준선/상세/복합, 정성/정량, SLE/ALE/ARO, RTO/RPO | AI요약 S17, Part.5 328~381, 핵심전략 KT #10 |
+| 접근통제/권한관리 | 인증 5유형, MFA, PAM, 패스워드 정책, 최소권한, 개인정보 접근권한 | DAC/MAC/RBAC, BLP/Biba, auth/account/password/session, 계정 잠금, 권한 부여·변경·말소 | AI요약 S01/S02/S17/S18, Part.1, Part.4, Part.5 |
+| 서비스 보안설정 | Apache/IIS, DNS zone transfer, SNMP, NTP, SMTP relay, DB 감사, MySQL 설정 | `Options -Indexes`, `TraceEnable Off`, `allow-transfer`, SNMPv3/ACL/RO, PreparedStatement, audit log 외부 보관 | AI요약 S07/S09/S10/S11, Part.2/3 |
+| Linux/Unix 로그·명령 | `/etc/passwd`, `/etc/shadow`, 로그 파일, 특수권한, cron, xinetd, iptables | `utmp/wtmp/btmp/lastlog`, `lastb`, `lastcomm`, `find -perm`, SUID/SGID/sticky, `only_from/no_access/disable` | AI요약 S01/S02/S13/S14, Part.4 |
+
+## P2. 고득점 분기 학습 축
+| 축 | 같이 공부할 개념 | 반드시 쓸 수 있어야 하는 답안 키워드 | 자료 |
+|---|---|---|---|
+| 웹 취약점/시큐어코딩 | HTTP, 쿠키 속성, 웹서버 설정, DB 권한, 입력검증 | SQL Injection, PreparedStatement, XSS 3종, CSRF, SSRF, XXE, 파일 업로드, CRLF/Response Splitting | AI요약 S08/S09/S11, Part.3 |
+| DNS/SNMP/VLAN/네트워크장비 | OSI/TCP/IP, ARP/ICMP, 포트, 라우터 ACL, IP spoofing | DNS Spoofing/Cache Poisoning/Zone Transfer/DRDoS, SNMP 161/162/v3, VLAN 포트/MAC/프로토콜, Ingress/Egress/uRPF | AI요약 S04/S06/S07, Part.2 |
+| 개인정보/ISMS-P/법규 | 위험관리, 접근통제, 암호화, 접속기록, 위탁, 유출통지 | 안전성 확보조치, 내부관리계획, 접근권한, 접속기록, 암호화, 개인정보 유출 통지·신고, ISMS-P PDCA | AI요약 S18, Part.5, 핵심전략 KT #11/#12 |
+| IDS/IPS/Snort/관제 | 네트워크 공격, 로그분석, 오탐/미탐, HIDS/NIDS | Snort header/options/content/sid/rev, threshold, FP/FN, IDS vs IPS, HIDS vs NIDS, SIEM/SOAR/ESM | AI요약 S13/S14/S15/S16, Part.2/4 |
+
+## P3. 보강 학습 축
+| 축 | 같이 공부할 개념 | 범위 | 자료 |
+|---|---|---|---|
+| IPSec/TLS/암호통신 | 암호 기본, 네트워크 계층, VPN, SSL/TLS 취약점 | AH/ESP/IKE, transport/tunnel, ESP 보호범위, TLS handshake, HeartBleed/POODLE/FREAK/LogJam/DROWN | AI요약 S05/S16, Part.2/3 |
+| DB/데이터보호 | SQLi, 개인정보 암호화, DLP, 마스킹 | DDL/DML/DCL/TCL, GRANT/REVOKE, API/Plug-in/TDE, DB 감사, DLP, 마스킹 방식명은 medium 주의 | AI요약 S11/S12/S18, Part.3/5 |
+| 악성코드/APT/포렌식 | IDS/IPS, 로그, 네트워크 공격, 취약점 | Kill Chain, MITRE ATT&CK, 포렌식 5원칙, 휘발성/비휘발성 수집, 루트킷, 웹쉘 | AI요약 S14/S15/S16/S17, Part.2/4 |
+| 무선/모바일 | 네트워크 기본, 인증/암호, 앱 보안 | WEP/WPA/WPA2, CSMA/CA, MDM/MAM/MCM/EMM, BYOD, deep link | AI요약 S07/S12, Part.2 |
+
+## 3주 실행 계획
+| 기간 | 목표 | 매일 산출물 | 사용 자료 |
+|---|---|---|---|
+| D-21~D-18 | P0+P1 관리/접근통제 기반 완성 | 위험관리 12세트 중 5세트, 접근통제 10세트 중 4세트, PAM/패스워드 정책 암기표 | AI요약 S01/S02/S17, Part.1/4/5, 핵심전략 KT #1/#10 |
+| D-17~D-14 | P1 시스템·서비스 설정 완성 | Linux 로그·명령 9세트 중 5세트, 서비스 설정 6세트, xinetd/iptables/Apache/DNS/SNMP 설정표 | AI요약 S01/S02/S06/S07/S09/S13, Part.2/3/4 |
+| D-13~D-10 | P2 웹·네트워크·개인정보 연결 | 웹 취약점 7세트 중 4세트, DNS/SNMP/VLAN 8세트 중 4세트, 개인정보/ISMS-P 8세트 중 4세트 | AI요약 S04/S07/S08/S09/S18, Part.2/3/5 |
+| D-9~D-7 | P2 관제/Snort + P3 암호통신/DB/포렌식 | Snort 룰 해석 10개, 관제 7세트 중 4세트, IPSec/TLS 5세트, DB/포렌식 각 2세트 | AI요약 S05/S11/S13/S14/S15/S16, Part.3/4 |
+| D-6~D-4 | 최근 기출 23~30회 회전 | 최근 8개 회차 전체 풀이, 회차별 오답표, 틀린 개념을 반복 개념군 표에 재배치 | 회차 파일, `subject-type-matrix.md`, `item-reference-map.md` |
+| D-3~D-2 | 예상문제 36문항 실전 작성 | 제한시간 답안 2회전, 채점 키워드 누락표, P1/P2 미달 세트 보충 | `predicted-practical-questions-2026-02.md`, `prediction-validation-report.md` |
+| D-1 | 암기 고정 | P1/P2 키워드만 재작성, medium 4개 용어 확인 | 본 문서의 체크리스트, `significance-review.md` |
+
+## 일일 학습 루틴
+| 블록 | 시간 | 수행 | 완료 기준 |
+|---|---:|---|---|
+| 개념 이해 | 70분 | AI요약 해당 섹션을 읽고 구조를 손으로 정리 | `무엇인가 → 왜 중요한가/문제인가 → 어떻게 적용·대응하는가` 3줄 작성 |
+| 문제 적용 | 100분 | Part.1~5 또는 회차 파일 문제 풀이 | 단답 20개 이상 또는 서술/실무형 4개 이상 직접 작성 |
+| 답안 작성 | 50분 | 서술형/실무형 3~5개를 문장으로 작성 | `무엇/왜/어떻게` 중 빠진 항목 표시 |
+| 암기 고정 | 40분 | 파일명·명령어·기간·숫자·약어를 쓰기 | 틀린 항목은 다음 날 첫 블록으로 이동 |
+| 오답 회수 | 30분 | 오답을 반복 개념군 표와 P1/P2/P3 축에 다시 배치 | 오답 원인을 `개념부족/키워드누락/문장화실패/자료미대조`로 분류 |
+
+## 유형별 훈련량
+| 유형 | 기출 비중 | 3주 목표량 | 채점 관점 |
+|---|---:|---:|---|
+| 단답형 | 61.8% | 매일 20~30개, 총 400개 이상 | 정확한 용어, 약어, 파일명, 명령어, 설정 지시자 |
+| 서술형/실무형 | 38.2% | 매일 3~5개, 총 70개 이상 | 판단근거, 영향, 대응방안, 설정값, 법적 요구사항 |
+| 로그/설정 해석형 | 최근 시스템·서비스 설정 상승 | 총 35개 이상 | 증거 식별 → 원인/공격명 → 조치 |
+| 법규/관리 상황형 | 관리/법규 전체 최다 | 총 25개 이상 | 주체, 의무, 기록/보관, 접근권한, 통지/신고 |
+| 예상문제 실전형 | 3주차 집중 | 36문항 2회전 | 시간 내 답안 작성과 누락 키워드 회수 |
+
+## 과목별 학습 순서
+| 순서 | 과목/유형 | 공부 순서 | 이유 |
+|---:|---|---|---|
+| 1 | 정보보안 일반/관리 | CIA → 접근통제 → 위험관리 → BCP/DRP → ISMS-P | 모든 과목의 판단 언어를 만든다. |
+| 2 | 시스템 보안 | 계정/인증 → 파일/권한 → 로그 → 서비스 제어 → 취약점/침해사고 | 최근 시스템 비중 상승과 2회 슬롯 신호를 반영한다. |
+| 3 | 네트워크 보안 | OSI/TCP/IP → 포트/ARP/ICMP → DNS/SNMP/VLAN → DoS/DRDoS → IPSec/TLS | 프로토콜 원리를 알아야 공격·설정형 답안이 가능하다. |
+| 4 | 애플리케이션 보안 | HTTP/웹서버 → 웹 취약점 → 메일 → DB → 클라우드/모바일 | 웹/DB/서비스 설정이 서로 연결되어 출제된다. |
+| 5 | 침해사고/관제 | IDS/IPS/Snort → 로그/도구 → APT/포렌식 → 주요 CVE | 실무형 문제의 판단근거와 대응방안을 만든다. |
+| 6 | 법규 | 개인정보 처리 단계 → 안전성 확보조치 → 유출 통지 → 위탁/CISO/ISMS-P | 숫자와 주체는 마지막에 반복해야 정확도가 오른다. |
+
+## 자료별 사용 지시
+| 자료 | 먼저 볼 부분 | 그 다음 할 일 |
+|---|---|---|
+| 핵심전략 PDF | 킬러토픽 12개, 답안 작성법, 최근 5년 기출 분석 | 본 문서 P1/P2/P3 중 해당 축에 표시 |
+| AI요약 PDF | S01~S18 중 현재 학습 축 | 각 섹션의 시험 포인트를 암기표로 변환 |
+| Part.1 | 정보보호 일반, 암호, 접근통제 문제 | 접근통제/암호/인증 문제를 직접 서술 |
+| Part.2 | 네트워크 보안 43~143번 | DNS/SNMP/VLAN/DoS/스푸핑/IPSec 문제 적용 |
+| Part.3 | 애플리케이션 보안 144~210번 | 웹/메일/DB/SSL/IPSec/DNS 응용 문제 적용 |
+| Part.4 | 시스템 보안 211~327번 | 로그·명령·권한·버퍼오버플로우·Snort 문제 적용 |
+| Part.5 | 관리 328~381번, 법률 382~423번 | 위험관리·ISMS-P·개인정보 법규 답안 작성 |
+
+## 최소 합격 체크리스트
+- 위험관리: 자산·위협·취약점, 위험분석 접근법, 위험처리 4전략, SLE/ALE/ARO, BIA/RTO/RPO를 설명할 수 있다.
+- 접근통제: DAC/MAC/RBAC, BLP/Biba, 인증 5유형, PAM 4모듈, 최소권한을 구분할 수 있다.
+- 시스템: `/etc/passwd`, `/etc/shadow`, `utmp/wtmp/btmp/lastlog`, SUID/SGID/sticky, cron, xinetd, iptables를 쓸 수 있다.
+- 네트워크: OSI/TCP/IP, DNS/SNMP/VLAN, ARP spoofing, SYN/Smurf/DRDoS, IPSec AH/ESP/IKE를 연결해 설명할 수 있다.
+- 웹/애플리케이션: SQL Injection, PreparedStatement, XSS 3종, SSRF, XXE, 파일 업로드, CRLF, Apache 설정을 쓸 수 있다.
+- 개인정보/법규: 안전성 확보조치, 접근권한 관리, 접속기록, 암호화, 유출 통지·신고, 위탁, ISMS-P를 상황별로 쓸 수 있다.
+- 관제/포렌식: IDS/IPS, HIDS/NIDS, Snort 룰 구조, FP/FN, SIEM/SOAR, 포렌식 5원칙, Kill Chain을 쓸 수 있다.
+
+## 시험 전날 확인만 할 항목
+| 항목 | 이유 |
+|---|---|
+| Cyber Kill Chain | `R28-Q6` medium confidence이므로 개념명·단계·탐지/대응 관점만 확인 |
+| DB 마스킹 방식명 | `R30-Q11` 직접 원천 보강 전까지 용어 과신 금지 |
+| EAM/IAM 비교 | 벤더 용어 차이가 있어 접근권한 관리 관점으로 보수 해석 |
+| 무선랜 세부 표준 | `R24-Q4`는 프로토콜 보안특성과 연결되지만 세부 표준 직접 원천 보강 대상 |
+
+## 오답표 형식
+| date | source | question | missed concept | missed keyword | fix |
+|---|---|---|---|---|---|
+| YYYY-MM-DD | Part/round/predicted | 문항 번호 | P1/P2/P3 축 | 빠진 답안 키워드 | 다음 복습 위치 |
