@@ -10,8 +10,11 @@ status: active
 date_created: 2026-07-12
 date_updated: 2026-07-12
 source_paths:
-  - wiki/domains/information-security/drafts/study/2장 정리.md
-source_count: 1
+  - raw/assets/information-security-exam-references/kca-info-security-engineer-criteria-2023-2026.pdf
+  - cs/information-security/02.network-security/01.network-fundamentals.md
+  - cs/information-security/02.network-security/02.network-protocols-and-addressing.md
+  - cs/information-security/02.network-security/08.security-solutions-and-monitoring.md
+source_count: 4
 provenance: inferred
 summary: "라우팅·주소 변환·접근통제·부하분산·침입 탐지·차단을 서로 다른 논리 기능으로 구분하고, 통합·분리 장비 구성에서 패킷이 처리되는 흐름을 설명한다."
 evergreen: false
