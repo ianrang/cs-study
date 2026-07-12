@@ -27,6 +27,7 @@ import json
 import re
 import subprocess
 import sys
+from datetime import date
 from pathlib import Path
 from typing import Iterator
 
@@ -46,6 +47,11 @@ WIKI_SYSTEM_PAGES = {
     WIKI_DIR / "index.md",
     WIKI_DIR / "log.md",
 }
+VERIFIED_EVIDENCE_ROOTS = (
+    REPO_ROOT / "raw" / "sources" / "papers",
+    REPO_ROOT / "raw" / "sources" / "web",
+    REPO_ROOT / "raw" / "sources" / "urls",
+)
 
 # ADR-0001 (2026-06-04): 페이지 본문 model_id/자기추론 grep 규칙 폐기.
 # 모델명은 taxonomy.md 가 wiki entity vocab 으로 요구(예: gpt-5, claude-opus-4-7)하므로
@@ -73,9 +79,7 @@ CLAIM_TABLE_COLUMNS = ["id", "primary", "claim", "status", "evidence", "notes"]
 CLAIM_STATUSES = ("claimed", "corroborated", "verified", "rejected")
 CLAIM_STATUS_SET = set(CLAIM_STATUSES)
 ROLLUP_RANK = {"claimed": 0, "corroborated": 1, "verified": 2}
-REPO_RELATIVE_LINK_ROOTS = {
-    "wiki", "raw", "_meta", "docs", "cs", "development", "coding-test", "lang", "tools",
-}
+PAGE_TYPES = {"concept", "entity", "comparison", "benchmark", "dataset", "method"}
 
 
 class Finding:
@@ -145,24 +149,37 @@ def strip_fenced_code_blocks(text: str) -> str:
 
 
 def resolve_obsidian_link(path: Path, link: str) -> Path:
-    clean = link.strip()
+    clean = link.strip().split("#", 1)[0]
+    if not clean:
+        return path.resolve()
     if clean.startswith("/"):
         return (REPO_ROOT / clean.lstrip("/")).resolve()
-    first_segment = clean.split("/", 1)[0]
-    if first_segment in REPO_RELATIVE_LINK_ROOTS:
-        return (REPO_ROOT / clean).resolve()
+    root_candidate = (REPO_ROOT / clean).resolve()
+    if link_exists(root_candidate):
+        return root_candidate
     return (path.parent / clean).resolve()
 
 
 def link_exists(target: Path) -> bool:
-    if target.exists():
+    if target.is_file():
         return True
+    if target.is_dir():
+        return (target / "index.md").is_file() or (target / "overview.md").is_file()
     if target.suffix:
         return False
     md_target = target.with_suffix(".md")
     if md_target.exists():
         return True
     return (target / "index.md").exists() or (target / "overview.md").exists()
+
+
+def is_curated_verified_evidence(evidence: str) -> bool:
+    if not isinstance(evidence, str) or not evidence:
+        return False
+    target = (REPO_ROOT / evidence).resolve()
+    return (target.is_file()
+            and target.suffix == ".md"
+            and any(is_relative_to(target, root) for root in VERIFIED_EVIDENCE_ROOTS))
 
 
 def split_pipe_row(line: str) -> list[str]:
@@ -259,7 +276,7 @@ def check_axis_1_accuracy(path: Path, text: str, fm: dict | None) -> list[Findin
 def check_axis_5_integrity_broken_links(path: Path, text: str) -> list[Finding]:
     """축 5 정합성 — broken link 검출."""
     findings = []
-    if is_wiki_template(path) or is_wiki_system_page(path):
+    if is_wiki_template(path):
         return findings
     text = strip_fenced_code_blocks(text)
     # markdown link [text](path) 와 wikilink [[path]] 모두 검사
@@ -286,11 +303,55 @@ def check_wiki_required_fields(path: Path, fm: dict | None) -> list[Finding]:
     if missing:
         findings.append(Finding("HIGH", "frontmatter", path, 1,
                                 f"wiki 필수 필드 누락: {', '.join(missing)}"))
+    enum_fields = {
+        "tier": {"llm-synthesis"},
+        "page_type": PAGE_TYPES,
+        "domain_confidence": {"high", "medium", "low"},
+        "shared_scope": {"domain", "global"},
+        "status": {"draft", "active", "staged", "archived"},
+        "provenance": {"extracted", "inferred", "ambiguous"},
+    }
+    for field, allowed in enum_fields.items():
+        if field in fm and fm.get(field) not in allowed:
+            findings.append(Finding("HIGH", "frontmatter", path, 1,
+                                    f"{field} invalid: {fm.get(field)}"))
+    for field in ("title", "summary"):
+        if field in fm and (not isinstance(fm.get(field), str) or not fm.get(field).strip()):
+            findings.append(Finding("HIGH", "frontmatter", path, 1,
+                                    f"{field} 형식 오류: 비어 있지 않은 문자열 필요"))
+    for field in ("date_created", "date_updated"):
+        value = fm.get(field)
+        valid_date = isinstance(value, date)
+        if isinstance(value, str):
+            try:
+                date.fromisoformat(value)
+                valid_date = True
+            except ValueError:
+                valid_date = False
+        if field in fm and not valid_date:
+            findings.append(Finding("HIGH", "frontmatter", path, 1,
+                                    f"{field} 형식 오류: ISO 8601 date 필요"))
+    if "domain" in fm and (not isinstance(fm.get("domain"), str)
+                           or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", fm.get("domain", ""))):
+        findings.append(Finding("HIGH", "frontmatter", path, 1, "domain 형식 오류"))
+    if "tags" in fm and (not isinstance(fm.get("tags"), list)
+                         or not all(isinstance(tag, str) for tag in fm.get("tags", []))):
+        findings.append(Finding("HIGH", "frontmatter", path, 1, "tags 형식 오류: 문자열 배열 필요"))
     source_paths = fm.get("source_paths")
     source_count = fm.get("source_count")
-    if isinstance(source_paths, list) and source_count is not None and source_count != len(source_paths):
+    if "source_paths" in fm and (not isinstance(source_paths, list)
+                                 or not source_paths
+                                 or not all(isinstance(source, str) and source.strip() for source in source_paths)):
+        findings.append(Finding("HIGH", "frontmatter", path, 1,
+                                "source_paths 형식 오류: 비어 있지 않은 문자열 배열 필요"))
+    if "source_count" in fm and (type(source_count) is not int or source_count < 0):
+        findings.append(Finding("HIGH", "frontmatter", path, 1,
+                                "source_count 형식 오류: 비음수 정수 필요"))
+    elif isinstance(source_paths, list) and source_count is not None and source_count != len(source_paths):
         findings.append(Finding("HIGH", "frontmatter", path, 1,
                                 f"source_count 불일치: {source_count} != {len(source_paths)}"))
+    if "evergreen" in fm and type(fm.get("evergreen")) is not bool:
+        findings.append(Finding("HIGH", "frontmatter", path, 1, "evergreen 형식 오류: boolean 필요"))
     return findings
 
 
@@ -322,15 +383,26 @@ def check_claim_table(path: Path, text: str, fm: dict | None) -> list[Finding]:
             findings.append(Finding("HIGH", "frontmatter", path, None, f"empty claim text: {claim_id}"))
         if not row["evidence"]:
             findings.append(Finding("HIGH", "frontmatter", path, None, f"empty claim evidence: {claim_id}"))
+        if row["status"] == "verified":
+            if re.fullmatch(r"raw/sources/video/[A-Za-z0-9_-]+\.md", row["evidence"]):
+                findings.append(Finding("HIGH", "frontmatter", path, None,
+                                        f"영상 단독 evidence로 verified 금지: {claim_id}"))
+            elif not is_curated_verified_evidence(row["evidence"]):
+                findings.append(Finding("HIGH", "frontmatter", path, None,
+                                        f"verified evidence 부재 또는 허용 경로 이탈: {claim_id}"))
 
     if findings:
         return findings
 
     rollup, counts = calculate_claim_rollup(rows)
-    if fm and fm.get("verification_status") is not None and fm.get("verification_status") != rollup:
+    if not fm or fm.get("verification_status") is None:
+        findings.append(Finding("HIGH", "frontmatter", path, 1, "verification_status 누락"))
+    elif fm.get("verification_status") != rollup:
         findings.append(Finding("HIGH", "frontmatter", path, 1,
                                 f"verification_status 불일치: {fm.get('verification_status')} != {rollup}"))
-    if fm and fm.get("claim_status_counts") is not None:
+    if not fm or fm.get("claim_status_counts") is None:
+        findings.append(Finding("HIGH", "frontmatter", path, 1, "claim_status_counts 누락"))
+    else:
         raw_counts = fm.get("claim_status_counts")
         if not isinstance(raw_counts, dict):
             findings.append(Finding("HIGH", "frontmatter", path, 1,

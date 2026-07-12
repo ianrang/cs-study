@@ -178,7 +178,7 @@ claim_status_counts:
 - `verification_status` 는 검색, 필터링, review queue 용 파생값이다.
 - `claim_status_counts` 는 claim table 에서 계산한 통계다.
 - claim table 과 frontmatter roll-up 이 불일치하면 validator 가 reject 한다.
-- 영상 하나만 근거인 claim 은 `verified` 가 될 수 없다.
+- 영상 하나만 근거인 claim 은 `verified` 가 될 수 없다. 자동 검증에서 `verified` evidence는 검토·보존된 `raw/sources/{papers,web,urls}/...md` 경로만 허용하며 외부 URL은 raw source로 먼저 ingest한다.
 - claim table 은 `id/primary/claim/status/evidence/notes` pipe table 로 고정한다.
 - claim table cell 안의 literal pipe 는 `\|` 로 escape 하고, multiline cell 은 허용하지 않는다.
 - `claim_status_counts` 는 전체 claim row count 이며, `verification_status` 는 `primary=true` claim 으로 계산한다.

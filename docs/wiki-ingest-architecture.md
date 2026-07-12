@@ -299,6 +299,7 @@ SemanticWritePlan 검증은 다음을 포함한다.
 - target path 를 raw video_id 와 domain decision 으로 재계산
 - same target force 외 동일 video_id 중복 reject
 - claim rows schema 와 derived roll-up 검증
+- verified claim evidence가 검토·보존된 `raw/sources/{papers,web,urls}/...md`인지 검증
 - wikilink target 검증
 - 생성 파일 lint HIGH=0 검증
 - `writes`, `skips`, `frontmatter`, derived fields, rendered markdown 이 plan 에 있으면 reject

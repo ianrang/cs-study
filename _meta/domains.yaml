@@ -3,6 +3,36 @@
 version: 1
 
 domains:
+  llm-foundations:
+    status: inactive
+    label: LLM Foundations
+    source_roots: []
+
+  llm-prompting:
+    status: inactive
+    label: LLM Prompting
+    source_roots: []
+
+  llm-agents:
+    status: inactive
+    label: LLM Agents
+    source_roots: []
+
+  llm-evaluation:
+    status: inactive
+    label: LLM Evaluation
+    source_roots: []
+
+  llm-infrastructure:
+    status: inactive
+    label: LLM Infrastructure
+    source_roots: []
+
+  llm-safety:
+    status: inactive
+    label: LLM Safety
+    source_roots: []
+
   developer-tools:
     status: active
     label: Developer Tools

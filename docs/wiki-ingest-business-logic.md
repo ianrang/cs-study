@@ -82,19 +82,19 @@
 |---|---|---|---|
 | BR-CLM-1 | IF claim 이 raw video 에만 근거하면 THEN status = claimed | - | D-3, D-4 |
 | BR-CLM-2 | IF claim 이 다른 raw/human note 에서도 반복되면 THEN status = corroborated | UNLESS source 간 의미가 다르면 ambiguous note 로 남김 | D-4 |
-| BR-CLM-3 | IF claim 이 공식 문서/원문 논문/신뢰 가능한 repo 로 확인되면 THEN status = verified | - | D-4 |
+| BR-CLM-3 | IF claim 이 공식 문서/원문 논문/신뢰 가능한 repo 로 확인되고 해당 근거가 `raw/sources/{papers,web,urls}/`에 보존되면 THEN status = verified | - | D-4 |
 | BR-CLM-4 | IF claim 이 검증 중 반례로 틀렸음이 확인되면 THEN status = rejected | - | D-4 |
 | BR-CLM-5 | IF status != verified THEN concept/entity page 에 확정 사실 문장으로 반영하지 않는다 | - | D-3 |
 | BR-CLM-6 | IF claim 이 영상 하나만 근거로 가진다면 THEN status 는 verified 가 될 수 없다 | - | D-4 |
-| BR-CLM-7 | IF status = verified THEN evidence 는 공식 문서/원문 논문/canonical repo/maintainer 또는 저자 문서 중 하나여야 한다 | - | D-4 |
+| BR-CLM-7 | IF status = verified THEN evidence 는 검토·보존된 `raw/sources/{papers,web,urls}/...md` 경로여야 한다 | 외부 URL은 raw source로 먼저 ingest | D-4 |
 
 ### 검증 roll-up
 
 | ID | 명제 | 예외 | 출처 |
 |---|---|---|---|
 | BR-ROLL-1 | IF claim table 이 존재하면 THEN claim table 이 검증 상태 SoT 이다 | - | D-4 |
-| BR-ROLL-2 | IF frontmatter `verification_status` 가 존재하면 THEN claim table 에서 계산된 roll-up 과 같아야 한다 | - | D-4 |
-| BR-ROLL-3 | IF frontmatter `claim_status_counts` 가 존재하면 THEN claim table count 와 같아야 한다 | - | D-4 |
+| BR-ROLL-2 | IF claim table 이 존재하면 THEN frontmatter `verification_status` 가 존재하고 claim table 에서 계산된 roll-up 과 같아야 한다 | - | D-4 |
+| BR-ROLL-3 | IF claim table 이 존재하면 THEN frontmatter `claim_status_counts` 가 존재하고 claim table count 와 같아야 한다 | - | D-4 |
 | BR-ROLL-4 | IF 핵심 claim 전체가 verified AND 전체 claim row의 rejected count = 0 THEN page verification_status = verified | - | D-4 |
 | BR-ROLL-5 | IF 핵심 claim 전체가 at least corroborated AND 전체 claim row의 rejected count = 0 THEN page verification_status = corroborated | UNLESS BR-ROLL-4 applies | D-4 |
 | BR-ROLL-6 | IF 핵심 claim 전체가 rejected THEN page verification_status = rejected | - | D-4 |
@@ -146,7 +146,7 @@
 |---|---|---|---|
 | BR-LLM-1 | IF LLM 을 사용하면 THEN profile alias `ingest` 를 사용한다 | - | FR-13 |
 | BR-LLM-2 | IF LLM 출력이 `_meta/wiki-ingest-write-plan.schema.json` 을 만족하지 않으면 THEN reject | - | NFR-5 |
-| BR-LLM-3 | IF LLM 이 verified status 를 부여하려면 THEN verified evidence path/url 이 있어야 한다 | - | D-4 |
+| BR-LLM-3 | IF LLM 이 verified status 를 부여하려면 THEN 검토·보존된 `raw/sources/{papers,web,urls}/...md` evidence가 있어야 한다 | 외부 URL 직접 사용 금지 | D-4 |
 | BR-LLM-4 | IF LLM 이 새 taxonomy vocab 을 제안하면 THEN candidate report 에만 기록한다 | - | taxonomy review gate |
 | BR-LLM-5 | IF MVP implementation runs THEN LLM execution mode = prompt-plan + validated SemanticWritePlan input | - | D-10, D-13 |
 | BR-LLM-6 | IF LLM output proposes direct file writes THEN reject | - | 캡슐화 |
@@ -167,7 +167,7 @@
 | ID | 명제 | 예외 | 출처 |
 |---|---|---|---|
 | BR-LINT-1 | IF path in wiki/templates THEN 일반 wiki required fields/link 검사에서 제외하고 template 규칙을 적용한다 | - | FR-10 |
-| BR-LINT-2 | IF path in {wiki/index.md, wiki/log.md, wiki/overview.md} THEN system page 규칙을 적용한다 | - | FR-10 |
+| BR-LINT-2 | IF path in {wiki/index.md, wiki/log.md, wiki/overview.md} THEN content frontmatter 검사는 제외하되 내부 link는 검증한다 | - | FR-10 |
 | BR-LINT-3 | IF generated source summary has missing wiki required field THEN reject | - | FR-4 |
 | BR-LINT-4 | IF generated page has HIGH lint finding THEN reject | - | NFR-5 |
 

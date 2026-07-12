@@ -100,9 +100,9 @@ domain/taxonomy review lifecycle
 | 대상 | 이전 문제 | 반영 |
 |---|---|---|
 | `wiki/templates/` | placeholder link/source_paths 때문에 HIGH | 일반 wiki content required fields/link 검사 제외 |
-| `wiki/index.md` | system page 인데 wiki page 로 검사 | system page scope 로 분리 |
-| `wiki/log.md` | system page 인데 wiki page 로 검사 | system page scope 로 분리 |
-| `wiki/overview.md` | 예정 link 와 root-relative link 가 broken 처리 | system page scope 로 분리하고 link resolver 보강 |
+| `wiki/index.md` | system page 인데 content frontmatter 를 요구 | content frontmatter 검사만 제외하고 내부 link 검사는 유지 |
+| `wiki/log.md` | system page 인데 content frontmatter 를 요구 | content frontmatter 검사만 제외하고 내부 link 검사는 유지 |
+| `wiki/overview.md` | 예정 link 와 root-relative link 가 혼재 | 예정 대상은 plain path로 두고 실제 내부 link는 root-first resolver로 검사 |
 | `_meta/*.md` | 예시 wikilink 가 broken 처리 | fenced code block link 검사 제외 및 예시 link escape |
 
 ## 7. 요구사항 충족 검토

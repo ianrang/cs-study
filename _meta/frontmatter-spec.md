@@ -13,7 +13,7 @@ domain: llm-foundations                        # 필수 — wiki/domains/<domain
 domain_confidence: high                        # 필수 enum: high | medium | low (low → staging/domain-review)
 shared_scope: domain                           # enum: domain | global (global 은 2 도메인 이상 reuse 만)
 tags: [architecture, sparse-models, scaling]   # taxonomy.md controlled vocabulary 만
-status: active                                 # enum: active | staged | archived
+status: active                                 # enum: draft | active | staged | archived
 date_created: 2026-05-20                       # ISO 8601
 date_updated: 2026-05-20                       # ISO 8601
 source_paths:                                  # 필수 — 인용 path 배열
@@ -86,11 +86,11 @@ main_claims:
   - "Mixtral 8x7B uses 8 experts, top-2 routing"
   - "Outperforms Llama 2 70B with ~5x less inference cost"
 entities_touched:
-  - "[ [wiki/domains/llm-foundations/entities/mistral-ai] ]"
+  - "[[wiki/domains/llm-foundations/entities/mistral-ai]]"
 concepts_touched:
-  - "[ [wiki/domains/llm-foundations/concepts/top-k-routing] ]"
+  - "[[wiki/domains/llm-foundations/concepts/top-k-routing]]"
 pages_updated:                                  # 본 source 가 ingest 시 갱신한 wiki 페이지
-  - "[ [wiki/domains/llm-foundations/concepts/mixture-of-experts] ]"
+  - "[[wiki/domains/llm-foundations/concepts/mixture-of-experts]]"
 ```
 
 `source_type: video` 의 source summary 는 추가로 다음 derived field 를 가진다.
@@ -121,7 +121,7 @@ Claim table 규칙:
 - `primary`: `true | false`. page-level roll-up 은 `primary=true` claim 만 사용한다.
 - `claim`: 보수적 주장 문장. 영상 하나만 근거면 "영상은 ... 주장한다" 형태를 유지한다.
 - `status`: `claimed | corroborated | verified | rejected`.
-- `evidence`: raw path, 공식 문서 URL, 원문 논문, canonical repo, maintainer/저자 문서 중 하나.
+- `evidence`: 기본적으로 raw path를 기록한다. `verified` 상태는 검토·보존된 `raw/sources/papers/`, `raw/sources/web/`, `raw/sources/urls/` 아래 Markdown 근거만 허용하며 외부 URL은 먼저 raw source로 ingest한다.
 - `notes`: key는 필수이며 내용은 비어 있을 수 있다. 값이 있으면 추가 검증 필요, 반례, 보충 설명을 기록한다.
 
 Claim table escaping/parsing 규칙:
@@ -146,6 +146,7 @@ Roll-up 규칙:
 - 핵심 claim 전체가 `rejected` 이면 `verification_status: rejected`.
 - 그 외는 `verification_status: claimed`.
 - 영상 하나만 근거인 claim 은 `verified` 가 될 수 없다.
+- 자동 lint에서 `verified` evidence는 검토·보존된 `raw/sources/{papers,web,urls}/...md` 경로만 허용한다.
 
 참고 기준:
 - Obsidian Properties 는 YAML frontmatter 에 저장되며, Markdown in properties 는 지원하지 않는다. 따라서 claim 상세는 frontmatter 가 아니라 본문 table 로 둔다.
@@ -174,9 +175,9 @@ cs/, development/ 노트의 `human_authored` 메타는 **frontmatter 가 아닌 
 ## 검증 (lint.py)
 
 - wiki/ content 페이지: 15 필드 hard-fail
-- wiki/ system/template 페이지: content page 필수 필드 검사 제외
+- wiki/ system/template 페이지: content page 필수 필드 검사 제외. system page 내부 링크는 검사하고 template의 예시·placeholder 링크만 제외
 - raw/ 페이지: 최소 6 필드(lint.py `RAW_REQUIRED_FIELDS`) hard-fail
-- source summary claim table: fixed columns, escaping/parsing, derived roll-up 불일치 hard-fail
+- source summary claim table: fixed columns, escaping/parsing, derived field 누락·roll-up 불일치 hard-fail
 - cs/, dev/ 노트: lazy fallback 적용 (검증 면제)
 - 모든 페이지 `last_verified` 임계 검증 (재현성·시의성 축)
 
