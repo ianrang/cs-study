@@ -18,7 +18,7 @@
 - 보조 원천 raw/source는 대량 저장하지 않는다. 핵심 반복 근거 또는 외부 삭제 위험이 확인된 원천만 선별 패칭한다.
 - 문서 물리 디렉터리 분리는 현재 보류한다. same-directory 링크와 `source_paths` 정합을 우선하고, 필요 시 별도 마이그레이션 작업으로 수행한다.
 - worktree에는 사용자/이전 작업으로 보이는 대량 `cs/` 삭제와 별도 dataset·`wiki/index.md` 변경이 섞여 있으므로 커밋 시 아래 allowlist만 선별한다.
-- 이번 마무리의 commit allowlist는 정보보안 `drafts/study/` 1~5장과 네트워크 질의, `AGENTS.md`, `_meta/{frontmatter-spec.md,domains.yaml,wiki-ingest-write-plan.schema.json}`, `docs/{prd.md,wiki-ingest-*.md,adr/0003-domain-registry.md}`, `scripts/lint.py`, `requirements-lint.txt`, `tests/{test_lint.py,test_wiki_ingest_schema.py}`, 본 handoff 파일이다. 나머지 dirty worktree는 staging하지 않는다.
+- 이번 마무리의 commit allowlist는 정보보안 `drafts/study/` 1~5장과 네트워크 질의, `wiki/overview.md`, `AGENTS.md`, `_meta/{frontmatter-spec.md,page-type-spec.md,domains.yaml,wiki-ingest-write-plan.schema.json}`, `docs/{prd.md,wiki-ingest-*.md,adr/0003-domain-registry.md}`, `scripts/lint.py`, `requirements-lint.txt`, `tests/{test_lint.py,test_wiki_ingest_schema.py}`, 본 handoff 파일이다. 나머지 dirty worktree는 staging하지 않는다.
 - 정보보안기사 실기 답안은 상위 분류보다 기출의 채점 단위를 우선한다. Slow HTTP Header(Slowloris), Slow HTTP POST(RUDY), Slow HTTP Read를 패킷 단서와 대응별로 구분한다.
 - 법규 수치는 2026-07-18 시험 적용일을 기준으로 하며, 이후 시행 법령·고시는 현행 답안으로 섞지 않는다.
 
@@ -55,6 +55,11 @@
 - 근거: `docs/wiki-ingest-review.md` §8 구현 전 체크리스트.
 - 진입 전 확인: domain registry, strict SemanticWritePlan schema, claim-table lint와 설계 교차검증까지만 완료됐다.
 - 작업 범위: `scripts/wiki_ingest.py` plan-only 기본, `tests/test_wiki_ingest.py` fixture, 전역 유일성·active override·apply 검증을 구현한다.
+
+### 2-7. PAGE-TYPE-MIGRATION — 복합 dataset/lab 표준 섹션 정합화
+- 근거: `_meta/page-type-spec.md`의 승격 content 표준 섹션과 현재 복합 dataset/lab 89개 문서 구조가 다르다.
+- 진입 전 확인: 이번 PR에서는 `wiki/domains/<domain>/drafts/`를 승격 전 초안으로 명시해 study draft의 섹션 강제를 제외했다.
+- 작업 범위: dataset/lab 복합 산출물의 page type 모델을 별도 결정한 뒤 표준 섹션 마이그레이션과 lint soft-warn 활성화를 함께 수행한다.
 
 ---
 
@@ -107,6 +112,11 @@
 - 비핵심 rejected row와 핵심 claim 0개 roll-up 경계를 명시하고 `claimed` fallback을 테스트했다.
 - domain seed 비활성화와 충돌하던 VR-11을 selected active target 검증으로 좁혔다.
 - PRD 21개 요구사항의 아키텍처·BR/VR 추적성 표를 추가하고 5-stage 경계를 정합화했다.
+- system page 내부 link 검사를 복원하고 root-first·heading suffix·directory index/overview 조건을 회귀 테스트로 고정했다.
+- verified evidence를 존재하는 repo-local `raw/sources/{papers,web,urls}/...md`로 제한하고 URL·부재·path traversal 우회를 차단했다.
+- wiki metadata enum·배열·boolean·ISO date 타입을 검증하고 `draft` 상태를 정식 enum으로 반영했다.
+- 정보보안 문서의 source_paths를 clean checkout에 존재하는 authored/raw 근거로 정정하고 wiki-only 파생 경로를 제거했다.
+- domain registry에 inactive LLM domain 6개를 등록하고 overview의 planned link·software domain 명칭을 registry와 정합화했다.
 
 ### 3-5. 검증 증거
 
@@ -114,8 +124,8 @@
 |---|---|---|
 | 1. 명제 일관성 | OK | 초기 design-cross finding을 원인별 재분류·수정 후 독립 `logic-reverify` → `findings=0`, `scanned=7`; coverage 21개 → `findings=0`; grounding 301개 → `findings=0` |
 | 2. 정적 분석 | OK | 전체 `scripts/lint.py` → `HIGH=0, MEDIUM=0`; `git diff --check`; `check-ai-contract-leak.sh --all` 통과 |
-| 3. 단위 | OK | `test_lint.py` 6/6, `test_wiki_ingest_schema.py` 8/8 |
-| 4. mock 통합 | OK | 기존 `test_ingest.py` 14/14, `test_pipeline.py` 8/8; 전체 36/36 |
+| 3. 단위 | OK | `test_lint.py` 17/17, `test_wiki_ingest_schema.py` 8/8 |
+| 4. mock 통합 | OK | 기존 `test_ingest.py` 14/14, `test_pipeline.py` 8/8; 전체 47/47 |
 | 5a. 자동화 영역 | OK | schema·lint·문서 명제·요구사항 ID·BR/VR 참조·정보보안 공식 근거를 결정적으로 검증 |
 | 5b. 사용자 필수 영역 | N/A | UI/디바이스/주관 판단 없음 |
 
@@ -162,7 +172,7 @@
 
 ### 5-4. 무관한 dirty worktree
 - 발생 사례: 세션 시작 전부터 대량 `cs/` 삭제, `_meta`, `docs`, `scripts`, `tests`, `wiki/index.md` 변경이 존재했다.
-- 회피 방법: 이번 커밋에는 정보보안 실기 wiki 문서와 `.claude/resume_prompt.md`만 staging한다. authored `cs/` 삭제는 절대 함께 커밋하지 않는다.
+- 회피 방법: 이번 세션의 명시된 allowlist만 staging하고, authored `cs/` 삭제·별도 dataset·`wiki/index.md`·digital-forensics·DS_Store 변경은 절대 함께 커밋하지 않는다.
 
 ### 5-5. 장비와 네트워크 기능의 일대일 대응 금지
 - 발생 사례: 라우터와 NAT 장비가 반드시 하나인지, 포트 매핑을 어느 장비에서 수행하는지 혼동했다.
@@ -183,6 +193,10 @@
 ### 5-9. Candidate와 roll-up 경계 재확장 금지
 - 발생 사례: generic page type 6종과 중복되는 `new` 상태가 MVP schema에 들어가고, 핵심 claim 0개·비핵심 rejected row의 roll-up이 모호했다.
 - 회피 방법: MVP candidate kind는 `concept/entity`, status는 `existing/review-needed/duplicate`로 유지한다. `matched_path`와 `notes`는 key 필수·null/empty 허용이며, 핵심 claim 0개는 `claimed`다.
+
+### 5-10. system page·verified evidence 예외 확대 금지
+- 발생 사례: system page 링크 검사를 통째로 제외하고 verified evidence를 문자열 패턴만으로 허용해 broken link·부재 파일·path traversal이 통과했다.
+- 회피 방법: system page는 content frontmatter만 면제하고 내부 link는 검사한다. verified evidence는 resolve 후 repo 내부 허용 raw root의 실제 Markdown 파일인지 확인한다.
 
 ---
 
