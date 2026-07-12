@@ -1,9 +1,9 @@
-# cs-study 다음 세션 진입 — 정보보안기사 실기 분석·전략·문서관리 스캐폴딩 완료
+# cs-study 다음 세션 진입 — 정보보안 실기 문서·wiki-ingest 기반 교차검증 완료
 
-> 작성: 2026-07-03
-> 직전 세션 작업: 정보보안기사 실기 기출 데이터로 빈도·재출제·회차 슬롯 패턴을 분석하고, 2026년 2회 대비 3주 학습 전략·36문항 예상문제·예상문제 검증 리포트·문서 관리 스캐폴드를 작성했다.
+> 작성: 2026-07-12
+> 직전 세션 작업: 정보보안기사 실기 1~5장·네트워크 질의 문서를 검토하고, raw video → wiki synthesis 기반의 PRD·아키텍처·비즈니스 규칙·domain registry·SemanticWritePlan schema·lint를 교차검증해 enum·roll-up·추적성 경계 충돌을 정정했다.
 > 작업 위치: `/Users/ian/dev/personal/001_cs-study` (`docs/infosec-exam-reorg` 브랜치)
-> 다음 세션 첫 동작 의무: 본 파일과 `analysis-roadmap-todo.md`, `document-management-scaffold.md`, `study-strategy-2026-02.md`, `predicted-practical-questions-2026-02.md`, `prediction-validation-report.md`를 먼저 읽고 추측 없이 진행.
+> 다음 세션 첫 동작 의무: 본 파일과 `docs/wiki-ingest-prd.md`, `docs/wiki-ingest-architecture.md`, `docs/wiki-ingest-business-logic.md`, `docs/wiki-ingest-review.md`, `wiki/domains/information-security/drafts/study/1장 정리.md`~`5장 정리.md`, `wiki/domains/information-security/queries/network-path-functions-and-placement.md`를 먼저 읽고 추측 없이 진행.
 > commit: 본 handoff는 이번 세션 dev-commit 대상에 포함된다. 재개 시 `git log -1 --oneline`으로 최종 SHA를 확인한다.
 
 ---
@@ -11,13 +11,16 @@
 ## 1. 본 세션 한정 정책
 
 - `cs/`, `development/`, `coding-test/`, `lang/`, `tools/` authored SoT는 수정하지 않는다.
-- 이번 변경은 `wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/` 문서군에 한정한다.
+- 이번 변경은 정보보안 실기 1~5장·네트워크 질의 문서와 raw video → wiki synthesis의 설계·schema·lint 기반 작업에 한정한다.
 - 예상문제는 기출 기반 학습용 예측이며 실제 출제를 보장하지 않는다.
 - 연도·회차 슬롯 패턴은 보조 가중치로만 사용한다. 회차만으로 결정적 예측 규칙을 만들지 않는다.
 - 현재 근거만으로 high 승격하지 않기로 한 medium confidence 항목은 추후 직접 대응 가능한 공식·표준·공공기관·벤더 1차 원천이 생길 때 재개한다.
 - 보조 원천 raw/source는 대량 저장하지 않는다. 핵심 반복 근거 또는 외부 삭제 위험이 확인된 원천만 선별 패칭한다.
 - 문서 물리 디렉터리 분리는 현재 보류한다. same-directory 링크와 `source_paths` 정합을 우선하고, 필요 시 별도 마이그레이션 작업으로 수행한다.
-- worktree에는 사용자/이전 작업으로 보이는 대량 `cs/` 삭제와 `_meta`, `docs`, `scripts`, `tests`, `wiki/index.md` 변경이 섞여 있으므로 커밋 시 이번 정보보안 실기 wiki 문서만 선별한다.
+- worktree에는 사용자/이전 작업으로 보이는 대량 `cs/` 삭제와 별도 dataset·`wiki/index.md` 변경이 섞여 있으므로 커밋 시 아래 allowlist만 선별한다.
+- 이번 마무리의 commit allowlist는 정보보안 `drafts/study/` 1~5장과 네트워크 질의, `AGENTS.md`, `_meta/{frontmatter-spec.md,domains.yaml,wiki-ingest-write-plan.schema.json}`, `docs/{prd.md,wiki-ingest-*.md,adr/0003-domain-registry.md}`, `scripts/lint.py`, `requirements-lint.txt`, `tests/{test_lint.py,test_wiki_ingest_schema.py}`, 본 handoff 파일이다. 나머지 dirty worktree는 staging하지 않는다.
+- 정보보안기사 실기 답안은 상위 분류보다 기출의 채점 단위를 우선한다. Slow HTTP Header(Slowloris), Slow HTTP POST(RUDY), Slow HTTP Read를 패킷 단서와 대응별로 구분한다.
+- 법규 수치는 2026-07-18 시험 적용일을 기준으로 하며, 이후 시행 법령·고시는 현행 답안으로 섞지 않는다.
 
 ---
 
@@ -48,6 +51,11 @@
 - 진입 전 확인: 현재는 same-directory 링크와 `source_paths` 정합 때문에 보류한다.
 - 작업 범위: 실제 디렉터리 분리가 필요해지면 링크·frontmatter·인덱스 마이그레이션을 별도 작업으로 수행한다.
 
+### 2-6. WIKI-INGEST-MVP — raw video → wiki 실행기 구현
+- 근거: `docs/wiki-ingest-review.md` §8 구현 전 체크리스트.
+- 진입 전 확인: domain registry, strict SemanticWritePlan schema, claim-table lint와 설계 교차검증까지만 완료됐다.
+- 작업 범위: `scripts/wiki_ingest.py` plan-only 기본, `tests/test_wiki_ingest.py` fixture, 전역 유일성·active override·apply 검증을 구현한다.
+
 ---
 
 ## 3. 본 세션 변경 핵심
@@ -56,41 +64,67 @@
 
 | 파일 | 역할 |
 |---|---|
-| `analysis-cross-verify-report.md` | 패턴·빈도·재출제·유의미성 분석 산출물의 수량·근거 정합 검증 |
-| `frequency-analysis.md` | 1~30회 495문항의 과목·유형·연도별 빈도 분석 |
-| `recurrence-analysis.md` | 반복 개념과 변형 출제 축 분석 |
-| `pattern-analysis.md` | 과목·유형·최근성 관점의 출제 패턴 정리 |
-| `significance-review.md` | 빈도 결과의 최근성·출제기준 중요도·근거 신뢰도 해석 |
-| `session-slot-pattern-analysis.md` | 1회·2회·4회 슬롯별 과목·개념·전이 패턴 검토 |
-| `study-strategy-2026-02.md` | 2026년 2회 대비 3주 학습 로드맵과 합격 전략 |
-| `predicted-practical-questions-2026-02.md` | 36문항 예상문제, 정답, 채점 포인트, 근거, confidence |
-| `prediction-validation-report.md` | 예상문제 coverage·근거·confidence 검증 |
-| `document-management-scaffold.md` | 문서 그룹, 진입점, 변경 시작점, 물리 이동 보류 기준 |
+| `wiki/domains/information-security/queries/network-path-functions-and-placement.md` | 라우팅·NAT/PAT·방화벽·로드밸런싱·IDS·IPS의 논리 기능, 통합·분리 구성, 패킷 흐름과 오해 교정 정리 |
+| `_meta/domains.yaml` | active/inactive domain과 source root hint를 관리하는 registry SoT |
+| `_meta/wiki-ingest-write-plan.schema.json` | 외부 입력을 semantic field로 제한하는 strict SemanticWritePlan schema |
+| `docs/wiki-ingest-prd.md` | raw video → wiki synthesis 2차 요구사항 |
+| `docs/wiki-ingest-architecture.md` | 5-stage 구조·데이터 모델·CLI·저장·요구사항 추적성 설계 |
+| `docs/wiki-ingest-business-logic.md` | BR/VR·상태 전이·경계 조건 명제 |
+| `docs/wiki-ingest-review.md` | 구현 전 범위·복잡성·연결성 review |
+| `docs/adr/0003-domain-registry.md` | domain registry 분리 결정 |
+| `requirements-lint.txt` | lint·schema 검증 의존성 pin |
+| `tests/test_lint.py` | claim count type/key/value/roll-up 회귀 테스트 |
+| `tests/test_wiki_ingest_schema.py` | SemanticWritePlan strict schema 회귀 테스트 |
 
 ### 3-2. 변경 자산
 
 | 파일 | 변경 의미 |
 |---|---|
-| `analysis-roadmap-todo.md` | 분석·전략·예상문제·스캐폴딩 완료 상태와 후속 작업 후보 반영 |
-| `document-architecture.md` | Management 레이어, 문서 운영 SSOT, 물리 스캐폴딩 보류 규칙 반영 |
-| `index.md` | 문서 탐색 진입점 추가 |
+| `drafts/study/1장 정리.md` | 시스템 보안 기출형 설정·로그·Windows 구성요소·답안 체크리스트 확장; IIS 경로와 P1/P2 분류 정합화 |
+| `drafts/study/2장 정리.md` | 라우팅·NAT·DoS 계열 답안 확장; Slow HTTP Header/POST/Read를 패킷 단서·영향·대응별로 분리 |
+| `drafts/study/3장 정리.md` | 응용 보안 설명 보강 및 IIS/HTTPERR 로그 경로 기준 유지 |
+| `drafts/study/4장 정리.md` | 암호·인증·PKI 학습 본문과 답안 템플릿 확장 |
+| `drafts/study/5장 정리.md` | 관리·위험·사고·인증·개인정보보호 법규를 2026-07-18 시험 적용일 기준으로 확장 |
+| `AGENTS.md` | domain registry·SemanticWritePlan SoT와 video ingest MVP lifecycle 반영 |
+| `_meta/frontmatter-spec.md` | wiki 15필드, source-summary claim table·derived roll-up 규칙 정합화 |
+| `scripts/lint.py` | system/template scope, link resolver, claim table와 안전한 count validation 구현 |
+| `docs/prd.md` | 기존 raw importer와 6개 필수 field 기준 정합화 |
 
-### 3-3. 검증 증거
+### 3-3. cascade 갱신 사이트
+
+- 1장의 IIS site log를 3장과 같은 `%SystemDrive%\inetpub\logs\LogFiles\W3SVC*` 기준으로 통일했다.
+- 1장의 Windows 구성요소 P2 분류를 즉답 체크리스트·회독 질문·완료 기준까지 일관되게 갱신했다.
+- 2장의 Slow HTTP 분리를 빠른 식별표·상세 모범답안·복습 체크리스트에 함께 반영했다.
+
+### 3-4. 작업 중 발견·수정한 결함
+
+- IIS site log가 1장에서는 `C:\Windows\inetpub...`, 3장에서는 `%SystemDrive%\inetpub...`로 충돌하던 문제를 수정했다.
+- LSA/LSASS·SAM·SRM·SID 본문은 P2인데 P1 즉답·회독 질문에 포함되던 우선순위 충돌을 수정했다.
+- Slow HTTP 상위 분류 하나로 Header·POST·Read를 묶어 기출 채점 단위를 흐리던 문제를 분리했다.
+- Slowloris의 정상 CRLF 줄 구분과 CRLF Injection/HTTP Response Splitting을 구분해 서술했다.
+- Candidate status를 `existing/review-needed/duplicate`, kind를 MVP의 `concept/entity`로 단일화했다.
+- `matched_path`·claim `notes`를 required nullable/empty key로 명확히 하고 schema 회귀 테스트로 고정했다.
+- 비핵심 rejected row와 핵심 claim 0개 roll-up 경계를 명시하고 `claimed` fallback을 테스트했다.
+- domain seed 비활성화와 충돌하던 VR-11을 selected active target 검증으로 좁혔다.
+- PRD 21개 요구사항의 아키텍처·BR/VR 추적성 표를 추가하고 5-stage 경계를 정합화했다.
+
+### 3-5. 검증 증거
 
 | 계층 | 상태 | 근거 |
 |---|---|---|
-| 1. 명제 일관성 | OK | 회차 슬롯 분석에서 결정 규칙과 보조 신호를 분리했고, 예상문제는 confidence와 근거를 붙여 과신을 방지 |
-| 2. 정적 분석 | OK | `python3 ../../../scripts/lint.py` → `HIGH=0, MEDIUM=0` |
-| 3. 단위 | N/A | 문서 데이터 정합 작업, 단위 테스트 없음 |
-| 4. mock 통합 | N/A | 문서 데이터 정합 작업 |
-| 5a. 자동화 영역 | OK | 예상문제 수 36문항 확인, validation report 36문항 언급 확인, `source_paths`/`source_count` 정합 확인 |
+| 1. 명제 일관성 | OK | 초기 design-cross finding을 원인별 재분류·수정 후 독립 `logic-reverify` → `findings=0`, `scanned=7`; coverage 21개 → `findings=0`; grounding 301개 → `findings=0` |
+| 2. 정적 분석 | OK | 전체 `scripts/lint.py` → `HIGH=0, MEDIUM=0`; `git diff --check`; `check-ai-contract-leak.sh --all` 통과 |
+| 3. 단위 | OK | `test_lint.py` 6/6, `test_wiki_ingest_schema.py` 8/8 |
+| 4. mock 통합 | OK | 기존 `test_ingest.py` 14/14, `test_pipeline.py` 8/8; 전체 36/36 |
+| 5a. 자동화 영역 | OK | schema·lint·문서 명제·요구사항 ID·BR/VR 참조·정보보안 공식 근거를 결정적으로 검증 |
 | 5b. 사용자 필수 영역 | N/A | UI/디바이스/주관 판단 없음 |
 
-### 3-4. dev-todo-update 결과
+외부 `run-parallel.sh` 재검은 최초 finding 산출 후 주간 모델 한도 HTTP 429로 실행 불가했다. 이를 성공으로 간주하지 않고 동일 범위를 현재 세션의 독립 논리·coverage·grounding 검사자 3개로 대체해 최종 0건을 확인했다.
+
+### 3-6. dev-todo-update 결과
 
 - `.work-management.json`, `todo.md`, `.manage/todo/todo.md`가 없어 harness todo SoT는 없음.
-- 도메인 로드맵은 `analysis-roadmap-todo.md`에 반영했다.
-- `0-1 문서 관리 스캐폴딩 고정`을 완료로 추가했다.
+- 이번 세션의 미해결 review finding은 없으며 todo 파일을 새로 만들지 않았다.
 
 ---
 
@@ -98,15 +132,17 @@
 
 | 우선순위 | 파일 | 역할 |
 |---:|---|---|
-| 1 | `wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/analysis-roadmap-todo.md` | 후속 작업과 리스크 상태 |
-| 2 | `wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/document-management-scaffold.md` | 문서 그룹·진입점·변경 절차 |
-| 3 | `wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/document-architecture.md` | SSOT와 참조 방향 규칙 |
-| 4 | `wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/study-strategy-2026-02.md` | 3주 학습 전략 |
-| 5 | `wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/predicted-practical-questions-2026-02.md` | 예상문제 36문항 |
-| 6 | `wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/prediction-validation-report.md` | 예상문제 검증 결과 |
-| 7 | `wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/session-slot-pattern-analysis.md` | 회차 슬롯 패턴 분석 |
-| 8 | `wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/item-reference-map.md` | 23~30회 문항-근거 매핑 SSOT |
-| 9 | `wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/reference-source-index.md` | 참고문서 ref_id, 상태, 공식 URL SSOT |
+| 1 | `wiki/domains/information-security/drafts/study/1장 정리.md` | 시스템 보안 통합 학습 문서 |
+| 2 | `wiki/domains/information-security/drafts/study/2장 정리.md` | 네트워크 보안 및 Slow HTTP·DoS 답안 기준 |
+| 3 | `wiki/domains/information-security/drafts/study/3장 정리.md` | 응용 보안 통합 학습 문서 |
+| 4 | `wiki/domains/information-security/drafts/study/4장 정리.md` | 암호·인증·PKI 통합 학습 문서 |
+| 5 | `wiki/domains/information-security/drafts/study/5장 정리.md` | 관리·법규 및 2026 시험일 현행 기준 |
+| 6 | `wiki/domains/information-security/queries/network-path-functions-and-placement.md` | 네트워크 장비 기능·배치·패킷 흐름 질의 정리 |
+| 7 | `wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/00-management/analysis-roadmap-todo.md` | 후속 작업과 리스크 상태 |
+| 8 | `docs/wiki-ingest-prd.md` | 2차 wiki synthesis 요구사항 SoT |
+| 9 | `docs/wiki-ingest-architecture.md` | 구조·모델·추적성 설계 |
+| 10 | `docs/wiki-ingest-business-logic.md` | BR/VR와 상태 전이 SoT |
+| 11 | `docs/wiki-ingest-review.md` | 구현 전 완료 기반과 잔여 구현 목록 |
 
 ---
 
@@ -128,6 +164,26 @@
 - 발생 사례: 세션 시작 전부터 대량 `cs/` 삭제, `_meta`, `docs`, `scripts`, `tests`, `wiki/index.md` 변경이 존재했다.
 - 회피 방법: 이번 커밋에는 정보보안 실기 wiki 문서와 `.claude/resume_prompt.md`만 staging한다. authored `cs/` 삭제는 절대 함께 커밋하지 않는다.
 
+### 5-5. 장비와 네트워크 기능의 일대일 대응 금지
+- 발생 사례: 라우터와 NAT 장비가 반드시 하나인지, 포트 매핑을 어느 장비에서 수행하는지 혼동했다.
+- 회피 방법: 라우팅·NAT/PAT·방화벽·로드밸런싱·IDS·IPS를 먼저 논리 기능으로 구분한다. 실제 배치는 통합형 또는 분리형일 수 있으며, 포트 매핑은 NAT/PAT 기능을 수행하는 장비에서 설정한다.
+
+### 5-6. Slow HTTP와 CRLF 공격 혼동 금지
+- 발생 사례: Slow HTTP Header가 CRLF를 삽입·조작하는 공격인지 혼동했다.
+- 회피 방법: Slowloris는 요청 헤더의 종료를 뜻하는 빈 줄을 보내지 않고 헤더 조각을 천천히 추가해 연결을 유지한다. CRLF Injection과 HTTP Response Splitting은 개행 문자를 입력값에 주입해 헤더·응답 구조를 변조하는 별도 공격이다.
+
+### 5-7. Windows 로그 경로 하드코딩 금지
+- 발생 사례: IIS site log 경로를 `C:\Windows\inetpub...`로 잘못 고정해 3장과 충돌했다.
+- 회피 방법: IIS site log는 `%SystemDrive%\inetpub\logs\LogFiles\W3SVC*`, HTTPERR는 `%SystemRoot%\System32\LogFiles\HTTPERR`, DHCP는 `%SystemRoot%\System32\DHCP` 기준을 유지하고 설치 환경에 따른 변수 경로임을 함께 적는다.
+
+### 5-8. 요구사항 coverage finding을 구현 누락으로 단정 금지
+- 발생 사례: requirements checker가 접두사형 `docs/wiki-ingest-business-logic.md`를 선언 범위대로 읽지 않아 실제 존재하는 FR-5 매핑까지 uncovered로 보고했다.
+- 회피 방법: exact ID grep 결과와 의미 매핑을 분리해 검증한다. 현재 canonical traceability는 `docs/wiki-ingest-architecture.md` §12이다.
+
+### 5-9. Candidate와 roll-up 경계 재확장 금지
+- 발생 사례: generic page type 6종과 중복되는 `new` 상태가 MVP schema에 들어가고, 핵심 claim 0개·비핵심 rejected row의 roll-up이 모호했다.
+- 회피 방법: MVP candidate kind는 `concept/entity`, status는 `existing/review-needed/duplicate`로 유지한다. `matched_path`와 `notes`는 key 필수·null/empty 허용이며, 핵심 claim 0개는 `claimed`다.
+
 ---
 
 ## 6. 본 세션에 미진입한 안건
@@ -137,3 +193,5 @@
 - 남은 4개 medium confidence 문항의 전용 공식 원천 보강 또는 medium 유지 결정.
 - 보조 원천 raw/source 선별 패칭 여부 결정.
 - 문서 물리 디렉터리 분리가 필요해질 경우 별도 마이그레이션 수행.
+- 이번 dev-finish allowlist 밖의 기존 dirty worktree는 검토·수정·커밋하지 않았으므로 별도 작업에서 소유권과 상태를 확인한다.
+- `scripts/wiki_ingest.py`와 `tests/test_wiki_ingest.py` 구현은 아직 시작하지 않았다. 현재 완료 범위는 설계·registry·strict schema·lint 기반이며, 구현은 `docs/wiki-ingest-review.md` §8 체크리스트에서 재개한다.
