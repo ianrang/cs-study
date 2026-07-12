@@ -35,6 +35,9 @@
 
 - **cs/, development/ = authored SoT** (사람 1차 사실). frontmatter `tier: human-note`
 - **wiki/ = synthesis SoT** (LLM 합성, AI ground truth). frontmatter `tier: llm-synthesis`
+- **_meta/domains.yaml = domain registry SoT**. wiki domain 목록, active/inactive 상태, source root hint 는 이 파일에서만 관리한다.
+- **_meta/taxonomy.md = vocabulary SoT**. tag/entity/concept controlled vocabulary 를 관리하며 domain registry 와 병합하지 않는다.
+- **_meta/wiki-ingest-write-plan.schema.json = raw video → wiki SemanticWritePlan SoT**. LLM/사람이 제공하는 `--write-plan` 입력은 파일 쓰기 계획이 아니라 semantic JSON 이며, path/frontmatter/markdown/write operation 은 Python validator 가 재계산한다.
 - 같은 사실이 양쪽에 존재 시: cs/ = 원본 사실, wiki/ = 합성·정제·인용 추적. wiki/ 페이지는 `source_paths:` 에 cs/ 경로 명시.
 
 ## Cross-link
@@ -47,14 +50,18 @@
 
 ingest universe = `raw/sources/` + `cs/` + `development/`. source_tier 가중치 (raw=0 / cs=1 / dev=1 / wiki=2). **wiki/ 자체 재-ingest 금지** (hallucination loop 방지).
 
-### Ingest 순서 (단일 source 처리)
+### Ingest 순서 (단일 source 최종 wiki 반영)
+
+아래 순서는 source 가 wiki ground truth 로 최종 반영되는 일반 lifecycle 이다. 특정 MVP stage 는 이 순서의 일부만 수행할 수 있으며, 해당 stage 의 설계 문서가 범위를 더 좁게 제한하면 그 제한을 따른다.
 1. raw/ 또는 cs/ source 파일 read
-2. domain 분류 (low confidence → `wiki/staging/domain-review/` 후 사람 검토)
+2. `_meta/domains.yaml` 기반 domain 분류 (low confidence, missing/inactive domain → `wiki/staging/domain-review/` 후 사람 검토)
 3. 주요 claim·entity·concept 추출
 4. wiki/domains/<domain>/sources/ 에 source summary 페이지 생성
 5. wiki/domains/<domain>/{entities,concepts}/ 페이지 신규·갱신
 6. wiki/index.md + wiki/log.md 갱신
 7. `scripts/commit_wiki.sh` 호출 (author=swan-bot, subject `[wiki-bot]` prefix)
+
+YouTube video source 의 raw → wiki MVP 승격은 독립 stage 로 수행한다. 기본 범위는 source summary + candidate report + claim table + derived verification roll-up 이며, concept/entity 자동 생성·갱신, wiki/index.md + wiki/log.md 갱신, staging promotion command 는 다음 단계로 분리한다.
 
 ## Query
 
@@ -94,7 +101,7 @@ ingest universe = `raw/sources/` + `cs/` + `development/`. source_tier 가중치
 
 ## Frontmatter spec
 
-상세는 `_meta/frontmatter-spec.md`. wiki 페이지는 14 필드 필수. raw 페이지는 최소 4 필드. cs/, development/ 는 lazy fallback (`_meta/defaults.yaml` default 추정).
+상세는 `_meta/frontmatter-spec.md`. wiki content 페이지는 15 필드 필수. raw 페이지는 최소 6 필드. `wiki/overview.md`, `wiki/index.md`, `wiki/log.md`, `wiki/templates/` 는 system/template scope 로 별도 취급한다. cs/, development/ 는 lazy fallback (`_meta/defaults.yaml` default 추정).
 
 ## Page type
 
@@ -102,7 +109,7 @@ ingest universe = `raw/sources/` + `cs/` + `development/`. source_tier 가중치
 
 ## Taxonomy
 
-상세는 `_meta/taxonomy.md`. controlled vocabulary 만 tag 허용. supersede 시 ADR + alias.
+상세는 `_meta/taxonomy.md`. controlled vocabulary 만 tag 허용. supersede 시 ADR + alias. domain 추가·비활성화는 `_meta/domains.yaml` 변경에서 시작하며, taxonomy 확장이 필요하면 별도 review 로 처리한다.
 
 ## Naming
 

@@ -2,7 +2,7 @@
 
 본 문서는 등급 별 frontmatter 필수·선택 필드를 정의한다.
 
-## wiki/ 페이지 (synthesis 등급) — 14 필드
+## wiki/ content 페이지 (synthesis 등급) — 15 필드
 
 ```yaml
 ---
@@ -74,9 +74,11 @@ provenance: extracted # 사람 직접 작성
 
 사용자가 의도적으로 frontmatter 추가 시 lazy 추정값을 override.
 
+`wiki/overview.md`, `wiki/index.md`, `wiki/log.md`, `wiki/templates/` 는 system/template scope 이므로 위 content page 필수 필드 검사 대상이 아니다.
+
 ## Source 페이지 — source summary 페이지 추가 필드
 
-wiki/domains/<domain>/sources/ 에 생성되는 source summary 페이지는 위 14 필드 + 다음 추가:
+wiki/domains/<domain>/sources/ 에 생성되는 source summary 페이지는 위 15 필드 + 다음 추가:
 
 ```yaml
 source_path: raw/sources/papers/2401.04088.md   # source 원본
@@ -84,12 +86,70 @@ main_claims:
   - "Mixtral 8x7B uses 8 experts, top-2 routing"
   - "Outperforms Llama 2 70B with ~5x less inference cost"
 entities_touched:
-  - "[[wiki/domains/llm-foundations/entities/mistral-ai]]"
+  - "[ [wiki/domains/llm-foundations/entities/mistral-ai] ]"
 concepts_touched:
-  - "[[wiki/domains/llm-foundations/concepts/top-k-routing]]"
+  - "[ [wiki/domains/llm-foundations/concepts/top-k-routing] ]"
 pages_updated:                                  # 본 source 가 ingest 시 갱신한 wiki 페이지
-  - "[[wiki/domains/llm-foundations/concepts/mixture-of-experts]]"
+  - "[ [wiki/domains/llm-foundations/concepts/mixture-of-experts] ]"
 ```
+
+`source_type: video` 의 source summary 는 추가로 다음 derived field 를 가진다.
+
+```yaml
+verification_status: claimed                    # derived: claim table roll-up
+claim_status_counts:                            # derived: claim table count
+  claimed: 4
+  corroborated: 1
+  verified: 0
+  rejected: 0
+```
+
+검증 상태의 source of truth 는 본문 `## Claims` table 이다. Frontmatter 의 `verification_status` 와 `claim_status_counts` 는 검색·필터링·review queue 용 파생값이며, claim table 과 불일치하면 ingest 를 거부한다.
+
+Claim table 표준 형식:
+
+```markdown
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+| C1 | true | 영상은 X라고 주장한다. | claimed | raw/sources/video/abc123.md | 추가 검증 필요 |
+```
+
+Claim table 규칙:
+- `id`: 문서 내 claim 식별자. `C1`, `C2` 형식.
+- `primary`: `true | false`. page-level roll-up 은 `primary=true` claim 만 사용한다.
+- `claim`: 보수적 주장 문장. 영상 하나만 근거면 "영상은 ... 주장한다" 형태를 유지한다.
+- `status`: `claimed | corroborated | verified | rejected`.
+- `evidence`: raw path, 공식 문서 URL, 원문 논문, canonical repo, maintainer/저자 문서 중 하나.
+- `notes`: key는 필수이며 내용은 비어 있을 수 있다. 값이 있으면 추가 검증 필요, 반례, 보충 설명을 기록한다.
+
+Claim table escaping/parsing 규칙:
+- `## Claims` heading 아래 첫 non-empty line 은 header row 여야 한다.
+- header columns 는 정확히 `id | primary | claim | status | evidence | notes` 순서여야 하며 누락·추가·순서 변경을 허용하지 않는다.
+- 두 번째 non-empty line 은 delimiter row 여야 하며 각 cell 은 `---`, `:---`, `---:`, `:---:` 형식만 허용한다.
+- data row 는 pipe table row 만 허용한다. 빈 줄 또는 pipe 로 시작하지 않는 줄에서 claim table 이 종료된다.
+- cell 안의 literal pipe 는 반드시 `\|` 로 escape 한다. unescaped pipe 는 column separator 로 파싱한다.
+- cell 안의 newline 은 허용하지 않는다. 긴 문장은 한 줄 문장으로 정리한다.
+- `id` 는 정규식 `C[1-9][0-9]*` 를 따른다.
+- `id` 는 문서 내 unique 여야 한다.
+- `primary` 는 소문자 `true` 또는 `false` 만 허용한다.
+- `status` 는 소문자 `claimed`, `corroborated`, `verified`, `rejected` 만 허용한다.
+- `claim` 과 `evidence` 는 non-empty 여야 한다.
+- `claim_status_counts` 는 전체 claim row 의 status count 이다.
+- `verification_status` roll-up 은 `primary=true` claim 만 기준으로 계산한다.
+
+Roll-up 규칙:
+- `primary=true` claim이 하나도 없으면 `verification_status: claimed`.
+- 핵심 claim 전체가 `verified` 이고 전체 claim row의 `rejected` count가 0이면 `verification_status: verified`.
+- 핵심 claim 전체가 최소 `corroborated` 이상이고 전체 claim row의 `rejected` count가 0이면 `verification_status: corroborated`.
+- 핵심 claim 전체가 `rejected` 이면 `verification_status: rejected`.
+- 그 외는 `verification_status: claimed`.
+- 영상 하나만 근거인 claim 은 `verified` 가 될 수 없다.
+
+참고 기준:
+- Obsidian Properties 는 YAML frontmatter 에 저장되며, Markdown in properties 는 지원하지 않는다. 따라서 claim 상세는 frontmatter 가 아니라 본문 table 로 둔다.
+- Obsidian table syntax 와 GitHub Flavored Markdown table spec 은 header row, delimiter row, data row 의 pipe table 형식을 지원한다.
 
 ## human_authored 추적 (Panel A C3 — 외부 인덱스)
 
@@ -113,8 +173,10 @@ cs/, development/ 노트의 `human_authored` 메타는 **frontmatter 가 아닌 
 
 ## 검증 (lint.py)
 
-- wiki/ 페이지: 14 필드 hard-fail
+- wiki/ content 페이지: 15 필드 hard-fail
+- wiki/ system/template 페이지: content page 필수 필드 검사 제외
 - raw/ 페이지: 최소 6 필드(lint.py `RAW_REQUIRED_FIELDS`) hard-fail
+- source summary claim table: fixed columns, escaping/parsing, derived roll-up 불일치 hard-fail
 - cs/, dev/ 노트: lazy fallback 적용 (검증 면제)
 - 모든 페이지 `last_verified` 임계 검증 (재현성·시의성 축)
 

@@ -101,7 +101,7 @@
 ## 6. 기술 제약
 - 입력: 추출기 canonical JSON v`1.0`(`SCHEMA_VERSION`, domain.py:12).
 - 출력: cs-study `raw/sources/video/<video_id>.{md,json}`. Python(uv) 단일 스크립트(`scripts/ingest.py`).
-- 검증: `scripts/lint.py`. 본 작업에서 raw 필수필드(`RAW_REQUIRED_FIELDS` 6개, lint.py:64) 강제 체크를 구현해 frontmatter-spec.md:115 를 완성(현재는 선언만 되고 미호출). 동시에 frontmatter-spec.md:29,115 의 "최소 4 필드" 표기를 lint.py:64 기준 "6 필드"로 정합(기존 wording 드리프트 정정).
+- 검증: `scripts/lint.py`. raw 필수필드(`RAW_REQUIRED_FIELDS` 6개)를 강제 체크한다. 현재 frontmatter spec 의 raw 기준은 "최소 6 필드"이며, lint 기준과 동일하다.
 - 스키마 변경(ADR-001/002)은 사용자 승인 후.
 - LLM: 본 라운드 0. 향후 Claude Code/Codex CLI 세션만(API 금지).
 
