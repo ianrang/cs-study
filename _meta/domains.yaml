@@ -1,0 +1,86 @@
+# Domain Registry — wiki domain 단일 진실.
+# ADR-0003. scripts/wiki_ingest.py 는 이 파일을 통해서만 domain 목록을 읽는다.
+version: 1
+
+domains:
+  llm-foundations:
+    status: inactive
+    label: LLM Foundations
+    source_roots: []
+
+  llm-prompting:
+    status: inactive
+    label: LLM Prompting
+    source_roots: []
+
+  llm-agents:
+    status: inactive
+    label: LLM Agents
+    source_roots: []
+
+  llm-evaluation:
+    status: inactive
+    label: LLM Evaluation
+    source_roots: []
+
+  llm-infrastructure:
+    status: inactive
+    label: LLM Infrastructure
+    source_roots: []
+
+  llm-safety:
+    status: inactive
+    label: LLM Safety
+    source_roots: []
+
+  developer-tools:
+    status: active
+    label: Developer Tools
+    source_roots:
+      - tools/
+      - development/claud-code/
+
+  ai-engineering:
+    status: active
+    label: AI Engineering
+    source_roots:
+      - development/ai-industry/
+      - development/harness/
+
+  software-engineering:
+    status: active
+    label: Software Engineering
+    source_roots:
+      - development/software-engineering/
+      - development/architecture/
+
+  information-security:
+    status: active
+    label: Information Security
+    source_roots:
+      - cs/information-security/
+      - cs/security/
+
+  network:
+    status: active
+    label: Network
+    source_roots:
+      - cs/network/
+
+  cryptography:
+    status: active
+    label: Cryptography
+    source_roots:
+      - cs/cryptography/
+
+  programming-language:
+    status: active
+    label: Programming Language
+    source_roots:
+      - lang/
+
+  algorithms:
+    status: active
+    label: Algorithms
+    source_roots:
+      - coding-test/

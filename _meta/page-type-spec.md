@@ -161,7 +161,7 @@ foundational paper (예: Transformer 2017 - "Attention Is All You Need") 는 fro
 
 ## 비교 — 기존 cs/, development/ 노트
 
-본 spec 은 **wiki/ 페이지 한정** 적용. cs/, development/, coding-test/, lang/, tools/ 노트는 본 spec 무시 (사람 자유 작성).
+본 spec 은 **승격된 wiki content 페이지**에 적용한다. `wiki/domains/<domain>/drafts/`의 작업 초안은 frontmatter `page_type`을 승격 후보 분류로만 기록하며, 표준 섹션·순서 검사는 승격 시 수행한다. cs/, development/, coding-test/, lang/, tools/ 노트는 본 spec 무시 (사람 자유 작성).
 
 ## 참고
 
