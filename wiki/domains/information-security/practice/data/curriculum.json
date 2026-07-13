@@ -1,0 +1,143 @@
+{
+  "version": 1,
+  "stages": [
+    { "id": "recall", "label": "1. 용어 인식", "handler": "short", "grading": "auto" },
+    { "id": "cloze", "label": "2. 빈칸 채우기", "handler": "cloze", "grading": "auto" },
+    { "id": "order", "label": "3. 순서 배열", "handler": "order", "grading": "auto" },
+    { "id": "decision", "label": "4. 시나리오 판정", "handler": "short", "grading": "auto" },
+    { "id": "practical", "label": "5. 실전 복합형", "handler": "cloze", "grading": "auto" },
+    { "id": "essay", "label": "6. 서술형 자가 채점", "handler": "essay", "grading": "self" }
+  ],
+  "learningPaths": [
+    { "id": "answer-framework", "title": "답안 작성 공통", "status": "future" },
+    { "id": "management-law", "title": "관리·법규·접근통제", "status": "future" },
+    { "id": "system-security", "title": "시스템 보안", "status": "future" },
+    { "id": "service-security", "title": "서비스 보안설정", "status": "active" },
+    { "id": "network-security", "title": "네트워크·장비·공격", "status": "active" },
+    { "id": "web-security", "title": "웹 취약점·시큐어코딩", "status": "future" },
+    { "id": "monitoring-incident", "title": "관제·침해사고", "status": "future" },
+    { "id": "crypto-recovery", "title": "암호·인증·복구", "status": "future" }
+  ],
+  "topics": [
+    {
+      "id": "acl-basics",
+      "title": "Cisco ACL 기본", "sourceChapter": "2", "sourceSection": "2.3.3",
+      "learningPath": "network-security", "prerequisites": [], "status": "active"
+    },
+    {
+      "id": "traffic-filtering",
+      "title": "Ingress·Egress filtering", "sourceChapter": "2", "sourceSection": "2.3.3",
+      "learningPath": "network-security", "prerequisites": ["acl-basics"], "status": "active"
+    },
+    {
+      "id": "urpf",
+      "title": "uRPF", "sourceChapter": "2", "sourceSection": "2.3.3",
+      "learningPath": "network-security", "prerequisites": ["traffic-filtering"], "status": "active"
+    },
+    {
+      "id": "iptables-basics",
+      "title": "iptables 기본", "sourceChapter": "2", "sourceSection": "2.3.2",
+      "learningPath": "network-security", "prerequisites": [], "status": "active"
+    },
+    {
+      "id": "iptables-state-log",
+      "title": "iptables 상태·로그", "sourceChapter": "2", "sourceSection": "2.3.2",
+      "learningPath": "network-security", "prerequisites": ["iptables-basics"], "status": "active"
+    },
+    {
+      "id": "directed-broadcast",
+      "title": "Directed broadcast와 Smurf", "sourceChapter": "2", "sourceSection": "2.3.3",
+      "learningPath": "network-security", "prerequisites": ["acl-basics"], "status": "active"
+    },
+    {
+      "id": "router-interface-hardening",
+      "title": "라우터 인터페이스·경로 보완", "sourceChapter": "2", "sourceSection": "2.3.4",
+      "learningPath": "network-security", "prerequisites": ["directed-broadcast"], "status": "active"
+    },
+    {
+      "id": "arp-protection",
+      "title": "정적 ARP·ARP spoofing 보완", "sourceChapter": "2", "sourceSection": "2.1.4",
+      "learningPath": "network-security", "prerequisites": [], "status": "active"
+    },
+    {
+      "id": "vlan-hardening",
+      "title": "VLAN·스위치 하드닝", "sourceChapter": "2", "sourceSection": "2.1.6",
+      "learningPath": "network-security", "prerequisites": [], "status": "active"
+    },
+    {
+      "id": "routing-security",
+      "title": "라우팅 보안 정책", "sourceChapter": "2", "sourceSection": "2.1.7",
+      "learningPath": "network-security", "prerequisites": ["router-interface-hardening"], "status": "active"
+    },
+    {
+      "id": "ntp-hardening",
+      "title": "NTP 증폭 보완", "sourceChapter": "2", "sourceSection": "2.2.3",
+      "learningPath": "network-security", "prerequisites": ["traffic-filtering"], "status": "active"
+    },
+    {
+      "id": "firewall-policy-review",
+      "title": "방화벽 정책 판독", "sourceChapter": "2", "sourceSection": "2.3.1",
+      "learningPath": "network-security", "prerequisites": [], "status": "active"
+    },
+    {
+      "id": "router-management-plane",
+      "title": "라우터 관리면 보안", "sourceChapter": "2", "sourceSection": "2.3.4",
+      "learningPath": "network-security", "prerequisites": ["acl-basics"], "status": "active"
+    },
+    {
+      "id": "snmp-management-security",
+      "title": "SNMP 관리 보안", "sourceChapter": "2", "sourceSection": "2.3.5",
+      "learningPath": "network-security", "prerequisites": ["router-management-plane"], "status": "active"
+    },
+    {
+      "id": "netbios-smb-control",
+      "title": "NetBIOS·SMB 노출 통제", "sourceChapter": "2", "sourceSection": "2.3.6",
+      "learningPath": "network-security", "prerequisites": ["firewall-policy-review"], "status": "active"
+    },
+    {
+      "id": "snort-rule-policy",
+      "title": "Snort 룰·경보 정책", "sourceChapter": "2", "sourceSection": "2.4.2",
+      "learningPath": "network-security", "prerequisites": ["firewall-policy-review"], "status": "active"
+    },
+    {
+      "id": "security-control-policy",
+      "title": "WAF·DLP·Anti-DDoS 정책", "sourceChapter": "2", "sourceSection": "2.4.4",
+      "learningPath": "network-security", "prerequisites": ["firewall-policy-review"], "status": "active"
+    },
+    {
+      "id": "ipsec-security-profile",
+      "title": "IPsec 보안 구성 선택", "sourceChapter": "2", "sourceSection": "2.5.1",
+      "learningPath": "network-security", "prerequisites": [], "status": "active"
+    },
+    {
+      "id": "web-session-auth",
+      "title": "HTTP·쿠키·세션·인증 통제", "sourceChapter": "3", "sourceSection": "3.1, 3.2.8",
+      "learningPath": "service-security", "prerequisites": [], "status": "active"
+    },
+    {
+      "id": "web-input-defense",
+      "title": "웹 입력·출력·서버 요청 방어", "sourceChapter": "3", "sourceSection": "3.2",
+      "learningPath": "service-security", "prerequisites": ["web-session-auth"], "status": "active"
+    },
+    {
+      "id": "web-server-hardening",
+      "title": "Apache·IIS·WAF 보안 설정", "sourceChapter": "3", "sourceSection": "3.3",
+      "learningPath": "service-security", "prerequisites": ["web-input-defense"], "status": "active"
+    },
+    {
+      "id": "dns-mail-security",
+      "title": "DNS·메일 서비스 보안 설정", "sourceChapter": "3", "sourceSection": "3.4",
+      "learningPath": "service-security", "prerequisites": [], "status": "active"
+    },
+    {
+      "id": "database-security-audit",
+      "title": "DB 접근통제·감사 설정", "sourceChapter": "3", "sourceSection": "3.5",
+      "learningPath": "service-security", "prerequisites": ["web-input-defense"], "status": "active"
+    },
+    {
+      "id": "secure-sdlc-review",
+      "title": "Secure SDLC·보안 설정 검증", "sourceChapter": "3", "sourceSection": "3.6, 3.7",
+      "learningPath": "service-security", "prerequisites": ["web-input-defense", "database-security-audit"], "status": "active"
+    }
+  ]
+}

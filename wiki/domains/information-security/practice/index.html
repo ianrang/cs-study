@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="정보보안기사 실기 복습 문제 앱" />
+    <title>정보보안기사 실기 복습</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell" aria-labelledby="app-title">
+      <header class="masthead">
+        <div>
+          <p class="eyebrow">OFFLINE PRACTICE · NETWORK FIREWALL PILOT</p>
+          <h1 id="app-title">정보보안기사 실기 복습</h1>
+          <p class="subtitle">명확한 답은 즉시 확인하고, 서술형은 근거와 채점 기준으로 스스로 보정합니다.</p>
+        </div>
+        <button id="reset-all" class="button button-quiet" type="button">전체 진행도 초기화</button>
+      </header>
+
+      <section class="dashboard" aria-label="학습 진행도">
+        <div class="stat"><span>전체 문항</span><strong id="stat-total">0</strong></div>
+        <div class="stat"><span>풀이함</span><strong id="stat-complete">0</strong></div>
+        <div class="stat"><span>정답 완료</span><strong id="stat-mastered">0</strong></div>
+        <div class="stat"><span>복습 필요</span><strong id="stat-review">0</strong></div>
+        <div class="stat"><span>현재 필터</span><strong id="stat-filtered">0</strong></div>
+      </section>
+      <p id="storage-notice" class="storage-notice" hidden role="status">이 브라우저에서는 진행도를 저장할 수 없습니다. 지금 풀이한 내용은 이 탭을 닫으면 사라집니다.</p>
+
+      <div class="workspace">
+        <aside class="sidebar" aria-label="문제 탐색">
+          <div class="filter-heading">
+            <div><p class="eyebrow">문제 범위</p><h2>필터</h2></div>
+            <button id="reset-filters" class="text-button" type="button">필터 해제</button>
+          </div>
+          <p id="filter-summary" class="filter-summary" aria-live="polite">현재 필터를 불러오는 중입니다.</p>
+          <section class="practice-mode" aria-label="풀이 모드">
+            <h3>풀이 모드</h3>
+            <div id="practice-mode-control" class="segmented-control">
+              <button type="button" data-practice-mode="learning" aria-pressed="true">학습</button>
+              <button type="button" data-practice-mode="exam" aria-pressed="false">실전</button>
+            </div>
+            <p>실전 모드는 답안 힌트와 상세 입력 라벨을 줄입니다.</p>
+          </section>
+          <section class="filter-group">
+            <label for="learning-path-filter">학습 경로</label>
+            <select id="learning-path-filter"></select>
+          </section>
+          <section class="filter-group">
+            <label for="source-filter">원본 장·절</label>
+            <select id="source-filter"></select>
+          </section>
+          <section class="filter-group">
+            <label for="topic-filter">세부 주제</label>
+            <select id="topic-filter"></select>
+          </section>
+          <section class="filter-group">
+            <label for="stage-filter">단계</label>
+            <select id="stage-filter"></select>
+          </section>
+          <label class="checkbox-row"><input id="review-filter" type="checkbox" /> 복습 필요만 보기</label>
+          <section class="future-topics">
+            <h2>이후 확장</h2>
+            <ul id="future-topic-list"></ul>
+          </section>
+          <button id="reset-topic" class="button button-quiet" type="button">선택 범위의 진행도 초기화</button>
+        </aside>
+
+        <section class="practice-panel" aria-live="polite">
+          <div class="question-toolbar">
+            <p id="question-position">문항 0 / 0</p>
+            <div class="toolbar-actions">
+              <button id="previous-question" class="button button-quiet" type="button">이전</button>
+              <button id="next-question" class="button button-quiet" type="button">다음</button>
+            </div>
+          </div>
+          <nav id="question-navigator" class="question-navigator" aria-label="현재 문항 이동"></nav>
+          <article id="question-card" class="question-card"></article>
+        </section>
+      </div>
+    </main>
+
+    <template id="empty-template">
+      <section class="empty-state">
+        <h2>선택한 조건에 맞는 문항이 없습니다.</h2>
+        <p>단계 또는 ‘복습 필요’ 필터를 바꾸어 보세요.</p>
+      </section>
+    </template>
+
+    <script src="practice-data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
