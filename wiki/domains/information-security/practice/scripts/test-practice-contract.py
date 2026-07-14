@@ -44,6 +44,31 @@ class PracticeContractTests(unittest.TestCase):
         next(topic for topic in curriculum["topics"] if topic["status"] == "active")["learningPath"] = "missing-path"
         self.assertTrue(any("active topic has invalid learningPath" in error for error in self.validate(curriculum=curriculum)))
 
+    def test_malformed_learning_path_id_is_reported_without_raising(self) -> None:
+        curriculum = copy.deepcopy(self.curriculum)
+        curriculum["learningPaths"][0]["id"] = []
+        self.assertTrue(any("learningPath ids must be unique" in error for error in self.validate(curriculum=curriculum)))
+
+    def test_malformed_stage_and_topic_ids_are_reported_without_raising(self) -> None:
+        curriculum = copy.deepcopy(self.curriculum)
+        curriculum["stages"][0]["id"] = []
+        self.assertTrue(any("stage ids must be unique" in error for error in self.validate(curriculum=curriculum)))
+
+        curriculum = copy.deepcopy(self.curriculum)
+        curriculum["topics"][0]["id"] = []
+        self.assertTrue(any("topic ids must be unique" in error for error in self.validate(curriculum=curriculum)))
+
+    def test_malformed_order_item_id_is_reported_without_raising(self) -> None:
+        packs = copy.deepcopy(self.packs)
+        order_question = next(question for pack in packs for question in pack["questions"] if question["stage"] == "order")
+        order_question["answer"]["items"][0]["id"] = []
+        self.assertTrue(any("order item ids and expected must be the same unique set" in error for error in self.validate(packs=packs)))
+
+    def test_malformed_question_prerequisite_is_reported_without_raising(self) -> None:
+        packs = copy.deepcopy(self.packs)
+        packs[0]["questions"][0]["prerequisites"] = [[]]
+        self.assertTrue(any("prerequisites must be a string array" in error for error in self.validate(packs=packs)))
+
     def test_invalid_content_block_is_rejected_before_rendering(self) -> None:
         packs = copy.deepcopy(self.packs)
         packs[0]["questions"][0]["prompt"] = [{"type": "unsupported", "content": ""}]

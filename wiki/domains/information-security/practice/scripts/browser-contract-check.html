@@ -41,6 +41,14 @@
           firstOrderItem.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", altKey: true, bubbles: true }));
           expect(doc.activeElement.dataset.orderItemId === firstOrderItem.dataset.orderItemId, "keyboard order move should restore focus to the moved item");
 
+          const draggedOrderItem = doc.querySelector("[data-order-item-id]");
+          const dropTarget = [...doc.querySelectorAll("[data-order-item-id]")].find((item) => item !== draggedOrderItem);
+          const transfer = new DataTransfer();
+          draggedOrderItem.focus();
+          draggedOrderItem.dispatchEvent(new DragEvent("dragstart", { bubbles: true, dataTransfer: transfer }));
+          dropTarget.dispatchEvent(new DragEvent("drop", { bubbles: true, cancelable: true, dataTransfer: transfer }));
+          expect(doc.activeElement.dataset.orderItemId === draggedOrderItem.dataset.orderItemId, "drag order move should restore focus to the moved item");
+
           stage.value = "essay";
           stage.dispatchEvent(new Event("change", { bubbles: true }));
           click("#submit-answer");

@@ -115,7 +115,11 @@ def validate_answer(question: dict[str, object], handler: str | None, errors: li
             errors.append(f"{question_id}: order requires items and expected")
             return
         item_ids = [item.get("id") for item in items if isinstance(item, dict)]
-        if len(item_ids) != len(items) or len(set(item_ids)) != len(items) or len(expected) != len(items) or len(set(expected)) != len(expected) or set(item_ids) != set(expected):
+        item_ids_are_valid = len(item_ids) == len(items) and has_non_empty_strings(item_ids)
+        expected_are_valid = has_non_empty_strings(expected)
+        item_id_set = set(item_ids) if item_ids_are_valid else set()
+        expected_set = set(expected) if expected_are_valid else set()
+        if not item_ids_are_valid or not expected_are_valid or len(item_id_set) != len(items) or len(expected_set) != len(expected) or item_id_set != expected_set:
             errors.append(f"{question_id}: order item ids and expected must be the same unique set")
         if not all(isinstance(item, dict) and isinstance(item.get("id"), str) and item["id"].strip() and isinstance(item.get("label"), str) and item["label"].strip() for item in items):
             errors.append(f"{question_id}: each order item requires non-empty id and label")
@@ -170,21 +174,27 @@ def validate(curriculum: dict[str, object], packs: list[dict[str, object]], sche
     if not isinstance(stages, list) or not stages:
         return ["curriculum: stages must be a non-empty array"]
     stage_ids = [stage.get("id") for stage in stages if isinstance(stage, dict)]
-    if len(stage_ids) != len(stages) or len(set(stage_ids)) != len(stages):
+    stage_ids_are_valid = len(stage_ids) == len(stages) and has_non_empty_strings(stage_ids)
+    stage_id_set = set(stage_ids) if stage_ids_are_valid else set()
+    if not stage_ids_are_valid or len(stage_id_set) != len(stages):
         errors.append("curriculum: stage ids must be unique")
     for stage in stages:
         if not isinstance(stage, dict) or not isinstance(stage.get("id"), str) or not stage["id"].strip() or not isinstance(stage.get("label"), str) or not stage["label"].strip() or stage.get("handler") not in HANDLER_GRADING or stage.get("grading") != HANDLER_GRADING.get(stage.get("handler")):
             errors.append("curriculum: each stage requires id, label, supported handler, and matching grading")
-    stage_id_set = set(stage_ids)
-    stage_handler_by_id = {stage["id"]: stage["handler"] for stage in stages if isinstance(stage, dict) and stage.get("id") in stage_id_set and stage.get("handler") in HANDLER_GRADING}
+    stage_handler_by_id = {
+        stage["id"]: stage["handler"]
+        for stage in stages
+        if isinstance(stage, dict) and isinstance(stage.get("id"), str) and stage.get("id") in stage_id_set and stage.get("handler") in HANDLER_GRADING
+    }
     learning_paths = curriculum.get("learningPaths")
     if not isinstance(learning_paths, list) or not learning_paths:
         errors.append("curriculum: learningPaths must be a non-empty array")
         learning_paths = []
     learning_path_ids = [path.get("id") for path in learning_paths if isinstance(path, dict)]
-    if len(learning_path_ids) != len(learning_paths) or len(set(learning_path_ids)) != len(learning_paths):
+    learning_path_ids_are_valid = len(learning_path_ids) == len(learning_paths) and has_non_empty_strings(learning_path_ids)
+    learning_path_id_set = set(learning_path_ids) if learning_path_ids_are_valid else set()
+    if not learning_path_ids_are_valid or len(learning_path_id_set) != len(learning_paths):
         errors.append("curriculum: learningPath ids must be unique")
-    learning_path_id_set = set(learning_path_ids)
     for path in learning_paths:
         if not isinstance(path, dict) or not isinstance(path.get("id"), str) or not path["id"].strip() or not isinstance(path.get("title"), str) or not path["title"].strip() or path.get("status") not in ALLOWED_LEARNING_PATH_STATUSES:
             errors.append("curriculum: each learningPath requires id, title, and supported status")
@@ -193,9 +203,10 @@ def validate(curriculum: dict[str, object], packs: list[dict[str, object]], sche
     if not isinstance(topics, list):
         return ["curriculum: topics must be an array"]
     topic_ids = [topic.get("id") for topic in topics if isinstance(topic, dict)]
-    if len(topic_ids) != len(topics) or len(set(topic_ids)) != len(topics):
+    topic_ids_are_valid = len(topic_ids) == len(topics) and has_non_empty_strings(topic_ids)
+    topic_id_set = set(topic_ids) if topic_ids_are_valid else set()
+    if not topic_ids_are_valid or len(topic_id_set) != len(topics):
         errors.append("curriculum: topic ids must be unique")
-    topic_id_set = set(topic_ids)
     for topic in topics:
         if not isinstance(topic, dict):
             errors.append("curriculum: each topic must be an object")
@@ -203,11 +214,15 @@ def validate(curriculum: dict[str, object], packs: list[dict[str, object]], sche
         if not isinstance(topic.get("id"), str) or not topic["id"].strip() or not isinstance(topic.get("title"), str) or not topic["title"].strip() or topic.get("status") not in ALLOWED_TOPIC_STATUSES:
             errors.append("curriculum: each topic requires id, title, and supported status")
         if topic.get("status") == "active":
-            if topic.get("learningPath") not in learning_path_id_set:
+            if not isinstance(topic.get("learningPath"), str) or topic.get("learningPath") not in learning_path_id_set:
                 errors.append(f"curriculum: active topic has invalid learningPath: {topic.get('id')}")
             if not isinstance(topic.get("sourceChapter"), str) or not topic["sourceChapter"].strip() or not isinstance(topic.get("sourceSection"), str) or not topic["sourceSection"].strip():
                 errors.append(f"curriculum: active topic requires sourceChapter and sourceSection: {topic.get('id')}")
-        for prerequisite in topic.get("prerequisites", []):
+        prerequisites = topic.get("prerequisites")
+        if not isinstance(prerequisites, list) or not all(isinstance(prerequisite, str) for prerequisite in prerequisites):
+            errors.append(f"curriculum: topic prerequisites must be a string array: {topic.get('id')}")
+            continue
+        for prerequisite in prerequisites:
             if prerequisite not in topic_id_set or prerequisite == topic.get("id"):
                 errors.append(f"curriculum: invalid prerequisite {prerequisite} for {topic.get('id')}")
 
@@ -235,12 +250,14 @@ def validate(curriculum: dict[str, object], packs: list[dict[str, object]], sche
                 errors.append(f"duplicate question id: {question_id}")
             question_ids.add(question_id)
             questions_by_id[question_id] = question
-            if question.get("curriculumId") not in topic_id_set:
-                errors.append(f"{question_id}: unknown curriculumId {question.get('curriculumId')}")
+            curriculum_id = question.get("curriculumId")
+            if not isinstance(curriculum_id, str) or curriculum_id not in topic_id_set:
+                errors.append(f"{question_id}: unknown curriculumId {curriculum_id}")
             else:
-                topic_question_count[str(question["curriculumId"])] += 1
-            if question.get("stage") not in stage_id_set:
-                errors.append(f"{question_id}: invalid stage {question.get('stage')}")
+                topic_question_count[curriculum_id] += 1
+            stage_id = question.get("stage")
+            if not isinstance(stage_id, str) or stage_id not in stage_id_set:
+                errors.append(f"{question_id}: invalid stage {stage_id}")
             if not isinstance(question.get("title"), str) or not question["title"].strip():
                 errors.append(f"{question_id}: title is required")
             validate_content_blocks(question.get("prompt"), "prompt", question_id, errors)
@@ -256,10 +273,13 @@ def validate(curriculum: dict[str, object], packs: list[dict[str, object]], sche
                 for ref in refs:
                     validate_source_ref(ref, question_id, errors)
             validate_question_provenance(question, errors)
-            validate_answer(question, stage_handler_by_id.get(question.get("stage")), errors)
+            validate_answer(question, stage_handler_by_id.get(stage_id) if isinstance(stage_id, str) else None, errors)
 
     for question_id, question in questions_by_id.items():
-        for prerequisite in question.get("prerequisites", []):
+        prerequisites = question.get("prerequisites") if isinstance(question.get("prerequisites"), list) else []
+        for prerequisite in prerequisites:
+            if not isinstance(prerequisite, str):
+                continue
             if prerequisite == question_id or prerequisite not in questions_by_id:
                 errors.append(f"{question_id}: invalid question prerequisite {prerequisite}")
                 continue
@@ -270,21 +290,31 @@ def validate(curriculum: dict[str, object], packs: list[dict[str, object]], sche
     validate_question_prerequisite_cycles(questions_by_id, errors)
 
     for topic in topics:
-        if isinstance(topic, dict) and topic.get("status") == "active" and topic_question_count.get(topic.get("id"), 0) == 0:
-            errors.append(f"active topic has no question: {topic.get('id')}")
+        topic_id = topic.get("id") if isinstance(topic, dict) else None
+        if isinstance(topic, dict) and isinstance(topic_id, str) and topic.get("status") == "active" and topic_question_count.get(topic_id, 0) == 0:
+            errors.append(f"active topic has no question: {topic_id}")
     return errors
 
 
-def topic_by_prerequisite_lineage(curriculum: dict[str, object], topic_id: object) -> set[object]:
-    topic_map = {topic.get("id"): topic for topic in curriculum.get("topics", []) if isinstance(topic, dict)}
-    lineage: set[object] = set()
-    pending = list(topic_map.get(topic_id, {}).get("prerequisites", []))
+def topic_by_prerequisite_lineage(curriculum: dict[str, object], topic_id: object) -> set[str]:
+    topic_map = {
+        candidate_id: topic
+        for topic in curriculum.get("topics", [])
+        if isinstance(topic, dict) and isinstance((candidate_id := topic.get("id")), str)
+    }
+    lineage: set[str] = set()
+    prerequisites = topic_map.get(topic_id, {}).get("prerequisites", [])
+    pending = list(prerequisites) if isinstance(prerequisites, list) else []
     while pending:
         prerequisite = pending.pop()
+        if not isinstance(prerequisite, str):
+            continue
         if prerequisite in lineage:
             continue
         lineage.add(prerequisite)
-        pending.extend(topic_map.get(prerequisite, {}).get("prerequisites", []))
+        nested_prerequisites = topic_map.get(prerequisite, {}).get("prerequisites", [])
+        if isinstance(nested_prerequisites, list):
+            pending.extend(nested_prerequisites)
     return lineage
 
 
@@ -299,8 +329,9 @@ def validate_question_prerequisite_cycles(questions_by_id: dict[str, dict[str, o
             errors.append(f"question prerequisites contain a cycle at {question_id}")
             return
         visiting.add(question_id)
-        for prerequisite in questions_by_id[question_id].get("prerequisites", []):
-            if prerequisite in questions_by_id:
+        prerequisites = questions_by_id[question_id].get("prerequisites")
+        for prerequisite in prerequisites if isinstance(prerequisites, list) else []:
+            if isinstance(prerequisite, str) and prerequisite in questions_by_id:
                 visit(prerequisite)
         visiting.remove(question_id)
         visited.add(question_id)

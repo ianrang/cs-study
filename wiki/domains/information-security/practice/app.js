@@ -321,6 +321,7 @@
     current.splice(fromIndex, 1);
     current.splice(current.indexOf(targetId), 0, itemId);
     state.orderDrafts[question.id] = current;
+    state.focusRequest = { questionId: question.id, target: "order-item", itemId };
     render();
   }
 
