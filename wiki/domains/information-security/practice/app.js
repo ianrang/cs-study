@@ -2,7 +2,11 @@
   "use strict";
 
   const data = window.PRACTICE_DATA;
+  const core = window.PRACTICE_CORE;
   const storageKey = "info-security-practice-progress-v1";
+  const root = document.documentElement;
+  const themeStorageKey = root.dataset.themeStorageKey;
+  const systemThemeQuery = window.matchMedia?.("(prefers-color-scheme: dark)");
   let storageAvailable = true;
   const state = {
     learningPath: "all",
@@ -16,7 +20,9 @@
     orderDrafts: {},
     essayDrafts: {},
     draggedOrderItemId: null,
-    progress: loadProgress()
+    focusRequest: null,
+    progress: loadProgress(),
+    themePreference: loadThemePreference()
   };
   const elements = {
     learningPath: document.querySelector("#learning-path-filter"),
@@ -27,6 +33,9 @@
     resetFilters: document.querySelector("#reset-filters"),
     filterSummary: document.querySelector("#filter-summary"),
     practiceMode: document.querySelector("#practice-mode-control"),
+    themeToggle: document.querySelector("#theme-toggle"),
+    themeToggleLabel: document.querySelector("#theme-toggle-label"),
+    themeCurrent: document.querySelector("#theme-current"),
     card: document.querySelector("#question-card"),
     position: document.querySelector("#question-position"),
     navigator: document.querySelector("#question-navigator"),
@@ -43,14 +52,21 @@
     statFiltered: document.querySelector("#stat-filtered")
   };
 
-  if (!data || !data.curriculum || !Array.isArray(data.curriculum.stages) || !Array.isArray(data.questions)) {
-    elements.card.innerHTML = "<p>학습 데이터가 없습니다. <code>python3 scripts/build-practice-data.py</code>를 실행하세요.</p>";
+  if (!data || !data.curriculum || !Array.isArray(data.curriculum.learningPaths) || !Array.isArray(data.curriculum.stages) || !Array.isArray(data.curriculum.topics) || !Array.isArray(data.questions) || !core) {
+    elements.card.innerHTML = "<p>학습 데이터 또는 필수 앱 코드가 없습니다. <code>python3 scripts/build-practice-data.py</code>를 실행하고 파일 구성을 확인하세요.</p>";
     return;
   }
 
   const activeTopics = data.curriculum.topics.filter((topic) => topic.status === "active");
   const topicById = new Map(data.curriculum.topics.map((topic) => [topic.id, topic]));
   const stageById = new Map(data.curriculum.stages.map((stage) => [stage.id, stage]));
+
+  function formatTopicLabel(topic) {
+    const source = topic.sourceChapter && topic.sourceSection
+      ? `${topic.sourceChapter}장 · ${topic.sourceSection} · `
+      : "";
+    return `${source}${topic.title}`;
+  }
 
   function normalize(value, matchPolicy = "case-insensitive") {
     const raw = String(value ?? "");
@@ -75,26 +91,12 @@
       const knownQuestionIds = new Set((data?.questions || []).map((question) => question.id));
       return Object.fromEntries(Object.entries(parsed.records)
         .filter(([id]) => knownQuestionIds.has(id))
-        .map(([id, record]) => [id, normalizeProgressRecord(record)])
+        .map(([id, record]) => [id, core.normalizeProgressRecord(record)])
         .filter(([, record]) => record !== null));
     } catch {
       storageAvailable = false;
       return {};
     }
-  }
-
-  function normalizeProgressRecord(record) {
-    const lastResult = record?.lastResult;
-    if (!new Set(["correct", "incorrect", "self-understood", "self-review"]).has(lastResult)) return null;
-    const masteryStatus = record?.masteryStatus || (lastResult === "correct" || lastResult === "self-understood" ? "mastered" : "review");
-    if (!["mastered", "review"].includes(masteryStatus)) return null;
-    return {
-      attemptCount: Number.isInteger(record?.attemptCount) && record.attemptCount >= 0 ? record.attemptCount : 0,
-      lastResult,
-      masteryStatus,
-      essayKeywordScore: Number.isInteger(record?.essayKeywordScore) && record.essayKeywordScore >= 0 && record.essayKeywordScore <= 100 ? record.essayKeywordScore : null,
-      updatedAt: record?.updatedAt || null
-    };
   }
 
   function saveProgress() {
@@ -105,6 +107,54 @@
       storageAvailable = false;
       return false;
     }
+  }
+
+  function loadThemePreference() {
+    if (!themeStorageKey) return null;
+    try {
+      const preference = localStorage.getItem(themeStorageKey);
+      return core.isThemePreference(preference) ? preference : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function saveThemePreference() {
+    if (!themeStorageKey) return;
+    try {
+      if (state.themePreference) localStorage.setItem(themeStorageKey, state.themePreference);
+      else localStorage.removeItem(themeStorageKey);
+    } catch {}
+  }
+
+  function getResolvedTheme() {
+    return state.themePreference || (systemThemeQuery?.matches ? "dark" : "light");
+  }
+
+  function renderThemeToggle() {
+    if (state.themePreference) root.dataset.theme = state.themePreference;
+    else delete root.dataset.theme;
+    const isDark = getResolvedTheme() === "dark";
+    const nextPreference = core.nextThemePreference(state.themePreference);
+    const actionLabel = nextPreference
+      ? `${nextPreference === "dark" ? "다크" : "라이트"} 모드 사용`
+      : "시스템 테마 사용";
+    const currentLabel = state.themePreference
+      ? `현재 테마: ${state.themePreference === "dark" ? "다크 모드" : "라이트 모드"}`
+      : `현재 테마: 시스템 설정(${isDark ? "다크 모드" : "라이트 모드"})`;
+    elements.themeToggle.setAttribute("aria-label", actionLabel);
+    elements.themeToggleLabel.textContent = actionLabel;
+    elements.themeCurrent.textContent = currentLabel;
+  }
+
+  function toggleTheme() {
+    state.themePreference = core.nextThemePreference(state.themePreference);
+    saveThemePreference();
+    renderThemeToggle();
+  }
+
+  function syncSystemThemeLabel() {
+    if (!state.themePreference) renderThemeToggle();
   }
 
   function getFilteredQuestions() {
@@ -226,17 +276,19 @@
          <div><h3>감점 위험</h3><ul class="deduction-list">${question.answer.deductionRisks.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul></div>`
       : `<div><h3>정답</h3><p>${escapeHtml(handlerFor(question).answerSummary(question))}</p></div>`;
     const selfActions = isSelfGraded ? `<div class="action-row"><button class="button button-primary" type="button" data-self-result="self-understood">이해함</button><button class="button button-danger" type="button" data-self-result="self-review">복습 필요</button></div>` : "";
-    return `<section class="feedback ${feedbackClass}"><div class="feedback-head">${heading}</div><div class="feedback-body">${model}<div><h3>해설</h3>${renderBlocks(question.explanation)}</div>${selfActions}${sourcesMarkup(question)}</div></section>`;
+    return `<section class="feedback ${feedbackClass}"><div class="feedback-head" tabindex="-1">${heading}</div><div class="feedback-body">${model}<div><h3>해설</h3>${renderBlocks(question.explanation)}</div>${selfActions}${sourcesMarkup(question)}</div></section>`;
   }
 
-  function transitionProgress(previous, result, keywordScore = null) {
+  function transitionProgress(previous, result, keywordScore = null, countAttempt = true) {
     const masteryStatus = result === "correct" || result === "self-understood"
       ? "mastered"
+      : result === "attempted"
+        ? "attempted"
       : result === "self-review"
         ? "review"
         : previous.masteryStatus === "mastered" ? "mastered" : "review";
     return {
-      attemptCount: previous.attemptCount + 1,
+      attemptCount: previous.attemptCount + (countAttempt ? 1 : 0),
       lastResult: result,
       masteryStatus,
       essayKeywordScore: keywordScore,
@@ -244,9 +296,9 @@
     };
   }
 
-  function recordResult(question, result, keywordScore = null) {
+  function recordResult(question, result, keywordScore = null, countAttempt = true) {
     const previous = state.progress[question.id] || { attemptCount: 0 };
-    state.progress[question.id] = transitionProgress(previous, result, keywordScore);
+    state.progress[question.id] = transitionProgress(previous, result, keywordScore, countAttempt);
     saveProgress();
   }
 
@@ -256,6 +308,7 @@
     if (nextIndex < 0 || nextIndex >= current.length) return;
     [current[index], current[nextIndex]] = [current[nextIndex], current[index]];
     state.orderDrafts[question.id] = current;
+    state.focusRequest = { questionId: question.id, target: "order-item", itemId: current[nextIndex] };
     render();
   }
 
@@ -274,9 +327,10 @@
   function progressBadges(question) {
     const record = state.progress[question.id];
     if (!record) return "";
+    const attempted = record.masteryStatus === "attempted" ? '<span class="badge badge-attempted">풀이함</span>' : "";
     const mastery = record.masteryStatus === "mastered" ? '<span class="badge badge-mastered">정답 완료</span>' : "";
     const review = record.lastResult === "incorrect" || record.lastResult === "self-review" ? '<span class="badge badge-review">복습 필요</span>' : "";
-    return mastery || review ? `${mastery}${review}` : "";
+    return attempted || mastery || review ? `${attempted}${mastery}${review}` : "";
   }
 
   function questionStatus(question) {
@@ -298,6 +352,16 @@
       state.feedback = null;
       render();
     }));
+  }
+
+  function restoreRequestedFocus(question) {
+    const request = state.focusRequest;
+    if (!request || request.questionId !== question.id) return;
+    state.focusRequest = null;
+    const target = request.target === "feedback"
+      ? elements.card.querySelector(".feedback-head")
+      : [...elements.card.querySelectorAll("[data-order-item-id]")].find((item) => item.dataset.orderItemId === request.itemId);
+    target?.focus();
   }
 
   function renderQuestion(question) {
@@ -322,12 +386,15 @@
     const submitAnswer = () => {
       const result = handler.grade(question);
       if (stage.grading === "self") {
+        recordResult(question, "attempted", result.keywordScore);
         state.feedback = { questionId: question.id, ...result };
+        state.focusRequest = { questionId: question.id, target: "feedback" };
         render();
         return;
       }
       recordResult(question, result.correct ? "correct" : "incorrect");
       state.feedback = { questionId: question.id, correct: result.correct };
+      state.focusRequest = { questionId: question.id, target: "feedback" };
       render();
     };
     elements.card.querySelector("#submit-answer").addEventListener("click", submitAnswer);
@@ -367,10 +434,12 @@
       });
     });
     elements.card.querySelectorAll("[data-self-result]").forEach((button) => button.addEventListener("click", () => {
-      recordResult(question, button.dataset.selfResult, state.feedback?.keywordScore ?? null);
+      recordResult(question, button.dataset.selfResult, state.feedback?.keywordScore ?? null, false);
       state.feedback = { ...state.feedback, questionId: question.id, correct: null };
+      state.focusRequest = { questionId: question.id, target: "feedback" };
       render();
     }));
+    restoreRequestedFocus(question);
   }
 
   function bindAnswerKeyboard(question, stage, submitAnswer) {
@@ -431,6 +500,7 @@
     renderStats();
     renderFilterSummary();
     renderPracticeMode();
+    renderThemeToggle();
     renderStorageNotice();
     elements.previous.disabled = !questions.length || state.index === 0;
     elements.next.disabled = !questions.length || state.index >= questions.length - 1;
@@ -476,10 +546,10 @@
     const sourceGroups = [...new Map(activeTopics.map((topic) => [`${topic.sourceChapter}:${topic.sourceSection}`, topic])).values()];
     elements.learningPath.innerHTML = `<option value="all">현재 학습 경로 전체</option>${activePaths.map((path) => `<option value="${escapeHtml(path.id)}">${escapeHtml(path.title)}</option>`).join("")}`;
     elements.source.innerHTML = `<option value="all">현재 원본 범위 전체</option>${sourceGroups.map((topic) => `<option value="${escapeHtml(`${topic.sourceChapter}:${topic.sourceSection}`)}">${escapeHtml(`${topic.sourceChapter}장 · ${topic.sourceSection}`)}</option>`).join("")}`;
-    elements.topic.innerHTML = `<option value="all">현재 세부 주제 전체</option>${activeTopics.map((topic) => `<option value="${escapeHtml(topic.id)}">${escapeHtml(`${topic.sourceChapter}장 · ${topic.sourceSection}`)} · ${escapeHtml(topic.title)}</option>`).join("")}`;
+    elements.topic.innerHTML = `<option value="all">현재 세부 주제 전체</option>${activeTopics.map((topic) => `<option value="${escapeHtml(topic.id)}">${escapeHtml(formatTopicLabel(topic))}</option>`).join("")}`;
     elements.stage.innerHTML = `<option value="all">전체 단계</option>${[...stageById.entries()].map(([id, stage]) => `<option value="${escapeHtml(id)}">${escapeHtml(stage.label)}</option>`).join("")}`;
     const future = data.curriculum.topics.filter((topic) => topic.status === "future");
-    elements.futureTopics.innerHTML = future.map((topic) => `<li>${escapeHtml(`${topic.sourceChapter}장 · ${topic.sourceSection}`)} · ${escapeHtml(topic.title)}</li>`).join("");
+    elements.futureTopics.innerHTML = future.map((topic) => `<li>${escapeHtml(formatTopicLabel(topic))}</li>`).join("");
     elements.learningPath.addEventListener("change", () => { state.learningPath = elements.learningPath.value; state.index = 0; state.feedback = null; render(); });
     elements.source.addEventListener("change", () => { state.source = elements.source.value; state.index = 0; state.feedback = null; render(); });
     elements.topic.addEventListener("change", () => { state.topic = elements.topic.value; state.index = 0; state.feedback = null; render(); });
@@ -490,6 +560,7 @@
       state.feedback = null;
       render();
     }));
+    elements.themeToggle.addEventListener("click", toggleTheme);
     elements.resetFilters.addEventListener("click", () => {
       state.learningPath = "all";
       state.source = "all";
@@ -515,6 +586,8 @@
         elements.card.querySelector("#submit-answer")?.click();
       }
     });
+    if (systemThemeQuery?.addEventListener) systemThemeQuery.addEventListener("change", syncSystemThemeLabel);
+    else systemThemeQuery?.addListener?.(syncSystemThemeLabel);
   }
 
   initializeFilters();

@@ -1,10 +1,19 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" data-theme-storage-key="info-security-practice-theme-v1">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="정보보안기사 실기 복습 문제 앱" />
     <title>정보보안기사 실기 복습</title>
+    <script>
+      (() => {
+        try {
+          const root = document.documentElement;
+          const preference = localStorage.getItem(root.dataset.themeStorageKey);
+          if (preference === "light" || preference === "dark") root.dataset.theme = preference;
+        } catch {}
+      })();
+    </script>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -15,20 +24,26 @@
           <h1 id="app-title">정보보안기사 실기 복습</h1>
           <p class="subtitle">명확한 답은 즉시 확인하고, 서술형은 근거와 채점 기준으로 스스로 보정합니다.</p>
         </div>
-        <button id="reset-all" class="button button-quiet" type="button">전체 진행도 초기화</button>
+        <div class="masthead-actions">
+          <button id="theme-toggle" class="button button-quiet theme-toggle" type="button" aria-describedby="theme-current">
+            <span class="theme-toggle__icon" aria-hidden="true">◐</span><span id="theme-toggle-label">다크 모드 사용</span>
+          </button>
+          <span id="theme-current" class="visually-hidden" aria-live="polite"></span>
+          <button id="reset-all" class="button button-quiet" type="button">전체 진행도 초기화</button>
+        </div>
       </header>
 
       <section class="dashboard" aria-label="학습 진행도">
-        <div class="stat"><span>전체 문항</span><strong id="stat-total">0</strong></div>
-        <div class="stat"><span>풀이함</span><strong id="stat-complete">0</strong></div>
-        <div class="stat"><span>정답 완료</span><strong id="stat-mastered">0</strong></div>
-        <div class="stat"><span>복습 필요</span><strong id="stat-review">0</strong></div>
-        <div class="stat"><span>현재 필터</span><strong id="stat-filtered">0</strong></div>
+        <div class="stat surface surface-stat"><span>전체 문항</span><strong id="stat-total">0</strong></div>
+        <div class="stat surface surface-stat"><span>풀이함</span><strong id="stat-complete">0</strong></div>
+        <div class="stat surface surface-stat"><span>정답 완료</span><strong id="stat-mastered">0</strong></div>
+        <div class="stat surface surface-stat"><span>복습 필요</span><strong id="stat-review">0</strong></div>
+        <div class="stat surface surface-stat"><span>현재 필터</span><strong id="stat-filtered">0</strong></div>
       </section>
       <p id="storage-notice" class="storage-notice" hidden role="status">이 브라우저에서는 진행도를 저장할 수 없습니다. 지금 풀이한 내용은 이 탭을 닫으면 사라집니다.</p>
 
       <div class="workspace">
-        <aside class="sidebar" aria-label="문제 탐색">
+        <aside class="sidebar surface" aria-label="문제 탐색">
           <div class="filter-heading">
             <div><p class="eyebrow">문제 범위</p><h2>필터</h2></div>
             <button id="reset-filters" class="text-button" type="button">필터 해제</button>
@@ -66,7 +81,7 @@
           <button id="reset-topic" class="button button-quiet" type="button">선택 범위의 진행도 초기화</button>
         </aside>
 
-        <section class="practice-panel" aria-live="polite">
+        <section class="practice-panel surface" aria-live="polite">
           <div class="question-toolbar">
             <p id="question-position">문항 0 / 0</p>
             <div class="toolbar-actions">
@@ -88,6 +103,7 @@
     </template>
 
     <script src="practice-data.js"></script>
+    <script src="practice-core.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

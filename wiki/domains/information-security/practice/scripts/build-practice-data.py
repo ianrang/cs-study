@@ -18,6 +18,9 @@ ALLOWED_STATUSES = {"official", "source-derived", "inferred"}
 ALLOWED_MATCH_POLICIES = {"case-insensitive", "exact"}
 HANDLER_GRADING = {"short": "auto", "cloze": "auto", "order": "auto", "essay": "self"}
 ALLOWED_QUESTION_KINDS = {"predicted"}
+ALLOWED_BLOCK_TYPES = {"text", "code"}
+ALLOWED_TOPIC_STATUSES = {"active", "future"}
+ALLOWED_LEARNING_PATH_STATUSES = {"active", "future"}
 
 
 def load_json(path: Path) -> object:
@@ -53,6 +56,19 @@ def validate_source_ref(ref: object, question_id: str, errors: list[str]) -> Non
         errors.append(f"{question_id}: invalid source status: {status}")
 
 
+def has_non_empty_strings(value: object) -> bool:
+    return isinstance(value, list) and bool(value) and all(isinstance(item, str) and item.strip() for item in value)
+
+
+def validate_content_blocks(blocks: object, field: str, question_id: str, errors: list[str]) -> None:
+    if not isinstance(blocks, list) or not blocks:
+        errors.append(f"{question_id}: {field} must be a non-empty block array")
+        return
+    for index, block in enumerate(blocks, start=1):
+        if not isinstance(block, dict) or block.get("type") not in ALLOWED_BLOCK_TYPES or not isinstance(block.get("content"), str) or not block["content"].strip():
+            errors.append(f"{question_id}: {field} block {index} requires type(text/code) and non-empty content")
+
+
 def validate_answer(question: dict[str, object], handler: str | None, errors: list[str]) -> None:
     question_id = str(question.get("id", "<missing id>"))
     stage = question.get("stage")
@@ -69,8 +85,10 @@ def validate_answer(question: dict[str, object], handler: str | None, errors: li
         if answer.get("matchPolicy") not in ALLOWED_MATCH_POLICIES:
             errors.append(f"{question_id}: short/decision requires matchPolicy")
         accepted = answer.get("accepted")
-        if not isinstance(accepted, list) or not accepted or not all(isinstance(value, str) and value.strip() for value in accepted):
+        if not has_non_empty_strings(accepted):
             errors.append(f"{question_id}: short/decision requires non-empty accepted strings")
+        if answer.get("inputLabel") is not None and (not isinstance(answer.get("inputLabel"), str) or not answer["inputLabel"].strip()):
+            errors.append(f"{question_id}: short inputLabel must be a non-empty string when supplied")
     elif handler == "cloze":
         if answer.get("matchPolicy") not in ALLOWED_MATCH_POLICIES:
             errors.append(f"{question_id}: cloze requires matchPolicy")
@@ -80,15 +98,15 @@ def validate_answer(question: dict[str, object], handler: str | None, errors: li
             return
         blank_ids: set[str] = set()
         for blank in blanks:
-            if not isinstance(blank, dict) or not isinstance(blank.get("id"), str):
-                errors.append(f"{question_id}: cloze blank requires id")
+            if not isinstance(blank, dict) or not isinstance(blank.get("id"), str) or not blank["id"].strip() or not isinstance(blank.get("label"), str) or not blank["label"].strip():
+                errors.append(f"{question_id}: cloze blank requires non-empty id and label")
                 continue
             blank_id = blank["id"]
             if blank_id in blank_ids:
                 errors.append(f"{question_id}: duplicate cloze blank id {blank_id}")
             blank_ids.add(blank_id)
             accepted = blank.get("accepted")
-            if not isinstance(accepted, list) or not accepted or not all(isinstance(value, str) and value.strip() for value in accepted):
+            if not has_non_empty_strings(accepted):
                 errors.append(f"{question_id}: blank {blank_id} requires accepted strings")
     elif handler == "order":
         items = answer.get("items")
@@ -99,6 +117,8 @@ def validate_answer(question: dict[str, object], handler: str | None, errors: li
         item_ids = [item.get("id") for item in items if isinstance(item, dict)]
         if len(item_ids) != len(items) or len(set(item_ids)) != len(items) or len(expected) != len(items) or len(set(expected)) != len(expected) or set(item_ids) != set(expected):
             errors.append(f"{question_id}: order item ids and expected must be the same unique set")
+        if not all(isinstance(item, dict) and isinstance(item.get("id"), str) and item["id"].strip() and isinstance(item.get("label"), str) and item["label"].strip() for item in items):
+            errors.append(f"{question_id}: each order item requires non-empty id and label")
     elif handler == "essay":
         model_answer = answer.get("modelAnswer")
         keyword_groups = answer.get("keywordGroups")
@@ -106,6 +126,8 @@ def validate_answer(question: dict[str, object], handler: str | None, errors: li
         if not isinstance(model_answer, list) or not model_answer or not isinstance(keyword_groups, list) or not keyword_groups or not isinstance(deduction_risks, list) or not deduction_risks:
             errors.append(f"{question_id}: essay requires modelAnswer, keywordGroups, and deductionRisks")
             return
+        if not has_non_empty_strings(model_answer) or not has_non_empty_strings(deduction_risks):
+            errors.append(f"{question_id}: essay modelAnswer and deductionRisks require non-empty strings")
         for group in keyword_groups:
             if not isinstance(group, dict) or not isinstance(group.get("label"), str) or not group["label"].strip() or not isinstance(group.get("terms"), list) or not group["terms"] or not all(isinstance(term, str) and term.strip() for term in group["terms"]):
                 errors.append(f"{question_id}: each keywordGroup requires label and non-empty terms")
@@ -126,8 +148,8 @@ def validate_question_provenance(question: dict[str, object], errors: list[str])
     )):
         errors.append(f"{question_id}: predicted question requires a 05-analysis sourceRef")
     exam_prompt = question.get("examPrompt")
-    if exam_prompt is not None and (not isinstance(exam_prompt, list) or not exam_prompt):
-        errors.append(f"{question_id}: examPrompt must be a non-empty block array when supplied")
+    if exam_prompt is not None:
+        validate_content_blocks(exam_prompt, "examPrompt", question_id, errors)
 
 
 def validate_pack_contract(schema: dict[str, object], pack: dict[str, object], errors: list[str]) -> None:
@@ -155,6 +177,18 @@ def validate(curriculum: dict[str, object], packs: list[dict[str, object]], sche
             errors.append("curriculum: each stage requires id, label, supported handler, and matching grading")
     stage_id_set = set(stage_ids)
     stage_handler_by_id = {stage["id"]: stage["handler"] for stage in stages if isinstance(stage, dict) and stage.get("id") in stage_id_set and stage.get("handler") in HANDLER_GRADING}
+    learning_paths = curriculum.get("learningPaths")
+    if not isinstance(learning_paths, list) or not learning_paths:
+        errors.append("curriculum: learningPaths must be a non-empty array")
+        learning_paths = []
+    learning_path_ids = [path.get("id") for path in learning_paths if isinstance(path, dict)]
+    if len(learning_path_ids) != len(learning_paths) or len(set(learning_path_ids)) != len(learning_paths):
+        errors.append("curriculum: learningPath ids must be unique")
+    learning_path_id_set = set(learning_path_ids)
+    for path in learning_paths:
+        if not isinstance(path, dict) or not isinstance(path.get("id"), str) or not path["id"].strip() or not isinstance(path.get("title"), str) or not path["title"].strip() or path.get("status") not in ALLOWED_LEARNING_PATH_STATUSES:
+            errors.append("curriculum: each learningPath requires id, title, and supported status")
+
     topics = curriculum.get("topics")
     if not isinstance(topics, list):
         return ["curriculum: topics must be an array"]
@@ -164,7 +198,15 @@ def validate(curriculum: dict[str, object], packs: list[dict[str, object]], sche
     topic_id_set = set(topic_ids)
     for topic in topics:
         if not isinstance(topic, dict):
+            errors.append("curriculum: each topic must be an object")
             continue
+        if not isinstance(topic.get("id"), str) or not topic["id"].strip() or not isinstance(topic.get("title"), str) or not topic["title"].strip() or topic.get("status") not in ALLOWED_TOPIC_STATUSES:
+            errors.append("curriculum: each topic requires id, title, and supported status")
+        if topic.get("status") == "active":
+            if topic.get("learningPath") not in learning_path_id_set:
+                errors.append(f"curriculum: active topic has invalid learningPath: {topic.get('id')}")
+            if not isinstance(topic.get("sourceChapter"), str) or not topic["sourceChapter"].strip() or not isinstance(topic.get("sourceSection"), str) or not topic["sourceSection"].strip():
+                errors.append(f"curriculum: active topic requires sourceChapter and sourceSection: {topic.get('id')}")
         for prerequisite in topic.get("prerequisites", []):
             if prerequisite not in topic_id_set or prerequisite == topic.get("id"):
                 errors.append(f"curriculum: invalid prerequisite {prerequisite} for {topic.get('id')}")
@@ -175,8 +217,8 @@ def validate(curriculum: dict[str, object], packs: list[dict[str, object]], sche
     for pack in packs:
         validate_pack_contract(schema, pack, errors)
         questions = pack.get("questions")
-        if not isinstance(questions, list):
-            errors.append(f"{pack.get('packId', '<missing pack>')}: questions must be an array")
+        if not isinstance(questions, list) or not questions:
+            errors.append(f"{pack.get('packId', '<missing pack>')}: questions must be a non-empty array")
             continue
         for question in questions:
             if not isinstance(question, dict):
@@ -201,12 +243,10 @@ def validate(curriculum: dict[str, object], packs: list[dict[str, object]], sche
                 errors.append(f"{question_id}: invalid stage {question.get('stage')}")
             if not isinstance(question.get("title"), str) or not question["title"].strip():
                 errors.append(f"{question_id}: title is required")
-            if not isinstance(question.get("prompt"), list) or not question["prompt"]:
-                errors.append(f"{question_id}: prompt is required")
-            if not isinstance(question.get("explanation"), list) or not question["explanation"]:
-                errors.append(f"{question_id}: explanation is required")
-            if not isinstance(question.get("tags"), list) or not question["tags"]:
-                errors.append(f"{question_id}: tags are required")
+            validate_content_blocks(question.get("prompt"), "prompt", question_id, errors)
+            validate_content_blocks(question.get("explanation"), "explanation", question_id, errors)
+            if not has_non_empty_strings(question.get("tags")):
+                errors.append(f"{question_id}: tags require non-empty strings")
             if not isinstance(question.get("prerequisites"), list) or not all(isinstance(item, str) for item in question.get("prerequisites", [])):
                 errors.append(f"{question_id}: prerequisites must be a string array")
             refs = question.get("sourceRefs")

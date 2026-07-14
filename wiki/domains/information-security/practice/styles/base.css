@@ -1,0 +1,42 @@
+@layer base {
+  * { box-sizing: border-box; }
+
+  html {
+    background: var(--color-surface-canvas);
+    color: var(--color-text-primary);
+    font-family: var(--font-family-sans);
+  }
+
+  body {
+    margin: var(--space-0);
+    background: var(--gradient-canvas), var(--color-surface-canvas);
+    color: var(--color-text-primary);
+  }
+
+  button,
+  input,
+  select,
+  textarea { font: inherit; }
+
+  button { cursor: pointer; }
+
+  button:disabled,
+  input:disabled,
+  select:disabled,
+  textarea:disabled {
+    cursor: not-allowed;
+    opacity: var(--opacity-dragging);
+  }
+
+  h1,
+  h2,
+  h3,
+  p { margin-top: var(--space-0); }
+
+  h1 {
+    margin-bottom: var(--space-2);
+    font-size: var(--font-size-display);
+    line-height: var(--line-height-compact);
+    letter-spacing: var(--letter-spacing-display);
+  }
+}

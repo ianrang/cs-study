@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko">
+  <head><meta charset="utf-8" /><title>running</title></head>
+  <body>
+    <pre id="result">running</pre>
+    <iframe id="app" title="practice browser contract check"></iframe>
+    <script>
+      const result = document.querySelector("#result");
+      const frame = document.querySelector("#app");
+      const failures = [];
+      const expect = (condition, message) => { if (!condition) failures.push(message); };
+      localStorage.removeItem("info-security-practice-theme-v1");
+      localStorage.removeItem("info-security-practice-progress-v1");
+      frame.addEventListener("load", () => {
+        const doc = frame.contentDocument;
+        const click = (selector) => doc.querySelector(selector).click();
+        try {
+          const root = doc.documentElement;
+          expect(!root.dataset.theme, "theme should begin in system mode");
+          click("#theme-toggle");
+          expect(root.dataset.theme === "dark", "first theme click should select dark");
+          click("#theme-toggle");
+          expect(root.dataset.theme === "light", "second theme click should select light");
+          click("#theme-toggle");
+          expect(!root.dataset.theme, "third theme click should restore system mode");
+
+          const stage = doc.querySelector("#stage-filter");
+          stage.value = "recall";
+          stage.dispatchEvent(new Event("change", { bubbles: true }));
+          const answer = doc.querySelector("#answer-main");
+          expect(Boolean(answer), "first question should expose a short answer input");
+          answer.value = "__wrong__";
+          click("#submit-answer");
+          expect(doc.activeElement.classList.contains("feedback-head"), "answer submission should focus feedback heading");
+
+          stage.value = "order";
+          stage.dispatchEvent(new Event("change", { bubbles: true }));
+          const firstOrderItem = doc.querySelector("[data-order-item-id]");
+          expect(Boolean(firstOrderItem), "order filter should render an order item");
+          firstOrderItem.focus();
+          firstOrderItem.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", altKey: true, bubbles: true }));
+          expect(doc.activeElement.dataset.orderItemId === firstOrderItem.dataset.orderItemId, "keyboard order move should restore focus to the moved item");
+
+          stage.value = "essay";
+          stage.dispatchEvent(new Event("change", { bubbles: true }));
+          click("#submit-answer");
+          expect(Boolean(doc.querySelector(".badge-attempted")), "unconfirmed essay self-grading should expose the attempted badge");
+          expect(Boolean(doc.querySelector(".question-step-attempted")), "unconfirmed essay self-grading should expose the attempted navigator state");
+
+          expect(!doc.querySelector("#future-topic-list").textContent.includes("undefined"), "future topic labels must not expose undefined metadata");
+          expect([...doc.querySelectorAll(".stat")].every((stat) => stat.classList.contains("surface") && stat.classList.contains("surface-stat")), "statistics must compose the Surface contract");
+        } catch (error) {
+          failures.push(error.stack || String(error));
+        }
+        result.textContent = failures.length ? `FAIL\n${failures.join("\n")}` : "PASS";
+        document.title = failures.length ? "FAIL" : "PASS";
+      });
+      frame.src = "../index.html";
+    </script>
+  </body>
+</html>
