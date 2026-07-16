@@ -50,3 +50,4 @@ evergreen: false
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Rows are normalized from accessible web reconstructions and were cross-checked against the unlocked thodi-lab/blog-source PDFs where in 1~28 scope; KCA official wording is still not claimed.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+- Learning normalization: row 6의 원문 표현 `해결`은 보존한다. 학습용 정리에서는 이를 `복구 및 재발방지`로 풀어 쓰며, 실제 문제에서 `해결`이 제시되면 해당 표현을 따른다.
