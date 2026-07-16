@@ -76,12 +76,12 @@ practice-data.js ──→ App state / grading engine ──→ HTML renderer
 | `stage` | enum | recall/cloze/order/decision/practical/essay | 단계별 학습 방식 |
 | `prompt` | block[] | non-empty | 텍스트·코드·표시 단서 |
 | `examPrompt` | block[]/optional | non-empty when present | 실전 모드 전용 지문. 주제·정답 후보를 불필요하게 드러내는 학습용 단서를 제거한다. |
-| `questionKind` | optional enum | predicted only | 예상 문항임을 명시한다. 생략하면 실제 회차 참조 여부로 기출 기반/학습 문제를 화면에서 분류한다. |
+| `questionKind` | optional enum | predicted only | 예상 문항임을 명시한다. 생략해도 회차 근거와 `examPrompt`가 모두 있을 때만 복원 기출로 분류하며, 그 밖에는 학습 문제다. |
 | `answer` | typed object | stage와 호환 | 자동 채점 정답 또는 자가 채점 rubric |
 | `explanation` | block[] | non-empty | 정답 근거와 오답 교정 |
 | `sourceRefs` | ref[] | 최소 1개, excerpt가 실제 source line에 포함 | path, line, excerpt, verification 상태 |
 | `tags` | string[] | controlled topic tags | 필터·복습용 |
-| `prerequisites` | string[] | curriculum와 모순 금지 | 문항 수준 선수 개념 |
+| `prerequisites` | string[] | curriculum와 모순 금지 | 문항 수준 선수 개념. 기본 문항 순서는 DAG에 따라 선수를 먼저 배치한다. |
 
 ### Answer contract
 
@@ -90,7 +90,7 @@ practice-data.js ──→ App state / grading engine ──→ HTML renderer
 - 서술형은 `keywordGroups`를 단일 기준으로 사용한다. 화면의 퍼센트는 각 그룹에 하나 이상의 용어가 포함됐는지 계산한 **키워드 충족률**이며, 정답·오답 또는 논리적 정확성 판정이 아니다.
 - 기존 handler를 재사용하는 새 단계·문항·주제는 JSON만 추가한다. 완전히 새로운 상호작용은 `stageHandlers`의 단일 handler를 추가한 뒤 `StageDefinition.handler`로 연결하며, 여러 조건문을 수정하지 않는다.
 - `실전 복합형`은 `cloze` handler를 재사용해 여러 결정적 빈칸을 하나의 설정 시나리오로 묶는다. 따라서 자동 채점 엔진을 복제하지 않으며, 답이 복수일 수 있는 실무 설계는 `essay` handler에 둔다.
-- 문항 분류는 UI의 ID 조건문이 아니라 `sourceRefs`와 `questionKind`에서 단방향으로 계산한다. `01-rounds` 참조는 기출 기반, `questionKind: predicted`는 예상 문제, 나머지는 학습 문제다. validator는 예상 문항에 `08-prediction`과 `05-analysis` 근거를 모두 요구한다.
+- 문항 분류는 UI의 ID 조건문이 아니라 데이터 속성에서 단방향으로 계산한다. `questionKind: predicted`는 예상 문제이고, `01-rounds` 근거와 non-empty `examPrompt`를 함께 가진 문항만 기출 기반·복원 문항이며, 나머지는 학습 문제다. validator는 예상 문항에 `08-prediction`과 `05-analysis` 근거를 모두 요구한다.
 
 ### ProgressRecord
 

@@ -15,12 +15,12 @@
 
 ```
 content data -> practice-data.js -> app.js -> DOM state/classes
-practice-core.js ------------------^  (theme state machine)
+practice-core.js ------------------^  (theme·문항 분류·선수 순서 순수 로직)
 styles/tokens.css -> styles/base.css -> styles/components.css -> styles/layout.css -> rendered style
 ```
 
 - content data는 presentation을 모른다.
-- app.js는 theme preference와 semantic class를 선택하지만 색상값을 소유하지 않는다. 순수 상태 전이(`practice-core.js`)는 Node 기본 테스트로 검증한다.
+- app.js는 theme preference와 semantic class를 선택하지만 색상값을 소유하지 않는다. `practice-core.js`는 theme state machine, 복원 기출 판정, 선수 문항 정렬을 소유하며 Node 기본 테스트로 검증한다.
 - token layer만 raw visual value를 소유한다.
 - component layer는 semantic token을 소비한다.
 - layout layer는 화면 배치와 breakpoint만 소유한다.
@@ -57,7 +57,7 @@ styles/tokens.css -> styles/base.css -> styles/components.css -> styles/layout.c
 practice/
 ├── index.html              # semantic shell, CSS/JS entrypoint
 ├── app.js                  # interaction and rendering state
-├── practice-core.js         # testable theme state machine
+├── practice-core.js         # testable theme·문항 분류·선수 순서 순수 로직
 ├── styles.css              # ordered CSS entrypoint
 ├── styles/
 │   ├── tokens.css          # raw + semantic + component tokens, themes

@@ -10,8 +10,8 @@
   ],
   "learningPaths": [
     { "id": "answer-framework", "title": "답안 작성 공통", "status": "future" },
-    { "id": "management-law", "title": "관리·법규·접근통제", "status": "future" },
-    { "id": "system-security", "title": "시스템 보안", "status": "future" },
+    { "id": "management-law", "title": "관리·법규·접근통제", "status": "active" },
+    { "id": "system-security", "title": "시스템 보안", "status": "active" },
     { "id": "service-security", "title": "서비스 보안설정", "status": "active" },
     { "id": "network-security", "title": "네트워크·장비·공격", "status": "active" },
     { "id": "web-security", "title": "웹 취약점·시큐어코딩", "status": "future" },
@@ -19,6 +19,24 @@
     { "id": "crypto-recovery", "title": "암호·인증·복구", "status": "future" }
   ],
   "topics": [
+    {
+      "id": "linux-account-access",
+      "title": "Linux 계정·PAM·권한",
+      "sourceChapter": "1", "sourceSection": "1.1.1~1.1.3, 1.2.2",
+      "learningPath": "system-security", "prerequisites": [], "status": "active"
+    },
+    {
+      "id": "linux-log-service-control",
+      "title": "Linux 로그·서비스 접근통제",
+      "sourceChapter": "1", "sourceSection": "1.1.4, 1.2.1, 1.2.3",
+      "learningPath": "system-security", "prerequisites": ["linux-account-access"], "status": "active"
+    },
+    {
+      "id": "windows-os-hardening",
+      "title": "Windows 권한·암호화·로그 점검",
+      "sourceChapter": "1", "sourceSection": "1.3.2, 1.4",
+      "learningPath": "system-security", "prerequisites": [], "status": "active"
+    },
     {
       "id": "acl-basics",
       "title": "Cisco ACL 기본", "sourceChapter": "2", "sourceSection": "2.3.3",
@@ -110,6 +128,31 @@
       "learningPath": "network-security", "prerequisites": [], "status": "active"
     },
     {
+      "id": "network-packet-basics",
+      "title": "IP·ICMP·TCP·서브넷 패킷 판독", "sourceChapter": "2", "sourceSection": "2.1.2~2.1.5",
+      "learningPath": "network-security", "prerequisites": [], "status": "active"
+    },
+    {
+      "id": "network-routing-basics",
+      "title": "라우팅·VLAN 기본 판독", "sourceChapter": "2", "sourceSection": "2.1.6, 2.1.7",
+      "learningPath": "network-security", "prerequisites": ["network-packet-basics"], "status": "active"
+    },
+    {
+      "id": "network-attack-analysis",
+      "title": "스캔·스푸핑·DoS 공격 판독", "sourceChapter": "2", "sourceSection": "2.2",
+      "learningPath": "network-security", "prerequisites": ["network-packet-basics"], "status": "active"
+    },
+    {
+      "id": "network-name-monitoring-basics",
+      "title": "DNS·SNMP·침입탐지 기본", "sourceChapter": "2", "sourceSection": "2.1.10, 2.3.5, 2.4",
+      "learningPath": "network-security", "prerequisites": [], "status": "active"
+    },
+    {
+      "id": "network-secure-communications",
+      "title": "IPsec·TLS 핵심 역할", "sourceChapter": "2", "sourceSection": "2.5",
+      "learningPath": "network-security", "prerequisites": [], "status": "active"
+    },
+    {
       "id": "web-session-auth",
       "title": "HTTP·쿠키·세션·인증 통제", "sourceChapter": "3", "sourceSection": "3.1, 3.2.8",
       "learningPath": "service-security", "prerequisites": [], "status": "active"
@@ -138,6 +181,131 @@
       "id": "secure-sdlc-review",
       "title": "Secure SDLC·보안 설정 검증", "sourceChapter": "3", "sourceSection": "3.6, 3.7",
       "learningPath": "service-security", "prerequisites": ["web-input-defense", "database-security-audit"], "status": "active"
+    },
+    {
+      "id": "risk-components",
+      "title": "자산·위협·취약점·위험", "sourceChapter": "5", "sourceSection": "5.2.1",
+      "learningPath": "management-law", "prerequisites": [], "status": "active"
+    },
+    {
+      "id": "control-classification",
+      "title": "통제 목적·구현 수단 분류", "sourceChapter": "5", "sourceSection": "5.3.1",
+      "learningPath": "management-law", "prerequisites": ["risk-components"], "status": "active"
+    },
+    {
+      "id": "personnel-physical-security",
+      "title": "인적·외부자·물리 보안", "sourceChapter": "5", "sourceSection": "5.3.2",
+      "learningPath": "management-law", "prerequisites": ["control-classification"], "status": "active"
+    },
+    {
+      "id": "risk-lifecycle",
+      "title": "위험관리 절차와 답안 구조", "sourceChapter": "5", "sourceSection": "5.2.2",
+      "learningPath": "management-law", "prerequisites": ["risk-components"], "status": "active"
+    },
+    {
+      "id": "risk-treatment",
+      "title": "위험처리 4종", "sourceChapter": "5", "sourceSection": "5.2.5",
+      "learningPath": "management-law", "prerequisites": ["risk-lifecycle"], "status": "active"
+    },
+    {
+      "id": "risk-analysis-approaches",
+      "title": "위험분석 접근법과 정성·정량", "sourceChapter": "5", "sourceSection": "5.2.3",
+      "learningPath": "management-law", "prerequisites": ["risk-lifecycle"], "status": "active"
+    },
+    {
+      "id": "quantitative-risk",
+      "title": "AV·EF·SLE·ARO·ALE 계산", "sourceChapter": "5", "sourceSection": "5.2.4",
+      "learningPath": "management-law", "prerequisites": ["risk-lifecycle"], "status": "active"
+    },
+    {
+      "id": "business-continuity-terms",
+      "title": "BIA·BCP·DRP 구분", "sourceChapter": "5", "sourceSection": "5.3.3",
+      "learningPath": "management-law", "prerequisites": [], "status": "active"
+    },
+    {
+      "id": "recovery-objectives",
+      "title": "RTO·RPO·MTD·WRT", "sourceChapter": "5", "sourceSection": "5.3.3",
+      "learningPath": "management-law", "prerequisites": ["business-continuity-terms"], "status": "active"
+    },
+    {
+      "id": "continuity-strategy",
+      "title": "BCP 수립·복구센터·백업", "sourceChapter": "5", "sourceSection": "5.3.3~5.3.5",
+      "learningPath": "management-law", "prerequisites": ["recovery-objectives"], "status": "active"
+    },
+    {
+      "id": "information-protection-objectives",
+      "title": "정보보호 목표와 확장 속성", "sourceChapter": "5", "sourceSection": "5.1.1",
+      "learningPath": "management-law", "prerequisites": [], "status": "active"
+    },
+    {
+      "id": "security-governance",
+      "title": "PDCA·CISO·정보보호 계획", "sourceChapter": "5", "sourceSection": "5.1.2, 5.1.3",
+      "learningPath": "management-law", "prerequisites": ["information-protection-objectives"], "status": "active"
+    },
+    {
+      "id": "asset-governance",
+      "title": "문서 체계·정보자산 관리", "sourceChapter": "5", "sourceSection": "5.1.3, 5.1.4",
+      "learningPath": "management-law", "prerequisites": ["security-governance", "risk-components"], "status": "active"
+    },
+    {
+      "id": "isms-certification",
+      "title": "ISMS와 ISMS-P", "sourceChapter": "5", "sourceSection": "5.5.1",
+      "learningPath": "management-law", "prerequisites": ["security-governance"], "status": "active"
+    },
+    {
+      "id": "incident-response",
+      "title": "침해사고 대응과 Cyber Kill Chain", "sourceChapter": "5", "sourceSection": "5.4.1, 5.4.2",
+      "learningPath": "management-law", "prerequisites": ["control-classification"], "status": "active"
+    },
+    {
+      "id": "digital-forensics",
+      "title": "디지털 포렌식과 연계보관성", "sourceChapter": "5", "sourceSection": "5.4.3, 5.4.4",
+      "learningPath": "management-law", "prerequisites": ["incident-response"], "status": "active"
+    },
+    {
+      "id": "information-communications-law",
+      "title": "침해사고 신고와 IDC 사업자", "sourceChapter": "5", "sourceSection": "5.6.2",
+      "learningPath": "management-law", "prerequisites": ["incident-response"], "status": "active"
+    },
+    {
+      "id": "privacy-data-categories",
+      "title": "개인정보·가명·익명과 특수정보", "sourceChapter": "5", "sourceSection": "5.7.1, 5.7.2",
+      "learningPath": "management-law", "prerequisites": [], "status": "active"
+    },
+    {
+      "id": "pseudonymous-information",
+      "title": "가명정보 처리와 재식별 금지", "sourceChapter": "5", "sourceSection": "5.7.4",
+      "learningPath": "management-law", "prerequisites": ["privacy-data-categories"], "status": "active"
+    },
+    {
+      "id": "privacy-consent-lifecycle",
+      "title": "동의·제공·위탁·파기·권리", "sourceChapter": "5", "sourceSection": "5.7.2, 5.7.3, 5.7.5",
+      "learningPath": "management-law", "prerequisites": ["privacy-data-categories"], "status": "active"
+    },
+    {
+      "id": "privacy-roles-impact",
+      "title": "CPO와 개인정보 영향평가", "sourceChapter": "5", "sourceSection": "5.7.6",
+      "learningPath": "management-law", "prerequisites": ["privacy-consent-lifecycle"], "status": "active"
+    },
+    {
+      "id": "privacy-breach-response",
+      "title": "개인정보 유출 통지·신고", "sourceChapter": "5", "sourceSection": "5.7.7",
+      "learningPath": "management-law", "prerequisites": ["privacy-consent-lifecycle"], "status": "active"
+    },
+    {
+      "id": "privacy-safeguards",
+      "title": "개인정보 안전성 확보조치", "sourceChapter": "5", "sourceSection": "5.7.8",
+      "learningPath": "management-law", "prerequisites": ["privacy-data-categories"], "status": "active"
+    },
+    {
+      "id": "video-information-devices",
+      "title": "고정형·이동형 영상정보처리기기", "sourceChapter": "5", "sourceSection": "5.7.9",
+      "learningPath": "management-law", "prerequisites": ["privacy-consent-lifecycle"], "status": "active"
+    },
+    {
+      "id": "biometric-information-protection",
+      "title": "생체인식정보 보호 6원칙", "sourceChapter": "5", "sourceSection": "5.7.10",
+      "learningPath": "management-law", "prerequisites": ["privacy-data-categories"], "status": "active"
     }
   ]
 }

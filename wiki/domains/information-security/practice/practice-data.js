@@ -50,12 +50,12 @@ window.PRACTICE_DATA = {
       {
         "id": "management-law",
         "title": "관리·법규·접근통제",
-        "status": "future"
+        "status": "active"
       },
       {
         "id": "system-security",
         "title": "시스템 보안",
-        "status": "future"
+        "status": "active"
       },
       {
         "id": "service-security",
@@ -84,6 +84,35 @@ window.PRACTICE_DATA = {
       }
     ],
     "topics": [
+      {
+        "id": "linux-account-access",
+        "title": "Linux 계정·PAM·권한",
+        "sourceChapter": "1",
+        "sourceSection": "1.1.1~1.1.3, 1.2.2",
+        "learningPath": "system-security",
+        "prerequisites": [],
+        "status": "active"
+      },
+      {
+        "id": "linux-log-service-control",
+        "title": "Linux 로그·서비스 접근통제",
+        "sourceChapter": "1",
+        "sourceSection": "1.1.4, 1.2.1, 1.2.3",
+        "learningPath": "system-security",
+        "prerequisites": [
+          "linux-account-access"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "windows-os-hardening",
+        "title": "Windows 권한·암호화·로그 점검",
+        "sourceChapter": "1",
+        "sourceSection": "1.3.2, 1.4",
+        "learningPath": "system-security",
+        "prerequisites": [],
+        "status": "active"
+      },
       {
         "id": "acl-basics",
         "title": "Cisco ACL 기본",
@@ -271,6 +300,55 @@ window.PRACTICE_DATA = {
         "status": "active"
       },
       {
+        "id": "network-packet-basics",
+        "title": "IP·ICMP·TCP·서브넷 패킷 판독",
+        "sourceChapter": "2",
+        "sourceSection": "2.1.2~2.1.5",
+        "learningPath": "network-security",
+        "prerequisites": [],
+        "status": "active"
+      },
+      {
+        "id": "network-routing-basics",
+        "title": "라우팅·VLAN 기본 판독",
+        "sourceChapter": "2",
+        "sourceSection": "2.1.6, 2.1.7",
+        "learningPath": "network-security",
+        "prerequisites": [
+          "network-packet-basics"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "network-attack-analysis",
+        "title": "스캔·스푸핑·DoS 공격 판독",
+        "sourceChapter": "2",
+        "sourceSection": "2.2",
+        "learningPath": "network-security",
+        "prerequisites": [
+          "network-packet-basics"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "network-name-monitoring-basics",
+        "title": "DNS·SNMP·침입탐지 기본",
+        "sourceChapter": "2",
+        "sourceSection": "2.1.10, 2.3.5, 2.4",
+        "learningPath": "network-security",
+        "prerequisites": [],
+        "status": "active"
+      },
+      {
+        "id": "network-secure-communications",
+        "title": "IPsec·TLS 핵심 역할",
+        "sourceChapter": "2",
+        "sourceSection": "2.5",
+        "learningPath": "network-security",
+        "prerequisites": [],
+        "status": "active"
+      },
+      {
         "id": "web-session-auth",
         "title": "HTTP·쿠키·세션·인증 통제",
         "sourceChapter": "3",
@@ -332,10 +410,4590 @@ window.PRACTICE_DATA = {
           "database-security-audit"
         ],
         "status": "active"
+      },
+      {
+        "id": "risk-components",
+        "title": "자산·위협·취약점·위험",
+        "sourceChapter": "5",
+        "sourceSection": "5.2.1",
+        "learningPath": "management-law",
+        "prerequisites": [],
+        "status": "active"
+      },
+      {
+        "id": "control-classification",
+        "title": "통제 목적·구현 수단 분류",
+        "sourceChapter": "5",
+        "sourceSection": "5.3.1",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "risk-components"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "personnel-physical-security",
+        "title": "인적·외부자·물리 보안",
+        "sourceChapter": "5",
+        "sourceSection": "5.3.2",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "control-classification"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "risk-lifecycle",
+        "title": "위험관리 절차와 답안 구조",
+        "sourceChapter": "5",
+        "sourceSection": "5.2.2",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "risk-components"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "risk-treatment",
+        "title": "위험처리 4종",
+        "sourceChapter": "5",
+        "sourceSection": "5.2.5",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "risk-lifecycle"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "risk-analysis-approaches",
+        "title": "위험분석 접근법과 정성·정량",
+        "sourceChapter": "5",
+        "sourceSection": "5.2.3",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "risk-lifecycle"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "quantitative-risk",
+        "title": "AV·EF·SLE·ARO·ALE 계산",
+        "sourceChapter": "5",
+        "sourceSection": "5.2.4",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "risk-lifecycle"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "business-continuity-terms",
+        "title": "BIA·BCP·DRP 구분",
+        "sourceChapter": "5",
+        "sourceSection": "5.3.3",
+        "learningPath": "management-law",
+        "prerequisites": [],
+        "status": "active"
+      },
+      {
+        "id": "recovery-objectives",
+        "title": "RTO·RPO·MTD·WRT",
+        "sourceChapter": "5",
+        "sourceSection": "5.3.3",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "business-continuity-terms"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "continuity-strategy",
+        "title": "BCP 수립·복구센터·백업",
+        "sourceChapter": "5",
+        "sourceSection": "5.3.3~5.3.5",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "recovery-objectives"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "information-protection-objectives",
+        "title": "정보보호 목표와 확장 속성",
+        "sourceChapter": "5",
+        "sourceSection": "5.1.1",
+        "learningPath": "management-law",
+        "prerequisites": [],
+        "status": "active"
+      },
+      {
+        "id": "security-governance",
+        "title": "PDCA·CISO·정보보호 계획",
+        "sourceChapter": "5",
+        "sourceSection": "5.1.2, 5.1.3",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "information-protection-objectives"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "asset-governance",
+        "title": "문서 체계·정보자산 관리",
+        "sourceChapter": "5",
+        "sourceSection": "5.1.3, 5.1.4",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "security-governance",
+          "risk-components"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "isms-certification",
+        "title": "ISMS와 ISMS-P",
+        "sourceChapter": "5",
+        "sourceSection": "5.5.1",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "security-governance"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "incident-response",
+        "title": "침해사고 대응과 Cyber Kill Chain",
+        "sourceChapter": "5",
+        "sourceSection": "5.4.1, 5.4.2",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "control-classification"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "digital-forensics",
+        "title": "디지털 포렌식과 연계보관성",
+        "sourceChapter": "5",
+        "sourceSection": "5.4.3, 5.4.4",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "incident-response"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "information-communications-law",
+        "title": "침해사고 신고와 IDC 사업자",
+        "sourceChapter": "5",
+        "sourceSection": "5.6.2",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "incident-response"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "privacy-data-categories",
+        "title": "개인정보·가명·익명과 특수정보",
+        "sourceChapter": "5",
+        "sourceSection": "5.7.1, 5.7.2",
+        "learningPath": "management-law",
+        "prerequisites": [],
+        "status": "active"
+      },
+      {
+        "id": "pseudonymous-information",
+        "title": "가명정보 처리와 재식별 금지",
+        "sourceChapter": "5",
+        "sourceSection": "5.7.4",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "privacy-data-categories"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "privacy-consent-lifecycle",
+        "title": "동의·제공·위탁·파기·권리",
+        "sourceChapter": "5",
+        "sourceSection": "5.7.2, 5.7.3, 5.7.5",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "privacy-data-categories"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "privacy-roles-impact",
+        "title": "CPO와 개인정보 영향평가",
+        "sourceChapter": "5",
+        "sourceSection": "5.7.6",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "privacy-consent-lifecycle"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "privacy-breach-response",
+        "title": "개인정보 유출 통지·신고",
+        "sourceChapter": "5",
+        "sourceSection": "5.7.7",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "privacy-consent-lifecycle"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "privacy-safeguards",
+        "title": "개인정보 안전성 확보조치",
+        "sourceChapter": "5",
+        "sourceSection": "5.7.8",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "privacy-data-categories"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "video-information-devices",
+        "title": "고정형·이동형 영상정보처리기기",
+        "sourceChapter": "5",
+        "sourceSection": "5.7.9",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "privacy-consent-lifecycle"
+        ],
+        "status": "active"
+      },
+      {
+        "id": "biometric-information-protection",
+        "title": "생체인식정보 보호 6원칙",
+        "sourceChapter": "5",
+        "sourceSection": "5.7.10",
+        "learningPath": "management-law",
+        "prerequisites": [
+          "privacy-data-categories"
+        ],
+        "status": "active"
       }
     ]
   },
   "questions": [
+    {
+      "id": "information-protection-objectives-01",
+      "curriculumId": "information-protection-objectives",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "정보보호 3요소",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "인가된 주체만 정보에 접근하게 하는 것은 (A), 정보가 허가 없이 변경·파괴되지 않게 하는 것은 (B), 필요할 때 정보와 서비스를 사용할 수 있게 하는 것은 (C)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "접근 제한 속성",
+            "accepted": [
+              "기밀성",
+              "confidentiality"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "비인가 변경 방지 속성",
+            "accepted": [
+              "무결성",
+              "integrity"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "필요 시 사용 가능 속성",
+            "accepted": [
+              "가용성",
+              "availability"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "CIA는 유출 방지(기밀성), 위·변조 방지(무결성), 서비스 지속 가능(가용성)을 각각 구분합니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+          "line": 37,
+          "excerpt": "정보보안 3요소의 빈칸을 채우시오.",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 118,
+          "excerpt": "가용성(Availability) | 필요할 때 정보·서비스 사용 가능",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "governance",
+        "cia",
+        "recall"
+      ]
+    },
+    {
+      "id": "information-protection-objectives-02",
+      "curriculumId": "information-protection-objectives",
+      "stage": "cloze",
+      "prerequisites": [
+        "information-protection-objectives-01"
+      ],
+      "title": "확장 정보보호 속성 구분",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "주체나 메시지의 출처가 주장과 일치함을 확인하는 속성은 (A), 행위를 특정 주체까지 추적하는 속성은 (B), 송수신·행위 사실을 사후에 부인하기 어렵게 하는 속성은 (C)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "출처 일치 속성",
+            "accepted": [
+              "인증성",
+              "authentication"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "행위 추적 속성",
+            "accepted": [
+              "책임추적성",
+              "책임 추적성",
+              "accountability"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "사후 부인 방지 속성",
+            "accepted": [
+              "부인방지",
+              "부인 방지",
+              "non-repudiation"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "인증성은 출처 확인, 책임추적성은 행위자 추적, 부인방지는 행위 사실의 사후 부인을 막는 속성입니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 119,
+          "excerpt": "인증성 | 주체·메시지 출처가 주장과 일치",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 120,
+          "excerpt": "책임추적성 | 행위를 특정 주체까지 추적",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 121,
+          "excerpt": "부인방지 | 송수신·행위 사실의 사후 부인을 어렵게 함",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "governance",
+        "authentication",
+        "accountability",
+        "nonrepudiation"
+      ]
+    },
+    {
+      "id": "security-governance-02",
+      "curriculumId": "security-governance",
+      "stage": "order",
+      "prerequisites": [
+        "security-governance-01"
+      ],
+      "title": "PDCA 순환",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "정보보호 관리체계의 지속개선 순환을 올바른 순서로 배열하세요."
+        }
+      ],
+      "answer": {
+        "type": "order",
+        "items": [
+          {
+            "id": "plan",
+            "label": "Plan(계획)"
+          },
+          {
+            "id": "do",
+            "label": "Do(실행)"
+          },
+          {
+            "id": "check",
+            "label": "Check(점검)"
+          },
+          {
+            "id": "act",
+            "label": "Act(개선)"
+          }
+        ],
+        "expected": [
+          "plan",
+          "do",
+          "check",
+          "act"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "Plan에서 범위·목표·위험과 대책을 계획하고, Do에서 운영하며, Check에서 점검·감사하고, Act에서 부적합을 시정하여 다음 계획에 반영합니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+          "line": 37,
+          "excerpt": "계획단계(Plan) B : 실행단계(Do) C : 점검단계(Check)",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 132,
+          "excerpt": "Act | 부적합 원인 시정, 지속 개선과 다음 계획 반영",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "governance",
+        "pdca",
+        "order"
+      ]
+    },
+    {
+      "id": "security-governance-03",
+      "curriculumId": "security-governance",
+      "stage": "essay",
+      "prerequisites": [
+        "security-governance-02"
+      ],
+      "title": "CISO 역할 4가지",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "정보보호 최고책임자(CISO)의 역할과 책임을 네 가지로 서술하세요. 관리체계, 위험, 교육·훈련, 법령상 조치를 각각 구분합니다."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "정보보호 관리체계를 수립·시행하고 지속적으로 개선한다.",
+          "정보보호 위험을 식별·평가하고 필요한 보호대책을 마련·이행한다.",
+          "임직원 정보보호 교육과 모의훈련의 계획을 수립하고 시행한다.",
+          "정보통신망법 등 관계 법령에 따라 정보보호에 필요한 조치를 이행·관리한다."
+        ],
+        "keywordGroups": [
+          {
+            "label": "관리체계",
+            "terms": [
+              "관리체계",
+              "수립",
+              "시행",
+              "개선"
+            ]
+          },
+          {
+            "label": "위험과 대책",
+            "terms": [
+              "위험",
+              "식별",
+              "평가",
+              "대책"
+            ]
+          },
+          {
+            "label": "교육·훈련",
+            "terms": [
+              "교육",
+              "모의훈련",
+              "훈련",
+              "계획"
+            ]
+          },
+          {
+            "label": "법령상 조치",
+            "terms": [
+              "법령",
+              "관계 법령",
+              "필요한 조치",
+              "이행"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "CISO와 CPO의 책임 범위를 혼동하지 않는다.",
+          "사고대응만 쓰고 관리체계·위험관리·교육훈련을 빠뜨리지 않는다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "기출형 CISO 답안은 ‘관리체계 → 위험·대책 → 교육·모의훈련 → 법령상 조치’의 네 묶음으로 쓰면 누락을 줄일 수 있습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+          "line": 43,
+          "excerpt": "정보보호 최고책임자(CISO; Chief Information Security Officer)의 역할 및 책임(R&R) 4가지를 서술하시오.",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 138,
+          "excerpt": "임직원 교육, 인식제고, 사고대응 훈련·모의훈련을 실시한다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "governance",
+        "ciso",
+        "essay",
+        "past-pattern"
+      ]
+    },
+    {
+      "id": "security-governance-01",
+      "curriculumId": "security-governance",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "방침에서 실행계획까지",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "정보보호 목표·범위·책임을 문서화한 것은 (A)이고, 이를 토대로 예산·일정을 포함해 수립하는 것은 (B)입니다. (B)는 (C)이 승인하고 (D)가 추진상황을 관리합니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "상위 방침",
+            "accepted": [
+              "정보보호 정책",
+              "정보보호 방침"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "연간 실행 문서",
+            "accepted": [
+              "정보보호 실행계획",
+              "정보보호 실행 계획"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "승인 주체",
+            "accepted": [
+              "최고경영층",
+              "최고경영진"
+            ]
+          },
+          {
+            "id": "D",
+            "label": "추진 관리 책임자",
+            "accepted": [
+              "CISO",
+              "정보보호 최고책임자",
+              "정보보호최고책임자"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "정책은 방향과 원칙이고, 실행계획은 예산·일정이 포함된 당해 연도 이행 계획입니다. 승인과 추진 관리를 분리해 씁니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+          "line": 46,
+          "excerpt": "정보보호 목표, 범위, 책임 등을 포함한 정보보호 방침을 수립한다.",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 156,
+          "excerpt": "최고경영층이 실행계획을 승인하고 CISO가 추진상황을 매 반기 점검한다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "governance",
+        "policy",
+        "execution-plan",
+        "ciso"
+      ]
+    },
+    {
+      "id": "isms-certification-01",
+      "curriculumId": "isms-certification",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "ISMS-P 인증기준 3영역",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "ISMS-P의 세 인증기준 영역은 (A), (B), (C)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "관리 영역",
+            "accepted": [
+              "관리체계 수립 및 운영"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "보호조치 영역",
+            "accepted": [
+              "보호대책 요구사항"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "개인정보 영역",
+            "accepted": [
+              "개인정보 처리 단계별 요구사항"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "ISMS는 1·2영역, ISMS-P는 1·2·3영역을 적용합니다. 과거 기출의 항목 수와 현재 기준 수는 분리해서 봅니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+          "line": 36,
+          "excerpt": "관리체계 수립 및 운영, 보호대책 요구사항, 개인정보 처리 단계별 요구사항",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 477,
+          "excerpt": "영역 1+2+3을 적용한다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "governance",
+        "isms",
+        "isms-p",
+        "certification"
+      ]
+    },
+    {
+      "id": "isms-certification-02",
+      "curriculumId": "isms-certification",
+      "stage": "practical",
+      "prerequisites": [
+        "isms-certification-01"
+      ],
+      "title": "현행 ISMS-P 항목 수",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "현행 ISMS-P에서 관리체계 수립 및 운영, 보호대책 요구사항, 개인정보 처리 단계별 요구사항의 인증기준 수와 ISMS-P 합계를 순서대로 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "관리체계 수",
+            "accepted": [
+              "16",
+              "16개"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "보호대책 수",
+            "accepted": [
+              "64",
+              "64개"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "개인정보 처리 수",
+            "accepted": [
+              "21",
+              "21개"
+            ]
+          },
+          {
+            "id": "D",
+            "label": "ISMS-P 합계",
+            "accepted": [
+              "101",
+              "101개"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "현행 학습 기준은 16+64+21=101개이며, ISMS는 앞의 두 영역인 80개입니다. 과거 102개 표기를 현재 문제에 그대로 적용하지 않습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 485,
+          "excerpt": "ISMS-P 합계** | **21** | **101** | **16+64+21**",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 487,
+          "excerpt": "ISMS는 1+2영역인 80개, ISMS-P는 101개다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "governance",
+        "isms",
+        "isms-p",
+        "current-standard"
+      ]
+    },
+    {
+      "id": "incident-response-01",
+      "curriculumId": "incident-response",
+      "stage": "order",
+      "prerequisites": [],
+      "title": "국내 침해사고 대응 7단계",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "학습용 국내 침해사고 대응 단계를 올바른 순서로 배열하세요."
+        }
+      ],
+      "answer": {
+        "type": "order",
+        "items": [
+          {
+            "id": "prepare",
+            "label": "사고 전 준비"
+          },
+          {
+            "id": "detect",
+            "label": "사고 탐지"
+          },
+          {
+            "id": "initial",
+            "label": "초기 대응"
+          },
+          {
+            "id": "strategy",
+            "label": "대응 전략 체계화"
+          },
+          {
+            "id": "investigate",
+            "label": "사고 조사"
+          },
+          {
+            "id": "report",
+            "label": "보고서 작성"
+          },
+          {
+            "id": "recover",
+            "label": "복구 및 재발방지"
+          }
+        ],
+        "expected": [
+          "prepare",
+          "detect",
+          "initial",
+          "strategy",
+          "investigate",
+          "report",
+          "recover"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "기출 복원에는 마지막 단계를 ‘해결’로 표기한 사례가 있으나, 학습 답안은 복구와 재발방지 활동을 드러내도록 ‘복구 및 재발방지’로 씁니다. 실제 보기에서 ‘해결’이 주어지면 그 표현을 따릅니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+          "line": 37,
+          "excerpt": "사고 전 준비과정 > 사고 탐지 > (A) > 대응 전략 체계화 > 사고 조사 > 보고서 작성 > 해결",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 374,
+          "excerpt": "→ 사고 조사 → 보고서 작성 → 복구 및 재발방지",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "incident-response",
+        "order",
+        "recovery",
+        "past-pattern"
+      ]
+    },
+    {
+      "id": "incident-response-02",
+      "curriculumId": "incident-response",
+      "stage": "cloze",
+      "prerequisites": [
+        "incident-response-01"
+      ],
+      "title": "초기 대응과 마지막 단계",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "사고 탐지 뒤 증거 보존, 대응팀 소집·통지, 임시 조치를 하는 단계는 (A)입니다. 사고 조사와 보고서 작성 뒤 검증된 상태로 정상화하고 같은 사고를 막는 단계는 (B)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "탐지 직후 단계",
+            "accepted": [
+              "초기 대응"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "마지막 단계",
+            "accepted": [
+              "복구 및 재발방지",
+              "복구 및 재발 방지"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "초기 대응은 확산 억제와 증거보존을 시작하는 단계이고, 마지막 단계는 단순 복구에서 끝나지 않고 통제·정책·훈련 개선까지 연결합니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 381,
+          "excerpt": "초기 대응 | 증거 보존, 사고대응팀 소집·관련 부서 통지, 임시 조치",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 385,
+          "excerpt": "복구 및 재발방지 | 검증된 백업·정상 이미지로 복구하고",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "incident-response",
+        "initial-response",
+        "recovery"
+      ]
+    },
+    {
+      "id": "incident-response-03",
+      "curriculumId": "incident-response",
+      "stage": "recall",
+      "prerequisites": [
+        "incident-response-01"
+      ],
+      "title": "Cyber Kill Chain의 관점",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "Cyber Kill Chain은 공격자와 방어자 중 어느 관점에서 공격 진행을 설명하나요?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "관점",
+        "accepted": [
+          "공격자",
+          "공격자 관점",
+          "공격자 관점이다"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "침해사고 대응은 방어자가 사고를 처리하는 절차이고, Cyber Kill Chain은 공격자가 목표 달성까지 진행하는 생명주기입니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 412,
+          "excerpt": "공격자가 목표를 달성하기까지의 진행을 시간 순서로 설명한다.",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 428,
+          "excerpt": "사고대응 절차는 조직이 사고를 처리하는 방어자 관점이고, Kill Chain은 공격 진행을 보는 공격자 생명주기 관점이다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "incident-response",
+        "cyber-kill-chain",
+        "attacker-perspective"
+      ]
+    },
+    {
+      "id": "incident-response-04",
+      "curriculumId": "incident-response",
+      "stage": "order",
+      "prerequisites": [
+        "incident-response-03"
+      ],
+      "title": "Cyber Kill Chain 7단계",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "Cyber Kill Chain의 공격 진행 7단계를 올바른 순서로 배열하세요."
+        }
+      ],
+      "answer": {
+        "type": "order",
+        "items": [
+          {
+            "id": "recon",
+            "label": "정찰"
+          },
+          {
+            "id": "weapon",
+            "label": "무기화"
+          },
+          {
+            "id": "delivery",
+            "label": "전달"
+          },
+          {
+            "id": "exploit",
+            "label": "취약점 악용"
+          },
+          {
+            "id": "install",
+            "label": "설치"
+          },
+          {
+            "id": "c2",
+            "label": "명령·제어(C2)"
+          },
+          {
+            "id": "objective",
+            "label": "목적 달성"
+          }
+        ],
+        "expected": [
+          "recon",
+          "weapon",
+          "delivery",
+          "exploit",
+          "install",
+          "c2",
+          "objective"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "앞 세 단계는 ‘찾아본다 → 공격 도구를 만든다 → 대상에게 보낸다’로, 이후는 악용·설치·명령제어·목적달성으로 흐름을 잡습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+          "line": 38,
+          "excerpt": "정찰·무기화·배달·취약점 공격·설치·명령 및 제어·표적 행동 단계",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 417,
+          "excerpt": "→ 명령·제어(Command and Control, C2) → 목적 달성(Actions on Objectives)",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "incident-response",
+        "cyber-kill-chain",
+        "order"
+      ]
+    },
+    {
+      "id": "digital-forensics-01",
+      "curriculumId": "digital-forensics",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "디지털 포렌식 5대 원칙",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "법적 권한·절차에 따른 수집은 (A), 같은 조건·방법에서 같은 결과를 확인하는 것은 (B), 휘발·변경 전에 확보하는 것은 (C), 증거의 인수인계·보관 경로를 추적하는 것은 (D), 증거가 변경되지 않았음을 보장하는 것은 (E) 원칙입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "적법한 수집",
+            "accepted": [
+              "정당성",
+              "적법성"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "동일 결과 확인",
+            "accepted": [
+              "재현성"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "적시 확보",
+            "accepted": [
+              "신속성"
+            ]
+          },
+          {
+            "id": "D",
+            "label": "증거 이동 추적",
+            "accepted": [
+              "연계보관성",
+              "연계 보관성",
+              "chain of custody",
+              "coc"
+            ]
+          },
+          {
+            "id": "E",
+            "label": "변경·훼손 방지",
+            "accepted": [
+              "무결성"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "정합성은 이 5대 원칙의 명칭이 아닙니다. 무결성은 증거의 변경·훼손이 없음을, 연계보관성은 증거 이동의 추적 가능성을 뜻합니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+          "line": 43,
+          "excerpt": "디지털 포렌식 5대 원칙 중 3가지를 설명하시오.",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 444,
+          "excerpt": "연계보관성 | 발견부터 법정 제출까지 인수인계·보관 경로를 추적",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "forensics",
+        "principles",
+        "chain-of-custody"
+      ]
+    },
+    {
+      "id": "digital-forensics-02",
+      "curriculumId": "digital-forensics",
+      "stage": "recall",
+      "prerequisites": [
+        "digital-forensics-01"
+      ],
+      "title": "원본과 사본의 동일성 확인",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "포렌식에서 원본과 수집 사본의 동일성, 그리고 수집 뒤 변조 여부를 확인하기 위해 비교하는 값은 무엇인가요?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "확인 값",
+        "accepted": [
+          "해시",
+          "해시값",
+          "hash",
+          "hash value"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "원본은 쓰기 방지 후 보존하고 분석은 사본에서 수행합니다. 수집 전후 해시값을 비교해 무결성을 입증하되, 해시 일치만으로 수집의 적법성까지 자동 입증되는 것은 아닙니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 446,
+          "excerpt": "무결성은 원본 쓰기방지, bit-stream image, 수집 전후 hash",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "forensics",
+        "hash",
+        "integrity"
+      ]
+    },
+    {
+      "id": "digital-forensics-03",
+      "curriculumId": "digital-forensics",
+      "stage": "order",
+      "prerequisites": [
+        "digital-forensics-01"
+      ],
+      "title": "연계보관성의 증거 이동",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "기출형 연계보관성(Chain of Custody)의 증거 이동 단계를 올바른 순서로 배열하세요."
+        }
+      ],
+      "answer": {
+        "type": "order",
+        "items": [
+          {
+            "id": "collect",
+            "label": "증거 수집"
+          },
+          {
+            "id": "transfer",
+            "label": "이송"
+          },
+          {
+            "id": "analyze",
+            "label": "분석"
+          },
+          {
+            "id": "store",
+            "label": "보관"
+          },
+          {
+            "id": "submit",
+            "label": "법정 제출"
+          }
+        ],
+        "expected": [
+          "collect",
+          "transfer",
+          "analyze",
+          "store",
+          "submit"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "각 단계에서 담당자·책임자와 인수인계 이력이 명확하고 전체 과정이 추적 가능해야 합니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+          "line": 43,
+          "excerpt": "단계 순서 : 증거 수집 → 이송 → 분석 → 보관 → 법정 제출",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 458,
+          "excerpt": "모든 인계자·인수자·시간·목적·보관장소를 기록한다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "forensics",
+        "chain-of-custody",
+        "order"
+      ]
+    },
+    {
+      "id": "digital-forensics-04",
+      "curriculumId": "digital-forensics",
+      "stage": "cloze",
+      "prerequisites": [
+        "digital-forensics-02"
+      ],
+      "title": "Live와 Dead 포렌식 구분",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "실행 중인 시스템의 메모리·프로세스·네트워크 연결을 확보하는 방식은 (A), 전원이 꺼진 저장매체를 쓰기 방지 장치로 획득해 변경을 줄이는 방식은 (B)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "실행 중 수집",
+            "accepted": [
+              "Live Forensics",
+              "라이브 포렌식"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "전원 종료 후 획득",
+            "accepted": [
+              "Dead Forensics",
+              "데드 포렌식"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "Live는 휘발성 정보를 확보할 수 있지만 시스템을 변경할 위험이 있고, Dead는 저장매체 변경을 줄이지만 메모리·연결 상태는 잃을 수 있습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 456,
+          "excerpt": "Live Forensics는 실행 중 메모리·프로세스·연결을 확보하지만",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 457,
+          "excerpt": "Dead Forensics는 전원을 끈 저장매체를 write blocker로 획득해",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "forensics",
+        "live-forensics",
+        "dead-forensics"
+      ]
+    },
+    {
+      "id": "information-communications-law-01",
+      "curriculumId": "information-communications-law",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "침해사고 신고 시점과 기관",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "정보통신서비스 제공자는 침해사고 발생 시 (A) 신고해야 하며, 사고를 인지한 때부터 (B) 이내에 과학기술정보통신부장관 또는 (C)에 신고해야 합니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "법률상 신고 시점",
+            "accepted": [
+              "즉시"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "인지 후 기한",
+            "accepted": [
+              "24시간",
+              "24 시간",
+              "24시간 이내",
+              "24 시간 이내"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "신고 기관",
+            "accepted": [
+              "KISA",
+              "한국인터넷진흥원",
+              "한국 인터넷 진흥원"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "이 문항은 정보통신서비스 제공자의 침해사고 신고입니다. 개인정보 유출의 72시간 통지·신고와 적용 법률·주체·기한을 섞지 않습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 548,
+          "excerpt": "과학기술정보통신부장관이나 KISA에 **즉시 신고**한다.",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 549,
+          "excerpt": "사고를 인지한 때부터 **24시간 이내** 신고",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "law",
+        "incident-reporting",
+        "kisa",
+        "deadline"
+      ]
+    },
+    {
+      "id": "information-communications-law-02",
+      "curriculumId": "information-communications-law",
+      "stage": "recall",
+      "prerequisites": [
+        "information-communications-law-01"
+      ],
+      "title": "IDC 사업자 기출 단서",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "타인의 정보통신서비스 제공을 위해 집적된 시설을 운영·관리하고, 보험·공제 가입 및 보호조치 이행점검·시정명령의 대상이 되는 사업자는 무엇인가요?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "사업자 명칭",
+        "accepted": [
+          "집적정보통신시설 사업자",
+          "집적 정보통신시설 사업자",
+          "IDC 사업자",
+          "idc 사업자"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "IDC 사업자는 ‘보호조치 이행 + 보험·공제 + 이행점검·시정명령’ 단서 묶음으로 식별합니다. ‘직접’이 아니라 ‘집적’정보통신시설입니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+          "line": 41,
+          "excerpt": "집적정보통신시설(IDC) 사업자",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 541,
+          "excerpt": "멸실·훼손·운영장애 피해배상을 위해 법이 정한 보험·공제 등에 가입한다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "law",
+        "idc",
+        "information-communications-network-act",
+        "past-pattern"
+      ]
+    },
+    {
+      "id": "risk-components-01",
+      "curriculumId": "risk-components",
+      "stage": "recall",
+      "prerequisites": [],
+      "title": "위협의 정의",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "정보 유출이나 서비스 장애처럼 피해를 줄 수 있는 잠재적 원인 또는 행위자를 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "용어",
+        "accepted": [
+          "위협",
+          "threat"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "공격자, 랜섬웨어, 실수처럼 자산에 피해를 줄 수 있는 잠재 원인이 위협이다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 178,
+          "excerpt": "위협이 취약점을 이용",
+          "status": "inferred"
+        }
+      ],
+      "tags": [
+        "risk",
+        "threat",
+        "recall"
+      ]
+    },
+    {
+      "id": "risk-components-02",
+      "curriculumId": "risk-components",
+      "stage": "recall",
+      "prerequisites": [
+        "risk-components-01"
+      ],
+      "title": "취약점의 정의",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "위협이 이용할 수 있는 자산·시스템의 약점을 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "용어",
+        "accepted": [
+          "취약점",
+          "취약성",
+          "vulnerability"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "패치 미적용, 하드코딩된 계정 정보, 서버 입력검증 부재 등이 취약점의 예다. 취약점 자체가 사고는 아니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 183,
+          "excerpt": "취약점은 그 자체가 사고가 아니라 약점",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "risk",
+        "vulnerability",
+        "recall"
+      ]
+    },
+    {
+      "id": "risk-components-03",
+      "curriculumId": "risk-components",
+      "stage": "recall",
+      "prerequisites": [
+        "risk-components-02"
+      ],
+      "title": "자산의 정의",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "조직이 보호하고 관리해야 하는 가치 있는 대상(정보, 시스템, 서비스, 인력 등)을 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "용어",
+        "accepted": [
+          "자산",
+          "asset"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "자산은 장비만 뜻하지 않는다. 정보·서비스·소프트웨어·인력처럼 보호 가치가 있는 대상을 포함한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 178,
+          "excerpt": "자산에 사고 발생",
+          "status": "inferred"
+        }
+      ],
+      "tags": [
+        "risk",
+        "asset",
+        "recall"
+      ]
+    },
+    {
+      "id": "risk-components-04",
+      "curriculumId": "risk-components",
+      "stage": "cloze",
+      "prerequisites": [
+        "risk-components-01",
+        "risk-components-02",
+        "risk-components-03"
+      ],
+      "title": "사고 흐름의 네 역할",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "랜섬웨어가 패치되지 않은 DB 서버의 약점을 이용해 DB 서비스와 데이터를 훼손할 수 있다. (A) 랜섬웨어, (B) 패치 미적용, (C) DB 서비스·데이터, (D) 정보 유출·서비스 장애가 생길 가능성과 영향을 각각 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "피해의 잠재 원인",
+            "accepted": [
+              "위협"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "위협이 이용하는 약점",
+            "accepted": [
+              "취약점",
+              "취약성"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "보호할 가치 있는 대상",
+            "accepted": [
+              "자산"
+            ]
+          },
+          {
+            "id": "D",
+            "label": "피해 가능성과 영향",
+            "accepted": [
+              "위험",
+              "리스크"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "시험에서는 ‘위협이 취약점을 이용해 자산에 영향을 준다’는 흐름으로 구분한다. 취약점은 사고 자체가 아니라 이용될 수 있는 약점이다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 178,
+          "excerpt": "위협이 취약점을 이용",
+          "status": "inferred"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 183,
+          "excerpt": "취약점은 그 자체가 사고가 아니라 약점",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "risk",
+        "asset",
+        "threat",
+        "vulnerability"
+      ]
+    },
+    {
+      "id": "risk-components-05",
+      "curriculumId": "risk-components",
+      "stage": "cloze",
+      "prerequisites": [
+        "risk-components-04"
+      ],
+      "title": "위험수준의 두 축",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "위험수준은 대략 (A) × (B)로 산정한다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "사고가 일어날 가능성",
+            "accepted": [
+              "발생가능성",
+              "가능성"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "사고가 일어났을 때의 크기",
+            "accepted": [
+              "영향도",
+              "영향"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "위험은 실제 손실 그 자체가 아니라, 발생할 가능성과 그 영향의 조합으로 본다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 179,
+          "excerpt": "위험수준 ≈ 발생가능성 × 영향도",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "risk",
+        "likelihood",
+        "impact"
+      ]
+    },
+    {
+      "id": "risk-components-06",
+      "curriculumId": "risk-components",
+      "stage": "decision",
+      "prerequisites": [
+        "risk-components-04"
+      ],
+      "title": "취약점이 없을 때의 위험",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "위협은 존재하지만 이용할 취약점이 없고, 영향도도 작다. 위험 수준은 일반적으로 높아지는가, 낮아질 수 있는가?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "판정",
+        "accepted": [
+          "낮아질 수 있다",
+          "낮다",
+          "낮아진다"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "위협의 존재만으로 위험을 단정하지 않는다. 이용 가능한 취약점과 영향이 함께 위험수준을 결정한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 182,
+          "excerpt": "이용할 취약점이 없거나 영향이 미미하면 위험은 낮을 수 있다",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "risk",
+        "threat",
+        "vulnerability",
+        "decision"
+      ]
+    },
+    {
+      "id": "control-classification-01",
+      "curriculumId": "control-classification",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "구현 수단에 따른 통제",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "정책·교육·직무분리는 (A) 통제, 출입통제·CCTV는 (B) 통제, 인증·암호화·방화벽은 (C) 통제이다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "정책·교육·절차 중심",
+            "accepted": [
+              "관리적"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "장소·시설·출입 중심",
+            "accepted": [
+              "물리적"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "시스템·기술 수단 중심",
+            "accepted": [
+              "기술적"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "이 분류는 ‘무엇으로 구현했는가’를 묻는다. 통제의 목적 분류와 섞지 않는다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 286,
+          "excerpt": "관리적 | 정책·교육·직무분리",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 287,
+          "excerpt": "물리적 | 보호구역·출입통제·CCTV",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 288,
+          "excerpt": "기술적 | 인증·접근통제·암호화",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "control",
+        "administrative",
+        "physical",
+        "technical"
+      ]
+    },
+    {
+      "id": "control-classification-02",
+      "curriculumId": "control-classification",
+      "stage": "cloze",
+      "prerequisites": [
+        "control-classification-01"
+      ],
+      "title": "목적에 따른 통제",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "사고 가능성을 막거나 줄이는 것은 (A) 통제, 이상·사고를 발견하고 경보하는 것은 (B) 통제, 원인을 제거하고 정상으로 되돌리는 것은 (C) 통제이다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "막는다",
+            "accepted": [
+              "예방",
+              "예방 통제"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "찾는다",
+            "accepted": [
+              "탐지",
+              "탐지 통제"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "고치거나 복구한다",
+            "accepted": [
+              "교정",
+              "복구",
+              "교정 통제",
+              "복구 통제"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "백지 회상은 ‘막는다 → 찾는다 → 고친다’로 시작한 뒤 예방·탐지·교정(복구)을 붙인다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 289,
+          "excerpt": "예방 | 사고 가능성 차단·감소",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 290,
+          "excerpt": "탐지 | 이상·사고를 발견·경보",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 291,
+          "excerpt": "교정/복구 | 원인 제거·정상 복원",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "control",
+        "preventive",
+        "detective",
+        "corrective"
+      ]
+    },
+    {
+      "id": "control-classification-03",
+      "curriculumId": "control-classification",
+      "stage": "decision",
+      "prerequisites": [
+        "control-classification-02"
+      ],
+      "title": "CCTV의 두 분류",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "CCTV는 구현 수단과 목적 기준으로 각각 어떤 통제인가? ‘구현 수단·목적’ 형식으로 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "통제 분류",
+        "accepted": [
+          "물리적·탐지 통제",
+          "물리적, 탐지 통제",
+          "물리적 통제·탐지 통제",
+          "물리적 통제, 탐지 통제",
+          "물리적 통제와 탐지 통제",
+          "물리적 통제 / 탐지 통제"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "하나의 통제는 구현 수단과 목적이라는 서로 다른 축에서 동시에 분류된다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 293,
+          "excerpt": "CCTV는 물리적 통제이면서 탐지·억제 통제",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "control",
+        "cctv",
+        "physical",
+        "detective"
+      ]
+    },
+    {
+      "id": "control-classification-04",
+      "curriculumId": "control-classification",
+      "stage": "decision",
+      "prerequisites": [
+        "control-classification-02"
+      ],
+      "title": "관리자 MFA의 두 분류",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "관리자 계정에 MFA를 적용해 탈취된 비밀번호만으로 로그인을 막는다. 구현 수단과 목적 기준으로 각각 어떤 통제인가? ‘구현 수단·목적’ 형식으로 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "통제 분류",
+        "accepted": [
+          "기술적·예방 통제",
+          "기술적, 예방 통제",
+          "기술적 통제·예방 통제",
+          "기술적 통제, 예방 통제",
+          "기술적 통제와 예방 통제",
+          "기술적 통제 / 예방 통제"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "MFA는 기술적으로 구현하며, 침해가 일어난 뒤 발견하는 것이 아니라 비정상 로그인을 사전에 막으므로 예방 통제다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 269,
+          "excerpt": "MFA·패치·이중화",
+          "status": "inferred"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 288,
+          "excerpt": "기술적 | 인증·접근통제",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 289,
+          "excerpt": "예방 | 사고 가능성 차단·감소",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "control",
+        "mfa",
+        "technical",
+        "preventive"
+      ]
+    },
+    {
+      "id": "control-classification-05",
+      "curriculumId": "control-classification",
+      "stage": "decision",
+      "prerequisites": [
+        "control-classification-02"
+      ],
+      "title": "오프라인 백업 복구 훈련의 목적",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "랜섬웨어 후 오프라인 백업으로 실제 복구해 보는 훈련은 목적 기준으로 주로 어떤 통제인가?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "통제 목적",
+        "accepted": [
+          "교정 통제",
+          "복구 통제",
+          "교정",
+          "복구",
+          "교정/복구 통제"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "복구 훈련은 사고 뒤 정상 상태로 돌아가는 능력과 절차를 검증하므로 교정/복구 통제다. 백업 성공 로그만으로 충분하지 않다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 291,
+          "excerpt": "교정/복구 | 원인 제거·정상 복원",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 363,
+          "excerpt": "실제 복구시험으로 무결성·RTO/RPO·절차·권한을 검증",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "control",
+        "backup",
+        "recovery",
+        "corrective"
+      ]
+    },
+    {
+      "id": "risk-lifecycle-01",
+      "curriculumId": "risk-lifecycle",
+      "stage": "essay",
+      "prerequisites": [],
+      "title": "기출형 위험관리 6단계 직접 작성",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "기출형 위험관리 6단계 라벨을 보기 없이 순서대로 직접 작성하세요."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "위험관리 전략·계획 수립",
+          "위험분석",
+          "위험평가",
+          "보호대책 선정",
+          "정보보호계획 수립",
+          "보호대책 실행"
+        ],
+        "keywordGroups": [
+          {
+            "label": "1단계: 위험관리 전략·계획 수립",
+            "terms": [
+              "위험관리 전략·계획 수립",
+              "위험관리 전략 계획 수립"
+            ]
+          },
+          {
+            "label": "2단계: 위험분석",
+            "terms": [
+              "위험분석",
+              "위험 분석"
+            ]
+          },
+          {
+            "label": "3단계: 위험평가",
+            "terms": [
+              "위험평가",
+              "위험 평가"
+            ]
+          },
+          {
+            "label": "4단계: 보호대책 선정",
+            "terms": [
+              "보호대책 선정",
+              "보호 대책 선정"
+            ]
+          },
+          {
+            "label": "5단계: 정보보호계획 수립",
+            "terms": [
+              "정보보호계획 수립",
+              "정보 보호 계획 수립"
+            ]
+          },
+          {
+            "label": "6단계: 보호대책 실행",
+            "terms": [
+              "보호대책 실행",
+              "보호 대책 실행"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "보호대책 선정과 정보보호계획 수립의 순서를 바꾸지 않는다.",
+          "정보보호계획 수립을 ‘보호계획 수립’으로 축약하지 않는다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "이 문항은 순서 배열이 아니라 직접 작성으로 회상한다. 대책 선정은 ‘무엇을 적용할지’, 정보보호계획 수립은 ‘누가·언제·어떻게 적용할지’, 보호대책 실행은 실제 적용이다. 실행 뒤에는 모니터링·재평가가 이어진다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 208,
+          "excerpt": "위험관리 전략·계획 수립 → 위험분석 → 위험평가",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 209,
+          "excerpt": "보호대책 선정 → 정보보호계획 수립 → 보호대책 실행",
+          "status": "source-derived"
+        },
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/05-analysis/recurrence-analysis.md",
+          "line": 33,
+          "excerpt": "위험관리/위험평가 | 79 | 30 | 25",
+          "status": "inferred"
+        }
+      ],
+      "tags": [
+        "risk-management",
+        "essay",
+        "recall",
+        "past-pattern"
+      ]
+    },
+    {
+      "id": "risk-lifecycle-02",
+      "curriculumId": "risk-lifecycle",
+      "stage": "cloze",
+      "prerequisites": [
+        "risk-lifecycle-01"
+      ],
+      "title": "분석과 평가의 경계",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "발생가능성과 영향으로 위험의 크기를 산정하는 것은 (A)이고, 그 결과를 수용기준과 비교하여 처리 우선순위를 정하는 것은 (B)이다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "위험의 크기 산정",
+            "accepted": [
+              "위험분석",
+              "분석"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "기준과 비교해 우선순위·처리 결정",
+            "accepted": [
+              "위험평가",
+              "평가"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "분석은 ‘얼마나 큰가’, 평가는 ‘우리 기준에서 어떻게 판단할 것인가’다. 평가 뒤에 위험처리 방식을 선택한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 203,
+          "excerpt": "분석은 위험의 크기를 산정하고, 평가는 기준과 비교",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "risk-management",
+        "analysis",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "risk-lifecycle-03",
+      "curriculumId": "risk-lifecycle",
+      "stage": "decision",
+      "prerequisites": [
+        "risk-lifecycle-02"
+      ],
+      "title": "수용기준을 정하는 시점",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "위험 수용기준은 위험분석·평가 전에 상황·범위와 함께 수립하는가?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "판정",
+        "accepted": [
+          "예",
+          "네",
+          "그렇다",
+          "수립한다",
+          "yes"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "수용기준은 분석 뒤에 임의로 맞추는 값이 아니라, 결과를 평가할 비교 기준으로 먼저 정한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 192,
+          "excerpt": "상황·범위·기준 수립",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 203,
+          "excerpt": "평가는 기준과 비교하여 처리 우선순위를 결정",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "risk-management",
+        "acceptance-criteria",
+        "evaluation"
+      ]
+    },
+    {
+      "id": "risk-lifecycle-04",
+      "curriculumId": "risk-lifecycle",
+      "stage": "practical",
+      "prerequisites": [
+        "risk-lifecycle-03"
+      ],
+      "title": "개념형 위험관리 흐름",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "단순화한 위험관리 흐름을 완성하세요. (A) → (B) → (C) → (D) → (E)"
+        },
+        {
+          "type": "text",
+          "content": "힌트: 대상을 찾고, 크기를 산정하고, 기준과 비교한 뒤, 처리하고, 계속 확인한다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "대상·위험을 찾는 단계",
+            "accepted": [
+              "식별",
+              "위험 식별"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "크기를 산정하는 단계",
+            "accepted": [
+              "분석",
+              "위험분석"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "기준과 비교하는 단계",
+            "accepted": [
+              "평가",
+              "위험평가"
+            ]
+          },
+          {
+            "id": "D",
+            "label": "방식을 정하고 이행하는 단계",
+            "accepted": [
+              "처리",
+              "위험처리"
+            ]
+          },
+          {
+            "id": "E",
+            "label": "지속 확인·다시 판단하는 단계",
+            "accepted": [
+              "모니터링",
+              "모니터링 및 재평가",
+              "재평가"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "긴 절차를 먼저 이 다섯 동사로 기억하고, 시험에서 6단계 라벨을 요구하면 전략·계획부터 보호대책 실행까지의 압축형을 쓴다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 203,
+          "excerpt": "식별 → 분석 → 평가 → 처리 → 모니터링",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "risk-management",
+        "lifecycle",
+        "practical"
+      ]
+    },
+    {
+      "id": "risk-lifecycle-05",
+      "curriculumId": "risk-lifecycle",
+      "stage": "essay",
+      "prerequisites": [
+        "risk-lifecycle-04"
+      ],
+      "title": "위험관리 서술 답안 골격",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "외부 연동 서비스의 취약점으로 고객정보 유출 가능성이 발견되었다. 위험관리 답안을 5문장 이내로 작성하세요. 자산·위협·취약점, 분석·평가, 처리·구현, 잔여위험 확인을 구분해야 합니다."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "고객정보와 외부 연동 서비스의 업무 중요도를 자산으로 식별하고, 공격자·오류 등의 위협과 연동 서비스의 취약점 및 기존 통제 한계를 구분한다.",
+          "발생가능성과 정보 유출·서비스 장애 영향을 분석한 뒤 위험수준을 수용기준과 비교하여 우선순위를 평가한다.",
+          "허용할 수 없으면 패치·접근통제 등으로 감소하거나, 서비스 변경·중단, 계약·보험 전가 중 적절한 처리방식을 정해 책임자·기한·자원을 지정한다.",
+          "처리 후 잔여위험을 재평가·승인하고 지속 모니터링한다."
+        ],
+        "keywordGroups": [
+          {
+            "label": "원인과 대상",
+            "terms": [
+              "자산",
+              "위협",
+              "취약점",
+              "기존 통제"
+            ]
+          },
+          {
+            "label": "분석·평가",
+            "terms": [
+              "발생가능성",
+              "영향",
+              "수용기준",
+              "평가"
+            ]
+          },
+          {
+            "label": "처리·이행",
+            "terms": [
+              "감소",
+              "회피",
+              "전가",
+              "수용",
+              "책임자",
+              "기한",
+              "통제"
+            ]
+          },
+          {
+            "label": "사후 확인",
+            "terms": [
+              "잔여위험",
+              "승인",
+              "모니터링",
+              "재평가"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "위협과 취약점을 같은 뜻으로 쓰지 않는다.",
+          "‘통제 구현’만 쓰고 평가 기준·처리 선택을 빠뜨리지 않는다.",
+          "위험 수용을 아무 조치도 하지 않는 것으로 쓰지 않는다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "서술형은 용어를 나열하기보다 ‘보호 대상 → 원인 → 분석·평가 → 처리·이행 → 잔여위험’ 순서로 논리를 보이게 쓴다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 278,
+          "excerpt": "위험수용기준과 비교해 허용할 수 없으면",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 783,
+          "excerpt": "위협·취약점·기존 통제의 한계를 구분",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 784,
+          "excerpt": "가능성·영향·법적 요구로 우선순위를 정한다",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "risk-management",
+        "essay",
+        "answer-template"
+      ]
+    },
+    {
+      "id": "risk-treatment-01",
+      "curriculumId": "risk-treatment",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "위험처리 4종을 상황에 연결",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "MFA·패치로 위험을 줄이는 것은 (A), 취약한 서비스를 종료하는 것은 (B), 사이버보험·SLA로 손실 일부를 나누는 것은 (C), 기준 이내의 잔여위험을 권한자가 승인하는 것은 (D)이다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "통제로 가능성·영향을 낮춤",
+            "accepted": [
+              "위험 감소",
+              "감소",
+              "완화",
+              "위험 완화"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "위험을 만드는 활동을 중단·변경",
+            "accepted": [
+              "위험 회피",
+              "회피"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "손실 일부를 계약·보험으로 이전",
+            "accepted": [
+              "위험 전가",
+              "전가",
+              "위험 공유",
+              "공유"
+            ]
+          },
+          {
+            "id": "D",
+            "label": "알고 승인해 받아들임",
+            "accepted": [
+              "위험 수용",
+              "수용"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "앞글자보다 ‘줄인다·하지 않는다·나눈다·승인해 받아들인다’의 의사결정으로 기억한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 269,
+          "excerpt": "감소/완화 | 통제로 가능성·영향을 낮춤",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 270,
+          "excerpt": "회피 | 위험을 만드는 활동을 중단·변경",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 271,
+          "excerpt": "전가/공유 | 계약·보험·외부서비스",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 272,
+          "excerpt": "수용 | 기준 이내 위험을 권한자가 알고 승인",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "risk-treatment",
+        "reduction",
+        "avoidance",
+        "transfer",
+        "acceptance"
+      ]
+    },
+    {
+      "id": "risk-treatment-02",
+      "curriculumId": "risk-treatment",
+      "stage": "decision",
+      "prerequisites": [
+        "risk-treatment-01"
+      ],
+      "title": "보험과 SLA의 처리 방식",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "서비스 중단 손실에 대비해 사이버보험에 가입하고, 클라우드 계약에 장애보상과 복구 수준을 명시했다. 주된 위험처리 방식은 무엇인가?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "위험처리",
+        "accepted": [
+          "위험 전가",
+          "전가",
+          "위험 공유",
+          "공유"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "보험·계약은 손실의 일부를 다른 주체와 나누는 전가/공유다. 조직의 감독·법적 책임까지 모두 사라지는 것은 아니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 271,
+          "excerpt": "사이버보험·SLA",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 274,
+          "excerpt": "전가는 책임 전체를 없애지 않는다",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "risk-treatment",
+        "transfer",
+        "insurance",
+        "sla"
+      ]
+    },
+    {
+      "id": "risk-treatment-03",
+      "curriculumId": "risk-treatment",
+      "stage": "decision",
+      "prerequisites": [
+        "risk-treatment-01"
+      ],
+      "title": "취약한 서비스 종료",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "보완할 수 없는 취약한 외부 연동 서비스를 조직이 종료했다. 이 위험처리 방식은 무엇인가?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "위험처리",
+        "accepted": [
+          "위험 회피",
+          "회피"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "위험을 낮추는 통제를 추가한 것이 아니라, 위험을 만드는 활동 자체를 중단했으므로 회피다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 270,
+          "excerpt": "취약한 서비스 폐지",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "risk-treatment",
+        "avoidance",
+        "service"
+      ]
+    },
+    {
+      "id": "risk-treatment-04",
+      "curriculumId": "risk-treatment",
+      "stage": "decision",
+      "prerequisites": [
+        "risk-treatment-01"
+      ],
+      "title": "위험 수용은 방치가 아니다",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "잔여위험이 수용기준 이내여서 권한자가 근거·기한과 함께 승인하고 문서화한 뒤 모니터링한다. 이 위험처리 방식은 무엇인가?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "위험처리",
+        "accepted": [
+          "위험 수용",
+          "수용"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "수용은 비용을 아끼기 위해 무시하는 것이 아니라, 근거·승인·기한·모니터링을 갖춘 의사결정이다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 275,
+          "excerpt": "수용은 방치가 아니라 근거·승인·기한·모니터링",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "risk-treatment",
+        "acceptance",
+        "residual-risk"
+      ]
+    },
+    {
+      "id": "risk-analysis-approaches-01",
+      "curriculumId": "risk-analysis-approaches",
+      "stage": "decision",
+      "prerequisites": [],
+      "title": "표준 보호수준을 일괄 적용",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "모든 대상에 같은 표준 보호수준을 빠르고 일관되게 적용한다. 이 위험분석 접근법은 무엇인가?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "접근법",
+        "accepted": [
+          "기준선 접근법",
+          "기준선",
+          "baseline",
+          "baseline approach",
+          "베이스라인 접근법"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "기준선 접근법은 빠르고 일관되지만, 자산별 고유 위험을 충분히 반영하지 못할 수 있다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 218,
+          "excerpt": "기준선(Baseline) | 모든 대상에 표준 보호수준 적용",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "risk-analysis",
+        "baseline"
+      ]
+    },
+    {
+      "id": "risk-analysis-approaches-02",
+      "curriculumId": "risk-analysis-approaches",
+      "stage": "decision",
+      "prerequisites": [
+        "risk-analysis-approaches-01"
+      ],
+      "title": "고위험만 상세 분석",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "고위험 자산은 상세 분석하고, 나머지는 기준선 보호수준을 적용해 비용과 정확성의 균형을 맞춘다. 이 접근법은 무엇인가?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "접근법",
+        "accepted": [
+          "복합 접근법",
+          "복합",
+          "combined",
+          "combined approach"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "시험 답안은 ‘하이브리드’보다 문서의 정확한 라벨인 ‘복합 접근법’을 우선한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 221,
+          "excerpt": "복합(Combined) | 고위험은 상세, 나머지는 기준선 등 혼합",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "risk-analysis",
+        "combined"
+      ]
+    },
+    {
+      "id": "risk-analysis-approaches-03",
+      "curriculumId": "risk-analysis-approaches",
+      "stage": "decision",
+      "prerequisites": [],
+      "title": "상·중·하 위험행렬",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "신뢰할 만한 금액·발생횟수 자료가 부족해 위험을 상·중·하와 위험행렬로 우선순위화한다. 분석법은 무엇인가?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "분석법",
+        "accepted": [
+          "정성 분석",
+          "정성적 분석",
+          "정성",
+          "qualitative"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "정성은 상·중·하, 점수, 위험행렬처럼 순위와 합의에 쓰는 축이다. 기준선·상세·복합 접근법과 다른 분류 축이다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 226,
+          "excerpt": "정성 | 상·중·하, 점수, 위험행렬",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "risk-analysis",
+        "qualitative",
+        "risk-matrix"
+      ]
+    },
+    {
+      "id": "quantitative-risk-01",
+      "curriculumId": "quantitative-risk",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "한 번 손실과 연간 손실 식",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "자산가치와 손실비율로 한 번의 예상 손실을, 그 결과와 연간 예상발생률로 연간 예상 손실을 구한다."
+        },
+        {
+          "type": "code",
+          "content": "(A) × (B) = (C)\n(C) × (D) = (E)"
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "자산가치 약어",
+            "accepted": [
+              "AV"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "1회 손실비율 약어",
+            "accepted": [
+              "EF"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "1회 예상손실액 약어",
+            "accepted": [
+              "SLE"
+            ]
+          },
+          {
+            "id": "D",
+            "label": "연간 예상발생률 약어",
+            "accepted": [
+              "ARO"
+            ]
+          },
+          {
+            "id": "E",
+            "label": "연간 예상손실액 약어",
+            "accepted": [
+              "ALE"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "약어를 한 번에 외우려 하지 말고 ‘자산가치 × 한 번 잃는 비율 = 한 번 손실, 한 번 손실 × 1년 발생횟수 = 연간 손실’ 흐름으로 복원한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 247,
+          "excerpt": "SLE | 1회 예상손실액 | `AV × EF`",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 249,
+          "excerpt": "ALE | 연간 예상손실액 | `SLE × ARO`",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "quantitative-risk",
+        "av",
+        "ef",
+        "sle",
+        "aro",
+        "ale"
+      ]
+    },
+    {
+      "id": "quantitative-risk-02",
+      "curriculumId": "quantitative-risk",
+      "stage": "practical",
+      "prerequisites": [
+        "quantitative-risk-01"
+      ],
+      "title": "SLE와 ALE 계산",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "AV=1억원, EF=40%, ARO=0.5회/년이다. (A) SLE와 (B) ALE를 금액과 단위로 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "1회 예상손실액",
+            "accepted": [
+              "4000만원",
+              "4천만원",
+              "40,000,000원",
+              "40000000원"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "연간 예상손실액",
+            "accepted": [
+              "2000만원/년",
+              "2,000만원/년",
+              "2천만원/년",
+              "20,000,000원/년",
+              "20000000원/년"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "SLE=1억원×0.4=4천만원, ALE=4천만원×0.5=2천만원/년이다. ALE에는 연간 단위를 붙이는 습관을 들인다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 252,
+          "excerpt": "AV=1억원, EF=40%, ARO=0.5회/년",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 253,
+          "excerpt": "SLE=1억×0.4=4천만원",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 254,
+          "excerpt": "ALE=4천만원×0.5=2천만원/년",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "quantitative-risk",
+        "calculation",
+        "sle",
+        "ale"
+      ]
+    },
+    {
+      "id": "quantitative-risk-03",
+      "curriculumId": "quantitative-risk",
+      "stage": "practical",
+      "prerequisites": [
+        "quantitative-risk-02"
+      ],
+      "title": "대책의 단순 연간 경제성",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "대책 도입 전 ALE는 2,000만원/년, 도입 후 ALE는 800만원/년, 연간 대책비용은 500만원/년이다. 단순 연간 순효과를 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "단순 연간 순효과",
+            "accepted": [
+              "700만원/년",
+              "7백만원/년",
+              "7,000,000원/년",
+              "7000000원/년"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "(2,000−800)−500=700만원/년이다. 다만 법적 의무나 평판처럼 금액화하기 어려운 영향은 이 계산만으로 생략하지 않는다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 257,
+          "excerpt": "(도입 전 ALE - 도입 후 ALE) - 연간 대책비용",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "quantitative-risk",
+        "calculation",
+        "ale",
+        "countermeasure"
+      ]
+    },
+    {
+      "id": "business-continuity-terms-01",
+      "curriculumId": "business-continuity-terms",
+      "stage": "recall",
+      "prerequisites": [],
+      "title": "BIA의 역할",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "업무 중단의 시간별 영향, 핵심업무·자원·의존성을 분석하는 약어를 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "약어",
+        "accepted": [
+          "BIA",
+          "Business Impact Analysis",
+          "업무영향분석",
+          "업무 영향 분석"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "BIA는 업무가 멈췄을 때의 영향을 분석해 어떤 업무를 먼저 이어야 하는지와 복구 목표의 근거를 만든다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 312,
+          "excerpt": "BIA | 업무 중단의 시간별 영향",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "business-continuity",
+        "bia",
+        "recall"
+      ]
+    },
+    {
+      "id": "business-continuity-terms-02",
+      "curriculumId": "business-continuity-terms",
+      "stage": "recall",
+      "prerequisites": [
+        "business-continuity-terms-01"
+      ],
+      "title": "BCP의 역할",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "재해 중에도 핵심 업무를 허용 수준으로 지속·복구하기 위한 전사 계획의 약어를 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "약어",
+        "accepted": [
+          "BCP",
+          "Business Continuity Plan",
+          "업무연속성계획",
+          "업무 연속성 계획"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "BCP는 시스템 복구만이 아니라 사람·대체 절차를 포함해 핵심 업무를 이어 가는 전사 계획이다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 313,
+          "excerpt": "BCP | 재해 중에도 핵심업무",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "business-continuity",
+        "bcp",
+        "recall"
+      ]
+    },
+    {
+      "id": "business-continuity-terms-03",
+      "curriculumId": "business-continuity-terms",
+      "stage": "recall",
+      "prerequisites": [
+        "business-continuity-terms-02"
+      ],
+      "title": "DRP의 역할",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "정보시스템·데이터·시설 복구에 초점을 둔 BCP의 하위 계획 약어를 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "약어",
+        "accepted": [
+          "DRP",
+          "Disaster Recovery Plan",
+          "재해복구계획",
+          "재해 복구 계획"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "DRP는 서버·DB·네트워크 같은 IT 자원 복구에 초점을 둔다. 따라서 BCP의 업무 연속성 범위보다 좁다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 314,
+          "excerpt": "DRP | 정보시스템·데이터·시설 복구",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "business-continuity",
+        "drp",
+        "recall"
+      ]
+    },
+    {
+      "id": "business-continuity-terms-04",
+      "curriculumId": "business-continuity-terms",
+      "stage": "cloze",
+      "prerequisites": [
+        "business-continuity-terms-01",
+        "business-continuity-terms-02",
+        "business-continuity-terms-03"
+      ],
+      "title": "BIA·BCP·DRP의 역할",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "업무 중단의 시간별 영향과 핵심업무·의존성을 분석하는 것은 (A), 재해 중 핵심업무를 지속·복구하는 전사 계획은 (B), 정보시스템·데이터·시설 복구에 초점을 둔 하위 계획은 (C)이다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "업무영향분석 약어",
+            "accepted": [
+              "BIA"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "업무연속성계획 약어",
+            "accepted": [
+              "BCP"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "재해복구계획 약어",
+            "accepted": [
+              "DRP"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "BIA는 분석, BCP는 업무를 이어 가는 전사 계획, DRP는 IT 자원 복구 계획이다. ‘업무 지속’은 BCP, ‘서버·DB 복원’은 DRP로 구분한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 312,
+          "excerpt": "BIA | 업무 중단의 시간별 영향",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 313,
+          "excerpt": "BCP | 재해 중에도 핵심업무",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 314,
+          "excerpt": "DRP | 정보시스템·데이터·시설 복구",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "business-continuity",
+        "bia",
+        "bcp",
+        "drp"
+      ]
+    },
+    {
+      "id": "business-continuity-terms-05",
+      "curriculumId": "business-continuity-terms",
+      "stage": "cloze",
+      "prerequisites": [
+        "business-continuity-terms-04"
+      ],
+      "title": "세 약어의 영문 풀네임",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "BIA, BCP, DRP의 영문 풀네임을 순서대로 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "BIA",
+            "accepted": [
+              "Business Impact Analysis"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "BCP",
+            "accepted": [
+              "Business Continuity Plan"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "DRP",
+            "accepted": [
+              "Disaster Recovery Plan"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "한글은 각각 업무영향분석, 업무연속성계획, 재해복구계획이다. 시험 답안에는 BCP를 ‘업무지속성계획’보다 ‘업무연속성계획’으로 쓰는 편이 안전하다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 312,
+          "excerpt": "BIA | 업무 중단의 시간별 영향",
+          "status": "inferred"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 313,
+          "excerpt": "BCP | 재해 중에도 핵심업무",
+          "status": "inferred"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 314,
+          "excerpt": "DRP | 정보시스템·데이터·시설 복구",
+          "status": "inferred"
+        }
+      ],
+      "tags": [
+        "business-continuity",
+        "bia",
+        "bcp",
+        "drp",
+        "acronym"
+      ]
+    },
+    {
+      "id": "business-continuity-terms-06",
+      "curriculumId": "business-continuity-terms",
+      "stage": "decision",
+      "prerequisites": [
+        "business-continuity-terms-04"
+      ],
+      "title": "업무 지속과 IT 복구 구분",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "시스템 장애 중 직원이 수기 접수와 대체 절차로 핵심 업무를 이어 가는 계획은 무엇이며, DB·서버·네트워크를 복구하는 계획은 무엇인가? ‘업무 계획·IT 복구 계획’ 형식으로 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "계획 구분",
+        "accepted": [
+          "BCP·DRP",
+          "bcp·drp",
+          "BCP, DRP",
+          "BCP와 DRP",
+          "BCP/DRP",
+          "BCP / DRP",
+          "업무연속성계획·재해복구계획",
+          "업무연속성계획, 재해복구계획",
+          "업무연속성계획과 재해복구계획"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "BCP는 업무가 허용 수준으로 이어지게 하는 범위이고, DRP는 그 안에서 IT 시스템·데이터·시설을 복구하는 범위다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 313,
+          "excerpt": "핵심업무를 허용수준으로 지속·복구하는 전사 계획",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 314,
+          "excerpt": "BCP의 하위 계획",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "business-continuity",
+        "bcp",
+        "drp",
+        "decision"
+      ]
+    },
+    {
+      "id": "business-continuity-terms-07",
+      "curriculumId": "business-continuity-terms",
+      "stage": "recall",
+      "prerequisites": [
+        "business-continuity-terms-04"
+      ],
+      "title": "BIA 기출형 식별",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "장애·재해로 업무가 중단될 때 재무 손실·규제 요건을 고려해 업무 중요도를 평가하고 RTO·RPO를 결정하는 절차의 약어를 쓰세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "BCP 수립 시 장애·재해로 업무 프로세스가 중단되는 경우 예상 재무 손실, 외부 규제 요건 등을 고려해 업무 중요도를 평가하고 RTO와 RPO를 결정하는 절차를 쓰시오."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "약어",
+        "accepted": [
+          "BIA",
+          "Business Impact Analysis",
+          "업무영향분석",
+          "업무 영향 분석"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "BIA는 업무 중단 영향과 핵심업무·의존성을 분석해 연속성 목표를 정하는 근거다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+          "line": 39,
+          "excerpt": "BIA(Business Impact Analysis, 업무영향도 분석)",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 332,
+          "excerpt": "BIA로 핵심업무, 중단 영향, MTD·RTO·RPO",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "business-continuity",
+        "bia",
+        "past-pattern"
+      ]
+    },
+    {
+      "id": "recovery-objectives-01",
+      "curriculumId": "recovery-objectives",
+      "stage": "recall",
+      "prerequisites": [],
+      "title": "RTO의 역할",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "사고 뒤 서비스를 언제까지 복구해야 하는지를 나타내는 목표시간의 약어를 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "약어",
+        "accepted": [
+          "RTO",
+          "Recovery Time Objective"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "RTO는 사고 발생 시각부터 서비스·IT 복구까지 허용되는 목표 기간이다. 실제 복구에 걸린 시간과 구분한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 316,
+          "excerpt": "RTO | 사고 후 서비스를 복구해야 하는 목표시간",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "business-continuity",
+        "rto",
+        "recall"
+      ]
+    },
+    {
+      "id": "recovery-objectives-02",
+      "curriculumId": "recovery-objectives",
+      "stage": "recall",
+      "prerequisites": [
+        "recovery-objectives-01"
+      ],
+      "title": "RPO의 역할",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "사고 전 어느 정도의 데이터 손실까지 허용하고, 어느 시점의 데이터까지 복구할지를 정하는 목표의 약어를 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "약어",
+        "accepted": [
+          "RPO",
+          "Recovery Point Objective"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "RPO는 허용 데이터 손실 목표다. 예를 들어 RPO가 1시간이면 사고 시각보다 1시간 전 데이터까지는 복구할 수 있어야 한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 318,
+          "excerpt": "RPO | 복구 시 허용 가능한 데이터 손실 시점",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 327,
+          "excerpt": "RTO는 **시간**, RPO는 **데이터 시점**",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "business-continuity",
+        "rpo",
+        "recall"
+      ]
+    },
+    {
+      "id": "recovery-objectives-03",
+      "curriculumId": "recovery-objectives",
+      "stage": "cloze",
+      "prerequisites": [
+        "recovery-objectives-01",
+        "recovery-objectives-02"
+      ],
+      "title": "복구 시간 네 용어",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "사고 뒤 IT 서비스를 복구해야 하는 목표시간은 (A), 복구할 때 허용 가능한 데이터 손실 범위는 (B), 업무가 감내할 수 있는 최대 중단시간은 (C), IT 복구 뒤 업무 검증·재개에 필요한 시간은 (D)이다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "서비스 복구 목표시간",
+            "accepted": [
+              "RTO",
+              "Recovery Time Objective"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "허용 데이터 손실 목표",
+            "accepted": [
+              "RPO",
+              "Recovery Point Objective"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "업무 최대 허용 중단시간",
+            "accepted": [
+              "MTD",
+              "Maximum Tolerable Downtime",
+              "MAO"
+            ]
+          },
+          {
+            "id": "D",
+            "label": "IT 복구 후 업무 재개 시간",
+            "accepted": [
+              "WRT",
+              "Work Recovery Time"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "RTO는 IT 복구 목표, WRT는 그 뒤 실제 업무 재개까지, MTD는 사고부터 업무 재개까지 넘으면 안 되는 비즈니스 한계다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 315,
+          "excerpt": "MTD/MAO | 업무가 감내할 수 있는 최대 중단시간",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 316,
+          "excerpt": "RTO | 사고 후 서비스를 복구해야 하는 목표시간",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 317,
+          "excerpt": "WRT | IT 복구 뒤 업무 검증·재개에 필요한 시간",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 318,
+          "excerpt": "RPO | 복구 시 허용 가능한 데이터 손실 시점",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "business-continuity",
+        "rto",
+        "rpo",
+        "mtd",
+        "wrt"
+      ]
+    },
+    {
+      "id": "recovery-objectives-04",
+      "curriculumId": "recovery-objectives",
+      "stage": "practical",
+      "prerequisites": [
+        "recovery-objectives-03"
+      ],
+      "title": "RTO와 RPO를 시각과 분리",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "사고는 오후 3시 발생했다. 서비스는 오후 5시까지 복구해야 하고, 정책상 허용 가능한 데이터 손실은 최대 1시간이다. (A) RTO 기간, (B) RPO의 허용 손실 기간, (C) 복구되어야 하는 마지막 데이터 시각을 각각 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "RTO 기간",
+            "accepted": [
+              "2시간",
+              "2 시간"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "RPO 허용 손실 기간",
+            "accepted": [
+              "1시간",
+              "1 시간"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "복구 데이터 시각",
+            "accepted": [
+              "오후 2시",
+              "2시",
+              "14시",
+              "14:00"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "RTO=2시간이다. RPO 목표를 ‘1시간 허용’으로 표현하면, 오후 3시 사고에서 최소 오후 2시 데이터까지 복구해야 한다. 즉 RPO의 기간 값과 복구 데이터 시각을 같은 답으로 쓰지 않는다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 316,
+          "excerpt": "RTO | 사고 후 서비스를 복구해야 하는 목표시간",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 318,
+          "excerpt": "RPO | 복구 시 허용 가능한 데이터 손실 시점",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 327,
+          "excerpt": "RTO는 **시간**, RPO는 **데이터 시점**",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "business-continuity",
+        "rto",
+        "rpo",
+        "calculation"
+      ]
+    },
+    {
+      "id": "recovery-objectives-05",
+      "curriculumId": "recovery-objectives",
+      "stage": "decision",
+      "prerequisites": [
+        "recovery-objectives-03"
+      ],
+      "title": "RTO·WRT와 MTD 관계",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "RTO가 4시간, WRT가 2시간, MTD가 6시간이다. 일반적인 관계식 RTO + WRT ≤ MTD를 만족하는가?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "판정",
+        "accepted": [
+          "예",
+          "네",
+          "만족",
+          "만족한다",
+          "yes"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "4시간+2시간=6시간이므로 MTD 이내다. RTO는 업무 재개 전체 시간이 아니라 IT 복구 목표이므로 WRT와 구분한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 324,
+          "excerpt": "일반적으로 RTO + WRT ≤ MTD",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "business-continuity",
+        "rto",
+        "wrt",
+        "mtd"
+      ]
+    },
+    {
+      "id": "recovery-objectives-06",
+      "curriculumId": "recovery-objectives",
+      "stage": "decision",
+      "prerequisites": [
+        "recovery-objectives-03"
+      ],
+      "title": "IT 복구 뒤 업무 재개 시간",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "DB와 애플리케이션은 복구되었지만, 데이터 검증·업무 승인·사용자 업무 재개에 1시간이 더 필요하다. 이 1시간을 가리키는 약어는 무엇인가?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "약어",
+        "accepted": [
+          "WRT",
+          "Work Recovery Time"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "WRT는 IT를 복구한 시점부터 실제 업무를 검증하고 재개하는 데 걸리는 시간이다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 317,
+          "excerpt": "WRT | IT 복구 뒤 업무 검증·재개에 필요한 시간",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "business-continuity",
+        "wrt",
+        "business-resumption"
+      ]
+    },
+    {
+      "id": "risk-lifecycle-06",
+      "curriculumId": "risk-lifecycle",
+      "stage": "recall",
+      "prerequisites": [
+        "risk-lifecycle-04"
+      ],
+      "title": "위험관리계획",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "위험관리 방법·절차, 수행인력, 기간·대상·범위, 평가방법, 예산·자원을 구체화한 계획 문서를 쓰세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "조직의 정보자산을 위협으로부터 보호하고 손실을 최소화하기 위해 위험관리 방법 및 절차, 수행 인력, 기간, 대상, 방법, 예산 등을 구체화하여 수립하는 계획 문서를 쓰시오."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "계획 문서",
+        "accepted": [
+          "위험관리계획",
+          "위험 관리 계획",
+          "Risk Management Plan"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "위험관리계획은 위험평가 결과표만이 아니라 누가·어떤 범위에서·어떤 방법과 자원으로 위험관리를 수행할지를 정한 실행 문서다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+          "line": 46,
+          "excerpt": "위험관리 방법 및 절차, 수행 인력, 기간, 대상, 방법, 예산",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 189,
+          "excerpt": "위험관리의 방법·절차, 수행인력과 책임, 기간·대상·범위, 평가방법, 예산·자원",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "risk-management",
+        "risk-management-plan",
+        "past-pattern"
+      ]
+    },
+    {
+      "id": "risk-analysis-approaches-04",
+      "curriculumId": "risk-analysis-approaches",
+      "stage": "cloze",
+      "prerequisites": [
+        "risk-analysis-approaches-03"
+      ],
+      "title": "위험분석 기법 3종 식별",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "전문가가 익명·반복 피드백으로 합의에 이르는 기법은 (A), 일정 조건에서 가능한 결과를 추정하는 기법은 (B), 비교 우위 표로 위험 항목의 상대 우선순위를 정하는 기법은 (C)이다."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "전문가 집단의 의견 수렴, 일정 조건에서 가능한 결과의 추정, 비교 우위 순위결정표에 따른 위험 항목의 서술적 순위를 각각 쓰시오."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "익명·반복 의견수렴",
+            "accepted": [
+              "델파이법",
+              "델파이 기법",
+              "Delphi"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "사건 조건별 결과 추정",
+            "accepted": [
+              "시나리오법",
+              "시나리오 분석법",
+              "시나리오 기법",
+              "Scenario"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "비교 우위에 따른 우선순위",
+            "accepted": [
+              "순위결정법",
+              "순위 결정법",
+              "Ranking"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "세 단어를 억지로 묶지 말고 ‘전문가 합의=델파이, 사건 전개=시나리오, 상대 우선순위=순위결정’으로 상황과 연결한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+          "line": 35,
+          "excerpt": "델파이법, 시나리오법, 순위결정법",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 233,
+          "excerpt": "여러 전문가가 익명·반복적으로 의견을 제시",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 234,
+          "excerpt": "발생 가능한 사고 시나리오를 구성",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 235,
+          "excerpt": "위험 항목의 상대 순위와 우선순위를 결정",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "risk-analysis",
+        "delphi",
+        "scenario",
+        "ranking",
+        "past-pattern"
+      ]
+    },
+    {
+      "id": "asset-governance-01",
+      "curriculumId": "asset-governance",
+      "stage": "order",
+      "prerequisites": [],
+      "title": "정보보호 문서 체계",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "방향·원칙부터 실제 수행 증거까지의 정보보호 문서 체계를 올바른 순서로 배열하세요."
+        }
+      ],
+      "answer": {
+        "type": "order",
+        "items": [
+          {
+            "id": "policy",
+            "label": "정책(무엇을·왜)"
+          },
+          {
+            "id": "standard",
+            "label": "표준·지침(공통 기준·방법)"
+          },
+          {
+            "id": "procedure",
+            "label": "절차(누가·언제·어떻게)"
+          },
+          {
+            "id": "record",
+            "label": "기록(수행 증거)"
+          }
+        ],
+        "expected": [
+          "policy",
+          "standard",
+          "procedure",
+          "record"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "정책은 방향, 표준·지침은 공통 기준, 절차는 실제 수행 방법, 기록은 수행했다는 증거다. ‘절차’는 활동 자체가 아니라 그 활동을 정한 문서다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 147,
+          "excerpt": "정책(무엇을·왜) → 표준/지침(공통 기준·방법) → 절차(누가·언제·어떻게) → 기록(수행 증거)",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "governance",
+        "policy",
+        "standard",
+        "procedure",
+        "record"
+      ]
+    },
+    {
+      "id": "asset-governance-02",
+      "curriculumId": "asset-governance",
+      "stage": "cloze",
+      "prerequisites": [
+        "asset-governance-01"
+      ],
+      "title": "자산 중요도 평가와 그룹핑",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "정보자산 중요도 평가는 일반적으로 기밀성, 무결성, (A)를 고려한다. 유사 특성의 자산을 하나로 묶어 위험분석과 보호대책을 효율적·일관되게 적용하는 것은 자산 (B)이다."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "정보자산 중요도 평가 기준의 세 번째 요소와 유사 특성 자산을 하나로 묶어 위험분석·보호대책을 일관되게 적용하는 방법을 쓰시오."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "CIA의 세 번째 요소",
+            "accepted": [
+              "가용성",
+              "availability"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "유사 자산을 묶는 방법",
+            "accepted": [
+              "그룹핑",
+              "그루핑",
+              "grouping"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "그룹핑은 유형·보안특성·중요도와 적용 위협·취약점이 비슷한 자산에 같은 분석과 공통 보호대책을 적용하는 방법이다. 고위험 자산은 평균에 가려지지 않게 예외로 분리한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+          "line": 45,
+          "excerpt": "가용성, 그룹핑",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 165,
+          "excerpt": "기밀성·무결성·가용성 및 법적 요구에 따라 중요도·등급",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 169,
+          "excerpt": "유형·보안특성·중요도와 적용 위협·취약점이 유사한 자산은 그룹핑",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "asset-management",
+        "cia",
+        "grouping",
+        "past-pattern"
+      ]
+    },
+    {
+      "id": "asset-governance-03",
+      "curriculumId": "asset-governance",
+      "stage": "decision",
+      "prerequisites": [
+        "asset-governance-02"
+      ],
+      "title": "정보자산 중요도 평가의 목적",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "정보자산의 가치·중요도와 CIA 영향을 평가하는 주된 목적은 무엇인가? ‘무엇을 결정하기 위해’ 형식으로 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "평가 목적",
+        "accepted": [
+          "보호 우선순위와 보호수준을 결정하기 위해",
+          "보호 우선순위와 보호 수준을 정하기 위해",
+          "보호 우선순위와 보호수준 결정",
+          "보호 우선순위와 보호 수준 결정",
+          "보호 우선순위와 보호수준",
+          "보호 우선순위와 보호 수준"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "평가는 ‘중요도를 평가하기 위한 평가’가 아니라, 자산 등급에 맞는 취급·접근·보관·전송·백업·파기 기준과 보호 자원의 우선순위를 정하기 위한 근거다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 165,
+          "excerpt": "중요도·등급을 정한다",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 166,
+          "excerpt": "등급에 맞는 취급·접근·보관·전송·백업·파기 기준",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "asset-management",
+        "importance",
+        "protection-level"
+      ]
+    },
+    {
+      "id": "personnel-physical-security-01",
+      "curriculumId": "personnel-physical-security",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "직무변경·퇴직 시 보안조치",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "직무가 바뀌거나 퇴직하면 (A)을 즉시 변경·회수하고, (B)을 반납받으며, (C)를 고지한다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "업무상 접근 수단",
+            "accepted": [
+              "권한",
+              "접근권한",
+              "계정과 권한"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "반납 대상",
+            "accepted": [
+              "계정·출입증·장비·자료",
+              "계정, 출입증, 장비, 자료",
+              "계정 출입증 장비 자료"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "퇴직 뒤에도 지킬 의무",
+            "accepted": [
+              "비밀유지 의무",
+              "비밀유지"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "퇴직자 계정을 잠그는 데 그치지 않고 물리 출입수단·장비·자료를 회수하고, 비밀유지 의무도 다시 고지한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 302,
+          "excerpt": "즉시 권한 변경·회수, 계정·출입증·장비·자료 반납, 비밀유지 의무 고지",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "personnel-security",
+        "offboarding",
+        "access-control"
+      ]
+    },
+    {
+      "id": "personnel-physical-security-02",
+      "curriculumId": "personnel-physical-security",
+      "stage": "essay",
+      "prerequisites": [
+        "personnel-physical-security-01"
+      ],
+      "title": "물리적 보안 대책 3가지",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "ISMS-P의 물리적 보안 대책을 세 가지 서술하세요. 서로 다른 통제 대상이 드러나게 쓰세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "ISMS-P 인증에서 요구하는 물리적 보안 대책 중 3가지를 설명하시오."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "보호구역을 지정하고 중요도에 따라 제한·통제 구역을 구분한다.",
+          "출입을 승인·기록하고 방문자는 동행하는 등 출입통제를 적용한다.",
+          "정보시스템과 저장매체·기기의 반출입을 승인·기록하는 반출입 통제를 적용한다."
+        ],
+        "keywordGroups": [
+          {
+            "label": "보호구역",
+            "terms": [
+              "보호구역 지정",
+              "제한·통제 구역",
+              "제한·통제 구역 구분"
+            ]
+          },
+          {
+            "label": "출입통제",
+            "terms": [
+              "출입통제",
+              "출입 통제",
+              "출입 승인·기록",
+              "방문자 동행"
+            ]
+          },
+          {
+            "label": "시스템·기기·설비 보호",
+            "terms": [
+              "반출입 기기 통제",
+              "기기 반출입 통제",
+              "반출입 통제",
+              "보호설비 운영",
+              "정보시스템 보호"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "서로 다른 세 대책을 써야 하며, 같은 출입통제를 표현만 바꿔 세 번 쓰지 않는다.",
+          "CCTV만 쓰고 보호구역·출입·반출입 또는 설비 관리를 모두 누락하지 않는다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "백지 답안은 ‘구역 지정 → 출입통제 → 시스템·기기·설비 보호’의 세 묶음으로 쓰면 된다. 기출에서 셋을 요구하면 이 중 세 대책을 구체적으로 쓴다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+          "line": 47,
+          "excerpt": "보호구역 지정, 출입통제, 정보시스템 보호, 보호설비 운영, 보호구역 내 작업 통제, 반출입 기기 통제, 업무환경 보안",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 304,
+          "excerpt": "제한·통제·접견 구역을 구분하고 출입승인·기록·방문자 동행",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "physical-security",
+        "isms-p",
+        "essay",
+        "past-pattern"
+      ]
+    },
+    {
+      "id": "continuity-strategy-01",
+      "curriculumId": "continuity-strategy",
+      "stage": "order",
+      "prerequisites": [
+        "recovery-objectives-03"
+      ],
+      "title": "BCP 수립 5단계",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "BCP 수립 절차를 올바른 순서로 배열하세요."
+        }
+      ],
+      "answer": {
+        "type": "order",
+        "items": [
+          {
+            "id": "planning",
+            "label": "사업연속성 기획"
+          },
+          {
+            "id": "bia",
+            "label": "업무영향분석(BIA)"
+          },
+          {
+            "id": "strategy",
+            "label": "연속성·복구전략 선정"
+          },
+          {
+            "id": "plan",
+            "label": "복구·업무연속 계획 수립"
+          },
+          {
+            "id": "maintenance",
+            "label": "교육·훈련·시험·유지·개선"
+          }
+        ],
+        "expected": [
+          "planning",
+          "bia",
+          "strategy",
+          "plan",
+          "maintenance"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "외울 때는 ‘기획 → 영향 분석 → 전략 → 계획 → 시험·유지’로 흐름을 잡는다. BIA 결과가 전략과 RTO/RPO의 근거이고, 계획은 시험으로 끝나는 것이 아니라 계속 갱신한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 331,
+          "excerpt": "범위·정책·조직·일정 등 사업연속성 기획",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 332,
+          "excerpt": "BIA로 핵심업무, 중단 영향",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 333,
+          "excerpt": "연속성·복구전략 선정",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 334,
+          "excerpt": "절차와 연락망을 계획으로 작성",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 335,
+          "excerpt": "교육·훈련·시험·검토·변경관리",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "business-continuity",
+        "bcp",
+        "order",
+        "planning"
+      ]
+    },
+    {
+      "id": "continuity-strategy-02",
+      "curriculumId": "continuity-strategy",
+      "stage": "order",
+      "prerequisites": [
+        "continuity-strategy-01"
+      ],
+      "title": "복구센터 준비도·비용 순서",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "복구 준비도와 비용이 높은 유형부터 낮은 유형까지 복구센터를 배열하세요."
+        }
+      ],
+      "answer": {
+        "type": "order",
+        "items": [
+          {
+            "id": "mirror",
+            "label": "Mirror 사이트"
+          },
+          {
+            "id": "hot",
+            "label": "Hot 사이트"
+          },
+          {
+            "id": "warm",
+            "label": "Warm 사이트"
+          },
+          {
+            "id": "cold",
+            "label": "Cold 사이트"
+          }
+        ],
+        "expected": [
+          "mirror",
+          "hot",
+          "warm",
+          "cold"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "미러는 거의 실시간 동기화, 핫은 HW·NW·SW·데이터 상시 준비, 웜은 일부만 준비, 콜드는 공간·기반시설 중심이다. 복구시간은 조직 설계·계약에 따라 달라지므로 유형명만으로 고정 시간을 단정하지 않는다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 341,
+          "excerpt": "운영센터와 거의 실시간 동기·동시 수준",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 342,
+          "excerpt": "HW·NW·SW·데이터를 상시 준비",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 343,
+          "excerpt": "일부 장비·통신 준비, 데이터·설정 추가 필요",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 344,
+          "excerpt": "공간·기반시설 중심, 장비·데이터 반입 필요",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "business-continuity",
+        "recovery-site",
+        "mirror",
+        "hot",
+        "warm",
+        "cold"
+      ]
+    },
+    {
+      "id": "continuity-strategy-03",
+      "curriculumId": "continuity-strategy",
+      "stage": "cloze",
+      "prerequisites": [
+        "continuity-strategy-02"
+      ],
+      "title": "증분·차등 백업의 복원 세트",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "직전 백업 이후 변경분만 매회 저장하고 복원 때 전체 백업과 이후 모든 백업이 필요한 방식은 (A) 백업이다. 최신 전체 백업 이후 변경분을 누적 저장하고 복원 때 전체 백업과 최신 사본 하나가 필요한 방식은 (B) 백업이다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "직전 백업 기준 변경분",
+            "accepted": [
+              "증분",
+              "증분 백업",
+              "incremental"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "최신 전체 백업 기준 누적 변경분",
+            "accepted": [
+              "차등",
+              "차등 백업",
+              "differential"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "증분 백업은 빠르지만 ‘전체+모든 증분’이 필요하고, 차등은 저장량이 늘지만 ‘전체+최신 차등’으로 복원한다. 3-2-1은 사본·매체·오프사이트 보관 원칙으로, 이 문제의 복원 세트와는 다른 축이다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 358,
+          "excerpt": "직전 백업 후 변경분 | 전체+이후 모든 증분",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 359,
+          "excerpt": "최신 전체 후 변경분 | 전체+최신 차등",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 361,
+          "excerpt": "데이터 3개 사본, 2종 매체, 1개 외부 보관",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "business-continuity",
+        "backup",
+        "incremental",
+        "differential"
+      ]
+    },
+    {
+      "id": "continuity-strategy-04",
+      "curriculumId": "continuity-strategy",
+      "stage": "decision",
+      "prerequisites": [
+        "continuity-strategy-03"
+      ],
+      "title": "백업 성공 로그만으로 충분한가",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "백업 성공 로그만 확인해서는 실제 복구 가능성을 보장할 수 없다. 사본의 무결성·RTO/RPO·절차·권한을 확인하려면 무엇을 정기적으로 수행해야 하는가?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "검증 활동",
+        "accepted": [
+          "복구시험",
+          "복구 시험",
+          "복원 훈련",
+          "복구 훈련",
+          "복원 시험"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "백업은 사본 확보이고, 복구시험은 그 사본으로 서비스·데이터를 목표 시간과 절차 안에 되살릴 수 있는지 검증하는 활동이다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 363,
+          "excerpt": "실제 복구시험으로 무결성·RTO/RPO·절차·권한을 검증",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "business-continuity",
+        "backup",
+        "recovery-test"
+      ]
+    },
     {
       "id": "acl-basics-01",
       "curriculumId": "acl-basics",
@@ -4157,6 +8815,3534 @@ window.PRACTICE_DATA = {
       ]
     },
     {
+      "id": "network-packet-basics-01",
+      "curriculumId": "network-packet-basics",
+      "stage": "practical",
+      "prerequisites": [],
+      "title": "/26 서브넷 주소 범위 판독",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "호스트 IP가 `10.0.0.150/26`이다. 이 호스트가 속한 서브넷의 네트워크 주소, 브로드캐스트 주소, 사용 가능한 호스트 IP 범위를 각각 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "exact",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "네트워크 주소",
+            "accepted": [
+              "10.0.0.128"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "브로드캐스트 주소",
+            "accepted": [
+              "10.0.0.191"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "사용 가능한 호스트 범위",
+            "accepted": [
+              "10.0.0.129~10.0.0.190",
+              "10.0.0.129 ~ 10.0.0.190",
+              "10.0.0.129-10.0.0.190",
+              "10.0.0.129 - 10.0.0.190"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "/26의 마지막 옥텟 마스크는 192이고 블록 간격은 64다. 150은 128~191 블록에 있으므로 네트워크 주소는 128, 브로드캐스트 주소는 191, 사용 가능 범위는 129~190이다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 144,
+          "excerpt": "블록 간격",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 161,
+          "excerpt": "2^h-2",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "ipv4",
+        "subnet",
+        "cidr",
+        "practical"
+      ]
+    },
+    {
+      "id": "network-packet-basics-02",
+      "curriculumId": "network-packet-basics",
+      "stage": "cloze",
+      "prerequisites": [
+        "network-packet-basics-01"
+      ],
+      "title": "ICMP 핵심 Type 판독",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "다음 ICMP Type의 의미를 각각 쓰세요. (A) 8, (B) 0, (C) 3, (D) 11"
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "Type 8",
+            "accepted": [
+              "echo request",
+              "echo 요청"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "Type 0",
+            "accepted": [
+              "echo reply",
+              "echo 응답"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "Type 3",
+            "accepted": [
+              "destination unreachable",
+              "목적지 도달 불가"
+            ]
+          },
+          {
+            "id": "D",
+            "label": "Type 11",
+            "accepted": [
+              "time exceeded",
+              "시간 초과"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "Type 8은 Echo Request, Type 0은 Echo Reply다. Type 3은 목적지 도달 불가이며 UDP 스캔의 Port Unreachable 판독에 사용된다. Type 11은 TTL이 0이 된 Time Exceeded다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 196,
+          "excerpt": "Echo Reply",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 200,
+          "excerpt": "Time Exceeded",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "icmp",
+        "packet-analysis",
+        "cloze"
+      ]
+    },
+    {
+      "id": "network-packet-basics-03",
+      "curriculumId": "network-packet-basics",
+      "stage": "cloze",
+      "prerequisites": [
+        "network-packet-basics-02"
+      ],
+      "title": "IPv4 단편화 플래그 의미",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "IPv4 패킷에서 (A)=1은 단편화를 금지한다. (B)=1은 현재 단편 뒤에 이어지는 단편이 더 있음을 뜻한다. (A), (B)의 플래그명을 각각 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "단편화 금지 플래그",
+            "accepted": [
+              "df",
+              "don't fragment"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "뒤 단편 존재 플래그",
+            "accepted": [
+              "mf",
+              "more fragments"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "DF=1은 단편화 금지이고, DF=0은 필요 시 단편화 허용이다. MF=1은 뒤 단편이 더 있음을, MF=0은 마지막 단편이거나 단편화되지 않은 패킷임을 뜻한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 186,
+          "excerpt": "DF(단편화 금지), MF(뒤 단편 존재)",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "ipv4",
+        "fragmentation",
+        "df",
+        "mf"
+      ]
+    },
+    {
+      "id": "network-packet-basics-04",
+      "curriculumId": "network-packet-basics",
+      "stage": "practical",
+      "prerequisites": [
+        "network-packet-basics-03"
+      ],
+      "title": "TCP 3-way handshake 순서번호",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "클라이언트가 `SYN(seq=100)`을 보냈고, 서버가 자신의 초기 sequence 번호 500으로 응답한다. 서버의 두 번째 패킷과 클라이언트의 세 번째 패킷의 `seq`, `ack`, 플래그를 각각 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "서버 두 번째 패킷",
+            "accepted": [
+              "syn/ack(seq=500, ack=101)",
+              "syn+ack(seq=500, ack=101)",
+              "syn ack(seq=500, ack=101)",
+              "syn/ack, seq=500, ack=101",
+              "syn/ack seq=500 ack=101"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "클라이언트 세 번째 패킷",
+            "accepted": [
+              "ack(seq=101, ack=501)",
+              "ack, seq=101, ack=501",
+              "ack seq=101 ack=501"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "SYN은 sequence 번호 1을 소비한다. 따라서 서버는 ack=101을 보내고, 클라이언트는 서버 SYN에 대해 ack=501로 확인한다. 최종 ACK가 처리되면 연결이 성립한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 239,
+          "excerpt": "SYN(seq=x)",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 241,
+          "excerpt": "SYN과 FIN은 각각 순서번호 1을 소비",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "tcp",
+        "handshake",
+        "sequence",
+        "practical"
+      ]
+    },
+    {
+      "id": "network-packet-basics-05",
+      "curriculumId": "network-packet-basics",
+      "stage": "essay",
+      "prerequisites": [
+        "network-packet-basics-01"
+      ],
+      "title": "다른 서브넷 전송의 IP와 MAC",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "호스트가 다른 서브넷의 서버로 패킷을 처음 전송한다. 이때 IP 패킷의 목적지와 현재 LAN Ethernet 프레임의 목적지 MAC을 각각 무엇으로 설정하는지, 이유와 함께 보기 없이 작성하세요."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "IP 패킷의 목적지 IP는 최종 서버의 IP 주소로 유지한다.",
+          "현재 LAN의 Ethernet 프레임 목적지 MAC은 기본 게이트웨이 인터페이스의 MAC 주소이며, 호스트는 게이트웨이 IP에 대해 ARP를 수행한다."
+        ],
+        "keywordGroups": [
+          {
+            "label": "최종 서버 목적지 IP 유지",
+            "terms": [
+              "최종 서버의 ip",
+              "목적지 ip는 최종 서버",
+              "최종 목적지 ip"
+            ]
+          },
+          {
+            "label": "기본 게이트웨이 MAC",
+            "terms": [
+              "기본 게이트웨이의 mac",
+              "기본 게이트웨이 인터페이스의 mac",
+              "게이트웨이 mac"
+            ]
+          },
+          {
+            "label": "게이트웨이에 대한 ARP",
+            "terms": [
+              "게이트웨이 ip에 대해 arp",
+              "게이트웨이 arp"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "다른 서브넷이라고 IP 패킷의 목적지 IP를 기본 게이트웨이 IP로 바꾸지 않는다.",
+          "최종 서버의 MAC 주소를 직접 ARP한다고 쓰지 않는다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "라우터를 지날 때마다 Ethernet 프레임의 MAC 주소는 다음 링크에 맞게 새로 붙지만, NAT 같은 주소 변환이 없는 한 IP 목적지는 최종 서버로 유지된다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 274,
+          "excerpt": "기본 게이트웨이의 MAC",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 275,
+          "excerpt": "최종 서버 IP",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "arp",
+        "gateway",
+        "packet-analysis",
+        "essay",
+        "blank-recall"
+      ]
+    },
+    {
+      "id": "network-routing-basics-01",
+      "curriculumId": "network-routing-basics",
+      "stage": "decision",
+      "prerequisites": [
+        "network-packet-basics-05"
+      ],
+      "title": "최장 프리픽스 일치 라우팅",
+      "prompt": [
+        {
+          "type": "code",
+          "content": "10.0.0.0/8     -> 게이트웨이 A\n10.0.1.0/24    -> 게이트웨이 B\n0.0.0.0/0      -> 게이트웨이 C"
+        },
+        {
+          "type": "text",
+          "content": "목적지 `10.0.1.50` 패킷이 선택할 게이트웨이를 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "게이트웨이",
+        "accepted": [
+          "게이트웨이 b",
+          "b"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "10.0.1.50은 /8과 /24에 모두 일치하지만 /24가 더 구체적이다. 일치하는 경로가 없을 때만 0.0.0.0/0 기본 경로를 사용한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+          "line": 34,
+          "excerpt": "default `0.0.0.0/0",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 288,
+          "excerpt": "Longest Prefix Match",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "routing",
+        "longest-prefix-match",
+        "past-exam"
+      ]
+    },
+    {
+      "id": "network-routing-basics-02",
+      "curriculumId": "network-routing-basics",
+      "stage": "cloze",
+      "prerequisites": [
+        "network-routing-basics-01"
+      ],
+      "title": "동적 라우팅 프로토콜 핵심 구분",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "Hop Count를 기준으로 하는 거리 벡터 프로토콜은 (A), 링크 상태 정보를 바탕으로 Cost를 계산하는 프로토콜은 (B), 고급 거리 벡터 계열 프로토콜은 (C)이다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "Hop Count 기반",
+            "accepted": [
+              "rip"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "링크 상태·Cost 기반",
+            "accepted": [
+              "ospf"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "고급 거리 벡터 계열",
+            "accepted": [
+              "eigrp"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "RIP는 거리 벡터와 hop count, OSPF는 링크 상태와 SPF·cost, EIGRP는 DUAL을 이용하는 고급 거리 벡터 계열로 구분한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 319,
+          "excerpt": "RIP",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 321,
+          "excerpt": "EIGRP",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "routing",
+        "rip",
+        "ospf",
+        "eigrp",
+        "cloze"
+      ]
+    },
+    {
+      "id": "network-attack-analysis-01",
+      "curriculumId": "network-attack-analysis",
+      "stage": "cloze",
+      "prerequisites": [
+        "network-packet-basics-04"
+      ],
+      "title": "스캔 응답 기반 포트 상태",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "(A) SYN 스캔에 대해 `SYN/ACK`가 오면 포트 상태는 무엇인가? (B) UDP 스캔에 대해 ICMP Type 3 Code 3(Port Unreachable)이 오면 포트 상태는 무엇인가? (C) FIN/NULL/XMAS 스캔에 RST가 오지 않고 무응답이면 스캐너 관점의 상태는 무엇인가?"
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "SYN/ACK 응답",
+            "accepted": [
+              "open",
+              "열림"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "ICMP Port Unreachable",
+            "accepted": [
+              "closed",
+              "닫힘"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "FIN/NULL/XMAS 무응답",
+            "accepted": [
+              "open|filtered",
+              "open filtered",
+              "열림 또는 필터링",
+              "open 또는 filtered"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "SYN/ACK는 SYN 스캔에서 열린 포트의 핵심 응답이다. UDP Port Unreachable은 닫힌 포트의 단서다. FIN/NULL/XMAS 무응답은 열린 포트일 수도, 방화벽에 필터링됐을 수도 있어 Open|Filtered로 판정한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 374,
+          "excerpt": "SYN/ACK 후 RST",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 376,
+          "excerpt": "ICMP Port Unreachable",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "scan",
+        "syn-scan",
+        "udp-scan",
+        "fin-null-xmas"
+      ]
+    },
+    {
+      "id": "network-attack-analysis-02",
+      "curriculumId": "network-attack-analysis",
+      "stage": "essay",
+      "prerequisites": [
+        "network-attack-analysis-01"
+      ],
+      "title": "SYN Flooding 원리와 대응",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "다수의 SYN, SYN_RECV 상태 누적, backlog 포화, 정상 신규 연결 실패가 관찰된다. 공격명, 원리, 영향, 대응 두 가지 이상을 보기 없이 작성하세요."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "TCP SYN Flooding 공격이다. 공격자가 다수의 SYN을 보내고 최종 ACK를 보내지 않아 half-open 연결을 SYN_RECV 상태로 누적한다.",
+          "서버의 backlog와 연결 상태 자원이 고갈되어 정상 신규 연결이 거부된다. SYN cookie 또는 SYN proxy, 연결 임계치·rate limit, timeout·backlog 조정, 출발지 IP 검증을 적용한다."
+        ],
+        "keywordGroups": [
+          {
+            "label": "SYN Flooding 공격명",
+            "terms": [
+              "syn flooding",
+              "syn flood"
+            ]
+          },
+          {
+            "label": "최종 ACK 미전송과 half-open 누적",
+            "terms": [
+              "최종 ack를 보내지",
+              "half-open 연결",
+              "half open 연결",
+              "syn_recv"
+            ]
+          },
+          {
+            "label": "backlog 또는 연결 자원 고갈",
+            "terms": [
+              "backlog",
+              "연결 대기 큐",
+              "연결 상태 자원"
+            ]
+          },
+          {
+            "label": "정상 신규 연결 거부",
+            "terms": [
+              "정상 신규 연결이 거부",
+              "정상 접속이 불가능",
+              "서비스 거부"
+            ]
+          },
+          {
+            "label": "SYN cookie·proxy 또는 rate limit 대응",
+            "terms": [
+              "syn cookie",
+              "syn proxy",
+              "rate limit",
+              "임계치"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "backlog를 애플리케이션의 DB connection pool과 같은 의미로 쓰지 않는다.",
+          "SYN/ACK만 많이 보낸 서버가 공격자라고 단정하지 않는다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "서술형은 공격명만 쓰지 말고 ‘최종 ACK 미전송 → half-open/SYN_RECV 누적 → backlog 고갈 → 신규 연결 거부’의 인과를 이어 써야 한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+          "line": 33,
+          "excerpt": "SYN_RECEIVED",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 398,
+          "excerpt": "SYN Flooding",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "dos",
+        "syn-flood",
+        "essay",
+        "blank-recall",
+        "past-exam"
+      ]
+    },
+    {
+      "id": "network-attack-analysis-03",
+      "curriculumId": "network-attack-analysis",
+      "stage": "essay",
+      "prerequisites": [
+        "network-attack-analysis-02"
+      ],
+      "title": "반사·증폭 DRDoS 공통 답안",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "공격자가 피해자 IP를 출발지로 위조한 작은 UDP 요청을 여러 공개 DNS 또는 NTP 서버에 보내고, 큰 응답이 피해자에게 집중된다. 공격 유형, 원리, 대응을 보기 없이 작성하세요."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "DNS/NTP 증폭 DRDoS(반사·증폭 DDoS) 공격이다. 공격자는 피해자 IP로 출발지를 위조해 공개 반사 서버에 작은 UDP 요청을 보내고, 더 큰 응답이 피해자에게 집중되게 한다.",
+          "Ingress/Egress filtering 또는 uRPF로 위조 출발지 IP를 차단하고, 공개 DNS 재귀·NTP 접근을 제한하며, rate limit 또는 Anti-DDoS 스크러빙을 적용한다."
+        ],
+        "keywordGroups": [
+          {
+            "label": "반사·증폭 DRDoS 식별",
+            "terms": [
+              "drdos",
+              "반사 증폭",
+              "증폭 ddos",
+              "dns 증폭",
+              "ntp 증폭"
+            ]
+          },
+          {
+            "label": "피해자 출발지 IP 위조",
+            "terms": [
+              "피해자 ip로 출발지를 위조",
+              "출발지 ip를 위조",
+              "ip spoofing"
+            ]
+          },
+          {
+            "label": "반사 서버의 큰 응답 집중",
+            "terms": [
+              "큰 응답이 피해자",
+              "응답이 피해자에게 집중",
+              "반사 서버"
+            ]
+          },
+          {
+            "label": "출발지 위조 차단",
+            "terms": [
+              "ingress filtering",
+              "egress filtering",
+              "urpf",
+              "출발지 ip를 차단"
+            ]
+          },
+          {
+            "label": "공개 서비스 제한 또는 rate limit",
+            "terms": [
+              "공개 dns",
+              "ntp 접근을 제한",
+              "rate limit",
+              "스크러빙"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "DNS/NTP 증폭을 단순 UDP Flooding이라고만 쓰지 않는다.",
+          "대응에서 피해자 서버만의 방화벽 설정으로 출발지 위조를 막는다고 쓰지 않는다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "반사·증폭 문제의 공용 템플릿은 ‘위조 출발지 차단 → 공개 반사 서비스 제한 → rate limit/스크러빙’이다. DNS와 NTP 중 문제에 제시된 서비스를 명시한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+          "line": 43,
+          "excerpt": "DNS 증폭 공격",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 400,
+          "excerpt": "DNS/NTP 증폭 DRDoS",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "drdos",
+        "dns-amplification",
+        "ntp-amplification",
+        "essay",
+        "blank-recall",
+        "past-exam"
+      ]
+    },
+    {
+      "id": "network-attack-analysis-04",
+      "curriculumId": "network-attack-analysis",
+      "stage": "cloze",
+      "prerequisites": [
+        "network-attack-analysis-01"
+      ],
+      "title": "IP Spoofing과 Session Hijacking 구분",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "출발지 IP 주소를 위조하는 공격은 (A)이고, 인증된 사용자의 세션 쿠키·세션 식별자 또는 TCP 연결을 탈취해 사용자를 사칭하는 공격은 (B)이다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "출발지 IP 위조",
+            "accepted": [
+              "ip spoofing",
+              "ip 스푸핑"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "인증 세션 탈취",
+            "accepted": [
+              "session hijacking",
+              "세션 하이재킹"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "IP Spoofing은 패킷의 출발지 IP를 위조하는 것이고, Session Hijacking은 인증 후의 세션을 탈취·가로채는 것이다. 둘은 함께 쓰일 수 있어도 같은 공격명은 아니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 388,
+          "excerpt": "IP spoofing",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 390,
+          "excerpt": "TCP session hijacking",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "spoofing",
+        "session-hijacking",
+        "cloze"
+      ]
+    },
+    {
+      "id": "network-attack-analysis-05",
+      "curriculumId": "network-attack-analysis",
+      "stage": "cloze",
+      "prerequisites": [
+        "network-attack-analysis-02"
+      ],
+      "title": "Slow HTTP DoS 두 유형",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "HTTP 요청 헤더를 끝내지 않고 조각을 천천히 보내 연결을 점유하는 공격은 (A)이고, 큰 Content-Length를 선언한 뒤 POST 본문을 아주 느리게 보내는 공격은 (B)이다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "불완전 헤더 유지",
+            "accepted": [
+              "slowloris",
+              "slow http header dos"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "느린 POST 본문",
+            "accepted": [
+              "rudy",
+              "slow http post dos"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "Slowloris는 헤더 완료를 기다리는 연결을, RUDY는 큰 POST 본문 완료를 기다리는 연결을 점유한다. 공통적으로 timeout, 최소 전송률, 동시 연결 제한, reverse proxy/WAF를 고려한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+          "line": 45,
+          "excerpt": "Slow HTTP Header DoS",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 402,
+          "excerpt": "Slow HTTP POST DoS",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "dos",
+        "slowloris",
+        "rudy",
+        "http"
+      ]
+    },
+    {
+      "id": "network-dns-monitoring-01",
+      "curriculumId": "network-name-monitoring-basics",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "DNS 전송·캐시·TTL",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "일반 DNS 질의의 대표 전송 프로토콜과 포트는 (A)이고, Zone Transfer에 사용하는 전송 프로토콜과 포트는 (B)이다. DNS 응답을 임시 저장하는 방식은 (C)이고 그 유지 시간을 나타내는 값은 (D)이다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "일반 질의",
+            "accepted": [
+              "udp 53",
+              "udp/53"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "Zone Transfer",
+            "accepted": [
+              "tcp 53",
+              "tcp/53"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "임시 저장 방식",
+            "accepted": [
+              "dns cache",
+              "cache",
+              "dns 캐시",
+              "캐시"
+            ]
+          },
+          {
+            "id": "D",
+            "label": "캐시 유지 시간",
+            "accepted": [
+              "ttl"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "일반 질의는 주로 UDP 53이며 큰 응답 등 조건에서는 TCP를 쓸 수 있다. Zone Transfer는 TCP 53이다. TTL은 resolver가 응답을 캐시할 수 있는 시간을 제어한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+          "line": 42,
+          "excerpt": "DNS 캐시(Cache), TTL",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 364,
+          "excerpt": "Zone transfer는 TCP 53",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "dns",
+        "udp",
+        "tcp",
+        "ttl",
+        "past-exam"
+      ]
+    },
+    {
+      "id": "network-dns-monitoring-02",
+      "curriculumId": "network-name-monitoring-basics",
+      "stage": "decision",
+      "prerequisites": [
+        "network-dns-monitoring-01"
+      ],
+      "title": "Recursive DNS와 Authoritative DNS 구분",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "클라이언트의 질의를 받아 캐시를 먼저 확인하고, 답이 없으면 DNS 계층을 따라 최종 답을 찾아 반환하는 서버 역할을 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "DNS 서버 역할",
+        "accepted": [
+          "recursive dns",
+          "recursive resolver",
+          "재귀 dns",
+          "재귀 dns 서버",
+          "재귀 리졸버"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "Recursive DNS는 클라이언트에 최종 답을 돌려주며 보통 캐시 기능을 함께 수행한다. Authoritative DNS는 특정 도메인의 공식 zone 레코드를 제공하는 역할이다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 361,
+          "excerpt": "recursive/cache DNS",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 362,
+          "excerpt": "Authoritative DNS",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "dns",
+        "recursive",
+        "authoritative",
+        "decision"
+      ]
+    },
+    {
+      "id": "network-dns-monitoring-03",
+      "curriculumId": "network-name-monitoring-basics",
+      "stage": "recall",
+      "prerequisites": [
+        "network-dns-monitoring-01"
+      ],
+      "title": "DNS 캐시 오염 공격",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "공격자가 재귀 DNS의 캐시에 위조된 도메인-IP 응답을 저장시켜 사용자를 공격자 서버로 유도하는 공격을 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "공격명",
+        "accepted": [
+          "dns cache poisoning",
+          "dns 캐시 포이즈닝"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "DNS Cache Poisoning은 위조된 DNS 응답을 캐시에 넣어 이후 사용자가 잘못된 IP를 받게 하는 공격이다. 신뢰 DNS 제한, 소스 포트·트랜잭션 ID 무작위화, DNSSEC 검증 등을 적용한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 389,
+          "excerpt": "DNS spoofing/cache poisoning",
+          "status": "source-derived"
+        },
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+          "line": 33,
+          "excerpt": "DNS Cache Poisoning",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "dns",
+        "cache-poisoning",
+        "spoofing"
+      ]
+    },
+    {
+      "id": "network-dns-monitoring-04",
+      "curriculumId": "network-name-monitoring-basics",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "SNMP Polling과 Trap 포트",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "SNMP Manager가 Agent에 상태를 질의하는 기본 UDP 포트는 (A)이고, Agent가 Manager에 Trap 알림을 보내는 기본 UDP 포트는 (B)이다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "exact",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "Manager -> Agent",
+            "accepted": [
+              "161",
+              "udp 161",
+              "udp/161"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "Agent -> Manager Trap",
+            "accepted": [
+              "162",
+              "udp 162",
+              "udp/162"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "Manager는 UDP 161의 Agent에 polling 질의를 보내고, Agent는 UDP 162로 Trap을 보낸다. SNMPv1/v2c community string은 평문이므로 SNMPv3 authPriv, ACL, Read-Only 권한을 고려한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 126,
+          "excerpt": "UDP 161/162",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 621,
+          "excerpt": "SNMP 관리 보안",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "snmp",
+        "polling",
+        "trap",
+        "port"
+      ]
+    },
+    {
+      "id": "network-monitoring-controls-02",
+      "curriculumId": "network-name-monitoring-basics",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "오탐과 미탐 구분",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "정상 행위를 공격으로 잘못 판단한 것은 (A)이고, 실제 공격을 정상으로 판단해 놓친 것은 (B)이다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "정상을 공격으로 판단",
+            "accepted": [
+              "false positive",
+              "fp",
+              "오탐"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "공격을 정상으로 판단",
+            "accepted": [
+              "false negative",
+              "fn",
+              "미탐"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "False Positive는 오탐, False Negative는 미탐이다. IPS 환경에서는 오탐이 정상 업무 차단으로 이어질 수 있고, 미탐은 실제 공격을 놓친다는 점이 핵심이다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 656,
+          "excerpt": "False Positive",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "ids",
+        "ips",
+        "false-positive",
+        "false-negative"
+      ]
+    },
+    {
+      "id": "network-monitoring-controls-03",
+      "curriculumId": "network-name-monitoring-basics",
+      "stage": "recall",
+      "prerequisites": [],
+      "title": "중요정보 반출 통제 솔루션",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "이동식 저장매체, 이메일, 메신저, 웹 업로드를 통한 중요 문서·개인정보 반출을 탐지·차단하는 솔루션을 쓰세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "PC 에이전트와 네트워크 센서로 문서 유출을 탐지·차단하는 정보보호 솔루션을 쓰시오."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "솔루션",
+        "accepted": [
+          "dlp",
+          "data loss prevention",
+          "정보 유출 방지"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "DLP는 중요정보의 저장·사용·전송과 반출 경로를 식별해 탐지·차단·기록한다. Firewall은 IP·Port·Protocol 중심, WAF는 HTTP 웹 공격 중심이라는 점과 구분한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+          "line": 39,
+          "excerpt": "DLP",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 713,
+          "excerpt": "DLP(Data Loss Prevention)",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "dlp",
+        "data-loss-prevention",
+        "past-exam"
+      ]
+    },
+    {
+      "id": "network-monitoring-controls-04",
+      "curriculumId": "network-name-monitoring-basics",
+      "stage": "essay",
+      "prerequisites": [],
+      "title": "기본 Snort 룰 직접 작성",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "TCP Telnet 목적지 포트 23으로 향하는 패킷의 payload에 `anonymous` 문자열이 있으면 `Dangerous` 경보를 발생시키고 SID 100001을 부여하는 Snort 룰을 보기 없이 작성하세요."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "alert tcp any any -> any 23 (msg:\"Dangerous\"; content:\"anonymous\"; sid:100001;)"
+        ],
+        "keywordGroups": [
+          {
+            "label": "alert action",
+            "terms": [
+              "alert tcp"
+            ]
+          },
+          {
+            "label": "TCP 목적지 포트 23",
+            "terms": [
+              "-> any 23",
+              "-> any 23 ("
+            ]
+          },
+          {
+            "label": "Dangerous 경보 메시지",
+            "terms": [
+              "msg:\"dangerous\"",
+              "msg:'dangerous'"
+            ]
+          },
+          {
+            "label": "anonymous content 검사",
+            "terms": [
+              "content:\"anonymous\"",
+              "content:'anonymous'"
+            ]
+          },
+          {
+            "label": "SID 100001",
+            "terms": [
+              "sid:100001"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "content와 msg의 역할을 바꾸지 않는다.",
+          "sid를 룰 수정 버전인 rev와 혼동하지 않는다.",
+          "threshold를 차단 동작이라고 단정하지 않는다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "기본 구조는 `action protocol source -> destination (options)`다. 옵션 순서는 바뀌어도 되지만 msg, content, sid와 세미콜론은 각각 있어야 한다. `nocase`는 content의 대소문자 비교를 무시하고, `depth:14`는 앞 14바이트 검색 범위를 뜻한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+          "line": 34,
+          "excerpt": "content",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 667,
+          "excerpt": "Header",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 677,
+          "excerpt": "sid/rev",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "snort",
+        "rule",
+        "essay",
+        "blank-recall",
+        "past-exam"
+      ]
+    },
+    {
+      "id": "network-secure-communications-01",
+      "curriculumId": "network-secure-communications",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "TLS 인증서·키 역할",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "TLS에서 서버의 신원을 검증하는 것은 (A)이고, 공동 비밀을 만들어 세션키를 파생하는 임시 키 교환은 (B)이며, 연결 성립 뒤 실제 응용 데이터를 빠르게 암호화하는 것은 (C)이다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "TLS 서버 신원 검증",
+            "accepted": [
+              "서버 인증서",
+              "certificate",
+              "server certificate"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "임시 키 교환",
+            "accepted": [
+              "ecdhe",
+              "(ec)dhe"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "TLS 응용 데이터 암호화",
+            "accepted": [
+              "대칭 세션키",
+              "세션키",
+              "session key",
+              "symmetric session key"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "인증서는 CA 서명으로 서버 공개키와 신원을 결합해 검증한다. (EC)DHE는 임시 키 교환으로 공동 비밀을 만들고, 합의로 파생한 대칭 세션키가 실제 데이터를 보호한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 766,
+          "excerpt": "Certificate",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/2장 정리.md",
+          "line": 769,
+          "excerpt": "대칭키",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "network",
+        "tls",
+        "certificate",
+        "ecdhe",
+        "session-key"
+      ]
+    },
+    {
+      "id": "privacy-data-categories-01",
+      "curriculumId": "privacy-data-categories",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "개인정보·가명정보·익명정보",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "살아 있는 개인을 단독 또는 다른 정보와 쉽게 결합해 알아볼 수 있는 정보는 (A), 추가정보 없이는 특정 개인을 알아볼 수 없지만 추가정보와 결합하면 식별 가능한 정보는 (B), 합리적인 시간·비용·기술을 고려해도 더 이상 개인을 알아볼 수 없는 정보는 (C)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "개인을 식별할 수 있는 정보",
+            "accepted": [
+              "개인정보",
+              "personal information"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "추가정보와 결합하면 식별 가능한 정보",
+            "accepted": [
+              "가명정보",
+              "pseudonymous information"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "더 이상 식별할 수 없는 정보",
+            "accepted": [
+              "익명정보",
+              "anonymous information"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "가명정보는 개인정보보호법 적용 대상인 개인정보이고, 익명정보는 더 이상 개인을 식별할 수 없어 개인정보보호법 적용 대상에서 제외됩니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+          "line": 42,
+          "excerpt": "가명처리는 추가정보 없이는 특정 개인을 알아볼 수 없게 처리하는 것이며",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 576,
+          "excerpt": "익명정보 | 합리적인 시간·비용·기술을 고려해도 개인을 더 이상 알아볼 수 없는 정보",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "personal-information",
+        "pseudonymous",
+        "anonymous"
+      ]
+    },
+    {
+      "id": "privacy-data-categories-02",
+      "curriculumId": "privacy-data-categories",
+      "stage": "cloze",
+      "prerequisites": [
+        "privacy-data-categories-01"
+      ],
+      "title": "민감정보와 고유식별정보",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "건강·유전·범죄경력·생체인식정보처럼 사생활 침해 위험이 큰 개인정보는 (A)이고, 주민등록번호·여권번호·운전면허번호·외국인등록번호는 (B)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "사생활 침해 위험이 큰 개인정보",
+            "accepted": [
+              "민감정보",
+              "sensitive information"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "법정 네 가지 번호",
+            "accepted": [
+              "고유식별정보",
+              "고유 식별정보",
+              "unique identifying information"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "민감정보와 고유식별정보는 일반 개인정보와 구분해 별도 동의 또는 법령상 근거 등 더 엄격한 요건을 검토합니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 577,
+          "excerpt": "민감정보 | 사상·신념, 노조·정당, 정치적 견해, 건강·성생활",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 578,
+          "excerpt": "고유식별정보 | 주민등록번호·여권번호·운전면허번호·외국인등록번호",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "sensitive-information",
+        "unique-identifying-information"
+      ]
+    },
+    {
+      "id": "privacy-data-categories-03",
+      "curriculumId": "privacy-data-categories",
+      "stage": "decision",
+      "prerequisites": [
+        "privacy-data-categories-02"
+      ],
+      "title": "주민등록번호와 동의",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "주민등록번호는 정보주체의 동의만 있으면 수집·이용할 수 있나요?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "판정",
+        "accepted": [
+          "아니오",
+          "아닙니다",
+          "아니요",
+          "불가",
+          "불가능",
+          "처리할 수 없다"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "주민등록번호는 동의만으로 처리할 수 없습니다. 법률·대통령령 등에서 구체적으로 요구·허용하는 법정 근거 등을 확인해야 합니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 604,
+          "excerpt": "주민등록번호는 동의만으로 처리할 수 없고 법률·대통령령 등 법정 요건을 확인한다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "resident-registration-number",
+        "legal-basis"
+      ]
+    },
+    {
+      "id": "pseudonymous-information-01",
+      "curriculumId": "pseudonymous-information",
+      "stage": "cloze",
+      "prerequisites": [
+        "privacy-data-categories-01"
+      ],
+      "title": "동의 없는 가명정보 처리 목적",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "가명정보를 정보주체 동의 없이 처리할 수 있는 대표 목적 세 가지는 (A), (B), (C)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "첫 번째 목적",
+            "accepted": [
+              "통계작성",
+              "통계 작성"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "두 번째 목적",
+            "accepted": [
+              "과학적 연구",
+              "과학 연구"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "세 번째 목적",
+            "accepted": [
+              "공익적 기록보존",
+              "공익적 기록 보존"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "가명정보는 동의 없이 처리할 수 있는 경우에도 개인정보입니다. 목적 외 이용이나 재식별은 허용되지 않습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+          "line": 42,
+          "excerpt": "가명정보는 통계작성·과학적 연구·공익적 기록보존 등에 활용 가능",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 627,
+          "excerpt": "통계작성, 과학적 연구, 공익적 기록보존 목적이면 정보주체 동의 없이 가명정보를 처리할 수 있다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "pseudonymous-information",
+        "legal-purpose"
+      ]
+    },
+    {
+      "id": "pseudonymous-information-02",
+      "curriculumId": "pseudonymous-information",
+      "stage": "cloze",
+      "prerequisites": [
+        "pseudonymous-information-01"
+      ],
+      "title": "재식별 금지와 식별 가능 정보 처리",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "가명정보로 특정 개인을 알아내려는 목적의 처리는 (A)됩니다. 가명정보 처리 중 개인을 식별할 수 있는 정보가 생기면 (B)하고, 지체 없이 (C)해야 합니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "재식별 목적 처리",
+            "accepted": [
+              "금지",
+              "금지된다"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "즉시 조치",
+            "accepted": [
+              "처리를 중지",
+              "처리 중지",
+              "처리를 중지한다"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "후속 조치",
+            "accepted": [
+              "회수·파기",
+              "회수 및 파기",
+              "회수 파기"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "결합전문기관은 서로 다른 처리자의 가명정보 결합을 위한 기관이지, 재식별을 허용하는 기관이 아닙니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 630,
+          "excerpt": "특정 개인을 알아보기 위한 처리(재식별)를 금지하며, 식별 가능 정보가 생기면 처리를 중지하고 회수·파기한다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "pseudonymous-information",
+        "reidentification"
+      ]
+    },
+    {
+      "id": "pseudonymous-information-03",
+      "curriculumId": "pseudonymous-information",
+      "stage": "recall",
+      "prerequisites": [
+        "pseudonymous-information-01"
+      ],
+      "title": "가명정보 결합 기관",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "서로 다른 개인정보처리자가 보유한 가명정보를 결합하려면 지정된 어디를 통해 수행해야 하나요?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "기관",
+        "accepted": [
+          "결합전문기관",
+          "결합 전문기관"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "결합전문기관은 서로 다른 처리자 간 가명정보 결합의 통제된 경로입니다. 재식별을 위해 이용하는 것이 아닙니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 629,
+          "excerpt": "서로 다른 처리자 간 결합은 지정 결합전문기관을 통해 수행한다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "pseudonymous-information",
+        "combination-specialized-institution"
+      ]
+    },
+    {
+      "id": "privacy-consent-lifecycle-01",
+      "curriculumId": "privacy-consent-lifecycle",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "수집·이용 동의 고지 4항목",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "개인정보 수집·이용 동의를 받을 때 알려야 할 네 가지는 (A), (B), (C), (D)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "왜 수집·이용하는가",
+            "accepted": [
+              "수집·이용 목적",
+              "수집 이용 목적",
+              "수집 및 이용 목적"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "무엇을 수집하는가",
+            "accepted": [
+              "수집 항목"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "얼마 동안 보유·이용하는가",
+            "accepted": [
+              "보유·이용 기간",
+              "보유 이용 기간",
+              "보유 및 이용 기간"
+            ]
+          },
+          {
+            "id": "D",
+            "label": "거부와 불이익",
+            "accepted": [
+              "동의 거부권 및 거부 시 불이익",
+              "동의 거부권과 거부 시 불이익",
+              "동의 거부권 및 거부에 따른 불이익",
+              "동의 거부권과 거부에 따른 불이익"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "‘개인정보 수집 동의’는 전체 절차의 이름입니다. 답안에는 목적·항목·기간·거부권/불이익을 각각 씁니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 594,
+          "excerpt": "동의를 받을 때 알릴 핵심 4항목:",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 599,
+          "excerpt": "동의 거부권과 거부 시 불이익의 내용",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "consent",
+        "notice"
+      ]
+    },
+    {
+      "id": "privacy-consent-lifecycle-02",
+      "curriculumId": "privacy-consent-lifecycle",
+      "stage": "cloze",
+      "prerequisites": [
+        "privacy-consent-lifecycle-01"
+      ],
+      "title": "제3자 제공과 처리위탁",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "정보를 받은 자가 자신의 상품 추천 등 독자 목적을 위해 처리하면 (A)이고, 위탁자의 업무 목적과 지시에 따라 대신 처리하면 (B)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "수령자의 독자 목적 처리",
+            "accepted": [
+              "제3자 제공",
+              "제3자제공"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "위탁자의 업무 대행",
+            "accepted": [
+              "처리위탁",
+              "처리 위탁"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "명칭이 아니라 실질을 봅니다. 수령자가 독자 목적·결정권을 가지면 ‘위탁’이라는 이름이어도 제3자 제공일 수 있습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 619,
+          "excerpt": "제3자 제공 | 제공받는 자 자신의 목적을 위해 처리",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 620,
+          "excerpt": "처리위탁 | 위탁자의 업무 목적을 대신 수행",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "third-party-provision",
+        "outsourcing"
+      ]
+    },
+    {
+      "id": "privacy-consent-lifecycle-03",
+      "curriculumId": "privacy-consent-lifecycle",
+      "stage": "cloze",
+      "prerequisites": [
+        "privacy-consent-lifecycle-01"
+      ],
+      "title": "보유기간 종료와 법정 보존",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "보유기간이 끝났거나 처리 목적을 달성해 불필요해진 개인정보는 (A)해야 합니다. 다른 법령 때문에 계속 보존해야 한다면 목적 외 이용을 막도록 (B)해야 합니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "원칙적 조치",
+            "accepted": [
+              "지체 없이 파기",
+              "파기",
+              "파기한다"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "법정 보존 시 조치",
+            "accepted": [
+              "분리 보관",
+              "분리보관",
+              "분리하여 보관"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "보존 의무가 있더라도 원래 목적과 섞어 사용하면 안 됩니다. 분리 보관하고 목적 외 이용을 막습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 635,
+          "excerpt": "보유기간 경과 또는 목적 달성 등 불필요해지면 지체 없이 파기한다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "retention",
+        "destruction"
+      ]
+    },
+    {
+      "id": "privacy-consent-lifecycle-04",
+      "curriculumId": "privacy-consent-lifecycle",
+      "stage": "cloze",
+      "prerequisites": [
+        "privacy-consent-lifecycle-03"
+      ],
+      "title": "정보주체 기본 권리",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "정보주체가 자신의 개인정보를 확인하는 권리는 (A), 틀린 정보를 바로잡거나 지우도록 요구하는 권리는 (B), 처리를 멈추도록 요구하는 권리는 (C), 이미 한 동의를 철회하는 권리는 (D)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "확인 권리",
+            "accepted": [
+              "열람권"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "정정·삭제 권리",
+            "accepted": [
+              "정정·삭제 요구권",
+              "정정 삭제 요구권"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "처리 중단 권리",
+            "accepted": [
+              "처리정지 요구권",
+              "처리 정지 요구권"
+            ]
+          },
+          {
+            "id": "D",
+            "label": "동의 철회 권리",
+            "accepted": [
+              "동의 철회권",
+              "동의철회권"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "기본 묶음은 ‘열람 → 정정·삭제 → 처리정지 → 동의 철회’입니다. 법령상 보존의무 등 제한 사유가 있으면 그 근거를 안내합니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 637,
+          "excerpt": "정보주체는 열람, 정정·삭제, 처리정지, 동의 철회 등 법정 권리를 행사할 수 있다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "data-subject-rights",
+        "lifecycle"
+      ]
+    },
+    {
+      "id": "privacy-roles-impact-01",
+      "curriculumId": "privacy-roles-impact",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "CISO와 CPO의 담당 구분",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "조직 전반의 정보보호를 총괄하는 책임자는 (A)이고, 개인정보 처리와 보호를 총괄하는 책임자는 (B)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "정보보호 총괄",
+            "accepted": [
+              "CISO",
+              "정보보호 최고책임자",
+              "정보보호최고책임자"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "개인정보 총괄",
+            "accepted": [
+              "CPO",
+              "개인정보 보호책임자",
+              "개인정보보호책임자"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "CISO와 CPO는 협력할 수 있지만, CISO는 정보보호 전반, CPO는 개인정보 처리·보호를 중심으로 책임을 구분합니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 140,
+          "excerpt": "CPO는 개인정보 처리와 보호, 불만·피해구제, 내부통제 등을 총괄한다.",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 135,
+          "excerpt": "CISO는 정보보호 전략·정책·조직·위험관리·사고대응을 총괄하며",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "cpo",
+        "ciso",
+        "governance"
+      ]
+    },
+    {
+      "id": "privacy-roles-impact-02",
+      "curriculumId": "privacy-roles-impact",
+      "stage": "recall",
+      "prerequisites": [
+        "privacy-roles-impact-01"
+      ],
+      "title": "개인정보 영향평가",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "개인정보파일 운용으로 정보주체 권리 침해 우려가 큰 경우, 위험요인을 사전에 분석하고 개선방안을 도출하는 절차는 무엇인가요?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "절차 명칭",
+        "accepted": [
+          "개인정보 영향평가",
+          "개인정보영향평가",
+          "PIA",
+          "Privacy Impact Assessment"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "PIA는 사전 분석 자체를 뜻하는 일반 표현이 아니라 개인정보 영향평가라는 법·제도상 절차 명칭입니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+          "line": 46,
+          "excerpt": "개인정보 처리가 수반되는 사업 추진 시 해당 사업이 개인정보에 미치는 영향을 사전에 분석",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 650,
+          "excerpt": "위험요인을 사전에 분석하고 개선방안을 도출하는 절차다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "pia",
+        "impact-assessment"
+      ]
+    },
+    {
+      "id": "privacy-roles-impact-03",
+      "curriculumId": "privacy-roles-impact",
+      "stage": "essay",
+      "prerequisites": [
+        "privacy-roles-impact-02"
+      ],
+      "title": "개인정보 영향평가 고려사항 5가지",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "개인정보 영향평가를 수행할 때 고려해야 할 사항 다섯 가지를 서술하세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "개인정보 영향평가 수행 시 고려해야 할 사항 5가지를 기술하시오."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "처리하는 개인정보의 수를 고려한다.",
+          "개인정보의 제3자 제공 여부를 고려한다.",
+          "정보주체 권리를 침해할 가능성과 그 위험 정도를 고려한다.",
+          "민감정보 또는 고유식별정보 처리 여부를 고려한다.",
+          "개인정보 보유기간을 고려한다."
+        ],
+        "keywordGroups": [
+          {
+            "label": "처리 규모",
+            "terms": [
+              "처리하는 개인정보의 수",
+              "개인정보의 수",
+              "개인정보 수",
+              "처리 건수"
+            ]
+          },
+          {
+            "label": "제3자 제공",
+            "terms": [
+              "개인정보의 제3자 제공 여부",
+              "제3자 제공 여부",
+              "제3자 제공"
+            ]
+          },
+          {
+            "label": "권리 침해 위험",
+            "terms": [
+              "정보주체 권리를 침해할 가능성과 그 위험 정도",
+              "정보주체 권리 침해 가능성과 위험 정도",
+              "정보주체의 권리를 해할 가능성 및 위험 정도",
+              "정보주체 권리 침해 위험"
+            ]
+          },
+          {
+            "label": "특수정보 처리",
+            "terms": [
+              "민감정보 또는 고유식별정보 처리 여부",
+              "민감정보·고유식별정보 처리 여부",
+              "민감정보 또는 고유식별정보"
+            ]
+          },
+          {
+            "label": "보유기간",
+            "terms": [
+              "개인정보 보유기간",
+              "개인정보 보유 기간",
+              "보유기간"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "‘평가 목적’이나 ‘개선방안’을 고려사항 하나로 쓰지 말고, 문제에서 요구한 다섯 판단 항목을 구분한다.",
+          "민감정보와 고유식별정보를 각각 별개의 두 항목으로 세지 않는다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "백지 답안은 ‘몇 명·누구에게 제공·권리 위험·민감/고유·얼마나 보관’의 다섯 질문으로 복원한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+          "line": 46,
+          "excerpt": "처리하는 개인정보의 수, 개인정보의 제3자 제공 여부, 정보주체의 권리를 해할 가능성",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 664,
+          "excerpt": "기출형 영향평가 고려사항 5개",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 670,
+          "excerpt": "개인정보 보유기간",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "pia",
+        "essay",
+        "past-pattern"
+      ]
+    },
+    {
+      "id": "privacy-roles-impact-04",
+      "curriculumId": "privacy-roles-impact",
+      "stage": "cloze",
+      "prerequisites": [
+        "privacy-roles-impact-03"
+      ],
+      "title": "공공기관 의무 PIA 대상",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "공공기관이 의무적으로 PIA를 수행해야 하는 개인정보파일의 기준을 완성하세요. 민감정보 또는 고유식별정보를 처리하는 파일은 (A)명 이상, 다른 파일과 연계해 개인정보가 포함된 파일은 (B)명 이상, 일반 개인정보파일은 (C)명 이상이다. 이미 영향평가를 받은 파일은 (D)를 변경해도 변경 부분을 평가한다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "민감·고유식별정보 처리 기준",
+            "accepted": [
+              "5만",
+              "5만명",
+              "50,000명",
+              "50000명"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "파일 연계 기준",
+            "accepted": [
+              "50만",
+              "50만명",
+              "500,000명",
+              "500000명"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "일반 개인정보파일 기준",
+            "accepted": [
+              "100만",
+              "100만명",
+              "1,000,000명",
+              "1000000명"
+            ]
+          },
+          {
+            "id": "D",
+            "label": "재평가를 부르는 변경",
+            "accepted": [
+              "검색체계 등 운용체계",
+              "검색체계",
+              "운용체계"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "‘5만=민감·고유, 50만=파일 연계, 100만=일반 파일’로 조건과 수치를 함께 기억한다. 이 기준은 공공기관의 법정 의무 대상이지 모든 민간 처리자의 일반 기준은 아니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 659,
+          "excerpt": "5만명 이상의 민감정보 또는 고유식별정보",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 660,
+          "excerpt": "50만명 이상의 개인정보가 포함",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 661,
+          "excerpt": "100만명 이상의 개인정보파일",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 662,
+          "excerpt": "검색체계 등 운용체계를 변경",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "pia",
+        "public-agency",
+        "legal-threshold"
+      ]
+    },
+    {
+      "id": "biometric-information-protection-01",
+      "curriculumId": "biometric-information-protection",
+      "stage": "essay",
+      "prerequisites": [],
+      "title": "생체인식정보 보호 6원칙",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "생체인식정보 보호 6원칙과 각 원칙의 핵심 내용을 서술하세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "생체인식 보호 6가지 원칙과 내용을 서술하시오."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "비례성: 처리 편익과 개인정보 침해 위험을 비교해 활용 필요성과 범위를 판단한다.",
+          "적법성: 수집·이용·제공의 처리 근거가 적법하고 명확해야 한다.",
+          "목적제한: 동의받거나 정당화된 인증·식별 목적 밖으로 무단 활용하지 않는다.",
+          "투명성: 처리 목적·항목·보유기간·보호방법 등 보호 사항을 알기 쉽게 공개한다.",
+          "안전성: 분실·도난·유출·위조·변조·훼손을 막도록 기술적·관리적·물리적 조치를 한다.",
+          "통제권 보장: 정보주체가 열람·정정·삭제·동의철회 등으로 자신의 정보를 통제할 수단을 제공한다."
+        ],
+        "keywordGroups": [
+          {
+            "label": "비례성 원칙명",
+            "terms": [
+              "비례성"
+            ]
+          },
+          {
+            "label": "비례성 내용",
+            "terms": [
+              "처리 편익과 개인정보 침해 위험",
+              "활용 필요성과 범위"
+            ]
+          },
+          {
+            "label": "적법성 원칙명",
+            "terms": [
+              "적법성"
+            ]
+          },
+          {
+            "label": "적법성 내용",
+            "terms": [
+              "처리 근거가 적법하고 명확",
+              "적법·명확한 처리 근거"
+            ]
+          },
+          {
+            "label": "목적제한 원칙명",
+            "terms": [
+              "목적제한",
+              "목적 제한"
+            ]
+          },
+          {
+            "label": "목적제한 내용",
+            "terms": [
+              "인증·식별 목적 밖",
+              "목적 외로 무단 활용하지"
+            ]
+          },
+          {
+            "label": "투명성 원칙명",
+            "terms": [
+              "투명성"
+            ]
+          },
+          {
+            "label": "투명성 내용",
+            "terms": [
+              "알기 쉽게 공개",
+              "처리 목적·항목·보유기간·보호방법"
+            ]
+          },
+          {
+            "label": "안전성 원칙명",
+            "terms": [
+              "안전성"
+            ]
+          },
+          {
+            "label": "안전성 내용",
+            "terms": [
+              "분실·도난·유출·위조·변조·훼손",
+              "기술적·관리적·물리적 조치"
+            ]
+          },
+          {
+            "label": "통제권 보장 원칙명",
+            "terms": [
+              "통제권 보장",
+              "통제권"
+            ]
+          },
+          {
+            "label": "통제권 보장 내용",
+            "terms": [
+              "열람·정정·삭제·동의철회",
+              "스스로 통제할 수단"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "여섯 원칙 중 하나라도 빠뜨리거나 ‘안정성’처럼 다른 용어로 바꾸지 않는다.",
+          "목적제한을 단순 보관기간 제한으로 쓰지 말고 인증·식별 목적 외 이용 금지와 연결한다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "암기 덩어리는 ‘필요하고 적법한가 → 목적 안에서 알리고 안전하게 하는가 → 본인이 통제하는가’의 세 묶음으로 복원한다. 생체인식정보는 민감정보이며, 특징정보(template)의 분리·암호화는 안전성 조치의 예다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+          "line": 45,
+          "excerpt": "생체인식 보호 6가지 원칙과 내용을 서술하시오.",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 767,
+          "excerpt": "처리 편익과 개인정보 침해 위험",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 768,
+          "excerpt": "수집·이용·제공 등 처리 근거",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 769,
+          "excerpt": "동의받거나 정당화된 인증·식별 목적",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 770,
+          "excerpt": "처리 목적·항목·보유기간·보호방법",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 771,
+          "excerpt": "분실·도난·유출·위조·변조·훼손",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 772,
+          "excerpt": "열람·정정·삭제·동의철회",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "biometric",
+        "sensitive-information",
+        "essay",
+        "past-pattern"
+      ]
+    },
+    {
+      "id": "privacy-breach-response-01",
+      "curriculumId": "privacy-breach-response",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "개인정보 유출 통지와 신고 기한",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "개인정보 유출 사실을 알게 된 때, 정보주체 통지는 (A) 이내에 해야 합니다. 신고 대상에 해당하면 보호위원회 또는 전문기관 신고도 (B) 이내에 해야 합니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "정보주체 통지 기한",
+            "accepted": [
+              "72시간",
+              "72시간 이내"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "신고 기한",
+            "accepted": [
+              "72시간",
+              "72시간 이내"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "통지와 신고의 기한은 모두 72시간이지만, 통지는 유출 사실을 알게 된 경우의 정보주체 보호 조치이고 신고는 법정 신고 대상일 때만 수행합니다. 둘은 서로 대체되지 않습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 682,
+          "excerpt": "정보주체 통지",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 690,
+          "excerpt": "위원회 또는 전문기관 신고",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "breach",
+        "notification",
+        "reporting",
+        "deadline"
+      ]
+    },
+    {
+      "id": "privacy-breach-response-02",
+      "curriculumId": "privacy-breach-response",
+      "stage": "cloze",
+      "prerequisites": [
+        "privacy-breach-response-01"
+      ],
+      "title": "개인정보 유출 신고 대상",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "개인정보 유출을 보호위원회 또는 전문기관에 신고해야 하는 대표 경우는 (A)명 이상 정보주체의 개인정보 유출, (B) 유출, (C)에 의한 유출입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "정보주체 수 기준",
+            "accepted": [
+              "1천",
+              "1,000",
+              "1000",
+              "1천명",
+              "1,000명",
+              "1000명"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "특별 보호 정보",
+            "accepted": [
+              "민감정보 또는 고유식별정보",
+              "민감정보·고유식별정보",
+              "민감정보 또는 고유 식별 정보",
+              "민감정보 또는 고유식별 정보"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "침해 경로",
+            "accepted": [
+              "외부의 불법적 접근",
+              "외부로부터의 불법적인 접근",
+              "외부 불법 접근"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "신고 대상은 ‘1천명 이상’, ‘민감정보 또는 고유식별정보’, ‘외부의 불법적 접근’ 중 하나입니다. 300명 일반 개인정보 유출처럼 세 조건에 해당하지 않으면 정보주체 통지는 하되 법정 신고 대상은 아닙니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 692,
+          "excerpt": "1천명 이상 정보주체",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 693,
+          "excerpt": "민감정보 또는 고유식별정보",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 694,
+          "excerpt": "외부의 불법적 접근",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "breach",
+        "reporting",
+        "sensitive-information",
+        "unique-identifying-information"
+      ]
+    },
+    {
+      "id": "privacy-breach-response-03",
+      "curriculumId": "privacy-breach-response",
+      "stage": "essay",
+      "prerequisites": [
+        "privacy-breach-response-02"
+      ],
+      "title": "개인정보 유출 통지 5항목",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "개인정보 유출을 정보주체에게 통지할 때 포함할 항목 다섯 가지를 쓰세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "개인정보 유출 사실을 알았을 때 이용자에게 알려야 하는 사항 5가지를 쓰시오."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "유출된 개인정보의 항목을 통지한다.",
+          "유출 시점과 경위를 통지한다.",
+          "정보주체가 할 수 있는 피해 최소화 방법을 알린다.",
+          "개인정보처리자의 대응조치와 피해구제 절차를 알린다.",
+          "신고·문의 담당부서와 연락처를 알린다."
+        ],
+        "keywordGroups": [
+          {
+            "label": "무엇이 유출되었는가",
+            "terms": [
+              "유출",
+              "항목"
+            ]
+          },
+          {
+            "label": "언제·어떻게 유출되었는가",
+            "terms": [
+              "시점",
+              "경위"
+            ]
+          },
+          {
+            "label": "정보주체의 피해 최소화 방법",
+            "terms": [
+              "피해",
+              "최소화"
+            ]
+          },
+          {
+            "label": "처리자의 대응과 피해구제",
+            "terms": [
+              "대응",
+              "피해구제"
+            ]
+          },
+          {
+            "label": "신고·문의 연락처",
+            "terms": [
+              "담당",
+              "연락처"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "‘통지 72시간’만 쓰고 통지 항목 다섯 가지를 쓰지 않으면 답이 불완전합니다.",
+          "감독기관 신고 대상과 정보주체 통지 항목을 같은 것으로 쓰면 안 됩니다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "백지 답안은 ‘무엇이 → 언제·왜 → 내가 할 일 → 회사 조치 → 연락처’ 순서로 재현하면 됩니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+          "line": 43,
+          "excerpt": "이용자에게 지체 없이 알려야 하는 사항 5가지",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 684,
+          "excerpt": "유출된 개인정보의 항목",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "breach",
+        "notification",
+        "essay",
+        "past-exam"
+      ]
+    },
+    {
+      "id": "privacy-safeguards-01",
+      "curriculumId": "privacy-safeguards",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "접속기록 항목",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "개인정보처리시스템의 접속기록에는 (A), (B), (C), (D), (E) 등을 기록합니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "접속한 주체",
+            "accepted": [
+              "식별자"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "접속 시간",
+            "accepted": [
+              "접속일시",
+              "접속 일시"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "접속한 곳",
+            "accepted": [
+              "접속지",
+              "접속 지"
+            ]
+          },
+          {
+            "id": "D",
+            "label": "처리 대상",
+            "accepted": [
+              "처리한 정보주체",
+              "처리한 정보주체 정보",
+              "처리 정보주체"
+            ]
+          },
+          {
+            "id": "E",
+            "label": "수행한 일",
+            "accepted": [
+              "수행업무",
+              "수행 업무"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "시험 답안에는 ‘접속이력’보다 법령 표현인 ‘접속기록’을 쓰고, 식별자·언제·어디서·누구의 정보·무슨 업무 순서로 적습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 718,
+          "excerpt": "식별자·접속일시·접속지·처리한 정보주체·수행업무",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "safeguards",
+        "access-log",
+        "logging"
+      ]
+    },
+    {
+      "id": "privacy-safeguards-02",
+      "curriculumId": "privacy-safeguards",
+      "stage": "decision",
+      "prerequisites": [
+        "privacy-safeguards-01"
+      ],
+      "title": "고유식별정보 시스템의 접속기록 보관",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "2천 명의 고객을 처리하지만 주민등록번호도 처리하는 시스템입니다. 접속기록은 최소 몇 년 보관해야 하나요?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "최소 보관기간",
+        "accepted": [
+          "2년",
+          "2년 이상"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "접속기록은 원칙 1년 이상이지만, 고유식별정보 또는 민감정보를 처리하는 시스템이면 인원 수와 관계없이 2년 이상입니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 725,
+          "excerpt": "1년 이상",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 726,
+          "excerpt": "고유식별정보 또는 민감정보를 처리하는 시스템",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "safeguards",
+        "access-log",
+        "retention",
+        "unique-identifying-information"
+      ]
+    },
+    {
+      "id": "privacy-safeguards-03",
+      "curriculumId": "privacy-safeguards",
+      "stage": "cloze",
+      "prerequisites": [
+        "privacy-safeguards-01"
+      ],
+      "title": "접속기록과 접근권한 이력의 보관기간",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "2년 보관 사유가 없는 일반 시스템에서 접속기록은 최소 (A)년, 접근권한 부여·변경·말소 이력은 최소 (B)년 보관합니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "접속기록",
+            "accepted": [
+              "1",
+              "1년",
+              "1년 이상"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "접근권한 이력",
+            "accepted": [
+              "3",
+              "3년",
+              "3년 이상"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "‘접속기록’은 접속 행위를 남긴 것이고, ‘접근권한 이력’은 권한을 부여·변경·말소한 기록입니다. 대상과 보관기간을 섞지 않습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 714,
+          "excerpt": "부여·변경·말소 이력을 최소 3년 보관",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 725,
+          "excerpt": "1년 이상",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "safeguards",
+        "access-log",
+        "access-authorization",
+        "retention"
+      ]
+    },
+    {
+      "id": "privacy-safeguards-04",
+      "curriculumId": "privacy-safeguards",
+      "stage": "cloze",
+      "prerequisites": [
+        "privacy-safeguards-03"
+      ],
+      "title": "비밀번호·주민등록번호·암호키 보호",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "비밀번호는 (A) 방식으로 보호하고, 주민등록번호 등 고유식별정보는 저장·전송 시 (B)하며, 암호키는 개인정보가 저장된 DB와 분리해 (C)합니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "비밀번호 보호 방식",
+            "accepted": [
+              "일방향 암호화",
+              "일방향암호화",
+              "해시"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "고유식별정보 보호 조치",
+            "accepted": [
+              "암호화",
+              "암호화한다",
+              "암호화해야 한다",
+              "암호화 수행"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "암호키 조치",
+            "accepted": [
+              "안전하게 관리",
+              "안전하게 관리한다",
+              "분리 관리",
+              "분리하여 관리",
+              "KMS 또는 Vault에 분리 저장",
+              "KMS 또는 Vault로 분리 관리",
+              "KMS/Vault에 분리 저장"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "답안 핵심은 ‘비밀번호 일방향’, ‘법정 대상 저장·전송 암호화’, ‘키 안전관리’입니다. KMS나 Vault는 키를 분리 관리하는 구현 예시입니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 717,
+          "excerpt": "비밀번호 일방향",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "safeguards",
+        "encryption",
+        "password",
+        "key-management"
+      ]
+    },
+    {
+      "id": "privacy-safeguards-05",
+      "curriculumId": "privacy-safeguards",
+      "stage": "essay",
+      "prerequisites": [
+        "privacy-safeguards-03"
+      ],
+      "title": "개인정보 접근권한과 접근통제",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "고객 개인정보처리시스템의 접근권한 관리와 접근통제를 위해 수행할 조치를 작성하세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "개인정보처리시스템의 접근권한 관리와 접근통제를 위해 준수해야 할 사항을 기술하시오."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "업무상 필요한 최소 범위로 권한을 부여하고, 인사이동·퇴직 시 지체 없이 변경·말소한다.",
+          "권한 부여·변경·말소 내역은 최소 3년 보관하고, 개인정보취급자별 계정을 발급해 공유하지 않는다.",
+          "IP 등으로 인가되지 않은 접근을 제한하고, 접속기록을 분석해 불법 유출 시도를 탐지·대응한다."
+        ],
+        "keywordGroups": [
+          {
+            "label": "최소권한과 인사변경",
+            "terms": [
+              "최소",
+              "변경",
+              "말소"
+            ]
+          },
+          {
+            "label": "권한 이력 3년",
+            "terms": [
+              "부여",
+              "3년"
+            ]
+          },
+          {
+            "label": "개별 계정과 공유 금지",
+            "terms": [
+              "개별",
+              "공유"
+            ]
+          },
+          {
+            "label": "비인가 접근 제한",
+            "terms": [
+              "인가",
+              "제한"
+            ]
+          },
+          {
+            "label": "접속기록 기반 탐지·대응",
+            "terms": [
+              "접속",
+              "탐지"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "접속기록 보관기간과 권한 부여·변경·말소 이력의 3년 보관을 혼동하면 안 됩니다.",
+          "계정 공유를 허용하거나 퇴직자 권한을 그대로 둔다고 쓰면 안 됩니다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "실기 답안은 ‘최소권한 → 인사변경 정비 → 이력 보관 → 개별계정 → 비인가 차단·로그 대응’의 흐름으로 쓰면 누락을 줄일 수 있습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+          "line": 49,
+          "excerpt": "접근권한 관리, 접근통제를 위해 준수해야 할 사항",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 714,
+          "excerpt": "업무상 최소범위로 부여",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "safeguards",
+        "access-authorization",
+        "access-control",
+        "essay",
+        "past-exam"
+      ]
+    },
+    {
+      "id": "video-information-devices-01",
+      "curriculumId": "video-information-devices",
+      "stage": "recall",
+      "prerequisites": [],
+      "title": "CCTV 안내판 핵심 항목",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "개인정보보호법에 따른 영상정보처리기기 설치 시 안내문에 포함해야 하는 핵심 항목을 쓰세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "개인정보보호법에 따른 영상정보처리기기 설치 시 안내문에 포함해야 하는 사항이다. 빈칸 (A)를 채우시오."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "안내 항목",
+        "accepted": [
+          "설치 장소 및 목적",
+          "설치장소 및 목적",
+          "설치 장소와 목적",
+          "설치장소와 목적"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "기출형 최소 답은 ‘설치 장소 및 목적’입니다. 현행 안내판에는 촬영범위·시간·관리책임자 등도 함께 표시합니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+          "line": 36,
+          "excerpt": "설치 장소 및 목적",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 742,
+          "excerpt": "설치 목적·장소·촬영범위·시간·관리책임자",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "cctv",
+        "video-information",
+        "notice",
+        "past-exam"
+      ]
+    },
+    {
+      "id": "video-information-devices-02",
+      "curriculumId": "video-information-devices",
+      "stage": "cloze",
+      "prerequisites": [
+        "video-information-devices-01"
+      ],
+      "title": "공개장소 CCTV의 법정 설치·운영 예외",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "공개장소 고정형 CCTV를 설치·운영할 수 있는 법정 예외는 (A), (B), (C), (D), (E), (F)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "법령상 허용",
+            "accepted": [
+              "법령이 구체적으로 허용",
+              "법령상 구체적 허용"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "범죄 관련",
+            "accepted": [
+              "범죄 예방·수사",
+              "범죄 예방 및 수사"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "안전 관련",
+            "accepted": [
+              "시설안전·관리·화재예방",
+              "시설의 안전 및 관리, 화재 예방",
+              "시설 안전·관리·화재 예방",
+              "시설안전관리 및 화재예방"
+            ]
+          },
+          {
+            "id": "D",
+            "label": "교통 단속",
+            "accepted": [
+              "교통단속",
+              "교통 단속"
+            ]
+          },
+          {
+            "id": "E",
+            "label": "교통 정보",
+            "accepted": [
+              "교통정보 수집·분석·제공",
+              "교통정보의 수집·분석 및 제공",
+              "교통정보 수집, 분석, 제공"
+            ]
+          },
+          {
+            "id": "F",
+            "label": "저장하지 않는 영상정보",
+            "accepted": [
+              "촬영된 영상정보를 저장하지 아니하는 경우로서 대통령령으로 정하는 경우",
+              "촬영된 영상정보를 저장하지 않는 경우로서 대통령령으로 정하는 경우"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "공개장소 CCTV는 ‘보안에 좋아 보인다’는 사유만으로 설치하지 않습니다. 법정 예외 여섯 가지 중 하나에 해당하는지부터 판단합니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 736,
+          "excerpt": "법령이 구체적으로 허용",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 737,
+          "excerpt": "범죄 예방·수사",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 738,
+          "excerpt": "시설안전·관리·화재예방",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 739,
+          "excerpt": "교통단속",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 740,
+          "excerpt": "교통정보 수집·분석·제공",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 741,
+          "excerpt": "촬영된 영상정보를 저장하지 아니하는 경우로서 대통령령으로 정하는 경우",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "cctv",
+        "video-information",
+        "legal-basis"
+      ]
+    },
+    {
+      "id": "video-information-devices-03",
+      "curriculumId": "video-information-devices",
+      "stage": "cloze",
+      "prerequisites": [
+        "video-information-devices-02"
+      ],
+      "title": "CCTV 운영 금지행위",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "시설 안전 목적으로 설치한 로비 CCTV를 직원 휴게실 쪽으로 돌리고 녹음했다면, (A)와 (B) 금지행위에 해당합니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "목적 외 조작",
+            "accepted": [
+              "설치 목적과 다른 목적으로 임의 조작하거나 다른 곳을 비춤",
+              "목적 외 임의 조작",
+              "다른 곳을 비춤",
+              "목적과 다른 곳 촬영"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "음성 녹음",
+            "accepted": [
+              "녹음기능 사용",
+              "녹음 기능 사용",
+              "음성 녹음",
+              "녹음"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "이 문제는 설치 가능 여부가 아니라 설치 뒤 운영 금지행위를 묻습니다. 답안은 ‘목적 외 임의조작·다른 곳 비춤’과 ‘녹음기능 사용’입니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 743,
+          "excerpt": "목적과 무관한 곳을 비추거나 임의조작하지 않고, 녹음 기능을 사용하지 않는다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "cctv",
+        "video-information",
+        "prohibition"
+      ]
+    },
+    {
+      "id": "video-information-devices-04",
+      "curriculumId": "video-information-devices",
+      "stage": "essay",
+      "prerequisites": [
+        "video-information-devices-03"
+      ],
+      "title": "공개·비공개 장소 CCTV 구분",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "회사 사옥 외부 공개 장소와 출입카드가 필요한 서버실에 CCTV를 설치할 때, 각각의 설치 판단 기준과 핵심 조치를 구분해 작성하세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "CCTV 설치 시 개인정보처리자가 해야 할 조치를 회사 사옥 외부 공개 장소와 사내 출입통제구역 내부 관점으로 구분해 쓰시오."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "공개장소 고정형 CCTV는 법정 설치 사유에 해당하는지 확인하고, 설치 목적·장소·촬영 범위·시간·관리책임자 등을 안내한다.",
+          "공개장소 CCTV는 목적 외 임의조작·다른 곳 촬영과 녹음기능 사용을 금지하고, 접근권한·운영관리·안전조치를 관리한다.",
+          "출입통제 서버실 같은 비공개 장소는 공개장소의 법정 설치 사유 목록이 아니라 개인정보 수집·이용의 적법한 처리근거와 필요 최소 범위를 확인한다.",
+          "비공개 장소도 목적 제한, 투명성, 접근권한, 안전조치와 열람·제공 기록을 적용한다."
+        ],
+        "keywordGroups": [
+          {
+            "label": "공개장소의 법정 설치 사유",
+            "terms": [
+              "법정",
+              "설치 사유"
+            ]
+          },
+          {
+            "label": "공개장소 안내와 운영 제한",
+            "terms": [
+              "안내",
+              "목적 외",
+              "녹음"
+            ]
+          },
+          {
+            "label": "비공개 장소의 적법 근거",
+            "terms": [
+              "처리근거",
+              "수집",
+              "이용"
+            ]
+          },
+          {
+            "label": "비공개 장소의 최소 범위와 보호조치",
+            "terms": [
+              "최소",
+              "접근",
+              "안전"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "비공개 장소에도 공개장소 CCTV의 법정 설치 사유 목록만 적용한다고 쓰면 안 됩니다.",
+          "비공개 장소라고 해서 목적 제한·안전조치가 없어지는 것은 아닙니다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "백지 답안은 ‘공개장소=법정 설치목적, 비공개 장소=개인정보 처리근거+최소범위’로 먼저 나누고, 양쪽 모두 운영·안전조치를 적으면 됩니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+          "line": 53,
+          "excerpt": "공개 장소와 사내 출입통제구역 내부 관점으로 구분",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 749,
+          "excerpt": "개인정보보호법 제15조의 일반 수집·이용 근거",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "cctv",
+        "video-information",
+        "legal-basis",
+        "essay",
+        "past-exam"
+      ]
+    },
+    {
+      "id": "video-information-devices-05",
+      "curriculumId": "video-information-devices",
+      "stage": "recall",
+      "prerequisites": [
+        "video-information-devices-04"
+      ],
+      "title": "이동형 영상정보처리기기",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "사람이 신체에 착용·휴대하거나 이동 가능한 물체에 부착·거치되어 사람 또는 사물의 영상을 촬영·전송하는 장치를 법령상 무엇이라고 하는가?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "법령상 명칭",
+        "accepted": [
+          "이동형 영상정보처리기기",
+          "이동형 영상정보 처리기기"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "바디캠처럼 사람이 착용·휴대하는 기기, 드론·차량처럼 이동 가능한 물체에 부착·거치한 기기는 이동형 영상정보처리기기다. 업무 목적으로 공개장소를 촬영하는 것은 원칙적으로 제한되며, 처리근거·표시와 촬영 거부 의사·합리적 범위 등 허용 요건을 별도로 판단한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 754,
+          "excerpt": "사람이 신체에 착용 또는 휴대하거나 이동 가능한 물체에 부착·거치되어 사람 또는 사물의 영상을 촬영하거나 이를 유·무선망으로 전송",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/5장 정리.md",
+          "line": 755,
+          "excerpt": "업무 목적으로 공개된 장소에서 개인 또는 그와 관련된 사물을 촬영하는 것은 원칙적으로 제한",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "privacy",
+        "video-information",
+        "mobile-device",
+        "supplemental"
+      ]
+    },
+    {
       "id": "web-session-auth-01",
       "curriculumId": "web-session-auth",
       "stage": "recall",
@@ -7083,6 +15269,1490 @@ window.PRACTICE_DATA = {
         "retest",
         "change-management",
         "essay"
+      ]
+    },
+    {
+      "id": "linux-account-access-01",
+      "curriculumId": "linux-account-access",
+      "stage": "recall",
+      "prerequisites": [],
+      "title": "패스워드 해시 보호 파일",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "Linux에서 패스워드 해시와 만료 정책을 일반 사용자에게 노출하지 않도록 보호하는 파일을 쓰세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "Linux 계정 패스워드 해시를 일반 사용자가 직접 볼 수 없도록 저장하는 파일을 쓰시오."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "exact",
+        "inputLabel": "파일 경로",
+        "accepted": [
+          "/etc/shadow"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "/etc/passwd의 두 번째 필드가 x이면 실제 패스워드 해시와 만료 정책은 /etc/shadow에 있다. 권한이 느슨하면 해시 탈취 후 오프라인 크래킹 위험이 커진다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+          "line": 41,
+          "excerpt": "/etc/shadow",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 72,
+          "excerpt": "`/etc/shadow`",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "linux",
+        "account",
+        "shadow",
+        "recall"
+      ]
+    },
+    {
+      "id": "linux-account-access-09",
+      "curriculumId": "linux-account-access",
+      "stage": "recall",
+      "prerequisites": [
+        "linux-account-access-01"
+      ],
+      "title": "/etc/passwd shadow 연동 표식",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "/etc/passwd에서 실제 패스워드 해시가 /etc/shadow에 저장됨을 나타내는 두 번째 필드의 값을 쓰세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "/etc/passwd 파일 항목에서 /etc/shadow에 비밀번호가 암호화되어 저장되어 있을 때 패스워드 항목의 값을 쓰시오."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "exact",
+        "inputLabel": "두 번째 필드 값",
+        "accepted": [
+          "x"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "passwd의 두 번째 필드 x는 실제 패스워드 해시가 shadow 파일에 분리되어 있음을 뜻한다. x 자체가 해시값이나 암호화 알고리즘 이름은 아니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+          "line": 31,
+          "excerpt": "`x`",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "linux",
+        "account",
+        "passwd",
+        "shadow",
+        "past-exam",
+        "recall"
+      ]
+    },
+    {
+      "id": "linux-account-access-02",
+      "curriculumId": "linux-account-access",
+      "stage": "recall",
+      "prerequisites": [
+        "linux-account-access-01"
+      ],
+      "title": "그룹 정보 파일",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "Linux에서 그룹명, GID, 보조 그룹 구성원을 관리하는 파일을 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "exact",
+        "inputLabel": "파일 경로",
+        "accepted": [
+          "/etc/group"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "/etc/passwd는 사용자 계정 기본 정보, /etc/group은 그룹 정보다. passwd의 GID 필드는 group 정보와 연결해 읽는다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 76,
+          "excerpt": "`/etc/group`",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "linux",
+        "account",
+        "group",
+        "recall"
+      ]
+    },
+    {
+      "id": "linux-account-access-03",
+      "curriculumId": "linux-account-access",
+      "stage": "essay",
+      "prerequisites": [
+        "linux-account-access-01"
+      ],
+      "title": "PAM 네 유형 직접 작성",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "PAM의 네 관리 유형을 보기 없이 쓰고, 각각의 역할을 짧게 설명하세요."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "auth는 사용자의 인증 정보를 검증하고, account는 계정 유효성·잠금·접근 가능 시간 등 계정 상태를 확인한다.",
+          "password는 패스워드 변경 정책을 처리하고, session은 로그인 전후 세션 작업을 처리한다."
+        ],
+        "keywordGroups": [
+          {
+            "label": "auth 유형명",
+            "terms": [
+              "auth"
+            ]
+          },
+          {
+            "label": "auth의 인증 정보 검증",
+            "terms": [
+              "인증 정보를 검증",
+              "인증 정보 검증"
+            ]
+          },
+          {
+            "label": "account 유형명",
+            "terms": [
+              "account"
+            ]
+          },
+          {
+            "label": "account의 계정 상태 확인",
+            "terms": [
+              "계정 상태를 확인",
+              "계정 유효성",
+              "접근 가능 시간"
+            ]
+          },
+          {
+            "label": "password 유형명",
+            "terms": [
+              "password"
+            ]
+          },
+          {
+            "label": "password의 변경 정책",
+            "terms": [
+              "패스워드 변경 정책",
+              "비밀번호 변경 정책"
+            ]
+          },
+          {
+            "label": "session 유형명",
+            "terms": [
+              "session"
+            ]
+          },
+          {
+            "label": "session의 로그인 전후 작업",
+            "terms": [
+              "로그인 전후 세션 작업",
+              "로그인 전후 작업"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "TMOUT을 PAM 유형이나 PAM 옵션으로 쓰지 않는다.",
+          "account를 사용자 인증 정보 검증으로, auth를 계정 상태 확인으로 바꾸지 않는다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "이 문항은 영문 유형명이 백지에서 떠오르는지 확인한다. 설명은 한 단어가 아니라 인증·계정 상태·변경·세션이라는 역할로 검토한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 83,
+          "excerpt": "`auth`",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 86,
+          "excerpt": "`session`",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "linux",
+        "pam",
+        "authentication",
+        "essay",
+        "blank-recall"
+      ]
+    },
+    {
+      "id": "linux-account-access-04",
+      "curriculumId": "linux-account-access",
+      "stage": "cloze",
+      "prerequisites": [
+        "linux-account-access-03"
+      ],
+      "title": "Linux 최소 비밀번호 길이 설정",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "Linux에서 새 계정의 기본 최소 비밀번호 길이를 설정하는 파일과 키를 각각 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "exact",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "설정 파일",
+            "accepted": [
+              "/etc/login.defs"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "최소 길이 키",
+            "accepted": [
+              "PASS_MIN_LEN"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "기출형 Linux 답은 /etc/login.defs의 PASS_MIN_LEN이다. 실제 강제 범위와 PAM 구성은 배포판·버전에 따라 다를 수 있으므로, 시험 지문의 파일·키를 우선한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+          "line": 33,
+          "excerpt": "PASS_MIN_LEN",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 98,
+          "excerpt": "`PASS_MIN_LEN 8`",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "linux",
+        "password-policy",
+        "login-defs",
+        "cloze"
+      ]
+    },
+    {
+      "id": "linux-account-access-05",
+      "curriculumId": "linux-account-access",
+      "stage": "recall",
+      "prerequisites": [
+        "linux-account-access-03"
+      ],
+      "title": "유휴 셸 세션 종료 변수",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "일정 시간 유휴 상태인 셸 세션을 자동 종료하도록 설정하는 환경변수를 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "exact",
+        "inputLabel": "환경변수",
+        "accepted": [
+          "TMOUT"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "TMOUT은 PAM 옵션이 아니라 셸 유휴 세션 타임아웃 환경변수다. 문제에서 값을 제시하면 export TMOUT=값 형태로 답한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+          "line": 52,
+          "excerpt": "TMOUT",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 89,
+          "excerpt": "`TMOUT`",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "linux",
+        "session",
+        "tmout",
+        "recall"
+      ]
+    },
+    {
+      "id": "linux-account-access-06",
+      "curriculumId": "linux-account-access",
+      "stage": "essay",
+      "prerequisites": [
+        "linux-account-access-05"
+      ],
+      "title": "특수권한 세 가지 직접 구분",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "SUID, SGID, Sticky bit의 동작과 대표 보안 목적을 보기 없이 각각 작성하세요."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "SUID는 실행 파일을 파일 소유자의 유효 권한으로 실행하므로 불필요하면 권한 상승 위험을 줄이기 위해 제거한다.",
+          "SGID는 실행 파일을 파일 그룹의 유효 권한으로 실행할 수 있고, 디렉터리에서는 새 파일이 디렉터리 그룹을 상속한다.",
+          "Sticky bit는 공용 쓰기 디렉터리에서 파일 소유자·디렉터리 소유자·root 외 사용자의 삭제와 이름 변경을 제한한다."
+        ],
+        "keywordGroups": [
+          {
+            "label": "SUID 유형명",
+            "terms": [
+              "suid"
+            ]
+          },
+          {
+            "label": "SUID의 파일 소유자 유효 권한",
+            "terms": [
+              "파일 소유자의 유효 권한",
+              "소유자 유효 권한"
+            ]
+          },
+          {
+            "label": "SGID 유형명",
+            "terms": [
+              "sgid"
+            ]
+          },
+          {
+            "label": "SGID의 파일 그룹 유효 권한 또는 그룹 상속",
+            "terms": [
+              "파일 그룹의 유효 권한",
+              "디렉터리 그룹을 상속",
+              "그룹 상속"
+            ]
+          },
+          {
+            "label": "Sticky bit 유형명",
+            "terms": [
+              "sticky"
+            ]
+          },
+          {
+            "label": "공용 쓰기 디렉터리",
+            "terms": [
+              "공용 쓰기 디렉터리"
+            ]
+          },
+          {
+            "label": "삭제·이름 변경 제한",
+            "terms": [
+              "삭제와 이름 변경을 제한",
+              "삭제 및 이름 변경 제한"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "SUID와 SGID의 유효 권한 대상을 바꾸지 않는다.",
+          "Sticky bit를 파일 내용 읽기·쓰기 권한 통제로 설명하지 않는다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "특수권한은 숫자만 외우기보다 실행 주체·그룹 상속·공용 디렉터리 삭제 제한이라는 효과로 구분한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+          "line": 44,
+          "excerpt": "setuid는 소유자 권한 실행",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 108,
+          "excerpt": "SUID",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 110,
+          "excerpt": "Sticky bit",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "linux",
+        "permission",
+        "suid",
+        "sgid",
+        "sticky-bit",
+        "essay",
+        "blank-recall"
+      ]
+    },
+    {
+      "id": "linux-account-access-07",
+      "curriculumId": "linux-account-access",
+      "stage": "cloze",
+      "prerequisites": [
+        "linux-account-access-06"
+      ],
+      "title": "umask 022의 기본 권한",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "umask 022일 때 새 일반 파일과 새 디렉터리의 대표 기본 권한을 각각 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "exact",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "일반 파일 권한",
+            "accepted": [
+              "644"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "디렉터리 권한",
+            "accepted": [
+              "755"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "umask는 허용 권한이 아니라 새 객체의 기본 권한에서 제거할 비트다. 일반 파일은 666, 디렉터리는 777에서 022를 적용하는 대표 계산이다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+          "line": 52,
+          "excerpt": "umask 022",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 141,
+          "excerpt": "일반 파일은 보통 `644`, 디렉터리는 `755`",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "linux",
+        "permission",
+        "umask",
+        "cloze"
+      ]
+    },
+    {
+      "id": "linux-account-access-08",
+      "curriculumId": "linux-account-access",
+      "stage": "essay",
+      "prerequisites": [
+        "linux-account-access-07"
+      ],
+      "title": "모든 사용자 쓰기 가능 설정 파일 보완",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "중요 설정 파일이 모든 사용자에게 쓰기 가능한 666 권한이다. 위험 하나와 올바른 조치 하나를 보기 없이 작성하세요."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "비인가 사용자가 설정 파일을 변조해 권한 상승·서비스 장애·정보 노출을 일으킬 위험이 있다.",
+          "업무상 필요한 소유자와 사용자에게만 최소 권한을 부여하도록 소유자와 권한을 정정하고, 변경 기록 후 재점검한다."
+        ],
+        "keywordGroups": [
+          {
+            "label": "비인가 사용자의 설정 파일 변조 위험",
+            "terms": [
+              "비인가 사용자가 설정 파일을 변조",
+              "비인가 사용자의 변조",
+              "설정 파일 변조"
+            ]
+          },
+          {
+            "label": "소유자 정정",
+            "terms": [
+              "소유자와 권한을 정정",
+              "소유자 정정",
+              "chown"
+            ]
+          },
+          {
+            "label": "최소권한 또는 쓰기 권한 제거",
+            "terms": [
+              "최소 권한을 부여",
+              "쓰기 권한 제거",
+              "chmod"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "기존 666 파일을 umask만으로 수정할 수 있다고 쓰지 않는다.",
+          "모든 중요 설정 파일의 권한값을 항상 644라고 단정하지 않는다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "기존 파일의 과도한 권한은 umask가 아니라 chmod·chown으로 정정한다. 수치가 문제에 없으면 ‘소유자 정정과 최소권한’이 더 안전한 답안이다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 206,
+          "excerpt": "최소권한·소유자 정정",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 210,
+          "excerpt": "소유자·권한 정정",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "linux",
+        "permission",
+        "hardening",
+        "essay",
+        "blank-recall"
+      ]
+    },
+    {
+      "id": "linux-log-service-control-01",
+      "curriculumId": "linux-log-service-control",
+      "stage": "essay",
+      "prerequisites": [
+        "linux-account-access-01"
+      ],
+      "title": "Linux 로그인·감사 흔적 직접 작성",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "현재 접속자, 과거 로그인·로그아웃 이력, 로그인 실패 이력, 계정별 마지막 로그인, 프로세스 실행 이력을 확인하는 Linux 명령을 각각 보기 없이 작성하세요."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "현재 접속자는 who 또는 w, 과거 로그인·로그아웃·재부팅 이력은 last, 로그인 실패 이력은 lastb, 계정별 마지막 로그인은 lastlog로 확인한다.",
+          "프로세스 실행 이력은 lastcomm으로 확인하며 process accounting 기록을 사용한다."
+        ],
+        "keywordGroups": [
+          {
+            "label": "현재 접속 who 또는 w",
+            "terms": [
+              "who",
+              "w"
+            ]
+          },
+          {
+            "label": "과거 이력 last",
+            "terms": [
+              "last"
+            ]
+          },
+          {
+            "label": "실패 이력 lastb",
+            "terms": [
+              "lastb"
+            ]
+          },
+          {
+            "label": "마지막 로그인 lastlog",
+            "terms": [
+              "lastlog"
+            ]
+          },
+          {
+            "label": "실행 이력 lastcomm",
+            "terms": [
+              "lastcomm",
+              "process accounting"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "last와 lastb를 바꾸지 않는다.",
+          "lastcomm을 일반 셸 history 파일과 동일하다고 단정하지 않는다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "로그 문제는 ‘어떤 흔적을 보려는가’로 먼저 판단한다. 파일명까지 묻는 기출이면 who→utmp, last→wtmp, lastcomm→acct 또는 pacct를 연결한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 147,
+          "excerpt": "현재 로그인 세션",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 151,
+          "excerpt": "`lastcomm`",
+          "status": "source-derived"
+        },
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+          "line": 35,
+          "excerpt": "`lastcomm`",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "linux",
+        "log",
+        "last",
+        "lastb",
+        "lastcomm",
+        "essay",
+        "blank-recall"
+      ]
+    },
+    {
+      "id": "linux-log-service-control-02",
+      "curriculumId": "linux-log-service-control",
+      "stage": "recall",
+      "prerequisites": [
+        "linux-log-service-control-01"
+      ],
+      "title": "명령 실행 이력 accounting 명령",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "사용자가 실행한 명령 이력을 시간순으로 확인하는 Linux accounting 명령을 쓰세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "사용자가 실행한 명령 이력을 시간순으로 확인하는 Linux accounting 명령을 쓰시오."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "exact",
+        "inputLabel": "명령",
+        "accepted": [
+          "lastcomm"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "lastcomm은 process accounting이 켜진 환경의 실행 명령 이력을 확인한다. 참조 기록 파일명을 물으면 acct 또는 pacct가 답이 될 수 있다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+          "line": 47,
+          "excerpt": "lastcomm",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "linux",
+        "log",
+        "lastcomm",
+        "past-exam"
+      ]
+    },
+    {
+      "id": "linux-log-service-control-08",
+      "curriculumId": "linux-log-service-control",
+      "stage": "practical",
+      "prerequisites": [
+        "linux-log-service-control-01"
+      ],
+      "title": "Unix 명령별 참조 기록 파일",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "Unix에서 who, last, lastcomm 명령이 각각 참조하는 기록 파일명을 쓰세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "유닉스 시스템에서 다음 명령어 수행 시 참조되는 로그 파일명을 각각 쓰시오. (A) who, (B) last, (C) lastcomm."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "who의 참조 파일",
+            "accepted": [
+              "utmp"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "last의 참조 파일",
+            "accepted": [
+              "wtmp"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "lastcomm의 참조 파일",
+            "accepted": [
+              "acct",
+              "pacct"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "utmp는 현재 로그인 세션, wtmp는 과거 로그인·로그아웃·재부팅 이력, acct 또는 pacct는 process accounting 실행 기록이다. 전체 경로는 환경별로 다를 수 있으므로 파일명만 답한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+          "line": 35,
+          "excerpt": "acct 또는 pacct",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "linux",
+        "log",
+        "utmp",
+        "wtmp",
+        "acct",
+        "pacct",
+        "past-exam",
+        "practical"
+      ]
+    },
+    {
+      "id": "linux-log-service-control-03",
+      "curriculumId": "linux-log-service-control",
+      "stage": "recall",
+      "prerequisites": [
+        "linux-log-service-control-01"
+      ],
+      "title": "열린 파일·포트 프로세스 확인",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "열린 파일과 이를 사용하는 프로세스, 또는 특정 포트를 사용하는 프로세스를 확인하는 Linux 명령을 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "exact",
+        "inputLabel": "명령",
+        "accepted": [
+          "lsof"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "lsof는 열린 파일과 이를 사용하는 프로세스를 보며, 의심 포트와 삭제됐지만 열려 있는 파일을 점검할 때도 사용한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+          "line": 43,
+          "excerpt": "lsof",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 152,
+          "excerpt": "`lsof`",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "linux",
+        "log",
+        "lsof",
+        "recall"
+      ]
+    },
+    {
+      "id": "linux-log-service-control-04",
+      "curriculumId": "linux-log-service-control",
+      "stage": "cloze",
+      "prerequisites": [
+        "linux-log-service-control-01"
+      ],
+      "title": "RHEL/CentOS 로그 용도 구분",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "RHEL/CentOS에서 인증·로그인·sudo 보안 이벤트와 시스템·서비스·커널 일반 메시지를 각각 확인하는 대표 로그 경로를 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "exact",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "인증·로그인·sudo",
+            "accepted": [
+              "/var/log/secure"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "시스템·서비스·커널 일반 메시지",
+            "accepted": [
+              "/var/log/messages"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "이 연결은 RHEL/CentOS에만 적용한다. CentOS Promiscuous Mode 기출의 관련 로그 경로는 /var/log/messages였다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 153,
+          "excerpt": "`/var/log/secure`",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 154,
+          "excerpt": "`/var/log/messages`",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "linux",
+        "rhel",
+        "centos",
+        "secure",
+        "messages",
+        "cloze"
+      ]
+    },
+    {
+      "id": "linux-log-service-control-05",
+      "curriculumId": "linux-log-service-control",
+      "stage": "practical",
+      "prerequisites": [
+        "linux-log-service-control-04"
+      ],
+      "title": "xinetd 접근통제 지시어 직접 작성",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "다음 xinetd 설정의 (A)~(E)에 들어갈 지시어를 각각 쓰세요."
+        },
+        {
+          "type": "code",
+          "content": "service telnet {\n  (A) = yes                 # 서비스 비활성화\n  (B) = 192.168.10.0/24     # 허용 IP\n  (C) = 10.0.0.0/8          # 차단 IP\n  (D) = 09:00-18:00         # 허용 시간대\n  (E) = 3                   # 최대 동시 연결 수\n}"
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "(A) 지시어",
+            "accepted": [
+              "disable"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "(B) 지시어",
+            "accepted": [
+              "only_from"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "(C) 지시어",
+            "accepted": [
+              "no_access"
+            ]
+          },
+          {
+            "id": "D",
+            "label": "(D) 지시어",
+            "accepted": [
+              "access_times"
+            ]
+          },
+          {
+            "id": "E",
+            "label": "(E) 지시어",
+            "accepted": [
+              "instances"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "지시어와 기능을 한 쌍으로 회상한다. xinetd의 표준 지시어는 access_times(복수형)다. per_source와 cps의 세부 한도 문법은 현재 범위에서 제외한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+          "line": 52,
+          "excerpt": "no_access",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 190,
+          "excerpt": "`disable = yes/no`",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 194,
+          "excerpt": "`instances = 10`",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "linux",
+        "xinetd",
+        "access-control",
+        "practical",
+        "blank-recall"
+      ]
+    },
+    {
+      "id": "linux-log-service-control-06",
+      "curriculumId": "linux-log-service-control",
+      "stage": "recall",
+      "prerequisites": [
+        "linux-log-service-control-04"
+      ],
+      "title": "root TTY 직접 로그인 제한 파일",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "Linux에서 root 계정이 직접 로그인할 수 있는 TTY 장치를 제한하는 파일을 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "exact",
+        "inputLabel": "파일 경로",
+        "accepted": [
+          "/etc/securetty"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "/etc/securetty는 root가 직접 로그인할 수 있는 TTY 장치 목록을 관리한다. 과거 기출의 ‘원격 접속’ 표현은 이 TTY 제한 문맥으로만 읽으며, SSH root 로그인 자체는 별도 SSH 설정으로 제어하므로 같은 것으로 쓰면 안 된다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+          "line": 36,
+          "excerpt": "/etc/securetty",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "linux",
+        "root",
+        "tty",
+        "securetty",
+        "past-exam"
+      ]
+    },
+    {
+      "id": "linux-log-service-control-07",
+      "curriculumId": "linux-log-service-control",
+      "stage": "essay",
+      "prerequisites": [
+        "linux-log-service-control-06"
+      ],
+      "title": "Telnet·FTP·root·배너 노출 대응",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "외부 공개 Linux 서버에서 Telnet과 FTP가 사용되고 root 직접 로그인이 허용되며 OS·커널·서비스 버전 배너가 노출된다. 취약점과 핵심 보완 방법을 보기 없이 두 문장 이내로 작성하세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "Telnet과 FTP 접속 화면에서 평문 서비스, root 직접 로그인, OS·커널·데몬 버전 배너 노출이 확인됐다. 취약점과 대응 방안을 쓰시오."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "Telnet·FTP의 인증정보와 데이터 평문 전송, root 직접 로그인 허용, OS·커널·서비스 버전 등 시스템 정보의 배너 노출이 취약점이다.",
+          "Telnet은 SSH로, FTP는 SFTP 또는 FTPS로 전환하고 root 직접 로그인을 차단하며 상세 버전 배너 노출을 제거하거나 최소화한다."
+        ],
+        "keywordGroups": [
+          {
+            "label": "Telnet·FTP의 인증정보·데이터 평문 전송",
+            "terms": [
+              "인증정보와 데이터 평문 전송",
+              "인증정보 평문 전송",
+              "telnet·ftp의 평문"
+            ]
+          },
+          {
+            "label": "root 직접 로그인 허용 위험",
+            "terms": [
+              "root 직접 로그인 허용",
+              "root 로그인 허용"
+            ]
+          },
+          {
+            "label": "OS·커널·서비스 버전 배너 노출",
+            "terms": [
+              "서비스 버전 등 시스템 정보의 배너 노출",
+              "버전 배너 노출",
+              "시스템 정보 배너"
+            ]
+          },
+          {
+            "label": "Telnet SSH 전환",
+            "terms": [
+              "telnet은 ssh로",
+              "ssh로 전환"
+            ]
+          },
+          {
+            "label": "FTP SFTP 또는 FTPS 전환",
+            "terms": [
+              "ftp는 sftp",
+              "ftp는 ftps",
+              "sftp 또는 ftps"
+            ]
+          },
+          {
+            "label": "root 직접 로그인 차단",
+            "terms": [
+              "root 직접 로그인을 차단",
+              "root 로그인 차단"
+            ]
+          },
+          {
+            "label": "상세 버전 배너 제거 또는 최소화",
+            "terms": [
+              "상세 버전 배너 노출을 제거",
+              "배너 노출을 제거",
+              "배너 노출을 최소화"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "디렉터리 인덱스 제거를 배너 노출 대응으로 쓰지 않는다.",
+          "Telnet·FTP를 단순 패치만 하고 안전한 대체 프로토콜을 빠뜨리지 않는다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "이 답안은 특정 배너 설정 파일을 나열하지 않는다. 실기에서는 평문 서비스 대체, root 제한, 시스템 버전 배너 최소화라는 통제 목적을 우선 쓴다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+          "line": 54,
+          "excerpt": "Telnet/FTP 평문 서비스",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "linux",
+        "telnet",
+        "ftp",
+        "ssh",
+        "sftp",
+        "banner",
+        "essay",
+        "past-exam",
+        "blank-recall"
+      ]
+    },
+    {
+      "id": "windows-os-hardening-01",
+      "curriculumId": "windows-os-hardening",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "Windows 파일 보호 수단 구분",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "사용자·그룹별 파일·폴더 접근 권한 제어, 파일·폴더 단위 암호화, 디스크(볼륨) 단위 암호화 기능을 각각 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "사용자·그룹별 접근 권한",
+            "accepted": [
+              "ntfs acl",
+              "ntfsacl"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "파일·폴더 단위 암호화",
+            "accepted": [
+              "efs"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "볼륨 단위 암호화",
+            "accepted": [
+              "bitlocker",
+              "bit locker"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "NTFS ACL은 접근통제 목록이고, EFS는 파일·폴더, BitLocker는 볼륨 암호화다. IPsec의 ESP와 EFS를 혼동하지 않는다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 271,
+          "excerpt": "NTFS ACL",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 272,
+          "excerpt": "BitLocker",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "windows",
+        "ntfs-acl",
+        "efs",
+        "bitlocker",
+        "cloze"
+      ]
+    },
+    {
+      "id": "windows-os-hardening-02",
+      "curriculumId": "windows-os-hardening",
+      "stage": "recall",
+      "prerequisites": [
+        "windows-os-hardening-01"
+      ],
+      "title": "Windows 인증·권한 이벤트 로그",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "Windows 이벤트 뷰어에서 로그인 성공·실패, 계정 관리, 개체 접근, 정책 변경을 우선 확인하는 로그 이름을 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "로그 이름",
+        "accepted": [
+          "security",
+          "security 로그",
+          "security event log"
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "Windows는 이벤트 뷰어의 Security 로그를 본다. RHEL/CentOS의 /var/log/secure와 목적은 비슷하지만 운영체제와 형식은 다르다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 273,
+          "excerpt": "`Security`",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "windows",
+        "event-log",
+        "security-log",
+        "recall"
+      ]
+    },
+    {
+      "id": "windows-os-hardening-03",
+      "curriculumId": "windows-os-hardening",
+      "stage": "practical",
+      "prerequisites": [
+        "windows-os-hardening-02"
+      ],
+      "title": "Windows 이벤트 로그 최대 크기 계산",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "이벤트 1건이 500바이트이고 하루 1,000건이 발생하며 30일 보관해야 한다. 필요한 최대 로그 크기 계산식, 결과, 그리고 Windows에서 최대 로그 크기를 설정하는 위치를 각각 쓰세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "단일 이벤트 최대 크기 500바이트, 하루 이벤트 발생량 1,000개, 보관 기간 30일일 때 (가) 최대 이벤트 로그 크기 계산식, (나) 계산값, (다) 최대 이벤트 로그 크기 설정 위치를 쓰시오."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          {
+            "id": "A",
+            "label": "계산식",
+            "accepted": [
+              "500 × 1000 × 30",
+              "500 × 1,000 × 30",
+              "500*1000*30",
+              "500*1,000*30",
+              "500바이트 × 1000건/일 × 30일",
+              "500바이트 × 1,000건/일 × 30일"
+            ]
+          },
+          {
+            "id": "B",
+            "label": "계산 결과",
+            "accepted": [
+              "15000000바이트",
+              "15,000,000바이트",
+              "15000000 bytes",
+              "15,000,000 bytes",
+              "15000000",
+              "15,000,000"
+            ]
+          },
+          {
+            "id": "C",
+            "label": "설정 위치",
+            "accepted": [
+              "이벤트 뷰어에서 해당 로그 속성의 최대 로그 크기",
+              "이벤트 뷰어 해당 로그 속성 최대 로그 크기",
+              "이벤트 뷰어 로그 속성의 최대 로그 크기"
+            ]
+          }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "필요 로그 용량은 이벤트 1건 크기 × 일일 발생 건수 × 보관 일수다. 이벤트 뷰어에서 대상 로그를 열고 속성의 최대 로그 크기를 설정한다. 문제에서 단위 변환을 요구할 때만 KB·MB로 변환한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+          "line": 52,
+          "excerpt": "15,000,000바이트",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "windows",
+        "event-log",
+        "calculation",
+        "past-exam",
+        "practical"
+      ]
+    },
+    {
+      "id": "windows-os-hardening-04",
+      "curriculumId": "windows-os-hardening",
+      "stage": "essay",
+      "prerequisites": [
+        "windows-os-hardening-02"
+      ],
+      "title": "Windows 계정·공유·원격접속 점검 답안",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "Windows 서버에서 Guest 계정이 활성화되어 있고 공유 관리자 계정, 불필요한 공유, 과도한 원격접속 권한, 미적용 보안 패치가 확인됐다. 우선 보완 조치를 보기 없이 네 가지 이상 작성하세요."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "Guest 계정을 비활성화하고 공유 관리자 계정을 개인별 계정으로 전환한다.",
+          "업무별 최소권한을 부여하고 정기적으로 권한을 검토한다.",
+          "불필요한 공유를 제거하고 관리망과 허용 관리자만 원격접속하도록 제한한다.",
+          "자산과 취약 버전을 식별한 뒤 영향 확인·테스트 후 보안 패치를 적용하고 결과를 기록한다."
+        ],
+        "keywordGroups": [
+          {
+            "label": "Guest 계정 비활성화 또는 개인별 계정 전환",
+            "terms": [
+              "guest 계정을 비활성화",
+              "guest 비활성화",
+              "공유 관리자 계정을 개인별 계정으로 전환",
+              "공유 관리자 계정 제거",
+              "개인별 계정"
+            ]
+          },
+          {
+            "label": "최소권한과 권한 검토",
+            "terms": [
+              "업무별 최소권한",
+              "업무별 최소 권한",
+              "최소 권한",
+              "권한을 검토"
+            ]
+          },
+          {
+            "label": "불필요 공유 제거 또는 원격접속 제한",
+            "terms": [
+              "불필요한 공유를 제거",
+              "불필요한 공유 제거",
+              "원격접속하도록 제한",
+              "원격접속을 제한",
+              "관리망"
+            ]
+          },
+          {
+            "label": "취약 버전 확인 후 패치 적용",
+            "terms": [
+              "자산과 취약 버전을 식별",
+              "취약 버전을 식별",
+              "테스트 후 보안 패치",
+              "보안 패치를 적용"
+            ]
+          }
+        ],
+        "deductionRisks": [
+          "공유 관리자 계정을 유지한 채 단순 비밀번호 변경만으로 끝내지 않는다.",
+          "패치 적용만 쓰고 자산·버전 식별과 영향 확인을 생략하지 않는다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "Windows 점검형은 계정·권한, 공유·원격접속, 로그, 패치·악성코드의 증거와 보완을 연결해 쓴다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 314,
+          "excerpt": "공유 관리자 계정",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/1장 정리.md",
+          "line": 318,
+          "excerpt": "패치 관리",
+          "status": "source-derived"
+        }
+      ],
+      "tags": [
+        "windows",
+        "account",
+        "remote-access",
+        "patch",
+        "essay",
+        "blank-recall"
       ]
     }
   ]

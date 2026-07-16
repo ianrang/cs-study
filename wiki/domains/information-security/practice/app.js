@@ -158,7 +158,7 @@
   }
 
   function getFilteredQuestions() {
-    return data.questions.filter((question) => {
+    return core.orderByPrerequisites(data.questions.filter((question) => {
       const topic = topicById.get(question.curriculumId);
       const learningPathMatches = state.learningPath === "all" || topic.learningPath === state.learningPath;
       const sourceMatches = state.source === "all" || `${topic.sourceChapter}:${topic.sourceSection}` === state.source;
@@ -168,7 +168,7 @@
       const record = state.progress[question.id];
       const reviewMatches = !state.reviewOnly || record?.lastResult === "incorrect" || record?.lastResult === "self-review";
       return activeMatches && learningPathMatches && sourceMatches && topicMatches && stageMatches && reviewMatches;
-    });
+    }));
   }
 
   function getCurrentQuestion() {
@@ -185,7 +185,7 @@
 
   function questionOriginBadge(question) {
     if (question.questionKind === "predicted") return '<span class="badge badge-predicted">예상 문제 · 분석 근거</span>';
-    if (question.sourceRefs.some((ref) => ref.path.includes("datasets/info-sec-engineer-practical-past-exams/01-rounds/"))) {
+    if (core.isReconstructedPastExam(question)) {
       return '<span class="badge badge-past-exam">기출 기반 · 복원 문항</span>';
     }
     return '<span class="badge badge-study">학습 문제</span>';
@@ -244,7 +244,7 @@
     const normalizedResponse = normalize(response);
     const groups = question.answer.keywordGroups.map((group) => ({
       label: group.label,
-      matched: group.terms.some((term) => normalizedResponse.includes(normalize(term)))
+      matched: group.terms.some((term) => core.matchesKeywordTerm(normalizedResponse, term))
     }));
     const matchedCount = groups.filter((group) => group.matched).length;
     return { correct: null, keywordScore: Math.round((matchedCount / groups.length) * 100), groups };
