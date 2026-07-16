@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Information Security Practical Past-Exam Reconstruction Bank",
+  "type": "object",
+  "required": ["version", "sourceRoot", "rounds"],
+  "properties": {
+    "version": { "const": 1 },
+    "sourceRoot": { "type": "string", "minLength": 1 },
+    "rounds": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/round" }
+    }
+  },
+  "$defs": {
+    "sourceRef": {
+      "type": "object",
+      "required": ["path", "line", "excerpt", "status"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "line": { "type": "integer", "minimum": 1 },
+        "excerpt": { "type": "string", "minLength": 1 },
+        "status": { "const": "source-derived" }
+      }
+    },
+    "item": {
+      "type": "object",
+      "required": ["id", "number", "type", "prompt", "answer", "verification", "sourcePath", "sourceLine", "sourceRef", "contentDigest"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^R[0-9]+-Q[0-9]{2}$" },
+        "number": { "type": "integer", "minimum": 1 },
+        "type": { "enum": ["short", "essay", "practical"] },
+        "prompt": { "type": "string", "minLength": 1 },
+        "answer": { "type": "string", "minLength": 1 },
+        "verification": { "type": "string", "minLength": 1 },
+        "sourcePath": { "type": "string", "minLength": 1 },
+        "sourceLine": { "type": "integer", "minimum": 1 },
+        "sourceRef": { "$ref": "#/$defs/sourceRef" },
+        "contentDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    "round": {
+      "type": "object",
+      "required": ["roundId", "year", "session", "title", "documentProvenance", "status", "sourcePath", "sourceDigest", "items"],
+      "properties": {
+        "roundId": { "type": "string", "pattern": "^R[0-9]+$" },
+        "year": { "type": "string", "pattern": "^[0-9]{4}$" },
+        "session": { "type": "string", "pattern": "^[0-9]{2}$" },
+        "title": { "type": "string", "minLength": 1 },
+        "documentProvenance": { "type": "string", "minLength": 1 },
+        "status": { "const": "source-derived" },
+        "sourcePath": { "type": "string", "minLength": 1 },
+        "sourceDigest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "items": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/item" } }
+      }
+    }
+  }
+}

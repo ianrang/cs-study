@@ -16755,5 +16755,9104 @@ window.PRACTICE_DATA = {
         "blank-recall"
       ]
     }
-  ]
+  ],
+  "pastExams": {
+    "version": 1,
+    "sourceRoot": "datasets/info-sec-engineer-practical-past-exams/01-rounds",
+    "rounds": [
+      {
+        "roundId": "R01",
+        "year": "2013",
+        "session": "01",
+        "title": "정보보안기사 실기 1회 2013년 1회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+        "sourceDigest": "9f79dffb8f90ebd3747967007562c6f947bf1555f1ce04e5858b7bc65434fd15",
+        "items": [
+          {
+            "id": "R01-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "위협의 종류·영향·발생 가능성을 평가하는 과정, 그 결과로 비용 대비 통제 방안을 선택해 위협을 통제하는 과정, 선택한 통제의 목적·방안·적용 주체·시점·대상을 문서화한 계획의 빈칸 (A), (B), (C)를 채우시오.",
+            "answer": "A : 위험평가 B : 위험관리 C : 위험관리계획",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+            "sourceLine": 31,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+              "line": 31,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "930d145c9d8b1fca8b6f8481697a84c12200c30c9de70943791f516b089419d8"
+          },
+          {
+            "id": "R01-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "NMS 서버가 장비 상태와 통계를 주기적으로 수집하는 방식, 장비가 특정 이벤트를 실시간 전달하는 방식, 장비 이벤트 정보를 서버로 전송하는 방식의 빈칸 (A), (B), (C)를 채우시오.",
+            "answer": "A : Polling B : Event Reporting C : syslog",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+            "sourceLine": 32,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+              "line": 32,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "d698615a4ce52ac6da49dfee40a39733fd2c0afdb582b996095f95fc76987670"
+          },
+          {
+            "id": "R01-Q03",
+            "number": 3,
+            "type": "essay",
+            "prompt": "개인정보처리자가 내부적으로 수립·시행해야 하는 계획의 명칭을 쓰시오. 제시 항목은 개인정보 보호책임자 지정, 개인정보 보호책임자와 개인정보취급자의 역할·책임, 개인정보 안전성 확보에 필요한 조치, 개인정보취급자 교육, 그 밖의 개인정보 보호 필요사항이다.",
+            "answer": "내부관리계획",
+            "verification": "source-derived from Information Security Tistory; prompt list restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+              "line": 33,
+              "excerpt": "source-derived from Information Security Tistory; prompt list restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "5ec503bb7b5cdaaebbf68543882b939664d51af5eddfe9960ad4bd5241ab1979"
+          },
+          {
+            "id": "R01-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "유닉스(UNIX) 솔라리스(Solaris) 사용 로그 파일의 빈칸을 채우시오. (A): 각 사용자의 가장 최근 로그인 시간을 기록하는 파일. (B): `su` 명령 사용 기록을 저장하는 파일. (C): 실패한 로그인 시도를 기록하는 파일.",
+            "answer": "A : lastlog B : sulog C : loginlog",
+            "verification": "source-derived from Information Security Tistory; prompt list restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+              "line": 34,
+              "excerpt": "source-derived from Information Security Tistory; prompt list restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "9da26d3e07a2e8f48baaf23c5c39e5de02d686bd8faee1d1e44c550d770f9a01"
+          },
+          {
+            "id": "R01-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "정보보호 정책을 구현하기 위해 개발하는 문서 유형에 관한 빈칸 (A), (B), (C)를 채우시오. (A)와 (B)는 시스템 보안을 위한 기술·방법을 구체화하고, (C)는 필요한 기술과 파라미터 설정을 일관성 있게 기술한 강제사항이다.",
+            "answer": "A : 표준 B : 지침 C : 절차",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+              "line": 35,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "0fe992f05c7923426826f062e96a59bb7188a740be011c4ca5489f9522320001"
+          },
+          {
+            "id": "R01-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "SIEM 주요 기능의 빈칸을 채우시오. (A): 관제 대상 시스템 에이전트가 SNMP·syslog 등으로 로그를 저장하는 과정. (B): 이벤트 발생 누적 횟수 등 유사 정보를 기준으로 그룹화해 하나의 정보로 취합하는 과정. (C): 다양한 로그 표현 형식을 표준 포맷으로 변환하는 과정. (D): 표준화된 로그의 타임스탬프, IP 주소, 이벤트 구성 규칙을 기준으로 여러 로그 간 관계를 분석하는 과정.",
+            "answer": "A : 로그 수집 B : 로그 분류 C : 로그 변환 D : 로그 분석",
+            "verification": "source-derived from Information Security Tistory; prompt list restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+              "line": 36,
+              "excerpt": "source-derived from Information Security Tistory; prompt list restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "6510925d2ffb63b1275a1d7c753758e4faa099eb5fe4c18afdb5d6541610da1c"
+          },
+          {
+            "id": "R01-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "IDS 종류의 빈칸을 채우시오. (A) 기반 IDS: 시스템 내부에 설치되어 내부 사용자 활동과 침입 시도를 감시한다. (B) 기반 IDS: 네트워크 패킷 캡처링을 기반으로 통신망 패킷을 분석해 침입을 탐지한다.",
+            "answer": "A : 호스트(Host) B : 네트워크(Network)",
+            "verification": "source-derived from Information Security Tistory; prompt list restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+              "line": 37,
+              "excerpt": "source-derived from Information Security Tistory; prompt list restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "a34e64cb5675bb2633176ca4dede37737a335f8129da7fa6b4ad9b3247476cce"
+          },
+          {
+            "id": "R01-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "리눅스 시스템 로그 파일의 빈칸을 채우시오. (A): 각 사용자의 최근 로그인 시간과 접근 소스 호스트 정보를 기록하는 파일. (B): 로그인 실패 시도 기록을 저장하는 바이너리 파일. (C): FTP 로그인 사용자 로그와 파일 업로드·다운로드 내역을 기록하는 파일.",
+            "answer": "A : lastlog B : btmp C : xferlog",
+            "verification": "source-derived from Information Security Tistory; prompt list restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+              "line": 38,
+              "excerpt": "source-derived from Information Security Tistory; prompt list restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "1db116a521030d950ae6aff392bd421efbb7f214f981b630b4e312a7dac95e8e"
+          },
+          {
+            "id": "R01-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "업무 목적으로 개인정보파일을 운용하며 개인정보를 처리하는 주체, 그 지휘·감독을 받아 개인정보를 처리하는 사람, 개인정보 처리를 위해 체계적으로 구성한 데이터베이스 시스템의 빈칸 (A), (B), (C)를 채우시오.",
+            "answer": "A : 개인정보처리자 B : 개인정보취급자 C : 개인정보처리시스템",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+              "line": 39,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "c32494cf17cacad7335aef03459f7e27e9910f2f1a094e5dd93a360f597d844a"
+          },
+          {
+            "id": "R01-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "자산 관리 절차의 빈칸을 채우시오. 자산 중요도 평가를 위해 먼저 (A)를 만들고, 누락 없이 자세히 나열한 뒤 자산을 평가·관리하기 쉽게 재분류하기 위해 사용 용도, 피해 규모, 사용 환경 등을 포함한 (B)를 실시한다.",
+            "answer": "A : 자산목록 B : 자산분류(자산분석)",
+            "verification": "source-derived from Information Security Tistory; prompt restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+              "line": 40,
+              "excerpt": "source-derived from Information Security Tistory; prompt restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "96ec547d87a31dcd150b8ea2e55f8c3e74d9db7fac0142c3d3d7e08323f9ea9d"
+          },
+          {
+            "id": "R01-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "다음 파일 및 디렉토리 권한 설정의 의미를 각각 서술하시오. `-r-sr-xr-x root sys /usr/bin/passwd`, `-r-xr-sr-x root mail /usr/bin/mail`, `drwxrwxrwt sys sys /tmp`.",
+            "answer": "/usr/bin/passwd : 소유자(owner) 권한이 r-s로 setuid가 설정되어 있으며, 기타 사용자(other) 권한이 r-x로 실행 권한이 있다. 따라서 모든 사용자가 passwd 명령을 실행할 때 소유자인 root 권한으로 수행된다. /usr/bin/mail : 그룹(group) 권한이 r-s로 setgid가 설정되어 있다. 해당 파일 실행 시 mail 그룹 권한으로 수행된다. /tmp : 퍼미션이 rwt로 sticky bit가 설정되어 있다. 해당 디렉토리에 생성된 파일은 누구든지 읽기·쓰기는 가능하지만, 삭제는 파일 소유자와 root만 가능하다.",
+            "verification": "source-derived from Information Security Tistory; permission rows restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+              "line": 41,
+              "excerpt": "source-derived from Information Security Tistory; permission rows restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "6b0f85e305871f063748e52f371d186c8c0240835b97118ba73115d1d94c7f15"
+          },
+          {
+            "id": "R01-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "/etc/apache/conf 디렉토리 내에서 10일 이내에 내용이 변경된 파일을 검색하는 find 명령어를 한 줄로 작성하시오.",
+            "answer": "find /etc/apache/conf -type f -mtime -10",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+              "line": 42,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "a38d3f1e9e3ebd208d038b6b126441e3a6a90760438c021753a4a7da38af98b4"
+          },
+          {
+            "id": "R01-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "위험 대응 방안 중 위험 회피(Risk Avoidance)와 위험 전이(Risk Transfer)의 개념과 발생 조건을 자산, 위협, 취약점 관점에서 각각 서술하시오.",
+            "answer": "위험 회피(Risk Avoidance) : 위험이 존재하는 프로세스나 사업을 수행하지 않고 포기하는 방안이다. 자산의 중요도가 높고 위협 발생 가능성이 높으나 취약점을 제거하기 어려울 때, 해당 업무나 시스템 자체를 폐기하거나 중단하는 방식으로 위험에 대응한다. 위험 전이(Risk Transfer) : 보험 가입이나 외주 등을 통해 잠재적 손실 비용을 제3자에게 이전하거나 할당하는 방안이다. 위협은 존재하나 자체적으로 통제하기 어렵거나 비용이 과다할 때, 위험의 재정적 책임을 외부로 전가하는 방식으로 대응한다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+              "line": 43,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "580e1e58817b773aecdd9d2d03ccf6c059cfa085c7809a49f61564fa10597311"
+          },
+          {
+            "id": "R01-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "개인정보 안전성 확보조치 기준에 명시된 접근 권한의 관리 기준 3가지를 서술하시오.",
+            "answer": "(1) 개인정보처리자는 개인정보처리시스템에 대한 접근 권한을 업무 수행에 필요한 최소한의 범위로 업무 담당자에 따라 차등 부여하여야 한다. (2) 전보·퇴직 등 인사이동으로 개인정보취급자가 변경된 경우 지체 없이 개인정보처리시스템의 접근 권한을 변경 또는 말소하여야 한다. (3) 권한 부여·변경·말소에 대한 내역을 기록하고, 그 기록을 최소 3년간 보관하여야 한다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+              "line": 44,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "d70b3a639da6520af283e1ed9396eb50af1b88c331f8505f84272e00546476e8"
+          },
+          {
+            "id": "R01-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "Cisco 라우터 패스워드 설정 명령어를 각각 완성하시오. (1) 패스워드 암호화 서비스를 활성화하는 전역 설정: `Router(config)# ____`. (2) 패스워드를 암호화하여 저장하는 설정: `Router(config)# ____`. (3) 패스워드를 평문으로 저장하는 설정: `Router(config)# ____`.",
+            "answer": "(1) service password-encryption (2) enable secret [패스워드] (3) enable password [패스워드]",
+            "verification": "source-derived from Information Security Tistory; command blanks restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+              "line": 45,
+              "excerpt": "source-derived from Information Security Tistory; command blanks restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "d27b2fa310210d9eb837ceabc382630740f1e36e16413a2608e24df20ca78ee7"
+          },
+          {
+            "id": "R01-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "ARP 테이블을 보고 답하시오. 관리자가 알고 있는 게이트웨이는 `175.113.81.1`이고 실제 MAC은 `a1-b1-c1-d1-e1-f1`이다. ARP 테이블에는 `175.113.81.65 -> 90-9f-5e-00-2f-16`, `175.113.81.1 -> 90-9f-5e-00-2f-16`, `175.113.81.55 -> f4-e1-5e-7f-f0-8f`, `175.113.81.88 -> f4-e1-5e-7f-80-16`이 표시된다. (A) 공격명, (B) 판단 이유, (C) 공격 의심 IP와 MAC, (D) 차단 명령어를 쓰시오.",
+            "answer": "(A) ARP Spoofing(ARP 스푸핑) 공격 (B) 관리자가 알고 있는 Gateway(175.113.81.1)의 실제 MAC 주소는 a1-b1-c1-d1-e1-f1이지만, ARP 테이블에는 90-9f-5e-00-2f-16으로 변조되어 있다. 동일한 MAC 주소가 175.113.81.65에도 등록되어 있어 ARP Spoofing 공격으로 판단된다. (C) 175.113.81.65 (MAC: 90-9f-5e-00-2f-16) (D) arp -s 175.113.81.1 a1-b1-c1-d1-e1-f1 (Gateway IP에 대한 ARP 캐시를 정적으로 설정하여 위조된 ARP 응답으로 덮어쓰이지 않도록 한다.)",
+            "verification": "source-derived from Information Security Tistory; ARP table restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+              "line": 46,
+              "excerpt": "source-derived from Information Security Tistory; ARP table restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "3a5eb026ce9a8a2a9d619167cd6f9d4ac194950a5c60b7c45c6e86bb0b0f167c"
+          }
+        ]
+      },
+      {
+        "roundId": "R02",
+        "year": "2013",
+        "session": "02",
+        "title": "정보보안기사 실기 2회 2013년 2회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+        "sourceDigest": "359da3453df39dd754ff793dff7641bf474440c4ab8e317a564691d82ac7a061",
+        "items": [
+          {
+            "id": "R02-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "소스 IP가 정당한 범위인지 기준으로 트래픽을 허용하는 필터링 방식에서, 로컬 네트워크로 들어오는 트래픽 필터링, 로컬 네트워크에서 나가는 트래픽 필터링, 특정 IP 또는 대역을 가상 인터페이스로 보내 차단하는 기법의 빈칸 (가), (나), (다)를 채우시오.",
+            "answer": "가 : Ingress 필터링 나 : Egress 필터링 다 : Blackhole 필터링(Null Routing)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+            "sourceLine": 31,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+              "line": 31,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "4d4d648acdc920e99b7c89aa7ff154a52b177edf9e0b5111fd486352be345a22"
+          },
+          {
+            "id": "R02-Q02",
+            "number": 2,
+            "type": "essay",
+            "prompt": "위험 분석 방법론의 빈칸을 채우시오. (A): 전문가 집단 토론으로 위험을 분석하며 짧은 기간에 결과를 도출할 수 있으나 위험 추정 정확도가 낮다. (B): 일정 조건에서 위험의 발생 가능한 결과를 추정하며 적은 정보로 전반적 가능성을 추론하고 관리자와의 의사소통을 원활히 한다. (C): 각각의 위협을 상호 비교해 우선순위를 도출하며 시간과 자원이 적게 소모되나 위험 추정 정확도가 낮다.",
+            "answer": "A : 델파이법 B : 시나리오법 C : 순위결정법",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+            "sourceLine": 32,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+              "line": 32,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "76b1c7c0f15278509105abe0d57ea5ccd9a86dfa245c61c48891afa76e1b72ac"
+          },
+          {
+            "id": "R02-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "UDP 69번 포트의 인증 없는 파일 전송 서비스를 악용하는 공격, 익명 FTP 접근 허용으로 발생하는 공격, FTP가 데이터 전송 목적지를 충분히 검사하지 않는 설계 문제를 이용해 제3의 시스템을 공격하는 기법의 명칭을 각각 쓰시오.",
+            "answer": "A : TFTP 공격 B : Anonymous FTP 공격 C : FTP Bounce Attack",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+              "line": 33,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "7715183a155d49ee5dab298eb285d485ecdf1f76c78156e044e66e0f100b4674"
+          },
+          {
+            "id": "R02-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "정보보호 정책의 빈칸을 채우시오. 정책에는 중요 정보자산과 만족되어야 할 정보 특성을 선언하는 (A)가 제시되어야 한다. 중요한 업무·서비스·조직·사람·자산을 포함하도록 정책의 (B)를 설정해야 한다. 정책 수행에 필요한 경영진, 정보보호조직, 일반 직원 등의 (C)를 정의해야 하며, 최고경영자의 의지를 확인할 수 있도록 (D)로 승인되어야 한다.",
+            "answer": "A : 목적 B : 적용범위 C : 책임 D : 문서",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+              "line": 34,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "894a14e601eef8ce4743753a082cb2c083edc873efec0a8e9da70bf966ed615d"
+          },
+          {
+            "id": "R02-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "보안 취약점 점검 도구의 빈칸을 채우시오. Tripwire는 파일 시스템의 (A)을 점검하는 도구이며, (B)는 Tenable사가 개발·배포한 취약점 점검 도구로 패스워드 취약점, TCP/IP 스택 DoS, 취약한 서버 설정 등 알려진 취약점을 점검하고 text, HTML 등 보고서를 제공한다.",
+            "answer": "A : 무결성 B : Nessus",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+              "line": 35,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "45ae3c7b2f676cc29648b64356b1780d4650b21ca3f004848822ba4182ad3866"
+          },
+          {
+            "id": "R02-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "유닉스 기반 방화벽 룰로 외부 TCP 연결로부터 네트워크 서비스를 보호하고 허용·거부 정책 파일로 통제하는 도구, 명시적 접근 거부 파일, 명시적 접근 허용 파일의 빈칸 (A), (B), (C)를 채우시오.",
+            "answer": "A : TCP Wrapper(tcpwrapper) B : hosts.deny C : hosts.allow",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+              "line": 36,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "1db9a4b7b6b237e19c68d4a3c23e33c58fefc1adc6db049cd96406f61f996974"
+          },
+          {
+            "id": "R02-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "정보보안 3요소의 빈칸을 채우시오. (A): 정보 유출 측면의 특성으로 인가된 사용자만 정보에 접근 가능해야 한다. (B): 정보 변조 측면의 특성으로 정보가 허가 없이 변경되지 않아야 한다. (C): 정보 상실 측면의 특성으로 인가된 사용자가 필요할 때 정보에 접근 가능해야 한다.",
+            "answer": "A : 기밀성(Confidentiality) B : 무결성(Integrity) C : 가용성(Availability)",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+              "line": 37,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "eae5ce5a57c991a51eac6b102d5916b2d402adaf9f033a6ec92fce2d2ae3ee90"
+          },
+          {
+            "id": "R02-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "여러 호스트가 특정 대상에게 다량의 ICMP Echo Request를 보내게 하여 서비스 거부를 유발하는 공격, 라우터에서 차단해야 하는 브로드캐스트 패킷, 호스트가 IP Broadcast Address 수신 시 응답하지 않아야 하는 패킷의 빈칸 (A), (B), (C)를 채우시오.",
+            "answer": "A : 스머프(Smurf) B : Directed Broadcast C : ICMP Echo Request",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+              "line": 38,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "5e0a79e944729664fb237a4d66367f521648ff16c64b284255a40e208fdbccb2"
+          },
+          {
+            "id": "R02-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "공격자가 위조 MAC 주소를 지속적으로 전송해 스위치 MAC 주소 테이블을 가득 채우고, 스위치가 허브처럼 트래픽을 브로드캐스트하게 만들어 스니핑하는 공격 기법의 명칭을 쓰시오.",
+            "answer": "Switch Jamming(스위치 재밍) 또는 MAC Flooding",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+              "line": 39,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "379ab7679fdd3fe8f5f06e90f799b6b505d2d8fbe3aea04b34b226dec2e60593"
+          },
+          {
+            "id": "R02-Q10",
+            "number": 10,
+            "type": "essay",
+            "prompt": "위험 분석 구성 요소의 빈칸을 채우시오. (A): 위험을 보유하고 있는 대상으로 위험 발생 시 피해 규모 측정에 반드시 포함되는 요소. (B): 외부에서 발생해 (A)에 손실을 일으키는 요소로 발생 가능성으로 측정한다. (C): (A) 내부에 존재하는 약점으로, (B)은 이 요소를 활용해 위험을 발생시킨다.",
+            "answer": "A : 자산(Asset) B : 위협(Threat) C : 취약성(Vulnerability)",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+              "line": 40,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "8346436899ab984094d5ab3a068daba17dd4c0f353ffd4f7d12c07673373c453"
+          },
+          {
+            "id": "R02-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "소프트웨어 보안 취약점의 7가지 유형을 각각 명칭과 함께 간략히 설명하시오.",
+            "answer": "(1) 입력 데이터 검증 및 표현 : 입력값에 대한 검증 부재로 발생하는 취약점 (SQL 인젝션, XSS 등) (2) 보안 기능 : 인증, 접근 제어, 암호화 등 보안 기능의 부적절한 구현 (3) 시간 및 상태 : 병렬 시스템에서 자원의 상태를 잘못 관리하는 경우 (레이스 컨디션 등) (4) 에러 처리 : 에러 발생 시 민감한 정보를 외부에 노출하거나 예외 처리 미흡 (5) 코드 품질 : 메모리 누수, 버퍼 오버플로우 등 코드 구현상의 결함 (6) 캡슐화 : 내부 데이터와 함수를 적절히 은닉하지 않아 발생하는 취약점 (7) API 오용 : 의도된 사용 방법과 다르게 API를 사용하여 발생하는 취약점",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+              "line": 41,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "9ecf5ebfde2b79fc60555e94eee1a0efc9104f456a261ccae4546a1a3bbc52d0"
+          },
+          {
+            "id": "R02-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "`alert tcp any any -> any any` 룰에 `msg:\"GET Flooding\"`, `content:\"GET / HTTP1.\"`, `nocase`, `depth:13`, `threshold: type threshold, track by_dst, count 10, seconds 1`, `sid:10000999`가 포함되어 있다. 이벤트명, `nocase`, `content`, `threshold`의 의미를 서술하시오.",
+            "answer": "(1) GET Flooding (2) 대소문자를 구분하지 않고 패턴을 탐지한다. (3) 패킷 페이로드에 \"GET / HTTP1.\" 문자열이 포함된 경우 탐지한다. (4) 목적지 IP 주소를 기준으로 1초 동안 10번째마다 alert 액션을 수행한다.",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+              "line": 42,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "64cd02cdd2099caef0df3cbb82cdd5665309cdc3d53f5bac25b5a93f4c88fc36"
+          },
+          {
+            "id": "R02-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "위험 분석 수행 시 정보자산 그룹핑에 관한 물음에 답하시오.",
+            "answer": "(1) 조사된 자산을 기밀성·무결성·가용성 평가 결과에 기초하여 자산의 유형·보안 특성·중요도가 같은 것을 묶어서 공통 자산 그룹으로 명시하는 것이다. (2) 관련 위협 및 취약성 평가와 위험 평가 수행 시, 자산 유형·보안 특성·중요도에 따라 결과가 달라지므로 같은 결과가 나오는 자산에 대한 동일한 작업의 반복을 방지하여 효율적으로 위험 분석을 수행할 수 있다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+              "line": 43,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "59bbdd65a0ae9e71e4a4c4df5048d1821024c18d18666a3b2c661047a6554994"
+          },
+          {
+            "id": "R02-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "정보통신망 이용촉진 및 정보보호 등에 관한 법률에 따라 고객 정보 보호를 위해 취해야 할 기술적·관리적 조치를 5가지 이상 서술하시오.",
+            "answer": "(1) 개인정보에 대한 접근 권한을 차등 부여하고 접근 권한의 변경·말소 이력을 관리한다. (2) 개인정보를 안전하게 저장·전송하기 위해 암호화를 적용한다. (3) 개인정보처리시스템에 대한 접속 기록을 보관하고 위변조 방지 조치를 한다. (4) 악성 소프트웨어 방지를 위해 보안 프로그램을 설치하고 주기적으로 갱신·점검한다. (5) 개인정보 보호를 위한 내부관리계획을 수립하고 시행한다. (6) 개인정보취급자에 대한 정기적인 교육을 실시한다. (7) 개인정보처리시스템에 대한 불법적인 접근 및 침해 사고 방지를 위한 시스템을 구축한다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+              "line": 44,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "4368d3b2684feae4af664b82dbc3404a0ef64e1f90a76f44af45676168c2b65b"
+          },
+          {
+            "id": "R02-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "IIS 웹 로그에서 정상 URL `login.asp?id=admin&pw=1234`와 공격 URL `login.asp?id=admin'--&pw=anything`가 확인되었다. 웹 서버가 내부 정보 유출 및 악성코드 유포지로 악용될 수 있는 공격명, 공격 URL 실행 결과, 취약점 제거 조치를 서술하시오.",
+            "answer": "(1) SQL Injection (2) SQL 쿼리문에서 '--로 인해 패스워드 검증 조건이 주석 처리되어 무력화되므로, 올바른 패스워드 입력 없이 admin 계정으로 인증이 우회되어 로그인이 가능해진다. (3) 모든 입력값을 검증하여 사용자가 입력한 값에 ', or, and, --, \" 등 SQL 특수문자가 포함되지 않도록 필터링한다.",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+              "line": 45,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "1b8aac0c0b3b301c0facdf5c08e9468ffab57c02ab72bf4f3acda4496521873a"
+          }
+        ]
+      },
+      {
+        "roundId": "R03",
+        "year": "2014",
+        "session": "01",
+        "title": "정보보안기사 실기 3회 2014년 1회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+        "sourceDigest": "d89a29c74c1d22a8a9c97e1707558b55d482026d24e438d6160a9294df2948fb",
+        "items": [
+          {
+            "id": "R03-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "Diffie-Hellman 키 교환 과정에서 빈칸을 채우시오. 공개값은 소수 `p`와 원시근 `g`, Alice의 비밀값은 `a`, Bob의 비밀값은 `b`이다. Alice는 `g^a mod p`를 Bob에게 보내고 Bob은 `g^b mod p`를 Alice에게 보낸다. (A): Alice가 계산하는 최종 공유 비밀값. (B): Bob이 계산하는 최종 공유 비밀값. (C): 최종 공유값의 용도.",
+            "answer": "A : B^a mod p (Bob이 전송한 값의 a 거듭제곱 mod p) B : A^b mod p (Alice가 전송한 값의 b 거듭제곱 mod p) C : 비밀키(대칭키)",
+            "verification": "source-derived from Information Security Tistory; DH process restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+            "sourceLine": 31,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+              "line": 31,
+              "excerpt": "source-derived from Information Security Tistory; DH process restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "f866e17107f864a2a9ac2ec8e06146667753d01b4f2189d0a8bd64ed428a60e0"
+          },
+          {
+            "id": "R03-Q02",
+            "number": 2,
+            "type": "essay",
+            "prompt": "HeartBleed 취약점에 답하시오. CVE-2014-0160은 OpenSSL 하트비트 확장 모듈에서 클라이언트 요청 메시지의 데이터 길이를 검증하지 않아 시스템 메모리의 최대 64KB 데이터를 외부에서 탈취할 수 있는 취약점이다. (1) 취약점이 존재하는 프로토콜·라이브러리, (2) 영향받는 버전을 쓰시오.",
+            "answer": "(1) OpenSSL (2) OpenSSL 1.0.1 ~ OpenSSL 1.0.1f, OpenSSL 1.0.2-beta, OpenSSL 1.0.2-beta1",
+            "verification": "source-derived from Information Security Tistory; prompt context restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+            "sourceLine": 32,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+              "line": 32,
+              "excerpt": "source-derived from Information Security Tistory; prompt context restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "e1e039ea8d2c494894f15b939afb3d6ad24118c8143296d8e44ff031f1ed9da7"
+          },
+          {
+            "id": "R03-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "서버의 연결 대기 큐가 가득 차고 다수의 `SYN_RECEIVED` 상태 연결이 유지되어 정상 사용자의 신규 접속이 불가능해지는 공격의 명칭을 쓰시오.",
+            "answer": "TCP SYN Flooding",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+              "line": 33,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "d9ecf3fbfa387b42e9b82b358c8c28f9cad0a82ff81cd04a2513e997cbaff976"
+          },
+          {
+            "id": "R03-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "접근 통제 정책의 빈칸을 채우시오. (A): 객체 소유자가 재량으로 다른 사용자에게 접근 권한을 부여·취소할 수 있다. (B): 주체와 객체의 보안 등급을 비교해 접근을 제한하며 보안 운영체제에서 주로 사용한다. (C): 주체에 할당된 역할 기반으로 객체 접근을 제한한다.",
+            "answer": "A : DAC(임의적 접근 통제, Discretionary Access Control) B : MAC(강제적 접근 통제, Mandatory Access Control) C : RBAC(역할 기반 접근 통제, Role-Based Access Control)",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+              "line": 34,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "ae393d5eaf7279e375255e420763a4971726160e3bc47e92a972a7ae60907277"
+          },
+          {
+            "id": "R03-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "`\"/administrator\"` 문자열이 포함된 패킷을 탐지하고 `\"Web Scan Detected\"` 메시지를 로깅하는 Snort 룰 `alert tcp any any -> 192.168.0.1 (A) (B):\"/administrator\"; (C):\"Web Scan Detected\";)`의 빈칸을 채우시오.",
+            "answer": "A : any B : content C : msg",
+            "verification": "source-derived from Information Security Tistory; Snort rule restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+              "line": 35,
+              "excerpt": "source-derived from Information Security Tistory; Snort rule restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "eb45a085ac5254d651d69c148d5acab7b13cf90194bcd3761b423586c48a3976"
+          },
+          {
+            "id": "R03-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "정보자산의 기밀성·무결성·가용성을 실현하기 위한 절차와 과정을 체계적으로 수립·문서화하고 지속적으로 관리·운영하는 체계의 명칭을 쓰시오.",
+            "answer": "정보보호관리체계(ISMS, Information Security Management System)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+              "line": 36,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "a2263876814a2e13967bd1fd6bf2beebe90284824c208485a7e3458984038dbf"
+          },
+          {
+            "id": "R03-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "신뢰할 수 없는 데이터가 검증 없이 브라우저로 전달되어 공격자가 피해자 브라우저에서 악성 스크립트를 실행하고 세션 탈취·사이트 변조·악성 사이트 이동 등을 유발하는 OWASP Top 10 공격 기법의 명칭을 쓰시오.",
+            "answer": "XSS(Cross Site Script)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+              "line": 37,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "27781da3ef95a059d5e3a28e9abacfa404ecdb9bd7fdf5dffdbfb5305ec0704c"
+          },
+          {
+            "id": "R03-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "정보보호관리체계의 관리적 요구사항 절차를 올바른 순서로 나열하시오. 보기: ㄱ. 사후관리, ㄴ. 위험관리, ㄷ. 경영진 책임 및 조직 구성, ㄹ. 정보보호정책 수립 및 범위설정, ㅁ. 정보보호대책 구현.",
+            "answer": "ㄹ → ㄷ → ㄴ → ㅁ → ㄱ",
+            "verification": "source-derived from Information Security Tistory; option list restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+              "line": 38,
+              "excerpt": "source-derived from Information Security Tistory; option list restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "71be022d801eccb32098e594c7e36b3816627ad2267f05c780cc0fd728c7ae6f"
+          },
+          {
+            "id": "R03-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "IP 패킷 단편화 재조합 취약점을 이용해 중첩된 offset 값을 가진 조각 패킷을 보내 목표 시스템 정지나 재부팅을 유발하는 공격 기법의 명칭을 쓰시오.",
+            "answer": "Teardrop 공격",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+              "line": 39,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "b679093b44642c3d3b1fb7f572be3a4b2803e4a54b14c37049a71feecb033fa3"
+          },
+          {
+            "id": "R03-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "위험 대응 보호 대책의 명칭을 쓰시오. (1) 사업 목적 달성을 위해 보안 통제를 적용하여 위험 수준을 낮추는 방안. (2) 위험이 존재하는 프로세스나 사업 자체를 수행하지 않고 포기하는 방안. (3) 보험이나 외주 등으로 잠재적 위험의 재정적 책임을 제3자에게 이전하는 방안.",
+            "answer": "(1) 위험 감소(Risk Reduction) (2) 위험 회피(Risk Avoidance) (3) 위험 전가(Risk Transfer)",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+              "line": 40,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "7419fa50ba45ec13fe99eb0074df2931b0475968c2ca1207e2bba57f3887e1b8"
+          },
+          {
+            "id": "R03-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "무선랜 MAC 주소 보안에 관한 물음에 답하시오.",
+            "answer": "(1) MAC 주소는 제조사 코드(OUI) 24비트와 장치 고유 일련번호 24비트로 구성된다. (2) 사전에 등록된 MAC 주소를 가진 단말기만 무선 AP 접속을 허용하고 나머지는 차단하는 방식이다. 장점 : 비인가 단말기의 무선 네트워크 접속을 차단하여 보안성을 높인다. 단점 : 공격자가 허용된 MAC 주소를 탈취하여 자신의 MAC 주소를 위장(MAC 스푸핑)하면 우회가 가능하므로 완전한 보안 수단이 되지 못한다. (3) ARP 스푸핑 또는 MAC 스푸핑을 통해 허용된 MAC 주소를 탈취한 후 자신의 네트워크 인터페이스의 MAC 주소를 허용된 주소로 변경하여 필터링을 우회한다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+              "line": 41,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "e5ced90fd6d1d6c4ffff8dd36466d662e99d254a7acee35f51d315b29e069d27"
+          },
+          {
+            "id": "R03-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "네트워크 패킷에 `Cache-Control: no-cache, max-age=0` 헤더가 포함되어 있고 동일 출발지 IP에서 짧은 시간에 대량 트래픽이 발생한다. `Referer`와 `Cache-Control`의 의미, 공격 유형, 서버 영향도를 서술하시오.",
+            "answer": "(1) Referer : 하이퍼링크를 통해 유입된 경우 링크가 걸려 있던 원래 페이지의 주소를 기록하는 헤더 필드이다. Cache-Control : HTTP 1.1에서 추가된 캐시 제어 속성으로, 동일 페이지 재방문 시 캐시 정보 제어 방식을 지정한다. (예: no-cache, max-age=0 등) (2) Cache-Control 공격(CC 공격) (3) max-age=0으로 설정하여 캐시를 무효화함으로써 서버가 모든 요청에 대해 직접 응답을 생성해야 하므로 서버에 과도한 부하(오버헤드)가 발생한다.",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+              "line": 42,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "975b77198285461e8fe828e65c9b6f2e725761416c1c1e9d0164ad40544b80f0"
+          },
+          {
+            "id": "R03-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "재난 복구 서비스의 분류 5가지 이상을 명칭과 함께 특징을 설명하시오.",
+            "answer": "(1) Mirror Site : 주 센터와 동일한 수준의 정보기술 자원을 원격지에 구축하고 Active-Active 상태로 실시간 동시 서비스를 제공한다. (2) Hot Site : 주 센터와 동일한 수준의 자원을 원격지에 구축하여 Stand-by 상태로 유지하다가 재해 발생 시 즉시 Active 상태로 전환하여 서비스를 제공한다. (3) Warm Site : 중요도가 높은 정보 시스템만 부분적으로 재해복구 센터에 보유하며, 데이터는 주기적으로 백업한다. (4) Cold Site : 데이터만 원격지에 보관하고, 서비스를 위한 정보 자원은 최소한으로만 확보하거나 확보하지 않으며, 재해 발생 시 자원을 새로 조달하여 복구를 시작한다. (5) 상호 지원 협약 : 두 개 이상의 기관이 재해 발생 시 상대 기관의 시스템을 이용하도록 협약을 맺는 방식이다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+              "line": 43,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "72cf311e9a3788a43c0c08f7556fb656825d545f339f16eb84d690b3087357c3"
+          },
+          {
+            "id": "R03-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "구형 VPN 장비를 재사용하는 환경에서 ESP 모드는 정상 연결되지만 AH 모드는 연결되지 않는다. 사내 네트워크는 NAT로 사설 IP를 사용하며, IPSec 모듈 업그레이드 후 문제가 해결되었다. AH 연결 실패 원인과 PSK 방식 연결의 장단점을 서술하시오.",
+            "answer": "(1) VPN 장비의 SAD(Security Association Database)에 AH 관련 보안 연계 정보가 존재하지 않거나 호환 가능한 AH 관련 정보가 없었을 것으로 추정된다. 또한 AH 프로토콜은 IP 헤더를 포함하여 인증하므로 NAT 환경에서는 IP 헤더가 변경되어 AH 인증이 실패하는 구조적 문제도 원인일 수 있다. (2) 장점 : 사전에 공유한 키를 사용하여 별도의 인증기관(CA) 없이 간단하게 상호 인증이 가능하다. 단점 : 인증서 방식에 비해 강력한 인증을 제공하지 못하며, 사전에 공유한 키가 유출될 경우 보안이 위협받는 위험이 있다.",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+              "line": 44,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "4bedeec0fc7bea077307033758f00ddbee85a46ac3f00c399bf1c410b1e28b29"
+          },
+          {
+            "id": "R03-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "HTTP 웹 서버 접속 후 로그인이 되지 않는 상황에서 동일 출발지 IP가 짧은 시간 동안 대량의 GET 요청을 지속 전송하는 것이 확인되었다. 공격 유형과 서버에 미치는 영향을 서술하시오.",
+            "answer": "(1) HTTP GET Flooding 공격 (2) 대량의 HTTP GET 요청을 지속적으로 전송하여 서버의 TCP 세션 자원과 처리 자원을 모두 소진시킨다. 그 결과 정상적인 사용자가 접속 요청을 해도 서버가 새로운 연결을 수용하지 못하여 서비스 거부 상태가 발생한다.",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+              "line": 45,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "81728c853d8dc3ede570b90f37a48b47bd04c02a9f6c0ab0fdec481eb964e832"
+          },
+          {
+            "id": "R03-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "개인정보 영향평가 대상으로 대통령령으로 정한 기준에 해당하는 개인정보 파일의 유형을 서술하시오.",
+            "answer": "(1) 구축·운용 또는 변경하려는 개인정보 파일로서 5만 명 이상의 정보주체에 관한 민감 정보 또는 고유식별정보의 처리가 수반되는 개인정보 파일 (2) 구축·운용하고 있는 개인정보 파일을 해당 공공기관 내부 또는 외부에서 구축·운용하고 있는 다른 개인정보 파일과 연계하려는 경우로서, 연계 결과 50만 명 이상의 정보주체에 관한 개인정보가 포함되는 개인정보 파일 (3) 구축·운용 또는 변경하려는 개인정보 파일로서 100만 명 이상의 정보주체에 관한 개인정보 파일",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+              "line": 46,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "d44b090cdb3367a7f0720069f0d0daf53d16e964ee45e2cdb862816d79f71608"
+          }
+        ]
+      },
+      {
+        "roundId": "R04",
+        "year": "2014",
+        "session": "02",
+        "title": "정보보안기사 실기 4회 2014년 2회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+        "sourceDigest": "116b78799a0a4a48ca1373bc0438e9901050bed049d2c12af5d0c56ab0327ef1",
+        "items": [
+          {
+            "id": "R04-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "CVE 표기 `CVE-2014-6628`에서 (1) `2014`, (2) `6628`의 의미를 쓰시오.",
+            "answer": "(1) 해당 취약점이 발견된 연도 (2) 해당 연도에 부여된 취약점 고유 번호",
+            "verification": "source-derived from Information Security Tistory; CVE example restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+            "sourceLine": 31,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+              "line": 31,
+              "excerpt": "source-derived from Information Security Tistory; CVE example restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "0ffa958f569dc6bd1fb5df481f3eedd90d30c445047758180d01ba1f6d5447aa"
+          },
+          {
+            "id": "R04-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "OWASP Top 10 취약점 설명의 명칭을 각각 쓰시오. (1) 신뢰할 수 없는 데이터가 명령어나 질의문의 일부로 인터프리터에 전달되어 예상치 못한 명령 실행이나 권한 없는 데이터 접근을 유발한다. (2) 신뢰할 수 없는 데이터를 검증 없이 웹 브라우저로 보내 공격자가 피해자 브라우저에서 스크립트를 실행하게 한다. (3) 로그온된 피해자의 세션 쿠키와 인증 정보를 자동 포함한 위조 HTTP 요청을 취약한 웹 애플리케이션에 강제로 보내도록 한다.",
+            "answer": "(1) Injection(인젝션) (2) XSS(Cross Site Script) (3) CSRF(Cross Site Request Forgery)",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+            "sourceLine": 32,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+              "line": 32,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "be175814e0785f972758b01fafa9b1ad896c6045701d03febab6ddaedabad838"
+          },
+          {
+            "id": "R04-Q03",
+            "number": 3,
+            "type": "essay",
+            "prompt": "개인정보보호법 제17조에 따라 개인정보를 제3자에게 제공할 때 정보주체에게 알려야 하는 사항 5가지를 쓰시오.",
+            "answer": "(1) 개인정보를 제공받는 자 (2) 개인정보를 제공받는 자의 개인정보 이용 목적 (3) 제공하는 개인정보의 항목 (4) 개인정보를 제공받는 자의 개인정보 보유 및 이용 기간 (5) 동의를 거부할 권리가 있다는 사실 및 동의 거부에 따른 불이익이 있는 경우 그 불이익의 내용",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+              "line": 33,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "2eeb168c34c9bd86eed8fdc97eb3453701d979532c97526a5ada5816cb9c038f"
+          },
+          {
+            "id": "R04-Q04",
+            "number": 4,
+            "type": "essay",
+            "prompt": "위험 분석·평가 접근법의 빈칸을 채우시오. (A): 모든 시스템에 표준화된 보안대책 세트를 체크리스트로 제공한다. (B): 구조적 방법론보다 경험자의 지식으로 위험 분석을 수행한다. (C): 잘 정립된 모델에 기초해 자산·위협·취약성 분석 단계를 수행해 위험을 평가한다. (D): 위 세 방법을 혼합한다.",
+            "answer": "A : 베이스라인 접근법 B : 비정형화된 접근법 C : 상세 위험 분석 D : 복합 접근법",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+              "line": 34,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "df4a40410f66d57c24197a566ad8281c98a09b9e447ecfae1ad528c36a2c9bf0"
+          },
+          {
+            "id": "R04-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "위험관리 용어의 빈칸을 채우시오. (A): 자산 위험을 수용 가능한 수준으로 유지하기 위해 위험을 분석하고 비용 대비 효과적인 보호대책을 마련하는 과정. (B): 정보자산에 영향을 줄 수 있는 위협·취약성·위험을 식별·분류하고 잠재 손실 영향을 분석하는 과정. (C): 위협과 취약성으로 인한 조직 피해를 평가하는 과정. (D): 위협에 대응해 자산을 보호하기 위한 물리적·기술적·관리적 대응책.",
+            "answer": "A : 위험관리 B : 위험분석 C : 위험평가 D : 위험대응",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+              "line": 35,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "8d768b840e31510cb8bff4cf2fc7e7e0fe9897e3a89913e117e1b98a0fae9e55"
+          },
+          {
+            "id": "R04-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "웹 서버를 대신해 브라우저 연결 요청에 응답하고, 클라이언트와 서버 사이에서 트래픽을 중계·수정할 수 있는 도구의 명칭을 쓰시오. 대표 도구로 Paros와 Burp Suite가 있다.",
+            "answer": "프록시(Proxy)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+              "line": 36,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "fc4c685a8491b5ce357e1341bf1427077e5e8784b4b333368aa9759636c19dc9"
+          },
+          {
+            "id": "R04-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "공격 시그니처 데이터베이스와 비교해 알려진 공격을 탐지하는 시스템, 실제 공격을 정상으로 판단하는 오류, 정상 트래픽을 공격으로 잘못 판단하는 오류의 명칭을 각각 쓰시오.",
+            "answer": "A : IDS(침입탐지 시스템) B : False Negative(미탐) C : False Positive(오탐)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+              "line": 37,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "601775aaa23bd0a70b6921885fb47f69e88e017e497f8163561d4f90802b14f3"
+          },
+          {
+            "id": "R04-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "다음 5가지 스캔 방법 중 포트가 닫혀 있을 때만 응답이 오는 스캔 방식을 모두 고르시오. 보기: SYN Scan, FIN Scan, Xmas Scan, NULL Scan, Decoy Scan.",
+            "answer": "FIN Scan, Xmas Scan, NULL Scan",
+            "verification": "source-derived from Information Security Tistory; option list restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+              "line": 38,
+              "excerpt": "source-derived from Information Security Tistory; option list restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "f5bf03af1e98a644602d685de737702a7e2bd6a7121159281b36a390ea2c47ee"
+          },
+          {
+            "id": "R04-Q09",
+            "number": 9,
+            "type": "essay",
+            "prompt": "Telnet으로 웹 서버가 지원하는 HTTP 메소드를 확인하는 명령어를 작성하시오. 조건: 웹 서버 `hostname`, 포트 `80`, HTTP OPTIONS 메소드로 지원 메소드 목록 요청.",
+            "answer": "telnet hostname 80 OPTIONS / HTTP/1.1 Host: hostname",
+            "verification": "source-derived from Information Security Tistory; command conditions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+              "line": 39,
+              "excerpt": "source-derived from Information Security Tistory; command conditions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "2945ea80c4a8f668f6087aa8a75377ccd60d0e9aba14847f59bb43f36eb18d99"
+          },
+          {
+            "id": "R04-Q10",
+            "number": 10,
+            "type": "essay",
+            "prompt": "C 코드 `int main(int argc, char *argv[]) { char buff[8]; strcpy(buff, argv[1]); return 0; }`의 보안 취약점을 설명하고 안전한 코드로 수정하시오.",
+            "answer": "취약점 : 8바이트 크기로 선언한 buff 변수에 strcpy()를 통해 입력값 크기 검증 없이 복사를 수행하므로 버퍼 오버플로우가 발생할 수 있다. 수정 방법 : strcpy() 대신 복사할 크기를 명시하는 strncpy() 또는 안전한 함수인 strcpy_s()를 사용하여 버퍼 크기를 초과하지 않도록 한다. strncpy(buff, argv[1], sizeof(buff) - 1); buff[sizeof(buff) - 1] = '\\0';",
+            "verification": "source-derived from Information Security Tistory; C code restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+              "line": 40,
+              "excerpt": "source-derived from Information Security Tistory; C code restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "7f7b782217880566ba3d0227e813f79f36bef600cd0f54a6c3491606b37a69fb"
+          },
+          {
+            "id": "R04-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "VPN 구성 프로토콜 중 2계층 프로토콜, 3계층 프로토콜, 3계층 프로토콜의 두 가지 동작 방식과 각 방식의 연결 구간 및 보호 영역을 서술하시오.",
+            "answer": "A : PPTP, L2TP, L2F B : IPSec C : 전송 모드(Transport Mode) : End-to-End 방식으로 호스트 간 종단 통신에서 IP 페이로드(데이터)만 암호화하여 보호한다. 터널 모드(Tunnel Mode) : Gateway-to-Gateway 방식으로 라우터 간 통신에서 IP 헤더와 IP 페이로드 전체를 암호화하여 보호한다.",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+              "line": 41,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "a820bc27941cb9dce1d600166a341b6dfcb2e703cf45bcd035c77adbdba34428"
+          },
+          {
+            "id": "R04-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "다음 웹 서버 접근 로그에서 나타나는 공격에 관한 물음에 답하시오.",
+            "answer": "(1) Blind SQL Injection 공격 (2) 일반적인 SQL Injection과 달리 서버의 오류 메시지나 직접적인 쿼리 결과가 화면에 표시되지 않는 경우에도, 참(True)/거짓(False)에 따른 서버 응답 차이를 이용하여 데이터베이스에 저장된 값을 한 문자씩 추정하는 기법이다. (3) id가 1인 사용자의 password 컬럼 값에 대해 substr() 함수를 이용하여 1번째 문자부터 순차적으로 한 문자씩 비교를 수행하여 패스워드 값을 추출한다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+              "line": 42,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "e2c615f8d9b6750a4c9534ec8626efb80b91976de6072429b18caa05812e326a"
+          },
+          {
+            "id": "R04-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "개인정보보호법에 따른 개인정보 안전성 확보 조치 방안을 기술적·관리적·물리적 관점에서 6가지를 서술하시오.",
+            "answer": "(1) 개인정보의 안전한 처리를 위한 내부 관리계획의 수립·시행 → 관리적 관점 (2) 개인정보에 대한 접근 통제 및 접근 권한의 제한 조치 → 기술적·물리적 관점 (3) 개인정보를 안전하게 저장·전송할 수 있는 암호화 기술의 적용 → 기술적 관점 (4) 개인정보 침해사고 대응을 위한 접속 기록의 보관 및 위·변조 방지 조치 → 관리적·기술적 관점 (5) 개인정보에 대한 보안 프로그램의 설치 및 갱신 → 기술적 관점 (6) 개인정보의 안전한 보관을 위한 보관 시설의 마련 또는 잠금장치 설치 등 물리적 조치 → 물리적 관점",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+              "line": 43,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "7910835e1007c890cbda11bd26e2755945c415021758679cbb08c7516435b881"
+          },
+          {
+            "id": "R04-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "`tcp any any -> any any PCRE(/^POST.*Content\\x2dLength\\x2a\\x20evilstring)` 형태의 Snort PCRE 룰을 보고 문제점과 해결 방안을 서술하시오.",
+            "answer": "(1) 문제점 : 룰의 목적지 주소 및 포트가 any any로 설정되어 있어 모든 주소와 포트를 목적지로 하는 패킷을 검사하게 된다. 이로 인해 불필요한 패킷까지 모두 검사하여 보안 장비에 과도한 부하가 발생한다. (2) 해결 방안 : 목적지 주소를 웹 서버 IP 주소로, 목적지 포트를 80번(HTTP)으로 명시하여 불필요한 패킷 검사를 줄이고 부하를 감소시킨다.",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+              "line": 44,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "30e372456105d00c20005400b3dd676434f25eb233fdee1650146a2fc31bc38f"
+          },
+          {
+            "id": "R04-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "WPA 크래킹 과정에 답하시오. (1) `--bssid` 옵션에 입력하는 값의 의미, (2) `-c` 옵션의 의미, (3) `pw.lst` 파일의 용도, (4) 공격 대상 AP의 MAC 주소를 이용해 수행하는 공격의 목적을 서술하시오.",
+            "answer": "(1) 공격 대상 AP(무선 공유기)의 MAC 주소 (2) 공격 대상 AP에 연결된 클라이언트의 MAC 주소를 지정하는 옵션 (3) 사전(Dictionary) 공격을 위해 미리 정의된 패스워드 목록이 기록된 파일 (4) 공격 대상 AP의 MAC 주소를 이용하여 해당 AP와 클라이언트 간의 4-Way Handshake 패킷을 캡처하고, 사전 파일과 비교하여 WPA 패스워드를 크래킹하는 것이다.",
+            "verification": "source-derived from Information Security Tistory; option prompts restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+              "line": 45,
+              "excerpt": "source-derived from Information Security Tistory; option prompts restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "e7fb9fb317e6dd77d54ec3db5c9461fbddedc89e344ecaf537c3ca37ee731554"
+          },
+          {
+            "id": "R04-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "위험 분석 수치를 계산하시오. 회사 전체 자산 가치는 40억 원, 화재 발생 빈도는 5년에 1회, 화재 발생 시 손실 비율은 전체 자산의 30%, 소방 방재 시설 설치 비용은 수 천만 원, 화재 보험은 연 1억 원이고 화재 발생 시 10억 원을 보상한다. (1) AV, (2) EF, (3) SLE, (4) ARO, (5) ALE, (6) 위험 대응 대책 유형을 쓰시오.",
+            "answer": "(1) 자산 가치(AV) : 40억 원 (2) 노출 계수(EF) : 30%(0.3) (3) 단일 손실 예상액(SLE) : 40억 × 0.3 = 12억 원 (4) 연간 발생률(ARO) : 0.2 (5년에 1회 = 1/5) (5) 연간 예상 손실액(ALE) : 12억 × 0.2 = 2.4억 원 (6) 소방 방재 시설 설치 → 위험 감소(위험 완화) / 화재 보험 가입 → 위험 전가(위험 전이)",
+            "verification": "source-derived from Information Security Tistory; calculation conditions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+              "line": 46,
+              "excerpt": "source-derived from Information Security Tistory; calculation conditions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "40d737b6ca46bc4b3b1467ff804a2fef6ceba4e4c58c772c134c0f40cd589a44"
+          }
+        ]
+      },
+      {
+        "roundId": "R05",
+        "year": "2015",
+        "session": "01",
+        "title": "정보보안기사 실기 5회 2015년 1회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+        "sourceDigest": "d69b2a233808ad8a07b12a1c61e7b4de2577178b3d77a31e0057ef73d180824f",
+        "items": [
+          {
+            "id": "R05-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "리눅스 파일 시스템에서 ext3부터 지원하며, 명령 수행 로그를 남겨 갑작스러운 종료 등으로 파일 시스템이 손상될 때 기존 로그로 복구하는 기능의 명칭을 쓰시오.",
+            "answer": "저널링(Journaling)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+            "sourceLine": 31,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+              "line": 31,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "aaa8753ca74f59420b0c4edc3ab8c01bcfb73472e4c5090d361e174cb6380ea6"
+          },
+          {
+            "id": "R05-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "여러 기관이 보안 취약점을 일관성 없이 표현하던 문제를 줄이기 위해, 특정 취약점을 공통으로 지칭하고 공유하도록 만든 표준화된 취약점 코드 체계의 명칭을 쓰시오.",
+            "answer": "CVE(Common Vulnerabilities and Exposures)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+            "sourceLine": 32,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+              "line": 32,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "f86e94b31d2ba2c9ce4698009f88ae7ce083960ac0a3ff5d46713b35bc515e73"
+          },
+          {
+            "id": "R05-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "FTP 서버에서 TCP 연결 대기 큐(Backlog Queue)가 가득 차 있고 다수의 `SYN_RECEIVED` 상태 연결이 유지되며 정상 사용자의 FTP 접속이 불가능하다. 어떤 유형의 공격인지 쓰시오.",
+            "answer": "TCP SYN Flooding 공격",
+            "verification": "source-derived from Information Security Tistory; prompt condition restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+              "line": 33,
+              "excerpt": "source-derived from Information Security Tistory; prompt condition restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "ba853b7a54dce75d04615c9c09414be3ea9565ba0ac118181d9cfb86968944a1"
+          },
+          {
+            "id": "R05-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "웹 서버 로그 `\"GET /login.php?id%3D%27user%27%20and%20pw%3D%271%27%20or%201%3D1 HTTP/1.1\" 200 3926`에서 확인되는 공격의 명칭을 쓰시오.",
+            "answer": "SQL Injection 공격 (URL 디코딩: id='user' and pw='1' or 1=1 형태의 SQL 조건 삽입)",
+            "verification": "source-derived from Information Security Tistory; web log restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+              "line": 34,
+              "excerpt": "source-derived from Information Security Tistory; web log restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "7129ff4847cc62eb12eba3f36805de3098429f5d79b02f85ac21c483cab9cb5a"
+          },
+          {
+            "id": "R05-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "개인정보의 기술적·관리적 보호조치 기준에서 권한 부여·변경·말소 이력 보관 기간, 개인정보취급자 접속기록 정기 확인 주기, 시스템 이상 확인 등을 위한 접속기록 보존 기간의 빈칸 (A), (B), (C)를 채우시오.",
+            "answer": "A : 3년 B : 월 1회 C : 1년",
+            "verification": "source-derived from Information Security Tistory; PDF compilation cross-check corrected 2026-07-06",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+              "line": 35,
+              "excerpt": "source-derived from Information Security Tistory; PDF compilation cross-check corrected 2026-07-06",
+              "status": "source-derived"
+            },
+            "contentDigest": "aae86af5bc43d19059446cb87a86c28ddb6983a84c8e2ba0960c357890fe443b"
+          },
+          {
+            "id": "R05-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "실행 가능한 스크립트 파일을 서버에 업로드해 원격 제어하는 공격과, 입력 인자에 질의문을 삽입해 데이터베이스 질의문을 조작하는 공격의 명칭을 각각 쓰시오.",
+            "answer": "A : 파일 업로드 공격(웹쉘 업로드) B : SQL Injection 공격",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+              "line": 36,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "94bc02e4bd4b2d3b130e11e9ddd6538dedaadd64f5bc1d714a86c5914646fdf7"
+          },
+          {
+            "id": "R05-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "원격 파일 인클루드 취약점의 빈칸을 채우시오. `system()`, `exec()` 같은 운영체제 명령어 실행 함수가 포함된 외부 파일을 include하면 명령어 삽입 공격이 가능하다. 방지를 위해 (1) 코드에 (A) 문이 존재하는지 검증하고, (2) PHP의 경우 외부 사이트 파일 삽입 차단을 위해 설정 파일 (B)의 `allow_url_fopen=(C)`로 변경한다.",
+            "answer": "A : include/require B : php.ini C : off",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+              "line": 37,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "f2dbc4a4eba9ab136ca73b64c661847032474883c85cdaab6d37f3f5e6abc78b"
+          },
+          {
+            "id": "R05-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "위험 평가 설명의 빈칸을 채우시오. 정보자산에 대한 잠재적·알려진 (A)과 (B)으로 나타날 수 있는 조직 피해와 현재 통제의 실패 가능성 및 영향을 평가할 때 (C)을 포함해야 한다.",
+            "answer": "A : 취약점(Vulnerability) B : 위협(Threat) C : 목표 위험 수준",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+              "line": 38,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "df798a602dc26988270f182c00788bdb09bc8e540f68a95bf98c35c8a1963bb2"
+          },
+          {
+            "id": "R05-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "위험 관리 기법 중 위험을 인지하였으나 별도의 통제를 수행하지 않고 그대로 받아들이며 진행하는 방식의 명칭을 쓰시오.",
+            "answer": "위험 수용(Risk Acceptance)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+              "line": 39,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "23a3aa19f5638cc60e800e120d86326c27fe4898a64576fda6d50842e7a04032"
+          },
+          {
+            "id": "R05-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "정보보안의 세 가지 목적 중 기밀성 외의 두 요소와, 위험관리계획 수립 시 업무 우선순위 선정 및 보호대책 수준 도출에 사용하는 분석의 빈칸 (A), (B), (C)를 채우시오.",
+            "answer": "A : 무결성(Integrity) B : 가용성(Availability) C : 업무영향분석(BIA, Business Impact Analysis)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+              "line": 40,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "a81bc660b955d0a24cc5fbad344b80cfb9fcb80d2e278004fbf8254dd7db723b"
+          },
+          {
+            "id": "R05-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "Drive By Download 공격 단계가 다음과 같다. (1) 사용자가 해킹된 웹 사이트에 접속, (2) 삽입된 iframe·자바스크립트·redirection 태그로 경유지 자동 연결, (3) 같은 방식으로 다단계 경유지를 거쳐 최종 유포 사이트로 연결, (4) 최종 유포 사이트에서 사용자 PC 취약점을 이용해 악성코드 유포. 공격 기법명, 사용자가 실질적으로 악성코드에 감염되는 곳, 정적 분석과 동적 분석 방안을 서술하시오.",
+            "answer": "(1) Drive By Download(드라이브 바이 다운로드) (2) 악성코드 유포 사이트(최종 유포지) (3) 정적 분석 : 룰 엔진 기반의 악성코드 패턴 비교, 악성코드 유포 사이트 페이지의 DOM 구조 검증 동적 분석 : 샌드박스(SandBox) 환경에서 동작 분석, 특정 포트 백도어 생성 여부 모니터링",
+            "verification": "source-derived from Information Security Tistory; attack sequence restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+              "line": 41,
+              "excerpt": "source-derived from Information Security Tistory; attack sequence restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "57724161b417d026e949dcfdf894e61dac69bd6b130ecdc6debcbda7420a936b"
+          },
+          {
+            "id": "R05-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "정보통신기반보호법 제16조에 따라 정보공유·분석센터(ISAC)가 수행하는 역할 2가지를 서술하시오.",
+            "answer": "(1) 취약점 및 침해 요인과 그 대응 방안에 관한 정보 제공 (2) 침해사고 발생 시 실시간 경보·분석 체계 운영",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+              "line": 42,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "76e5136be590276347aed95cc92542b3c394811184baaad2b5301c1623823be8"
+          },
+          {
+            "id": "R05-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "특정 웹 페이지에 실행 가능한 스크립트를 삽입하여 페이지 방문자의 개인정보나 쿠키 정보를 탈취하는 공격의 명칭과 대응 방안을 서술하시오.",
+            "answer": "공격 명칭 : XSS(Cross Site Script) 대응 방안 : 사용자 입력값에 대해 HTML 특수문자(<, >, \", ', & 등)를 엔티티 코드로 인코딩하여 스크립트 실행을 차단한다. 쿠키에 HttpOnly 속성을 적용하여 자바스크립트를 통한 쿠키 접근을 차단한다. 웹 방화벽(WAF)을 적용하여 악성 스크립트 패턴을 탐지·차단한다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+              "line": 43,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "b880b3777a941a2bb9a483ca81a90237a6fda3c1911133c56e7c40d0733ff317"
+          },
+          {
+            "id": "R05-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "악성코드 동작 분석 결과 `a.bat`, `msnsrv.exe`, `wassa.exe` 파일 생성, 시스템 기동 시 자동 실행 레지스트리 추가, Hidden 파일 보이기 설정 해제, `cmd.exe` 레지스트리 삭제, 커맨드 쉘 실행 시 `msnsrv.exe` 실행 레지스트리 추가, Windows 방화벽 TCP 9070 허용이 확인되었다. 이 악성코드의 동작 6가지를 서술하시오.",
+            "answer": "(1) a.bat, msnsrv.exe, wassa.exe 파일을 생성한다. (2) 시스템 기동 시 자동 실행되도록 레지스트리에 값을 추가한다. (3) 탐색기에서 Hidden(숨김) 속성의 파일 보이기 설정을 해제한다. (4) 커맨드 쉘 cmd.exe를 레지스트리에서 삭제한다. (5) 커맨드 쉘 실행 시 msnsrv.exe가 실행되도록 레지스트리에 추가한다. (6) Windows 방화벽에서 TCP 9070번 포트를 허용하도록 설정한다.",
+            "verification": "source-derived from Information Security Tistory; change list restored from answer block",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+              "line": 44,
+              "excerpt": "source-derived from Information Security Tistory; change list restored from answer block",
+              "status": "source-derived"
+            },
+            "contentDigest": "bafaf6d6a1837cdd717cc20a697abed87f81066bb0ce33ed748aadc37db0bdb7"
+          },
+          {
+            "id": "R05-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "웹 서버 `192.168.0.10`의 특정 디렉터리에 접근했을 때 HTTP 200 응답과 함께 디렉터리 내 파일 목록이 표시된 결과를 보고, 공격 유형·공격 대상·공격 성공 여부와 판단 근거를 쓰시오.",
+            "answer": "(1) 디렉토리 리스팅(Directory Listing) 취약점 공격 (2) 웹 서버(192.168.0.10) (3) 공격 성공으로 판단된다. HTTP 200 OK 응답 코드는 요청이 정상적으로 처리되었음을 의미하므로, 디렉토리 내 파일 목록이 브라우저에 정상적으로 출력된 것으로 판단할 수 있다.",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+              "line": 45,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "1e7b7e8ec10a6aeb7476cad6bcaff3bf8b7c6fcafc5b7b37d5a24b6dfa0c8d51"
+          },
+          {
+            "id": "R05-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "`dig @NS1.abc.COM def.com axfr` 결과는 `Transfer failed`이고, `dig @NS2.abc.COM def.com axfr` 결과는 SOA, MX, A 레코드 등 존 정보가 출력되었다. 1차 네임서버의 Zone Transfer 상태, 2차 네임서버에서 Zone Transfer 허용 시 보안 위협, 대응책을 서술하시오.",
+            "answer": "(1) 1차 네임서버(NS1)는 Zone Transfer 요청에 응답하지 않아 도메인 정보 탈취에 실패하였다. Zone Transfer가 적절히 차단되어 있는 안전한 상태이다. (2) 공격자가 간단한 명령으로 내부 시스템·네트워크 구조(호스트 목록, IP 대역, 보안 장비 IP 등)를 쉽게 파악할 수 있다. 사내 IP 대역이나 보안 장비 IP가 외부에 노출될 수 있다. Zone Transfer 시도 시 Zone 파일 크기에 따라 과도한 트래픽이 유발되어 서비스 거부(DoS) 공격으로 악용될 수 있다. (3) Zone Transfer가 필요하지 않은 경우 비활성화하고, 필요한 경우 신뢰할 수 있는 Slave DNS 서버 IP에 대해서만 Zone Transfer를 허용하도록 설정한다.",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+              "line": 46,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "7084ba365eee90a968a9408d32684689ea047157de8f7717dc21487cc0503c9f"
+          }
+        ]
+      },
+      {
+        "roundId": "R06",
+        "year": "2015",
+        "session": "02",
+        "title": "정보보안기사 실기 6회 2015년 2회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+        "sourceDigest": "899d610faa57d517ac14f7afd4eddc1826d96ab64ae9329fe6a850ecdaaeb552",
+        "items": [
+          {
+            "id": "R06-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "TCP 스캔 유형에 따른 플래그 응답을 채우시오.",
+            "answer": "A : SYN B : RST + ACK C : SYN D : SYN + ACK E : RST",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+            "sourceLine": 31,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+              "line": 31,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "4a1a05788778a8724a7eebe1e1ae1aaa8635e264bd8556f9d63b68082e5aed5b"
+          },
+          {
+            "id": "R06-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "SNMPv3 보안 매개변수별로 방지 가능한 공격을 쓰시오. `msgAuthoritativeEngineID`, `msgAuthoritativeEngineBoots`, `msgAuthoritativeEngineTime`이 묶인 항목은 (A), `msgUserName`, `msgAuthenticationParameters`가 묶인 항목은 (B), `msgPrivacyParameters` 항목은 (C)에 해당한다.",
+            "answer": "A : 재전송(Replay) 공격 방지 B : 메시지 위변조 공격 방지 C : 도청/스니핑 공격 방지",
+            "verification": "source-derived from Information Security Tistory; parameter table restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+            "sourceLine": 32,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+              "line": 32,
+              "excerpt": "source-derived from Information Security Tistory; parameter table restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "0fa0213fb2c56d8bc014f1696f2a091afa132f4cafe6f1d2bee27470699aed68"
+          },
+          {
+            "id": "R06-Q03",
+            "number": 3,
+            "type": "essay",
+            "prompt": "동일 IP `10.10.100.27`이 포트를 바꾸어가며 DNS `ANY` 레코드 질의를 지속 수행하는 로그를 보고, 이 공격을 막기 위한 라우터 ACL `access-list 1 deny (A) any any eq (B)`의 빈칸을 채우시오.",
+            "answer": "A : udp B : 53 해설 : 동일 IP에서 포트를 변경하며 레코드 타입 ANY로 대량의 DNS 질의를 수행하는 DNS 증폭 DDoS 공격이다.",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+              "line": 33,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "774dd16b458b10ae5e1e571b2b1773b659b89e02acf6f204e08859a39f4d962b"
+          },
+          {
+            "id": "R06-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "`netstat -rn` 라우팅 테이블을 보고 각 목적지로 ping 전송 시 선택되는 게이트웨이 IP를 쓰시오. 라우팅 테이블은 `10.0.160.100/32 -> 10.0.160.1`, `10.0.160.0/24 -> 10.0.160.2`, `10.0.64.101/18 -> 10.0.160.3`, `10.0.128.100/18 -> 10.0.160.4`, `10.0.63.1/23 -> 10.0.160.6`, default `0.0.0.0/0 -> 10.0.160.5`이다. (A) `10.0.160.100`, (B) `10.0.122.64`, (C) `10.0.192.100`으로 전송할 때의 게이트웨이를 구하시오.",
+            "answer": "A : 10.0.160.1 (목적지 10.0.160.100에 대한 호스트 라우트) B : 10.0.160.2 (10.0.160.0/24 네트워크 범위에 해당) C : 10.0.160.5 (어느 경우에도 해당하지 않으므로 Default Gateway)",
+            "verification": "source-derived from Information Security Tistory; routing table restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+              "line": 34,
+              "excerpt": "source-derived from Information Security Tistory; routing table restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "5a3b64c0873cf7be11628a9836b169e1164783b44d62665619c43ce5b260cd6d"
+          },
+          {
+            "id": "R06-Q05",
+            "number": 5,
+            "type": "essay",
+            "prompt": "유닉스 시스템에서 다음 명령어 수행 시 참조되는 로그 파일명을 각각 쓰시오. (A) `who`, (B) `last`, (C) `lastcomm`.",
+            "answer": "A : utmp B : wtmp C : acct 또는 pacct",
+            "verification": "source-derived from Information Security Tistory; command list restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+              "line": 35,
+              "excerpt": "source-derived from Information Security Tistory; command list restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "ae3626fc4d8117480911daaf6493be7717d11fd83faebc3ec90d96f008ee8eb3"
+          },
+          {
+            "id": "R06-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "root 계정의 원격 접속을 제한하기 위해 각 운영체제에서 설정하는 파일을 쓰시오. (A) Solaris, (B) AIX, (C) Linux.",
+            "answer": "A : /etc/default/login B : /etc/security/user C : /etc/securetty",
+            "verification": "source-derived from Information Security Tistory; OS list restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+              "line": 36,
+              "excerpt": "source-derived from Information Security Tistory; OS list restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "bb79a25568ec8a39d21f441d7819df54b3ac4985df6777be4452dfd6268e237b"
+          },
+          {
+            "id": "R06-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "정보보호관리체계(ISMS)의 라이프사이클 순서 `(A) -> (B) -> (C) -> 조치단계(Act)`에서 빈칸을 채우시오.",
+            "answer": "A : 계획단계(Plan) B : 실행단계(Do) C : 점검단계(Check)",
+            "verification": "source-derived from Information Security Tistory; sequence restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+              "line": 37,
+              "excerpt": "source-derived from Information Security Tistory; sequence restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "d3e0730d580e8214516ebf53339ec2cbc412961099076e0e861dcaa8943da851"
+          },
+          {
+            "id": "R06-Q08",
+            "number": 8,
+            "type": "essay",
+            "prompt": "위험 분석 관련 용어의 빈칸을 채우시오. (A): 정보, 하드웨어, 소프트웨어, 시설, 관련 인력, 기업 이미지 등 조직이 보호해야 할 유·무형 대상. (B): 자산에 손실을 초래할 수 있는 원치 않는 사건의 잠재적 원인이나 행위자. (C): 위협에 이용될 수 있는 자산의 관리적·물리적·기술적 약점.",
+            "answer": "A : 자산(Asset) B : 위협(Threat) C : 취약점(Vulnerability)",
+            "verification": "source-derived from Information Security Tistory; definitions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+              "line": 38,
+              "excerpt": "source-derived from Information Security Tistory; definitions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "f163a2f09a41f615eb5c49654612bc2313cade7f3aed3ef7f90321ccc74c2f22"
+          },
+          {
+            "id": "R06-Q09",
+            "number": 9,
+            "type": "essay",
+            "prompt": "개인정보 보호책임자 자격요건·지정, 개인정보 보호책임자와 개인정보취급자의 역할·책임, 기술적·관리적 보호조치 이행 여부 내부 점검, 위탁 시 수탁자 관리·감독, 개인정보 분실·도난·누출·변조·훼손 대응절차를 포함하는 문서의 명칭을 쓰시오.",
+            "answer": "내부관리계획",
+            "verification": "source-derived from Information Security Tistory; prompt list restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+              "line": 39,
+              "excerpt": "source-derived from Information Security Tistory; prompt list restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "fd5fee2c1915c1d96882cb56a428788044a103a4cb25b7a5bf4117bb0dc2ecc8"
+          },
+          {
+            "id": "R06-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "발생 가능한 잠재 문제를 사전에 식별해 대처하는 통제, 물리적 시설·장비 접근을 제한하는 통제, 시스템·네트워크 접근 권한을 제한하는 통제의 명칭을 각각 쓰시오.",
+            "answer": "A : 예방 통제 B : 물리적 접근 통제 C : 논리적 접근 통제",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+              "line": 40,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "ab721d31f57e7a073cdf9bfa86773101dd9a1bc16e65d43ef9f93f29fa14e506"
+          },
+          {
+            "id": "R06-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "IPSec이 제공하는 기능 4가지 이상을 서술하시오.",
+            "answer": "(1) 데이터 기밀성 : ESP 프로토콜의 페이로드 암호화를 통해 제3자에 의한 도청이 발생해도 내용이 노출되지 않음을 보장한다. (2) 비연결형 무결성 : AH 정보를 통해 비연결형 통신 데이터의 무결성을 보장한다. (3) 데이터 근원지 인증 : 송신자와 수신자만 공유한 키를 통해 메시지 발송자를 식별·인증할 수 있다. (4) 재전송 공격 방지 : IPSec 헤더의 Sequence Number 필드를 통해 재전송(Replay) 공격을 방어한다. (5) 제한된 트래픽 흐름의 비밀성 : 터널 모드에서 원본 IP 헤더를 암호화하여 출발지·목적지 주소를 은닉할 수 있다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+              "line": 41,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "7984df5622835379baf11de9ea490567a3a19d0a3c14ae103bdd8b312b0faf0a"
+          },
+          {
+            "id": "R06-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "위험 분석 모델 중 복합적 모델(복합 접근법)의 장단점을 서술하시오.",
+            "answer": "장점 : 비용과 자원을 효율적으로 사용할 수 있으며, 고위험 영역을 빠르게 식별할 수 있다. 단점 : 고위험 영역이 잘못 식별된 경우 위험 분석 비용이 낭비되거나 부적절하게 대응될 수 있다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+              "line": 42,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "c90f5239365203cfeb83c80ecb5e25ceb40a8b7e33a0e6555e99cdb443404c5f"
+          },
+          {
+            "id": "R06-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "DNS 증폭 공격(DNS Amplification DDoS Attack) 중 IP 기반 공격에 관한 물음에 답하시오.",
+            "answer": "(1) IP 스푸핑을 사용하여 출발지 IP를 공격 대상 희생자 서버의 IP로 위조한 후 다수의 DNS 서버에 질의를 수행한다. (2) 공격자의 DNS 질의에 대한 응답 패킷이 IP 스푸핑된 희생자 서버로 전달되므로, 희생자 서버에 대량의 트래픽을 집중시켜 서비스 거부 공격이 가능하다. (3) ANY 또는 TXT 레코드 타입을 사용한다. 요청 패킷의 크기보다 응답 패킷의 크기가 수십 배 크므로, 적은 컴퓨팅 자원으로 대량의 트래픽을 희생자에게 전달할 수 있는 증폭 효과가 있다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+              "line": 43,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "84d39d3820bbb709e688da15b610f01a08786c2e15df8ef1630be7953e4d0f8d"
+          },
+          {
+            "id": "R06-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "SQL 쿼리 `SELECT password FROM user WHERE username='qfrankr'`에 대해 답하시오. (1) 실행 결과를 서술하시오. (2) 모든 사용자 정보를 얻기 위해 `qfrankr` 자리에 삽입할 SQL Injection 예시를 쓰시오. (3) 해당 예시가 가능한 이유를 서술하시오.",
+            "answer": "(1) username이 qfrankr인 사용자의 password 정보를 조회한다. (2) ' or '1'='1 또는 ' or 'a'='a 등 조건절을 항상 참으로 만드는 값 (3) 위 값 삽입 시 WHERE 조건절이 WHERE username='' or '1'='1'이 되어 항상 참(True)이 되므로 모든 사용자의 레코드가 조회된다.",
+            "verification": "source-derived from Information Security Tistory; SQL statement restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+              "line": 44,
+              "excerpt": "source-derived from Information Security Tistory; SQL statement restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "351b92d9fb09678d206c30b9cda3e6001415b2aa37a145178cccdd5d16207f34"
+          },
+          {
+            "id": "R06-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "패킷 캡처에서 클라이언트가 HTTP 요청 헤더를 완성하지 않고 불완전한 헤더 정보를 매우 천천히 지속 전송하면서 웹 서버 연결을 장시간 유지한다. 다수 연결이 같은 상태로 유지되어 정상 접속이 거부되고 있다. (1) 공격명, (2) 발생 현상과 이유, (3) 대응 방법을 서술하시오.",
+            "answer": "(1) Slow HTTP Header DoS 공격(Slowloris 공격) (2) 서비스가 느려지고 새로운 정상 접속 요청이 거부된다. 공격자가 HTTP 요청 헤더를 비정상적으로 조작하여 불완전한 헤더 정보를 천천히 지속적으로 전달하면, 웹 서버는 헤더 정보가 완전히 수신될 때까지 연결을 유지한다. 웹 서버의 동시 연결 가능 자원이 제한적이므로 다수의 비정상 연결이 자원을 점유하면 정상 사용자의 접속이 불가능해진다. (3) 서버 방화벽 등을 이용하여 동일 IP에서의 동시 연결 수에 대한 임계치(Threshold)를 설정하여 비정상적으로 많은 연결 상태를 유지하는 IP를 차단한다.",
+            "verification": "source-derived from Information Security Tistory; packet condition restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+              "line": 45,
+              "excerpt": "source-derived from Information Security Tistory; packet condition restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "736c8a8d079948299fb73e99ff528903a7154b30a2b8fcb2555823c78a5a2012"
+          },
+          {
+            "id": "R06-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "게이트웨이 IP/MAC이 `172.111.11.1`, `11-22-33-44-55-66`인 환경에서 ARP 테이블에 `172.111.11.3`도 동일 MAC `11-22-33-44-55-66`으로 표시된다. 공격 유형, 판단 근거, 대응 방안을 서술하시오.",
+            "answer": "(1) ARP Spoofing(ARP 스푸핑) 공격이다. 172.111.11.3의 MAC 주소가 게이트웨이(172.111.11.1)의 MAC 주소인 11-22-33-44-55-66과 동일하다. 공격자가 위조된 ARP Reply를 전송하여 게이트웨이 IP에 대한 MAC 주소를 자신의 MAC 주소로 변조한 것으로 판단된다. (2) ARP Cache Table의 게이트웨이 정보를 정적(static)으로 설정하여 위조된 ARP 응답으로 변조되지 않도록 한다. 명령어 : arp -s 172.111.11.1 11-22-33-44-55-66",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+              "line": 46,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "2a6d25237b32933bfb9daa76b6f315cf1cbd8abc39ba79e149235b878b0a299d"
+          }
+        ]
+      },
+      {
+        "roundId": "R07",
+        "year": "2016",
+        "session": "01",
+        "title": "정보보안기사 실기 7회 2016년 1회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+        "sourceDigest": "e2a9c99a78f449d542937f84aece7165a3cdbf62762e0434f190c401aa32ff30",
+        "items": [
+          {
+            "id": "R07-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "윈도우 PE 파일 섹션의 빈칸을 채우시오. (A): 실행 코드(기계어)가 저장되는 섹션. (B): 전역 변수, 상수 등의 데이터 정보가 저장되는 섹션. (C): DLL에서 가져온 함수 정보(임포트 테이블)가 저장되는 섹션.",
+            "answer": "A : .text B : .data C : .idata",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+            "sourceLine": 31,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+              "line": 31,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "7d7ab925431f29d2121d5d1091045efabad90f0dcb1c6f2b89b9083fad38ec83"
+          },
+          {
+            "id": "R07-Q02",
+            "number": 2,
+            "type": "essay",
+            "prompt": "익스플로잇과 관련하여 실제 기계어로 구성되어 exploit 본체에 해당하는 프로그램 명칭, x86 계열 NOP 코드를 hex로 표현한 값, ESP 값을 EIP로 이동하는 어셈블리 코드를 각각 쓰시오.",
+            "answer": "A : 쉘코드(Shellcode) B : 0x90 C : jmp esp",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+            "sourceLine": 32,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+              "line": 32,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "f9fad06bcf2cbf4e54c5babbcffad3470bbb5bb93d2a0f9bb6be005dec61de17"
+          },
+          {
+            "id": "R07-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "윈도우 DNS 서버 설정의 빈칸을 채우시오. (A): 도메인 DNS 서버를 등록하는 설정. (B): DNS 서버에 서비스 정보를 입력하는 설정.",
+            "answer": "A : Zone 설정 B : 리소스 레코드 설정",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+              "line": 33,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "a6f02db9ed0951e9388dc4292e499dc59d1b697a7d7caab431ba4f95b067963e"
+          },
+          {
+            "id": "R07-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "Snort 룰에서 패킷 페이로드의 10번째 바이트부터 2바이트 범위(10~12바이트)에서 `FFFF` 바이트를 탐지한다. 룰 `alert tcp any any -> any any ( (A):\"|FFFF|\"; (B):9; (C):2)`의 빈칸을 채우시오.",
+            "answer": "A : content B : offset C : depth",
+            "verification": "source-derived from Information Security Tistory; Snort rule restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+              "line": 34,
+              "excerpt": "source-derived from Information Security Tistory; Snort rule restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "638c711e60209c13175ba065b12ebe048765cd228b07f260d4f87e811d220bd6"
+          },
+          {
+            "id": "R07-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "악성코드 명칭의 빈칸을 채우시오. (A): 사용자가 인식하지 못하게 악성코드를 시스템에 감염시키는 프로그램으로 다양한 경로로 악성코드를 설치한다. (B): (A)의 한 종류로 동작 방식은 같으나 코드가 메모리 영역에 상주하면서 악성코드를 감염시킨다.",
+            "answer": "A : 드롭퍼(Dropper) B : 인젝터(Injector)",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+              "line": 35,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "d18f93d58418d7b08b332e105cf7c135a731213e6cdc54392c1055465bb459f2"
+          },
+          {
+            "id": "R07-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "와이어샤크(Wireshark)에서 DNS 응답(Response) 패킷만 출력하는 필터 표현식을 쓰시오.",
+            "answer": "dns.flags.response == 1 또는 dns.response_to",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+              "line": 36,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "928c75506f4db3f5489aeeed22277735451c575008277489d4c7128b3e6c8a15"
+          },
+          {
+            "id": "R07-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "공격자가 원격에서 웹 서버 명령을 수행할 수 있는 스크립트 파일을 업로드해 관리자 권한 획득, 소스코드 열람, 파일 조작, 백도어 설치 등을 수행하는 공격의 명칭을 쓰시오.",
+            "answer": "WebShell(웹쉘)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+              "line": 37,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "c755cd329a68743cdad49242cd24f8cf51f245f2d291280819bd96dccdeaca90"
+          },
+          {
+            "id": "R07-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "APT 공격의 정찰·무기화·배달·취약점 공격·설치·명령 및 제어·표적 행동 단계를 분석해 취약한 절차에 선제 대응하는 록히드마틴사의 대응 방법론 명칭을 쓰시오.",
+            "answer": "사이버 킬 체인(Cyber Kill Chain)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+              "line": 38,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "83dd17457f534d04fa6d2fca6b3c8fd75f49597a3831a8f4929946f089f35e35"
+          },
+          {
+            "id": "R07-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "통제 시점에 따른 분류의 빈칸을 채우시오. (A): 발생 가능한 잠재적 문제를 식별해 사전에 대처하는 통제. (B): 예방 통제를 우회해 발생되는 문제점을 찾아내기 위한 통제. (C): 탐지된 위협에 대처하거나 피해를 줄이는 통제.",
+            "answer": "A : 예방 통제 B : 탐지 통제 C : 교정 통제(시정 통제)",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+              "line": 39,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "04592e4510c31893a57592e0c5b4b9c6f40d01c195f4f508dadb477d34a26348"
+          },
+          {
+            "id": "R07-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "개인정보의 안전한 취급을 위해 개인정보 보호 조직 구성, 개인정보취급자 교육, 개인정보 보호 조치 등을 규정하고 내부 의사결정 절차로 수립·시행하는 내부 기준의 명칭을 쓰시오.",
+            "answer": "내부관리계획",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+              "line": 40,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "a5f364dc07d819f33b49c3921d85a440ed8c5b3e2cad7a2e16c81aa276bc0860"
+          },
+          {
+            "id": "R07-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "스머프(Smurf) 공격에 관한 물음에 답하시오.",
+            "answer": "(A) 공격자는 출발지 IP를 공격 대상 호스트의 IP로 위조한 ICMP Echo Request 패킷을 증폭 네트워크의 브로드캐스트 주소로 전송한다. 근처의 호스트들이 위조된 출발지 IP(공격 대상)로 다량의 ICMP Echo Reply를 전송하여 공격 대상에게 서비스 거부를 유발한다. (B) 라우터에서 외부 네트워크로부터 들어오는 IP Directed Broadcast 패킷을 차단한다. (no ip directed-broadcast) 호스트를 IP 브로드캐스트 주소로 전송된 ICMP Echo Request 패킷에 응답하지 않도록 설정한다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+              "line": 41,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "7530dfc42a46f7c059ed8623dbb6b9f1bbd98f4751f0fce5eb174f74a45e03b2"
+          },
+          {
+            "id": "R07-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "위험 분석 관련 수치에 답하시오. (1) SLE의 의미, (2) SLE 계산식, (3) 연간 발생률 용어, (4) 보안 투자 비용을 `X`라고 할 때 ROI 판단식을 쓰시오.",
+            "answer": "(1) SLE(단일 손실 예상액) : 위협이 한 번 발생했을 때 예상되는 손실 금액이다. (2) SLE = AV(자산 가치) × EF(노출 계수) (3) ARO(Annual Rate of Occurrence, 연간 발생률) (4) ROI = ALE - X (보안 투자 비용 X는 ALE보다 작아야 투자 효과가 있다.)",
+            "verification": "source-derived from Information Security Tistory; image-only prompt reconstructed from answer block",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+              "line": 42,
+              "excerpt": "source-derived from Information Security Tistory; image-only prompt reconstructed from answer block",
+              "status": "source-derived"
+            },
+            "contentDigest": "88a94f14344c8c2ae19a2259e01d1cd12569e21ff79b6b2af0e3df26a8e2a912"
+          },
+          {
+            "id": "R07-Q13",
+            "number": 13,
+            "type": "short",
+            "prompt": "정보통신망 이용촉진 및 정보보호 등에 관한 법률에 따라 개인정보 유출 사실을 알았을 때 이용자에게 지체 없이 알려야 하는 사항 5가지를 쓰시오.",
+            "answer": "(1) 유출된 개인정보 항목 (2) 유출이 발생한 시점 (3) 이용자가 취할 수 있는 조치 (4) 정보통신서비스 제공자 등의 대응 조치 (5) 신고 접수를 할 수 있는 담당 부서 및 연락처",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+              "line": 43,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "dcaac78fc5d1ab12d2d4e7d31c9b52de17d7484fbfc8a41d8094a70bbc383707"
+          },
+          {
+            "id": "R07-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "crontab 스케줄러 설정 2개를 분석하시오. (1) 매월 6일 0시 0분 root 권한으로 `/tmp/passwd1`을 `/etc/passwd`로 복사하는 항목. (2) 매월 12일 0시 0분 root 권한으로 `10.10.10.10`의 80번 포트에 연결하면서 `/bin/bash` 쉘을 넘기는 항목. 각 동작과 보안상 의미를 서술하시오.",
+            "answer": "(1) 매월 6일 0시 0분에 root 권한으로 /tmp/passwd1 파일을 /etc/passwd로 복사한다. 임의로 조작된 passwd1 파일이 원본 passwd 파일을 덮어쓰는 악의적인 계정 변조 행위이다. (2) 매월 12일 0시 0분에 root 권한으로 10.10.10.10 호스트의 80번 포트로 연결하면서 /bin/bash 쉘을 넘긴다. 공격자 서버로의 리버스 쉘(Reverse Shell) 연결로, 공격자가 피해 서버를 원격에서 제어할 수 있게 된다.",
+            "verification": "source image unavailable; prompt reconstructed from answer block",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+              "line": 44,
+              "excerpt": "source image unavailable; prompt reconstructed from answer block",
+              "status": "source-derived"
+            },
+            "contentDigest": "edb4a662090a5e0bf06310b0d1bea0170b35b6614d91e400bce91ba9bd0a8fc4"
+          },
+          {
+            "id": "R07-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "Source port 443에서 Destination port 80으로 `GET /login.php HTTP/1.1` 요청이 전송되고, `Cookie`, `Pragma: no-cache`, `Cache-Control: must-revalidate`, body의 `id=admin&password=1234&act=login`이 확인된다. 보안상 문제점을 서술하시오.",
+            "answer": "(1) Cache-Control에서 must-revalidate 설정으로 캐시 서버를 사용하지 않아 모든 요청이 서버로 직접 전달되어 서버 부하가 증가할 수 있다. (2) 요청 파라미터에 id와 password 등 민감한 정보가 평문으로 포함되어 있어 스니핑·도청에 의한 정보 유출 위험이 있다. (3) 쿠키 값이 HTTP 통신에서 노출되어 세션 하이재킹 등에 악용될 수 있다. (4) 443번 포트(HTTPS)에서 80번 포트(HTTP, 평문)로 전환하여 통신하고 있어 암호화되지 않은 구간이 발생한다.",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+              "line": 45,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "7d797f5ccc741c4c71e8c3b45bed5394b4a066f8b3ff79a1d8111e9b9778ee05"
+          },
+          {
+            "id": "R07-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "Bash 쉘 취약점에 대해 답하시오. (A) 취약점 명칭, (B) Bash 함수 선언 기능과 환경 변수를 이용한 취약점 원인, (C) 공격자가 대기 포트를 열고 피해 서버가 공격자 서버로 접속하도록 유도해 수립하는 쉘 연결 행위를 서술하시오.",
+            "answer": "(A) ShellShock(쉘 쇼크) (B) Bash 쉘이 제공하는 함수 선언 기능에서 취약점이 발견되었다. 환경 변수에 함수 정의 형태로 임의의 명령어를 삽입하면 Bash 실행 시 해당 명령어가 함께 실행되는 구조적 결함이 원인이다. (C) 공격자는 자신의 서버에 포트를 열어 대기하고, 피해자 서버에서 공격자 서버로 접속하도록 유도하여 리버스 쉘(Reverse Shell) 연결을 수립하는 행위이다.",
+            "verification": "source image unavailable; prompt reconstructed from answer block",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+              "line": 46,
+              "excerpt": "source image unavailable; prompt reconstructed from answer block",
+              "status": "source-derived"
+            },
+            "contentDigest": "49910b2eff4904efdeeb35cd402e155f0d352093248a3f1a6170226fcb21fe46"
+          }
+        ]
+      },
+      {
+        "roundId": "R08",
+        "year": "2016",
+        "session": "02",
+        "title": "정보보안기사 실기 8회 2016년 2회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+        "sourceDigest": "f26cb71ada9cbbdf7ea3c21db2d9544c85b93e41869ba0ed8f6c0143db0144e0",
+        "items": [
+          {
+            "id": "R08-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "MySQL 설정 파일의 현재 설정이 `bind-address = 127.0.0.1`일 때 외부 접속을 허용하도록 설정을 변경하시오.",
+            "answer": "bind-address = 127.0.0.1 부분을 주석 처리하거나 삭제하거나, 허용할 외부 IP 또는 0.0.0.0으로 변경한다. (예: bind-address = 0.0.0.0 또는 해당 행을 #으로 주석 처리)",
+            "verification": "source-derived from Information Security Tistory; config line restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+            "sourceLine": 31,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+              "line": 31,
+              "excerpt": "source-derived from Information Security Tistory; config line restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "26f27037dc20c504f8a6effecb7a376300a4f2447606e194812a2f289a3dca10"
+          },
+          {
+            "id": "R08-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "ISMS 인증 도입을 위한 정보보호 대책 항목 목록 `정보보호정책, (1), (2), 정보자산 분류, 정보보호 교육, 인적보안, 물리적 보안, 시스템개발 보안, 암호통제, (3), 운영보안, 침해사고관리, IT 재해복구`의 빈칸을 채우시오.",
+            "answer": "(1) 정보보호 조직 (2) 외부자 보안 (3) 접근 통제",
+            "verification": "source-derived from Information Security Tistory; item list restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+            "sourceLine": 32,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+              "line": 32,
+              "excerpt": "source-derived from Information Security Tistory; item list restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "f0d814f9a26b49263151403b861aa59981ac32d6f317f3f2ef446618158b1493"
+          },
+          {
+            "id": "R08-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "WEP 설명의 빈칸을 채우시오. WEP는 IEEE 802.11b에서 적용되기 시작했으며 (A) 암호화 알고리즘을 사용한다. 40비트 WEP 비밀키와 임의로 할당되는 24비트 (B)를 조합한 총 64비트 키를 이용해 (A) 알고리즘으로 암호화한다.",
+            "answer": "A : RC4 B : IV(Initial Vector, 초기화 벡터)",
+            "verification": "source-derived from Information Security Tistory; prompt description restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+              "line": 33,
+              "excerpt": "source-derived from Information Security Tistory; prompt description restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "df2760a3a3189c5eab661812dffd79869b5873e193a306ddb6e698d721cc381d"
+          },
+          {
+            "id": "R08-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "현재 실행 중인 프로세스의 정보를 기록하는 가상 파일 시스템이 위치하는 리눅스 디렉토리의 명칭을 쓰시오.",
+            "answer": "/proc",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+              "line": 34,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "1f290c31890cfb8b2bcad30f9b9b5341f07d2df9b682bcd732044d47470b4d6b"
+          },
+          {
+            "id": "R08-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "정보보호 5가지 목표 `가. 기밀성`, `나. 무결성`, `다. (A)`, `라. (B)`, `마. (C)`의 빈칸을 채우시오.",
+            "answer": "A : 가용성(Availability) B : 인증(Authentication) C : 부인방지(Non-Repudiation)",
+            "verification": "source-derived from Information Security Tistory; sequence restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+              "line": 35,
+              "excerpt": "source-derived from Information Security Tistory; sequence restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "57e5e416b8a89744d6f23bb8e092c509b6680ab8a0e8bbcbbf51bf2782520650"
+          },
+          {
+            "id": "R08-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "TCP 3-Way Handshake에서 클라이언트 SYN 번호가 `3478`, 서버 SYN 번호가 `2324`인 흐름의 빈칸을 채우시오. (A): 서버가 응답하는 ACK 번호, (B): 클라이언트가 다음에 사용하는 SEQ 번호, (C): 클라이언트가 서버 SYN에 대해 응답하는 ACK 번호.",
+            "answer": "A : 3479 (클라이언트 SYN 번호 3478 + 1) B : 3479 (서버의 ACK 번호를 그대로 사용) C : 2325 (서버 SYN 번호 2324 + 1)",
+            "verification": "source image unavailable; prompt reconstructed from answer block",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+              "line": 36,
+              "excerpt": "source image unavailable; prompt reconstructed from answer block",
+              "status": "source-derived"
+            },
+            "contentDigest": "9ea8ca64fe3b8ecddf65bdbb909d098515bd04116b8a94b0a1b753516e9efb05"
+          },
+          {
+            "id": "R08-Q07",
+            "number": 7,
+            "type": "essay",
+            "prompt": "setuid 관련 함수 호출에 답하시오. (1) 실행 파일 소유자가 root이고 setuid가 설정된 초기 상태에서 `getresuid()` 호출 시 `ruid`, `euid`, `suid` 값은 무엇인가? (2) `setuid(600)` 호출 이후 `getresuid()` 호출 시 각 값은 무엇인가?",
+            "answer": "(1) ruid : (실행 사용자 UID), euid : 0 (root), suid : 0 (root) (2) ruid : 600, euid : 600, suid : 600",
+            "verification": "source-derived from Information Security Tistory; function-call prompts restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+              "line": 37,
+              "excerpt": "source-derived from Information Security Tistory; function-call prompts restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "69f523aed92c9055bed9549d4cea7f1ebdbcd6251877fcb20e9b854e3bf6f96d"
+          },
+          {
+            "id": "R08-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "DNS 관련 설명이다. 빈칸 (A), (B), (C)를 채우시오.",
+            "answer": "A : UDP B : Cache(캐시) C : TTL(Time To Live)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+              "line": 38,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "dc141a3733e287453767775075a1c269930000815c5ea9c80421b09242a9b5d1"
+          },
+          {
+            "id": "R08-Q09",
+            "number": 9,
+            "type": "essay",
+            "prompt": "개인정보 안전성 확보조치 기준에 관한 설명이다. 빈칸 (A), (B), (C)를 채우시오.",
+            "answer": "A : 고유식별정보 B : 1 C : 취약점",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+              "line": 39,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "55357a64b7bf725afff5fdf8b05d3ad3cb86a5e260af0fe9d74f7b1da3b31dc1"
+          },
+          {
+            "id": "R08-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "위험 처리 방법에 관한 설명이다. 빈칸 (A), (B), (C)를 채우시오.",
+            "answer": "A : 위험 수용(Risk Acceptance) B : 위험 회피(Risk Avoidance) C : 위험 전가(Risk Transfer)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+              "line": 40,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "130a03684c95e05eecf9a4a41655b919989f5cecf14533a8a6c58a5bec913e8c"
+          },
+          {
+            "id": "R08-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "IPSec 프로토콜에 대해 답하시오. (가) 전송 모드와 터널 모드의 차이점을 서술하시오. (나) 구성도 A는 호스트 ↔ 호스트 End-to-End 통신이고, 구성도 B는 라우터 ↔ 라우터 Gateway 간 통신이다. 각 구성도에 적절한 모드와 이유를 서술하시오.",
+            "answer": "(가) 전송 모드 : IP 페이로드(데이터)와 ESP 트레일러를 암호화하며 원본 IP 헤더는 그대로 유지한다. 터널 모드 : 원본 IP 패킷 전체(헤더 + 페이로드)와 ESP 트레일러를 암호화하고 새로운 IP 헤더를 추가한다. (나) 구성도 A : 전송 모드 — 호스트 종단 간 보안 서비스를 제공하며 IP 헤더를 그대로 사용한다. 구성도 B : 터널 모드 — 라우터 간 게이트웨이 구간에서 보안 서비스를 제공하며 원본 IP 패킷 전체를 보호한다.",
+            "verification": "source-derived from Information Security Tistory; topology prompts restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+              "line": 41,
+              "excerpt": "source-derived from Information Security Tistory; topology prompts restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "45a044513b1eeb01ccf14bf383ed7a60c6edab6fe2b628bcf209d3c580ce29c0"
+          },
+          {
+            "id": "R08-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "파일 업로드 취약점에 관한 물음에 답하시오.",
+            "answer": "(가) 악성 스크립트가 첨부된 파일(예: .php, .jsp 등)을 게시판에 업로드하여 성공적으로 업로드되고 실행이 가능하면 파일 업로드 취약점이 존재하는 것으로 판단한다. (나) 업로드 파일의 확장자에 대한 화이트리스트 필터링 정책을 적용하여 허용된 확장자(.jpg, .png, .pdf 등)만 업로드가 가능하도록 한다. 업로드된 파일을 별도의 저장 디렉토리에 보관하고 해당 디렉토리에서 서버 실행 권한을 제거한다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+              "line": 42,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "34de5a698cdf10c6dbfe59373d14a4ff47000ff1bebfdd9d5ce4b225921532f4"
+          },
+          {
+            "id": "R08-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "디지털 포렌식의 기본 원칙 중 연계 보관성(Chain of Custody) 원칙을 서술하고 각 단계의 명칭을 순서대로 쓰시오.",
+            "answer": "연계 보관성의 원칙 : 증거물의 수집·이송·분석·보관·법정 제출의 각 단계에서 담당자 및 책임자가 명확해야 하며, 전체 과정이 추적 가능해야 한다. 단계 순서 : 증거 수집 → 이송 → 분석 → 보관 → 법정 제출",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+              "line": 43,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "841eab50c86612f248e834bd2c4f178f135a7f9776e2a4c196a5bec6029a1933"
+          },
+          {
+            "id": "R08-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "OpenSSL HeartBleed 취약점에 관한 물음에 답하시오.",
+            "answer": "(가) OpenSSL HeartBleed 취약점(CVE-2014-0160) (나) OpenSSL 1.0.1 ~ OpenSSL 1.0.1f, OpenSSL 1.0.2-beta ~ OpenSSL 1.0.2-beta1 (다) 영향받는 버전을 취약점이 패치된 최신 버전(OpenSSL 1.0.1g 이상)으로 업데이트한다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+              "line": 44,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "9896421a0fd051dd553640855640a6527a8fbd3c89f13a34a0e7014d42446918"
+          },
+          {
+            "id": "R08-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "Linux crontab에 대해 답하시오. (가) cron에 현재 등록된 작업 내용을 보는 명령어, (나) `sis` 계정의 crontab을 편집하는 명령어, (다) 매주 일요일 새벽 3시에 `/home` 하위의 모든 파일과 디렉터리를 삭제하는 crontab 설정을 작성하시오.",
+            "answer": "(가) crontab -l (나) crontab -u sis -e (다) 0 3 * * 0 rm -rf /home/* 1>/dev/null 2>&1",
+            "verification": "source-derived from Information Security Tistory; command requirements restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+              "line": 45,
+              "excerpt": "source-derived from Information Security Tistory; command requirements restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "d273f3e8678a909c5ecc5a5483dc62426590373e1aa71b07b195c7e0995f4259"
+          },
+          {
+            "id": "R08-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "정보보호관리체계(ISMS) 인증에 따라 정보보호 정책을 공표·승인하는 방법을 서술하시오.",
+            "answer": "정보보호 정책의 승인은 이해관계자의 검토를 거쳐 최고경영자의 승인을 받아야 한다. 정책의 공표는 정보보호 정책 문서를 모든 임직원 및 관련자에게 이해하기 쉬운 형태로 전달하여야 한다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+              "line": 46,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "61223d494640dd69e3e15f2f34766b90aa613d04612b5060ced310bca1118f1d"
+          }
+        ]
+      },
+      {
+        "roundId": "R09",
+        "year": "2017",
+        "session": "01",
+        "title": "정보보안기사 실기 9회 2017년 1회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+        "sourceDigest": "038ca4b0d5f1f4426f15255f14a4c3008e3a6940993b3a877a8cfb3dfc42b47f",
+        "items": [
+          {
+            "id": "R09-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "운영체제별로 경로는 다르지만 DNS 정보를 담고 있으며, Windows 7 이상에서는 관리자 외 수정이 제한되는 파일의 이름을 쓰시오.",
+            "answer": "hosts",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+            "sourceLine": 31,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+              "line": 31,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "a97b1a6839fb881a0a5db194a8ca7981d60a32583c8406d8fc71e3cb608be0e9"
+          },
+          {
+            "id": "R09-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "Smurf 공격 과정의 빈칸을 채우시오. 공격자가 희생자 IP로 위조하여 ICMP (A)를 브로드캐스트 주소로 전송한다. 브로드캐스트 범위 내 호스트들이 희생자 IP로 ICMP (B)를 전송한다. 이를 방어하기 위해 라우터에서 (C) 패킷이 포워드되지 않도록 설정한다.",
+            "answer": "A : Echo Request B : Echo Reply C : Directed Broadcast",
+            "verification": "source-derived from Information Security Tistory; prompt process restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+            "sourceLine": 32,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+              "line": 32,
+              "excerpt": "source-derived from Information Security Tistory; prompt process restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "85d7d207ffdb7fa7aa490fde406a317a22511fc5f6c07f03f94c7756f9a0976f"
+          },
+          {
+            "id": "R09-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "버퍼 오버플로우 유형의 빈칸을 채우시오. (A): 스택 영역 버퍼 크기를 초과하는 데이터나 실행 가능한 코드를 넣어 변수나 복귀 주소를 변경해 임의 코드를 실행한다. (B): 힙 영역에서 동적 할당된 버퍼를 초과하는 데이터를 입력해 발생한다.",
+            "answer": "A : 스택 버퍼 오버플로우(Stack Buffer Overflow) B : 힙 버퍼 오버플로우(Heap Buffer Overflow)",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+              "line": 33,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "2709c9ccfd19db533de1e75434d69a959303b22eee1eda322f9fe67b55792f7a"
+          },
+          {
+            "id": "R09-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "Trustwave사가 개발하여 Apache 웹 서버와 IIS에서 사용 가능한 공개용 웹 방화벽(WAF)의 명칭을 쓰시오.",
+            "answer": "ModSecurity",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+              "line": 34,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "4ffb51f0ddc8e9d19f7899a68542ff0ecbf83511fa89e1e0c4edd4b355f87eca"
+          },
+          {
+            "id": "R09-Q05",
+            "number": 5,
+            "type": "essay",
+            "prompt": "단편화된 tcpdump 패킷 정보 `frag 95 : 1480 @ 2920+`에서 `95`, `1480`, `2920`이 의미하는 바를 서술하시오.",
+            "answer": "A : Fragment ID (단편화 식별자) - 같은 원본 패킷에서 분리된 단편임을 나타내는 ID B : Size (단편의 크기) - 해당 단편의 데이터 크기(1480바이트) C : Offset (오프셋) - 원본 패킷에서 해당 단편이 시작되는 위치(2920바이트 지점)",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+              "line": 35,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "97749177e08e127a1c4cfbb4a7d5d50080ce8961007237fe3dfb03ad4190c04e"
+          },
+          {
+            "id": "R09-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "정보통신망법 제23조의2 설명의 빈칸을 채우시오. 제1항제1호: 제23조의3에 따라 (a)으로 지정받은 경우. 제2항: 주민등록번호를 수집·이용할 수 있는 경우에도 주민등록번호를 사용하지 않고 본인을 확인하는 방법인 (b)를 제공해야 한다.",
+            "answer": "a : 본인확인기관 b : 대체수단",
+            "verification": "source-derived from Information Security Tistory; legal text restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+              "line": 36,
+              "excerpt": "source-derived from Information Security Tistory; legal text restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "4b5a3b31434f9149a6a1462e4b99e40626eb6b12b163f66ba2a58da7bb1e99b8"
+          },
+          {
+            "id": "R09-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "SSL/TLS 레코드 프로토콜 처리 순서 `상위 계층 메시지 -> (A) -> (B) -> (C) 추가 -> (D) -> 헤더 추가 -> 하위 계층 전달`의 빈칸을 채우시오.",
+            "answer": "A : 단편화(Fragmentation) B : 압축(Compression) C : MAC(Message Authentication Code) 추가 D : 암호화(Encryption)",
+            "verification": "source-derived from Information Security Tistory; sequence restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+              "line": 37,
+              "excerpt": "source-derived from Information Security Tistory; sequence restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "1e663fa493107cdafd69dde1d660be9dc1923d1cb96ea9b9c00798feefe88a8b"
+          },
+          {
+            "id": "R09-Q08",
+            "number": 8,
+            "type": "essay",
+            "prompt": "정보시스템에 관한 전문 지식을 가진 전문가 집단이 다양한 위협과 취약성을 토론으로 분석하는 위험 분석 기법의 명칭을 쓰시오.",
+            "answer": "델파이법(Delphi Method)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+              "line": 38,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "8ca4a91db60b01e577b95006c1786d9ecc43dd62df7c3cc21072e5de89ce8d68"
+          },
+          {
+            "id": "R09-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "정보보호 시스템 공통평가기준(CC)의 빈칸을 채우시오. (A): 특정 소비자 요구에 부합하는 구현 독립적인 보안 요구사항 집합. (B): 식별된 평가대상의 평가 근거로 사용되는 보안 요구사항과 구현 명세의 집합. (C): 공통평가기준에서 미리 정의된 보증 수준을 가지는 보증 컴포넌트 패키지.",
+            "answer": "A : 보호 프로파일(PP, Protection Profile) B : 보안 목표 명세서(ST, Security Target) C : 평가 보증 등급(EAL, Evaluation Assurance Level)",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+              "line": 39,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "b5bcc41cdc6c668a57b5a8dd55b515052c6fa3ab4e2af4dbcc247beb83b9d5c6"
+          },
+          {
+            "id": "R09-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "위험을 구성하는 4가지 기본 요소를 쓰시오.",
+            "answer": "자산(Asset), 취약성(Vulnerability), 위협(Threat), 정보보호 대책(Countermeasure)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+              "line": 40,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "1297eea0ded12ee6d09085e0fda52d78bbdbb27e1b12b38b2a4337ccfa1bd1c2"
+          },
+          {
+            "id": "R09-Q11",
+            "number": 11,
+            "type": "short",
+            "prompt": "전자서명법에 따라 공인인증서의 효력이 소멸하는 4가지 사유를 쓰시오.",
+            "answer": "(1) 공인인증서의 유효기간이 경과한 경우 (2) 공인인증기관의 지정이 취소된 경우 (3) 공인인증서의 효력이 정지된 경우 (4) 공인인증서가 폐지된 경우",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+              "line": 41,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "60f1ce977e29fa1e60d2294420f7ba29c3650c493d63394d42b1bc5a385f6208"
+          },
+          {
+            "id": "R09-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "xinetd.conf 설정값 `(가) cps = 10 5`, `(나) instances = 50`, `(다) per_source = 10`의 의미를 각각 서술하시오.",
+            "answer": "(가) 초당 연결 개수를 10개로 제한하고, 10개를 초과하면 5초간 해당 서비스의 신규 연결을 제한한다. (나) 동시에 서비스할 수 있는 서버 프로세스 수를 50개로 제한한다. (다) 동일한 출발지 호스트에서 동시에 접속 가능한 수를 10개로 제한한다.",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+              "line": 42,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "42e4d8b5fcf62badac48c50864c769153ee61bad1b6739f3b820aa85a8f447f1"
+          },
+          {
+            "id": "R09-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "유닉스 명령 `ndd -set /dev/ip ip_forward_directed_broadcasts 0`과 `ndd -set /dev/tcp tcp_conn_req_max_q0 512`의 의미와 대응하는 공격을 각각 서술하시오.",
+            "answer": "(1) Directed Broadcast IP 패킷이 포워드되는 것을 차단하는 명령으로, 스머프(Smurf) 공격을 대응한다. (2) TCP 연결 요청 대기 큐(Backlog Queue)의 크기를 512로 설정하는 명령으로, TCP SYN Flooding 공격을 대응한다.",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+              "line": 43,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "ed8ca2b6da5ca0f6bb218027350922d7d7bcba906af7a2d3ff498ac0e8848d37"
+          },
+          {
+            "id": "R09-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "FTP Active Mode에 답하시오. (1) 서버 20번, 21번 포트의 역할, (2) 클라이언트에서 서버 파일 목록이 보이지 않는 이유, (3) 파일 목록이 보이지 않는 문제를 클라이언트 단에서 해결하는 방법을 서술하시오.",
+            "answer": "(1) 21번 포트는 제어 채널로 클라이언트가 서버에 초기 접속하고 명령을 전달한다. 20번 포트는 데이터 채널로 서버가 클라이언트의 지정 포트로 직접 접속하여 데이터를 전송한다. (2) Active Mode에서 데이터 채널 형성 시 서버(20/tcp)에서 클라이언트(1024 이상 tcp)로 접속해야 하는데, 클라이언트 측 방화벽이 해당 인바운드 연결을 차단하여 데이터 채널이 형성되지 않기 때문이다. (3) 클라이언트 방화벽에서 FTP 서버(20/tcp)의 인바운드 연결을 허용하거나, FTP 연결 방식을 수동 모드(Passive Mode)로 변경하여 클라이언트가 서버에 데이터 연결을 요청하도록 한다.",
+            "verification": "source-derived from Information Security Tistory; question prompts restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+              "line": 44,
+              "excerpt": "source-derived from Information Security Tistory; question prompts restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "4303e1333a1e7ea7ca1921696db7c93a658b1814b40592942ddaa29af760f011"
+          },
+          {
+            "id": "R09-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "헬스클럽 회원 가입 신청서에서 발생하는 개인정보보호법 위반 사항 2가지와 개선 방안을 서술하시오.",
+            "answer": "(1) 위반 사항 : 개인의 질병(건강 상태) 등 민감 정보를 수집한다. 개선 방안 : 민감 정보는 원칙적으로 수집을 금지하며, 처리가 불가피한 경우 다른 개인정보와 분리하여 정보주체의 별도 동의를 받아야 한다. (2) 위반 사항 : 법정 대리인의 동의 없이 만 14세 미만 아동의 개인정보를 수집한다. 개선 방안 : 만 14세 미만 아동의 개인정보를 수집할 때는 반드시 법정 대리인의 동의를 받아야 한다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+              "line": 45,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "91511d8c71da8f92dc4a4bf5a0fbbe1f85e4fb9ec77459da41f3bce9d33198ab"
+          },
+          {
+            "id": "R09-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "다수의 출발지 IP가 단일 목적지 IP의 80번 포트로 SYN 패킷을 대량 전송하는 캡처가 확인되었다. 공격명, 서버에서 발생할 수 있는 상황, `iptables -A INPUT -p tcp (가) -m limit (나) (다) DROP`의 빈칸을 채우시오.",
+            "answer": "(1) TCP SYN Flooding 공격 (2) 서버의 TCP 연결 요청 대기 큐(Backlog Queue)가 가득 차서 정상적인 사용자의 연결 요청을 처리하지 못해 서비스 지연 또는 서비스 거부 상태가 발생한다. (3) (가) : --dport 80 (나) : --limit 10/s (다) : -j",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+              "line": 46,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "42b7e6b8de4edaf833e3509d301aa4018ab8c23df5a0a74bb4d7c7c8a2fc0f0e"
+          }
+        ]
+      },
+      {
+        "roundId": "R10",
+        "year": "2017",
+        "session": "02",
+        "title": "정보보안기사 실기 10회 2017년 2회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+        "sourceDigest": "fe7835551a0592f35ce7d528193125564a163639350e41781537b29f971192c3",
+        "items": [
+          {
+            "id": "R10-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "TCP 포트가 닫혀 있을 때만 RST+ACK 응답이 오는 스텔스 스캔 3가지를 쓰시오.",
+            "answer": "NULL Scan, FIN Scan, Xmas Scan",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+            "sourceLine": 31,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+              "line": 31,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "7775ba3a1f6d92916a2750718c01ff8a86c5cfd3e0eed83b07f197652dfb98ee"
+          },
+          {
+            "id": "R10-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "FTP 동작 방식의 빈칸을 채우시오. (A) 모드에서는 클라이언트가 서버의 제어 채널 (B)번 포트로 접속하고, 데이터 채널은 서버의 (C)번 포트에서 클라이언트의 (D)번 이상 임시 포트로 연결된다.",
+            "answer": "A : Active(능동) B : 21 C : 20 D : 1024",
+            "verification": "source image unavailable; prompt reconstructed from answer block",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+            "sourceLine": 32,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+              "line": 32,
+              "excerpt": "source image unavailable; prompt reconstructed from answer block",
+              "status": "source-derived"
+            },
+            "contentDigest": "7e51e806d2865ab1280436805bd702e8a83e501064a48fbac1e8985d1fb15c28"
+          },
+          {
+            "id": "R10-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "오픈소스 도구인 PacketFence와 같이 네트워크 접속 단말의 보안 상태를 점검하고 비인가 단말의 네트워크 접근을 통제하는 보안 솔루션의 명칭을 쓰시오.",
+            "answer": "NAC(Network Access Control)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+              "line": 33,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "d94929611969393e1b0936c842d29d53643e8293aeb00676889f32f3e4e60b6d"
+          },
+          {
+            "id": "R10-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "VLAN 목적의 빈칸을 채우시오. VLAN은 논리적 분리로 (A)을 높이고, 브로드캐스트 도메인의 (B)를 줄이며, 불필요한 브로드캐스트를 줄여 네트워크 (C)을 개선한다.",
+            "answer": "A : 보안 B : 크기(브로드캐스트 도메인 크기) C : 성능",
+            "verification": "source image unavailable; prompt reconstructed from answer block",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+              "line": 34,
+              "excerpt": "source image unavailable; prompt reconstructed from answer block",
+              "status": "source-derived"
+            },
+            "contentDigest": "2371d8351010436b350da194fbb2f0a2f5b752753c3406d8a8583f823be02b6b"
+          },
+          {
+            "id": "R10-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "위험 처리 방법 중 보험이나 외주를 통해 잠재적 손실 비용을 제3자에게 이전하는 방법의 명칭을 쓰시오.",
+            "answer": "위험 전가(Risk Transfer)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+              "line": 35,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "ef4576994bf0297860d28988503f574aeff553e0a9c61bcb9837c569d2f14c36"
+          },
+          {
+            "id": "R10-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "정보통신기반보호법 제8조에 따른 주요정보통신기반시설 지정 고려사항의 빈칸을 채우시오. 해당 시설을 관리하는 기관이 수행하는 업무의 국가사회적 중요성, 다른 정보통신기반시설과의 (A), 다른 기반시설과의 (B), 침해사고 발생 시 복구의 (C) 등을 고려한다.",
+            "answer": "A : 의존도 B : 상호연계성 C : 용이성",
+            "verification": "source image unavailable; prompt reconstructed from answer block",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+              "line": 36,
+              "excerpt": "source image unavailable; prompt reconstructed from answer block",
+              "status": "source-derived"
+            },
+            "contentDigest": "7d93022709b9029e3329cfe138a0fbcf4186a797ca5122a273eb15071135a1f8"
+          },
+          {
+            "id": "R10-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "재해복구 사이트 유형에 관한 설명이다. (A)는 중요도가 높은 정보기술 자원만 부분적으로 사이트에 보유하며 백업 장치나 테이프 등을 구비한다. (B)는 주 센터와 동일한 수준의 정보기술 자원을 사이트에 보유하면서 데이터를 최신 상태로 유지한다. (C)는 컴퓨터실 같은 장소만 확보하고 정보 자원은 확보하지 않은 상태로, 재해 발생 시 정보 자원을 새로 반입한다. 빈칸 (A), (B), (C)를 채우시오.",
+            "answer": "A : 웜 사이트(Warm Site) B : 핫 사이트(Hot Site) C : 콜드 사이트(Cold Site)",
+            "verification": "source-derived from Information Security Tistory; user-provided source image cross-checked",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+              "line": 37,
+              "excerpt": "source-derived from Information Security Tistory; user-provided source image cross-checked",
+              "status": "source-derived"
+            },
+            "contentDigest": "14981e00d1ff42e33ee648df5dc7ca6b23c5e5f3893007f4dc368a307c43b0ae"
+          },
+          {
+            "id": "R10-Q08",
+            "number": 8,
+            "type": "essay",
+            "prompt": "개인정보 안전성 확보조치 기준의 빈칸을 채우시오. (A): 데이터베이스 시스템 등 개인정보를 처리할 수 있도록 체계적으로 구성한 시스템. (B): 정보주체 또는 개인정보취급자 등이 시스템에 접속할 때 식별자와 함께 입력하여 정당한 접속 권한을 가진 자임을 식별할 수 있도록 하는 고유 문자열. (C): 물리적 망분리, 접근통제 시스템 등으로 인터넷 구간 접근이 통제 또는 차단되는 구간.",
+            "answer": "A : 개인정보처리시스템 B : 비밀번호 C : 내부망",
+            "verification": "source-derived from Information Security Tistory; prompt descriptions restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+              "line": 38,
+              "excerpt": "source-derived from Information Security Tistory; prompt descriptions restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "27f565d7b6a3d34df12f5d41a6f6e93b069cda09632c21515f262c887aa0f539"
+          },
+          {
+            "id": "R10-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "정보통신망 이용촉진 및 정보보호 등에 관한 법률 제25조에 따라 개인정보의 처리 위탁 시 공개해야 하는 사항 2가지를 쓰시오.",
+            "answer": "(1) 개인정보 처리 위탁을 받는 자 (2) 개인정보 처리 위탁을 하는 업무의 내용",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+              "line": 39,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "648774ca51eba3983132b86d97288015fbd7bb4c1acd128b9b93b69f7f3fd89b"
+          },
+          {
+            "id": "R10-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "위험 관리 설명의 빈칸을 채우시오. (A)는 위협이 이용할 수 있는 자산의 약점이다. 위험 처리 방법 중 보안 통제를 적용해 위험 수준을 낮추는 것은 위험 (B)이고, 일정 수준 이하의 위험을 받아들이고 진행하는 것은 위험 (C)이다.",
+            "answer": "A : 취약성(Vulnerability) B : 감소(위험 감소) C : 보유(위험 수용)",
+            "verification": "source image unavailable; prompt reconstructed from answer block",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+              "line": 40,
+              "excerpt": "source image unavailable; prompt reconstructed from answer block",
+              "status": "source-derived"
+            },
+            "contentDigest": "6a79906ac0e5cdf6b603854027003a222630772143a04eca7d6da3b63eb09009"
+          },
+          {
+            "id": "R10-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "버퍼 오버플로우 방어 기법에 답하시오. (1) 복귀 주소와 변수/버퍼 사이에 특정 값(Canary)을 저장하는 기법의 개념, (2) 이 기법의 공격 차단 원리, (3) 스택·힙·라이브러리 등 메모리 영역 주소를 실행 시마다 무작위로 배치하는 기법, (4) 이 기법이 버퍼 오버플로우 공격을 어렵게 하는 이유를 서술하시오.",
+            "answer": "(1) 메모리상에서 프로그램의 복귀 주소(Return Address)와 변수/버퍼 사이에 특정 값(Canary)을 저장해두는 기법이다. (2) 버퍼 오버플로우가 발생하면 특정 값(Canary)이 변조되므로 함수 반환 시 해당 값을 확인하여 변조가 감지되면 프로그램 실행을 중단하고 공격을 차단한다. (3) 메모리 공격을 방어하기 위해 스택·힙·라이브러리 등 메모리 영역의 주소를 실행할 때마다 무작위로 배치하는 기법이다. (4) 실행 시마다 메모리 주소가 변경되므로 공격자가 특정 메모리 주소(복귀 주소, 쉘코드 주소 등)를 예측하기 어렵게 만들어 버퍼 오버플로우를 통한 특정 주소 호출을 방지한다.",
+            "verification": "source image unavailable; prompt reconstructed from answer block",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+              "line": 41,
+              "excerpt": "source image unavailable; prompt reconstructed from answer block",
+              "status": "source-derived"
+            },
+            "contentDigest": "890a4a8aee7f366e45c1703234b38107c2006fbf3b83521f5ed04af2d8d6cb83"
+          },
+          {
+            "id": "R10-Q12",
+            "number": 12,
+            "type": "short",
+            "prompt": "정보통신서비스 제공자가 연 1회 이용자에게 통보해야 하는 개인정보 관련 사항 3가지를 쓰시오.",
+            "answer": "(1) 개인정보의 수집·이용 목적 및 수집한 개인정보의 항목 (2) 개인정보를 제공받는 자와 그 제공 목적 및 제공한 개인정보의 항목 (3) 개인정보 처리 위탁을 받은 자 및 그 처리 위탁을 하는 업무의 내용",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+              "line": 42,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "35c170072b4cdee66d592fac25d1b86f3a75293fa50b0ee6129662a8cbca00da"
+          },
+          {
+            "id": "R10-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "`iptables`의 `-j` 옵션 중 `DROP`과 `REJECT`에 대해 답하시오. (1) DROP의 의미, (2) REJECT의 의미, (3) 보안 관점에서 더 적절한 차단 방식과 이유를 서술하시오.",
+            "answer": "(1) DROP : 매치된 패킷을 차단하고 아무런 응답 메시지도 전송하지 않는다. (2) REJECT : 매치된 패킷을 차단하고 출발지에 RST 패킷 또는 ICMP 오류 메시지를 응답으로 전송한다. (3) 보안 관점에서 DROP이 적절하다. REJECT는 ICMP 응답 메시지를 통해 포트 상태 등 시스템 정보가 공격자에게 노출될 수 있으므로, 아무런 응답을 보내지 않는 DROP을 사용하여 공격자에게 정보를 제공하지 않는 것이 보안상 유리하다.",
+            "verification": "source image unavailable; prompt reconstructed from answer block",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+              "line": 43,
+              "excerpt": "source image unavailable; prompt reconstructed from answer block",
+              "status": "source-derived"
+            },
+            "contentDigest": "6ad631438e820997bd1cc340bddc4aecafc1d6c8fc7d08aec5e87d964bb70f45"
+          },
+          {
+            "id": "R10-Q14",
+            "number": 14,
+            "type": "short",
+            "prompt": "다음은 TCP 연결 설정 및 해제 과정이다. 빈칸을 채우시오.",
+            "answer": "A : SYN (000010) B : 344 C : SYN+ACK (010010) D : 677 E : ACK (010000) F : ACK (010000) G : FIN+ACK (010001)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+              "line": 44,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "26b1c03d0fcdd8067c61c5dfcfa9dde0a649792df80826f7a92b141d1fe4ed3e"
+          },
+          {
+            "id": "R10-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "하나의 발신지가 브로드캐스트 주소로 ICMP Echo Request를 전송하는 패킷 캡처를 보고 공격명, 공격 원리, 대응 방법을 서술하시오.",
+            "answer": "(1) 스머프(Smurf) 공격 (2) 공격자는 출발지 IP를 희생자 IP로 위조한 ICMP Echo Request 패킷을 브로드캐스트 주소로 전송한다. 네트워크 내 모든 호스트가 ICMP Echo Reply를 희생자에게 일제히 전송하여 대량의 트래픽이 집중되고 서비스 거부 상태가 발생한다. (3) 라우터에서 외부 네트워크로부터 자신의 네트워크로 들어오는 Directed Broadcast 패킷을 차단한다. (no ip directed-broadcast) 호스트에서 브로드캐스트 주소로 전송된 ICMP Echo Request에 응답하지 않도록 설정한다.",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+              "line": 45,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "d49b886d46d62bc368713c9dbc3214fff34fa00933be99d1babf81e7e8229a94"
+          },
+          {
+            "id": "R10-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "CentOS에서 네트워크 인터페이스가 Promiscuous Mode로 동작하고 있음이 확인되었다. (1) 의심 공격명과 판단 근거, (2) Promiscuous Mode 해제 명령어, (3) 관련 로그 파일 경로를 쓰시오.",
+            "answer": "(1) 스니핑(Sniffing) 공격이다. Promiscuous Mode는 자신을 목적지로 하는 패킷뿐만 아니라 네트워크의 모든 패킷을 수신하므로, 공격자가 스니핑 프로그램을 설치하여 네트워크 트래픽을 도청하기 위해 설정한 것으로 판단된다. (2) ifconfig eth0 -promisc (3) /var/log/messages",
+            "verification": "source image unavailable; prompt reconstructed from answer block",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+              "line": 46,
+              "excerpt": "source image unavailable; prompt reconstructed from answer block",
+              "status": "source-derived"
+            },
+            "contentDigest": "aad46929cecd43acc5cd5c0c5ac502fa4bdf90ae8778cb49f00fe2f220af4247"
+          }
+        ]
+      },
+      {
+        "roundId": "R11",
+        "year": "2018",
+        "session": "01",
+        "title": "정보보안기사 실기 11회 2018년 1회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+        "sourceDigest": "95db8bdab206d4e5f32013b09588381dff9a5db55f2ddcbd7952d04c8a5b3770",
+        "items": [
+          {
+            "id": "R11-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "Windows에서 하나 이상의 볼륨을 암호화하고, TPM을 사용해 초기 시작 구성 요소의 무결성을 검사하는 암호화 기능의 명칭을 쓰시오.",
+            "answer": "BitLocker",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+            "sourceLine": 31,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+              "line": 31,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "3f005b682a9cfb54e93bb6a2d8ca298f8287800adc9afc898e65408d78ddced8"
+          },
+          {
+            "id": "R11-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "데이터베이스 보안 접근 통제 방법의 빈칸을 채우시오. (A): 인증된 사용자에게 허가된 범위 내에서 시스템 내부 정보 접근을 허용하는 기술적 방법. (B): 사용자가 찾는 통계 함수 관계를 통해 키 값을 유도하는 것으로 간접 접근을 통한 추론과 상관 데이터로 정보를 찾는 것을 통제하는 방법. (C): 보안 등급이 높은 객체에서 낮은 객체로의 정보 흐름을 제어하는 방법.",
+            "answer": "A : 접근 통제 B : 추론 통제 C : 흐름 통제",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+            "sourceLine": 32,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+              "line": 32,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "1b84376124c38b72a00d24ce4f72fc614a892803ac045481ebfb8412972892c1"
+          },
+          {
+            "id": "R11-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "VPN 보안 프로토콜의 빈칸을 채우시오. (A): 3계층 보안 프로토콜로 VPN에서 가장 많이 사용되는 프로토콜. (B): (A)에서 데이터 무결성 보장과 메시지 인증을 위한 세부 프로토콜. (C): (A)에서 암호화를 통해 기밀성을 유지하기 위한 세부 프로토콜.",
+            "answer": "A : IPSec B : AH(Authentication Header) C : ESP(Encapsulating Security Payload)",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+              "line": 33,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "eb71a9df1ab4167b87475caf747528afb99ce391b1a1f9c423fcc5092356efaf"
+          },
+          {
+            "id": "R11-Q04",
+            "number": 4,
+            "type": "essay",
+            "prompt": "DNS 서버 `192.168.1.18`의 `named.conf`에서 2차 DNS 서버 `192.168.10.3`의 Zone Transfer를 허용하도록 `options { directory \"/var/named\"; forward only; forwarders { 8.8.8.8; }; datasize 1024M; (빈칸); };`의 빈칸 설정을 작성하시오.",
+            "answer": "allow-transfer { 192.168.10.3; };",
+            "verification": "source-derived from Information Security Tistory; config context restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+              "line": 34,
+              "excerpt": "source-derived from Information Security Tistory; config context restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "a485da3e46b2014f45536e427e6f95fe4ddea23eb48d759d52bc9a41315ee96b"
+          },
+          {
+            "id": "R11-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "HTTP 헤더의 CRLF 필드를 조작해 조작된 HTTP 헤더를 지속적으로 전송하고 연결을 장시간 유지하여 서비스 가용성을 저하시키는 공격의 명칭을 쓰시오.",
+            "answer": "Slow HTTP Header DoS(Slowloris)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+              "line": 35,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "fc80f7477e818b79a0c41f80f4dbacae97e4bbd91fb7ca0428b9aa706f8afeef"
+          },
+          {
+            "id": "R11-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "개인정보보호법에 따른 영상정보처리기기 설치 시 안내문에 포함해야 하는 사항이다. 빈칸 (A)를 채우시오.",
+            "answer": "A : 설치 장소 및 목적",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+              "line": 36,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "55edfc2e71418d9c503328100020e52740e5142c2513d7acfb16c1b667fa6697"
+          },
+          {
+            "id": "R11-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "SNMP 설명의 빈칸을 채우시오. (1) 매니저가 에이전트로 Request하는 포트 번호: UDP (A). (2) 에이전트가 매니저로 주기적으로 보고하는 과정: (B). (3) 에이전트가 매니저로 보고하는 포트 번호: UDP (C).",
+            "answer": "A : 161 B : 이벤트 리포팅(Event Reporting) C : 162",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+              "line": 37,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "466f561304f9931007f3b0fbc43d00c5fd82ced925821758f8e7b0b2e26b981e"
+          },
+          {
+            "id": "R11-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "개인정보의 안전성 확보조치 기준 제5조 접근 권한의 관리 및 접속기록 보관·점검 기준의 빈칸을 채우시오. 접근권한 부여·말소 등의 기록을 최소 (A)년간 보관하고, 접속기록의 위·변조·훼손 대응을 위해 월 (B)회 이상 점검하며, 개인정보처리시스템 접속기록을 최소 (C)년 이상 보관해야 한다.",
+            "answer": "A : 3 B : 1 C : 1",
+            "verification": "source-derived from Information Security Tistory; PDF compilation cross-check corrected 2026-07-06",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+              "line": 38,
+              "excerpt": "source-derived from Information Security Tistory; PDF compilation cross-check corrected 2026-07-06",
+              "status": "source-derived"
+            },
+            "contentDigest": "a36de4fe1304a5381c22675dd4a3dd74ab08dee59543b4b1f9018b31530e5b9b"
+          },
+          {
+            "id": "R11-Q09",
+            "number": 9,
+            "type": "essay",
+            "prompt": "위험 분석 계산식 `SLE = AV × (A)`, `ALE = SLE × (B)`의 빈칸을 채우시오.",
+            "answer": "A : EF(노출 계수, Exposure Factor) B : ARO(연간 발생률, Annual Rate of Occurrence)",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+              "line": 39,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "a153bc04a1990fc6ee84c6af26bf73a424fc56e160de7906b002424d9dd7612c"
+          },
+          {
+            "id": "R11-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "공격자가 소프트웨어 빌드 단계 관련 서버를 침해한 뒤 악성코드를 삽입해, 개발사의 제품 패키징 과정에서 정상 파일에 악성 모듈이 포함되어 배포되도록 하는 공격의 명칭을 쓰시오.",
+            "answer": "공급망 공격(Supply Chain Attack)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+              "line": 40,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "6537ad4ec1ad0024c8a5c4081865537c65772cdb936b4077e656be86d22ea32a"
+          },
+          {
+            "id": "R11-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "포트 스캔 과정을 분석하여 답하시오. 가) `A -> (TCP 25) SYN -> B`, `A <- (TCP 25) SYN/ACK <- B`, `A -> (TCP 25) RST -> B`. 나) `A -> (TCP 443) SYN -> B`, `A <- (TCP 443) RST <- B`. 다) `A -> (TCP 110) SYN -> B`, 응답 없음. (1) 포트 스캔 방식, (2) 각 포트의 서비스명, (3) 각 포트 스캔 결과와 근거를 서술하시오.",
+            "answer": "(1) TCP Half-Open Scan(TCP SYN 스캔) (2) 25번 : SMTP, 443번 : HTTPS, 110번 : POP3 (3) 가) B가 SYN/ACK를 응답하였으므로 25번 포트는 열려 있는 상태이다. A가 RST를 전송하여 연결을 완성하지 않는 스텔스 스캔 기법이다. 나) B가 RST를 응답하였으므로 443번 포트는 닫혀 있는 상태이다. 다) 응답이 없으므로 110번 포트는 방화벽 등에 의해 차단된 상태이다.",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+              "line": 41,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "384d0f8bb2bfaf14d01be4401eb8bba2bdd0928503d003d6d9b599724706897c"
+          },
+          {
+            "id": "R11-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "쇼핑몰 개인정보취급자에게 적용해야 하는 비밀번호 작성 규칙 3가지를 서술하시오.",
+            "answer": "(1) 영문·숫자·특수문자 중 2종류 이상을 조합하여 최소 10자리 이상 또는 3종류 이상을 조합하여 최소 8자리 이상의 길이로 구성한다. (2) 연속적인 숫자, 생년월일, 전화번호 등 추측하기 쉬운 개인정보 및 아이디와 유사한 비밀번호는 사용하지 않도록 권고한다. (3) 비밀번호에 유효기간을 설정하여 반기별 1회 이상 변경한다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+              "line": 42,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "9183a5eb48c9fba731644153f609af0a94f626134d77a140e6fcf93eb89a3723"
+          },
+          {
+            "id": "R11-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "여행사 개인정보 이용 약관 동의서에서 법규에 어긋나는 부분 3가지를 찾으시오. 약관에는 수집·이용 목적이 `여행자 멤버십 등록 및 이벤트 업체 정보 제공`, 보유·이용기간이 `멤버십 탈퇴 시까지`, 수집 항목이 `성명, 생년월일, 주민등록번호, 주소, 이메일, 전화번호`, 안내 문구가 `동의를 거부하실 수 있습니다.`로 제시되어 있다.",
+            "answer": "(1) 이벤트 업체에 개인정보를 제공하는 것은 제3자 제공에 해당하므로 별도의 동의를 받아야 하며, 제공 항목·목적·기간 등을 별도로 안내해야 한다. (2) 멤버십 등록 목적으로 주민등록번호를 수집하는 것은 법적 근거가 없는 과도한 수집이며, 정당한 근거가 있더라도 별도 동의를 받아야 한다. (3) 동의 거부 권리를 안내할 때 동의 거부에 따른 불이익도 함께 안내해야 한다.",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+              "line": 43,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "6cefb156cf56e4ca1ad20f43ad3cc3594eb762afacf13c9ac59cf6bf4d856cd6"
+          },
+          {
+            "id": "R11-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "공격자가 `view.php`의 `no` 파라미터에 `union select`와 `substr(database(),0,1)='t'` 조건을 포함한 URL을 입력했더니 화면에 `1`이 출력되었다. 공격 명칭, 공격자가 알 수 있는 정보, HTML 출력만 숨기는 조치의 한계와 올바른 대응 방안을 서술하시오.",
+            "answer": "(1) Blind SQL Injection (2) 데이터베이스 명을 파악할 수 있다. 위 공격을 통해 데이터베이스 첫 글자가 't'임을 확인할 수 있으며, 유사한 공격을 반복하여 전체 데이터베이스 이름을 알아낼 수 있다. (3) HTML 수정으로 특정 출력 필드를 숨기더라도 SQL Injection이 동작하는 한 다른 페이지에도 동일한 공격이 가능하며, 출력이 차단되더라도 악의적인 쿼리가 내부적으로 실행되는 것은 막을 수 없다. HTML 수정이 아닌 Prepared Statement(준비된 구문)를 이용하여 SQL Injection 공격을 원천 차단해야 한다.",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+              "line": 44,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "2206c7ab3cf9e520f5c7f1de9d11b832761d7f4145213ec3abed6efdbcd31ba8"
+          },
+          {
+            "id": "R11-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "조건에 맞는 Snort 룰을 작성하시오. (1) 텔넷 서비스 기본 포트 23번을 대상으로 한다. (2) 탐지 시 alert를 발생시키고 이벤트명은 `Dangerous`로 설정한다. (3) 첫 번째 바이트부터 14번째 바이트 범위 내에 `anonymous` 문자열 패턴이 있는지 검사한다.",
+            "answer": "alert tcp any any -> any 23 (msg:\"Dangerous\"; content:\"anonymous\"; depth:14;)",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+              "line": 45,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "13e265da8a07fdd9945ae30f7baf2e954218b52c2ab54ceb2b6a6251d47effcc"
+          }
+        ]
+      },
+      {
+        "roundId": "R12",
+        "year": "2018",
+        "session": "02",
+        "title": "정보보안기사 실기 12회 2018년 2회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+        "sourceDigest": "01047defae6b9a86c2f2bfebf33106a7f8094b7024a0a6b1b6f120bd0eacbfbd",
+        "items": [
+          {
+            "id": "R12-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "악성코드와 광고의 합성어로, 온라인 광고 네트워크를 이용해 정상 광고처럼 위장하고 사용자가 클릭하거나 광고가 로드될 때 악성코드를 전파하는 공격 기법의 명칭을 쓰시오.",
+            "answer": "Malvertising(멀버타이징)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+            "sourceLine": 31,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+              "line": 31,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "b1534e1413c9beaa66c959a9fb1dee1c4793ea300d1bb67418ccfdb810534301"
+          },
+          {
+            "id": "R12-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "IPSec은 OSI 7 Layer 중 (A) 계층에 보안성을 제공하는 표준화된 보안 프로토콜로 두 가지 세부 프로토콜을 가지고 있다. (B) 프로토콜은 송신자 인증과 무결성을 보장하며 프로토콜 식별번호 51번을 사용한다. (C) 프로토콜은 송신처 인증, 무결성, 기밀성을 보장하며 프로토콜 식별번호 50번을 사용한다. 빈칸 (A), (B), (C)를 채우시오.",
+            "answer": "A : 네트워크 계층(3계층) B : AH(Authentication Header) C : ESP(Encapsulating Security Payload)",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+            "sourceLine": 32,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+              "line": 32,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "86572453e80fce1f79b19c29fc2aa352b1fde53f9cd15c8b93766db76fc7c1ef"
+          },
+          {
+            "id": "R12-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "HTTP Request의 파라미터가 HTTP Response 응답 헤더로 다시 전달될 때, 파라미터 내에 개행문자 (A) 혹은 (B)가 존재하면 HTTP 응답이 여러 개로 분리될 수 있다. 이 취약점을 통해 응답 메시지에 악의적인 코드를 주입하여 XSS 및 캐시 훼손을 유발하는 공격이다. 빈칸 (A), (B)를 채우시오.",
+            "answer": "A : CR(%0D) B : LF(%0A)",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+              "line": 33,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "a4a486f04359d27d92c6e8f609ed8502c86ea79c737a812cc8cd1c6aa353d043"
+          },
+          {
+            "id": "R12-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "데이터베이스 보안 위협에 관한 설명이다. (A)는 낮은 보안 등급의 정보를 조각별로 조합하여 높은 등급의 정보를 알아내는 방식이다. (B)는 접근 가능한 정당한 사용자 계정으로 수집한 정보를 통해 유추하여 높은 보안 등급의 정보에 접근하는 방식이다. (C)는 원본 정보를 위·변조하여 끼워 넣거나 바꿔치기하는 수법으로, 디스크 측에 대체할 자료를 만들어 두었다가 데이터를 추가하는 방식이다. 빈칸 (A), (B), (C)를 채우시오.",
+            "answer": "A : 집성(Aggregation) B : 추론(Inference) C : 데이터 디들링(Data Diddling)",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+              "line": 34,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "517823a2918e1e89eb208277de683912a889f9fbd45fc73ac53617675a6d111e"
+          },
+          {
+            "id": "R12-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "logrotate 설정 파일의 각 옵션에 관한 설명이다. (A)는 주 단위로 로그 파일을 순환한다. `size 1M`은 로그 파일이 1MB가 되면 순환한다. (B)는 오래된 로그를 순환한 후 새로운 로그 파일을 생성한다. (C)는 로그를 압축하여 저장한다. 빈칸 (A), (B), (C)를 채우시오.",
+            "answer": "A : weekly B : create C : compress",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+              "line": 35,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "65ddc037e99efb72927cc85cc671db2fc978081cac88c4835f1aaea7bb130e5c"
+          },
+          {
+            "id": "R12-Q06",
+            "number": 6,
+            "type": "essay",
+            "prompt": "클라우드 서비스 유형 3가지를 명칭과 함께 서술하시오.",
+            "answer": "IaaS(Infrastructure as a Service) : 서버, 저장장치, 네트워크 등의 인프라 자원을 서비스 형태로 제공한다. PaaS(Platform as a Service) : 응용 프로그램 개발·배포·운영·관리 등을 위한 플랫폼 환경을 서비스 형태로 제공한다. SaaS(Software as a Service) : 응용 프로그램 소프트웨어를 서비스 형태로 제공한다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+              "line": 36,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "8e22cbc28ef7ebca07b1f306cc5d1ab922520e057f683d302263d5e54d15751c"
+          },
+          {
+            "id": "R12-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "개인정보보호법상 \"접속기록\"이란 개인정보취급자 등이 (A)에 접속한 사실을 알 수 있는 계정, 접속일시, 접속자 정보, (B) 등을 (C)으로 기록한 것을 말한다. 빈칸 (A), (B), (C)를 채우시오.",
+            "answer": "A : 개인정보처리 시스템 B : 수행업무 C : 전자적",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+              "line": 37,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "b2c46b466414370109c014b7513074f31afe245a087168bce3f6a481c7619dd2"
+          },
+          {
+            "id": "R12-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "위험의 구성 요소를 포함하는 식 `위험 = (A) × (B) × (C) - 정보보호 대책`에서 빈칸 (A), (B), (C)를 채우시오.",
+            "answer": "A : 자산(Asset) B : 위협(Threat) C : 취약성(Vulnerability)",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+              "line": 38,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "bd271cf45571f8c5cef7da54268fe8b1462d97ece9f6cbdc5945834ae71e6ae5"
+          },
+          {
+            "id": "R12-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "CC(공통 평가 기준) 구성 요소에 관한 설명이다. (A)는 보증 요구에 관련된 컴포넌트의 집합으로 구성된 패키지의 일종으로 미리 정의된 보증 수준을 나타낸다. (B)는 특정 소비자의 요구에 부합하는 구현에 독립적인 보안 요구사항의 집합이다. (C)는 식별된 평가대상의 평가를 위한 보안 요구사항과 구현 명세의 집합이다. 빈칸 (A), (B), (C)를 채우시오.",
+            "answer": "A : EAL(Evaluation Assurance Level, 평가 보증 등급) B : PP(Protection Profile, 보호 프로파일) C : ST(Security Target, 보안 목표 명세서)",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+              "line": 39,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "8356418fa705d5cf53026b89363100d628422aa3b8e4353586591adb696e473b"
+          },
+          {
+            "id": "R12-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "재난 복구 시스템 유형에 관한 설명이다. (A)는 주 센터와 동일한 수준의 정보기술 자원을 실시간 Active-Active 상태로 운영하는 방식이다. (B)는 장소 또는 전산실만 준비하며 비용이 저렴하지만 복구에 상당한 지연이 발생하는 방식이다. (C)는 (A)와 달리 동일한 수준의 자원을 보유하되 Stand-by 상태로 유지하는 방식이다. (D)는 (B)와 (C)의 중간 수준으로 중요도가 높은 정보기술 자원만 부분적으로 보유하는 방식이다. 빈칸 (A), (B), (C), (D)를 채우시오.",
+            "answer": "A : 미러 사이트(Mirror Site) B : 콜드 사이트(Cold Site) C : 핫 사이트(Hot Site) D : 웜 사이트(Warm Site)",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+              "line": 40,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "df59de01b4e387723c37c4dc4140ada63ef23d09701fa978c18765bc5ca06f1e"
+          },
+          {
+            "id": "R12-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "서버 기반 논리적 망분리 기술 중 인터넷망 가상화와 업무망 가상화의 장점을 각각 2가지 이상 서술하시오.",
+            "answer": "인터넷망 가상화 장점 : 가상화된 인터넷 환경을 제공하여 악성코드 감염을 최소화할 수 있다. 인터넷 환경이 악성코드에 감염되거나 해킹을 당해도 업무 환경은 안전하게 유지할 수 있다. 업무망 가상화 장점 : 가상화 서버 환경에 업무 데이터가 저장되므로 중앙 관리 및 백업이 용이하고 내부 정보 유출을 방지할 수 있다. 사용자 통제 및 관리 정책을 일괄 적용할 수 있다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+              "line": 41,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "cf9d33ed0bbeb58771093b0bd402f705d9090b91943012bb877c0d9f6900870d"
+          },
+          {
+            "id": "R12-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "신규 도입된 보안 장비의 계정 관리 취약점 측면에서 조치해야 할 사항 4가지 이상을 서술하시오.",
+            "answer": "(1) 기본 관리자 계정 변경 : 보안 장비에 기본 설정된 관리자 계정(default account)을 다른 계정명으로 변경한다. (2) 관리자 계정 패스워드 변경 : 기본 설정된 관리자 계정의 패스워드를 복잡도 규칙에 맞는 강력한 패스워드로 변경한다. (3) 계정별 권한 설정 : 등록된 계정별로 업무에 필요한 최소한의 권한만 부여한다. (4) 불필요한 계정 제거 : 사용하지 않거나 퇴직 등으로 불필요해진 계정을 제거하거나 비활성화한다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+              "line": 42,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "6ce57b9d4702bcf88d3d7f4f39dde28c94351e8227793c90ae0ce8a2d3613900"
+          },
+          {
+            "id": "R12-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "HTTP GET Flooding 탐지 Snort 룰 `alert tcp any any -> any 80 (msg:\"HTTP Get Flooding Detect\"; content:\"GET / HTTP1.\"; (); nocase; threshold:type threshold, track by_src, count 10, seconds 1; sid:1000999)`을 보고, 차단 및 로그 action 2가지, content 문자열을 첫 13바이트 범위에서 검사하는 옵션, threshold 이벤트 발생 기준을 답하시오.",
+            "answer": "(1) drop, reject (2) depth:13 (3) 출발지 IP를 기준으로 매 1초 동안 10번째 이벤트마다 alert 액션을 수행한다.",
+            "verification": "source-derived from Information Security Tistory; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+              "line": 43,
+              "excerpt": "source-derived from Information Security Tistory; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "31b88e0a5748dd08b2b106ee4cbd952dad2c47593cc16030a3367313d6546423"
+          },
+          {
+            "id": "R12-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "리눅스 명령어에 관한 물음에 답하시오. (1) 최근 로그인한 사용자 기록을 확인하는 명령어를 쓰시오. (2) 파일의 특수 속성(immutable, append only 등)을 확인하는 명령어를 쓰시오. (3) root 권한으로도 삭제되지 않는 파일의 불변(immutable) 속성을 해제하는 명령어를 쓰시오.",
+            "answer": "(1) last (2) lsattr (3) chattr -i 파일명",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+              "line": 44,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "730dcd3a4e7a0438e2c0c557f8ac6d31f4cabcb0c3b9864d733b246e84e1f100"
+          },
+          {
+            "id": "R12-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "NTP 취약점을 이용한 DDoS 공격 대응 방안이다. 다음 각 항목의 의미를 서술하시오. (1) `ntp -version` (2) `disable monlist` (3) `ntpdc -c monlist [점검 대상 NTP 서버 IP]` (4) `iptables -A OUTPUT -p udp --sport 123 -m length --length 100 -j DROP`",
+            "answer": "(1) NTP 데몬의 버전을 확인하여 monlist 기능이 비활성화된 최신 버전으로 업그레이드한다. (2) NTP 데몬의 monlist 기능을 비활성화한다. (3) 점검 대상 NTP 서버가 monlist 명령을 허용하는지 여부를 점검한다. (4) NTP 서버의 iptables를 이용하여 100바이트 이상의 NTP 응답 패킷을 차단한다.",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+              "line": 45,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "53e9edc885aa9eb13f1ee0a0d994fdf0f59600ec7d530b63e593513741fa055b"
+          },
+          {
+            "id": "R12-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "개인정보 파일에서 최소한 암호화가 필요한 항목 (A)과 대상별 암호화 알고리즘 (B)을 서술하시오.",
+            "answer": "(A) 암호화 필요 항목 : 비밀번호, 주민등록번호, 여권번호, 신용카드번호 (B) 비밀번호 : 복호화가 불가능하도록 안전한 일방향 해시 알고리즘을 사용한다. SHA-224/256/384/512 등을 사용하며, 레인보우 테이블 공격 방어를 위해 Salt 및 반복 횟수를 추가하여 암호 강도를 높인다. 주민등록번호·여권번호·신용카드번호 : 안전한 대칭키 암호화 알고리즘을 사용한다. 국내 알고리즘으로 SEED, ARIA-128/192/256이 있으며, 국제 표준으로 AES-128/192/256 등이 있다. 공개키 암호화 알고리즘을 사용하는 경우 키 길이 2048비트 이상의 RSA 등을 사용한다.",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+              "line": 46,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "077bec9895212e0bc37e4323917d7e29c5f87a07e7078187eb0e663bc2894423"
+          }
+        ]
+      },
+      {
+        "roundId": "R13",
+        "year": "2019",
+        "session": "01",
+        "title": "정보보안기사 실기 13회 2019년 1회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+        "sourceDigest": "3e6c7d36afb6989fed8d21507125a20c67355e793b1d8257c111457262700537",
+        "items": [
+          {
+            "id": "R13-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "공격자가 위조 ARP Reply를 희생자에게 지속 전송해 ARP 캐시 테이블을 변조하고, 희생자 패킷이 공격자에게 전달되도록 만들어 트래픽을 도청하는 네트워크 공격 기법의 명칭을 쓰시오.",
+            "answer": "ARP Spoofing(ARP 스푸핑)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+            "sourceLine": 31,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+              "line": 31,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "c0b10466a51e6f2780239091cd82f9749bb78a68f7d3ce9fcdbedb0ebf9f076d"
+          },
+          {
+            "id": "R13-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "취약점·침해 요인과 대응 방안 정보를 제공하고 침해사고 발생 시 실시간 경보·분석 체계를 운영하며, 금융·통신 등 분야별 정보통신기반시설 보호를 위해 구축·운영되는 조직의 명칭과 영문 약어를 쓰시오.",
+            "answer": "ISAC(Information Sharing and Analysis Center, 정보공유·분석센터)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+            "sourceLine": 32,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+              "line": 32,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "d891e9df18de3256b34328139ccd383919e8aa41f4d1a08827a183b9ac780519"
+          },
+          {
+            "id": "R13-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "침입 탐지 방식에는 미리 정의된 패턴과 일치하는 경우 탐지하는 (1) 방식과, 정상적인 행위 패턴에서 벗어난 이상 행위를 감지하는 (2) 방식이 있다. 정상 패턴을 침입으로 잘못 판단하는 경우를 (3)이라 한다. 빈칸 (1), (2), (3)을 채우시오.",
+            "answer": "(1) 패턴 기반 탐지(Misuse Detection / 오용 탐지) (2) 행위 기반 침입 탐지(Anomaly Detection / 이상 탐지) (3) 오탐(False Positive)",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+              "line": 33,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "c41675598f9cd41033832004e016725c90d4f601ea9e9d5ed09180a2d67c867f"
+          },
+          {
+            "id": "R13-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "대규모 데이터 저장소의 부하를 줄이기 위해 데이터를 캐시에 저장하는 도구로, 인터넷에 노출되고 권한 설정이 없으면 대규모 DDoS 증폭 공격 수단으로 악용될 수 있는 서비스의 명칭을 쓰시오.",
+            "answer": "Memcached(멤캐시드)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+              "line": 34,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "42d461d875ab8b45b0fb947289dda5b019aac37f7aff118a573104fa904472ff"
+          },
+          {
+            "id": "R13-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "리눅스 `/etc` 디렉토리에 위치하며 패스워드 사용기간 만료, 패스워드 최대 사용기간, 패스워드 최소 변경기간 등 패스워드 정책을 설정할 수 있는 파일의 명칭을 쓰시오.",
+            "answer": "login.defs",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+              "line": 35,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "4839f50b838b91c8e31851d384b9ed3aa3f715580e228b505c65145af1f3f6e5"
+          },
+          {
+            "id": "R13-Q06",
+            "number": 6,
+            "type": "essay",
+            "prompt": "웹 애플리케이션 취약점 분석 방법에 관한 설명이다. (ㄱ)은 분석 도구를 사용하여 외부 인터페이스만 살피는 방법으로, 내부 코드 구조를 모르는 상태에서 외부 입력·출력을 분석한다. (ㄴ)은 코드를 직접 확인하고 실행하여 분석하는 방법으로, 소스 코드에 직접 접근하여 취약점을 분석한다. 빈칸 (ㄱ), (ㄴ)을 채우시오.",
+            "answer": "ㄱ : 블랙박스 테스트(Black Box Test) ㄴ : 화이트박스 테스트(White Box Test)",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+              "line": 36,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "b22381562290f4c017fb66b7691576b557060b4a477593ac8296e59d77bec8cf"
+          },
+          {
+            "id": "R13-Q07",
+            "number": 7,
+            "type": "essay",
+            "prompt": "정성적 위험 분석 방법론에 관한 설명이다. (ㄱ)은 미지의 사건을 확률적 분포를 이용하여 최저·보통·최고의 위험 평가를 예측하는 방법이다. (ㄴ)은 전문가 집단을 구성하여 다양한 위험과 취약점을 토론을 통해 분석하는 방법이다. 빈칸 (ㄱ), (ㄴ)을 채우시오.",
+            "answer": "ㄱ : 확률 분포법 ㄴ : 델파이법(Delphi Method)",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+              "line": 37,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "4980f3d192c70736c4b0e30b4b713abc5f7d6c5cd1a695a848519807ffcb20fd"
+          },
+          {
+            "id": "R13-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "어떤 기업이 위험에 대한 대응 전략으로 보험에 가입하는 방법을 선택하였다. 이는 어떤 위험 대응 전략인지 쓰시오.",
+            "answer": "위험 전가(Risk Transfer)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+              "line": 38,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "af775949837da65077ead3f6b7f8fbf15f83121af1419ff0ba48d346e6e3146b"
+          },
+          {
+            "id": "R13-Q09",
+            "number": 9,
+            "type": "essay",
+            "prompt": "보호 기준 수준을 정하고 모든 조직에서 기본적으로 필요한 보호대책을 선택하는 방식으로, 적정 보안 수준보다 높거나 낮은 보안 통제가 적용될 수 있는 위험 분석 기법의 명칭을 쓰시오.",
+            "answer": "베이스라인 접근법(Baseline Approach)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+              "line": 39,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "9302affc68bbf59a3f7d23396527edd98a30dea040172d40488493ff20f2085d"
+          },
+          {
+            "id": "R13-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "주요 재난과 컴퓨터 시스템 장애에 대한 서비스 복구 계획을 포함하고, 비즈니스 운영 위험에 대응해 리스크를 최소화하며 신뢰와 안정을 위한 계획을 수립하는 업무 연속성 관련 계획의 명칭과 영문 약어를 쓰시오.",
+            "answer": "BCP(Business Continuity Plan, 업무 연속성 계획)",
+            "verification": "source-derived from Information Security Tistory; answer block present",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+              "line": 40,
+              "excerpt": "source-derived from Information Security Tistory; answer block present",
+              "status": "source-derived"
+            },
+            "contentDigest": "e9d8de6fb1c237f900dbc02df9e1e6ba5e68d2858a66c581d0eefcfd1775dc65"
+          },
+          {
+            "id": "R13-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "Apache `.htaccess` 설정의 의미를 각각 서술하시오. (1) `<FilesMatch \"\\.(php|inc|lib)\"> order allow, deny; deny from all; </FilesMatch>` (2) `AddType text/html .html .php .htm .php3 .php4 .phtml .phps .inc .cgi .pl .shtml .jsp`",
+            "answer": "(1) FilesMatch 지시자를 이용하여 .php, .inc, .lib 확장자를 가진 서버 사이드 스크립트 파일에 대한 직접 URL 호출을 금지한다. 업로드된 악성 스크립트의 직접 실행을 방지하는 목적이다. (2) AddType 지시자를 이용하여 서버 사이드 스크립트 확장자를 text/html MIME 타입으로 재지정하여 해당 파일이 서버에서 실행되지 않고 HTML 텍스트로 처리되도록 함으로써 업로드된 스크립트의 실행을 방지한다.",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+              "line": 41,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "8787f8b9d020eca1a81f9388b30a0d9c648057a4e5e14dd061be4b9de43c29ce"
+          },
+          {
+            "id": "R13-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "IPS는 내부망 진입 지점에서 실시간으로 패킷을 분석하는 인라인 방식으로 구성되고, IDS는 포트 미러링 방식으로 패킷 복사본을 분석한다. 각각 이러한 방식으로 배치하는 이유를 서술하시오.",
+            "answer": "IPS는 실시간 차단을 목적으로 하므로 인라인 방식으로 네트워크 경로에 직접 배치되어야 하며, 외부의 악의적 침입을 즉시 차단하기 위해 내부·외부의 접점에 위치한다. 반면 IDS는 포트 미러링 방식으로 업무 데이터 흐름에 영향을 주지 않고 패킷을 복사하여 분석하므로 네트워크 장애 없이 침입을 탐지할 수 있다. IPS를 내부망에 배치하면 오탐으로 인한 정상 트래픽 차단으로 네트워크 장애가 발생할 수 있으므로 내부망에는 IDS를 배치하는 것이 적합하다.",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+              "line": 42,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "7512802dd81047012908b6594f4d384588b948afbe1cb77ff30b45ac6e74bb80"
+          },
+          {
+            "id": "R13-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "IPSec의 AH와 ESP 프로토콜에 관한 물음에 답하시오. (1) AH 전송 모드와 터널 모드의 인증 구간과 암호화 구간을 서술하시오. (2) ESP 전송 모드와 터널 모드의 인증 구간과 암호화 구간을 서술하시오. (3) IPSec에서 사용하는 키 교환 프로토콜명을 쓰시오.",
+            "answer": "(1) AH 전송 모드 : 인증 구간 — IP 헤더의 변경 가능 필드를 제외한 전체 패킷 / 암호화 — 미지원 터널 모드 : 인증 구간 — New IP 헤더의 변경 가능 필드를 제외한 전체 패킷 / 암호화 — 미지원 (2) ESP 전송 모드 : 인증 구간 — ESP 헤더~ESP 트레일러 / 암호화 구간 — IP 페이로드~ESP 트레일러 터널 모드 : 인증 구간 — ESP 헤더~ESP 트레일러 / 암호화 구간 — 원본 IP 헤더~ESP 트레일러 (3) IKE(Internet Key Exchange) 프로토콜",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+              "line": 43,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "eb6cd38f859381ec40d0cf7735bbeb91f94739372312b94cd1afe3cbffc46212"
+          },
+          {
+            "id": "R13-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "다음 Snort 룰의 각 항목 의미를 서술하시오. `alert tcp any any <> any [443,465,523] (content:\"|18 03 00|\"; depth:3; content:\"|01|\"; distance:2; within:1; content:!\"|00|\"; within:1; msg:\"SSLv3 Malicious Heartbleed Request V2\"; sid:1;)`",
+            "answer": "(1) 탐지 대상 포트를 443, 465, 523으로 지정한다. (2) 페이로드의 첫 3바이트 내에서 바이너리 값 18 03 00이 있는지 검사한다. (3) (2)가 끝난 위치에서 2바이트 떨어진 위치부터 1바이트를 검사하여 바이너리 값 01이 있는지 검사한다. (4) (3)이 끝난 위치에서 바로 1바이트를 검사하여 바이너리 값 00이 없는지 여부를 검사한다. (5) (1)~(4)의 탐지 룰에 모두 매칭되는 경우 로그에 \"SSLv3 Malicious Heartbleed Request V2\"로 기록한다. (6) 해당 룰의 식별자(sid)를 1로 지정한다.",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+              "line": 44,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "503c20db16a6ec1c65d4dcfc5c91476251d79ecc475f746e5afb75d6019202e3"
+          },
+          {
+            "id": "R13-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "`robots.txt`의 개념을 서술하고 다음 설정의 의미를 각각 서술하시오. `User-agent: yeti`, `User-agent: googlebot`, `(가) Allow: /`, `User-agent: googlebot-image`, `(나) Disallow: /admin/`, `(다) Disallow: /*.pdf$`",
+            "answer": "(1) robots.txt는 검색 엔진의 자동 크롤링 도구(웹 로봇)에 대하여 웹 사이트 내 특정 페이지나 디렉토리의 접근 허용 여부를 제어하기 위한 파일이다. (2) (가) 검색 엔진 로봇(yeti, googlebot)에 대하여 루트 디렉토리(/) 이하의 모든 파일 및 디렉토리 접근을 허용한다. (나) googlebot-image 로봇에 대하여 /admin/ 폴더에 대한 접근을 허용하지 않는다. (다) googlebot-image 로봇에 대하여 .pdf 확장자를 가진 모든 파일에 대한 접근을 허용하지 않는다.",
+            "verification": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+              "line": 45,
+              "excerpt": "source-derived from Information Security Tistory; image visually inspected, OCR attempted",
+              "status": "source-derived"
+            },
+            "contentDigest": "7c50b27964f84e590d5f4e061dc4f203cb4f315048b676be033a86647d491830"
+          }
+        ]
+      },
+      {
+        "roundId": "R14",
+        "year": "2019",
+        "session": "02",
+        "title": "정보보안기사 실기 14회 2019년 2회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+        "sourceDigest": "d4140470589bd308042ccba4105e768f1d7158dcd9bbfc620b9c14f1b9828be2",
+        "items": [
+          {
+            "id": "R14-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "접근통제 정책 모델에 관한 설명이다. (A)는 모든 객체가 정보의 비밀 수준에 근거한 보안 레벨을 가지며 허가된 사용자만 접근 가능하도록 제어하는 모델이다. (B)는 사용자나 사용자 그룹에 근거한 사용자 중심 접근 제어 모델이다. (C)는 사용자와 객체의 상호 관계를 역할로 구분하여 접근 제어하는 모델이다. 빈칸을 채우시오.",
+            "answer": "MAC, DAC, RBAC",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+            "sourceLine": 32,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+              "line": 32,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "137cc5ade13d0d51521606ddf1a9b447a0e27998629a773e290e3874e065c3dc"
+          },
+          {
+            "id": "R14-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "ARP 프로토콜에서 목적지의 물리 주소를 얻기 위해 프레임에 실어 보내는 목적지 주소를 주소 형식에 맞게 쓰시오.",
+            "answer": "ff:ff:ff:ff:ff:ff",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+              "line": 33,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "3c385a577bc344f24c1cc1e1222759872e01191c24d18f6fa2e05fde994f8dd4"
+          },
+          {
+            "id": "R14-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "IPSec 프로토콜에 대하여 답하시오. (1) 어느 계층에서 사용되는 프로토콜인가? (A) (2) 무결성을 보장하는 IPSec 세부 프로토콜은? (B) (3) 기밀성을 보장하는 IPSec 세부 프로토콜은? (C)",
+            "answer": "네트워크 계층, AH, ESP",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+              "line": 34,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "84260fac02c917f5e6c68c06217f747cfb56d59a7ad80a4882e36945c624a25e"
+          },
+          {
+            "id": "R14-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "MS 오피스와 애플리케이션 사이에서 데이터를 전달하는 데 사용되는 프로토콜로 외부로 데이터 등을 전달할 수 있으며, 엑셀에서 이 기능이 활성화될 경우 악용될 수 있는 프로토콜명을 쓰시오.",
+            "answer": "DDE(Dynamic Data Exchange)",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+              "line": 35,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "1df0c0e4c87a414d99a4c032ff6e22a5a75f275ec43e1f3906e696fda2401b33"
+          },
+          {
+            "id": "R14-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "사이버위기 경보 단계 `정상 -> (A) -> 주의 -> (B) -> (C)`에서 빈칸에 알맞은 단계별 명칭을 쓰시오.",
+            "answer": "관심, 경계, 심각",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+              "line": 36,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "5550761bf2042928db95362a46832db4f7854d95847e9dca23a5f26b64681b53"
+          },
+          {
+            "id": "R14-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "리눅스 시스템 로그 파일에 관한 설명이다. (A)는 현재 시스템에 로그인한 사용자의 상태가 출력되는 로그이다. (B)는 사용자의 로그인, 로그아웃, 시스템 재부팅 정보가 출력되는 로그이다. (C)는 5번 이상 로그인 실패 시 로그인 실패 정보가 기록되는 로그이다. 빈칸을 채우시오.",
+            "answer": "utmp, wtmp, btmp",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+              "line": 37,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "7f73491e637b3bfa9d9b86b180de97d849faeba36526841b33a3b1eb88bf3f77"
+          },
+          {
+            "id": "R14-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "정보보호제품에 대한 국제 표준 인증의 명칭을 쓰시오.",
+            "answer": "CC 인증",
+            "verification": "Naver text extracted; ISO 표기 in source appears likely imprecise; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+              "line": 38,
+              "excerpt": "Naver text extracted; ISO 표기 in source appears likely imprecise; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "61397ead3dc2d57067679a291fe543d60178dc2640eaa9f5b841135e9a6406e9"
+          },
+          {
+            "id": "R14-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "`httpd.conf` 파일에서 디렉터리에 업로드 가능한 최대 파일 사이즈를 제한하는 지시자를 쓰시오.",
+            "answer": "LimitRequestBody",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+              "line": 39,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "9909f861be60545fd7bb8c842130cfed265158814b745af754cae40519f2c1d7"
+          },
+          {
+            "id": "R14-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "정보보호 관련 법률 명칭을 쓰시오. (A) 정보통신망에 관한 법률의 명칭 (B) 주요 정보통신 기반 시설에 관한 법률의 명칭 (C) 위치정보에 관한 법률의 명칭",
+            "answer": "정보통신망법, 정보통신기반보호법, 위치정보법",
+            "verification": "Naver text extracted; legal wording needs current-law check",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+              "line": 40,
+              "excerpt": "Naver text extracted; legal wording needs current-law check",
+              "status": "source-derived"
+            },
+            "contentDigest": "a6e8614c83027c3b4726adac58355ccec58f1452b2758a8d62ce8bea9a224ce6"
+          },
+          {
+            "id": "R14-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "ISMS-P 인증 평가 항목에 관한 설명이다. `1.2.1 정보자산 식별`은 정보자산을 식별·분류하고 (A)를 산정한 후 목록을 최신으로 관리하도록 한다. `1.2.3 위험평가`는 대내외 환경분석을 통해 유형별 (B)를 수집하고, 연 1회 이상 위험평가 후 수용할 수 있는 위험은 (C)의 승인을 받아 관리하도록 한다.",
+            "answer": "중요도, 위협 정보, 경영진",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+              "line": 41,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "dca5b5a2fe8f47c376a39c48605c4d23202e12fbe9667bb6c35f2610e0dbf7a9"
+          },
+          {
+            "id": "R14-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "유닉스 계정 패스워드 임곗값 설정 옵션 `deny=5`, `unlock_time=120`, `no_magic_root`, `reset`의 의미를 설명하시오.",
+            "answer": "deny=5는 5회 실패 시 잠금, unlock_time=120은 120초 후 해제, no_magic_root는 root 예외, reset은 성공 시 실패 횟수 초기화",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+              "line": 42,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "bfd7e5a02b35a3799234fb18819400e215f2ff846ba7141a76278843d4b68ef1"
+          },
+          {
+            "id": "R14-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "`/etc/shadow` 파일에 대하여 답하시오. (1) `x:a$b$c:`에서 a, b, c의 의미는? (2) b가 레인보우테이블 공격에 대응할 수 있는 이유는? (3) `pwunconv` 명령의 기능은?",
+            "answer": "a는 해시 알고리즘, b는 salt, c는 해시값이다. salt로 레인보우테이블 공격을 완화하며, pwunconv는 shadow 비밀번호를 passwd로 되돌리고 shadow를 비활성화한다",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+              "line": 43,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "bffed5c9d5e2540a9477568258c7261dc6df3d62526dea4292a75a11412dcba5"
+          },
+          {
+            "id": "R14-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "강제적 접근제어 모델에 대하여 답하시오. (1) 정보의 불법적 파괴나 변조보다 기밀성 유지에 초점을 둔 모델명은? (2) no-read-up의 의미는? (3) no-write-down의 의미와 보안적 관점에서의 의의는? (4) Biba 모델의 write 정책은?",
+            "answer": "기밀성 중심 모델은 BLP이며 no-read-up은 낮은 등급 주체의 높은 등급 객체 읽기 금지, no-write-down은 높은 등급 주체의 낮은 등급 객체 쓰기 금지, Biba write 정책은 no-write-up이다",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+              "line": 44,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "b4beef242a1fa3c89cb534b92f1744391bd4eb371a71c158a664b1732547a8e2"
+          },
+          {
+            "id": "R14-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "A 시스템에서 B 시스템으로 ACK 패킷을 2012~2018 포트까지 전송하여 2017 포트에서 RST 응답이 도착하였다. (1) 무슨 스캔인가? (2) 스캔의 목적은? (3) 본 스캔을 통하여 무엇을 알 수 있는가?",
+            "answer": "TCP ACK 스캔이며 방화벽 필터링 여부 확인이 목적이다. RST가 온 2017 포트는 필터링되지 않고, 무응답 포트는 필터링되는 것으로 판단한다",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+              "line": 45,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "f1ed1056e7896fd22d47956e7078dc8fa0289465d977b366139fc0f4e712b1ac"
+          },
+          {
+            "id": "R14-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "Apache 설정 옵션의 의미를 설명하시오. (1) `Timeout 300` (2) `MaxKeepAliveRequests 100` (3) `DirectoryIndex index.htm, index.html, index.php` (4) `ErrorLog \"경로\"`",
+            "answer": "Timeout 300은 300초 무응답 시 연결 종료, MaxKeepAliveRequests 100은 KeepAlive 연결당 최대 요청 수, DirectoryIndex는 기본 인덱스 파일 순서, ErrorLog는 오류 로그 경로를 의미한다",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+              "line": 46,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "2cd896e7d1340a29a61c52ff51b5411cb06a0ebc306e9eff48cf100c1e5e99f1"
+          },
+          {
+            "id": "R14-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "XSS 공격 탐지 Snort 룰 `alert tcp any any -> any 80 (msg:\"XSS\"; content:\"GET\"; offset:1; depth:3; content:\"/login.php<script>XSS\"; distance:1;)`에 대하여 답하시오. (1) `content:\"GET\"; offset:1; depth:3`의 의미는? (2) `content:\"/login.php<script>XSS\"; distance:1`의 의미는? (3) 바이너리로 전송된 패킷에서 `Login`의 L이 대문자라 위 룰로 탐지되지 않을 경우 수정 방법은?",
+            "answer": "offset/depth는 지정 위치와 길이에서 GET을 찾고, distance 1은 이전 매치 뒤 1바이트 이후 문자열을 찾는다. 탐지 누락 시 offset 조정 또는 삭제와 nocase 추가/대소문자 보정을 적용한다",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+            "sourceLine": 47,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+              "line": 47,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "47a2d783bf562229166d05ec67d0271a6294331ef64f9c0dc7321c93a5278da2"
+          }
+        ]
+      },
+      {
+        "roundId": "R15",
+        "year": "2020",
+        "session": "01",
+        "title": "정보보안기사 실기 15회 2020년 1회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+        "sourceDigest": "93f857597bad1793e76144466cc747e0e842da77747e36792497e66ebad4a052",
+        "items": [
+          {
+            "id": "R15-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "웹 취약점 설명과 점검 스크립트 빈칸이다. (A)는 게시판, 웹 메일 등에 삽입된 악의적인 스크립트에 의해 페이지가 깨지거나 다른 사용자의 사용을 방해하거나 쿠키 및 기타 개인정보를 특정 사이트로 전송시키는 공격이다. 점검 스크립트는 `<script> (B)(document.cookie) </script>`이다.",
+            "answer": "XSS, alert",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+              "line": 33,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "bb3214951a5331b256bc2ce79dcb9797152c8ac9492101986f5f881d69b2924f"
+          },
+          {
+            "id": "R15-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "웹 로봇 Agent의 크롤링을 제한하는 파일명.",
+            "answer": "`robots.txt`",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+              "line": 34,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "3bd6198adbbde78aa6f388836da2d759a6c92eecf9700482b3404a1849e789a8"
+          },
+          {
+            "id": "R15-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "출발지/목적지 IP 동일, ICMP broadcast, SYN 다량 전송 DoS 공격기법.",
+            "answer": "Land Attack, Smurf Attack, TCP SYN Flooding",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+              "line": 35,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "d046b2497e1623cf33cc289f75c688f562b7e18b1f8dd34af80a2d495fccf6a4"
+          },
+          {
+            "id": "R15-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "UDP 1900 포트와 IoT 시스템을 악용하는 reflection 공격.",
+            "answer": "SSDP DRDoS",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+              "line": 36,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "cd7f56c37d3553725e9e4028b43d6168d67a5b35cb644067377a43356e409910"
+          },
+          {
+            "id": "R15-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "(A)는 오픈소스 IDS/IPS로 기존의 (B)의 장점을 수용하고, 대용량 트래픽을 실시간으로 처리하는 데 특화된 소프트웨어이다. 빈칸을 채우시오.",
+            "answer": "Suricata, Snort",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+              "line": 37,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "c768690914cf7ceb4527d2eeee4b629a2b7f0e260a994956f2630471d5324c46"
+          },
+          {
+            "id": "R15-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "개인정보의 안전성 확보조치 기준 제8조 접속기록의 보관 및 점검에 관한 빈칸을 채우시오. 개인정보처리자는 접속기록을 1년 이상 보관·관리해야 하며, 5만명 이상의 정보주체에 관한 개인정보를 처리하거나 (A) 또는 (B)를 처리하는 개인정보처리시스템은 2년 이상 보관·관리해야 한다. 개인정보 다운로드가 발견된 경우에는 (C)으로 정하는 바에 따라 사유를 확인해야 한다.",
+            "answer": "고유식별정보, 민감정보, 내부관리계획",
+            "verification": "Naver text extracted; current-law wording needs check",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+              "line": 38,
+              "excerpt": "Naver text extracted; current-law wording needs check",
+              "status": "source-derived"
+            },
+            "contentDigest": "df27192aa2c0ace97dd2efb59088ed1d1da35d3aa4f7b48415c6dd5821387a5c"
+          },
+          {
+            "id": "R15-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "TLS 연결을 SSL 3.0으로 낮춰 암호문을 해독하는 공격.",
+            "answer": "POODLE 공격",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+              "line": 39,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "8431a4fc387c996c99601aa69c292346093a978af69db30a8a6b16a17fd8b914"
+          },
+          {
+            "id": "R15-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "ISMS-P 인증 체계에서 빈칸을 채우시오. (A)는 과학기술정보통신부, 행정안전부와 함께 정책협의회를 구성하여 법·제도 개선, 정책 결정, 인증기관 및 심사기관 지정 업무를 수행한다. (B)는 인증서 발급, 인증심사원 양성 및 자격관리 업무를 수행한다. (C)는 인증심사 결과에 대한 심의·의결을 수행한다.",
+            "answer": "방송통신위원회, KISA, 인증위원회",
+            "verification": "Naver text extracted; current governance wording needs check",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+              "line": 40,
+              "excerpt": "Naver text extracted; current governance wording needs check",
+              "status": "source-derived"
+            },
+            "contentDigest": "2ec084ca5bb0a52da41f3e5f224b89735637425516b96678cf8df92891e8505c"
+          },
+          {
+            "id": "R15-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "자산 및 시스템 위험을 평가하고 수용 가능한 수준으로 완화하는 과정.",
+            "answer": "위험관리",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+              "line": 41,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "1c46ee80a3272320fc1b49863ca8ec6a96e6892b04ac9063130f36334b5ee97a"
+          },
+          {
+            "id": "R15-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "VPN 관련 프로토콜명 빈칸을 채우시오. (A)는 Cisco가 개발한 터널링 프로토콜로 데이터 링크층에서 캡슐화 가능하다. (B)는 MS, 3Com 등 여러 회사가 공동 개발한 프로토콜이다. (C)는 OSI 3계층에서 보안성을 제공하는 표준 프로토콜이다.",
+            "answer": "L2F, PPTP, IPSec",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+              "line": 42,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "8fe2f5a2cea92a881c297f5f8a3d824174b6c85e8e82146a04e0d2d7827436fd"
+          },
+          {
+            "id": "R15-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "`[IP 헤더][TCP 헤더][데이터]` 패킷을 ESP 터널모드로 전송하는 경우 답하시오. (1) 추가되는 필드를 도식화하시오. (2) 암호화되는 필드의 범위를 설명하시오. (3) 인증되는 필드의 범위를 설명하시오.",
+            "answer": "New IP header와 ESP header/trailer/auth가 추가되며 원 IP packet과 ESP trailer가 암호화되고 ESP header부터 trailer까지 인증된다.",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+              "line": 43,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "a1e4e01484e75448166181a84cb8a6fdba51f0063b61bad14611ecd861f622e0"
+          },
+          {
+            "id": "R15-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "백도어 설치를 `/proc/5900`에서 확인했으나 해당 파일 경로에는 파일이 존재하지 않고, `exe -> 백도어경로(delete)`로 표시된다. (1) 백도어 파일 경로 접속 시 해당 프로세스가 보이지 않는 이유는? (2) 삭제된 백도어 프로세스를 `/tmp/backdoor`로 복원하는 명령어는? (3) `ps`가 변조되어 사용 불가할 때 공격자가 사용한 명령어를 확인하는 방법은?",
+            "answer": "실행 후 파일을 삭제했기 때문이며 `cp /proc/5900/exe /tmp/backdoor`로 복원하고 history 또는 `cat /proc/5900/cmdline`으로 실행 명령을 확인",
+            "verification": "Naver text extracted; exact official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+              "line": 44,
+              "excerpt": "Naver text extracted; exact official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "4ae55bb08da8a582dcdb4ab16d0613b4f3a971da773fe1d8e85429594b8abdc6"
+          },
+          {
+            "id": "R15-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "정보통신망법 적용을 받는 신생회사가 비밀번호 작성 규칙을 수립하려고 한다. 개인정보의 기술적·관리적 보호조치 기준에 따른 비밀번호 작성 규칙 3가지를 설명하시오.",
+            "answer": "복잡도·길이, 추측 어려운 비밀번호, 유효기간/주기적 변경 등",
+            "verification": "Naver text extracted; current-law wording needs check",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+              "line": 45,
+              "excerpt": "Naver text extracted; current-law wording needs check",
+              "status": "source-derived"
+            },
+            "contentDigest": "4515ea236e82563d51d7bc67e6eb7a01f60ebc6d807645e12762d5a3c1316495"
+          },
+          {
+            "id": "R15-Q14",
+            "number": 14,
+            "type": "practical",
+            "prompt": "백업 스크립트는 `tar -cvzf /data/backup/etc_$dat.tgz /etc/*`, `tar -cvzf /data/backup/home_$dat.tgz /home/*`를 수행하고, 결과 파일 권한은 `rw-r--r-- root root /data/backup/etc_YYYYMMDD.tgz`, `rw-r--r-- root root /data/backup/home_YYYYMMDD.tgz`이다. (1) 권한 문제를 설명하시오. (2) `umask` 변경 후 백업 파일을 생성하고 원래대로 만드는 스크립트를 작성하시오. (3) operator 사용자만 `/usr/local/bin/backup`을 사용하도록 만드는 명령어와 의미를 쓰시오.",
+            "answer": "백업 파일 world-readable 문제를 지적하고 `umask 266` 적용 후 원복, `chown operator`와 `chmod 700`으로 스크립트 실행 주체 제한",
+            "verification": "Naver text extracted; exact shell wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+              "line": 46,
+              "excerpt": "Naver text extracted; exact shell wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "1aca3cdc798cc1511a3912e1c9f5c1a2f57612a5dbe05c9aa2e205069142bfe4"
+          },
+          {
+            "id": "R15-Q15",
+            "number": 15,
+            "type": "practical",
+            "prompt": "HTTP Request 패킷 캡처 화면에서 `POST / HTTP/1.1`, `content-length: 1000000`이 보이고, 다른 화면에서 `TCP segment data (1 byte)`로 1바이트씩 분할 전송되는 상황이다. (1) 어떤 공격인가? (2) 판단 근거를 구체적으로 설명하시오. (3) 서버 측 대응 방안 2가지를 설명하시오.",
+            "answer": "Slow HTTP POST DoS(RUDY). 큰 body 길이와 저속 전송으로 연결을 장시간 점유하며 connection/read timeout, 동시연결 제한, 방화벽 임계치로 대응",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+            "sourceLine": 47,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+              "line": 47,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "19dd2363665ee7f8e069bcb12254b8cec398d4214aa24f73d816b1fac6d7e51d"
+          },
+          {
+            "id": "R15-Q16",
+            "number": 16,
+            "type": "practical",
+            "prompt": "OOO 시 어르신 교통카드 신청서 안내문에서 개인정보보호법 위반 사항 4가지를 찾으시오. 필수 수집·이용 항목에는 주민등록번호 포함, 목적은 본인확인, 기간은 영구보관이며 동의 거부 권리 및 불이익은 명시되어 있다. 제3자 제공은 유관기관에 주민등록번호 포함 정보를 교통카드 만료 시까지 제공하며, 위탁기관은 OO신용카드이고 위탁업무는 교통카드 발급업무이다.",
+            "answer": "주민등록번호 수집·제공 근거, 영구보관, 제3자 제공 동의거부 고지 누락, 제공 기관명 불명확 등을 지적",
+            "verification": "Naver text extracted; current-law wording needs check",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+            "sourceLine": 48,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+              "line": 48,
+              "excerpt": "Naver text extracted; current-law wording needs check",
+              "status": "source-derived"
+            },
+            "contentDigest": "5e91968bab7e77232612f57dacc0cea7368b75d2e4a08f2ed0cd3b3bee84e07c"
+          }
+        ]
+      },
+      {
+        "roundId": "R16",
+        "year": "2020",
+        "session": "02",
+        "title": "정보보안기사 실기 16회 2020년 2회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+        "sourceDigest": "083229ac5ef944a44de910f528bff5d21529b2492812330798d2f206c8018571",
+        "items": [
+          {
+            "id": "R16-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "/etc/shadow 파일 해시 알고리즘 식별자",
+            "answer": "1=MD5, 5=SHA-256, 6=SHA-512",
+            "verification": "Naver answer cross-check; exact official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+            "sourceLine": 32,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+              "line": 32,
+              "excerpt": "Naver answer cross-check; exact official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "23bad32b1d67c1ca3a668c0b4fc33ca496b7130c482e8c8181e8bb96e95bff37"
+          },
+          {
+            "id": "R16-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "다음 업무를 총괄하는 사람을 쓰시오. 정보보호관리체계의 수립 및 관리·운영, 정보보호 취약점 분석·평가 및 개선, 침해사고의 예방 및 대응, 사전 정보보호대책 마련 및 보안조치 설계·구현.",
+            "answer": "CISO",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+              "line": 33,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "3d6ec2fe8c180a27e5639358492f73c8fbab231f343f4baa3a55f7728211291f"
+          },
+          {
+            "id": "R16-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "기업의 정보보호에 대한 방향(목적, 활동 등)을 기술 및 솔루션과 독립적으로 가장 상위 개념으로 정의한 문서는 무엇인가?",
+            "answer": "Policy, 정보보호정책",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+              "line": 34,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "4e81e0bbbb714bff650e6e8f9f171fae261681196ad09e4f9060818feb72266d"
+          },
+          {
+            "id": "R16-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "무선랜 보안 표준에서 사용하는 주요 암호화 알고리즘을 쓰시오. WEP: (A), WPA: (B), WPA2: (C)",
+            "answer": "WEP=RC4, WPA=TKIP, WPA2=AES/CCMP",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+              "line": 35,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "8cab987f41820bcc8eb6829168e3c0be7412a7f5f05dbc85b9e9e78dc365c74d"
+          },
+          {
+            "id": "R16-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "엔드포인트 영역에 대한 지속적인 모니터링을 통해 행위 기반 위협 탐지, 분석, 대응 기능을 제공하는 솔루션은 무엇인가?",
+            "answer": "EDR(Endpoint Detection and Response)",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+              "line": 36,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "2ce46488805b8ec875a1ea6742d5eaf8b524f1965767a3da7f72411dad630a97"
+          },
+          {
+            "id": "R16-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "TLS 1.3에서 세션키를 합의하는 핸드셰이크 과정을 간소화하여 암호화 시간을 줄여주는 기능을 쓰시오.",
+            "answer": "1-RTT와 0-RTT 지원",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+              "line": 37,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "92e3d6f46266f3a96ebf14dc50f15c449cc5ee72e6ed23a139998a7ea858db36"
+          },
+          {
+            "id": "R16-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "프로그램에서 실행하는 시스템 콜을 추적할 수 있고, 바이너리 파일에 포함된 컴파일 경로 정보를 통해 프로그램을 진단하거나 디버깅할 수 있는 명령어를 쓰시오. 예: `(A) -e trace=open ps | more`",
+            "answer": "strace",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+              "line": 38,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "dab57f2e80f4d474adb6ef5fc3e38839e7d17cb4740d0ee2fc0a1aadcbea783e"
+          },
+          {
+            "id": "R16-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "전사적 IT 인프라의 위협정보를 수집·분석·경보·관리하고, 공신력 있는 대외 정보보호기관의 위협정보를 수집·분석하여 APT 등 알려지지 않은 공격에 대한 조기 대응을 유도하는 정보보호 통합관리 시스템 (A)의 이름을 쓰시오.",
+            "answer": "TMS(Threat Management System)",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+              "line": 39,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "4c6b44d14a805f5360f8c75e0f910b47e1b002f441ef719799cd0526f423bb04"
+          },
+          {
+            "id": "R16-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "ISO/IEC 위험관리 모델에서 위험 구성 요소 간 관계를 나타내는 도식의 빈칸을 채우시오. 취약성은 (A)를 노출시켜 위험을 증가시키고, (B)는 위험에 의해 영향을 받으며, 보안대책은 위험을 (C)시킨다.",
+            "answer": "위협, 자산, 감소",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+              "line": 40,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "9ac238f8e2a5dc9d04d8af6cb28926b3030b6f921451396559bd53983fd88a70"
+          },
+          {
+            "id": "R16-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "전송 계층 프로토콜인 UDP 기반으로 통신을 수행하는 경우 SSL/TLS와 유사한 보안 기능을 제공하는 프로토콜명을 쓰시오.",
+            "answer": "DTLS",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+              "line": 41,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "4fffbba716a5a4040ec22411becb6c9302f313ce2ee6c423297b9358fd92923c"
+          },
+          {
+            "id": "R16-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "쿠키에 설정되는 보안 기능과 관련하여 답하시오. (1) Secure 속성의 기능 (2) Secure 속성으로 대응 가능한 공격 (3) HttpOnly 속성 설정 시 쿠키 값 (4) HttpOnly 속성의 기능 (5) HttpOnly 속성으로 대응 가능한 공격",
+            "answer": "Secure는 TLS 연결에서만 쿠키를 전송해 스니핑을 줄이고, HttpOnly는 JavaScript 접근을 막아 XSS 기반 쿠키 탈취를 줄인다",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+              "line": 42,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "7437c75d8a9746c06b10d9877dd11a6fed6926f1e8c785cf5a03afafb050fa78"
+          },
+          {
+            "id": "R16-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "디지털 포렌식 5대 원칙 중 3가지를 설명하시오.",
+            "answer": "정당성, 재현성, 신속성, 연계보관성, 무결성 중 요구 개수 기술",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+              "line": 43,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "e5f15870405a8443b3c39d82c33da2bda38349116ea21cdc7e663daa068005ec"
+          },
+          {
+            "id": "R16-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "스팸 메일 방지 기술에 대하여 답하시오. (1) SPF 적용 시 수신자 측에서 확인할 수 있는 항목 (2) SPF 적용 시 수신 메일의 정당성 검증 방법 (3-1) DKIM에서 전자서명 주체 (3-2) DKIM에서 키 공유 방법 (4) SPF와 DKIM을 혼합한 기법의 명칭",
+            "answer": "SPF는 발신 IP를 DNS TXT 정책으로 검증하고, DKIM은 개인키 서명과 DNS 공개키로 무결성을 확인하며, DMARC는 SPF/DKIM 결과 기반 처리 정책을 제공한다",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+              "line": 44,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "95f9c37df627f9365ff074423b261346e192c81373564bac139ae784b3dcc75a"
+          },
+          {
+            "id": "R16-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "두 개의 취약한 XML 코드에 대하여 답하시오. 코드1은 외부 엔터티 `<!ENTITY xxe SYSTEM \"file:///etc/passwd\">`를 선언하고 `<foo>&xxe;</foo>`를 참조한다. 코드2는 `lol`, `lol2`, ..., `lol9`처럼 엔터티가 다른 엔터티를 반복 참조한다. (1) 코드1은 어떤 공격인가? (2) 코드1의 공격 원리는? (3) 코드2를 통한 공격 실행 결과는?",
+            "answer": "XXE는 XML 외부 엔터티를 악용해 파일 노출·SSRF 등을 유발하며, 반복 엔터티 확장으로 Billion Laughs DoS가 가능하다",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+              "line": 45,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "03cb46c8d38b5d3978b4f2c798747edc6f4009c54816b8639fe5a9c176674e45"
+          },
+          {
+            "id": "R16-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "정보보호 위험평가에서 A/B 보호대책 적용 시 SLE, ALE, 보호대책 효과를 계산하고 더 효과적인 대책을 선정하시오. A 적용 시 AV=100,000, EF=0.2, ARO=0.5, 감소한 ALE=30,000, 운영비용=17,000이다. B 적용 시 AV=100,000, EF=0.8이며, 답안 기준으로 ALE와 효과를 비교한다.",
+            "answer": "A: SLE 20,000, ALE 10,000, 효과 13,000. B: SLE 80,000, ALE 20,000, 효과 16,000. 효과가 큰 B를 선정한다",
+            "verification": "Naver text extracted; B-side source line partly truncated in local extraction; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+              "line": 46,
+              "excerpt": "Naver text extracted; B-side source line partly truncated in local extraction; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "32d7401b661b0f42fc92ff21b779cc4f1aa308a2fcc109307a65ba45cf20f801"
+          },
+          {
+            "id": "R16-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "공공기관의 개인정보 흐름표에서 문제가 되는 사항 4가지를 찾아 설명하시오. 흐름표 주요 내용은 다음과 같다. (1) 수집: 수집항목은 성명, 주민등록번호, 전화번호, 이메일이고 주민등록번호 수집 근거는 정보주체의 동의이다. (2) 저장: 저장항목은 성명, 주민등록번호, 전화번호, 이메일이며 주민등록번호를 MD5로 암호화한다. (3) 제공 및 파기: 주민등록번호를 DB 실시간 연동 방식으로 제공하고 암호화 적용 여부는 평문전송이며 파기주기는 영구보관이다.",
+            "answer": "주민등록번호 수집 법령 근거 부재, 안전하지 않은 MD5 사용, 주민번호 평문 전송, 영구보관으로 파기주기 부재",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+            "sourceLine": 47,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+              "line": 47,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "c148b02fc82161c2052818ec7de56b21c2e1d22550601fdab80e5475b101782d"
+          }
+        ]
+      },
+      {
+        "roundId": "R17",
+        "year": "2021",
+        "session": "01",
+        "title": "정보보안기사 실기 17회 2021년 1회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+        "sourceDigest": "48c89a3c0308696ff3fec53c93fe08efbae3f39d976f7e5a48a1200cfa7fc5e8",
+        "items": [
+          {
+            "id": "R17-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "로그인 인증 우회 공격 기법",
+            "answer": "Pass the Hash",
+            "verification": "Naver answer cross-check; exact official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+            "sourceLine": 32,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+              "line": 32,
+              "excerpt": "Naver answer cross-check; exact official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "a320ed4bf3cf052f11ae7994ada5cf9302dfcc3ecf9d89250e8c2f115671b233"
+          },
+          {
+            "id": "R17-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "DNS의 캐시 정보를 조작하여 가짜 사이트로 접속을 유도하는 공격 기법명을 쓰시오.",
+            "answer": "DNS Cache Poisoning",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+              "line": 33,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "db2147f58f111899a45c69cdcb9fef983fa651f864de2a966f7d1091b8ed93c1"
+          },
+          {
+            "id": "R17-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "사이버 공격의 흐름을 분류하는 기준으로 사이버 킬 체인의 7단계를 확장하여 14단계로 구성된 모델명을 쓰시오.",
+            "answer": "MITRE ATT&CK",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+              "line": 34,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "c92dd38c7eff837f9cb050c6361a4517044310c5e3aa5713bdaa41daa5f43735"
+          },
+          {
+            "id": "R17-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "공격자가 미리 확보한 로그인 자격증명(ID, 패스워드)을 이용하여 사용자가 이용할 만한 다른 사이트에 무작위로 대입해 비인가 접속을 시도하는 공격기법명을 쓰시오.",
+            "answer": "Credential Stuffing",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+              "line": 35,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "0bb31be6da92fa2c3eb96c9bb09fe5b8a9dab4cef847ecb0e9d70bec4036473a"
+          },
+          {
+            "id": "R17-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "취약점의 코드베이스, 시간성(유효성), 악영향, 환경적 요소를 고려하여 공격 난이도와 피해 규모를 평가하고 점수화하는 보안 취약점 평가 기준을 쓰시오.",
+            "answer": "CVSS",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+              "line": 36,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "4e8fb4c34b41d7e24326c6113b5485e2f05aab3e066675ef7cb7be5ea3930652"
+          },
+          {
+            "id": "R17-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "침해사고 대응 7단계 `사고 전 준비과정 > 사고 탐지 > (A) > 대응 전략 체계화 > 사고 조사 > 보고서 작성 > 해결`에서 빈칸 절차를 쓰시오.",
+            "answer": "초기 대응",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+              "line": 37,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "636a0a4398d4737be82c33b4f6ca6bba31dc0d2274266f94906c1a05bfe02ed2"
+          },
+          {
+            "id": "R17-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "정보보호 관련 법령 용어를 쓰시오. (A)는 개인정보의 안전한 처리를 위한 개인정보보호 조직 구성, 개인정보취급자 교육, 개인정보 보호조치 등을 규정한 계획이다. (B)는 정상적인 보호·인증 절차를 우회하여 정보통신기반시설에 접근할 수 있도록 하는 프로그램이나 기술적 장치 등을 설치하는 방법의 공격 행위이다. (C)는 정보통신망 구축 또는 정보통신서비스 제공 이전의 계획·설계 과정에서 정보보호를 고려해 필요한 조치나 계획을 마련하는 것이다.",
+            "answer": "내부관리계획, 전자적 침해행위, 정보보호 사전점검",
+            "verification": "Naver text extracted; legal wording needs current-law check",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+              "line": 38,
+              "excerpt": "Naver text extracted; legal wording needs current-law check",
+              "status": "source-derived"
+            },
+            "contentDigest": "184ff81bdf773e45a91c54fe04b36f56a2879b5cc380ea1bc0c3c46dec5e0dad"
+          },
+          {
+            "id": "R17-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "정보보호 관련 법령 용어를 쓰시오. (A)는 전기통신설비와 컴퓨터 이용기술을 활용하여 정보를 수집·가공·저장·검색·송신·수신하는 정보통신체제이다. (B)는 정보의 유출, 위·변조, 훼손 등을 방지하기 위한 하드웨어 및 소프트웨어 일체이다. (C)는 국가안전보장, 행정, 국방, 치안, 금융, 통신, 운송, 에너지 등의 업무와 관련된 전자적 제어·관리시스템이다.",
+            "answer": "정보통신망, 정보보호시스템, 정보통신기반시설",
+            "verification": "Naver text extracted; legal wording needs current-law check",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+              "line": 39,
+              "excerpt": "Naver text extracted; legal wording needs current-law check",
+              "status": "source-derived"
+            },
+            "contentDigest": "009555e7952f9d9c05ba5a9b6b89e29566bbd40b7888f2ce5af7d048df75621b"
+          },
+          {
+            "id": "R17-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "ISO 27005 위험평가 절차를 쓰시오. (A)는 자산, 위협, 현 통제 현황, 취약점을 식별하는 단계이다. (B)는 시나리오별 영향 및 발생 가능성을 객관적·주관적으로 분석하는 단계이다. (C)는 기준에 따라 분석된 위험 목록의 우선순위를 산정하는 단계이다.",
+            "answer": "위험식별, 위험분석, 위험수준평가",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+              "line": 40,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "ac17c6f00518d7ec1c9f87a4b08d68bb73acf6e8b6ef3167fda3edc572bbd5bf"
+          },
+          {
+            "id": "R17-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "개인정보의 안전성 확보조치 기준에서 \"접속기록\"은 개인정보취급자 등의 계정, (A), 접속지 정보, (B), 수행업무 등을 전자적으로 기록한 것이다. 개인정보를 다운로드한 것이 발견된 경우에는 (C)으로 정하는 바에 따라 사유를 확인해야 한다.",
+            "answer": "접속일시, 처리한 정보주체 정보, 내부관리계획",
+            "verification": "Naver text extracted; current-law wording needs check",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+              "line": 41,
+              "excerpt": "Naver text extracted; current-law wording needs check",
+              "status": "source-derived"
+            },
+            "contentDigest": "c5373f3de41d0912a463fdd58d786dd6efb27c983eeac537b0d2b71ad0f0bc6e"
+          },
+          {
+            "id": "R17-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "개인정보보호법상 가명정보와 익명정보",
+            "answer": "가명처리는 추가정보 없이는 특정 개인을 알아볼 수 없게 처리하는 것이며, 가명정보는 통계작성·과학적 연구·공익적 기록보존 등에 활용 가능하고 익명정보는 더 이상 개인을 식별할 수 없는 정보다",
+            "verification": "Naver answer cross-check; exact official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+              "line": 42,
+              "excerpt": "Naver answer cross-check; exact official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "3c205c5356dd035811d70c25f36b5e720c48cf2ea7262c62094d606927b8061d"
+          },
+          {
+            "id": "R17-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "NAC의 물리적 구성 방법 두 가지와 특징을 설명하시오.",
+            "answer": "인라인 방식은 트래픽 경로에 장비를 배치하여 실시간 탐지·차단에 유리하지만 물리적 재구성이 필요하고 장애 시 서비스 영향이 있다. 아웃오브밴드 방식은 스위치 일반 포트 또는 미러링 포트에 연결하여 구축이 쉽고 장애 영향은 작지만 탐지·차단 실시간성은 낮다.",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+              "line": 43,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "fcbbe1815a915b3c0784289efda26a8e978ad3f511ec4675ec9e862593d22227"
+          },
+          {
+            "id": "R17-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "정보보호최고책임자의 역할 및 책임을 4가지 이상 기술하시오.",
+            "answer": "정보보호관리체계 수립·관리·운영, 정보보호 취약점 분석·평가 및 개선, 침해사고 예방 및 대응, 사전 정보보호대책 마련과 보안조치 설계·구현, 정보보호 사전 보안성 검토, 중요 정보 암호화 및 보안서버 적합성 검토 등",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+              "line": 44,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "68c8ecbdf455c5a3a4a0ec9201a36aba7a58072d696e8588bb02d96973811ba2"
+          },
+          {
+            "id": "R17-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "웹로그 `192.168.0.10 - - [30/May/2021:10:10:10 +0900] \"GET /script/..%c1%1c../winnt/system32/cmd.exe?/c+dir+c:\\\\ HTTP/1.1\" 404 180`에 대하여 답하시오. (1) 어떤 취약점을 이용한 공격인가? (2) 공격 성공 여부와 판단 근거는? (3) 대응 방안 2가지는?",
+            "answer": "Unicode 취약점 기반 원격명령실행 시도이나 404 등으로 실패한 것으로 판단하며, 패치·입력 필터링·화이트리스트·웹/IIS 구성 분리·IPS 탐지로 대응한다",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+              "line": 45,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "102256e995726de6a93d1e991597d3682f3b91745ee99aa32a6216a72e5aa62e"
+          },
+          {
+            "id": "R17-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "Snort 룰 `alert tcp any any -> any 80 (msg:\"GET Flooding\"; content:\"GET /HTTP1.\"; content:\"USER\"; content:!\"anonymous\"; content:\"|00|\"; depth:1; nocase; sid:1;)`에 대하여 `msg`, `content:\"GET /HTTP1.\"`, `content:\"USER\"; content:!\"anonymous\"`, `content:\"|00|\"; depth:1`의 의미를 설명하시오.",
+            "answer": "msg는 경고 메시지, content:\"GET\"은 HTTP GET 탐지, content:\"USER\"와 !content:\"anonymous\"는 익명 아닌 FTP USER 조건, |00| depth 1은 첫 바이트 NULL 조건을 의미한다",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+              "line": 46,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "6f611f14cd13c8900e19d51a5f2bc6fe212374580e5009c7b5484f80d9b6b3d6"
+          },
+          {
+            "id": "R17-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "Apache 설정 `<Directory /> Options FollowSymLinks AllowOverride none Require all granted </Directory>`와 `<Directory /var/www> Options indexes FollowSymLinks AllowOverride none Require all granted </Directory>`를 보고 답하시오. (1) 발생 가능한 두 가지 문제점은? (2) 두 가지 문제점에 대한 대응 방안은?",
+            "answer": "Indexes로 디렉터리 인덱싱이 가능하고 FollowSymLinks로 심볼릭 링크 경유 접근이 가능하다. Indexes/FollowSymLinks 제거 또는 -Indexes/-FollowSymLinks, 필요 시 AllowOverride 설정으로 대응한다",
+            "verification": "Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+            "sourceLine": 47,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+              "line": 47,
+              "excerpt": "Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "731c10a594ae3386ea4319e8b7b35689233e4bbab55a8abc8644ff470464a721"
+          }
+        ]
+      },
+      {
+        "roundId": "R18",
+        "year": "2021",
+        "session": "02",
+        "title": "정보보안기사 실기 18회 2021년 2회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+        "sourceDigest": "f361a8d70adeab10d6d9153695c95b74170e7e2bc3de2065995021d9f5aed1ee",
+        "items": [
+          {
+            "id": "R18-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "EAP를 통해 인증을 수행하고 AES-CCMP 기반 암호화를 지원하는 무선랜 보안 표준은?",
+            "answer": "WPA2",
+            "verification": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+            "sourceLine": 32,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+              "line": 32,
+              "excerpt": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+              "status": "source-derived"
+            },
+            "contentDigest": "f709273cb202177149450dc5a0635ff536e354b3d81b68029a1cfff74d033cb8"
+          },
+          {
+            "id": "R18-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "VirusTotal에서 제작하였고, 악성코드의 특성과 행위에 포함된 패턴을 이용하여 악성코드를 분류하는 툴 이름은?",
+            "answer": "YARA",
+            "verification": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+              "line": 33,
+              "excerpt": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+              "status": "source-derived"
+            },
+            "contentDigest": "277faf2f070fda22d0afa04e6a8a0713bec268826a42b6f7fc0e8e79527ab4a2"
+          },
+          {
+            "id": "R18-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "SW 개발 보안 취약점명 또는 공격기법을 쓰시오. (A)는 DB와 연결된 애플리케이션 입력값을 조작하여 의도하지 않은 결과를 반환하게 하는 공격이다. (B)는 게시판, 웹, 메일 등에 삽입된 악성 스크립트가 쿠키 및 개인정보를 특정 사이트로 전송시키는 공격이다. (C)는 검증되지 않은 사용자 입력값이 운영체제 명령어 일부로 전달되어 의도하지 않은 시스템 명령어가 실행되는 공격이다.",
+            "answer": "SQL Injection, XSS, OS Command Injection",
+            "verification": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+              "line": 34,
+              "excerpt": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+              "status": "source-derived"
+            },
+            "contentDigest": "24917e6ac01b7ad7f9b309bc56ea6afb9d9ab7523daba4a9df8dff0c27231a72"
+          },
+          {
+            "id": "R18-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "Microsoft Office와 애플리케이션 사이 데이터를 전달하는 프로토콜로, Excel에서 활성화될 경우 악용될 수 있는 프로토콜명을 쓰시오.",
+            "answer": "DDE(Dynamic Data Exchange)",
+            "verification": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+              "line": 35,
+              "excerpt": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+              "status": "source-derived"
+            },
+            "contentDigest": "175c688624bcfad33e1c672962359f417fdea46c23128d4ea2172f86cdeb5e6b"
+          },
+          {
+            "id": "R18-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "위험관리 용어 빈칸을 채우시오. (A)는 (B)로부터 보호해야 할 대상이다. (B)는 (A)에 손실을 발생시키는 원인이나 행위이다. (C)는 (B)에 의해 손실이 발생하게 되는 (A)에 내재된 약점이다.",
+            "answer": "자산, 위협, 취약점",
+            "verification": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+              "line": 36,
+              "excerpt": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+              "status": "source-derived"
+            },
+            "contentDigest": "f6217e04cb6e109c583b6b00057d857f4be7fe3209c991535ef2f70470fd70f6"
+          },
+          {
+            "id": "R18-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "정보의 무결성, 서비스 연속성, 정보자산 보호를 위한 것으로 기업 거버넌스의 부분집합이며, 전략적 방향 제시, 목적 달성, 적절한 위험관리, 조직 자산의 책임 있는 사용, 보안 프로그램의 성공과 실패 모니터링을 보장하는 것은 무엇인가?",
+            "answer": "정보보안 거버넌스",
+            "verification": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+              "line": 37,
+              "excerpt": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+              "status": "source-derived"
+            },
+            "contentDigest": "ba1e6f30a167a467891cca9c70b3f7e08fc82279340082f30cff05e2341aae4b"
+          },
+          {
+            "id": "R18-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "DDoS, APT 등 공격 수행 시 C&C 서버와 접속하기 위한 도메인명을 지속적으로 변경하여 보안장비의 탐지를 우회하기 위한 기법은?",
+            "answer": "DGA(Domain Generation Algorithm)",
+            "verification": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+              "line": 38,
+              "excerpt": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+              "status": "source-derived"
+            },
+            "contentDigest": "8935b1a2cc0beaa4e7cd906ef12161273720fc346d4ccc0d3c9d74742a9c04b3"
+          },
+          {
+            "id": "R18-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "위험분석 절차 `1) (A), 2) (B), 3) 기존 보안대책 평가, 4) 취약성 평가, 5) 위험평가`에서 빈칸을 채우시오.",
+            "answer": "자산식별, 자산 가치 및 의존도 평가",
+            "verification": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+              "line": 39,
+              "excerpt": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+              "status": "source-derived"
+            },
+            "contentDigest": "8b07b5669c2b9836a641fb9f10ec4a969926ef15de5578b969f005b620adcabf"
+          },
+          {
+            "id": "R18-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "HTTP 관련 공격 중 헤더의 CRLF(개행문자) 필드 부분을 조작하여 웹서버로 조작된 HTTP 헤더를 지속적으로 보내 서비스 가용성을 떨어뜨리는 공격은?",
+            "answer": "Slowloris",
+            "verification": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+              "line": 40,
+              "excerpt": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+              "status": "source-derived"
+            },
+            "contentDigest": "6dd2fbe0ee40e0c92e4669e74fb8bbd2ce0da3dc7bf155ab19bb752b539e167a"
+          },
+          {
+            "id": "R18-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "모바일 앱의 특정 화면으로 바로 이동할 수 있도록 지원하는 기능으로, 공격자가 악용하면 앱 내 민감한 개인정보가 노출될 수 있는 기능 이름은?",
+            "answer": "모바일 딥링크",
+            "verification": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+              "line": 41,
+              "excerpt": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+              "status": "source-derived"
+            },
+            "contentDigest": "8d6a264ec5cda07adb4f451fb15bee3c849e6acafec28632d8beee7eaaaf22c0"
+          },
+          {
+            "id": "R18-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "SQL Injection을 예방하기 위한 Prepared Statement에 대하여 답하시오. (1) Prepared Statement의 개념 (2) Prepared Statement가 SQL Injection 공격을 막을 수 있는 이유",
+            "answer": "SQL과 파라미터를 분리해 미리 컴파일하고 값을 바인딩하므로 입력값이 SQL 구문으로 해석되지 않아 SQL Injection을 방어한다",
+            "verification": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+              "line": 42,
+              "excerpt": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+              "status": "source-derived"
+            },
+            "contentDigest": "de160fb0c0453f9ab9900b7c6d102a5f4d8209a2cd59e423752573b20c466650"
+          },
+          {
+            "id": "R18-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "DRDoS에 대하여 답하시오. (1) DRDoS의 공격 원리 (2) 기존 DoS와의 차이점 (3) Unicast RPF",
+            "answer": "공격자가 피해자 IP로 출발지를 위조해 반사 서버에 요청을 보내고 응답이 피해자에게 집중된다. Unicast RPF는 역방향 경로 검증으로 출발지 위조 패킷을 차단한다",
+            "verification": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+              "line": 43,
+              "excerpt": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+              "status": "source-derived"
+            },
+            "contentDigest": "a105d2fbc8a82260b7d63ba08eeddb33705d39160b83594ae600cc0800a9888e"
+          },
+          {
+            "id": "R18-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "패킷 필터링 방화벽과 관련하여 답하시오. (1) 존재하지 않는 외부 IP를 이용한 Spoofing 공격에 대응하기 위한 패킷 필터링 방화벽 기술의 이름과 원리 (2) 공격자가 패킷을 소형 단편화하여 Tiny Fragment 공격을 수행하는 이유 (3) Tiny Fragment 공격 대응 방법 (4) Stateful 패킷 필터링과 일반 패킷 필터링 방화벽의 차이점",
+            "answer": "Ingress filtering으로 외부에서 내부 출발지 IP를 가진 패킷을 차단하고, tiny fragment는 TCP 헤더 일부를 뒤쪽 조각으로 밀어 필터 우회를 노린다. 조각 재조립 검사와 stateful inspection으로 대응한다",
+            "verification": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+              "line": 44,
+              "excerpt": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+              "status": "source-derived"
+            },
+            "contentDigest": "20baeffae92435da091a40601b148dcf87004af905ada1cd9911cf95e81a2b25"
+          },
+          {
+            "id": "R18-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "이메일 로그에 `version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256`, `Received-SPF: pass`, `spf=pass`, `dkim=pass header.i=@gmail.com`이 보인다. (1) RSA의 용도는? (2) 이메일 로그에서 확인할 수 있는 스팸메일 대응 기법명과 동작 원리를 설명하시오.",
+            "answer": "SPF는 발신 IP를 DNS 정책으로 검증하고 DKIM은 RSA 기반 서명으로 메일 무결성을 확인하며, DMARC는 SPF/DKIM 결과 기반 정책을 적용한다",
+            "verification": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+              "line": 45,
+              "excerpt": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+              "status": "source-derived"
+            },
+            "contentDigest": "138f8c45c6c2ecb49596e8231cf9cd59ef28fa37e7c7fa2d48e5f02687b33694"
+          },
+          {
+            "id": "R18-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "리눅스 보안 설정에 대하여 답하시오. (1) 계정 임곗값 설정 파일명 (A)와 `auth required /lib/security/pam_tally.so (B)=5 unlock_time=120 no_magic_root reset`의 (B)를 쓰시오. (2) `iptables -A INPUT -p tcp -s 172.30.1.55 --dport 21 -j (C)`에서 차단 옵션은? (3) `/etc/shadow` 소유자를 root로 변경하고 소유자에게만 읽기 권한을 부여하는 명령은? (4) Apache 설정 `LimitRequestBody 5000000`의 의미는?",
+            "answer": "PAM 설정에서 deny로 잠금 임계값을 설정하고, iptables DROP으로 차단하며, /etc/shadow는 root 소유와 400 권한으로 보호한다. LimitRequestBody는 요청 본문 크기를 제한한다",
+            "verification": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+              "line": 46,
+              "excerpt": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+              "status": "source-derived"
+            },
+            "contentDigest": "0728078c35763b3737a9c72a1c67964303e53b75901f292821b472a23bae7c8e"
+          },
+          {
+            "id": "R18-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "DNS 로그 `DNS standard query 0x2872 ANY cpsc.gov ...`를 보고 답하시오. (1) 어떤 공격인가? (2) 판단 이유는? (3) 공격 원리는? (4) 공격자들이 이 기법을 사용하는 이유 두 가지는?",
+            "answer": "DNS Amplification 기반 DRDoS로 판단한다. 출발지 IP를 피해자로 위조해 공개 DNS 서버에 질의하고, 큰 DNS 응답이 피해자에게 집중되어 트래픽이 증폭된다",
+            "verification": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+            "sourceLine": 47,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+              "line": 47,
+              "excerpt": "Naver text extracted; source says reconstructed wording may not be 100% exact",
+              "status": "source-derived"
+            },
+            "contentDigest": "b30756040a3d829113f7ced5fcb37c105e76a2a599b8b10df4e63624925295cb"
+          }
+        ]
+      },
+      {
+        "roundId": "R19",
+        "year": "2022",
+        "session": "01",
+        "title": "정보보안기사 실기 19회 2022년 1회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+        "sourceDigest": "93af6527de00193be4c74b18e73ee10efd27111f48dfbd9fbb0070d69831774e",
+        "items": [
+          {
+            "id": "R19-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "위험을 구성하는 요소의 빈칸을 채우시오. (A): 조직이 보호해야 할 대상으로 정보, 하드웨어, 소프트웨어, 시설, 관련 인력, 기업 이미지 같은 무형자산을 포함한다. (B): (A)에 손실을 초래할 수 있는 원치 않는 사건의 잠재적 원인 또는 행위자다. (C): (B)에 의해 손실이 발생하게 되는 (A)에 내재된 약점이다.",
+            "answer": "자산, 위협, 취약점",
+            "verification": "source-derived; PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+              "line": 34,
+              "excerpt": "source-derived; PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "6124f36e71c9e0a6c45b7ec9626bc03873d2e6f7191cc7dbce997d318559f27e"
+          },
+          {
+            "id": "R19-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "네트워크 진입 시 단말과 사용자를 인증하고, 단말에 대한 지속적인 보안 취약점 점검과 통제를 통해 내부 시스템을 보호하는 솔루션을 쓰시오.",
+            "answer": "NAC(Network Access Control)",
+            "verification": "source-derived; PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+              "line": 35,
+              "excerpt": "source-derived; PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "42e1f86f3430146bfe6c353cfbaa0a11c13ffdfc71b3e3a95c60941d37c393c5"
+          },
+          {
+            "id": "R19-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "여러 프로세스가 공유자원에 동시에 접근할 때 접근 순서에 따라 비정상 결과가 발생하는 상황을 악용하는 공격기법을 쓰시오.",
+            "answer": "Race Condition 공격",
+            "verification": "source-derived; PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+              "line": 36,
+              "excerpt": "source-derived; PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "1fe7d4dd680392a0284d6be39f86c2546ad31f4ac7211fd1f9b66a8468c07038"
+          },
+          {
+            "id": "R19-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "Victim의 MAC 주소를 위조하여 해당 IP로 전달되는 데이터를 중간에서 가로채는 공격 기법을 쓰시오.",
+            "answer": "ARP Spoofing",
+            "verification": "source-derived; PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+              "line": 37,
+              "excerpt": "source-derived; PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "61ea3bdd709f657e58365ac1edcb0fa3be0d15bc990f884389f3476480473cf4"
+          },
+          {
+            "id": "R19-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "IDS는 네트워크 패킷만 보고 공격을 탐지하는 (A) IDS와, 서버에 직접 설치되어 관리자 권한 탈취 등으로 발생하는 공격을 탐지하는 (B) IDS로 구분된다. 빈칸을 채우시오.",
+            "answer": "네트워크 기반 IDS, 호스트 기반 IDS",
+            "verification": "source-derived; PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+              "line": 38,
+              "excerpt": "source-derived; PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "0a9e7754841e9feca19999e2b492a1384468f7029bcde9acee313243b98c6b39"
+          },
+          {
+            "id": "R19-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "BCP 수립 시 장애·재해로 업무 프로세스가 중단되는 경우 예상 재무 손실, 외부 규제 요건 등을 고려해 업무 중요도를 평가하고 RTO와 RPO를 결정하는 절차를 쓰시오.",
+            "answer": "BIA(Business Impact Analysis, 업무영향도 분석)",
+            "verification": "source-derived; PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+              "line": 39,
+              "excerpt": "source-derived; PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "77e82e1ae0206ce46398064b0569016eb984e5083859aaa4d2fd17ef1eb71476"
+          },
+          {
+            "id": "R19-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "Apache 로그의 빈칸을 채우시오. 정상적인 접속 로그가 기록되는 (A) 로그, 접속 에러가 기록되는 (B) 로그가 있으며, 로그 파일 경로를 확인할 수 있는 파일은 (C)이다.",
+            "answer": "access log, error log, httpd.conf",
+            "verification": "source-derived; PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+              "line": 40,
+              "excerpt": "source-derived; PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "4d1ce7e548105c783869e4a997c582161ddaec033af6bc08b7ba5daff0ce6c65"
+          },
+          {
+            "id": "R19-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "필 짐머만이 개발했으며 PEM보다 보안성은 떨어지나 구현 프로그램이 공개되어 현재 많이 사용되는 이메일 보안 기술을 쓰시오.",
+            "answer": "PGP(Pretty Good Privacy)",
+            "verification": "source-derived; PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+              "line": 41,
+              "excerpt": "source-derived; PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "72e425c64d55c763f7aa909a5020b63348bd24dfd1667992aafb8886e2304091"
+          },
+          {
+            "id": "R19-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "위험평가 수행 시 자산을 식별하고, 식별된 자산의 가치를 CIA(기밀성·무결성·가용성) 측면에서 평가하여 산정하는 값을 쓰시오.",
+            "answer": "자산 중요도",
+            "verification": "source-derived; PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+              "line": 42,
+              "excerpt": "source-derived; PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "d2dc6a47fd51ef7dd0bce305516104999b6f4c7379ce1bc760ee9fa1d084edfd"
+          },
+          {
+            "id": "R19-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "공격자가 사용자와 서버 간 이미 활성화된 세션을 가로채 사용자의 신원으로 서버와 통신을 시도하는 공격 기법을 쓰시오.",
+            "answer": "세션 하이재킹",
+            "verification": "source-derived; PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+              "line": 43,
+              "excerpt": "source-derived; PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "0427b31d2e714ab3828864fa633a6ff42a60844bf1b7f7538ca2595443be8d13"
+          },
+          {
+            "id": "R19-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "특수비트와 관련하여 다음 각 항목에 설정된 접근권한의 의미를 설명하시오. (1) `-r-sr-xr-x root sys /etc/chk/passwd` (2) `-r-xr-sr-x root mail /etc/chk/mail` (3) `drwxrwxrwt sys sys /tmp`",
+            "answer": "setuid는 소유자 권한 실행, setgid는 그룹 권한 실행, sticky bit는 공용 디렉터리에서 소유자/root 외 삭제 제한",
+            "verification": "source-derived; Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+              "line": 44,
+              "excerpt": "source-derived; Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "b38c738a45c47f7207c4669321b663a099264b232815f97fee3db40d490f3a3c"
+          },
+          {
+            "id": "R19-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "공공기관에서 개인정보처리방침 수립 시 포함해야 할 사항을 4가지 이상 쓰고, 수립된 개인정보처리방침을 알리는 방법을 3가지 이상 쓰시오.",
+            "answer": "처리 목적·보유기간·제3자 제공·파기·위탁·정보주체 권리·책임자 연락처 등과 홈페이지/사업장 게시/관보·신문/간행물/계약서 고지",
+            "verification": "source-derived; Naver text extracted; legal wording needs current-law check",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+              "line": 45,
+              "excerpt": "source-derived; Naver text extracted; legal wording needs current-law check",
+              "status": "source-derived"
+            },
+            "contentDigest": "0030ced49c1eca548b68c5a6c02e0e85cd59985cb21714dcfe518e950bd795d1"
+          },
+          {
+            "id": "R19-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "로그 `device eth0 entered Promiscuous mode`에 대하여 답하시오. (1) Promiscuous mode의 의미는? (2) 해당 모드로 진입 시 수행 가능한 공격은? (3) 공격에 대응할 수 있는 방법을 1가지 이상 설명하시오.",
+            "answer": "NIC가 목적지가 아닌 패킷도 수신하는 모드이며 스니핑이 가능하다. 암호화 통신, promisc 해제, 스위치 운용 등으로 대응",
+            "verification": "source-derived; Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+              "line": 46,
+              "excerpt": "source-derived; Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "1e336cf6d4662e0850f68478a9b2bdf9dc5d36aa43226b44dcc07b150d673ec7"
+          },
+          {
+            "id": "R19-Q14",
+            "number": 14,
+            "type": "practical",
+            "prompt": "정보 자산 구성도와 자산목록을 보고 자산 식별 문제점 1개와 보안 취약 문제점 1개를 설명하시오. 구성도: 인터넷과 내부망 사이 방화벽으로 DMZ를 구성하고 web/mail 서버를 배치, web 서버 앞단에 웹방화벽 배치, 내부망은 방화벽으로 업무망·VDI망·서버망 Farm 분리, 서버망에는 dns/db/was/개발 서버가 위치. 자산목록: db서버 OS AIX 6.4 호스트명 krserver1 관리책임자 홍과장, was서버 OS AIX 8.0 호스트명 krserver1 관리책임자 김부장, dns서버 OS AIX 6.4 호스트명 dns_srv 관리책임자 홍대리, web서버 OS Windows 2003 호스트명 web1 관리책임자 김부장, mail서버 OS CentOS 7 호스트명 krmail01 관리책임자 김사원.",
+            "answer": "개발 서버 누락 같은 자산 식별 누락과 중복 호스트명/노후 OS 등 보안 취약점을 지적",
+            "verification": "source-derived; Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+            "sourceLine": 47,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+              "line": 47,
+              "excerpt": "source-derived; Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "b0754b6237964b328d70d8c5e7423e28bc0bd47dc1fcf98bd36ba80e2f2c8cd3"
+          },
+          {
+            "id": "R19-Q15",
+            "number": 15,
+            "type": "practical",
+            "prompt": "파일 업로드 취약점 대응을 위한 `.htaccess` 설정의 의미를 설명하시오. (1) `<FilesMatch \\.(ph|lib|sh|)> Order Allow DENY; Deny From ALL; </FilesMatch>` (2) `AddType text/html .php .php1 .php2 .php3 .php4 .phtml`",
+            "answer": "실행 차단, 특정 확장자 제한, MIME/Handler 제거 등 업로드 파일 실행 방지 설정",
+            "verification": "source-derived; Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+            "sourceLine": 48,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+              "line": 48,
+              "excerpt": "source-derived; Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "51e6bf206dbfe9aa33fd09b0fb40d5bdf47adeee16b2d6cb0a74295d5a4c183c"
+          },
+          {
+            "id": "R19-Q16",
+            "number": 16,
+            "type": "practical",
+            "prompt": "위험평가서 양식과 관련하여 답하시오. 위험평가서 양식 열은 자산명, 자산 중요도(C/I/A), 우려사항, 가능성, 위험도(C/I/A)이다. 행1은 ERP데이터, 중요도 H/H/M, 우려사항 \"DB의 접근 통제 위반이나 위반 시도를 적시에 발견하여 처리할 수 없다\", 가능성 H, 위험도 H/H/M이다. 행2는 워드문서, 중요도 L/L/L, 우려사항 \"적절한 보안 규정이 부족하여 자산이 제대로 보호되지 않을 수 있음\", 가능성 M, 위험도 L/L/L이다. (1) 자산 중요도 평가의 목적은? (2) 우려사항이란 무엇인가? (3) 가능성이란 무엇인가? (4) ERP데이터·ERP서버·워드문서 자산 평가 테이블을 보고 위험분석기법을 적용하여 위험분석을 수행하시오.",
+            "answer": "CIA 기반 중요도 산정으로 통제 우선순위를 정하고 우려사항·발생가능성을 반영해 위험도와 대응 우선순위를 결정",
+            "verification": "source-derived; Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+            "sourceLine": 49,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+              "line": 49,
+              "excerpt": "source-derived; Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "a28ce7a03fb6cfa03e424929041125125e2b543a1eb69d8f44929b65f7e6d86a"
+          }
+        ]
+      },
+      {
+        "roundId": "R20",
+        "year": "2022",
+        "session": "02",
+        "title": "정보보안기사 실기 20회 2022년 2회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+        "sourceDigest": "ced62413cc8ca2529eddc747cf45c1d776d69a20244ebb95c40be659594c020a",
+        "items": [
+          {
+            "id": "R20-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "Telnet으로 웹 서버에 접속한 후 응답 헤더에 `Allow: GET,HEAD,POST,OPTIONS,TRACE`가 표시되었다. 허용 HTTP Method를 확인하는 명령을 쓰시오.",
+            "answer": "OPTIONS",
+            "verification": "source-derived; Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+              "line": 34,
+              "excerpt": "source-derived; Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "a1bf17c6453c718590cec86c30c26ee708b372c3e84c4299f79099a8e2e383f1"
+          },
+          {
+            "id": "R20-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "위험분석 방법 빈칸을 채우시오. (A)는 시스템 전문 지식을 가진 전문가 집단을 구성하고 위험과 취약성을 토론을 통해 분석하는 방법이다. (B)는 어떤 사건도 기대대로 발생하지 않는다는 사실에 근거하여 일정 조건하에서 발생 가능한 결과를 추정하는 방법이다. (C)는 비교 우위 순위결정표에 따라 위험 항목들의 서술적 순위를 결정하는 방법이다.",
+            "answer": "델파이법, 시나리오법, 순위결정법",
+            "verification": "source-derived; Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+              "line": 35,
+              "excerpt": "source-derived; Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "35c1d6863666e9d8e8e6751b7b88fe0ac173cd73316dca79066a5d08d38f737e"
+          },
+          {
+            "id": "R20-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "위험분석 접근법 빈칸을 채우시오. (A)는 모든 시스템에 보호의 기본 수준을 정하고 표준화된 체크리스트 기반 보호대책을 선택하는 방식이다. (B)는 정립된 모델에 기초하여 자산·위협·취약성 분석 단계를 수행하는 방식이다. (C)는 고위험 영역을 상세 위험분석하고 다른 영역은 베이스라인 접근법을 사용하는 방식이다.",
+            "answer": "베이스라인 접근법, 상세 위험분석, 복합 접근법",
+            "verification": "source-derived; Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+              "line": 36,
+              "excerpt": "source-derived; Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "34af57455803998f304abdf59b7297911188a1d0936a755e354456c044344da1"
+          },
+          {
+            "id": "R20-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "접근통제 정책 빈칸을 채우시오. (A)는 사용자나 사용자 그룹에 근거한 사용자 중심 접근 제어 방식이다. (B)는 모든 객체가 정보의 비밀수준에 근거한 보안 레벨을 가지며 허가된 사용자만 접근 가능하도록 제어하는 방식이다. (C)는 사용자와 객체 상호관계를 역할 기반으로 접근 권한을 부여하는 방식이다.",
+            "answer": "DAC, MAC, RBAC",
+            "verification": "source-derived; Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+              "line": 37,
+              "excerpt": "source-derived; Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "ed4c2d99da4227eadff7707f9a1ab6e9209ec8d2f9dd1a70aa35f9633ebbfd0f"
+          },
+          {
+            "id": "R20-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "IDS 탐지 정책에서 (A)는 정상 행위를 이상행위로 판단하여 탐지하는 상황이고, (B)는 이상행위를 탐지하지 못하는 상황이다. 빈칸을 채우시오.",
+            "answer": "오탐(False Positive), 미탐(False Negative)",
+            "verification": "source-derived; Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+              "line": 38,
+              "excerpt": "source-derived; Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "f6b83438fc46361c3d71a8107eee2529a8841ac0074d2eb64f33940757df8aaf"
+          },
+          {
+            "id": "R20-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "IPSec에서 지원하는 보안 서비스.",
+            "answer": "기밀성, 제한된 트래픽 흐름 기밀성, 데이터 근원지 인증, 접근제어, 비연결형 무결성, 재전송 공격 방지 중 3개",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+              "line": 39,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "dec5dcc4e46746d5ae300e2576e2c0e00a0670b99fa8e2eabf9e63e5708f9601"
+          },
+          {
+            "id": "R20-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "(A)는 사토시 나카모토가 개발한 가상화폐로, 거래 데이터를 기록하는 저장소로 (B)를 이용한다. Hash 연산으로 발생된 거래 작업을 증명한 대가로 (A)를 획득하는 행위를 (C)라 한다.",
+            "answer": "비트코인, 블록체인, 채굴/마이닝",
+            "verification": "source-derived; Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+              "line": 40,
+              "excerpt": "source-derived; Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "192a5c09d1093fe7acb86d2fff7006e4072cc163c848167d88e966c64ba3295e"
+          },
+          {
+            "id": "R20-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "Apache 설정 `<Directory /var/www> Options indexes FollowSymLinks; AllowOverride none; Require all granted </Directory>`에서 디렉터리 인덱싱 취약점 대응을 위해 삭제해야 하는 지시자를 쓰시오.",
+            "answer": "`Indexes`",
+            "verification": "source-derived; Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+              "line": 41,
+              "excerpt": "source-derived; Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "da48544cad261a1f04bfe2457b4029b6a586ec778bbfdc046cb62680bbe0efe6"
+          },
+          {
+            "id": "R20-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "삭제하지 않은 CNAME이 피싱 사이트 등으로 악용되는 공격.",
+            "answer": "서브도메인 하이재킹 또는 서브도메인 테이크오버",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+              "line": 42,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "a412c9b1883934fe29522a67ee2e14bd4b12cf30c4cfa022c81e01dad39287b1"
+          },
+          {
+            "id": "R20-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "ISMS-P 물리적 정보보호 대책 항목.",
+            "answer": "보호구역 지정, 출입통제, 정보시스템 보호, 보호설비 운영, 보호구역 내 작업, 반출입 기기 통제, 업무환경 보안 중 3개",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+              "line": 43,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "44191718f675b4b3aabe46cb87bde16878c75e7901d6d683e52ba6089644feb2"
+          },
+          {
+            "id": "R20-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "개인정보 최소수집 원칙에 의거하여 개인정보 수집이 가능한 경우 4가지를 쓰시오.",
+            "answer": "정보주체 동의, 법령상 의무, 공공기관 소관업무, 계약 체결·이행, 급박한 생명·신체·재산 이익, 정당한 이익 등",
+            "verification": "source-derived; Naver text extracted; legal wording needs current-law check",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+              "line": 44,
+              "excerpt": "source-derived; Naver text extracted; legal wording needs current-law check",
+              "status": "source-derived"
+            },
+            "contentDigest": "a56832faf0baf7699d1e7047e76f00e89c957261b5266cc3bb783d9ec3ae687f"
+          },
+          {
+            "id": "R20-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "스위칭 허브의 기능 및 동작 원리를 서술하시오. 기능은 목적지 주소 기반 포트 전송, 고속 전송, 로드밸런싱, QoS 관점에서 설명하고, L2 동작 원리는 Learning, Forwarding, Filtering, Flooding, Aging 관점에서 설명한다.",
+            "answer": "목적지 주소 기반 포트 전송 장치이며 learning, forwarding, filtering, flooding, aging 방식으로 MAC table을 운용",
+            "verification": "source-derived; Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+              "line": 45,
+              "excerpt": "source-derived; Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "d3db8970f07866e9b3d9d872c6954c5fb1633dd001e495b17eca6e0f7302c279"
+          },
+          {
+            "id": "R20-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "Snort 룰 `alert tcp any any -> any 21 {content:\"anonymous\"; nocase; msg:\"Anonymous FTP attempt\"; sid:1000012}`과 탐지 패킷 `55 53 45 52 20 41 6E 4F 6E 59 6D 4F 75 53 0D 0A USER AnOnYmOuS..`를 보고 어떤 공격이 수행되었는지 설명하시오.",
+            "answer": "Anonymous FTP 로그인 시도. 대소문자 혼합 입력은 탐지 우회 목적이며 `nocase`로 탐지 가능",
+            "verification": "source-derived; Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+              "line": 46,
+              "excerpt": "source-derived; Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "f3a6dfb42f0862e9f5f3b62f23425b44b8a4bfce192d3520f465d811c78b0130"
+          },
+          {
+            "id": "R20-Q14",
+            "number": 14,
+            "type": "practical",
+            "prompt": "Sendmail 스팸메일 릴레이 제한 설정과 관련하여 빈칸을 채우시오. `cat /etc/mail/(1) | grep \"R$*\" | grep \"Relaying denied\"` 결과는 `R$* $#error $@ 5.7.1 $ : \"550 Relaying denied\"`이다. `/etc/mail/access`에는 `localhost.localdomain RELAY`, `localhost RELAY`, `127.0.0.1 RELAY`, `spam.com (2)`가 있다. access DB 생성 명령은 `(3) hash /etc/mail/(4) < /etc/mail/access` 형식이다.",
+            "answer": "`/etc/mail/access` 편집 후 `makemap hash /etc/mail/access.db < /etc/mail/access` 실행",
+            "verification": "source-derived; Naver text extracted; exact shell path wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+            "sourceLine": 47,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+              "line": 47,
+              "excerpt": "source-derived; Naver text extracted; exact shell path wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "94864ab07ec21573a290a09ae8d746287ed9659210b05d7d6ffc927697afada5"
+          },
+          {
+            "id": "R20-Q15",
+            "number": 15,
+            "type": "practical",
+            "prompt": "Smurf attack을 방지하기 위하여 신뢰할 수 있는 네트워크 범위 `192.168.1.0/24`에서 시작하는 UDP 패킷으로 `ip directed-broadcast`를 제한 설정하는 라우터 명령어를 쓰시오. `(config)# (A)`, `(config)# (B)`, `(config-if)# (C)`, `^z`, `Router#`",
+            "answer": "(A) `access-list 100 permit udp 192.168.1.0 0.0.0.255 any` (B) `interface FastEthernet 0/0` (C) `ip directed-broadcast 100`",
+            "verification": "source-derived; Naver text extracted; source notes disputed wording",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+            "sourceLine": 48,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+              "line": 48,
+              "excerpt": "source-derived; Naver text extracted; source notes disputed wording",
+              "status": "source-derived"
+            },
+            "contentDigest": "cd6306f463483f367262bb0993508c0d2f32f061d35e08a9686797af5bc035bd"
+          },
+          {
+            "id": "R20-Q16",
+            "number": 16,
+            "type": "practical",
+            "prompt": "위험 대응 기법에 대하여 답하시오. (1) 위험수용의 의미는? (2) 위험감소를 위한 보안대책 선정 시 특정 보안대책의 평가기준을 결정하는 정량적인 방법은? (3) 위험회피 시 위험이 있는 프로세스나 사업은 어떻게 대처하는가? (4) 위험전가를 위한 2가지 방법은?",
+            "answer": "위험수용, 위험감소, 위험회피, 위험전가",
+            "verification": "source-derived; Naver text extracted; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+            "sourceLine": 49,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+              "line": 49,
+              "excerpt": "source-derived; Naver text extracted; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "e1e57277a0483a06a90087a94ea7bc0fd80c2d01af3b4316796b437922e34086"
+          }
+        ]
+      },
+      {
+        "roundId": "R21",
+        "year": "2022",
+        "session": "04",
+        "title": "정보보안기사 실기 21회 2022년 4회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+        "sourceDigest": "a8740c3ac19a9fcd0a4e268eb90e70f1d6075a1933bb8c46a4395b753314dfed",
+        "items": [
+          {
+            "id": "R21-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "Sendmail에서 스팸메일 릴레이 제한 설정 후 access DB를 생성하려고 한다. `# (A) (B) /etc/mail/access.db < /etc/mail/access`의 빈칸을 채우시오.",
+            "answer": "(A) `makemap`, (B) `hash`",
+            "verification": "source-derived; Naver cross-checked; leading slash in reconstructed source was ambiguous",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+              "line": 34,
+              "excerpt": "source-derived; Naver cross-checked; leading slash in reconstructed source was ambiguous",
+              "status": "source-derived"
+            },
+            "contentDigest": "99ddd621df1a4ce7fb0da9918ab232d50d566c5c961d1f466806dfa87ada3c5c"
+          },
+          {
+            "id": "R21-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "라우터에서 SNMP 프로토콜을 비활성화하려고 한다. `Router# configure terminal`, `Router(config)# (A) (B)`의 빈칸을 채우시오.",
+            "answer": "(A) `no`, (B) `snmp-server`",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+              "line": 35,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "2cf71adadff4e9825248c3bb2d8b0990b271331bf23b25409fa159cee16f94ae"
+          },
+          {
+            "id": "R21-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "위험분석과 관련해 1) 수용 가능한 수준의 위험을 지칭하는 용어를 쓰고, 2) 위험이 낮으면 원칙적으로 비용 절감을 위해 그대로 두는 것이 맞는지 O/X로 답하시오.",
+            "answer": "1) DoA(Degree of Assurance), 위험 허용/수용 수준 2) X",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+              "line": 36,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "1f1a02bd86a00dead82600463aa40507b8b38e7fc680b3f2dfde8f5c540d83db"
+          },
+          {
+            "id": "R21-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "업무연속성계획(BCP) 5단계 중 2~4단계의 명칭을 쓰시오.",
+            "answer": "BIA(사업영향평가), 복구전략 개발, 복구계획 수립",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+              "line": 37,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "8ac9f693afbc0e2e5ec85fca22b6ce072010ab61df07ec8c53f581f4efb1d224"
+          },
+          {
+            "id": "R21-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "특정 대상을 겨냥해 다양한 공격기법, 특히 알려지지 않은 취약점을 이용하여 장기간 지속적으로 공격하는 기법을 쓰시오.",
+            "answer": "APT(Advanced Persistent Threat, 지능형 지속 위협)",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+              "line": 38,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "cb4127228dcd0e97be7e3ad00fc02ab81b829d059c819cc4bd956b23384e0607"
+          },
+          {
+            "id": "R21-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "불완전한 암호화 저장 취약점 점검 방법의 빈칸을 채우시오. 1) DB에 저장된 중요정보가 (A)로 열람 가능한지 확인한다. 2) (B) 또는 암호화된 쿠키값이 랜덤하게 생성되는지 확인한다. 3) 적절한 (C)이 적용되었는지 검증한다.",
+            "answer": "(A) SQL Query, (B) 세션ID, (C) 암호화 알고리즘",
+            "verification": "source-derived; Naver cross-checked; source itself notes controversy over original basis",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+              "line": 39,
+              "excerpt": "source-derived; Naver cross-checked; source itself notes controversy over original basis",
+              "status": "source-derived"
+            },
+            "contentDigest": "33a7f27eaf1a4802857c30b9437101b8b23a1195d4ce4872683116801f279ee9"
+          },
+          {
+            "id": "R21-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "TCP/IP 인터넷 계층에서 동작하는 VPN 보안 프로토콜과 그 세부 프로토콜 중 무결성·메시지 인증을 제공하는 항목, 암호화를 통한 기밀성을 제공하는 항목의 빈칸 (A), (B), (C)를 채우시오.",
+            "answer": "(A) IPSec, (B) AH(Authentication Header), (C) ESP(Encapsulating Security Payload)",
+            "verification": "source-derived; N-hustler problem text cross-checked; exact official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+              "line": 40,
+              "excerpt": "source-derived; N-hustler problem text cross-checked; exact official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "15823efca66dcec548c00f73562c00940283eab8b8ef974f0781de210810eb9e"
+          },
+          {
+            "id": "R21-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "위험분석 방법의 빈칸을 채우시오. (A)는 전문가 집단 토론으로 위험과 취약성을 분석한다. (B)는 일정 조건에서 발생 가능한 결과를 시나리오로 추정한다. (C)는 자산·위협·보안체계 등을 정성적 언어값으로 표현해 기대손실을 평가한다.",
+            "answer": "(A) 델파이법, (B) 시나리오법, (C) 퍼지행렬법",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+              "line": 41,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "85f269d989fd62202c4bd17d11ecb8c4f9f2929b87b26269901df6f43ea855b3"
+          },
+          {
+            "id": "R21-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "익스플로잇 코드의 빈칸을 채우시오. (A)는 어셈블리어/기계어로 구성된 익스플로잇 코드 본체, (B)는 NOP에 해당하는 x86 Hex Code, (C)는 ESP 레지스터 값을 EIP 레지스터로 옮기는 어셈블리 명령이다.",
+            "answer": "(A) Shell Code, (B) `0x90`, (C) `RET`, `JMP ESP` 계열",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+              "line": 42,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "e3a70ff1e5a33ea8c73e27f770b432c186af181bd3d2d13fe5cb85a0374f449f"
+          },
+          {
+            "id": "R21-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "Apache 업로드 가능 파일 크기 제한 명령/지시자.",
+            "answer": "`LimitRequestBody`",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+              "line": 43,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "496552f58c41dab8b2f3356aa68f7011085963169ee266c5c6dd44ee41fe9695"
+          },
+          {
+            "id": "R21-Q11",
+            "number": 11,
+            "type": "essay",
+            "prompt": "IDS 침입탐지 방식에 대해 1) 오용 탐지의 정의, 2) 이상 탐지의 정의, 3) 오용 탐지의 장점, 4) 오용 탐지의 단점을 설명하시오.",
+            "answer": "오용 탐지는 알려진 공격 패턴/시그니처 기반 탐지, 이상 탐지는 정상 행위 프로파일과의 차이 기반 탐지. 오용 탐지는 오탐이 낮지만 신규 공격 탐지가 어렵고 패턴 업데이트가 필요하다.",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+              "line": 44,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "67586f604e7f0f8cadea4e6a69c1ff4cee884363e9714a8abe18fccde32f93ab"
+          },
+          {
+            "id": "R21-Q12",
+            "number": 12,
+            "type": "essay",
+            "prompt": "재해복구시스템 유형 중 미러사이트에 대해 1) 정의, 2) 장단점 각 2개, 3) RTO가 가장 오래 걸리는 방식과 이유를 설명하시오.",
+            "answer": "미러사이트는 주센터와 동일 수준 시스템을 백업센터에 구축해 액티브-액티브로 실시간 서비스하는 방식. 장점은 즉시 복구와 최신 데이터 보장, 단점은 높은 구축·운영 비용과 데이터 업데이트 과부하 가능성. RTO가 가장 긴 방식은 콜드사이트이며, 재해 시 자원 조달과 복구 시간이 필요하다.",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+              "line": 45,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "c3d84c49a877486787e942f087f3ff3303f4eee43a9d68f8ee29440c9b9b23e6"
+          },
+          {
+            "id": "R21-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "개인정보 기술적·관리적 보호조치 기준에 포함된 개인정보취급자 비밀번호 작성규칙 3가지를 기술하시오.",
+            "answer": "복잡도/길이 기준 준수, 유추하기 어려운 비밀번호 사용, 유효기간 설정 및 주기적 변경 등",
+            "verification": "source-derived; Naver cross-checked; current policy wording may vary",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+              "line": 46,
+              "excerpt": "source-derived; Naver cross-checked; current policy wording may vary",
+              "status": "source-derived"
+            },
+            "contentDigest": "2f2a82521d1d2d7ce1c9c1c6d7b724ef5fcc1a5a8abf3c57fa11e0937212a918"
+          },
+          {
+            "id": "R21-Q14",
+            "number": 14,
+            "type": "practical",
+            "prompt": "동일한 출발지 IP에서 2초 동안 80번 포트로 30개 이상 SYN 요청이 들어오는 경우 차단하는 iptables 룰을 작성하고, 룰 옵션을 5개로 구분해 설명하시오.",
+            "answer": "`iptables -A INPUT -p TCP --syn --dport 80 -m recent --update --seconds 2 --hitcount 30 --name SYN_DROP -j DROP`; INPUT 인바운드, TCP SYN, 목적지 80번, recent 모듈로 2초/30회 조건, DROP 차단",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+            "sourceLine": 47,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+              "line": 47,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "9bf88c59b6f807067dcb61086cda75475455c3b4f8764149e0fa5c86acb4fe71"
+          },
+          {
+            "id": "R21-Q15",
+            "number": 15,
+            "type": "practical",
+            "prompt": "ALE와 관련해 1) SLE 정의, 2) SLE 계산식, 3) ALE 계산에 필요한 정보, 4) 연간 손실이 완전 제거되는데 투입된 비용이 X일 때 ROI(%) 계산식을 답하시오.",
+            "answer": "1) 단일 사건 손실액 2) `SLE = AV * EF` 3) ARO 4) `(ALE - X) / X * 100`",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+            "sourceLine": 48,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+              "line": 48,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "cb5aa49cedffac54a227c0e3443efe899d26159ad4c605e7cc5ec30dfdebc7a3"
+          },
+          {
+            "id": "R21-Q16",
+            "number": 16,
+            "type": "practical",
+            "prompt": "Master DNS `ns1.korea.co.kr(192.168.1.1)`와 Slave DNS `ns2.korea.co.kr(192.168.1.2)`의 zone 설정 빈칸을 채우시오. Master `/etc/named.conf`: `type (A); allow-update { (B) }`; zone file: `ns1 IN A (C)`, `ns2 IN A (D)`; Slave `/etc/named.conf`: `type (E); masters { (F) }`.",
+            "answer": "(A) `master`, (B) `192.168.1.2;`, (C) `192.168.1.1`, (D) `192.168.1.2`, (E) `slave`, (F) `192.168.1.1;`",
+            "verification": "source-derived; Naver cross-checked; source notes DNS item was reconstructed with uncertainty",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+            "sourceLine": 49,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+              "line": 49,
+              "excerpt": "source-derived; Naver cross-checked; source notes DNS item was reconstructed with uncertainty",
+              "status": "source-derived"
+            },
+            "contentDigest": "0c641f1b4e293d133dabd58eeb14f380b2d39a50e98540e33aa9f7769c91aa83"
+          }
+        ]
+      },
+      {
+        "roundId": "R22",
+        "year": "2023",
+        "session": "01",
+        "title": "정보보안기사 실기 22회 2023년 1회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+        "sourceDigest": "8dcd86fb935c7328bb595f0b0a1a783d34c504b40f731d5edaf5a0ebeeb09e37",
+        "items": [
+          {
+            "id": "R22-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "라우팅 프로토콜의 빈칸을 채우시오. (A)는 거리 벡터 알고리즘을 사용하는 오래된 내부 라우팅 프로토콜, (B)는 링크 상태 알고리즘을 사용하고 링크 상태 변화 시에만 정보를 교환하는 내부 라우팅 프로토콜, (C)는 Cisco가 제안한 하이브리드 라우팅 프로토콜이다.",
+            "answer": "(A) RIP, (B) OSPF, (C) EIGRP",
+            "verification": "source-derived; Naver cross-checked; EIGRP/IGRP ambiguity noted by source",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+              "line": 34,
+              "excerpt": "source-derived; Naver cross-checked; EIGRP/IGRP ambiguity noted by source",
+              "status": "source-derived"
+            },
+            "contentDigest": "1b1ed936f93b32fe1333ce5d77e2bda21c5f9983470cacdff221e486ac50d106"
+          },
+          {
+            "id": "R22-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "Unix 로그 파일명의 빈칸을 채우시오. (A)는 사용자의 가장 최근 로그인 시각과 접근 호스트 정보, (B)는 `su` 권한 변경 성공/실패 로그, (C)는 시스템에 로그인한 모든 사용자가 실행한 명령어 정보를 기록한다.",
+            "answer": "(A) `lastlog`, (B) `sulog`, (C) `acct`/`pacct`",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+              "line": 35,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "d3446b93053360bdae08c7ad803216d91847dcc709af883f9c6a5a15482ead76"
+          },
+          {
+            "id": "R22-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "`/etc/passwd` 정보 `test01:x:100:1000:/home/exam:/bin/bash`에서 `1000`, `/home/exam`, `/bin/bash`의 의미를 설명하시오.",
+            "answer": "`1000`: GID, `/home/exam`: 사용자 홈 디렉터리, `/bin/bash`: 로그인 셸",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+              "line": 36,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "c3bc781d94d2879bd932ea4c430b3a1f5a3b338fa37b19be466555ecf2ae20ee"
+          },
+          {
+            "id": "R22-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "HTTP 요청 메시지 입력값이 HTTP 응답 헤더에 포함될 때 응답이 여러 개로 분리되는 HTTP 응답 분할(Response Splitting) 취약점이 발생할 수 있다. 쿠키 탈취, XSS 등을 유발할 수 있는 이 공격에서 HTTP 요청 메시지에 삽입되는 개행 문자 2개를 쓰시오.",
+            "answer": "CRLF 또는 `%0d%0a`",
+            "verification": "source-derived; PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+              "line": 37,
+              "excerpt": "source-derived; PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "bea9f2e7f035cb8197d66fe3796c4d24fb05674da8a6182e81a36aa1404d1ee1"
+          },
+          {
+            "id": "R22-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "파일 삽입 취약점 대응책의 빈칸을 채우시오. 1) PHP 소스 코드에 (A) 함수가 존재하는지 확인한다. 2) PHP 설정 파일 (B)에서 `allow_url_fopen` 값을 (C)로 설정한다.",
+            "answer": "(A) `require` 또는 `include`, (B) `php.ini`, (C) `Off`",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+              "line": 38,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "8fa923d1b31dc662c761451359ac491b5534c777e42e901108ff27e6b88148d1"
+          },
+          {
+            "id": "R22-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "Snort에서 대량 패킷에 대응하기 위해 설정하는 Threshold 옵션의 type 3가지를 쓰시오.",
+            "answer": "`limit`, `threshold`, `both`",
+            "verification": "source-derived; Naver cross-checked; source typo `treshold` normalized",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+              "line": 39,
+              "excerpt": "source-derived; Naver cross-checked; source typo `treshold` normalized",
+              "status": "source-derived"
+            },
+            "contentDigest": "b731d7866323cca03ce893b98ac2fa8ec09aac42b59b2e312c45b0ac126276da"
+          },
+          {
+            "id": "R22-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "ARP request 요청을 보내는 경우 목적지 MAC 주소를 형식에 맞춰 기술하시오.",
+            "answer": "`FF:FF:FF:FF:FF:FF`",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+              "line": 40,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "3438696bc18c91773a178b0a0ce6a0645caea0c8038bc0e9fd1cf249cfa2a92e"
+          },
+          {
+            "id": "R22-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "DNS 서비스의 빈칸을 채우시오. 1) DNS는 53번 포트를 사용하고 전송 계층 프로토콜로 (A)를 사용한다. 2) DNS 서버는 반복 질의 부하를 줄이기 위해 (B)를 사용하며 해당 정보 유지 기간을 (C)라고 한다.",
+            "answer": "(A) UDP/TCP, (B) Cache(DNS 캐시), (C) TTL(Time To Live)",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+              "line": 41,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "28aa4fda17a27e230d1279240a77c6cb0a690bd61d4bf1b5a42bed0b539f8d76"
+          },
+          {
+            "id": "R22-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "애플리케이션 소스 코드를 보지 않고 외부 인터페이스나 구조를 분석하는 방식 (A)와, 개발된 소스 코드를 살펴보며 취약점을 찾는 방식 (B)를 쓰시오.",
+            "answer": "(A) 블랙박스 테스트, (B) 화이트박스 테스트",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+              "line": 42,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "2c102320e36187d339ee41b41d01abc57fbc234e8672931bb40fe5c91100531e"
+          },
+          {
+            "id": "R22-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "DBMS 조회 질의문 생성 시 검증방법 설계 고려사항의 빈칸을 채우시오. 1) DB 연결 계정은 (A)이 설정된 계정을 사용한다. 2) 외부 입력값이 삽입되는 SQL 쿼리문을 (B)으로 생성해 실행하지 않는다. 3) 동적 SQL 생성 시 (C)에 대한 검증을 수행한다.",
+            "answer": "(A) 최소권한, (B) 동적, (C) 입력값",
+            "verification": "source-derived; Naver cross-checked; KISA software security guide basis",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+              "line": 43,
+              "excerpt": "source-derived; Naver cross-checked; KISA software security guide basis",
+              "status": "source-derived"
+            },
+            "contentDigest": "5244741435e361ff1813a99e2bed093bfedad43775f625b1f9f0cc731ec4216f"
+          },
+          {
+            "id": "R22-Q11",
+            "number": 11,
+            "type": "short",
+            "prompt": "개인정보의 안전성 확보조치 기준 중 접속기록 보관·관리의 빈칸을 채우시오. 개인정보처리자는 개인정보처리시스템 접속기록을 최소 (A) 이상 보관·관리해야 하며, 5만명 이상의 정보주체에 관한 개인정보를 처리하거나 (B) 또는 고유식별정보를 처리하는 시스템은 2년 이상 보관·관리해야 한다.",
+            "answer": "(A) 1년, (B) 민감정보",
+            "verification": "source-derived; Naver cross-checked; current-law wording needs check",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+              "line": 44,
+              "excerpt": "source-derived; Naver cross-checked; current-law wording needs check",
+              "status": "source-derived"
+            },
+            "contentDigest": "3f73c10fc72a3b4957b5d0e196052f892ef8ef4d9463d1cc543738906a8843a6"
+          },
+          {
+            "id": "R22-Q12",
+            "number": 12,
+            "type": "short",
+            "prompt": "위험관리 용어의 빈칸을 채우시오. (A): 내외부 위협과 취약점으로 인해 자산에서 발생 가능한 위험을 감소시키기 위한 관리적·물리적·기술적 대책. (B): (A)을 적용한 이후에도 남는 위험. (C): 조직에서 수용 가능한 목표 위험 수준으로 경영진 승인을 받아 관리해야 한다.",
+            "answer": "(A) 정보보호대책, (B) 잔여 리스크/위험, (C) DoA(수용 가능한 위험 수준)",
+            "verification": "source-derived; PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+              "line": 45,
+              "excerpt": "source-derived; PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "72994abf580fe9bc3252d81a0270298f48ddcd6b8b36ed9c162d33f7516ef130"
+          },
+          {
+            "id": "R22-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "BYOD 환경에서 모바일 오피스 서비스를 하려고 한다. 관련 보안 기술인 1) MDM(Mobile Device Management), 2) 컨테이너화, 3) 모바일 가상화를 각각 설명하시오.",
+            "answer": "MDM은 단말 정책·앱·분실통제를 관리하고, 컨테이너화는 업무/개인 영역을 분리하며, 모바일 가상화는 격리된 실행환경을 제공",
+            "verification": "source-derived; PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+              "line": 46,
+              "excerpt": "source-derived; PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "f6a93020db6dd8c7de2ae7b88b6afab15a0918ad6940711207ca24d96ebc5ca9"
+          },
+          {
+            "id": "R22-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "위험 분석 방법인 1) 기준선 접근법, 2) 상세 위험 분석법에 대해 각각 개념, 장점, 단점을 설명하시오.",
+            "answer": "기준선은 빠르고 표준화되나 과소/과대보호 위험이 있고, 상세 위험분석은 정확하지만 비용과 시간이 크다",
+            "verification": "source-derived; PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+            "sourceLine": 47,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+              "line": 47,
+              "excerpt": "source-derived; PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "6bdb82dbc70473909bcf46f689d2c834bee0dee96389dba3a1935d2e9b018653"
+          },
+          {
+            "id": "R22-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "쿠키 설정값 1) Secure, 2) HttpOnly, 3) Expires의 의미를 보안 측면에서 설명하시오.",
+            "answer": "Secure는 HTTPS 전송 제한, HttpOnly는 스크립트 접근 제한, Expires는 만료시각 지정",
+            "verification": "source-derived; PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+            "sourceLine": 48,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+              "line": 48,
+              "excerpt": "source-derived; PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "be5c45ba7b2a398d07628ea06477feef4bbe6fbb3340f341cb3ec37de4a503a9"
+          },
+          {
+            "id": "R22-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "DNS 증폭 공격에 사용되는 IP 공격 기법을 설명하고, 해당 공격 기법을 사용하는 이유를 설명하시오.",
+            "answer": "출발지 IP spoofing을 이용해 피해자 IP로 대량 응답이 향하게 하며, 작은 질의 대비 큰 응답으로 증폭 효과를 얻음",
+            "verification": "source-derived; PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+            "sourceLine": 49,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+              "line": 49,
+              "excerpt": "source-derived; PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "0b58d47c154829d8dc0d215f73934ce84f5b2743866b297648b3e2057ca2f0de"
+          },
+          {
+            "id": "R22-Q17",
+            "number": 17,
+            "type": "practical",
+            "prompt": "HTTP Request 로그 `GET /member/login.php?user_id=1' or '1' = '1'# &user_pw=foo HTTP/1.1`와 `GET /member/login.php?user_id=1' or '1' = '1 &user_pw=foo HTTP/1.1`을 보고 답하시오. 1) 해당 취약점은 무엇인가? 2) 그렇게 판단한 이유는? 3) 대응 방안은?",
+            "answer": "SQL Injection. 입력값이 쿼리 구조를 바꿀 수 있으면 취약하며 입력검증, PreparedStatement, 최소권한, 오류노출 제한으로 조치",
+            "verification": "source-derived; PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+            "sourceLine": 50,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+              "line": 50,
+              "excerpt": "source-derived; PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "09dec158c3362984cda0d78021d16c718c2d1abc5b1aa9238ac02d069d10ad25"
+          },
+          {
+            "id": "R22-Q18",
+            "number": 18,
+            "type": "practical",
+            "prompt": "개인정보의 안전성 확보조치 기준에서 요구하는 보호조치 5가지를 기술하시오. 예시는 접근통제, 접속기록의 위·변조 방지, 개인정보 암호화, 악성프로그램 등 방지, 물리적 안전조치 관점이다.",
+            "answer": "내부관리계획, 접근권한 관리, 접근통제, 암호화, 접속기록 보관·점검, 악성프로그램 방지, 물리적 안전조치 등",
+            "verification": "source-derived; PDF compilation cross-check restored prompt condition; current-law wording needs check",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+            "sourceLine": 51,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+              "line": 51,
+              "excerpt": "source-derived; PDF compilation cross-check restored prompt condition; current-law wording needs check",
+              "status": "source-derived"
+            },
+            "contentDigest": "2fb6bc3540e876b5c5faac0ff3efff3b2de42175ca62b28b771abe8e2d709186"
+          }
+        ]
+      },
+      {
+        "roundId": "R23",
+        "year": "2023",
+        "session": "02",
+        "title": "정보보안기사 실기 23회 2023년 2회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+        "sourceDigest": "7b217de9ac9c9d85c9c576a6f0130688945df96e0645b76cb0d5e8a86652979e",
+        "items": [
+          {
+            "id": "R23-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "윈도우 OS 환경에서 특정 서비스의 로그 파일 저장 경로를 참고하여, ( )에 들어갈 로그 파일 경로를 기술하시오. (IIS 로그) C:\\Windows\\inetpub\\logs\\Logfiles\\W3SVC1 C:\\Windows\\inetpub\\logs\\Logfiles\\MSFTPSVC1 C:\\Windows\\System32\\Logfiles\\ ( A ) (DHCP) C:\\Windows\\System32\\Logfiles\\ ( B )",
+            "answer": "(A) : HTTPERR, (B) DHCP",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+              "line": 33,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "34344dd354e04e472a6707b7e6a600cc73dd88e71acafe085597cadf8d7953e1"
+          },
+          {
+            "id": "R23-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "64비트 리눅스에서 아래 프로그램 코드를 실행하려고 한다. printf를 통해 함수가 호출될 때, A, B, C 각 파라미터가 저장되는 레지스터 명을 기술하시오. int main() { printf(\"%c, %c, %c\\n\", 'A', 'B', 'C');}",
+            "answer": "RDI, RSI, RDX",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+              "line": 34,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "e9a613150e44bddb17b9fd214a41477d89cdf12a5f0812f9f75a63d75861bbba"
+          },
+          {
+            "id": "R23-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "리눅스 환경에서 컴파일 과정에 관한 설명이다. ( )에 들어갈 용어를 기술하시오. - 리눅스 환경에서 ( A ) 방식으로 컴파일하는 경우, 외부 라이브러리 함수를 사용할 수 있도록 주소를 프로그램에 연결시켜주는 테이블인 ( B ) 를 참조한다. - ( B ) 는 실제 해당 함수의 주소가 들어 있는 ( C ) 를 참조하여 함수 주소를 얻어 온다.",
+            "answer": "(A) : Dynamic Linking, (B) : PLT(Procedure Linkage Table), GOT(Global Offset Table)",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+              "line": 35,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "9429618ca30574ad90b3c0e034e9c62594884e4cc91c7486e940e461f07e6a4e"
+          },
+          {
+            "id": "R23-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "정보보호 및 개인정보 관리체계 인증(ISMS-P)은 인증 기준이 3개 영역, 102개 항목으로 세분화되어 있다. 이 중 3개 영역을 기술하시오.",
+            "answer": "관리체계 수립 및 운영, 보호대책 요구사항, 개인정보 처리 단계별 요구사항",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+              "line": 36,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "6e9f0e131c329df84798d8a63c17fce786b004c3aab69d18fc9662a93b0f0a47"
+          },
+          {
+            "id": "R23-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "유닉스의 /var/log/message 로그가 다음과 같이 기록되어 있다. 로그의 내용을 5개 항목으로 나누었을 때 ( ) 가 의미하는 바를 기술하시오. (/var/log/message 샘플) Mar 29 14:23:57(로그생성일시) alex(로그가 생성된 호스트 명) kernel:(3) (295087, 236116)(4) Call Trace:(5) Mar 29 14:23:57 alex kernel: (295087, 236131) do_idle+0x83/0xf0 Mar 29 14:23:57 alex systemd (1) apt-daily-upgrade.service: Consumed 50.187s CPU time",
+            "answer": "로그를 생성한 프로세스 명, 로그를 생성한 프로세스의 프로세스 번호, 상세 로그 메시지",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+              "line": 37,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "b239be5cd1e80b6896a5acdac6b1bb74c550d07da4b3682315862ce372fb9b8f"
+          },
+          {
+            "id": "R23-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "SQL Injection 취약점을 대응하는 방법에 대한 설명이다. ( )에 들어갈 용어를 설명하시오. (공격 대상 SQL 구문) string query = \"select * from member a where gubun = '\" + a.gubun \"'\" (대응 방법) 외부로부터 입력받은 값을 검증하지 않고, SQL문을 생성하는데 그대로 사용하는 경우 문제가 발생할 수 있다. 즉, gubun 값으로 a' or 'a' = 'a를 입력하는 경우 쿼리가 항상 참이 되므로 member 테이블의 모든 내용이 조회된다. 이에 대한 대응 방안으로 파라미터를 받는 ( ) 객체를 상수 스트링으로 정의하고, 파라미터를 setString과 같은 메소드로 설정하면 외부의 입력이 쿼리문의 구조를 바꾸는 것을 예방할 수 있다.",
+            "answer": "Prepared Statement",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+              "line": 38,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "7f98510247496060e500e634f1978bb7669aad38c5b3aa000d7a4b9511b088b7"
+          },
+          {
+            "id": "R23-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "리눅스의 PAM(Pluggable Authentication Module) 모듈의 종류에 대한 설명이다. ( )에 들어갈 모듈명을 기술하시오. 1) ( A ) : 실질적인 인증 기능, 패스워드 확인을 담당하는 모듈 2) ( B ) : 사용자의 시스템 사용 권한을 확인하는 모듈 3) password : 패스워드를 설정하거나 확인하는 데 사용하는 모듈 4) ( C ) : 사용자가 인증 성공 시 세션을 맺어주는 모듈",
+            "answer": "(A) : auth, (B) : account, (C) : session",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+              "line": 39,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "8ddde9041ac646751badc3e42022c772dc320e1cb8991e8c722b545ea578fdcf"
+          },
+          {
+            "id": "R23-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "Salvatore Sanfilippo가 개발한 보안 테스트 툴로 ICMP, TCP, UDP 등과 같은 다양한 프로토콜을 지원한다. 다량의 공격용 패킷을 생성하여 DDoS 훈련 목적으로도 사용하는 이 툴의 이름은 무엇인가?",
+            "answer": "hping3",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+              "line": 40,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "3ef6e8fca0d4d0004695bfda29b5cbd2bf71510fbbf80b47d4a9f4cc193560e1"
+          },
+          {
+            "id": "R23-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "보안 점검 도구에 대하여 ( )에 들어갈 명칭을 기술하시오. - Tripwire는 ( A ) 을 점검하는 도구이다. - ( B ) 는 미국 Tenable사가 개발하였고, 네트워크에 연결된 다양한 종류의 시스템에 대하여 자동화된 취약점 스캔을 지원하며 광범위한 취약점 DB를 가지고 있다.",
+            "answer": "(A) : 무결성, (B) : Nessus",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+              "line": 41,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "add096198cd16d903cdb4a6ccadf2ab8cfd518fe0aa282daff86703c9cc29f36"
+          },
+          {
+            "id": "R23-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "CVE-2014-0160으로 알려진 오픈 SSL 취약점이다. 오픈 SSL의 하트비트 체크 로직의 취약점을 악용하여 시스템 메모리에서 중요 데이터를 탈취할 수 있는 이 취약점의 이름은 무엇인가?",
+            "answer": "하트블리드(HeartBleed)",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+              "line": 42,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "36937f2dd5122fc84d9f016c40793d84c7627267a9f58e2d6118c50e5800d4f0"
+          },
+          {
+            "id": "R23-Q11",
+            "number": 11,
+            "type": "short",
+            "prompt": "위험관리 3단계에 대한 설명이다. ( )에 들어갈 단계명을 기술하시오. - ( A ) : 자산의 위협과 취약점을 분석하여 보안 위험의 종류와 규모를 결정하는 과정 - ( B ) : 식별된 자산, 위협 및 취약점을 기준으로 위험도를 산출하여 기존의 보호대책을 파악하고 위험의 대응 여부와 우선 순위를 결정하기 위한 평가 과정 - 대책 선정 : 허용가능 수준으로 위험을 줄이기 위해 적절하고 정당한 정보보호 대책을 선정하고 이행 계획을 수립하는 과정",
+            "answer": "(A) : 위험분석, (B) : 위험평가",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+              "line": 43,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "641076e46e696b3e7a9ea55411bd04d02bb6647967fef8a653fec90f87911f64"
+          },
+          {
+            "id": "R23-Q12",
+            "number": 12,
+            "type": "short",
+            "prompt": "위험관리를 위한 정보자산 분석 절차에 대한 설명이다. ( )에 들어갈 단계명을 기술하시오. - ( A ) : 보호받을 가치가 있는 자산을 식별하고, 이를 정보자산의 형태, 소유자, 관리자, 특성 등을 포함하여 자산 목록을 작성 - 자산 관리자 지정 : 식별된 정보자산에 대하여 책임자 및 관리자 지정 - ( B ) : 식별된 자산에 대해 침해 사고가 발생할 경우 그 영향을 기밀성, 무결성, 가용성 측면에서 파악하여 자산의 중요도를 선정",
+            "answer": "(A) : 정보자산 식별, (B) : 정보자산 중요도 평가 (서술형)",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+              "line": 44,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "f3d5d356383ac791e99f835aaa22da6bf92f32645ca595afcbb59780bbff94e3"
+          },
+          {
+            "id": "R23-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "PHP 게시판 업로드 코드가 파일명 확장자를 `explode(\".\")`로 분리해 `hwp`, `pdf`, `jpg`만 허용하고, 업로드 MIME type이 `image/gif`, `image/jpeg`, `image/JPG`, `text/plain`이면 성공 처리한다. 취약점명, Content-Type 변조·대소문자/이중확장자·Null byte 삽입 등 우회 기법, 업로드 파일이 실행 제한 설정에 걸리지 않아야 한다는 공격 성공 조건을 설명하시오.",
+            "answer": "파일 업로드 취약점. Proxy로 Content-Type을 `image/jpeg` 등으로 변조하거나, 대소문자 혼합/이중 확장자/Null byte로 확장자 검사를 우회할 수 있다. 공격이 성공하려면 서버 필터링을 통과하고, 업로드 파일이 AddType에 의해 `text/html`로 재조정되거나 FileMatch로 직접 URL 호출이 차단되는 실행 제한 조건에 걸리지 않아야 한다.",
+            "verification": "source-derived; Naver cross-checked; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+              "line": 45,
+              "excerpt": "source-derived; Naver cross-checked; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "510e3177db8ca1bfda601593ca4e94eb7b2d47071fcf78178d428f59a346149b"
+          },
+          {
+            "id": "R23-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "TCP 헤더에 포함되어 있는 6비트의 Flag에 대한 설명이다. ( )에 적절한 설명을 기술하시오. - URG : 긴급하게 전송할 데이터가 있는 경우 사용하며, 순서에 상관없이 우선순위를 높여 처리됨 - PSH : 버퍼링된 데이터를 버퍼가 찰 때까지 기다리지 않고 수신 즉시 애플리케이션 계층으로 전달 - SYN : ( A ) - ACK : ( B ) - FIN : ( C )",
+            "answer": "RST : ( D ) (A) : 최초 연결 수립을 요청하고, 순서 번호를 동기화할 때 사용됨 (B) : 상대로부터 패킷을 받았다는 것을 알려주며, 일반적으로 받은 시퀀스 번호에 +1 하여 응답을 보냄 (C) : 송신 장비가 연결 종료를 요청 시 사용 (D) : 연결 상의 문제가 발생한 비정상 세션을 강제로 끊을 때 사용",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+              "line": 46,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "cb2ad5ee964ff01908dbaaade9a2854b9f9505f49527a13db6488ca0c0fdfac4"
+          },
+          {
+            "id": "R23-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "윈도우OS에서 사용하는 NetBIOS 바인딩이 보안상 취약한 이유와 보안 설정하는 방법을 설명하시오(보안 설정은 ncpa.cpl을 이용하여 설명). 1) 보안상 취약한 이유 : 인터넷에 직접 연결되어 있는 윈도우 시스템에 NetBIOS TCP/IP 바인딩이 활성화되어 있는 경우, 공격자가 원격에서 네트워크 공유자원을 사용할 우려가 존재하기 때문 2) 보안설정 방법 : 윈도우 OS에서 시작 > 실행 > ncpa.cpl > 로컬 영역 연결 > 속성 > TCP/IP > (일반) 탭에서 (고급) 클릭 > (WINS) 탭에서 TCP/IP에서 \"NetBIOS 사용 안 함\" 또는 \"NetBIOS over TCP/IP 사용 안 함\" 선택",
+            "answer": "NetBIOS over TCP/IP 바인딩을 비활성화하여 원격 공유자원 노출 위험을 줄인다.",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+            "sourceLine": 47,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+              "line": 47,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "2207dff63cde10d2cdbc86b51c9ced6e76febcfbcbdaca5893e5d83b86221521"
+          },
+          {
+            "id": "R23-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "1초에 1000번 이상 유입되는 HTTP 요청이 `GET /test.jsp`, `Host: webserver.com`, `User-Agent: Mozilla/5.0`, `Referer: http://www.abc.com/default.jsp (a)`, `Cache-Control: max-age=0 (b)` 헤더를 포함한다. `a`, `b`를 근거로 공격명을 쓰고 판단 사유를 설명하시오.",
+            "answer": "HTTP GET Flooding with Cache-Control. Cache-Control 요청 헤더의 max-age=0 옵션으로 캐시 서버가 아니라 원본 웹서버 부하를 가중시키며, Referer가 공격 대상 Host와 달라 제3의 호스트 경유 요청으로 판단한다.",
+            "verification": "source-derived; Naver cross-checked; context restored from source text",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+            "sourceLine": 48,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+              "line": 48,
+              "excerpt": "source-derived; Naver cross-checked; context restored from source text",
+              "status": "source-derived"
+            },
+            "contentDigest": "aae7b4367cc58f0375deeaa90cfba0ffb2486215f7485f99c988c75584597d2e"
+          },
+          {
+            "id": "R23-Q17",
+            "number": 17,
+            "type": "practical",
+            "prompt": "코로나 극복 후 새로운 서비스를 재개하려는 소상공인이 있다. 기존에 보유하고 있던 1만명 미만의 고객 정보를 프리미엄 서비스에 활용하는 경우 개인정보의 안전성 확보조치 기준에 따라 개인정보처리시스템 접근권한 관리, 접근통제를 위해 준수해야 할 사항을 기술하시오.",
+            "answer": "접근권한 관리: 인사이동 시 접근권한을 지체 없이 변경·말소하고, 권한 부여·변경·말소 내역을 최소 3년 보관하며, 개인정보취급자별 사용자계정을 발급하고 공유를 금지한다. 접근통제: IP 등으로 인가받지 않은 접근을 제한하고, 접속 IP 등을 분석해 불법 개인정보 유출 시도를 탐지·대응한다.",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+            "sourceLine": 49,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+              "line": 49,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "713cc02848e5d7945cddf4453daa95adb14feb9369664bc871562b7dc3d43040"
+          },
+          {
+            "id": "R23-Q18",
+            "number": 18,
+            "type": "practical",
+            "prompt": "Korea.co.kr 도메인의 존 파일을 설정하려고 한다. MASTER와 SLAVE DNS 서버의 named.conf 설정값을 각각 작성하시오(zone 파일은 ns.korea.co.kr.zone 이다.). - master name 서버 : ns1.korea.co.kr (192.168.1.53) - slave name 서버 : ns2.korea.co.kr (192.168.2.53)",
+            "answer": "Master: `zone \"ns.korea.co.kr\" IN { type master; file \"ns.korea.co.kr.zone\"; allow-update { 192.168.2.53; }; };` Slave: `zone \"ns.korea.co.kr\" IN { type slave; file \"slave/ns.korea.co.kr.zone\"; masters { 192.168.1.53; }; allow-update { none; }; };`",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+            "sourceLine": 50,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+              "line": 50,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "bfd17cbd64e550f96c34a76ca3fc207cf79222280917aa87a8444683bf150d89"
+          }
+        ]
+      },
+      {
+        "roundId": "R24",
+        "year": "2023",
+        "session": "04",
+        "title": "정보보안기사 실기 24회 2023년 4회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+        "sourceDigest": "62b281c67a68c9592af27c613f1b795846852f841f18ce470950d04bc073da39",
+        "items": [
+          {
+            "id": "R24-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "개인정보보호위원회와 한국인터넷진흥원에서 발간한 \"개인정보영향평가 수행 안내서\"에 따르면 위험도 산정 공식을 다음과 같이 제시하고 있다. ( )에 들어갈 항목명을 기술하시오. [위험도 산정 공식] 위험도 = 자산가치(영향도) + ((A) * (B)) * (C)",
+            "answer": "(A) : 침해요인 발생 가능성, (B) : 법적 준거성, (C) : 2",
+            "verification": "PIPC/KISA guide formula cross-checked: `자산 가치(영향도) + (침해요인 발생가능성 * 법적 준거성) * 2`; C is the constant multiplier 2, not 조직의 위험 수용 수준",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+              "line": 35,
+              "excerpt": "PIPC/KISA guide formula cross-checked: `자산 가치(영향도) + (침해요인 발생가능성 * 법적 준거성) * 2`; C is the constant multiplier 2, not 조직의 위험 수용 수준",
+              "status": "source-derived"
+            },
+            "contentDigest": "669ce1d6c21e034dbf7e0dd6c6d9b14c2d1a9253c1f7e7255d52553dae0a56bb"
+          },
+          {
+            "id": "R24-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "DB 암호화 기법에 대한 설명이다. ( )에 해당하는 기법의 명칭을 기술하시오. - (A) : 암복호화 모듈이 API 라이브러리 형태로 각 애플리케이션 서버에 설치되고, 응용프로그램에서 암복호화 모듈을 호출하는 방식 - (B) : 암복호화 모듈이 DB서버에 설치되고 DBMS에서 플러그인으로 연결된 암복호화 모듈을 호출하는 방식 - (C) : DBMS에 내장되어 있는 암호화 기능을 이용하여 암복호화 처리를 수행하는 방식",
+            "answer": "(A) : API, (B) : Plug-in, (C) : TDE(Transparent Data Encryption)",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+              "line": 36,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "49ab11e725cfca724cd8f9385889e30003e6e22bce1434f41525c03c5bc23c4a"
+          },
+          {
+            "id": "R24-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "LAN 스위칭 기법에 대한 설명이다. ( )에 해당하는 기법의 명칭을 기술하시오. - (A) : 프레임의 헤더(목적지 주소)만을 보고 경로를 결정하는 방식 - (B) : 프레임의 앞 64바이트만을 읽어 에러를 처리하고, 목적지 포트로 포워딩 하는 방식 - (C) : 전체 프레임을 받은 다음 경로를 결정하는 방식",
+            "answer": "(A) : Cut through, (B) : Modified Cut through(Fragment Free), (C) : Store and Forward",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+              "line": 37,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "e3a6961225115944ba60878b44bf12de24b151feac41d73968ca1c6cf49b034c"
+          },
+          {
+            "id": "R24-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "EAP를 통해 인증을 수행하고 AES-CCMP 기반 암호화를 지원하는 무선랜 보안 표준은?",
+            "answer": "WPA2",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+              "line": 38,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "e79854757defcb92723a57ec96653daee6a82a69ff50e6634bb2658d2e9c9097"
+          },
+          {
+            "id": "R24-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "VLAN(Virtual LAN)의 주소 할당 방법에 대한 설명이다. ( )에 해당하는 방식명을 기술하시오. - (A) : VLAN 할당을 관리자가 각 스위치에 직접 할당하는 방식 - (B) : MAC주소 등을 기반으로 VLAN 할당이 자동으로 이루어지는 방식",
+            "answer": "(A) : 정적 VLAN(포트 주소 기반), (B) : 동적 VLAN(MAC 주소 기반)",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+              "line": 39,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "86c6c10638ca5f0612b32a71551badd8cdee15b7e6a52e3f7ecdfc2c42cae459"
+          },
+          {
+            "id": "R24-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "검색로봇에게 웹사이트의 페이지를 수집할 수 있도록 허용/제한하는 국제 권고안으로 웹사이트의 루트 디렉터리에 위치해야 하며, 로봇 배제 표준을 따르는 일반 텍스트 파일(text/plain)로 작성해야 하는 파일명은 무엇인가?",
+            "answer": "robots.txt",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+              "line": 40,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "b25d18fc2f4f50434ab01e9dc2ef2726616b081ff8d7cf5320be7b8f0b4b2392"
+          },
+          {
+            "id": "R24-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "ISO 31000 위험평가 방법론에 따른 위험평가 절차에 대한 설명이다. ( )에 들어갈 위험평가 단계명을 기술하시오. - (A) : 운영 실패, 공급망 중단 또는 인재 격차와 같은 외부 및 내부 위험을 고려하여 잠재된 위험 식별 - (B) : 확인된 위험이 조직의 목표 및 운영에 미칠 가능성과 잠재적 영향을 분석 - (C) : 조직의 위험 감수성(Risk Appetite), 수용 능력, 위험과 보상 간의 균형을 고려하여 위험 허용 수준(DoA)을 결정하고, 위험의 중요성에 따라 위험 처리 필요성을 결정",
+            "answer": "(A) : 위험식별, (B) : 위험분석, (C) : 위험평가",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+              "line": 41,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "2e946975b51933f2064a8b7c309e017e164f8b2090c38c296bd93eae27be2fb3"
+          },
+          {
+            "id": "R24-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "다음과 같은 기능을 수행하는 정보보호 솔루션의 이름은 무엇인가? - PC에 설치된 에이전트, 네트워크 센서를 통하여 이동식 디스크, 이메일, 메신저, 웹사이트 파일 업로드 등 내부 문서 이동을 탐지 - HTTPS와 같은 암호화 통신에서도 중요 내부 문서 이동 탐지 가능 - 일부 솔루션에서는 파일 암호화, 파일 삭제와 같은 부가 기능 탑재",
+            "answer": "DLP(Data Loss Prevention)",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+              "line": 42,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "ec4398b86665ff0f049a08af948e7f39e84d4ccfaa9b38f42d8cb6cbde34adb3"
+          },
+          {
+            "id": "R24-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "유닉스에서 현재 실행되고 있는 프로세스 정보가 기록되며, 숨겨진 프로세스를 찾기 위해 참조하는 경로는 / (A) 이다.",
+            "answer": "proc",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+              "line": 43,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "5a1cff7a46132bb37fae1c572fff057d0548638e17b8da008eabb957ea125cef"
+          },
+          {
+            "id": "R24-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "다음 아파치 로그를 보고 물음에 답하시오. [아파치 로그] 200.3.1.4 - - [30/May/2023:01:20:01 +09:00] \"(1) GET /bulletin/read.php?no=101&item=book (2) HTTP/1.1\" 200 3549 (3) http://test.co.kr/main.php\" \"Mozilla/5.0 (compatible;MSIE 10.0;Windows NT 6.1;WOW64;Trident/6.0)\" (1) no=101&item=book의 의미는? - /bulletin/read.php 파일을 GET 방식으로 호출할 때 2개의 파라미터(no, item)에 값을 각각 할당하여(no=101 and item=book) 매칭되는 결과를 요청 (2) http 상태코드는 무엇인가? - 200 (웹서버가 요청을 정상적으로 처리했음을 의미) (3) http://test.co.kr/main.php 의 의미는?",
+            "answer": "현재 URL을 호출한 referer URL을 의미(test.co.kr/main.php에서 GET 방식으로 현재 URL(/bulletin/read.php)를 호출)",
+            "verification": "source typo normalized for Apache request line spacing/path spelling; answer unchanged",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+              "line": 44,
+              "excerpt": "source typo normalized for Apache request line spacing/path spelling; answer unchanged",
+              "status": "source-derived"
+            },
+            "contentDigest": "4fef035152dbf9bc28320cdb3500a093f5420c964fae96c19b485b2fa69bd4a4"
+          },
+          {
+            "id": "R24-Q11",
+            "number": 11,
+            "type": "short",
+            "prompt": "개인정보 가명처리 기법 중 수치 데이터를 임의의 수인 자리수, 실제 수 기준으로 올림 또는 내림 처리하는 기법의 명칭은 무엇인가?",
+            "answer": "랜덤 라운딩",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+              "line": 45,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "2312f00aaa2928c574ecf4bb7839faead3bb73bbd9ab9ec90750de0882223746"
+          },
+          {
+            "id": "R24-Q12",
+            "number": 12,
+            "type": "short",
+            "prompt": "아파치 SW 재단에서 개발한 JAVA 기반의 오픈소스 프로그램으로 자바기반 프로그램을 개발할 때 로그를 쉽고 편하게 남기기 위한 목적으로 사용된다. 2021년 말 이 프로그램의 JNDI Lookup 메소드를 호출할 때 입력값에 대한 검증 없이, 임의의 코드가 실행되는 취약점이 발견되어 전세계를 떠들썩하게 만들었던 프로그램의 이름은 무엇인가?",
+            "answer": "Log4J",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+              "line": 46,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "744bc0ee046b776e4e9d09af271ba70c85aff4dfb1f3bf2dc8a43dd74d1febf0"
+          },
+          {
+            "id": "R24-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "다음의 두 가지 조치의 의미와 이 조치가 필요한 이유를 설명하시오. 1) chmod -s { 파일명 } 2) find / -user root -type f \\(-perm -4000 -o -perm -2000 \\) |xargs ls -al (1) 두 가지 조치의 의미 - 특정 파일에 설정된 특수 비트(SetUID, SetGID)를 제거함 - / 경로 하위에 존재하는 root가 소유주인 파일 중 특수비트(SetUID, SetGID)가 설정된 파일을 검색함 (2) 두 가지 조치가 필요한 이유",
+            "answer": "특수비트가 설정된 파일을 실행하는 경우 파일의 소유주(SetUID 설정 시), 또는 소유그룹(SetGID 설정 시) 권한으로 실행 됨. 특히 root가 소유주 또는 소유그룹인 파일에 특수비트가 설정되면, 일반 사용자 계정으로 실행하더라도 root 권한으로 실행되어 악의적인 행위가 가능하기 때문",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+            "sourceLine": 47,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+              "line": 47,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "84747a47eff6f43c6bee94a4aaf2f935164dce71be31ca7de89d9c9c7f811bcc"
+          },
+          {
+            "id": "R24-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "rsh, rlogin, rexec 등은 인증 없이 관리자의 원격접속을 가능하게 하는 명령어들이므로 사용하지 않는 것이 안전하다. 불가피하게 사용하는 경우 `/etc/hosts.equiv`, `$HOME/.rhosts` 파일의 소유자, 권한, 파일 내 보안설정을 어떻게 해야 안전한지 설명하시오.",
+            "answer": "`/etc/hosts.equiv` 소유자는 root, `$HOME/.rhosts` 소유자는 해당 계정으로 설정한다. 두 파일 권한은 600 이하로 제한한다. 파일 내부의 `+` 설정은 제거하고 허용할 호스트와 계정만 명시한다.",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+            "sourceLine": 48,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+              "line": 48,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "95a13a007e7afc64f0255599320632baf6cf3da15bbb860856263416db8cf24c"
+          },
+          {
+            "id": "R24-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "IPTables와 관련해 1) INPUT, FORWARD, OUTPUT Chain을 설명하고, 2) `iptables -A INPUT -p tcp ! --syn -m state --state NEW -j LOG --log-prefix \"[Faked NEW request]\"` 룰의 의미를 설명하시오.",
+            "answer": "INPUT은 방화벽이 최종 목적지인 패킷, FORWARD는 방화벽을 경유하는 패킷, OUTPUT은 방화벽에서 출발하는 패킷에 적용되는 체인이다. 해당 룰은 신규 TCP 연결 패킷인데 SYN이 아닌 경우 `[Faked NEW request]` 접두어로 로그를 남긴다는 의미다.",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+            "sourceLine": 49,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+              "line": 49,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "9f2c2e0c38ac7295607225de1d1d41e8cbda73270d5f9c088876554b2028e479"
+          },
+          {
+            "id": "R24-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "SNMP 서비스 사용 시 적용되어야 하는 보안 설정 4가지를 설명하시오.",
+            "answer": "커뮤니티 스트링을 기본값이 아닌 유추하기 어려운 값으로 변경한다. 암호화를 지원하는 SNMPv3를 사용한다. ACL로 SNMP 이용 가능 호스트를 제한한다. RW(Read-Write) 모드는 제거하고 가급적 RO(Read-Only) 모드를 사용한다.",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+            "sourceLine": 50,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+              "line": 50,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "c7ab4bf064e79dc8aa3b0a93d5b2bd0f0808636a3d3984c33aaf3970276469f6"
+          },
+          {
+            "id": "R24-Q17",
+            "number": 17,
+            "type": "practical",
+            "prompt": "A 기업에서는 다양한 유닉스 계열 서버를 운영하고 있다. Solaris, Linux, AIX, HP-UX 서버에서 패스워드 최소 길이를 8자리 이상으로 강화하기 위한 설정 파일과 설정값을 기술하시오.",
+            "answer": "Solaris: `/etc/default/passwd`의 `PASSLENGTH=8`; Linux: `/etc/login.defs`의 `PASS_MIN_LEN 8`; AIX: `/etc/security/user`의 `minlen=8`; HP-UX: `/etc/default/security`의 `MIN_PASSWORD_LENGTH=8`",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+            "sourceLine": 51,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+              "line": 51,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "f51e78fb213220c6e559ffdd18d44fa784d38b046f00b28b8372319a21a6399b"
+          },
+          {
+            "id": "R24-Q18",
+            "number": 18,
+            "type": "practical",
+            "prompt": "xinetd 서비스에 대한 환경설정 파일에서 (1) ~ (4)에 적절한 값을 기술하시오. # cd /etc/xinetd.d/ # cat telnet service telnet { flag = REUSE # 서비스 포트가 사용중인 경우 해당포트 재사용 허용 socket_type = stream # TCP 프로토콜 선택 wait = no # 한번에 다중사용자에게 서비스 제공 user = root # root 권한으로 실행 server = /usr/sbin/in.telnetd # 실행할 데몬 파일 log_on_failure += USERID # 서버 접속 실패 시 USERID를 로그에 기록 disable = no # 서비스 사용 ( 1 ) = 10.0.0.0/8 # 10.0.0.0/8 대역은 서비스 미허용 ( 2 ) = 192.168.10.0/24 # 192.168.10.0/24 대역은 서비스 허용 ( 3 ) = 3 # 동시에 접속가능한 최대 세션 수 3개 access_time = ( 4 ) # 접속을 허용할 시간 (9시~18시) }",
+            "answer": "(1) no_access, (2) only_from, (3) instances, (4) 09:00-18:00",
+            "verification": "source-derived; Naver cross-checked; CIDR typo normalized; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+            "sourceLine": 52,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+              "line": 52,
+              "excerpt": "source-derived; Naver cross-checked; CIDR typo normalized; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "73f43981f310aa56548024f433b832c9d3bcfc01c0d8872545fe0e0f9f27d6aa"
+          }
+        ]
+      },
+      {
+        "roundId": "R25",
+        "year": "2024",
+        "session": "01",
+        "title": "정보보안기사 실기 25회 2024년 1회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+        "sourceDigest": "6e15a74afd544f9d8a69ff81bd1c0bc1177fec74160869827edbb6884bf030b9",
+        "items": [
+          {
+            "id": "R25-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "다음은 윈도우 OS의 계정 그룹 5가지 유형에 대한 설명이다. ( )에 들어갈 그룹명을 기술하시오. - Administrators: 도메인 또는 로컬 컴퓨터에 대한 모든 권한 보유 - ( A ): 일반 사용자보다는 많은 권한을 가지나, Administrators 그룹보다는 제한적인 권한 보유 - ( B ): 시스템 백업을 목적으로 모든 파일과 디렉터리 접근 가능 - ( C ): 도메인 및 로컬 컴퓨터를 일반적으로 사용하는 그룹 - Guests: 제한된 권한을 가지며 일시적으로 시스템을 사용하는 사용자를 위해 설계됨",
+            "answer": "(A): Power Users, (B): Backup Operators, (C): Users",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+              "line": 33,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "16bf340032c7fe2f3bd5d95234be59895cf7b898fdceb65b127d7483faf17a22"
+          },
+          {
+            "id": "R25-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "전자기기에서 발생되는 불필요한 전자 방사를 통해 민감한 정보를 도청하거나 유출하는 것을 방지하기 위한 일련의 표준과 기술을 무엇이라고 하는가?",
+            "answer": "TEMPEST(Telecommunications Electronics Material Protected from Emanating Spurious Transmissions)",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+              "line": 34,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "682b724c7e81c1c82a7c4f46a44c11dbb1bcbb7ff167e844621e27761483d65c"
+          },
+          {
+            "id": "R25-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "IPSec이 제공하는 보안 기능 3가지를 기술하시오.",
+            "answer": "접근제어, 비연결형 무결성, 데이터 근원지 인증, 재전송 방지, 기밀성, 제한적 트래픽 흐름의 기밀성",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+              "line": 35,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "bec82c2a59a84c34ac5d037f66660c347de2d206ae43ad09c17a8184865db91b"
+          },
+          {
+            "id": "R25-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "공격자가 사용자와 서버 간의 활성화된 세션을 가로채어 사용자의 신원으로 서버와 통신을 시도하는 공격 기법을 무엇이라 하나?",
+            "answer": "세션 하이재킹(Session Hijacking)",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+              "line": 36,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "b0a60ef973e3b0dc3db14620c751b8539dd54b0e193d5492401db7f906f5775f"
+          },
+          {
+            "id": "R25-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "정보보호대책은 안전대책, 통제 혹은 위협을 감소시키기 위한 정보보호조치를 의미하며, 크게 다음과 같이 3가지로 구분된다. ( A )은/는 발생 가능한 잠재적인 문제들을 식별하여 사전에 대처하는 능동적인 개념의 통제로 2가지로 나눌 수 있다. ( B )란 관계자 이외의 사람이 특정 시설이나 설비에 접근할 수 없게 하는 각종의 통제를 의미하며, ( C )란 승인을 받지 못한 사람이 정보통신망을 통하여 자산에 대한 접근을 막기 위한 통제방법이다.",
+            "answer": "(A): 예방 통제, (B): 물리적 접근 통제, (C): 논리적 접근통제",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+              "line": 37,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "c2851f587926edfec7e4362978b094255c4da4f62896cb4a5f037d4dfdf40e37"
+          },
+          {
+            "id": "R25-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "메일 보안을 위해 릴레이 설정을 하려고 한다. 다음 보기에 기술된 요구사항을 충족시키기 위하여 /etc/mail/access에 설정해야 할 옵션값을 기술하시오. [보기] kca.or.kr 도메인의 메일은 릴레이를 허용한다. spam.com 도메인의 메일은 폐기한다. [/etc/mail/access 설정] kca.or.kr ( A ) spam.com ( B )",
+            "answer": "(A): RELAY, (B): DISCARD",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+              "line": 38,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "07ccdac5c343370faf14ec315cd602173a5308f1298823b247ba574e21df671e"
+          },
+          {
+            "id": "R25-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "다음 기능을 제공하는 도구를 무엇이라고 하는가? - 사용자가 웹 사이트와 주고받는 HTTP/HTTPS 요청과 응답을 중간에서 가로채어, 수정하거나 분석할 수 있게 해주는 도구이다. - Paros, Burp Suite, ZAP(Zed Attack Proxy)가 대표적이며, 해킹 공격에도 사용되고, 웹 사이트의 보안 취약점 테스트 목적으로도 사용된다.",
+            "answer": "웹 프락시(Web Proxy)",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+              "line": 39,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "f99069195b62c0f75de0e881550fb10b5a2904546ff2f82f855627c4e34c5a19"
+          },
+          {
+            "id": "R25-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "IP 주소가 200.100.50.25이고, 서브넷 마스크가 255.255.255.192일 때, 서브넷 마스크를 2진수로 작성하시오.",
+            "answer": "11111111 11111111 11111111 11000000",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+              "line": 40,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "bd2411b3bf6dd5894ffac521b779bbd976d159268801b90fbcc6499a247fc5d1"
+          },
+          {
+            "id": "R25-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "프로그램에 의도적으로 잘못된 형식의 데이터 또는 무작위 데이터를 입력하여 프로그램의 취약점이나 버그를 찾는 SW 테스트 기법을 무엇이라고 하나?",
+            "answer": "Fuzzing(퍼징)",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+              "line": 41,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "f626087e9044b101de78de72b22fcfe149a857e1499b57cc47c903aec8421e23"
+          },
+          {
+            "id": "R25-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "SSRF(Server Side Request Forgery)는 공격자가 서버를 신뢰하는 특정 서버나 네트워크 리소스에 대해 임의의요청을 보내도록 서버를 속이는 웹 보안 취약점이다. 주로 서버가 외부 입력을 기반으로 HTTP 요청을 생성하는 기능을 가지고 있을 때 발생한다. SSRF 공격 대응 기법에 대하여 ( )에 들어갈 용어를 기술하시오. [공격 대응 기법] - 사용자 입력을 기반으로 요청을 생성할 때는 허용된 도메인이나 IP주소에 대하여 ( A ) 리스트를 사용하여 필터링한다. - 만일, 무작위의 입력값을 사용해야 한다면 ( B ) 리스트 방식으로 필터링한다.",
+            "answer": "(A): 화이트, (B): 블랙",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+              "line": 42,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "635a401436dac3d585b2838e07581e885179daa10da8d788ec5b208eaf86b8c9"
+          },
+          {
+            "id": "R25-Q11",
+            "number": 11,
+            "type": "short",
+            "prompt": "위험 평가 이후 위험의 중요도에 따라 위험 처리 방안을 결정한다. ( )에 들어갈 위험 처리 방안을 기술하시오. - 위험 감소: 잠재적인 위험에 대해 정보보호 대책을 구현하여 자산, 취약점, 위협 중 하나의 수준을 낮춤 - ( A ): 현재의 위험을 받아들이고 잠재적 손실 비용을 감수 - ( B ): 위험이 존재하는 프로세스나 사업을 수행하지 않고 포기 - ( C ): 보험이나 외주 등으로 잠재적 비용을 제3자에게 이전",
+            "answer": "(A): 위험 수용, (B): 위험 회피, (C): 위험 전가",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+              "line": 43,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "142866c7fae42c47ece1b8c131ff79150bcddd3b0ecf59285af65c347b11af53"
+          },
+          {
+            "id": "R25-Q12",
+            "number": 12,
+            "type": "short",
+            "prompt": "다음 설명에 해당하는 보안 솔루션 명칭을 기술하시오. - 2015년 가트너에서 처음 제시하였음 - 인공지능이 적용되어 지능형 탐지가 가능하고 빅데이터 기반 솔루션보다 진보된 형태의 보안 관제 솔루션",
+            "answer": "SOAR",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+              "line": 44,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "5a64dd5b83da5cbdee00604ef6b690f299618277f1ba1b05684b664c84272f8c"
+          },
+          {
+            "id": "R25-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "SW 보안 약점 진단원이 분석 단계 진단 시 검토해야 할 산출물 4가지와 그 내용을 간략히 설명하시오.",
+            "answer": "요구사항 정의서(or 명세서): 기능·비기능 요구사항을 도출·합의해 작성한 문서. 요구사항 추적표(or 추적매트릭스): 요구사항과 개발 단계별 산출물의 일관성을 추적하는 문서. 유즈케이스 다이어그램: 액터와 시스템 제공 기능을 도식화한 문서. 유즈케이스 명세서: 액터와 유즈케이스 간 상호작용과 내부 업무 흐름을 상세히 설명한 문서.",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+              "line": 45,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "75c815c890c98f9f1959f6ece9a32a3537e5c0212771cca83aaa7d8541fe06c7"
+          },
+          {
+            "id": "R25-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "네트워크 스니핑을 탐지하는 다양한 방법(ping, arp, dns, decoy) 중 Ping 명령을 이용한 방법을 설명하시오",
+            "answer": "스니핑이 의심스러운 호스트에 NW에 존재하지 않은 MAC주소로 위조된 PING 메시지(ICMP Echo Request)를 보낸다. ICMP Echo Reply가 돌아온다면, 해당 호스트는 무차별 모드로 스니핑 중인 것으로 판단할 수 있다.",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+              "line": 46,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "975a96c50968b738a08eafa9d01dad8ed2aa956b529e3e65ab155561f100f80a"
+          },
+          {
+            "id": "R25-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "위험관리를 위하여 정보자산의 중요도는 기밀성, 무결성, 가용성 등급을 기준으로 산정할 수 있다. 기밀성 등급 H(상)은 기밀성이 매우 높은 민감정보를 저장/처리하므로 업무상 반드시 필요한 책임자에 한해 제한 접근 가능한 등급이다. M(중), L(하) 등급 설명을 기술하시오.",
+            "answer": "M(중): 기밀성이 중간 정도인 민감정보를 저장/처리하므로 업무 담당자와 관리자 등 허가된 직원만 접근 가능하다. L(하): 기밀성이 낮은 민감하지 않은 정보를 저장/처리하므로 내부 일반 직원도 접근 가능하며 공개 정보는 일반 대중도 접근 가능하다.",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+            "sourceLine": 47,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+              "line": 47,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "16fbb0028ca4ffe855eb78837798a3a3f2513f759daa10dafff069bc47031cb5"
+          },
+          {
+            "id": "R25-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "공격이 탐지되었을 때 침입탐지시스템(IDS)이 할 수 있는 행위를 4가지 기술하시오.",
+            "answer": "관제 담당자에게 이메일/SMS/콘솔 등으로 알림을 보낸다. 침입 시도를 로그로 남긴다. IPS 기능이 포함된 경우 세션을 종료해 차단한다. SIEM, 방화벽, 스위치, 라우터 등과 연계해 차단 정책 설정 등 대응을 수행한다. 보안정책 업데이트나 HIDS의 프로세스 종료·파일 접근 차단도 가능하다.",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+            "sourceLine": 48,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+              "line": 48,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "9b326fb7696bff1f6bcaeb1096f80c4b51561e8ab1d7418fde0dcde3376841c5"
+          },
+          {
+            "id": "R25-Q17",
+            "number": 17,
+            "type": "practical",
+            "prompt": "홍길동은 인터넷 접속이 갑자기 느려져 PC 내 ARP 캐시 테이블을 조회했다. `192.168.100.1`과 `192.168.100.5`가 같은 MAC `01-00-5e-00-00-02`로 표시되는 상황에서 1) 출력 명령, 2) 공격명, 3) 판단 이유, 4) 정적 ARP 대응 명령을 답하시오.",
+            "answer": "1) `arp -a` 2) `192.168.100.1`이 게이트웨이라면 ARP Redirect, 아니면 ARP Spoofing 3) 게이트웨이 IP와 다른 PC IP가 같은 MAC으로 매핑되어 있기 때문 4) 예: `arp -s 192.168.100.1 00-0a-00-62-c6-09`",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+            "sourceLine": 49,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+              "line": 49,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "e4d832fb5f704203659c3e6b92f7201ef0526cb6621d6cc26522590e9c0a3cc6"
+          },
+          {
+            "id": "R25-Q18",
+            "number": 18,
+            "type": "practical",
+            "prompt": "윈도우 PE(Portable Executable) 파일은 윈도우 7과 같이 NT계열 운영체제에서 실행 가능한 파일 포맷이다. PE 파일은 실행 코드, 데이터, 리소스 및 메타데이터를 포함하는 구조를 가지며, 일반적으로 .exe(executable), .dll(dynamic link library), .sys(driver) 확장자를 가진 파일들을 포함한다. 악성파일의 경우에도 윈도우 OS에서 실행되기 위해 PE포맷을 사용하는데, 악성코드 작성자는 PE파일을 난독화하거나, PE헤더와 섹션 정보를 변형하여 디버깅 및 분석을 어렵게 만든다. 이러한 악성파일을 분석하는 3가지 방법을 설명하시오.",
+            "answer": "자동 분석: 정적 분석 도구와 샌드박스 등을 사용해 파일 헤더, 섹션, 코드 패턴, 실행 행위를 자동 분석한다. 반자동화 분석: 자동화 도구 결과를 분석가가 검토하고 추가 분석한다. 수동 분석: 디버거 등으로 악성코드를 단계별로 실행·추적해 동작과 특정 행위 유발 코드를 식별한다.",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+            "sourceLine": 50,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+              "line": 50,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "be2925014124ae1e285bdf567ce473586477f66e39938d12442046b1f2960d3a"
+          }
+        ]
+      },
+      {
+        "roundId": "R26",
+        "year": "2024",
+        "session": "02",
+        "title": "정보보안기사 실기 26회 2024년 2회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+        "sourceDigest": "7c59dba72761cf0e86fdb49b6b4456e62152acc569758bc890b5df71f75f9795",
+        "items": [
+          {
+            "id": "R26-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "리눅스에서 패스워드 최소 길이를 8자리 이상으로 설정하려고 한다. 패스워드 설정을 위한 파일명(A)과 설정 내용(B, C)을 기술하시오. # cat /etc/(A) (B) (C)",
+            "answer": "(A) : login.defs, (B) : PASS_MIN_LEN, (C) : 8",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+              "line": 33,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "353a9d0a3d81a0869a8bf6ee81e596eea78d73f605170964c0849784bd029d45"
+          },
+          {
+            "id": "R26-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "무선네트워크에서는 다중 접속 시 상호 충돌을 회피하기 위하여 CSMA/CA 프로토콜을 사용한다. 이 경우, 타임아웃 설정은 어느 신호에 포함되는지 보기에서 2개를 선택하여 답하시오. (보기) CTS, DATA, RST, SYN, ACK, RTS",
+            "answer": "RTS, CTS",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+              "line": 34,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "6c97103fcc36e817bbeb7110efeed3b263588194e7c21b486b458f0f2b47b910"
+          },
+          {
+            "id": "R26-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "Domain Name(URL)에 대한 IP 정보를 찾아주는 DNS는 먼저 클라이언트 영역에 위치한 (A) DNS 서버에 질의하여 IP정보를 찾고, 없으면 (B) DNS서버에 추가로 요청하여 IP 정보를 얻는다.",
+            "answer": "(A) : Recursive(Cache), (B) : Authoritative",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+              "line": 35,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "2ae55d1cb5ffcc23890940d38bac3212c341b6b5af2b48cc81f1d57c4a340f7c"
+          },
+          {
+            "id": "R26-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "공격자가 HTTP 패킷의 헤더(Content-Length, Transfer Encoding: Chunked 등)를 변조하여 일반 사용자가 접근할 수 없는 Back-end 서버로 직접 보내 중요 정보 획득, XSS 공격유도, 서버 웹 캐시 포이즈닝 등을 수행하는 공격 기법을 무엇이라고 하는가? (보기) XSS, CSRF, SQL Injection, HTTP request smuggling",
+            "answer": "HTTP request smuggling",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+              "line": 36,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "d868796bdb027bc019d01b8ca0ced60cf2205003aa3af0dd58e6885172e124d3"
+          },
+          {
+            "id": "R26-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "침입 탐지 시스템에서 공격이 아닌데 공격이라고 오판하는 것을 (A)라 하고, 공격인데 공격이 아니라고 오판하는 것을 (B)라고 한다.",
+            "answer": "(A) : 오탐(False Positive), (B) : 미탐(False Negative)",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+              "line": 37,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "19d255cd7a2fe06240e4db22fd1ce95e1ef6277d8cf225c359a310e06b917cdb"
+          },
+          {
+            "id": "R26-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "XML 문서를 조회하는 기능을 구현해야 하는 경우 XML 쿼리에 사용되는 파라미터는 반드시 XML 쿼리를 조작할 수 없도록 필터링해서 사용하거나, 미리 작성된 쿼리문에 입력값을 자료형에 따라 바인딩해서 사용해야 한다. 관련하여 다음은 SW 설계시 고려해야 할 사항이다. (ㄱ) (A) 컴포넌트를 이용한 입력값 필터링: 외부입력값에서 XML 삽입 공격이 가능한 문자열들을 필터링하는 Validator 컴포넌트를 개발하여 XML 조회를 수행하는 애플리케이션 작성 시 입력값에 대한 검증 작업이 일괄 적용되도록 설계한다. (ㄴ) 개별 코드에서 입력값 (B) 하도록 시큐어코딩 규칙 정의: 각각의 컴포넌트에서 입력값에 대해 XML 삽입을 발생시킬 수 있는 문자열(\", [, ], /, =, @ 등)을 제거 또는 안전하게 치환하여 사용할 수 있도록 시큐어코딩 규칙을 정의한다. (ㄷ) 안전한 (C) 를 사용하도록 시큐어코딩 규칙 정의: XML 조회를 수행하는 쿼리문 작성시 외부입력값이 쿼리문의 구조를 바꾸지 않도록 한다.",
+            "answer": "(A) : 공통 검증, (B) : 필터링, (C) : API",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+              "line": 38,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "93a8b8ff5c7b108b56094f9c144c0073d7abe8fa6489ea569650873b9b935f4c"
+          },
+          {
+            "id": "R26-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "공격자들이 표적으로 삼은 조직 네트워크망에 침투한 후 오랜 기간 탐지를 회피하여 정보를 수집해 빼돌리는 고도의 지능형 표적 공격을 무엇이라고 하는가?",
+            "answer": "APT(Advanced Persistent Threat)",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+              "line": 39,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "45e53ad729dea1c9d043f7511eaf261ea9c7d1580c29cd3c0f60dad365a9b54b"
+          },
+          {
+            "id": "R26-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "공격자가 자신의 TCP 윈도우 사이즈를 0으로 설정한 후 다수의 HTTP 패킷을 송신하여 웹서버가 정상적으로 응답하지 못하도록 만드는 공격 기법을 무엇이라 하는가?",
+            "answer": "Slow Read Attack",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+              "line": 40,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "0e60248c4c4cbf33f2ae9258714bca256b8a1182d6f84fa2e202b785108200d6"
+          },
+          {
+            "id": "R26-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "XSS 취약점 유형에 대한 설명이다. ( )안에 들어갈 용어를 기술하시오. (1) (A) : 공격자의 입력값이 서버에 저장되지 않고 HTTP 응답에 그대로 포함되도록 허용되는 경우, 사용자가 공격자가 전달한 악의적인 링크에 접속할 때 발생 (2) (B) : 서버가 충분한 검증 없이 공격자로부터 입력받은 값을 저장한 뒤 다른 사용자에게 표시해 줄 때 발생 (3) (C) : 스크립트(일반적으로 자바스크립트)가 DOM을 제어하는 과정에서 공격자가 조작 가능할 때 발생",
+            "answer": "(A) : Reflected XSS, (B) : Stored XSS, (C) : DOM Based XSS",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+              "line": 41,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "65c0df7224575d3bfabe1a3c917c2258d127c905c17631b59b55c8d9bd8c2c74"
+          },
+          {
+            "id": "R26-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "침입탐지 시스템에는 호스트 컴퓨터의 내부 상태 또는 저장된 로그를 분석하여 침입을 탐지하는 (A), 통신망을 통해 전송되는 패킷 데이터를 분석하여 침입 여부를 판단하는 (B)가 있다.",
+            "answer": "(A) : HIDS(호스트기반 IDS), (B) : NIDS(네트워크기반 IDS)",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+              "line": 42,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "eb5f2429e08071d199d15d88029664b56897e7428af178cc6ff1690923d14635"
+          },
+          {
+            "id": "R26-Q11",
+            "number": 11,
+            "type": "short",
+            "prompt": "위험을 구성하는 요소에 대한 설명이다. ( )에 들어갈 용어를 기술하시오. (1) (A) : 조직 내에서 가치를 가지고 있는 모든 것으로, 보호해야 할 대상 (2) (B) : 자산에 손실을 초래할 수 있는 원치 않는 사건의 잠재적인 원인 또는 행위자 (3) (C) : 위협의 이용 대상이 되는 자산의 잠재적인 약점",
+            "answer": "(A) : 자산(Asset), (B) : 위협(Threat), (C) : 취약성 또는 취약점(Vulnerability)",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+              "line": 43,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "39549561e975cfc03338793b4f052da92fb60a44aa8dfd69c0e48b6a068422c0"
+          },
+          {
+            "id": "R26-Q12",
+            "number": 12,
+            "type": "short",
+            "prompt": "(A)는 조직의 자산에 대한 위험을 감수할 수 있는 수준으로 유지하기 위해 위험을 분석하고, 비용대비 효과적인 대책을 마련하는 일련의 과정이다. (A)의 단계는 (B), 위험평가, (C)이다. (B)는 잠재적으로 식별된 위험이 조직의 목표 및 운영에 미칠 가능성과 잠재적 영향을 분석하는 단계이다. (C)는 식별된 위험을 완화, 이전, 수용 또는 방지하기 위한 위험 처리 방안을 결정하는 단계이다.",
+            "answer": "(A) : 위험관리, (B) : 위험분석, (C) : 보호대책 선정(위험 처리)",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+              "line": 44,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "85c017a18ac712fc1098949c9e801897d79533b9917af44e1525f39f36f70173"
+          },
+          {
+            "id": "R26-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "사용자가 `cmd.exe`를 실행하려고 할 때 UAC 팝업에 \"다음 프로그램이 이 컴퓨터를 변경할 수 있도록 허용하시겠습니까?\", 프로그램 이름 `Windows 명령 처리기`, 확인된 게시자 `Microsoft Windows`, 파일 원본 `이 컴퓨터의 하드 드라이브`가 표시되고, 관리자 암호 입력 안내와 함께 [예] 버튼은 비활성화되고 [아니오] 버튼만 활성화되어 있다. 1) 사용자가 윈도우 명령 처리기를 실행한 의도와 2) [예] 버튼이 비활성화된 이유를 설명하시오.",
+            "answer": "1) 현재 권한으로 수행할 수 없는 명령을 처리하기 위해 명령 처리기를 관리자 권한으로 실행하려는 의도이다. 2) 관리자 계정이 비활성화·삭제 등 정상 상태가 아니거나 윈도우 시스템 파일이 손상된 경우로 볼 수 있다.",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+              "line": 45,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "dd70acf6e3a1fb56d1e4fee8c47b7b428076976aa7856cdbed55fe1496d67ad6"
+          },
+          {
+            "id": "R26-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "개인정보 처리가 수반되는 사업 추진 시 해당 사업이 개인정보에 미치는 영향을 사전에 분석하고 이에 대한 개선방안을 수립하여 개인정보 침해사고를 사전에 예방하기 위하여 개인정보 영향평가를 수행한다. 개인정보 영향평가 수행 시 고려해야 할 사항 5가지를 기술하시오.",
+            "answer": "처리하는 개인정보의 수, 개인정보의 제3자 제공 여부, 정보주체의 권리를 해할 가능성 및 그 위험 정도, 민감정보 또는 고유식별정보의 처리 여부, 개인정보 보유기간",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+              "line": 46,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "cc5756be1638d9f3ab5a6ba7c636da5ce0d16a541b7059a386a9ce1bb6ba666f"
+          },
+          {
+            "id": "R26-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "시스템 로그 점검 중 `device eth0 entered Promiscuous mode` 로그가 발견되었다. 1) Promiscuous mode의 의미, 2) 해당 모드에서 가능한 공격, 3) 대응 방법을 설명하시오.",
+            "answer": "1) `eth0` 인터페이스로 들어오는 모든 패킷을 목적지와 무관하게 수신하는 모드이다. 2) 패킷 내용을 훔쳐보는 스니핑 공격이 가능하다. 3) SSH/HTTPS 등 암호화 통신 사용, 스위치 운용으로 불필요한 브로드캐스트 최소화, `ifconfig eth0 -promisc`로 무차별 모드 해제, PromqryUI/Nmap 등으로 지속 점검한다.",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+            "sourceLine": 47,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+              "line": 47,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "69e5f2dcf31cb027abc56f5e4dfe4e1004a4aa93853dae624f5434a770962302"
+          },
+          {
+            "id": "R26-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "XSS(Cross Site Script) 공격의 정의와 공격 기법 2가지를 설명하시오.",
+            "answer": "XSS는 웹페이지에 악성 스크립트를 포함시켜 사용자 브라우저에서 실행되도록 하는 공격이다. Reflected XSS는 악성 URL 파라미터가 응답에 반사되어 실행되는 방식, Stored XSS는 게시판·프로필 등에 저장된 악성 스크립트가 다른 사용자 열람 시 실행되는 방식이다. DOM based XSS는 서버를 거치지 않고 DOM 생성 과정에서 실행되는 유형이다.",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+            "sourceLine": 48,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+              "line": 48,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "d71e4fa9f2ac8d748f8701902a9de716c6035c1fb173a7b98573d12f28907fca"
+          },
+          {
+            "id": "R26-Q17",
+            "number": 17,
+            "type": "practical",
+            "prompt": "데이터베이스 관리가 미흡한 경우 비인가자가 DB에 접근해 정보 유출·훼손·파괴 등 악의적 행위를 할 수 있다. 1) DBA가 일반 사용자 또는 원격 사용자에게 부여하면 안 되는 권한 3가지와 2) 접근 권한을 최소화할 수 있는 방법 4가지를 기술하시오.",
+            "answer": "부여 금지 권한 예시는 `CREATE USER`, `DROP USER`, `DROP ANY TABLE`, `BACKUP ANY TABLE` 등이다. 최소화 방법은 지정 IP에서만 원격 DB 접속 허용, DBA 외 시스템 테이블 접근 제한, 응용프로그램/DBA 계정 Role의 Public 설정 금지, `OS_ROLES`·`REMOTE_OS_AUTHENT` 등 원격/OS 인증 관련 위험 설정 제한, 최신 보안패치와 벤더 권고 적용 등이다.",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+            "sourceLine": 49,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+              "line": 49,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "01151370738b9740349350d0ac4fee19189e79a657708a74b965d610283a21e3"
+          },
+          {
+            "id": "R26-Q18",
+            "number": 18,
+            "type": "practical",
+            "prompt": "아래 취약점 점검 결과를 기반으로, 다음 물음에 답하시오. [취약점 점검 결과] # openssl version -a OpenSSL 1.0.1 14 May 2012 # openssl s_client -connect domain.com:8443 -tlsextdebug -debug -state | grep -i heartbeat SSL_connect:before SSL initialization SSL_connect:SSLv3/TLS write client hello SSL_connect:SSLv3/TLS read server hello TLS server extension \"heartbeat\" (id=15), len=1 1) 취약점 명은? 2) 시스템적으로 해당 취약점을 조치하는 방법은? 3) 서비스적으로 해당 취약점을 조치하는 방법은?",
+            "answer": "취약점명: 하트블리드(HeartBleed). 시스템 조치: OpenSSL을 취약점이 패치된 버전으로 업데이트하거나 Heartbeat를 비활성화해 재컴파일한다. 서비스 조치: 인증서와 개인키를 교체하고 취약점 조치 완료 후 사용자 비밀번호 재설정을 안내한다.",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+            "sourceLine": 50,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+              "line": 50,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "5725262213db50185fe20d8dffdf544a7070ec7e69e8e66ec5f2f6356f2c1325"
+          }
+        ]
+      },
+      {
+        "roundId": "R27",
+        "year": "2024",
+        "session": "04",
+        "title": "정보보안기사 실기 27회 2024년 4회 실기 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+        "sourceDigest": "b48791b87956cc1497aa1d3ddf315420d273c49d90a8f324ae2f814d5f1ba194",
+        "items": [
+          {
+            "id": "R27-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "접근통제 정책에 대하여 다음 물음에 답하시오. - (A) : 사용자나 사용자 그룹에 근거한 사용자 중심의 접근 제어 수행 - (B) : 모든 객체는 정보의 비밀수준에 근거하여 보안 레벨이 주어지고 허가된 사용자만 접근 가능토록 제어 - (C) : 사용자와 객체 상호관계를 역할에 따라 접근 제어 수행",
+            "answer": "(A) : DAC, (B) : MAC, (C) : RBAC",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+              "line": 33,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "f93bdcd498b36c5bd8746b353967b8307e83fad6b2376c7fc083aca26e10fe2e"
+          },
+          {
+            "id": "R27-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "MAC 주소(물리 주소)를 기반으로 IP 주소(논리 주소)를 할당받기 위해 사용되며, 디스크 없는 장치나 네트워크 부팅을 지원하는 장비에서 사용하는 TCP/IP 프로토콜은 무엇인가?",
+            "answer": "RARP(Reverse Address Resolution Protocol)",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+              "line": 34,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "0ecb03531562b077f00917d107dc90527913f281df6e089c7fc38b7627401105"
+          },
+          {
+            "id": "R27-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "VLAN 구성 방식에 대하여 다음 ( )에 들어갈 명칭을 기술하시오. - (A) 기반 VLAN : 스위치 포트를 각 VLAN에 할당. 같은 VLAN에 속한 호스트 간에만 통신 가능. 가장 일반적인 방식 - (B) 기반 VLAN : 호스트의 MAC 주소를 VLAN에 등록. 모든 MAC을 등록하고 관리하는 어려움. - (C) 기반 VLAN : 네트워크 주소별로 VLAN 구성. - (D) 기반 VLAN : 같은 통신 프로토콜을 가진 호스트 간에는 통신가능토록 VLAN 설정",
+            "answer": "(A) : 포트, (B) : MAC, (C) : 네트워크 주소, (D) : 프로토콜",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+              "line": 35,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "7fb1183ae8bf281bb6a38b36955c7c55768d55d8b55c0ce90a79303f24463ac9"
+          },
+          {
+            "id": "R27-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "전자금융거래법 제21조2 제4항에 기술된 다음 각호의 업무를 수행하는 사람을 무엇이라고 하나? 1) 전자금융거래의 안정성 확보 및 이용자 보호를 위한 전략 및 계획의 수립 2) 정보기술부문의 보호 3) 정보기술부문의 보안에 필요한 인력관리 및 예산편성 4) 전자금융거래의 사고 예방 및 조치",
+            "answer": "CISO(Chief Information Security Officer)",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+              "line": 36,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "6facdb8761df5717dd5977bf2424a9a467f2e06e568f5ba8878f7fd002d48fd4"
+          },
+          {
+            "id": "R27-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "리눅스 시스템 로그 파일에 대하여 다음 빈칸에 적절한 파일을 기술하시오. - (A) : 현재 시스템에 로그인한 사용자의 상태가 출력되는 로그 - (B) : 사용자의 로그인, 로그아웃, 시스템 재부팅 정보가 누적되어 출력되는 로그 - (C) : 마지막으로 성공한 로그인 정보가 출력되는 로그",
+            "answer": "(A) : utmp, (B) : wtmp, (C) : lastlog",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+              "line": 37,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "90021731c42e84dff05eefd832d41eaab370fced4305d5325f140aecb3f8e8ad"
+          },
+          {
+            "id": "R27-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "다음 스캔 방법 중 포트가 닫혀있을 때만 응답이 오는 스캔 방식을 고르시오. SYN scan / FIN scan / XMAS scan / Null scan / Decoy scan",
+            "answer": "FIN scan, XMAS scan, Null scan",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+              "line": 38,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "03d574e9df287f5103338a8859efb78f7c0e715b318ad1604ac6927152011bee"
+          },
+          {
+            "id": "R27-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "SW 개발 보안과 관련하여 ( )에 들어갈 취약점명(공격기법)을 기술하시오. - (A) : DB와 연결되어 있는 애플리케이션의 입력값을 조작하여 의도하지 않은 결과를 반환하도록 하는 공격 기법 - (B) : 게시판, 웹, 메일 등에 삽입된 악의적인 스크립트에 의해 쿠키 및 기타 개인정보를 특정 사이트로 전송시키는 공격 기법 - (C) : 적절한 검증 절차를 수행하지 않은 사용자 입력값이 운영체제 명령어의 일부로 전달되어 의도하지 않은 시스템 명령어가 실행되도록 하는 공격 기법",
+            "answer": "(A) SQL Injection, (B) XSS, (C) 운영체제 명령어 삽입",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+              "line": 39,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "29fe725b84484d0aa9d12a5923048eaee3604a16f020c5fc945b50493528635a"
+          },
+          {
+            "id": "R27-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "다음은 특정 명령어를 수행한 결과이다. ( )에 들어갈 명령어를 기술하시오. root@kali:~#Telnet webserver.com 80 Trying 192.168.1.2 ... Connect to webserver.com Escape character is '^]' ( ) * HTTP/1.0 HTTP/1.1 200 OK Date: Sat 6 Aug 2022 09:01:01 KST Server: Microsoft-IIS/5.0 Allow: GET, HEAD, POST, OPTIONS, TRACE Content-Length: 0 Connection: close Content-Type: text/plain; charset-euc-kr Connection closed by foreign host",
+            "answer": "OPTIONS",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+              "line": 40,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "e5bc6abe366bb8d04fa706bb8f916e11ee53662792dd98b22813dd8cfce95155"
+          },
+          {
+            "id": "R27-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "소프트웨어 패치의 종류와 관련하여 ( )에 들어갈 용어를 기술하시오. - (A) : 즉시 교정되어야만 하는 주요한 취약점을 패치하기 위해 배포되는 프로그램으로 서비스팩이 발표된 이후 패치가 추가될 필요가 있을 때 별도로 발표됨 - (B) : 문제를 예방 또는 해결하거나 컴퓨터 작동 방식을 향상시키거나, 컴퓨터 경험을 향상시킬 수 있도록 추가되는 소프트웨어",
+            "answer": "(A) : 핫픽스(Hot Fix), (B) : 업데이트(Update)",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+              "line": 41,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "ceb16a96056bbc9571be13a1a948fb5ed1e2b882e97a9c02502f90c2068d2184"
+          },
+          {
+            "id": "R27-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "매니저와 에이전트 구조로 되어 있고, 네트워크 장비의 상태를 모니터링하고 관리하기 위해 사용되는 TCP/IP 기반 네트워크 프로토콜을 무엇이라고 하나?",
+            "answer": "SNMP(Simple Network Management Protocol)",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+              "line": 42,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "57af2027d632ac91bf9041e2ae226890039cb6a09cc0cd45ea5ebfbbcc2e950a"
+          },
+          {
+            "id": "R27-Q11",
+            "number": 11,
+            "type": "short",
+            "prompt": "어떠한 대책을 도입하더라도 위험을 완전히 제거할 수 없으므로 일정 수준 이하의 위험은 받아들이고 사업을 진행하는 위험대응 방식을 무엇이라고 하나?",
+            "answer": "위험수용",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+              "line": 43,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "bef143ed2351216c66c8bba45fa801558c6f6e7aafff05b3af499a103fc2f3c8"
+          },
+          {
+            "id": "R27-Q12",
+            "number": 12,
+            "type": "short",
+            "prompt": "네트워크 논리 그룹을 구분하여 보안을 강화하고, 브로드캐스트 도메인의 범위를 줄여 네트워크 성능 향상을 지원하는 LAN 기술을 무엇이라고 하나?",
+            "answer": "VLAN(Virtual LAN)",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+              "line": 44,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "4644033cf83a6e79705dcebd3896155cc8e12f4ed8c508c674237ea9bbbba7ba"
+          },
+          {
+            "id": "R27-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "위험분석 접근법 중 복합접근법의 개념, 장점, 단점을 설명하시오.",
+            "answer": "개념: 고위험 영역은 상세 위험분석을 수행하고 다른 영역은 베이스라인 접근법을 사용하는 방식. 장점: 분석 정확성과 속도의 균형을 유지해 효율적인 보안 정책 적용이 가능하고, 환경에 맞춰 상세분석과 베이스라인 비중을 조정할 수 있다. 단점: 두 접근법을 조합하므로 명확한 기준이 필요하고 관리정책이 복잡해질 수 있으며, 자산 중요도 판단 오류 시 비용 과다 또는 중요 시스템 보안 부족이 발생할 수 있다.",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+              "line": 45,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "755bcac94a85b9e0be8601d8f809ea6cea5cfc72f39d4d1a0c740f1a1af191c8"
+          },
+          {
+            "id": "R27-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "정보보호조치에 관한 지침의 1.2.1 정보보호 방침의 수립·이행, 1.2.2 정보보호 실행계획의 수립·이행 항목에서 규정하는 내용을 기술하시오.",
+            "answer": "정보보호 목표, 범위, 책임 등을 포함한 정보보호 방침을 수립한다. 정보통신서비스 관련 법·규제·계약·정책·기술 요구사항을 문서화하고 시행한다. 정보보호 방침을 토대로 예산과 일정 등을 포함한 당해 연도 실행계획을 수립한다. 최고경영층이 실행계획을 승인하고 정보보호 최고책임자가 추진 상황을 매 반기마다 점검한다.",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+              "line": 46,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "362e8a390eae98947385995ab374a969b6ab389b9fb22e242763169cb1cd48ef"
+          },
+          {
+            "id": "R27-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "유닉스 시스템에 저장된 파일에 다음과 같은 권한이 설정되었다. 권한의 상세한 의미를 설명하시오. [설정된 권한] -rwxr-x--x",
+            "answer": "해당 파일의 소유자는 읽고 쓰고 실행이 모두 가능함. 해당 파일의 그룹에 속한 사용자들은 읽고 실행은 가능하나 파일 쓰기(Write)는 불가함. 기타 다른 사용자들은 실행만 가능하며 파일을 읽고, 쓰기(Write)는 불가함.",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+            "sourceLine": 47,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+              "line": 47,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "51842f6f38273bc863c407a8efa9b3c7b07d523a1a1e78535a5544967ab42cb1"
+          },
+          {
+            "id": "R27-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "재해복구시스템 유형에는 미러사이트, 핫사이트, 웜사이트, 콜드사이트가 있다. 1) 미러사이트의 정의, 2) 미러사이트의 장단점 각 2개, 3) RTO가 가장 오래 걸리는 방식과 이유를 답하시오.",
+            "answer": "미러사이트는 주센터와 동일 수준 시스템을 백업센터에 구축하고 액티브-액티브 상태로 실시간 서비스를 제공하는 방식이다. 장점은 즉시 업무재개와 RPO 0 수준의 데이터 최신성, 단점은 높은 구축·운영 비용과 데이터 업데이트 과부하 가능성이다. RTO가 가장 긴 방식은 콜드사이트이며, 재해 시 필요한 자원을 조달해 복구해야 하기 때문이다.",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+            "sourceLine": 48,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+              "line": 48,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "401b688cb00e66af70d52756accfac90429697ca53be5b5080ec3c1e288507f1"
+          },
+          {
+            "id": "R27-Q17",
+            "number": 17,
+            "type": "practical",
+            "prompt": "다음 자바 프로그램은 SQL Injection에 취약한 소스와 취약점을 해소한 소스코드이다. ( )에 들어갈 코드를 작성하시오. [취약한 소스코드] 1: // 외부로부터 입력받은 값을 검증 없이 사용할 경우 안전하지 않다. 2: String gubun = request.getParameter(\"gubun\"); 3: ........ 4: String sql = \"SELECT * FROM board WHERE b_gubun = '\"+gubun+\"'\"; 5: Connection con = db.getConnection(); 6: Statement stmt = con.createStatement(); 7: // 외부로부터 입력받은 값이 검증 또는 처리 없이 쿼리로 수행되어 안전하지 않다. 8: ResultSet rs = stmt.executeQuery(sql); [취약점을 해소한 소스코드] 1: String gubun = request.getParameter(\"gubun\"); 2: ........ 3: //1. 사용자에 의해...",
+            "answer": "(A) : ?, (B) : preparedStatement, (C) : setString, (D) : executeQuery()",
+            "verification": "source-derived; exact wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+            "sourceLine": 49,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+              "line": 49,
+              "excerpt": "source-derived; exact wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "b5f6f8bdf7ebaf63cfecdace993cf9e1839d73e715bc2b2c4ca97db754b99ee3"
+          },
+          {
+            "id": "R27-Q18",
+            "number": 18,
+            "type": "practical",
+            "prompt": "NTP 서비스 취약점을 이용한 DDoS 공격 대응방안 4가지를 서버 측면 2가지, 네트워크 측면 2가지로 나누어 서술하시오.",
+            "answer": "서버 측면: NTP 서버를 4.2.8 이상으로 업그레이드하고, 업그레이드가 어렵다면 `/etc/ntp.conf`에 `disable monitor`를 설정해 monlist 기능을 비활성화한다. 네트워크 측면: 신뢰할 수 있는 관리망·클라이언트만 NTP 접근을 허용하도록 ACL/방화벽을 적용하고, 외부에서 내부 NTP 서버로 들어오는 UDP/123 트래픽 또는 비정상 대량 NTP 응답 트래픽을 차단·속도 제한한다.",
+            "verification": "source-derived; Naver cross-checked; official wording unverified",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+            "sourceLine": 50,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+              "line": 50,
+              "excerpt": "source-derived; Naver cross-checked; official wording unverified",
+              "status": "source-derived"
+            },
+            "contentDigest": "f0fb80d39d38b9c20caaa37ae4ecccbd7bb8bcba114e5ebd0e91be79bf27ffbe"
+          }
+        ]
+      },
+      {
+        "roundId": "R28",
+        "year": "2025",
+        "session": "01",
+        "title": "정보보안기사 실기 28회 2025년 1회 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+        "sourceDigest": "9f085cff41ff1e39b01198df625362e8633cf91457fc7cb1848050b22fe0dc2b",
+        "items": [
+          {
+            "id": "R28-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "반사 서버를 경유하여 대량의 ICMP echo reply 패킷을 전송해 서비스 거부를 유발하는 공격을 (A)라고 한다. 반사 서버로 악용되지 않기 위해 차단해야 하는 (B) 패킷과 (C) 패킷을 쓰시오.",
+            "answer": "Smurf, Directed Broadcast, ICMP echo request",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+              "line": 37,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "4690acb21d99c3eccc20368043f9bb95b1e32bc493e17a370bca20507a71e790"
+          },
+          {
+            "id": "R28-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "공격자가 서버가 신뢰하는 특정 서버나 네트워크 리소스에 대해 임의 요청을 보내도록 서버를 속이는 웹 보안 취약점이다. 서버가 외부 입력을 기반으로 HTTP 요청을 생성하는 기능을 가질 때 주로 발생하는 이 취약점명을 쓰시오.",
+            "answer": "SSRF",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+              "line": 38,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "898f7554995174ba110ff476d6233877b90ef1ae4772c81edeb610a95c426125"
+          },
+          {
+            "id": "R28-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "VLAN 빈칸을 채우시오. 수동으로 VLAN 주소를 할당하는 방식 (A), 자동으로 VLAN 주소를 할당하는 방식 (B), Cisco 스위치에서 VLAN을 확인하는 명령어 (C)를 쓰시오.",
+            "answer": "정적 VLAN, 동적 VLAN, show vlan",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+              "line": 39,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "27e7cb0470ef90f3ece75862e82254392833b12b780fd6198e93275131b51088"
+          },
+          {
+            "id": "R28-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "웹 브라우저에서 JavaScript `document.cookie` 등을 통해 쿠키에 접근하는 행위를 차단하려면 쿠키에 어떤 보안 속성을 설정해야 하는지 쓰시오.",
+            "answer": "HttpOnly",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+              "line": 40,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "497c0a83a2e80585f3b9bd984c738a29114b56d6a898209f103d037db82389e1"
+          },
+          {
+            "id": "R28-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "HTTP 요청 메시지 입력값이 HTTP 응답 헤더에 포함되어 응답이 여러 개로 분리되는 HTTP 응답 분할(Response Splitting) 공격에서, 추가 HTTP 응답 생성·쿠키 탈취·XSS 등에 악용되는 개행 문자 2개를 쓰시오.",
+            "answer": "CR, LF",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+              "line": 41,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "52eda6dbcb9ba53766b39f690ad07a7afd042d8ad9e3967077b6de1f23295619"
+          },
+          {
+            "id": "R28-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "APT 공격 대응을 위해 록히드 마틴사가 제시한 방법으로, 공격 단계를 7단계로 분리하고 그중 하나만 사전에 제거해도 실제 공격까지 이어질 수 없다는 점에 착안한 방어 전략을 쓰시오.",
+            "answer": "사이버 킬 체인",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+              "line": 42,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "7aa7a4d0b27ef2a4c3d868238a83293f6275bf93233533a574ffd42647b5c8e9"
+          },
+          {
+            "id": "R28-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "시스템이 공격자가 설치한 루트킷 등으로 장악되면 `ps` 같은 기본 명령어를 신뢰할 수 없을 수 있다. 이때 `ps` 대신 실행 중인 프로세스들이 오픈한 파일 목록을 확인하는 명령어를 쓰시오.",
+            "answer": "lsof",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+              "line": 43,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "bb5e9e0e05819cb3f5a56e8f7e897562f685a6836ae7b649d18e718861d02a8d"
+          },
+          {
+            "id": "R28-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "리눅스에서 로그인 실패 로그는 `btmp` 파일에 남는다. `btmp` 로그 내용을 확인하는 명령어를 쓰시오.",
+            "answer": "lastb",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+              "line": 44,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "e04ddcf68dad44743dba38d1398d5f799e425d0c750664c1eb90eb86c3cc7e6b"
+          },
+          {
+            "id": "R28-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "정보자산 중요도 평가 기준은 일반적으로 기밀성, 무결성, (A)를 고려한다. 또한 정보자산 (B)을 통해 유사 특성의 자산을 하나의 그룹으로 묶어 위험분석 및 보호대책 수립을 효율적이고 일관되게 적용할 수 있다.",
+            "answer": "가용성, 그룹핑",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+              "line": 45,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "d127c89c1c707dfa23f65ea2d56444f5eabaa32938f2015215edc2f2d9adafff"
+          },
+          {
+            "id": "R28-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "조직의 정보자산을 위협으로부터 보호하고 손실을 최소화하기 위해 위험관리 방법 및 절차, 수행 인력, 기간, 대상, 방법, 예산 등을 구체화하여 수립하는 계획 문서를 쓰시오.",
+            "answer": "위험관리계획",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+              "line": 46,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "2406976afff7a8a4a4d205eaab1c81493832d4e2adb3bd7aee08017b755909b1"
+          },
+          {
+            "id": "R28-Q11",
+            "number": 11,
+            "type": "short",
+            "prompt": "ISMS-P 인증에서 요구하는 물리적 보안 대책 중 3가지를 설명하시오.",
+            "answer": "보호구역 지정, 출입통제, 정보시스템 보호, 보호설비 운영, 보호구역 내 작업 통제, 반출입 기기 통제, 업무환경 보안 중 3개",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+            "sourceLine": 47,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+              "line": 47,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "84742d5e7d6f97b3132ff81ea1ac17531a91b9c8b7f84bbf7db81b691459e7b7"
+          },
+          {
+            "id": "R28-Q12",
+            "number": 12,
+            "type": "short",
+            "prompt": "모바일 기기에서 링크에 접속하면 설치된 앱이 실행되고 특정 화면으로 이동되는 기능이다. 악용 시 특정 웹페이지를 악성 링크로 접속하도록 조작해 개인정보 조회나 의도하지 않은 계좌이체를 유도할 수 있는 이 기능명을 쓰시오.",
+            "answer": "Deep link",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+            "sourceLine": 48,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+              "line": 48,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "799a3a2a086ff86e438d4312de8b7353b5bbd98df2b4c4fb35b28a3d4ddadafc"
+          },
+          {
+            "id": "R28-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "쉘의 정의와 기능 두 가지를 설명하시오.",
+            "answer": "운영체제와 사용자 사이의 명령 인터페이스이며, 명령 해석·커널 전달·환경 설정·스크립트 자동화 등을 수행한다.",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+            "sourceLine": 49,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+              "line": 49,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "724b8d3b0d83824fe64efca9e6ef1f235b839401e0cf1ee778d83e3d5751356f"
+          },
+          {
+            "id": "R28-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "Windows OS에서 사용하는 NetBIOS 바인딩이 보안상 취약한 이유와 `ncpa.cpl`을 이용한 보안 설정 방법을 설명하시오.",
+            "answer": "인터넷 연결 Windows에서 NetBIOS over TCP/IP가 활성화되면 원격 공유자원 접근 위험이 있다. ncpa.cpl에서 네트워크 어댑터 속성 > TCP/IP 고급 > WINS 탭에서 NetBIOS over TCP/IP 사용 안 함을 선택한다",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+            "sourceLine": 50,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+              "line": 50,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "0c2cd9cd3d49d24b3583e49f97e2adb780e55203c93758a0d47e083ade00cd7f"
+          },
+          {
+            "id": "R28-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "IPSec의 정의와 보안 모드 두 가지를 설명하시오.",
+            "answer": "네트워크/IP 계층에서 IP 패킷 단위 인증(AH), 암호화(ESP), 키관리(IKE)를 수행하는 프로토콜이다. 터널모드는 새 IP 헤더를 추가해 패킷 전체를 보호하고, 전송모드는 원 IP 헤더 외 데이터 부분을 보호한다",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+            "sourceLine": 51,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+              "line": 51,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "f5b7c81ed7d2f52882c273193a7716c2b7f470b62636ad15ba5d471cd1a8790f"
+          },
+          {
+            "id": "R28-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "정보자산 중요도 산정의 개념과 필수 기준 3가지를 설명하시오.",
+            "answer": "자산이 조직에 주는 가치와 손실 영향을 평가해 보호 우선순위를 정하는 절차다. 해당 자산의 기밀성, 무결성, 가용성 등급을 평가해 중요도를 산정한다",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+            "sourceLine": 52,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+              "line": 52,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "a9144b23480a21812c94d5949a9d22b7cb809fe6ce89809c4edf5484e7e81c43"
+          },
+          {
+            "id": "R28-Q17",
+            "number": 17,
+            "type": "practical",
+            "prompt": "Oracle 감사 로그 설정 결과 `audit_file_dest string /u01/app/oracle/admin/ORCL/adump`, `audit_sys_operations boolean FALSE`, `audit_syslog_level string LOCAL0.INFO`, `audit_trail string NONE`을 보고 답하시오. 1) 설정 의미를 설명하시오. 2) 감사 로그를 `SYS.AUD$` 테이블에 저장하려면 어떤 값을 수정해야 하는가? 3) 감사 로그를 DB 내부보다 외부에 남기는 것이 좋은 이유를 보안 측면에서 설명하시오.",
+            "answer": "audit_file_dest는 OS 감사 로그 저장 경로, audit_sys_operations=FALSE는 SYS 계정 감사 미수행, audit_syslog_level은 syslog 전송 등급, audit_trail=NONE은 감사 로그 미저장을 의미한다. SYS.AUD$에 저장하려면 audit_trail을 DB로 변경한다. 외부 저장은 DB 장악 시 로그 위변조를 줄이고 SIEM 연계와 신뢰 가능한 증거 확보에 유리하다",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+            "sourceLine": 53,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+              "line": 53,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "f54e5be92fb0f3c80a4fbf79cd4f2a9940ed76a79f931a0574294bccf371c5ec"
+          },
+          {
+            "id": "R28-Q18",
+            "number": 18,
+            "type": "practical",
+            "prompt": "리눅스 OS 접속 화면 (A)는 Telnet으로 `192.168.10.20` 접속 시 `Ubuntu 20.04.6 LTS`, 커널 정보, `server01 login: root`, root 로그인 성공이 표시된다. (B)는 FTP로 `192.168.10.30` 접속 시 `220 Welcome to vsFTPd 3.0.3`, `Name (...:root): root`, `230 Login successful`이 표시된다. 1) A와 B에서 확인된 취약점은 무엇인가? 2) A 대응 방안은? 3) B 대응 방안은?",
+            "answer": "Telnet/FTP 평문 서비스, OS·커널·데몬 버전 배너 노출, root 직접 로그인 허용이 취약점이다. Telnet은 SSH로, FTP는 SFTP/FTPS로 대체하고 root 직접 로그인을 차단하며, issue.net·vsftpd 배너 설정 등으로 상세 버전 노출을 제거한다",
+            "verification": "PDF compilation cross-check restored prompt condition",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+            "sourceLine": 54,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+              "line": 54,
+              "excerpt": "PDF compilation cross-check restored prompt condition",
+              "status": "source-derived"
+            },
+            "contentDigest": "3bdfa5e004c9782b5adf23cc3890cff07bdfe770d0fb84746c232a40463c63a3"
+          }
+        ]
+      },
+      {
+        "roundId": "R29",
+        "year": "2025",
+        "session": "02",
+        "title": "정보보안기사 실기 29회 2025년 2회 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+        "sourceDigest": "67df4b9e84c7369fa2334718ab25faac7fe1943b15525f295218aecae7271a52",
+        "items": [
+          {
+            "id": "R29-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "Linux PAM 모듈 유형의 빈칸을 채우시오. (A): 사용자에게 비밀번호 등 인증 정보를 요청하고 입력값이 맞는지 검사하는 모듈 유형. (B): 명시된 계정이 현재 조건에서 유효한 인증 목표인지 검사하며 계정 접근 통제와 정책을 관리하는 모듈 유형. `password`: 사용자가 비밀번호를 변경할 수 있도록 비밀번호 갱신을 관장하는 모듈 유형. (C): 사용자가 인증을 받기 전·후에 수행해야 할 일을 정의하는 모듈 유형.",
+            "answer": "A : auth B : account C : session",
+            "verification": "Jaesung source text cross-check; source answer order restored",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+              "line": 36,
+              "excerpt": "Jaesung source text cross-check; source answer order restored",
+              "status": "source-derived"
+            },
+            "contentDigest": "2056e9d6ea2d06b8b7aea43430e3b82ff48600c6c15d27af326d3eb8d9d68711"
+          },
+          {
+            "id": "R29-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "Windows에서 권한 설정, 보안 기능, 대용량 파일을 지원하는 대표 파일 시스템.",
+            "answer": "NTFS",
+            "verification": "Windows system security scope and common OS knowledge.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+              "line": 37,
+              "excerpt": "Windows system security scope and common OS knowledge.",
+              "status": "source-derived"
+            },
+            "contentDigest": "f8c427f544b2eaae55941ca472659d9dd4f4cc1f838bfdecf48f637d59875463"
+          },
+          {
+            "id": "R29-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "중간 서버나 제3자가 통신 내용을 복호화하지 못하게 송신자-수신자 사이를 보호하는 방식.",
+            "answer": "종단 간 암호화(E2EE)",
+            "verification": "Cryptographic communication concept; stable.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+              "line": 38,
+              "excerpt": "Cryptographic communication concept; stable.",
+              "status": "source-derived"
+            },
+            "contentDigest": "70915e0da2c08393e7e108933998e441b69f4c275a9b883bd9ed684a6ad78158"
+          },
+          {
+            "id": "R29-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "PC 에이전트와 네트워크 센서로 문서 유출을 탐지·차단하는 정보보호 솔루션.",
+            "answer": "DLP",
+            "verification": "round-1 security solutions notes classify DLP as information leakage prevention.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+              "line": 39,
+              "excerpt": "round-1 security solutions notes classify DLP as information leakage prevention.",
+              "status": "source-derived"
+            },
+            "contentDigest": "4029db9a004ba83bffb551ff748d58d2c3cf886285160ffcc49c0237b078b7d3"
+          },
+          {
+            "id": "R29-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "고정 버퍼에 크기 검증 없이 복사할 때 발생하는 취약점과 위험 함수.",
+            "answer": "버퍼 오버플로우, strcpy()",
+            "verification": "KCA criteria includes Buffer overflow; C unsafe copy function is standard.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+              "line": 40,
+              "excerpt": "KCA criteria includes Buffer overflow; C unsafe copy function is standard.",
+              "status": "source-derived"
+            },
+            "contentDigest": "1fd5b76dffc4e9ae901f46953099d8082a8bf63ad717c5e6e219dc664677d474"
+          },
+          {
+            "id": "R29-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "Linux 계정 패스워드 해시를 일반 사용자가 직접 볼 수 없도록 저장하는 파일.",
+            "answer": "/etc/shadow",
+            "verification": "round-1 Linux notes distinguish passwd and shadow.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+              "line": 41,
+              "excerpt": "round-1 Linux notes distinguish passwd and shadow.",
+              "status": "source-derived"
+            },
+            "contentDigest": "a53aa36854c6aad5baaadd60a5af99a5fa05feeb8d920dd43e2160375977aef0"
+          },
+          {
+            "id": "R29-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "DNS의 전송계층 프로토콜, 반복 질의 부하 완화 저장 방식, 유지 기간.",
+            "answer": "UDP 또는 TCP, DNS 캐시(Cache), TTL",
+            "verification": "Naver answer cross-check; 일반 질의는 UDP가 기본이나 큰 응답·존 전송 등은 TCP를 사용한다.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+              "line": 42,
+              "excerpt": "Naver answer cross-check; 일반 질의는 UDP가 기본이나 큰 응답·존 전송 등은 TCP를 사용한다.",
+              "status": "source-derived"
+            },
+            "contentDigest": "dba8cc05a6a86781f6da799cc1f26dc4a4b3f888c02bce9d865122cfb362a889"
+          },
+          {
+            "id": "R29-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "웹 서버에 업로드되어 원격 파일 조회·명령 실행에 악용되는 악성 스크립트.",
+            "answer": "웹셸(Web Shell)",
+            "verification": "Web application/file upload attack scope.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+              "line": 43,
+              "excerpt": "Web application/file upload attack scope.",
+              "status": "source-derived"
+            },
+            "contentDigest": "d9a392331560605006c81772c55474680fb84674405be4583da63765c8c85eaf"
+          },
+          {
+            "id": "R29-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "위험분석 접근법: 기준 수준 일괄 적용, 자산·위협·취약성 상세 분석, 고위험 영역 상세와 나머지 기준선 조합.",
+            "answer": "기준선 접근법, 상세 위험분석, 복합 접근법",
+            "verification": "round-1 risk assessment notes match baseline/detail/combined approaches.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+              "line": 44,
+              "excerpt": "round-1 risk assessment notes match baseline/detail/combined approaches.",
+              "status": "source-derived"
+            },
+            "contentDigest": "c378ec8cbab1abe3b5a3cc21ab70dfdf78b68041f776ff76b9b85ff8734f50ff"
+          },
+          {
+            "id": "R29-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "전기통신설비와 컴퓨터 기술로 정보를 수집·가공·저장·검색·송수신하는 체계.",
+            "answer": "정보통신망",
+            "verification": "Legal/management terminology in KCA criteria.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+              "line": 45,
+              "excerpt": "Legal/management terminology in KCA criteria.",
+              "status": "source-derived"
+            },
+            "contentDigest": "8377bec1bf9e11b6504d3be215f3958a5c38103624fbe045d3202fc72ec4e792"
+          },
+          {
+            "id": "R29-Q11",
+            "number": 11,
+            "type": "short",
+            "prompt": "Apache Options 설정에서 디렉터리 리스팅 제거를 위해 삭제할 옵션.",
+            "answer": "Indexes",
+            "verification": "Web server hardening concept.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+              "line": 46,
+              "excerpt": "Web server hardening concept.",
+              "status": "source-derived"
+            },
+            "contentDigest": "ebc7e64ac8dbb4f25137a1dc784a0c99c09288d4122d207a43881dc9727d215b"
+          },
+          {
+            "id": "R29-Q12",
+            "number": 12,
+            "type": "short",
+            "prompt": "사용자가 실행한 명령 이력을 시간순으로 확인하는 Linux accounting 명령.",
+            "answer": "lastcomm",
+            "verification": "round-1 Linux log command table maps process accounting pacct to lastcomm.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+            "sourceLine": 47,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+              "line": 47,
+              "excerpt": "round-1 Linux log command table maps process accounting pacct to lastcomm.",
+              "status": "source-derived"
+            },
+            "contentDigest": "2bb62d77dcdc2d89633bb2bf38a221eae88662f40d16f1b62cb4a0858b962a58"
+          },
+          {
+            "id": "R29-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "모바일 앱의 인증서 고정에 대해 답하시오. (A) 인증서 고정이 무엇이며 어떤 취약점을 막기 위한 기술인지 설명하시오. (B) 인증서 고정의 핵심 요소 3가지를 쓰시오. (C) 인증서 고정 우회 방법 2가지를 쓰시오.",
+            "answer": "서버 인증서 또는 공개키를 앱에 저장하고 TLS 연결 시 서버 인증서와 비교해 MITM을 줄이는 기법이다. 핵심 요소는 인증서/공개키 저장, 인증서 검증, 인증서 교체·갱신 관리다. 우회는 런타임 후킹과 앱 변조·리패키징이 대표적이다",
+            "verification": "Jaesung source text cross-check; Mobile/TLS security topic.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+            "sourceLine": 48,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+              "line": 48,
+              "excerpt": "Jaesung source text cross-check; Mobile/TLS security topic.",
+              "status": "source-derived"
+            },
+            "contentDigest": "06511e20e740c3ace09ca54e496c520de1e0e7a4bcf280d5b1db1045e0b5040b"
+          },
+          {
+            "id": "R29-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "파일 업로드 취약점에 대해 답하시오. (A) 어떤 취약점이 존재하는가? (B) 업로드 로직 우회 기법을 쓰시오. (C) 해당 취약점을 이용한 공격이 성공하기 위한 조건을 쓰시오.",
+            "answer": "실행 파일 업로드로 정보 탈취·명령 실행이 가능하다. 우회는 Content-Type 변조, 대소문자·이중 확장자, Null byte 삽입 등이 있다. 공격 성공 조건은 필터 우회, 업로드 제한 미적용, 업로드 파일의 URL 호출·서버 실행 가능 상태다",
+            "verification": "Jaesung source text cross-check; KCA application vulnerability scope includes file upload and web shell.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+            "sourceLine": 49,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+              "line": 49,
+              "excerpt": "Jaesung source text cross-check; KCA application vulnerability scope includes file upload and web shell.",
+              "status": "source-derived"
+            },
+            "contentDigest": "67e26c0091b3c2b136dd9c739af9707fbc2c5cf239f8af9b1086e94adf8f922e"
+          },
+          {
+            "id": "R29-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "네트워크 보안관제 구성요소 3가지와 각각의 역할을 설명하시오. 구성요소는 에이전트, 정보수집 서버, 통합관제용 시스템 관점에서 작성한다.",
+            "answer": "에이전트는 로그 수집·전송, 정보수집 서버는 수집·저장·처리, 통합관제 시스템은 분석·이벤트 대응 지원.",
+            "verification": "Jaesung source text cross-check; round-1 monitoring/SIEM notes cover log collection and security monitoring components.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+            "sourceLine": 50,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+              "line": 50,
+              "excerpt": "Jaesung source text cross-check; round-1 monitoring/SIEM notes cover log collection and security monitoring components.",
+              "status": "source-derived"
+            },
+            "contentDigest": "cfbc8ea90339ebf1f41ec2d49e011b8f7e9f3ce4a77943469b9f5548154a6754"
+          },
+          {
+            "id": "R29-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "ISMS-P에서 식별된 위험 처리 방법 4가지를 쓰고 각각의 의미를 설명하시오.",
+            "answer": "위험 수용, 위험 감소, 위험 전가, 위험 회피.",
+            "verification": "Jaesung source text cross-check; KCA criteria and round-1 risk notes match the four risk treatment strategies.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+            "sourceLine": 51,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+              "line": 51,
+              "excerpt": "Jaesung source text cross-check; KCA criteria and round-1 risk notes match the four risk treatment strategies.",
+              "status": "source-derived"
+            },
+            "contentDigest": "43fa2dde9a1a99283a4959436e7e500e4600ca7367ea7b0b3941388a87bc39f5"
+          },
+          {
+            "id": "R29-Q17",
+            "number": 17,
+            "type": "practical",
+            "prompt": "Windows 이벤트 로그 최대 크기 설정에 대해 답하시오. 단일 이벤트 최대 크기 500바이트, 하루 이벤트 발생량 1,000개, 보관 기간 30일일 때 (가) 최대 이벤트 로그 크기 계산식, (나) 계산값, (다) 최대 이벤트 로그 크기 설정 경로를 쓰시오.",
+            "answer": "500바이트 × 1,000건/일 × 30일 = 15,000,000바이트. 이벤트 뷰어에서 해당 로그 속성의 최대 로그 크기를 설정한다.",
+            "verification": "Jaesung source text cross-check; Windows event log management appears in practical criteria.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+            "sourceLine": 52,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+              "line": 52,
+              "excerpt": "Jaesung source text cross-check; Windows event log management appears in practical criteria.",
+              "status": "source-derived"
+            },
+            "contentDigest": "9f9d595aa2135f10f680b89c2f5b16517091ded0c959939816d7b7704b1221c6"
+          },
+          {
+            "id": "R29-Q18",
+            "number": 18,
+            "type": "practical",
+            "prompt": "CCTV 설치 시 개인정보처리자가 해야 할 조치를 회사 사옥 외부 공개 장소와 사내 출입통제구역 내부 관점으로 구분해 쓰시오.",
+            "answer": "공개 장소 고정형 영상정보처리기기는 법정 사유가 있을 때 설치하고 안내판에 설치 목적·장소, 촬영 범위·시간, 관리책임자 연락처, 위탁 시 수탁자 정보를 기재한다. 녹음과 목적 외 임의 조작을 금지하고 운영·관리 방침과 안전성 확보조치를 마련한다. 비공개 장소는 법 제15조 기반 개인정보 수집으로 보아 정보주체 동의 등 적법 근거를 확보하고 공개 장소 보호조치를 준용한다",
+            "verification": "Jaesung source text cross-check; legal wording needs current-law check before operational use.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+            "sourceLine": 53,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+              "line": 53,
+              "excerpt": "Jaesung source text cross-check; legal wording needs current-law check before operational use.",
+              "status": "source-derived"
+            },
+            "contentDigest": "71c98181223284e6b06c1cdd51befa93b34019441fde8af023cbe81e7eb57006"
+          }
+        ]
+      },
+      {
+        "roundId": "R30",
+        "year": "2025",
+        "session": "04",
+        "title": "정보보안기사 실기 30회 2025년 4회 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+        "sourceDigest": "0251257504dc7b482c74d72fcdb472ff5ad17e2c973b6ad537c30afa1bff209d",
+        "items": [
+          {
+            "id": "R30-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "Linux `/etc/shadow` 파일의 해시 문자열 `$id$salt$encryption-password`에서 밑줄 친 `$id`가 의미하는 값을 쓰시오.",
+            "answer": "일방향 해시 알고리즘 식별자. 예: 1=MD5, 5=SHA-256, 6=SHA-512.",
+            "verification": "Jaesung source text cross-check; round-1 Linux notes cover shadow; hash id mapping is standard crypt format.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+              "line": 36,
+              "excerpt": "Jaesung source text cross-check; round-1 Linux notes cover shadow; hash id mapping is standard crypt format.",
+              "status": "source-derived"
+            },
+            "contentDigest": "56126bd09f1d2ed371251d8c4b3e232daeb9558a5fbea532bdfa8eb5dbb82157"
+          },
+          {
+            "id": "R30-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "IPsec에서 재생 공격 방지와 재전송 여부 판단에 쓰는 프로토콜/필드.",
+            "answer": "AH, Sequence Number",
+            "verification": "IPsec scope is explicit in KCA criteria; AH includes sequence number for anti-replay.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+              "line": 37,
+              "excerpt": "IPsec scope is explicit in KCA criteria; AH includes sequence number for anti-replay.",
+              "status": "source-derived"
+            },
+            "contentDigest": "7b7a82e3612834888eb4ed3edb425c20939428d95f4408ce9162a90c2e17627b"
+          },
+          {
+            "id": "R30-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "Windows 원격 세션을 net session 명령으로 종료할 때 쓰는 옵션.",
+            "answer": "delete 또는 del",
+            "verification": "Windows share/session administration concept.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+              "line": 38,
+              "excerpt": "Windows share/session administration concept.",
+              "status": "source-derived"
+            },
+            "contentDigest": "9f2f25923488361eabc0fea10ecdeaf3334536dc27ceb6b102fe96af1b62a7db"
+          },
+          {
+            "id": "R30-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "LAN 스위치의 프레임 전송 방식 세 가지.",
+            "answer": "Cut-through, Fragment-free, Store-and-forward",
+            "verification": "Network switching fundamentals.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+              "line": 39,
+              "excerpt": "Network switching fundamentals.",
+              "status": "source-derived"
+            },
+            "contentDigest": "1d0a761d6a0edb9f17530545815551da6e7dc0cf221cdb642bf7403406800186"
+          },
+          {
+            "id": "R30-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "전문가에게 반복 설문과 피드백을 수행해 합의를 도출하는 정성 예측 기법.",
+            "answer": "델파이 기법",
+            "verification": "round-1 risk notes define Delphi as expert-group anonymous consensus.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+              "line": 40,
+              "excerpt": "round-1 risk notes define Delphi as expert-group anonymous consensus.",
+              "status": "source-derived"
+            },
+            "contentDigest": "f4e74a9ce48059b6cf64be70ca0ed8dd960153106deefe4c33ab3c613c2fae3f"
+          },
+          {
+            "id": "R30-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "침해사고 발생 시 디지털 장비에서 전자적 증거를 수집·보존·분석·보고하여 법적 증거능력을 확보하는 절차와 기술을 통칭하는 용어를 쓰시오.",
+            "answer": "디지털 포렌식",
+            "verification": "Jaesung source text cross-check; incident response/forensics scope in KCA criteria.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+              "line": 41,
+              "excerpt": "Jaesung source text cross-check; incident response/forensics scope in KCA criteria.",
+              "status": "source-derived"
+            },
+            "contentDigest": "0628856285585173069106e10e48c791f8e471a28331193400994ab406450840"
+          },
+          {
+            "id": "R30-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "시설 접근 제한과 시스템·데이터 접근 제한을 각각 부르는 통제 유형.",
+            "answer": "물리적 접근통제, 논리적 접근통제",
+            "verification": "KCA criteria includes access control and physical/logical controls.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+              "line": 42,
+              "excerpt": "KCA criteria includes access control and physical/logical controls.",
+              "status": "source-derived"
+            },
+            "contentDigest": "4bb38b86d0dfcc5dd57c7beb3852682e91f36ed61a8a21f1123ab7738896522c"
+          },
+          {
+            "id": "R30-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "유출된 암호/해시 목록을 이용해 계정 로그인을 시도하거나 평문 암호를 찾는 공격 유형.",
+            "answer": "크리덴셜 스터핑",
+            "verification": "Source uses credential stuffing; note that hash cracking and credential stuffing can be distinguished in strict terminology.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+              "line": 43,
+              "excerpt": "Source uses credential stuffing; note that hash cracking and credential stuffing can be distinguished in strict terminology.",
+              "status": "source-derived"
+            },
+            "contentDigest": "10e2ed2db17f4deb31f63db5a36bb444b44b121b5936269981c8b9bcec893463"
+          },
+          {
+            "id": "R30-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "패치가 없거나 공개적으로 알려지기 전 악용되는 취약점.",
+            "answer": "제로데이 취약점",
+            "verification": "Vulnerability management concept.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+              "line": 44,
+              "excerpt": "Vulnerability management concept.",
+              "status": "source-derived"
+            },
+            "contentDigest": "9c024220c18c713a25fc36c6809be57b95018443c8a9dc746f043cfc2c653324"
+          },
+          {
+            "id": "R30-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "Windows 공유 목록 확인과 공유 생성·삭제에 쓰는 명령.",
+            "answer": "net share",
+            "verification": "Windows network share scope appears in criteria.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+              "line": 45,
+              "excerpt": "Windows network share scope appears in criteria.",
+              "status": "source-derived"
+            },
+            "contentDigest": "cf6b901cb6c7f91f076d654c7bb90676aed0dbae73d4cec52d6e4a0adbef9deb"
+          },
+          {
+            "id": "R30-Q11",
+            "number": 11,
+            "type": "short",
+            "prompt": "DB 개인정보 마스킹에서 규칙 기반 문자 치환과 SQL 분석 기반 선택적 마스킹 방식.",
+            "answer": "패턴 기반 마스킹, SQL 파싱 기반 마스킹",
+            "verification": "DB security scope covers DB object/column access and masking-related controls.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+              "line": 46,
+              "excerpt": "DB security scope covers DB object/column access and masking-related controls.",
+              "status": "source-derived"
+            },
+            "contentDigest": "cfd2b710378086ae4560936e3120d38e7815d6e9c94389fd3afb73f243c607f9"
+          },
+          {
+            "id": "R30-Q12",
+            "number": 12,
+            "type": "short",
+            "prompt": "위험분석 기본 단계에서 보호 대상과 가치를 파악하는 분석과 약점 분석.",
+            "answer": "자산 분석, 취약성 분석",
+            "verification": "KCA criteria includes asset threat analysis and risk assessment.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+            "sourceLine": 47,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+              "line": 47,
+              "excerpt": "KCA criteria includes asset threat analysis and risk assessment.",
+              "status": "source-derived"
+            },
+            "contentDigest": "97d75a44702fb43ab46f33b43be0455b26723992054d2aba174d2ea2ca956154"
+          },
+          {
+            "id": "R30-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "BYOD 환경에서 모바일 오피스 서비스를 하려고 한다. 관련 보안 기술인 1) MDM(Mobile Device Management), 2) 컨테이너화, 3) 모바일 가상화를 각각 설명하시오.",
+            "answer": "MDM은 모바일 기기를 도난·분실·악용 등으로부터 보호하기 위해 인증, 앱 화이트리스트, 원격 삭제, 탈옥 탐지, 스크린 캡처 방지, 카메라 제어 등 보안 정책을 적용·관리하는 기술이다. 컨테이너화는 하나의 모바일 기기 안에서 업무용 영역과 개인용 영역을 컨테이너라는 별도 공간으로 분리해 프라이버시를 보호하는 기술이다. 모바일 가상화는 가상화 기술로 개인용 OS 영역과 업무용 OS 영역을 완전히 분리하고 필요 시 업무용 OS로 전환해 사용하는 기술이다.",
+            "verification": "User-provided 30th PDF text extraction; Jaesung source text cross-check; round-1 mobile management notes cover BYOD, containerization, mobile virtualization.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+            "sourceLine": 48,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+              "line": 48,
+              "excerpt": "User-provided 30th PDF text extraction; Jaesung source text cross-check; round-1 mobile management notes cover BYOD, containerization, mobile virtualization.",
+              "status": "source-derived"
+            },
+            "contentDigest": "17bba2735a894d8d229be2f755b8242d4777f5dde45bc861f7e85169fe835421"
+          },
+          {
+            "id": "R30-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "정보보호 위험관리의 기본 개념인 자산, 위협, 취약성과 이들 사이의 관계를 설명하고, 위협 발생 시 손실이 실제로 발생하는 조건을 논하시오.",
+            "answer": "자산은 조직이 보호해야 할 모든 유·무형의 대상이다. 위협은 자산에 손실을 초래할 수 있는 원하지 않는 사건의 잠재적 원인 또는 행위자다. 취약성은 위협의 이용 대상이 되는 자산의 기술적·관리적·물리적 약점이다. 위협이 발생해도 관련 취약성이 없거나 취약성에 대한 적절한 보호대책이 있으면 손실이 발생하지 않을 수 있다.",
+            "verification": "User-provided 30th PDF text extraction; Jaesung source text cross-check; round-1 risk notes explicitly define risk as function of asset, threat, vulnerability, controls.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+            "sourceLine": 49,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+              "line": 49,
+              "excerpt": "User-provided 30th PDF text extraction; Jaesung source text cross-check; round-1 risk notes explicitly define risk as function of asset, threat, vulnerability, controls.",
+              "status": "source-derived"
+            },
+            "contentDigest": "0e6b04f9aa79a162f44f4f333ca7e34d107121e8de3cda090936070de2a35d2f"
+          },
+          {
+            "id": "R30-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "기업에서 사용하는 EAM(Enterprise Access Management)과 IAM(Identity & Access Management)에 대해 답하시오. 두 솔루션의 공통 목적, EAM의 관리 대상, EAM의 한계점 2가지, IAM의 개선점 2가지를 서술하시오.",
+            "answer": "공통 기능은 기업의 계정과 접근권한을 중앙에서 통합 관리하는 것이다. EAM은 서버, OS, DB 등 내부 시스템 계정 및 애플리케이션 접근 계정을 주로 관리한다. EAM의 한계는 내부 시스템·애플리케이션 중심이라 조직 전체 사용자나 고객 계정까지 확대 적용하기 어렵고, 계정·권한 관리가 수작업 기반이라 운영 부담과 관리 비용이 커지는 점이다. IAM은 직원, 고객, 외부 사용자, 협력업체 등 조직 전체 계정을 단일 플랫폼에서 통합 관리하고, 계정 생성·권한 부여·변경·회수 등 생명주기 전체를 자동화해 효율성과 보안성을 높인다.",
+            "verification": "User-provided 30th PDF text extraction; Jaesung source text cross-check; round-1 security solution notes cover SSO/EAM/IAM relationship with caution about vendor terminology.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+            "sourceLine": 50,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+              "line": 50,
+              "excerpt": "User-provided 30th PDF text extraction; Jaesung source text cross-check; round-1 security solution notes cover SSO/EAM/IAM relationship with caution about vendor terminology.",
+              "status": "source-derived"
+            },
+            "contentDigest": "16988664de8f8f0f5b16852b62e9f7ed2f4efef30dc921923fbe630beb941d12"
+          },
+          {
+            "id": "R30-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "침입탐지시스템 Snort에서 탐지 룰을 부정확하게 작성할 경우 발생할 수 있는 문제점 두 가지를 쓰고, 왜 룰의 조건을 최대한 정확하게 정의해야 하는지 설명하시오.",
+            "answer": "탐지 룰이 부정확하면 정상 트래픽을 공격으로 오탐(false positive)하거나 실제 공격을 놓치는 미탐(false negative)이 증가한다. 이로 인해 운영 효율과 보안 수준이 저하되므로 패턴, 포트, 임계값을 정확히 정의해야 한다.",
+            "verification": "User-provided 30th PDF text extraction; Jaesung source text cross-check; round-1 Snort notes cover rule structure and threshold/options.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+            "sourceLine": 51,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+              "line": 51,
+              "excerpt": "User-provided 30th PDF text extraction; Jaesung source text cross-check; round-1 Snort notes cover rule structure and threshold/options.",
+              "status": "source-derived"
+            },
+            "contentDigest": "9eb810f5715073a94651650253269b9ab1fba8957c4a84431daf18e0c67aad8a"
+          },
+          {
+            "id": "R30-Q17",
+            "number": 17,
+            "type": "practical",
+            "prompt": "리눅스 서버 보안 강화 설정에 답하시오. 1) `/etc/profile` 등에 세션 타임아웃을 600초로 설정하는 환경변수와 export 명령. 2) root 계정 로그인 터미널 제한 파일. 3) `/etc/passwd`와 `/etc/shadow` 권한. 4) `/` 이하 world-writable 일반 파일 탐색 find 명령. 5) 그룹 및 기타 사용자 쓰기 권한을 제거하는 일반적 umask 값. 6) xinetd 관리 테스트 서비스 비활성화 지시어.",
+            "answer": "1) `export TMOUT=600` 2) `/etc/securetty` 3) `/etc/passwd` 644, `/etc/shadow` 400 4) `find / -type f -perm -2` 5) `umask 022` 6) `disable`",
+            "verification": "User-provided 30th PDF text extraction; KCA criteria covers OS security settings, authentication, log/file permission management.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+            "sourceLine": 52,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+              "line": 52,
+              "excerpt": "User-provided 30th PDF text extraction; KCA criteria covers OS security settings, authentication, log/file permission management.",
+              "status": "source-derived"
+            },
+            "contentDigest": "99e6a190d66219fdba8454d4e2dff472e42b4270164aa25688db55831b2a9a44"
+          },
+          {
+            "id": "R30-Q18",
+            "number": 18,
+            "type": "practical",
+            "prompt": "홈페이지 DB SQL 요청 `SELECT pw FROM member WHERE id='user01'`을 보고 답하시오. 1) 위 SQL 구문을 설명하시오. 2) 해당 쿼리에 어떤 취약점을 이용할 수 있는가? 3) 2번 취약점을 이용하여 `pw` 값을 알아내려면 `user01` 위치에 어떤 값을 입력해야 하는가?",
+            "answer": "1) `member` 테이블에서 ID가 `user01`인 사용자의 `pw` 정보를 확인하는 쿼리다. 2) SQL Injection 공격. 3) `' or '1'='1`",
+            "verification": "User-provided 30th PDF text extraction; Jaesung source text cross-check; KCA criteria explicitly includes SQL Injection.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+            "sourceLine": 53,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+              "line": 53,
+              "excerpt": "User-provided 30th PDF text extraction; Jaesung source text cross-check; KCA criteria explicitly includes SQL Injection.",
+              "status": "source-derived"
+            },
+            "contentDigest": "4b8c5f519e0b80b3bbe060741515ca907d20937a8a0203171a428073237b637e"
+          }
+        ]
+      },
+      {
+        "roundId": "R31",
+        "year": "2026",
+        "session": "01",
+        "title": "정보보안기사 실기 31회 2026년 1회 복원",
+        "documentProvenance": "inferred",
+        "status": "source-derived",
+        "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+        "sourceDigest": "ed1f815a516fb8f0d5ca45972bb6ae8cac872e57235e81b9e301e717d211b391",
+        "items": [
+          {
+            "id": "R31-Q01",
+            "number": 1,
+            "type": "short",
+            "prompt": "`/etc/passwd` 파일 항목에서 `/etc/shadow`에 비밀번호가 암호화되어 저장되어 있을 때 패스워드 항목의 값을 쓰시오.",
+            "answer": "`x`",
+            "verification": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 1-64.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+            "sourceLine": 31,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+              "line": 31,
+              "excerpt": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 1-64.",
+              "status": "source-derived"
+            },
+            "contentDigest": "6592870a20013c9bb3006b4c3a978c83236975b08fee0a5187744b9221a84e01"
+          },
+          {
+            "id": "R31-Q02",
+            "number": 2,
+            "type": "short",
+            "prompt": "Man-in-the-middle 방식의 유형으로, DNS 서버보다 빠른 응답을 통해 DNS 응답을 조작하여 사용자가 의도하지 않은 웹사이트로 접속하게 만드는 공격 기법은 무엇인가?",
+            "answer": "DNS 스푸핑",
+            "verification": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 3-94.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+            "sourceLine": 32,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+              "line": 32,
+              "excerpt": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 3-94.",
+              "status": "source-derived"
+            },
+            "contentDigest": "9b05cf46daa45e893181b3eb21d6e93a2601a1da7308925a7c87a4a1b66780b9"
+          },
+          {
+            "id": "R31-Q03",
+            "number": 3,
+            "type": "short",
+            "prompt": "리눅스 서버에서 외부 네트워크로의 ICMP 패킷 전송을 제한하기 위해 `iptables`를 사용하려고 한다. 내부에서 외부로 나가는 ICMP Echo Request(Type 8) 패킷을 차단하기 위한 `iptables -A OUTPUT -p ① --icmp-type ② -j ③`의 ①, ②, ③에 알맞은 속성값을 쓰시오.",
+            "answer": "① `icmp` ② `8` ③ `DROP`",
+            "verification": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 4-11.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+            "sourceLine": 33,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+              "line": 33,
+              "excerpt": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 4-11.",
+              "status": "source-derived"
+            },
+            "contentDigest": "447028ecfc25c1a46159af6f8bd1a2838a91b236b36e0cbba14de00944462449"
+          },
+          {
+            "id": "R31-Q04",
+            "number": 4,
+            "type": "short",
+            "prompt": "보안 점검 도구 설명의 빈칸을 채우시오. `Tripwire`는 ①을/를 점검하는 대표적인 도구이다. ②은/는 미국 Tenable사가 개발하여 무료로 배포하는 취약점 진단 도구로, 패스워드 취약점·민감 데이터 접근·제어 가능 취약점 등을 점검하여 보고서를 제공한다.",
+            "answer": "① 무결성 ② Nessus",
+            "verification": "User-provided 31st HTML table image URL downloaded and visually inspected; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 3-190, 3-193.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+            "sourceLine": 34,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+              "line": 34,
+              "excerpt": "User-provided 31st HTML table image URL downloaded and visually inspected; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 3-190, 3-193.",
+              "status": "source-derived"
+            },
+            "contentDigest": "6a29b3a4338b9c6b901a48d093d70bf9f5781e94cb14f8a138db4edc14db5784"
+          },
+          {
+            "id": "R31-Q05",
+            "number": 5,
+            "type": "short",
+            "prompt": "윈도우 운영체제 환경에서 특정 서비스의 로그 파일 저장 경로이다. IIS 경로 `%SystemRoot%\\system32\\LogFiles\\①\\%SystemRoot%\\system32\\LogFiles\\W3SVC1`, `%SystemRoot%\\system32\\LogFiles\\MSFTPSVC1`와 DHCP 경로 `%SystemRoot%\\System32\\②`의 ①, ②에 들어갈 로그 파일 경로를 쓰시오.",
+            "answer": "① `HTTPERR` ② `DHCP`",
+            "verification": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 1-33.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+            "sourceLine": 35,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+              "line": 35,
+              "excerpt": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 1-33.",
+              "status": "source-derived"
+            },
+            "contentDigest": "787cf5cdf244ca6feb2cd035b1097cb5f9a27beb841a6165191852d8c702ef32"
+          },
+          {
+            "id": "R31-Q06",
+            "number": 6,
+            "type": "short",
+            "prompt": "임의의 길이를 갖는 임의의 데이터를 고정된 길이의 데이터로 매핑하는 암호화 방식은 무엇인지 쓰시오.",
+            "answer": "해시 암호화",
+            "verification": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 5-20.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+            "sourceLine": 36,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+              "line": 36,
+              "excerpt": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 5-20.",
+              "status": "source-derived"
+            },
+            "contentDigest": "5f425b7e6719722c21dc78f64a24267015f655d45adebc36fe39854e1d865e46"
+          },
+          {
+            "id": "R31-Q07",
+            "number": 7,
+            "type": "short",
+            "prompt": "위험 관리 6단계의 빈칸을 채우시오. `위험 관리 전략 및 계획 수립 -> ① -> ② -> 정보보호 대책 선정 -> 정보보호 계획 수립 -> ③`.",
+            "answer": "① 위험분석 ② 위험평가 ③ 실행",
+            "verification": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 6-18.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+            "sourceLine": 37,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+              "line": 37,
+              "excerpt": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 6-18.",
+              "status": "source-derived"
+            },
+            "contentDigest": "ea9c42daad7d22f0448faf312808c45694b754c8ce4a313a9cbe23ef4d1aece2"
+          },
+          {
+            "id": "R31-Q08",
+            "number": 8,
+            "type": "short",
+            "prompt": "소프트웨어에 문제를 일으킬 수 있는 다양한 데이터를 입력하여 에러나 충돌 등의 반응을 분석해 취약성을 찾아내는 기법이며, 보안 취약점 탐지를 목적으로 하드웨어나 소프트웨어 모두에 적용 가능한 무작위 테스트 방식은 무엇인가?",
+            "answer": "퍼징(Fuzzing) 테스트",
+            "verification": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 필기 기본서 1-157.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+            "sourceLine": 38,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+              "line": 38,
+              "excerpt": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 필기 기본서 1-157.",
+              "status": "source-derived"
+            },
+            "contentDigest": "b724a8b87e0e996583d96b9ba308c6a268f3ffa5130bc49f371dbfeb23852bf7"
+          },
+          {
+            "id": "R31-Q09",
+            "number": 9,
+            "type": "short",
+            "prompt": "스팸메일 릴레이 제한 설정의 빈칸을 채우시오. `cat /etc/mail/①`에서 `R$* $#error $@5.7.1 $ : \"550 Relaying denied\"`를 확인하고, `cat /etc/mail/②`에는 `localhost.localdomain RELAY`, `localhost RELAY`, `127.0.0.1 RELAY`, `spam.com REJECT`가 있다. `makemap hash /etc/mail/③ < /etc/mail/access`에서 ①~③에 들어갈 파일명 또는 키워드를 쓰시오.",
+            "answer": "① `sendmail.cf` ② `access` ③ `access.db`",
+            "verification": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 3-243.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+            "sourceLine": 39,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+              "line": 39,
+              "excerpt": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 3-243.",
+              "status": "source-derived"
+            },
+            "contentDigest": "f65dfc3c9949c47806ad353d203737b7fe4d49521011b816ba59881ae0f2f8ea"
+          },
+          {
+            "id": "R31-Q10",
+            "number": 10,
+            "type": "short",
+            "prompt": "IIS에서 아웃바운드 설정으로 특정 응답 헤더를 제거할 때 사용하는 모듈을 쓰시오.",
+            "answer": "URL Rewrite(URL 재작성)",
+            "verification": "User-provided 31st HTML table; source reference column marked 신규.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+            "sourceLine": 40,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+              "line": 40,
+              "excerpt": "User-provided 31st HTML table; source reference column marked 신규.",
+              "status": "source-derived"
+            },
+            "contentDigest": "8ea989bf7e5722a985ced2ebb15ffd8d929891ac07947d378d51ae69bac457de"
+          },
+          {
+            "id": "R31-Q11",
+            "number": 11,
+            "type": "short",
+            "prompt": "정보통신망법 제46조 내용이다. 타인의 정보통신서비스 제공을 위하여 집적된 정보통신시설을 운영·관리하는 자, 집적된 정보통신시설의 멸실·훼손·운영장애 피해 보상을 위한 보험 가입 주체, 보호조치 이행 점검 및 시정명령 대상에 공통으로 들어갈 용어를 쓰시오.",
+            "answer": "집적정보통신시설(IDC) 사업자",
+            "verification": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 필기 기본서 6-98.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+            "sourceLine": 41,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+              "line": 41,
+              "excerpt": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 필기 기본서 6-98.",
+              "status": "source-derived"
+            },
+            "contentDigest": "cf313f5c9016e1b322c17886e07eab7af790e967d0bab42b3f149ba503f751f9"
+          },
+          {
+            "id": "R31-Q12",
+            "number": 12,
+            "type": "short",
+            "prompt": "서버 및 보안 시스템에서 생성되는 로그 데이터를 빅데이터 기법으로 활용해 상관분석, 포렌식 기능, 지능적 위협 조기 경고 모니터링을 제공하는 지능형 보안 시스템은 무엇인가?",
+            "answer": "SIEM",
+            "verification": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 2-195.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+            "sourceLine": 42,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+              "line": 42,
+              "excerpt": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 2-195.",
+              "status": "source-derived"
+            },
+            "contentDigest": "2c025e72fa16d60553faa214a7d537ce6dc4c8673fef4e645f57c7cff587b263"
+          },
+          {
+            "id": "R31-Q13",
+            "number": 13,
+            "type": "essay",
+            "prompt": "정보보호 최고책임자(CISO; Chief Information Security Officer)의 역할 및 책임(R&R) 4가지를 서술하시오.",
+            "answer": "① 정보보호 관리체계의 수립·시행 및 개선 ② 정보보호 위험의 식별·평가 및 정보보호 대책 마련 ③ 정보보호 교육과 모의훈련 계획의 수립 및 시행 ④ 정보통신망법 또는 관계 법령에 따라 정보보호를 위하여 필요한 조치의 이행",
+            "verification": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 6-103.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+            "sourceLine": 43,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+              "line": 43,
+              "excerpt": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 6-103.",
+              "status": "source-derived"
+            },
+            "contentDigest": "45b9b7955768b1637166d7d442cdc8569e9a90c66aa27c78daa0bd13ca4097fd"
+          },
+          {
+            "id": "R31-Q14",
+            "number": 14,
+            "type": "essay",
+            "prompt": "XSS 공격 2가지 종류와 정의를 서술하시오.",
+            "answer": "① 저장형 XSS 공격: 악성 스크립트를 웹 애플리케이션의 데이터베이스에 저장해 사용자의 정보를 탈취하거나 리다이렉션하는 공격 기법. ② 반사형 XSS 공격: 사용자가 악성 스크립트 코드를 포함한 악성 URL을 클릭하면 서버 응답으로 악성 스크립트가 실행되어 사용자의 정보를 탈취하거나 리다이렉트하는 공격 기법.",
+            "verification": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 3-51.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+            "sourceLine": 44,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+              "line": 44,
+              "excerpt": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 3-51.",
+              "status": "source-derived"
+            },
+            "contentDigest": "9ea12cefc316b499073254b8bded58d00e5c9a6d830ddd65801dbbd348bf91fd"
+          },
+          {
+            "id": "R31-Q15",
+            "number": 15,
+            "type": "essay",
+            "prompt": "생체인식 보호 6가지 원칙과 내용을 서술하시오.",
+            "answer": "① 비례성: 생체인식정보 처리 편익에 비해 개인정보 침해 위험성이 크지 않은지 고려하여 활용 여부를 판단한다. ② 적법성: 생체인식정보의 수집·이용·제공 등 처리 근거는 적법·명확해야 한다. ③ 목적제한: 생체인식정보를 정보주체에게 동의받은 인증·식별 이외의 목적으로 무단 활용해서는 안 된다. ④ 투명성: 생체인식정보 보호에 관한 사항을 정보주체에게 알기 쉽게 공개한다. ⑤ 안전성: 생체인식정보가 분실·도난·유출·위조·변조·훼손되지 않도록 안전하게 처리·관리한다. ⑥ 통제권 보장: 정보주체가 자신의 생체인식정보를 스스로 통제할 수 있는 수단을 제공한다.",
+            "verification": "User-provided 31st HTML table; source reference column marked 신규.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+            "sourceLine": 45,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+              "line": 45,
+              "excerpt": "User-provided 31st HTML table; source reference column marked 신규.",
+              "status": "source-derived"
+            },
+            "contentDigest": "32a0b1e1c026c634dab85a6dfafac0d044062a872a35b98ee4550bd627c50e25"
+          },
+          {
+            "id": "R31-Q16",
+            "number": 16,
+            "type": "essay",
+            "prompt": "OSI 7계층의 전송 계층에서 보안을 제공하는 SSL/TLS 핸드셰이크 과정에 대한 설명이다. Client Hello와 Server Hello 단계가 완료된 이후, 비대칭키(공개키) 암호화 방식과 대칭키 암호화 방식이 각각 어느 단계에서 어떤 용도로 사용되는지 핵심 과정을 포함하여 서술하시오.",
+            "answer": "비대칭키 암호화는 Server Certification 단계를 통해 전달받은 서버의 공개키를 사용하여 클라이언트가 생성한 암호키를 암호화해 전달할 때 사용한다. 대칭키 암호화는 일련의 과정을 통해 클라이언트와 서버가 동일하게 생성한 세션 키를 사용하여 핸드셰이크 종료 이후 실제 데이터를 암호화하여 주고받을 때 사용한다.",
+            "verification": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 2-165, 5-15.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+            "sourceLine": 46,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+              "line": 46,
+              "excerpt": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 2-165, 5-15.",
+              "status": "source-derived"
+            },
+            "contentDigest": "f700052994b8fd9ad4824ac4d9167b46b5ca70ad2a3061cae7cf3eed10036cc5"
+          },
+          {
+            "id": "R31-Q17",
+            "number": 17,
+            "type": "practical",
+            "prompt": "Fiddler 도구 점검 결과에 답하시오. 그림1에는 `HTTPS decrypted disabled`, `A SSLv3-compatible ClientHello handshake was found`, `Fiddler extracted for following parameter`, `Version:3.3(TLS/1.2)`가 표시된다. 그림2 HTML 코드에는 `Title: <alert>document.cookie();<alert>`가 표시된다. 1) 그림1의 문제 원인 2) 그림1의 문제 해결 방법 3) 그림2의 취약점 설명 4) 해당 취약점 대응방안을 쓰시오.",
+            "answer": "1) `HTTPS decrypted disabled`는 Fiddler가 HTTPS 트래픽을 복호화하지 못하는 상태이고, 클라이언트가 SSLv3 호환 ClientHello를 보냄으로 인한 다운그레이드(POODLE 위험 존재) 문제다. 2) Fiddler Root 인증서 설치 및 신뢰 적용, SSL 3.0 비활성화, TLS 1.2 이상 강제(TLS 1.2/1.3). 3) 쿠키·세션 탈취 시도에 자주 쓰이는 XSS 페이로드로, 필터링·인코딩이 미흡하면 Reflected XSS 또는 Stored XSS로 공격 가능하다. 4) 스크립트 태그 제한, 모든 입력값 필터링, URL 디코딩을 활용한 우회 공격 대응, 웹 방화벽 적용.",
+            "verification": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 3-135~136, 3-209~210.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+            "sourceLine": 47,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+              "line": 47,
+              "excerpt": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 3-135~136, 3-209~210.",
+              "status": "source-derived"
+            },
+            "contentDigest": "fbb6a78e4be6307a0be589e7ad488155a6cc8af98cd73f39a6068ba9920bd14e"
+          },
+          {
+            "id": "R31-Q18",
+            "number": 18,
+            "type": "practical",
+            "prompt": "CSRF 관련 취약점 조치 코드와 물음에 답하시오. `@GetMapping(\"/write.do\") public String write(HttpSession session) { session.setAttribute(\"CSRF_RANDOM_TOKEN\", UUID.randomUUID().toString()); return \"/board/write\"; }` 1) Session과 Cookie를 서술하시오. 2) 해당 취약점의 명칭을 쓰고 설명하시오. 3) 웹 취약점 조치방안을 서술하시오.",
+            "answer": "1) 쿠키는 클라이언트가 방문한 웹 사이트와 관련해 로컬에 저장되는 키와 값이 들어있는 데이터 파일이고, 세션은 클라이언트별 상태 정보를 서버에서 저장하는 기술이다. 2) CSRF는 사용자가 자신의 의지와 무관하게 공격자가 의도한 행위를 특정 웹 사이트에 요청하게 만드는 공격이다. 3) Referer 확인 후 같은 도메인 요청이 아니면 차단하고, 사용자 세션에 임의 난수 값을 저장한 뒤 요청마다 해당 난수를 포함시켜 전송하며, 중요 기능은 재인증으로 안전한 요청 여부를 확인한다.",
+            "verification": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 3-64, 3-55.",
+            "sourcePath": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+            "sourceLine": 48,
+            "sourceRef": {
+              "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+              "line": 48,
+              "excerpt": "User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 3-64, 3-55.",
+              "status": "source-derived"
+            },
+            "contentDigest": "a29a7de5c8a005a84eea9bd351afa193488d589a47a954772735802d8e195f7e"
+          }
+        ]
+      }
+    ]
+  }
 };

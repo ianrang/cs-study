@@ -4,17 +4,25 @@
   const data = window.PRACTICE_DATA;
   const core = window.PRACTICE_CORE;
   const storageKey = "info-security-practice-progress-v1";
+  const pastExamStorageKey = "info-security-past-exam-progress-v1";
   const root = document.documentElement;
   const themeStorageKey = root.dataset.themeStorageKey;
   const systemThemeQuery = window.matchMedia?.("(prefers-color-scheme: dark)");
+  const pastExamItems = Array.isArray(data?.pastExams?.rounds)
+    ? data.pastExams.rounds.flatMap((round) => round.items.map((item) => ({ ...item, roundId: round.roundId, year: round.year, session: round.session, roundTitle: round.title })))
+    : [];
   let storageAvailable = true;
   const state = {
+    contentKind: "learning",
     learningPath: "all",
     source: "all",
     topic: "all",
     stage: "all",
     reviewOnly: false,
     practiceMode: "learning",
+    pastYear: "all",
+    pastRound: "all",
+    pastType: "all",
     index: 0,
     feedback: null,
     orderDrafts: {},
@@ -22,13 +30,22 @@
     draggedOrderItemId: null,
     focusRequest: null,
     progress: loadProgress(),
+    pastProgress: loadPastExamProgress(),
+    pastDrafts: {},
     themePreference: loadThemePreference()
   };
   const elements = {
+    contentKind: document.querySelector("#content-kind-filter"),
     learningPath: document.querySelector("#learning-path-filter"),
     source: document.querySelector("#source-filter"),
     topic: document.querySelector("#topic-filter"),
     stage: document.querySelector("#stage-filter"),
+    pastYear: document.querySelector("#past-year-filter"),
+    pastRound: document.querySelector("#past-round-filter"),
+    pastType: document.querySelector("#past-type-filter"),
+    pastYearGroup: document.querySelector("#past-year-filter-group"),
+    pastRoundGroup: document.querySelector("#past-round-filter-group"),
+    pastTypeGroup: document.querySelector("#past-type-filter-group"),
     review: document.querySelector("#review-filter"),
     resetFilters: document.querySelector("#reset-filters"),
     filterSummary: document.querySelector("#filter-summary"),
@@ -52,7 +69,7 @@
     statFiltered: document.querySelector("#stat-filtered")
   };
 
-  if (!data || !data.curriculum || !Array.isArray(data.curriculum.learningPaths) || !Array.isArray(data.curriculum.stages) || !Array.isArray(data.curriculum.topics) || !Array.isArray(data.questions) || !core) {
+  if (!data || !data.curriculum || !Array.isArray(data.curriculum.learningPaths) || !Array.isArray(data.curriculum.stages) || !Array.isArray(data.curriculum.topics) || !Array.isArray(data.questions) || !Array.isArray(data.pastExams?.rounds) || !core) {
     elements.card.innerHTML = "<p>학습 데이터 또는 필수 앱 코드가 없습니다. <code>python3 scripts/build-practice-data.py</code>를 실행하고 파일 구성을 확인하세요.</p>";
     return;
   }
@@ -83,14 +100,22 @@
   }
 
   function loadProgress() {
+    return loadProgressFor(storageKey, data.questions.map((question) => question.id));
+  }
+
+  function loadPastExamProgress() {
+    return loadProgressFor(pastExamStorageKey, pastExamItems.map((item) => item.id));
+  }
+
+  function loadProgressFor(key, knownIds) {
     try {
-      const stored = localStorage.getItem(storageKey);
+      const stored = localStorage.getItem(key);
       if (!stored) return {};
       const parsed = JSON.parse(stored);
       if (!parsed || parsed.schemaVersion !== 1 || !parsed.records || typeof parsed.records !== "object") return {};
-      const knownQuestionIds = new Set((data?.questions || []).map((question) => question.id));
+      const knownItemIds = new Set(knownIds);
       return Object.fromEntries(Object.entries(parsed.records)
-        .filter(([id]) => knownQuestionIds.has(id))
+        .filter(([id]) => knownItemIds.has(id))
         .map(([id, record]) => [id, core.normalizeProgressRecord(record)])
         .filter(([, record]) => record !== null));
     } catch {
@@ -100,8 +125,16 @@
   }
 
   function saveProgress() {
+    return saveProgressFor(storageKey, state.progress);
+  }
+
+  function savePastExamProgress() {
+    return saveProgressFor(pastExamStorageKey, state.pastProgress);
+  }
+
+  function saveProgressFor(key, progress) {
     try {
-      localStorage.setItem(storageKey, JSON.stringify({ schemaVersion: 1, records: state.progress }));
+      localStorage.setItem(key, JSON.stringify({ schemaVersion: 1, records: progress }));
       return true;
     } catch {
       storageAvailable = false;
@@ -176,6 +209,32 @@
     if (!questions.length) return null;
     state.index = Math.max(0, Math.min(state.index, questions.length - 1));
     return questions[state.index];
+  }
+
+  function getFilteredPastExamItems() {
+    return pastExamItems.filter((item) => {
+      const yearMatches = state.pastYear === "all" || item.year === state.pastYear;
+      const roundMatches = state.pastRound === "all" || item.roundId === state.pastRound;
+      const typeMatches = state.pastType === "all" || item.type === state.pastType;
+      const record = state.pastProgress[item.id];
+      const reviewMatches = !state.reviewOnly || record?.lastResult === "self-review";
+      return yearMatches && roundMatches && typeMatches && reviewMatches;
+    });
+  }
+
+  function getActiveItems() {
+    return state.contentKind === "past-exam" ? getFilteredPastExamItems() : getFilteredQuestions();
+  }
+
+  function getCurrentPastExamItem() {
+    const items = getFilteredPastExamItems();
+    if (!items.length) return null;
+    state.index = Math.max(0, Math.min(state.index, items.length - 1));
+    return items[state.index];
+  }
+
+  function getCurrentItem() {
+    return state.contentKind === "past-exam" ? getCurrentPastExamItem() : getCurrentQuestion();
   }
 
   function sourceBadge(status) {
@@ -261,9 +320,13 @@
     return stageHandlers[stageById.get(question.stage).handler];
   }
 
-  function sourcesMarkup(question) {
-    const refs = question.sourceRefs.map((ref) => `<li><code>${escapeHtml(ref.path)}:${escapeHtml(ref.line)}</code> · ${escapeHtml(ref.status)}<br /><span>확인 문구: ${escapeHtml(ref.excerpt)}</span></li>`).join("");
+  function sourcesMarkupFromRefs(sourceRefs) {
+    const refs = sourceRefs.map((ref) => `<li><code>${escapeHtml(ref.path)}:${escapeHtml(ref.line)}</code> · ${escapeHtml(ref.status)}<br /><span>확인 문구: ${escapeHtml(ref.excerpt)}</span></li>`).join("");
     return `<details><summary>근거와 검증 상태</summary><ul class="source-list">${refs}</ul></details>`;
+  }
+
+  function sourcesMarkup(question) {
+    return sourcesMarkupFromRefs(question.sourceRefs);
   }
 
   function feedbackMarkup(question, result) {
@@ -302,6 +365,12 @@
     saveProgress();
   }
 
+  function recordPastExamResult(item, result, countAttempt = true) {
+    const previous = state.pastProgress[item.id] || { attemptCount: 0 };
+    state.pastProgress[item.id] = transitionProgress(previous, result, null, countAttempt);
+    savePastExamProgress();
+  }
+
   function moveOrderItem(question, index, direction) {
     const current = [...(state.orderDrafts[question.id] || question.answer.items.map((item) => item.id))];
     const nextIndex = index + direction;
@@ -325,8 +394,12 @@
     render();
   }
 
-  function progressBadges(question) {
-    const record = state.progress[question.id];
+  function currentProgress() {
+    return state.contentKind === "past-exam" ? state.pastProgress : state.progress;
+  }
+
+  function progressBadges(item) {
+    const record = currentProgress()[item.id];
     if (!record) return "";
     const attempted = record.masteryStatus === "attempted" ? '<span class="badge badge-attempted">풀이함</span>' : "";
     const mastery = record.masteryStatus === "mastered" ? '<span class="badge badge-mastered">정답 완료</span>' : "";
@@ -334,8 +407,8 @@
     return attempted || mastery || review ? `${attempted}${mastery}${review}` : "";
   }
 
-  function questionStatus(question) {
-    const record = state.progress[question.id];
+  function questionStatus(item) {
+    const record = currentProgress()[item.id];
     if (!record) return { id: "unseen", label: "미풀이" };
     if (record.lastResult === "incorrect" || record.lastResult === "self-review") return { id: "review", label: "복습 필요" };
     if (record.masteryStatus === "mastered") return { id: "mastered", label: "정답 완료" };
@@ -443,6 +516,44 @@
     restoreRequestedFocus(question);
   }
 
+  function renderPastExamItem(item) {
+    const isExamMode = state.practiceMode === "exam";
+    const feedback = state.feedback?.questionId === item.id
+      ? `<section class="feedback feedback-self"><div class="feedback-head" tabindex="-1">복원 답안과 검증 문구</div><div class="feedback-body"><div><h3>복원 답안</h3><p>${escapeHtml(item.answer)}</p></div><div><h3>검증 문구</h3><p>${escapeHtml(item.verification)}</p></div><div class="action-row"><button class="button button-primary" type="button" data-past-result="self-understood">정답 완료</button><button class="button button-danger" type="button" data-past-result="self-review">복습 필요</button></div>${sourcesMarkupFromRefs([item.sourceRef])}</div></section>`
+      : "";
+    const meta = isExamMode
+      ? `<span class="badge badge-active">실전 모드</span>${progressBadges(item)}`
+      : `<span class="badge">${escapeHtml(`${item.year}년 ${Number(item.session)}회 · ${item.roundId}`)}</span><span class="badge">${escapeHtml(item.type)}</span><span class="badge badge-past-exam">기출 복원 · 파생 근거</span>${sourceBadge(item.status)}${progressBadges(item)}`;
+    elements.card.innerHTML = `
+      <div class="question-meta">${meta}</div>
+      <h2 class="question-title">${isExamMode ? "기출 복원 문항" : escapeHtml(item.roundTitle)}</h2>
+      <div class="prompt"><p>${escapeHtml(item.prompt)}</p></div>
+      <div class="answer-area"><div class="answer-field"><label for="past-exam-answer">답안 작성</label><textarea id="past-exam-answer" placeholder="답안을 직접 작성한 뒤 복원 답안을 확인하세요.">${escapeHtml(state.pastDrafts[item.id] || "")}</textarea></div></div>
+      <div class="action-row"><button id="reveal-past-exam-answer" class="button button-primary" type="button">복원 답안 보기</button><button id="clear-past-exam-answer" class="button button-quiet" type="button">답 지우기</button><button id="reset-current-question" class="button button-quiet" type="button">이 문항 상태 초기화</button></div>
+      ${feedback}`;
+
+    elements.card.querySelector("#reveal-past-exam-answer").addEventListener("click", () => {
+      state.pastDrafts[item.id] = elements.card.querySelector("#past-exam-answer")?.value || "";
+      recordPastExamResult(item, "attempted");
+      state.feedback = { questionId: item.id, correct: null };
+      state.focusRequest = { questionId: item.id, target: "feedback" };
+      render();
+    });
+    elements.card.querySelector("#clear-past-exam-answer").addEventListener("click", () => {
+      delete state.pastDrafts[item.id];
+      state.feedback = null;
+      render();
+    });
+    elements.card.querySelector("#reset-current-question").addEventListener("click", () => resetProgress("question"));
+    elements.card.querySelectorAll("[data-past-result]").forEach((button) => button.addEventListener("click", () => {
+      recordPastExamResult(item, button.dataset.pastResult, false);
+      state.feedback = { questionId: item.id, correct: null };
+      state.focusRequest = { questionId: item.id, target: "feedback" };
+      render();
+    }));
+    restoreRequestedFocus(item);
+  }
+
   function bindAnswerKeyboard(question, stage, submitAnswer) {
     if (stage.handler === "short") {
       elements.card.querySelector("#answer-main")?.addEventListener("keydown", (event) => {
@@ -467,12 +578,13 @@
   }
 
   function renderStats() {
-    const records = Object.values(state.progress);
-    elements.statTotal.textContent = data.questions.length;
+    const items = getActiveItems();
+    const records = Object.values(currentProgress());
+    elements.statTotal.textContent = state.contentKind === "past-exam" ? pastExamItems.length : data.questions.length;
     elements.statComplete.textContent = records.length;
     elements.statMastered.textContent = records.filter((record) => record.masteryStatus === "mastered").length;
     elements.statReview.textContent = records.filter((record) => record.lastResult === "incorrect" || record.lastResult === "self-review").length;
-    elements.statFiltered.textContent = getFilteredQuestions().length;
+    elements.statFiltered.textContent = items.length;
   }
 
   function renderStorageNotice() {
@@ -480,6 +592,15 @@
   }
 
   function renderFilterSummary() {
+    if (state.contentKind === "past-exam") {
+      const labels = ["기출 복원"];
+      if (state.pastYear !== "all") labels.push(elements.pastYear.selectedOptions[0]?.textContent);
+      if (state.pastRound !== "all") labels.push(elements.pastRound.selectedOptions[0]?.textContent);
+      if (state.pastType !== "all") labels.push(elements.pastType.selectedOptions[0]?.textContent);
+      if (state.reviewOnly) labels.push("복습 필요");
+      elements.filterSummary.textContent = labels.join(" · ");
+      return;
+    }
     const labels = [];
     if (state.learningPath !== "all") labels.push(elements.learningPath.selectedOptions[0]?.textContent);
     if (state.source !== "all") labels.push(elements.source.selectedOptions[0]?.textContent);
@@ -496,11 +617,21 @@
     });
   }
 
+  function renderContentKindFilters() {
+    const isPastExam = state.contentKind === "past-exam";
+    [elements.pastYearGroup, elements.pastRoundGroup, elements.pastTypeGroup].forEach((element) => { element.hidden = !isPastExam; });
+    [elements.learningPath, elements.source, elements.topic, elements.stage].forEach((element) => { element.closest(".filter-group").hidden = isPastExam; });
+    elements.futureTopics.closest(".future-topics").hidden = isPastExam;
+    elements.contentKind.value = state.contentKind;
+    elements.resetAll.textContent = isPastExam ? "기출 복원 전체 진행도 초기화" : "학습 문항 전체 진행도 초기화";
+  }
+
   function render() {
-    const questions = getFilteredQuestions();
+    const questions = getActiveItems();
     renderStats();
     renderFilterSummary();
     renderPracticeMode();
+    renderContentKindFilters();
     renderThemeToggle();
     renderStorageNotice();
     elements.previous.disabled = !questions.length || state.index === 0;
@@ -511,33 +642,44 @@
       elements.card.replaceChildren(document.querySelector("#empty-template").content.cloneNode(true));
       return;
     }
-    const question = getCurrentQuestion();
+    const question = getCurrentItem();
     elements.position.textContent = `문항 ${state.index + 1} / ${questions.length}`;
     renderQuestionNavigator(questions);
-    renderQuestion(question);
+    if (state.contentKind === "past-exam") renderPastExamItem(question);
+    else renderQuestion(question);
   }
 
   function resetProgress(scope) {
     const message = scope === "all"
-      ? "전체 진행도를 초기화할까요?"
+      ? `${state.contentKind === "past-exam" ? "기출 복원" : "학습 문항"} 전체 진행도를 초기화할까요?`
       : scope === "question"
         ? "이 문항의 진행도를 초기화할까요?"
         : "현재 선택 범위의 진행도를 초기화할까요?";
     if (!window.confirm(message)) return;
-    const question = getCurrentQuestion();
+    const question = getCurrentItem();
+    const progress = currentProgress();
     if (scope === "all") {
-      state.progress = {};
-      state.orderDrafts = {};
-      state.essayDrafts = {};
+      if (state.contentKind === "past-exam") {
+        state.pastProgress = {};
+        state.pastDrafts = {};
+      } else {
+        state.progress = {};
+        state.orderDrafts = {};
+        state.essayDrafts = {};
+      }
     } else {
       const ids = scope === "question"
         ? new Set(question ? [question.id] : [])
-        : new Set(getFilteredQuestions().map((filteredQuestion) => filteredQuestion.id));
-      Object.keys(state.progress).forEach((id) => { if (ids.has(id)) delete state.progress[id]; });
-      Object.keys(state.orderDrafts).forEach((id) => { if (ids.has(id)) delete state.orderDrafts[id]; });
-      Object.keys(state.essayDrafts).forEach((id) => { if (ids.has(id)) delete state.essayDrafts[id]; });
+        : new Set(getActiveItems().map((filteredQuestion) => filteredQuestion.id));
+      Object.keys(progress).forEach((id) => { if (ids.has(id)) delete progress[id]; });
+      if (state.contentKind === "past-exam") Object.keys(state.pastDrafts).forEach((id) => { if (ids.has(id)) delete state.pastDrafts[id]; });
+      else {
+        Object.keys(state.orderDrafts).forEach((id) => { if (ids.has(id)) delete state.orderDrafts[id]; });
+        Object.keys(state.essayDrafts).forEach((id) => { if (ids.has(id)) delete state.essayDrafts[id]; });
+      }
     }
-    saveProgress();
+    if (state.contentKind === "past-exam") savePastExamProgress();
+    else saveProgress();
     state.feedback = null;
     render();
   }
@@ -549,12 +691,20 @@
     elements.source.innerHTML = `<option value="all">현재 원본 범위 전체</option>${sourceGroups.map((topic) => `<option value="${escapeHtml(`${topic.sourceChapter}:${topic.sourceSection}`)}">${escapeHtml(`${topic.sourceChapter}장 · ${topic.sourceSection}`)}</option>`).join("")}`;
     elements.topic.innerHTML = `<option value="all">현재 세부 주제 전체</option>${activeTopics.map((topic) => `<option value="${escapeHtml(topic.id)}">${escapeHtml(formatTopicLabel(topic))}</option>`).join("")}`;
     elements.stage.innerHTML = `<option value="all">전체 단계</option>${[...stageById.entries()].map(([id, stage]) => `<option value="${escapeHtml(id)}">${escapeHtml(stage.label)}</option>`).join("")}`;
+    const years = [...new Set(data.pastExams.rounds.map((round) => round.year))].sort();
+    elements.pastYear.innerHTML = `<option value="all">전체 연도</option>${years.map((year) => `<option value="${escapeHtml(year)}">${escapeHtml(`${year}년`)}</option>`).join("")}`;
+    elements.pastRound.innerHTML = `<option value="all">전체 회차</option>${data.pastExams.rounds.map((round) => `<option value="${escapeHtml(round.roundId)}">${escapeHtml(`${round.roundId} · ${round.year}년 ${Number(round.session)}회`)}</option>`).join("")}`;
+    elements.pastType.innerHTML = '<option value="all">전체 유형</option><option value="short">단답</option><option value="essay">서술</option><option value="practical">실무형</option>';
     const future = data.curriculum.topics.filter((topic) => topic.status === "future");
     elements.futureTopics.innerHTML = future.map((topic) => `<li>${escapeHtml(formatTopicLabel(topic))}</li>`).join("");
     elements.learningPath.addEventListener("change", () => { state.learningPath = elements.learningPath.value; state.index = 0; state.feedback = null; render(); });
     elements.source.addEventListener("change", () => { state.source = elements.source.value; state.index = 0; state.feedback = null; render(); });
     elements.topic.addEventListener("change", () => { state.topic = elements.topic.value; state.index = 0; state.feedback = null; render(); });
     elements.stage.addEventListener("change", () => { state.stage = elements.stage.value; state.index = 0; state.feedback = null; render(); });
+    elements.contentKind.addEventListener("change", () => { state.contentKind = elements.contentKind.value; state.index = 0; state.feedback = null; render(); });
+    elements.pastYear.addEventListener("change", () => { state.pastYear = elements.pastYear.value; state.index = 0; state.feedback = null; render(); });
+    elements.pastRound.addEventListener("change", () => { state.pastRound = elements.pastRound.value; state.index = 0; state.feedback = null; render(); });
+    elements.pastType.addEventListener("change", () => { state.pastType = elements.pastType.value; state.index = 0; state.feedback = null; render(); });
     elements.review.addEventListener("change", () => { state.reviewOnly = elements.review.checked; state.index = 0; state.feedback = null; render(); });
     elements.practiceMode.querySelectorAll("[data-practice-mode]").forEach((button) => button.addEventListener("click", () => {
       state.practiceMode = button.dataset.practiceMode;
@@ -567,11 +717,17 @@
       state.source = "all";
       state.topic = "all";
       state.stage = "all";
+      state.pastYear = "all";
+      state.pastRound = "all";
+      state.pastType = "all";
       state.reviewOnly = false;
       elements.learningPath.value = "all";
       elements.source.value = "all";
       elements.topic.value = "all";
       elements.stage.value = "all";
+      elements.pastYear.value = "all";
+      elements.pastRound.value = "all";
+      elements.pastType.value = "all";
       elements.review.checked = false;
       state.index = 0;
       state.feedback = null;

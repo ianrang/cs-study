@@ -58,6 +58,13 @@
             <p>실전 모드는 답안 힌트와 상세 입력 라벨을 줄입니다.</p>
           </section>
           <section class="filter-group">
+            <label for="content-kind-filter">문항 종류</label>
+            <select id="content-kind-filter">
+              <option value="learning">학습 문항</option>
+              <option value="past-exam">기출 복원</option>
+            </select>
+          </section>
+          <section class="filter-group">
             <label for="learning-path-filter">학습 경로</label>
             <select id="learning-path-filter"></select>
           </section>
@@ -72,6 +79,18 @@
           <section class="filter-group">
             <label for="stage-filter">단계</label>
             <select id="stage-filter"></select>
+          </section>
+          <section id="past-year-filter-group" class="filter-group" hidden>
+            <label for="past-year-filter">연도</label>
+            <select id="past-year-filter"></select>
+          </section>
+          <section id="past-round-filter-group" class="filter-group" hidden>
+            <label for="past-round-filter">회차</label>
+            <select id="past-round-filter"></select>
+          </section>
+          <section id="past-type-filter-group" class="filter-group" hidden>
+            <label for="past-type-filter">문항 유형</label>
+            <select id="past-type-filter"></select>
           </section>
           <label class="checkbox-row"><input id="review-filter" type="checkbox" /> 복습 필요만 보기</label>
           <section class="future-topics">

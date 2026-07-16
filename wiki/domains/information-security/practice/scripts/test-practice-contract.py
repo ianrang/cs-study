@@ -4,10 +4,13 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import importlib.util
 import re
 import unittest
 from pathlib import Path
+
+from past_exam_converter import build_past_exam_payload, split_markdown_row, validate_past_exam_payload
 
 
 PRACTICE_ROOT = Path(__file__).resolve().parents[1]
@@ -24,6 +27,7 @@ class PracticeContractTests(unittest.TestCase):
         self.curriculum = BUILD.load_json(PRACTICE_ROOT / "data" / "curriculum.json")
         self.packs = [BUILD.load_json(path) for path in sorted((PRACTICE_ROOT / "data" / "question-packs").glob("*.json"))]
         self.schema = BUILD.load_json(PRACTICE_ROOT / "schemas" / "question-bank.schema.json")
+        self.past_exams = build_past_exam_payload(PRACTICE_ROOT.parent)
 
     def validate(self, curriculum: object | None = None, packs: object | None = None) -> list[str]:
         return BUILD.validate(
@@ -52,6 +56,52 @@ class PracticeContractTests(unittest.TestCase):
 
     def test_current_sources_satisfy_the_contract(self) -> None:
         self.assertEqual(self.validate(), [])
+
+    def test_past_exam_markdown_conversion_is_complete_and_source_preserving(self) -> None:
+        self.assertEqual(validate_past_exam_payload(self.past_exams), [])
+        rounds = self.past_exams["rounds"]
+        items = [item for round_data in rounds for item in round_data["items"]]
+        self.assertEqual(len(rounds), 31)
+        self.assertEqual(len(items), 513)
+        self.assertEqual(rounds[0]["roundId"], "R01")
+        self.assertEqual(rounds[-1]["roundId"], "R31")
+        self.assertEqual(items[0]["id"], "R01-Q01")
+        self.assertEqual(items[-1]["id"], "R31-Q18")
+        self.assertEqual({item["type"] for item in items}, {"short", "essay", "practical"})
+        self.assertTrue(all(round_data["status"] == "source-derived" for round_data in rounds))
+
+        for item in items:
+            source_line = (PRACTICE_ROOT.parent / item["sourcePath"]).read_text(encoding="utf-8").splitlines()[item["sourceLine"] - 1]
+            source_cells = split_markdown_row(source_line, Path(item["sourcePath"]), item["sourceLine"])
+            self.assertEqual(source_cells[0], str(item["number"]), item["id"])
+            self.assertEqual(source_cells[1], item["type"], item["id"])
+            self.assertEqual(source_cells[2], item["prompt"], item["id"])
+            self.assertEqual(source_cells[3], item["answer"], item["id"])
+            self.assertEqual(source_cells[4], item["verification"], item["id"])
+            self.assertEqual(
+                item["contentDigest"],
+                hashlib.sha256("\n".join(source_cells[2:]).encode("utf-8")).hexdigest(),
+                item["id"],
+            )
+            source_text = (PRACTICE_ROOT.parent / item["sourcePath"]).read_text(encoding="utf-8")
+            parent_round = next(round_data for round_data in rounds if item in round_data["items"])
+            self.assertEqual(parent_round["sourceDigest"], hashlib.sha256(source_text.encode("utf-8")).hexdigest())
+            self.assertEqual(item["sourceRef"]["status"], "source-derived")
+            self.assertEqual(item["sourceRef"]["path"], item["sourcePath"])
+            self.assertEqual(item["sourceRef"]["line"], item["sourceLine"])
+            self.assertEqual(item["sourceRef"]["excerpt"], item["verification"])
+
+    def test_past_exam_conversion_preserves_escaped_pipe_cells(self) -> None:
+        cells = split_markdown_row(
+            r'| 1 | short | `content:"\|FFFF\|"` | `depth:2` | source-derived |',
+            Path("fixture.md"),
+            1,
+        )
+        self.assertEqual(cells, ["1", "short", '`content:"|FFFF|"`', "`depth:2`", "source-derived"])
+
+    def test_generated_past_exam_json_matches_the_markdown_conversion(self) -> None:
+        generated = BUILD.load_json(PRACTICE_ROOT / "data" / "generated" / "past-exams.json")
+        self.assertEqual(generated, self.past_exams)
 
     def test_missing_learning_paths_is_rejected_before_the_ui_can_initialize(self) -> None:
         curriculum = copy.deepcopy(self.curriculum)

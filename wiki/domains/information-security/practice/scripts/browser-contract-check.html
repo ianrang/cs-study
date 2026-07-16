@@ -11,6 +11,7 @@
       const expect = (condition, message) => { if (!condition) failures.push(message); };
       localStorage.removeItem("info-security-practice-theme-v1");
       localStorage.removeItem("info-security-practice-progress-v1");
+      localStorage.removeItem("info-security-past-exam-progress-v1");
       frame.addEventListener("load", () => {
         const doc = frame.contentDocument;
         const click = (selector) => doc.querySelector(selector).click();
@@ -54,6 +55,20 @@
           click("#submit-answer");
           expect(Boolean(doc.querySelector(".badge-attempted")), "unconfirmed essay self-grading should expose the attempted badge");
           expect(Boolean(doc.querySelector(".question-step-attempted")), "unconfirmed essay self-grading should expose the attempted navigator state");
+
+          const contentKind = doc.querySelector("#content-kind-filter");
+          contentKind.value = "past-exam";
+          contentKind.dispatchEvent(new Event("change", { bubbles: true }));
+          expect(doc.querySelector("#past-year-filter-group").hidden === false, "past-exam filters should appear when past-exam content is selected");
+          expect(doc.querySelector("#learning-path-filter").closest(".filter-group").hidden === true, "learning filters should be hidden when past-exam content is selected");
+          expect(doc.querySelector("#stat-total").textContent === "513", "past-exam view should expose all reconstructed items");
+          expect(Boolean(doc.querySelector("#past-exam-answer")), "past-exam view should render a free-form answer field");
+          click("#reveal-past-exam-answer");
+          expect(Boolean(doc.querySelector("[data-past-result='self-understood']")), "past-exam answer reveal should require self-assessment");
+          click("[data-past-result='self-understood']");
+          expect(Boolean(doc.querySelector(".badge-mastered")), "past-exam self-assessment should mark the item complete");
+          expect(localStorage.getItem("info-security-past-exam-progress-v1") !== null, "past-exam progress must use a separate storage key");
+          expect(localStorage.getItem("info-security-practice-progress-v1") !== null, "learning progress must remain in its existing storage key");
 
           expect(!doc.querySelector("#future-topic-list").textContent.includes("undefined"), "future topic labels must not expose undefined metadata");
           expect([...doc.querySelectorAll(".stat")].every((stat) => stat.classList.contains("surface") && stat.classList.contains("surface-stat")), "statistics must compose the Surface contract");
