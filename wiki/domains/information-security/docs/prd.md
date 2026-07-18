@@ -1,3 +1,25 @@
+---
+title: "PRD: 정보보안기사 실기 복습 문제 앱"
+tier: llm-synthesis
+page_type: method
+domain: information-security
+domain_confidence: high
+shared_scope: domain
+tags: []
+status: active
+date_created: 2026-07-13
+date_updated: 2026-07-17
+source_paths:
+  - "wiki/domains/information-security/drafts/study/2장 정리.md"
+  - "wiki/domains/information-security/drafts/study/3장 정리.md"
+  - "wiki/domains/information-security/practice/README.md"
+  - "wiki/domains/information-security/practice/data/curriculum.json"
+source_count: 4
+provenance: inferred
+summary: "정보보안기사 실기 복습 앱의 기능·비기능 요구사항, 범위, 수용 기준과 리스크를 정의한다."
+evergreen: false
+---
+
 # PRD: 정보보안기사 실기 복습 문제 앱
 
 ## 1. 개요
@@ -6,7 +28,8 @@
 - 대상 사용자: 정보보안기사 실기를 준비하는 이 vault의 개인 학습자.
 - 핵심 가치: 근거가 추적되는 문제를 단계별로 반복하고, 정답이 명확한 답은 즉시 확인하며, 서술형은 모범 답안과 채점 기준으로 스스로 보정한다.
 - 프로젝트 유형: 기존 학습 vault 확장(brownfield).
-- V1 범위: Chapter 2 P1 네트워크·방화벽 설정형과 Chapter 3 P1 서비스 보안설정(웹·DNS·메일·DB·Secure SDLC) 축의 근거 기반 문항.
+- V1 계획 범위: Chapter 2 P1 네트워크·방화벽 설정형과 Chapter 3 P1 서비스 보안설정(웹·DNS·메일·DB·Secure SDLC) 축의 근거 기반 문항.
+- 현재 앱 범위: V1 계획 범위와 별개로, 현재 활성 curriculum은 1장 P1 시스템 보안, 2장 네트워크·방화벽, 3장 P1 서비스 보안설정, 5장 P1 관리·위험관리·업무연속성·침해사고·포렌식·개인정보 기초를 포함한다. 현재 기능·콘텐츠 범위의 기준은 `practice/README.md`와 `practice/data/curriculum.json`이며, 이 PRD의 V1 요구사항을 소급해 바꾸지 않는다.
 
 ## 2. 기능 요구사항
 
@@ -72,7 +95,7 @@
   - 4.3 데이터 validator와 브라우저 흐름 검증, 기존 Lab/기출 데이터 참조 무결성 확인
   - 4.4 1·4·5장 문제 팩 추가 안내와 템플릿 문서화
 
-## 5. MVP 범위
+## 5. V1 계획 기준 MVP 범위
 
 - 포함:
   - 별도 `practice/` 정적 앱
@@ -101,7 +124,7 @@
 | 완전성 | PASS | 사용자 요구를 FR/NFR과 에픽으로 매핑했다. |
 | 일관성 | PASS | 자동 채점은 결정적 답만, 서술형은 자가 채점만 사용한다. |
 | 추적성 | PASS | 모든 FR은 최소 하나의 에픽에 매핑된다. |
-| 범위 | PASS | V1은 현재 학습한 2장 네트워크·방화벽과 3장 P1 서비스 보안설정 축으로 제한한다. |
+| 범위 | PASS | V1 계획은 2장 네트워크·방화벽과 3장 P1 서비스 보안설정 축으로 제한한다. 현재 앱 범위는 `practice/README.md`와 `practice/data/curriculum.json`을 기준으로 별도 확인한다. |
 | 의존성 | PASS | 콘텐츠 모델/validator가 UI와 파일럿 콘텐츠보다 선행한다. |
 
 ## 8. Premortem 결과

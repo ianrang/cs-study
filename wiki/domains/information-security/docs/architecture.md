@@ -1,3 +1,24 @@
+---
+title: "Architecture: 정보보안기사 실기 복습 문제 앱"
+tier: llm-synthesis
+page_type: method
+domain: information-security
+domain_confidence: high
+shared_scope: domain
+tags: []
+status: active
+date_created: 2026-07-13
+date_updated: 2026-07-17
+source_paths:
+  - "wiki/domains/information-security/docs/prd.md"
+  - "wiki/domains/information-security/practice/data/curriculum.json"
+  - "wiki/domains/information-security/practice/scripts/build-practice-data.py"
+source_count: 3
+provenance: inferred
+summary: "정보보안기사 실기 복습 앱의 데이터 흐름, 모델, 렌더링·진행도 경계와 검증 구조를 정의한다."
+evergreen: false
+---
+
 # Architecture: 정보보안기사 실기 복습 문제 앱
 
 ## 1. 기술 스택

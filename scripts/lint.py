@@ -80,6 +80,13 @@ CLAIM_STATUSES = ("claimed", "corroborated", "verified", "rejected")
 CLAIM_STATUS_SET = set(CLAIM_STATUSES)
 ROLLUP_RANK = {"claimed": 0, "corroborated": 1, "verified": 2}
 PAGE_TYPES = {"concept", "entity", "comparison", "benchmark", "dataset", "method"}
+TAXONOMY_TAG_HEADING = "## Tag 목록"
+TAXONOMY_ENTITY_HEADING = "## Entity 목록"
+TAXONOMY_VOCAB_LINE_RE = re.compile(
+    r"^- `(?P<canonical>[a-z0-9]+(?:-[a-z0-9]+)*)`(?: \(alias: (?P<aliases>.+)\))?$"
+)
+TAXONOMY_TAG_TOKEN_RE = re.compile(r"`([a-z0-9]+(?:-[a-z0-9]+)*)`")
+WIKILINK_TARGET_RE = re.compile(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]")
 
 
 class Finding:
@@ -114,6 +121,60 @@ def parse_frontmatter(text: str) -> tuple[dict | None, int]:
         return yaml.safe_load(fm_text), text[:end_index].count("\n") + 1
     except yaml.YAMLError:
         return None, 0
+
+
+def load_taxonomy_tags() -> tuple[set[str], dict[str, str]]:
+    """taxonomy.md의 Tag 목록에서 canonical tag와 alias를 읽는다."""
+    canonical_tags: set[str] = set()
+    aliases: dict[str, str] = {}
+    in_tag_section = False
+
+    for line in (META_DIR / "taxonomy.md").read_text(encoding="utf-8").splitlines():
+        if line.startswith(TAXONOMY_ENTITY_HEADING):
+            break
+        if line.startswith(TAXONOMY_TAG_HEADING):
+            in_tag_section = True
+            continue
+        if line.startswith("## "):
+            in_tag_section = False
+            continue
+        if not in_tag_section:
+            continue
+        match = TAXONOMY_VOCAB_LINE_RE.fullmatch(line)
+        if not match:
+            continue
+        tag = match.group("canonical")
+        canonical_tags.add(tag)
+        for alias in TAXONOMY_TAG_TOKEN_RE.findall(match.group("aliases") or ""):
+            aliases[alias] = tag
+
+    return canonical_tags, aliases
+
+
+def load_taxonomy_entities() -> tuple[set[str], dict[str, str]]:
+    """taxonomy.md의 Entity 목록에서 canonical entity와 alias를 읽는다."""
+    canonical_entities: set[str] = set()
+    aliases: dict[str, str] = {}
+    in_entity_section = False
+
+    for line in (META_DIR / "taxonomy.md").read_text(encoding="utf-8").splitlines():
+        if line.startswith(TAXONOMY_ENTITY_HEADING):
+            in_entity_section = True
+            continue
+        if line.startswith("## "):
+            in_entity_section = False
+            continue
+        if not in_entity_section:
+            continue
+        match = TAXONOMY_VOCAB_LINE_RE.fullmatch(line)
+        if not match:
+            continue
+        entity = match.group("canonical")
+        canonical_entities.add(entity)
+        for alias in TAXONOMY_TAG_TOKEN_RE.findall(match.group("aliases") or ""):
+            aliases[alias] = entity
+
+    return canonical_entities, aliases
 
 
 def is_relative_to(path: Path, parent: Path) -> bool:
@@ -270,6 +331,68 @@ def check_axis_1_accuracy(path: Path, text: str, fm: dict | None) -> list[Findin
         findings.append(Finding("HIGH", "1", path, 1, "source_paths 누락 또는 빈 배열"))
     if fm.get("provenance") not in {"extracted", "inferred", "ambiguous"}:
         findings.append(Finding("HIGH", "1", path, 1, f"provenance 누락 또는 invalid: {fm.get('provenance')}"))
+    return findings
+
+
+def check_axis_3_taxonomy_tags(path: Path, fm: dict | None,
+                               canonical_tags: set[str], aliases: dict[str, str]) -> list[Finding]:
+    """축 3 일관성 — wiki content page tag의 taxonomy canonical 여부를 확인한다."""
+    if not is_wiki_content_page(path) or not fm or not isinstance(fm.get("tags"), list):
+        return []
+
+    findings = []
+    for tag in fm["tags"]:
+        if tag in canonical_tags:
+            continue
+        if tag in aliases:
+            findings.append(Finding("MEDIUM", "3", path, 1,
+                                    f"taxonomy alias tag 사용: {tag}; canonical `{aliases[tag]}` 사용"))
+            continue
+        findings.append(Finding("HIGH", "3", path, 1,
+                                f"taxonomy 미등록 tag: {tag}"))
+    return findings
+
+
+def entity_slug_from_wikilink(link: str) -> str | None:
+    """경로형 entity wikilink의 마지막 slug를 반환한다."""
+    clean = link.strip().split("#", 1)[0].rstrip("/")
+    parts = clean.split("/")
+    if len(parts) < 2 or parts[-2] != "entities":
+        return None
+    slug = parts[-1]
+    return slug[:-3] if slug.endswith(".md") else slug
+
+
+def entity_slug_from_path(path: Path) -> str | None:
+    """entities/ 바로 아래 entity page의 filename slug를 반환한다."""
+    if path.suffix != ".md" or path.parent.name != "entities":
+        return None
+    return path.stem
+
+
+def check_axis_3_taxonomy_entities(path: Path, text: str,
+                                   canonical_entities: set[str], aliases: dict[str, str]) -> list[Finding]:
+    """축 3 일관성 — entity page와 경로형 entity wikilink의 taxonomy 여부를 확인한다."""
+    if not is_wiki_content_page(path) or is_wiki_template(path):
+        return []
+
+    entity_slugs = [(entity_slug_from_path(path), 1)]
+    entity_slugs.extend(
+        (entity_slug_from_wikilink(link), line_number)
+        for line_number, line in enumerate(strip_fenced_code_blocks(text).splitlines(), start=1)
+        for link in WIKILINK_TARGET_RE.findall(line)
+    )
+
+    findings = []
+    for slug, line_number in entity_slugs:
+        if slug is None or slug in canonical_entities:
+            continue
+        if slug in aliases:
+            findings.append(Finding("MEDIUM", "3", path, line_number,
+                                    f"taxonomy alias entity 사용: {slug}; canonical `{aliases[slug]}` 사용"))
+            continue
+        findings.append(Finding("HIGH", "3", path, line_number,
+                                f"taxonomy 미등록 entity: {slug}"))
     return findings
 
 
@@ -484,6 +607,8 @@ def check_directive_write_scope(path: Path, fm: dict | None) -> list[Finding]:
 
 def collect_findings(paths: list[Path]) -> list[Finding]:
     findings = []
+    canonical_tags, tag_aliases = load_taxonomy_tags()
+    canonical_entities, entity_aliases = load_taxonomy_entities()
     for path in iter_markdown_files(paths):
         try:
             text = path.read_text(encoding="utf-8")
@@ -491,13 +616,15 @@ def collect_findings(paths: list[Path]) -> list[Finding]:
             continue
         fm, _ = parse_frontmatter(text)
         findings.extend(check_axis_1_accuracy(path, text, fm))
+        findings.extend(check_axis_3_taxonomy_tags(path, fm, canonical_tags, tag_aliases))
+        findings.extend(check_axis_3_taxonomy_entities(path, text, canonical_entities, entity_aliases))
         findings.extend(check_axis_5_integrity_broken_links(path, text))
         findings.extend(check_axis_6_recency(path, fm))
         findings.extend(check_wiki_required_fields(path, fm))
         findings.extend(check_claim_table(path, text, fm))
         findings.extend(check_raw_required_fields(path, fm))
         findings.extend(check_directive_write_scope(path, fm))
-        # 축 3 (taxonomy controlled vocab) · 축 5 (orphan) 은 별도 wrapper 필요 — TODO
+        # 축 5 (orphan) 은 별도 wrapper 필요 — TODO
         # 축 4 (logic-proposition-checker 호출) 은 외부 subagent — TODO
     return findings
 

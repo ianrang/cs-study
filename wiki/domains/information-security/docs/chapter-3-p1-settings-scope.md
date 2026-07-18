@@ -1,3 +1,23 @@
+---
+title: "3장 P1 서비스 보안설정 학습 범위"
+tier: llm-synthesis
+page_type: method
+domain: information-security
+domain_confidence: high
+shared_scope: domain
+tags: []
+status: active
+date_created: 2026-07-13
+date_updated: 2026-07-17
+source_paths:
+  - "wiki/domains/information-security/drafts/study/3장 정리.md"
+  - "wiki/domains/information-security/practice/data/question-packs/service-security.json"
+source_count: 2
+provenance: inferred
+summary: "3장 원문에서 서비스 보안설정 P1 학습으로 포함할 주제, 문항 수, 기출·예상 문제 경계를 정의한다."
+evergreen: false
+---
+
 # 3장 P1 서비스 보안설정 학습 범위
 
 ## 1. 범위 결정

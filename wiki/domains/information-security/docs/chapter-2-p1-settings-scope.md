@@ -1,3 +1,24 @@
+---
+title: "2장 P1 설정형 학습 범위"
+tier: llm-synthesis
+page_type: method
+domain: information-security
+domain_confidence: high
+shared_scope: domain
+tags: []
+status: active
+date_created: 2026-07-13
+date_updated: 2026-07-17
+source_paths:
+  - "wiki/domains/information-security/drafts/study/2장 정리.md"
+  - "wiki/domains/information-security/practice/data/curriculum.json"
+  - "wiki/domains/information-security/practice/data/question-packs/network-firewall.json"
+source_count: 3
+provenance: inferred
+summary: "2장 원문에서 P1 설정·정책 학습으로 포함할 주제, 문항 단위, 기출·예상 문제 경계를 정의한다."
+evergreen: false
+---
+
 # 2장 P1 설정형 학습 범위
 
 ## 1. 범위 결정

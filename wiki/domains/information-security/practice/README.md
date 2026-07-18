@@ -1,3 +1,24 @@
+---
+title: "정보보안기사 실기 복습 문제 앱"
+tier: llm-synthesis
+page_type: method
+domain: information-security
+domain_confidence: high
+shared_scope: domain
+tags: []
+status: active
+date_created: 2026-07-13
+date_updated: 2026-07-17
+source_paths:
+  - "wiki/domains/information-security/practice/docs/architecture.md"
+  - "wiki/domains/information-security/practice/DESIGN.md"
+  - "wiki/domains/information-security/practice/scripts/build-practice-data.py"
+source_count: 3
+provenance: inferred
+summary: "정보보안기사 실기 복습 앱의 실행 방법, 학습 흐름, 콘텐츠 갱신 절차와 작성 규칙을 안내한다."
+evergreen: false
+---
+
 # 정보보안기사 실기 복습 문제 앱
 
 현재 학습한 1장 P1 시스템 보안, 2장 네트워크·방화벽, 3장 P1 서비스 보안설정, 5장 P1 관리체계·위험관리·업무연속성·침해사고·포렌식·개인정보 기초 범위를 반복하기 위한 정적 브라우저 앱이다. 회차별 기출 복원은 원본 MD를 읽기 전용으로 변환해 별도 필터에서 반복 풀이한다. 실제 방화벽·네트워크 장비를 조작하지 않으며, 기존 `../labs/`의 offline 실습과 별도로 동작한다.

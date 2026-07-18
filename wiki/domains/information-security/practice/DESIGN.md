@@ -1,3 +1,25 @@
+---
+title: "정보보안기사 실기 복습 앱 디자인 시스템"
+tier: llm-synthesis
+page_type: method
+domain: information-security
+domain_confidence: high
+shared_scope: domain
+tags: []
+status: active
+date_created: 2026-07-14
+date_updated: 2026-07-17
+source_paths:
+  - "wiki/domains/information-security/practice/index.html"
+  - "wiki/domains/information-security/practice/app.js"
+  - "wiki/domains/information-security/practice/styles/tokens.css"
+  - "wiki/domains/information-security/practice/scripts/check-design-system.py"
+source_count: 4
+provenance: inferred
+summary: "정보보안기사 실기 Practice의 디자인 토큰, 컴포넌트, 접근성, 테마와 파일 경계를 정의한다."
+evergreen: false
+---
+
 # 정보보안기사 실기 복습 앱 디자인 시스템
 
 ## 목적
@@ -34,11 +56,14 @@
 | Field | label·입력·focus ring 일관성 | short, cloze, essay |
 | Badge | 상태 정보를 색과 텍스트로 함께 전달 | source, origin, progress, mode |
 | Question step | 문항 이동과 진행 상태 제공 | unseen, attempted, mastered, review |
+| Quick navigation | 긴 문항에서도 현재 인덱스의 이전·다음 이동 제공 | desktop floating, mobile bottom dock |
 | Feedback | 채점 결과·모범 답안의 시각적 컨테이너 | correct, incorrect, self |
 
 통계 카드는 `stat surface surface-stat`을 함께 사용한다. 따라서 panel 배경·border는 `surface`가 한 번만 소유하고 statistic의 radius/shadow 차이만 variant가 소유한다.
 
 `app.js`는 위 컴포넌트의 class 이름을 선택할 수 있지만 색상·크기·레이아웃을 계산하거나 inline style을 설정하지 않는다. 전체 재렌더 뒤에는 feedback 또는 이동한 순서 항목으로 포커스를 복원한다.
+
+Quick navigation은 기존 상단 이전·다음 버튼과 같은 문항 인덱스 상태만 사용하며 독립 진행도나 이동 규칙을 만들지 않는다. 문항을 이동해도 사용자가 읽던 스크롤 위치는 유지한다.
 
 ## 파일 경계와 의존 방향
 

@@ -1,3 +1,28 @@
+---
+title: "Architecture: 정보보안기사 실기 복습 앱 UI 시스템"
+tier: llm-synthesis
+page_type: method
+domain: information-security
+domain_confidence: high
+shared_scope: domain
+tags: []
+status: active
+date_created: 2026-07-14
+date_updated: 2026-07-17
+source_paths:
+  - "wiki/domains/information-security/docs/architecture.md"
+  - "wiki/domains/information-security/practice/app.js"
+  - "wiki/domains/information-security/practice/practice-core.js"
+  - "wiki/domains/information-security/practice/styles.css"
+  - "wiki/domains/information-security/practice/data/curriculum.json"
+  - "wiki/domains/information-security/practice/scripts/past_exam_converter.py"
+  - "wiki/domains/information-security/practice/scripts/build-practice-data.py"
+source_count: 7
+provenance: inferred
+summary: "Practice 앱의 질문 데이터 계약, 렌더링·채점·진행도 구조, UI 경계와 검증 전략을 정의한다."
+evergreen: false
+---
+
 # Architecture: 정보보안기사 실기 복습 앱 UI 시스템
 
 ## 1. 기술 스택

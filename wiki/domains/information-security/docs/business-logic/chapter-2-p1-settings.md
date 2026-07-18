@@ -1,3 +1,28 @@
+---
+title: "Business Logic: Chapter 2 P1 설정·정책 문항 보강"
+tier: llm-synthesis
+page_type: method
+domain: information-security
+domain_confidence: high
+shared_scope: domain
+tags: []
+status: active
+date_created: 2026-07-13
+date_updated: 2026-07-17
+source_paths:
+  - "wiki/domains/information-security/docs/chapter-2-p1-settings-scope.md"
+  - "wiki/domains/information-security/docs/prd.md"
+  - "wiki/domains/information-security/docs/architecture.md"
+  - "wiki/domains/information-security/drafts/study/2장 정리.md"
+  - "wiki/domains/information-security/practice/data/question-packs/network-firewall.json"
+  - "wiki/domains/information-security/practice/app.js"
+  - "wiki/domains/information-security/practice/scripts/build-practice-data.py"
+source_count: 7
+provenance: inferred
+summary: "2장 P1 설정·정책 문항의 분류, 자동·자가 채점 경계, 근거와 검증 규칙을 명제화한다."
+evergreen: false
+---
+
 # Business Logic: Chapter 2 P1 설정·정책 문항 보강
 
 ## 1. 도메인 개념
