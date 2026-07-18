@@ -10,7 +10,12 @@ import re
 import unittest
 from pathlib import Path
 
-from past_exam_converter import build_past_exam_payload, split_markdown_row, validate_past_exam_payload
+from past_exam_converter import (
+    build_past_exam_payload,
+    split_markdown_row,
+    validate_display_blocks,
+    validate_past_exam_payload,
+)
 
 
 PRACTICE_ROOT = Path(__file__).resolve().parents[1]
@@ -99,9 +104,219 @@ class PracticeContractTests(unittest.TestCase):
         )
         self.assertEqual(cells, ["1", "short", '`content:"|FFFF|"`', "`depth:2`", "source-derived"])
 
+    def test_past_exam_display_block_syntax_is_strict(self) -> None:
+        self.assertIsNone(
+            validate_display_blocks(
+                "{{code:snort}}alert tcp any any -> any 23{{/code}}",
+                Path("fixture.md"),
+                1,
+                "prompt",
+            )
+        )
+        self.assertIsNone(
+            validate_display_blocks(
+                "{{reference}}Client -> SYN -> Server\\nServer -> SYN/ACK -> Client{{/reference}}",
+                Path("fixture.md"),
+                1,
+                "prompt",
+            )
+        )
+        invalid_cases = (
+            "{{code:Snort}}alert{{/code}}",
+            "{{reference:tcp}}trace{{/reference}}",
+            "{{code}}{{/reference}}",
+            "{{code}}nested {{reference}}trace{{/reference}}{{/code}}",
+            "{{code}}   {{/code}}",
+            "{{code}}missing close",
+        )
+        for value in invalid_cases:
+            with self.assertRaises(ValueError, msg=value):
+                validate_display_blocks(value, Path("fixture.md"), 1, "prompt")
+
+    def test_actual_past_exam_code_and_reference_blocks_are_source_derived(self) -> None:
+        items = {
+            item["id"]: item
+            for round_data in self.past_exams["rounds"]
+            for item in round_data["items"]
+        }
+        expected_marker_counts = {
+            "R07-Q04": 1,
+            "R07-Q14": 1,
+            "R07-Q15": 1,
+            "R08-Q01": 2,
+            "R08-Q06": 1,
+            "R09-Q12": 1,
+            "R09-Q13": 1,
+            "R09-Q16": 1,
+            "R10-Q14": 1,
+            "R10-Q16": 1,
+            "R11-Q04": 2,
+            "R11-Q11": 1,
+            "R11-Q15": 1,
+            "R12-Q13": 1,
+            "R12-Q15": 1,
+            "R13-Q11": 1,
+            "R13-Q14": 1,
+            "R13-Q15": 1,
+        }
+        marker_pattern = re.compile(r"\{\{(?:code|reference)(?::[a-z0-9]+(?:-[a-z0-9]+)*)?\}\}")
+        actual_marker_counts = {
+            item_id: len(marker_pattern.findall("\n".join((item["prompt"], item["answer"]))))
+            for item_id, item in items.items()
+            if marker_pattern.search("\n".join((item["prompt"], item["answer"])))
+        }
+        self.assertEqual(actual_marker_counts, expected_marker_counts)
+        for item_id in actual_marker_counts:
+            item = items[item_id]
+            self.assertEqual(item["sourceRef"]["status"], "source-derived", item_id)
+        self.assertEqual(sum(actual_marker_counts.values()), 20)
+
     def test_generated_past_exam_json_matches_the_markdown_conversion(self) -> None:
         generated = BUILD.load_json(PRACTICE_ROOT / "data" / "generated" / "past-exams.json")
         self.assertEqual(generated, self.past_exams)
+
+    def test_past_exam_schema_contract_matches_all_generated_records(self) -> None:
+        schema = BUILD.load_json(PRACTICE_ROOT / "schemas" / "past-exam-bank.schema.json")
+        root_required = set(schema["required"])
+        round_required = set(schema["$defs"]["round"]["required"])
+        item_required = set(schema["$defs"]["item"]["required"])
+        source_ref_required = set(schema["$defs"]["sourceRef"]["required"])
+        self.assertTrue(root_required.issubset(self.past_exams))
+        for round_data in self.past_exams["rounds"]:
+            self.assertTrue(round_required.issubset(round_data), round_data["roundId"])
+            for item in round_data["items"]:
+                self.assertTrue(item_required.issubset(item), item["id"])
+                self.assertTrue(source_ref_required.issubset(item["sourceRef"]), item["id"])
+
+    def test_first_hundred_technical_corrections_are_preserved(self) -> None:
+        """Keep reviewed corrections in the source-derived corpus from silently regressing."""
+        items = {
+            item["id"]: item
+            for round_data in self.past_exams["rounds"]
+            for item in round_data["items"]
+        }
+        expected_fragments = {
+            "R01-Q06": ("수집·전송",),
+            "R01-Q11": ("디렉터리 소유자",),
+            "R02-Q02": ("익명 설문",),
+            "R02-Q04": ("D : 승인",),
+            "R02-Q15": ("Prepared Statement",),
+            "R03-Q14": ("SAD 누락 여부는 제시 조건만으로 단정할 수 없다",),
+            "R04-Q01": ("예약되었거나 취약점이 공개된 연도",),
+            "R04-Q09": ("CRLF 2회",),
+            "R05-Q01": ("메타데이터·변경 기록",),
+            "R05-Q07": ("allow_url_include",),
+            "R05-Q13": ("컨텍스트별 인코딩",),
+            "R05-Q15": ("설정 취약점",),
+            "R05-Q16": ("안전성을 단정할 수는 없다",),
+            "R06-Q01": ("TCP Half-Open Scan", "(B) RST+ACK"),
+            "R06-Q02": ("scopedPDU",),
+            "R06-Q03": ("단정할 수 없고",),
+            "R06-Q04": ("B : 10.0.160.3",),
+            "R06-Q16": ("Proxy ARP",),
+            "R07-Q03": ("DNS 이름 공간",),
+            "R07-Q04": ("10~11번째",),
+            "R07-Q05": ("다른 프로세스",),
+        }
+        for item_id, fragments in expected_fragments.items():
+            rendered = "\n".join((items[item_id]["prompt"], items[item_id]["answer"], items[item_id]["verification"]))
+            for fragment in fragments:
+                self.assertIn(fragment, rendered, item_id)
+
+        review_report = PRACTICE_ROOT.parent / "datasets" / "info-sec-engineer-practical-past-exams" / "06-verification" / "first-100-content-review-2026-07-16.md"
+        self.assertTrue(review_report.is_file())
+        self.assertIn("R06-Q01", review_report.read_text(encoding="utf-8"))
+
+    def test_first_ninety_seven_multi_answer_prompts_have_explicit_labels(self) -> None:
+        """Keep the reviewed first-97 answer-slot mapping unambiguous in the UI source."""
+        items = {
+            item["id"]: item
+            for round_data in self.past_exams["rounds"]
+            for item in round_data["items"]
+        }
+        expected_labels = {
+            "R01-Q01": ("(A)", "(B)", "(C)"),
+            "R01-Q02": ("(A)", "(B)", "(C)"),
+            "R01-Q11": ("(1)", "(2)", "(3)"),
+            "R01-Q13": ("(1)", "(2)"),
+            "R01-Q14": ("(1)", "(2)", "(3)"),
+            "R02-Q03": ("(A)", "(B)", "(C)"),
+            "R02-Q11": ("(1)", "(2)", "(3)", "(4)", "(5)", "(6)", "(7)"),
+            "R02-Q12": ("(1)", "(2)", "(3)", "(4)"),
+            "R02-Q15": ("(1)", "(2)", "(3)"),
+            "R03-Q12": ("(1)", "(2)", "(3)"),
+            "R03-Q15": ("(1)", "(2)"),
+            "R03-Q16": ("(1)", "(2)", "(3)"),
+            "R04-Q03": ("(1)", "(2)", "(3)", "(4)", "(5)"),
+            "R04-Q07": ("(A)", "(B)", "(C)"),
+            "R04-Q11": ("(A)", "(B)", "(C)"),
+            "R04-Q13": ("(1)", "(2)", "(3)", "(4)", "(5)", "(6)"),
+            "R05-Q06": ("(A)", "(B)"),
+            "R05-Q12": ("(1)", "(2)"),
+            "R05-Q13": ("(1)", "(2)"),
+            "R05-Q14": ("(1)", "(2)", "(3)", "(4)", "(5)", "(6)"),
+            "R05-Q16": ("(1)", "(2)", "(3)"),
+            "R06-Q01": ("(A)", "(B)", "(C)", "(D)", "(E)"),
+            "R06-Q02": ("(A)", "(B)", "(C)"),
+            "R06-Q05": ("(A)", "(B)", "(C)"),
+            "R06-Q10": ("(A)", "(B)", "(C)"),
+            "R06-Q14": ("(1)", "(2)", "(3)"),
+            "R06-Q16": ("(1)", "(2)"),
+            "R07-Q02": ("(A)", "(B)", "(C)"),
+        }
+        for item_id, labels in expected_labels.items():
+            prompt = items[item_id]["prompt"]
+            answer = items[item_id]["answer"]
+            self.assertIn("<br>", prompt, item_id)
+            for label in labels:
+                self.assertIn(label, prompt, f"{item_id} prompt: {label}")
+                self.assertIn(label, answer, f"{item_id} answer: {label}")
+
+        shellcode_answer = items["R07-Q02"]["answer"]
+        self.assertIn("JMP ESP", shellcode_answer)
+        self.assertNotIn("jmp eip esp", shellcode_answer.lower())
+
+    def test_reviewed_98_through_199_multi_answer_prompts_have_explicit_labels(self) -> None:
+        """Keep the directly reviewed 98–199 answer-slot mapping unambiguous."""
+        items = {
+            item["id"]: item
+            for round_data in self.past_exams["rounds"]
+            for item in round_data["items"]
+        }
+        expected_labels = {
+            "R07-Q11": ("(A)", "(B)"),
+            "R07-Q15": ("(1)", "(2)", "(3)"),
+            "R07-Q16": ("(A)", "(B)", "(C)"),
+            "R08-Q09": ("(A)", "(B)", "(C)"),
+            "R08-Q12": ("(가)", "(나)"),
+            "R08-Q14": ("(가)", "(나)", "(다)"),
+            "R08-Q16": ("(1)", "(2)"),
+            "R09-Q05": ("(A)", "(B)", "(C)"),
+            "R09-Q13": ("(A)", "(B)"),
+            "R09-Q16": ("(A)", "(B)", "(C)"),
+            "R10-Q15": ("(A)", "(B)", "(C)"),
+            "R11-Q07": ("(A)", "(B)", "(C)"),
+            "R11-Q11": ("(A)", "(B)", "(C)"),
+            "R11-Q14": ("(A)", "(B)", "(C)"),
+            "R12-Q11": ("(A)", "(B)"),
+            "R12-Q13": ("(A)", "(B)", "(C)"),
+            "R13-Q03": ("(1)", "(2)", "(3)"),
+            "R13-Q06": ("(ㄱ)", "(ㄴ)"),
+            "R13-Q07": ("(ㄱ)", "(ㄴ)"),
+        }
+        for item_id, labels in expected_labels.items():
+            prompt = items[item_id]["prompt"]
+            answer = items[item_id]["answer"]
+            self.assertIn("<br>", prompt, item_id)
+            for label in labels:
+                self.assertIn(label, prompt, f"{item_id} prompt: {label}")
+                self.assertIn(label, answer, f"{item_id} answer: {label}")
+
+        review_report = PRACTICE_ROOT.parent / "datasets" / "info-sec-engineer-practical-past-exams" / "06-verification" / "098-199-prompt-clarity-review-2026-07-18.md"
+        self.assertTrue(review_report.is_file())
+        review_text = review_report.read_text(encoding="utf-8")
+        self.assertIn("R07-Q03~R13-Q09", review_text)
+        self.assertIn("KCA 공식 시험지 문구를 주장하지 않는다", review_text)
 
     def test_missing_learning_paths_is_rejected_before_the_ui_can_initialize(self) -> None:
         curriculum = copy.deepcopy(self.curriculum)

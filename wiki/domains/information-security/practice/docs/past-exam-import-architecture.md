@@ -1,10 +1,36 @@
+---
+title: "Architecture: 기출 복원 MD Practice 바인딩"
+tier: llm-synthesis
+page_type: method
+domain: information-security
+domain_confidence: high
+shared_scope: domain
+tags: []
+status: active
+date_created: 2026-07-16
+date_updated: 2026-07-18
+source_paths:
+  - "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/00-management/document-architecture.md"
+  - "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/05-analysis/frequency-analysis.md"
+  - "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/first-100-content-review-2026-07-16.md"
+  - "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/101-513-content-review-2026-07-17.md"
+  - "wiki/domains/information-security/practice/scripts/past_exam_converter.py"
+  - "wiki/domains/information-security/practice/scripts/build-practice-data.py"
+  - "wiki/domains/information-security/practice/data/generated/past-exams.json"
+source_count: 7
+provenance: inferred
+summary: "회차별 기출 복원 MD를 읽기 전용으로 파생해 Practice에서 분리된 자기 채점 흐름으로 제공하는 아키텍처를 정의한다."
+evergreen: false
+---
+
 # Architecture: 기출 복원 MD Practice 바인딩
 
 ## 1. 목적과 경계
 
-`datasets/info-sec-engineer-practical-past-exams/01-rounds/*.md`의 회차별 복원 문항을 수정하지 않고, 결정적으로 파생한 JSON으로 Practice에서 풀이한다.
+`datasets/info-sec-engineer-practical-past-exams/01-rounds/*.md`의 회차별 복원 문항을 콘텐츠 SSOT로 두고, 결정적으로 파생한 JSON으로 Practice에서 풀이한다.
 
-- 회차 MD는 문항·답·복원 근거의 SSOT이며 읽기 전용이다.
+- 외부 원문 PDF·캡처·웹 자료는 원본 근거로 보존한다. 회차 MD는 그 근거와 KCA 출제 범위·기술 기준을 교차 검증한 결과를 반영하는 복원·학습용 콘텐츠 SSOT다.
+- 회차 MD의 문항·답안·검증 문구 보완은 근거 확인 후에만 수행하며, JSON을 수동 수정하지 않는다.
 - `practice/data/question-packs/*.json`은 학습용 구조화 문항의 SSOT로 유지한다.
 - 변환 결과인 `data/generated/past-exams.json`을 감사 가능한 파생물로 남기고, 이를 포함한 `practice-data.js`만 브라우저에 전달한다.
 - 변환기와 UI는 회차 MD에 링크·메타데이터·학습 결과를 역기록하지 않는다.
@@ -20,7 +46,7 @@
 ## 3. 레이어와 의존 방향
 
 ```text
-round MD (read-only SSOT) ─> past_exam_converter.py ─> past-exams.json ─┐
+round MD (content SSOT) ─────> past_exam_converter.py ─> past-exams.json ─┐
                                                                          ├─> build-practice-data.py ─> practice-data.js ─> app.js
 question-pack JSON (SSOT) ──────────────────────────────────────────────┘                                      ↕
                                                                                                   localStorage (progress only)
@@ -60,6 +86,8 @@ PastExamItem
 
 `answer`는 자동 채점용 accepted 목록으로 변환하지 않는다. 회차 MD의 답안은 서술·복수 답·복원 설명을 포함하므로, 화면에는 자유 답안 입력 후 정답 공개와 자기 채점(정답/복습 필요)만 제공한다.
 
+`sourceDigest`와 `contentDigest`는 각각 현재 회차 MD 전체와 현재 행의 SHA-256 값이다. 근거 있는 문항 보완 또는 제한 marker 추가로 MD가 바뀌면 digest도 바뀌며, 생성물은 새 digest와 현재 MD가 일치해야 한다. digest는 과거 값의 불변성을 주장하지 않는다.
+
 ## 5. 변환 계약
 
 1. 파일 탐색 범위는 `01-rounds/*-practical-*.md`로 고정한다.
@@ -68,12 +96,15 @@ PastExamItem
 4. 회차 ID는 파일명의 마지막 회차 번호, item ID는 표의 번호로 결정한다.
 5. 표의 escape된 파이프(`\|`)는 셀 안의 문자 `|`로 복원한다. 열 수가 맞지 않거나 번호가 중복·비연속이면 빌드를 실패시킨다.
 6. 모든 기출 레코드는 `source-derived`로 표시한다. 변환기는 공식 원문 여부를 승격하지 않는다.
-7. 회차 MD 변경으로 `past-exams.json` 또는 `practice-data.js`가 달라지면 `--check`가 stale 상태로 실패해야 한다.
+7. 회차 MD 변경으로 `past-exams.json` 또는 `practice-data.js`가 달라지면 `--check`가 stale 상태로 실패해야 한다. JSON을 직접 수정해 MD와 달라진 상태도 허용하지 않는다.
+8. 회차 표 셀의 명시적 presentation marker는 리터럴 `<br>`, `{{code}}...{{/code}}`, `{{code:language}}...{{/code}}`, `{{reference}}...{{/reference}}`만 허용한다. 변환기는 code language의 lowercase kebab-case, 열림·닫힘 일치, 비중첩·비공백을 검증하고 문자열을 그대로 보존한다. UI는 전체 텍스트를 HTML escape한 뒤 이 제한 marker만 줄바꿈·코드 블록·보기 블록으로 복원한다. legacy 행의 독립 답안 marker(`A :`, `(1)` 등)는 화면에서만 `(A)`, `(1)`과 줄바꿈으로 정규화한다. 임의 HTML은 해석하지 않는다.
 
 ## 6. UI와 학습 흐름
 
 - 상단 학습 종류에서 `학습 문항`과 `기출 복원`을 분리한다.
 - 기출 복원은 회차·연도·유형(short/essay/practical) 필터와 회차 내 문항 이동을 제공한다.
+- 기출 복원 문항의 `연도·회차·회차 ID`는 학습·실전 모드 모두에 동일한 단일 formatter로 표시한다. 모드는 provenance를 숨기지 않고 `실전 모드` badge만 추가하며, 제목은 회차 provenance를 반복하지 않는 `기출 복원 문항`으로 고정한다.
+- 복수 답안 문항은 지문과 복원 답안에 같은 `(A)`, `(B)`, `(1)`, `(2)` 식별자를 명시하고, `<br>` marker 또는 legacy marker 정규화 결과를 화면의 줄바꿈으로 표시한다. 명령·설정·Snort 룰은 `code` marker, 패킷 흐름·설정 보기 묶음은 `reference` marker로 분리해 표시한다.
 - 실전 모드에서는 답안·검증 문구를 숨기고, 사용자가 공개를 선택한 뒤 자기 채점한다.
 - 화면에는 `기출 복원·파생 근거`와 원본 `sourcePath:line`을 표시한다. `공식 기출`이라는 표현은 사용하지 않는다.
 - 대화형 학습은 서술 답안의 논리·누락·표현 교정에 계속 사용한다. Practice는 시간 제한 회차 풀이와 오답 누적에 사용한다.
@@ -83,9 +114,9 @@ PastExamItem
 | 범주 | 검증 |
 |---|---|
 | MD 파싱 | 31개 회차 전체 파싱, ID 유일성, 번호 연속성, 필수 셀·frontmatter 검증 |
-| 회귀 | escape 파이프, 코드 인라인, short/essay/practical 행을 포함한 fixture 검증 |
+| 회귀 | escape 파이프, 코드 인라인, display-block marker, short/essay/practical 행을 포함한 fixture 검증 |
 | 생성 | 기존 question-pack 계약, 기출 변환 계약, `practice-data.js --check` |
-| UI | 학습/기출 필터 분리, 정답 비공개·공개, 자기 채점 진행도, 새로고침 후 진행도 복원 |
+| UI | 학습/기출 필터 분리, 정답 비공개·공개, 자기 채점 진행도, 새로고침 후 진행도 복원, `node scripts/test-past-exam-rendering.mjs`의 513문항 marker·legacy label·HTML escape·code/reference block 검증 |
 | 출처 | 모든 기출 item의 `sourcePath`, `sourceLine`, `source-derived` 상태 검증 |
 | 전수 무결성 | 입력 31개 파일·513개 행과 파생 31개 회차·513개 item의 수, ID, 지문·답안·검증 문구를 대조 |
 

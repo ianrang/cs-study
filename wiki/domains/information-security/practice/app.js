@@ -9,7 +9,7 @@
   const themeStorageKey = root.dataset.themeStorageKey;
   const systemThemeQuery = window.matchMedia?.("(prefers-color-scheme: dark)");
   const pastExamItems = Array.isArray(data?.pastExams?.rounds)
-    ? data.pastExams.rounds.flatMap((round) => round.items.map((item) => ({ ...item, roundId: round.roundId, year: round.year, session: round.session, roundTitle: round.title })))
+    ? data.pastExams.rounds.flatMap((round) => round.items.map((item) => ({ ...item, roundId: round.roundId, year: round.year, session: round.session })))
     : [];
   let storageAvailable = true;
   const state = {
@@ -58,6 +58,10 @@
     navigator: document.querySelector("#question-navigator"),
     previous: document.querySelector("#previous-question"),
     next: document.querySelector("#next-question"),
+    quickNavigation: document.querySelector("#quick-question-navigation"),
+    quickPrevious: document.querySelector("#quick-previous-question"),
+    quickPosition: document.querySelector("#quick-question-position"),
+    quickNext: document.querySelector("#quick-next-question"),
     resetTopic: document.querySelector("#reset-topic"),
     resetAll: document.querySelector("#reset-all"),
     storageNotice: document.querySelector("#storage-notice"),
@@ -97,6 +101,56 @@
       .replaceAll(">", "&gt;")
       .replaceAll('"', "&quot;")
       .replaceAll("'", "&#039;");
+  }
+
+  // This is the only formatter for the source-derived year/session/round
+  // identity. Both learning and exam modes consume the same label.
+  function formatPastExamRoundLabel(item) {
+    return `${item.year}년 ${Number(item.session)}회 · ${item.roundId}`;
+  }
+
+  const displayBlockPattern = /\{\{(code|reference)(?::([a-z0-9]+(?:-[a-z0-9]+)*))?\}\}([\s\S]*?)\{\{\/\1\}\}/g;
+
+  function formatPastExamInline(value) {
+    // Escape all source text first so a reconstructed item can never inject
+    // HTML. Only the explicit source marker and legacy top-level answer labels
+    // receive presentational line breaks after that escaping step.
+    const escaped = escapeHtml(value).replaceAll("&lt;br&gt;", "<br>");
+    const normalizedLegacyLabels = escaped.replace(
+      /(^|<br>|\s)([A-Z가-힣])\s*:/g,
+      "$1($2)"
+    );
+    return normalizedLegacyLabels.replace(
+      /\s(?=\((?:[A-Z가-힣]|\d{1,2})\)(?::|\s))/g,
+      "<br>"
+    );
+  }
+
+  function formatPastExamBlockContent(value) {
+    return escapeHtml(value)
+      .replaceAll("\\n", "\n")
+      .replaceAll("&lt;br&gt;", "\n");
+  }
+
+  function renderPastExamDisplayBlock(kind, language, content) {
+    if (kind === "code") {
+      const normalizedLanguage = language || "text";
+      const label = language ? "보기 · " + language : "보기 · 코드";
+      return '<section class="exam-code-block" data-language="' + escapeHtml(normalizedLanguage) + '" aria-label="' + escapeHtml(label) + '"><div class="exam-block-label">' + escapeHtml(label) + '</div><pre><code>' + formatPastExamBlockContent(content) + '</code></pre></section>';
+    }
+    return '<aside class="exam-reference-block" aria-label="보기"><div class="exam-block-label">보기</div><div class="exam-reference-content">' + formatPastExamBlockContent(content) + "</div></aside>";
+  }
+
+  function formatPastExamText(value) {
+    const text = String(value ?? "");
+    let cursor = 0;
+    let rendered = "";
+    for (const match of text.matchAll(displayBlockPattern)) {
+      rendered += formatPastExamInline(text.slice(cursor, match.index));
+      rendered += renderPastExamDisplayBlock(match[1], match[2], match[3]);
+      cursor = match.index + match[0].length;
+    }
+    return rendered + formatPastExamInline(text.slice(cursor));
   }
 
   function loadProgress() {
@@ -240,6 +294,11 @@
   function sourceBadge(status) {
     const label = status === "source-derived" ? "복원·파생 근거" : status === "inferred" ? "학습용 추론" : "공식 근거";
     return `<span class="badge badge-${escapeHtml(status)}">${label}</span>`;
+  }
+
+  function formatPastExamMeta(item, isExamMode) {
+    const modeBadge = isExamMode ? '<span class="badge badge-active">실전 모드</span>' : "";
+    return `<span class="badge">${escapeHtml(formatPastExamRoundLabel(item))}</span><span class="badge">${escapeHtml(item.type)}</span><span class="badge badge-past-exam">기출 복원 · 파생 근거</span>${sourceBadge(item.status)}${modeBadge}${progressBadges(item)}`;
   }
 
   function questionOriginBadge(question) {
@@ -519,15 +578,13 @@
   function renderPastExamItem(item) {
     const isExamMode = state.practiceMode === "exam";
     const feedback = state.feedback?.questionId === item.id
-      ? `<section class="feedback feedback-self"><div class="feedback-head" tabindex="-1">복원 답안과 검증 문구</div><div class="feedback-body"><div><h3>복원 답안</h3><p>${escapeHtml(item.answer)}</p></div><div><h3>검증 문구</h3><p>${escapeHtml(item.verification)}</p></div><div class="action-row"><button class="button button-primary" type="button" data-past-result="self-understood">정답 완료</button><button class="button button-danger" type="button" data-past-result="self-review">복습 필요</button></div>${sourcesMarkupFromRefs([item.sourceRef])}</div></section>`
+      ? `<section class="feedback feedback-self"><div class="feedback-head" tabindex="-1">복원 답안과 검증 문구</div><div class="feedback-body"><div><h3>복원 답안</h3><div class="past-exam-text">${formatPastExamText(item.answer)}</div></div><div><h3>검증 문구</h3><p>${escapeHtml(item.verification)}</p></div><div class="action-row"><button class="button button-primary" type="button" data-past-result="self-understood">정답 완료</button><button class="button button-danger" type="button" data-past-result="self-review">복습 필요</button></div>${sourcesMarkupFromRefs([item.sourceRef])}</div></section>`
       : "";
-    const meta = isExamMode
-      ? `<span class="badge badge-active">실전 모드</span>${progressBadges(item)}`
-      : `<span class="badge">${escapeHtml(`${item.year}년 ${Number(item.session)}회 · ${item.roundId}`)}</span><span class="badge">${escapeHtml(item.type)}</span><span class="badge badge-past-exam">기출 복원 · 파생 근거</span>${sourceBadge(item.status)}${progressBadges(item)}`;
+    const meta = formatPastExamMeta(item, isExamMode);
     elements.card.innerHTML = `
       <div class="question-meta">${meta}</div>
-      <h2 class="question-title">${isExamMode ? "기출 복원 문항" : escapeHtml(item.roundTitle)}</h2>
-      <div class="prompt"><p>${escapeHtml(item.prompt)}</p></div>
+      <h2 class="question-title">기출 복원 문항</h2>
+      <div class="prompt past-exam-text">${formatPastExamText(item.prompt)}</div>
       <div class="answer-area"><div class="answer-field"><label for="past-exam-answer">답안 작성</label><textarea id="past-exam-answer" placeholder="답안을 직접 작성한 뒤 복원 답안을 확인하세요.">${escapeHtml(state.pastDrafts[item.id] || "")}</textarea></div></div>
       <div class="action-row"><button id="reveal-past-exam-answer" class="button button-primary" type="button">복원 답안 보기</button><button id="clear-past-exam-answer" class="button button-quiet" type="button">답 지우기</button><button id="reset-current-question" class="button button-quiet" type="button">이 문항 상태 초기화</button></div>
       ${feedback}`;
@@ -626,6 +683,26 @@
     elements.resetAll.textContent = isPastExam ? "기출 복원 전체 진행도 초기화" : "학습 문항 전체 진행도 초기화";
   }
 
+  function navigateQuestion(direction) {
+    const questions = getActiveItems();
+    const nextIndex = Math.max(0, Math.min(state.index + direction, questions.length - 1));
+    if (!questions.length || nextIndex === state.index) return;
+    state.index = nextIndex;
+    state.feedback = null;
+    render();
+  }
+
+  function renderQuestionNavigation(questions) {
+    const previousDisabled = !questions.length || state.index === 0;
+    const nextDisabled = !questions.length || state.index >= questions.length - 1;
+    elements.previous.disabled = previousDisabled;
+    elements.next.disabled = nextDisabled;
+    elements.quickNavigation.hidden = !questions.length;
+    elements.quickPrevious.disabled = previousDisabled;
+    elements.quickNext.disabled = nextDisabled;
+    elements.quickPosition.textContent = `문항 ${questions.length ? state.index + 1 : 0} / ${questions.length}`;
+  }
+
   function render() {
     const questions = getActiveItems();
     renderStats();
@@ -634,8 +711,7 @@
     renderContentKindFilters();
     renderThemeToggle();
     renderStorageNotice();
-    elements.previous.disabled = !questions.length || state.index === 0;
-    elements.next.disabled = !questions.length || state.index >= questions.length - 1;
+    renderQuestionNavigation(questions);
     if (!questions.length) {
       elements.position.textContent = "문항 0 / 0";
       elements.navigator.replaceChildren();
@@ -733,8 +809,10 @@
       state.feedback = null;
       render();
     });
-    elements.previous.addEventListener("click", () => { state.index -= 1; state.feedback = null; render(); });
-    elements.next.addEventListener("click", () => { state.index += 1; state.feedback = null; render(); });
+    elements.previous.addEventListener("click", () => navigateQuestion(-1));
+    elements.next.addEventListener("click", () => navigateQuestion(1));
+    elements.quickPrevious.addEventListener("click", () => navigateQuestion(-1));
+    elements.quickNext.addEventListener("click", () => navigateQuestion(1));
     elements.resetTopic.addEventListener("click", () => resetProgress("topic"));
     elements.resetAll.addEventListener("click", () => resetProgress("all"));
     document.addEventListener("keydown", (event) => {

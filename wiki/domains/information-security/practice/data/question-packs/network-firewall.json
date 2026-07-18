@@ -143,7 +143,7 @@
       "examPrompt": [{ "type": "text", "content": "패킷을 차단하면서 송신 측에 오류 응답을 되돌려 주는 iptables target을 쓰세요." }],
       "answer": { "type": "short", "matchPolicy": "case-insensitive", "inputLabel": "Target", "accepted": ["reject"] },
       "explanation": [{ "type": "text", "content": "DROP은 응답 없이 폐기한다. REJECT는 TCP RST 또는 ICMP 오류 등 거부 응답을 보낼 수 있다." }],
-      "sourceRefs": [{ "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md", "line": 43, "excerpt": "DROP", "status": "source-derived" }],
+      "sourceRefs": [{ "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md", "line": 44, "excerpt": "DROP", "status": "source-derived" }],
       "tags": ["iptables", "drop", "reject"]
     },
     {

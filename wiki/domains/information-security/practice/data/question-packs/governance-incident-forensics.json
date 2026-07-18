@@ -586,7 +586,7 @@
       "prompt": [
         {
           "type": "text",
-          "content": "기출형 연계보관성(Chain of Custody)의 증거 이동 단계를 올바른 순서로 배열하세요."
+          "content": "학습용 정리: 연계보관성(Chain of Custody)을 설명하기 위한 증거 이동 단계를 배열하세요. 이 배열은 학습용 정리이며, 대조한 비공식 PDF 복원본만으로는 분석·보관의 공식 기출 단일 순서를 확정할 수 없습니다."
         }
       ],
       "answer": {
@@ -603,14 +603,14 @@
       "explanation": [
         {
           "type": "text",
-          "content": "각 단계에서 담당자·책임자와 인수인계 이력이 명확하고 전체 과정이 추적 가능해야 합니다."
+          "content": "각 단계에서 담당자·책임자와 인수인계 이력이 명확하고 전체 과정이 추적 가능해야 합니다. 제시한 배열은 학습용 정리이며, 비공식 PDF 복원본의 분석·보관 표기는 공식 기출 채점 순서를 확정하는 근거가 아닙니다."
         }
       ],
       "sourceRefs": [
         {
           "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
           "line": 43,
-          "excerpt": "단계 순서 : 증거 수집 → 이송 → 분석 → 보관 → 법정 제출",
+          "excerpt": "연계보관성(Chain of Custody)의 원칙",
           "status": "source-derived"
         },
         {

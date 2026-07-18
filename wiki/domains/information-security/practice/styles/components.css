@@ -326,6 +326,26 @@
     border-color: var(--color-status-danger-border);
   }
 
+  .quick-question-navigation {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2);
+    background: var(--color-surface-panel);
+    border: var(--border-width) solid var(--color-border-default);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-surface);
+  }
+
+  .quick-question-position {
+    min-width: var(--space-16);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-strong);
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+  }
+
   .badge {
     display: inline-flex;
     align-items: center;
@@ -390,6 +410,39 @@
     border-radius: var(--radius-lg);
     font: var(--font-size-sm) / var(--line-height-reading) var(--font-family-code);
     white-space: pre-wrap;
+  }
+
+  .past-exam-text,
+  .exam-code-block,
+  .exam-reference-block {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .exam-code-block,
+  .exam-reference-block {
+    margin: var(--space-4) var(--space-0);
+  }
+
+  .exam-code-block pre { margin: var(--space-0); }
+
+  .exam-block-label {
+    color: var(--color-text-tertiary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .exam-reference-block {
+    padding: var(--space-4);
+    color: var(--color-text-primary);
+    background: var(--color-surface-canvas-accent);
+    border: var(--border-width) solid var(--color-border-default);
+    border-radius: var(--radius-lg);
+  }
+
+  .exam-reference-content {
+    white-space: pre-wrap;
+    line-height: var(--line-height-reading);
   }
 
   .answer-field,

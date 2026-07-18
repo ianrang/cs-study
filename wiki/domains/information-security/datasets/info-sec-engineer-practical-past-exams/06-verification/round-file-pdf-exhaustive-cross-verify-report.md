@@ -8,7 +8,7 @@ shared_scope: domain
 tags: [information-security, certification, exam-reconstruction, pdf-source, verification]
 status: active
 date_created: 2026-07-06
-date_updated: 2026-07-07
+date_updated: 2026-07-16
 source_paths:
   - "pdf-source-cross-verify-report.md"
   - "prompt-completeness-cross-verify-report.md"
@@ -52,7 +52,7 @@ evergreen: false
 ## Verdict
 1~28회 회차 파일 459문항을 PDF 편집본의 단답형·서술형 `문제+답` 추출 텍스트와 전수 대조했다. PDF는 KCA 공식 원문이 아니라 thodi-lab/blog-source 편집본이므로, 이 검증은 `KCA 공식 문구 보장`이 아니라 `현재 보유 PDF 편집본 기준의 회차 파일 정합성 검증`이다.
 
-전수 검토 결과, PDF 기준으로 실제 답안·문항 조건이 달라 보이는 항목 2건을 수정했다. 그 외 낮은 자동 매칭 항목은 대부분 PDF 텍스트 추출이 여러 문제를 한 블록으로 합치거나, md가 표·이미지 문항을 paraphrase하여 생긴 점수 저하로 판정했다. 29회는 제공 PDF 범위 밖이다. 30회는 2026-07-07 사용자 제공 PDF를 별도 텍스트 추출해 기존 회차 파일과 대조했다.
+전수 검토 결과, PDF 기준으로 실제 답안·문항 조건이 달라 보이는 항목 2건을 수정했다. 그 외 낮은 자동 매칭 항목은 대부분 PDF 텍스트 추출이 여러 문제를 한 블록으로 합치거나, md가 표·이미지 문항을 paraphrase하여 생긴 점수 저하로 판정했다. 29회는 제공 PDF 범위 밖이다. 30회는 2026-07-07 사용자 제공 PDF를 별도 텍스트 추출해 기존 회차 파일과 대조했다. 이후 2026-07-16에는 1~100번의 기술 정확성을 별도 검토해 PDF 대조와 성격이 다른 12개 기술 정정을 반영했다. 상세는 `first-100-content-review-2026-07-16.md`를 따른다.
 
 ## Method
 | step | description |
@@ -78,6 +78,8 @@ evergreen: false
 |---|---:|---|---|
 | `2015-01-practical-05.md` | 5 | md answer was `5년 / 월 1회 / 6개월`, while PDF item 201 states `3년 / 월 1회 / 1년`. | Answer corrected to `A : 3년 B : 월 1회 C : 1년`. |
 | `2018-01-practical-11.md` | 8 | md prompt/answer used `정보통신망법` and `5년 / 1회 / 6개월`, while the adjacent PDF sequence after SNMP item states 개인정보 안전성 확보조치 기준 with `3년 / 1회 / 1년`. | Prompt and answer corrected to 개인정보 안전성 확보조치 기준 제5조/접속기록 기준 and `A : 3 B : 1 C : 1`. |
+
+PDF 대조에서 수정한 위 2건과, 기술 표준·공식 문서 대조에서 수정한 항목은 서로 다른 검증 축이다. 후자는 [1~100번 기술 정확성 교차검증](first-100-content-review-2026-07-16.md)을 단일 기록으로 사용한다.
 
 ## Reviewed Low-Score Classes
 | class | examples | decision |

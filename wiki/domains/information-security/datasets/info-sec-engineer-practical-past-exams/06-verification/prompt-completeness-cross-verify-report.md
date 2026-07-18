@@ -8,7 +8,7 @@ shared_scope: domain
 tags: [information-security, certification, exam-reconstruction, prompt-completeness, verification]
 status: active
 date_created: 2026-07-03
-date_updated: 2026-07-07
+date_updated: 2026-07-17
 source_paths:
   - "../01-rounds/2013-01-practical-01.md"
   - "../01-rounds/2013-02-practical-02.md"
@@ -50,18 +50,20 @@ evergreen: false
 # 정보보안기사 실기 기출 문항 설명 완전성 교차검증 리포트
 
 ## Verdict
-- Prompt completeness: pass for current 1~31회차 local files under reconstruction-source 기준 after the 2026-07-07 31회 user-source update. 단답형·개념형 문항도 "다음 설명", "다음 표", "다음 로그"의 실제 조건이 빠지면 불완전으로 보며, 현재 회차 파일에는 standalone-blocking generic/meta prompt pattern이 남아 있지 않다.
+- Prompt completeness: 2026-07-17 현재 보유한 1~28회 문제·답 PDF 편집본 대조로 R06-Q01의 TCP 스캔 A~E 패킷 흐름을 확인해 standalone 풀이 가능하게 복원했다. PDF는 블로그 원천을 명시한 비공식 편집본이며 KCA 공식 원문으로 승격하지 않는다. 세부 판정은 [101~513 content review](101-513-content-review-2026-07-17.md#pdf-reconstruction-recovery-audit-2026-07-17)를 따른다.
 - 32회 requested sweep: blocked by source quality, not by local editing. 접근 가능한 공개 자료와 로컬 파일에는 정보보안기사 실기 32회 실제 복원 원천이 없었고, 확인된 32회 관련 Jaesung 글은 "AI 예상 문제"이므로 기출 복원 파일로 승격하지 않는다.
 - Logic consistency: pass for answer-topic mapping and standalone practice within the available reconstruction sources. 21회 6·8·9번, 22회 5·10번처럼 기존 답안이 다른 개념으로 수렴하던 항목은 원천 기준으로 정정했다.
-- Accuracy boundary: scoped. 1~28회 thodi-lab/blog-source PDF 편집본은 비밀번호 해제 후 대조했지만, KCA 공식 시험 원문 문구와 1:1 일치한다고 주장하지 않는다. 29회는 공개 블로그 복원 원천 기준이고, 30회는 사용자 제공 PDF로 대조했으며, 31회는 사용자 제공 HTML 표와 4번 이미지 원천 기준이다.
+- Accuracy boundary: scoped. 1~28회 thodi-lab/blog-source PDF 편집본은 비밀번호 해제 후 대조했지만, KCA 공식 시험 원문 문구와 1:1 일치한다고 주장하지 않는다. 29회는 공개 블로그 복원 원천 기준이다. 이번 세션에 사용자가 제공한 사진으로 R30-Q08의 보기와 R30-Q15의 네 요구사항을 보강했으며, 현재 파일 목록에서 30회 PDF를 재확인하지 못한 사실과는 구분한다. 31회는 사용자 제공 HTML 표와 4번 이미지 원천 기준이다.
 - Known source limit: active. PDF 편집본 자체가 `13~28회 온계절님 블로그`, `1~12회 information-security.tistory.com` 출처를 표기하므로 공식 원문 보증 근거가 아니라 패키지형 교차검증 보강 근거로 사용한다.
 
 ## Finding Summary
 | severity | count | status |
 |---|---:|---|
-| HIGH | 0 | no answer-topic contradiction found |
-| MEDIUM | 0 | no standalone-blocking generic/meta prompt remains in current 1~31 local files after strict scan |
-| KNOWN_LIMITED | 1 | 31회 is based on a user-provided HTML table rather than an official KCA release |
+| HIGH | 0 | no newly discovered source-answer topic contradiction in this pass |
+| MEDIUM | 0 | 2026-07-17 PDF 대조로 기존 R06-Q01 패킷 흐름 누락을 해소 |
+| KNOWN_LIMITED | 0 | 사용자 제공 사진으로 R10-Q14의 TCP 표, R30-Q08의 보기, R30-Q15의 네 요구사항을 보강해 독립 풀이 한계를 해소 |
+| SOURCE_BOUNDARY | 1 | 31회 is based on a user-provided HTML table rather than an official KCA release |
+| PHOTO_BOUNDARY | 3 | R10-Q14, R30-Q08, R30-Q15는 사용자 제공 비공식 사진을 보조 복원 근거로 사용하며 KCA 공식 원문·정답은 아님 |
 | SOURCE_LIMIT | 11 | standalone prompt reconstructed from answer block because source body is image-only |
 | OCR_VISUAL | 26 | image prompt restored after local image download, OCR attempt, and visual inspection |
 | NAVER_RECON | 16 | prompt restored from Naver analysis/reconstruction text and later checked against thodi-lab/blog-source PDF where in 1~28 scope |
@@ -79,7 +81,7 @@ evergreen: false
 | 답안 정합성 | 답안이 prompt에 있는 근거에서 도출된다. | 답안에만 근거가 있고 prompt에는 해당 근거가 없다. |
 
 ## Context-Dependent Incomplete Items
-21~31회차 범위에서 현재 `reconstructed prompt`만으로 독립 풀이가 불가능한 항목은 남기지 않았다. 다만 21~28회는 thodi-lab/blog-source PDF 편집본과 대조한 범위이고, KCA 공식 원문 문구 일치 검증은 여전히 주장하지 않는다. 29회는 Naver/Jaesung 복원 원천, 30회는 사용자 제공 PDF, 31회는 사용자 제공 HTML 표 원천 경계를 별도로 추적한다.
+21~31회차 범위에서 2026-07-16 strict scan은 standalone-blocking prompt 누락을 찾지 못했다. 이후 PDF·사진·기술 정확성 보강으로 R06-Q01, R10-Q14, R30-Q08·Q15의 결정 조건을 보강했다. 따라서 전체 1~31회차에 남은 독립 풀이 불가 문항은 없다. 21~28회는 thodi-lab/blog-source PDF 편집본과 대조한 범위이고, KCA 공식 원문 문구 일치 검증은 여전히 주장하지 않는다. 29회는 Naver/Jaesung 복원 원천이고, 30회는 이전 PDF 대조 기록·이번 세션의 파일 미확인 상태·사용자 제공 사진을 구분해 추적한다.
 
 ## Corrected Scope
 | file | corrected item scope |
@@ -190,7 +192,7 @@ Naver PostView HTML 본문에서 텍스트를 추출해 14~20회차의 주제명
 | `2022-02-practical-20.md` | 1~5, 7~8, 11~16번 HTTP Method, 위험분석, 접근통제, IDS, Apache, Snort, Sendmail, router, 위험대응 조건 보강 | Naver PostView text extraction plus nhustler source listing |
 
 ## 2026-07-06 21~30 Cross-Verification
-21~30회차는 Naver PostView 텍스트, direct web reconstruction, Jaesung restoration, 사용자 제공 30회 PDF, 로컬 출제기준/학습 노트를 함께 대조했다. 이 범위의 Naver 글에는 본문 문항이 HTML 텍스트로 노출되어 있었고, 첨부 이미지는 대표/스톡 이미지로 확인되어 OCR 복원 대상 문제 이미지가 없었다. Jaesung 28~30회 이미지는 제목 배너 계열이며 본문 문항은 HTML 텍스트였다. 30회는 사용자 제공 PDF 텍스트 추출로 추가 대조했다.
+21~30회차는 Naver PostView 텍스트, direct web reconstruction, Jaesung restoration, 로컬 출제기준/학습 노트를 함께 대조했다. 이전 검증 기록에는 사용자 제공 30회 PDF 텍스트 추출 대조가 남아 있으나, 이번 세션에서는 해당 파일을 재확인하지 못했다. 이 범위의 Naver 글에는 본문 문항이 HTML 텍스트로 노출되어 있었고, 첨부 이미지는 대표/스톡 이미지로 확인되어 OCR 복원 대상 문제 이미지가 없었다. Jaesung 28~30회 이미지는 제목 배너 계열이며 본문 문항은 HTML 텍스트였다.
 
 | file | reviewed source basis | action |
 |---|---|---|
@@ -261,7 +263,7 @@ Checked source classes: local `datasets/info-sec-engineer-practical-past-exams/*
 | password literal scan | 0 remaining matches | PDF 해제용 비밀번호 문자열을 dataset 문서에 저장하지 않았다. |
 | latest manual correction sweep | completed | `2020-02` 16번, `2021-01` 12~13번, `2022-01` 1~10번, `2023-01` 4번·11~18번, `2025-01` 1~18번, `2025-02` 1번·13~18번, `2025-04` 1번·6번·13~16번·18번을 추가 보강했다. |
 
-The strict sweep result means current local files no longer contain detectable standalone-blocking prompt gaps under the available reconstruction sources. It does not mean KCA official wording, punctuation, table layout, or image layout has been fully recovered.
+The strict sweep result means current local files have no additional detectable standalone-blocking prompt gaps under the available reconstruction sources. The 2026-07-17 PDF supplement resolved R06-Q01, and the user-provided photo supplement resolved the TCP table of R10-Q14 plus the decisive wording of R30-Q08 and R30-Q15. It does not mean KCA official wording, punctuation, table layout, or image layout has been fully recovered.
 
 ## Strict Completeness Gate
 회차 파일의 `reconstructed prompt`는 답안 주제 요약이 아니라 독립 풀이 가능한 문제 조건이어야 한다. 따라서 아래 요소가 원천에 있으면 prompt에 보존한다.
@@ -275,7 +277,7 @@ The strict sweep result means current local files no longer contain detectable s
 | 법/관리 항목 목록 | 답안이 수렴되는 항목명과 조건 목록 |
 
 ## Remaining Tracked Limit
-21~31회차에는 standalone-blocking prompt 누락을 남기지 않았다. 남은 한계는 KCA 공식 원문 미검증, Naver/PDF 편집본의 비공식성, 31회차의 사용자 제공 HTML 표 원천 경계, 32회차의 verified reconstruction source 부재이다.
+21~31회차에는 strict scan 기준 standalone-blocking prompt 누락을 남기지 않았다. 전체 1~31회차의 남은 한계에는 KCA 공식 원문 미검증, Naver/PDF 편집본과 사용자 제공 사진의 비공식성, 31회차의 사용자 제공 HTML 표 원천 경계, 32회차의 verified reconstruction source 부재가 포함된다.
 
 ## False Positives
 | file | no | reason |

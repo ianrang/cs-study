@@ -13,6 +13,10 @@ ROUND_FILE_PATTERN = re.compile(
 ROW_PATTERN = re.compile(r"^\|\s*\d+\s*\|")
 RECONSTRUCTION_HEADER = "| no | type | reconstructed prompt | answer | verification |"
 VALID_TYPES = {"short", "essay", "practical"}
+DISPLAY_BLOCK_TOKEN = re.compile(
+    r"\{\{(?P<closing>/)?(?P<kind>code|reference)(?::(?P<language>[^\}]*))?\}\}"
+)
+DISPLAY_BLOCK_LANGUAGE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 
 def _sha256(value: str) -> str:
@@ -65,6 +69,36 @@ def split_markdown_row(line: str, path: Path, line_number: int) -> list[str]:
     return cells
 
 
+def validate_display_blocks(value: str, path: Path, line_number: int, field: str) -> None:
+    """Reject ambiguous or unsafe display-block markers before data generation."""
+    open_block: tuple[str, int] | None = None
+    for marker in DISPLAY_BLOCK_TOKEN.finditer(value):
+        kind = marker["kind"]
+        language = marker["language"]
+        if marker["closing"]:
+            if language is not None:
+                raise ValueError(f"{path}:{line_number} {field}: closing display block cannot declare a language")
+            if open_block is None:
+                raise ValueError(f"{path}:{line_number} {field}: closing display block has no opening marker")
+            if kind != open_block[0]:
+                raise ValueError(f"{path}:{line_number} {field}: display block closing marker does not match opening marker")
+            if not value[open_block[1] : marker.start()].strip():
+                raise ValueError(f"{path}:{line_number} {field}: display block content must not be empty")
+            open_block = None
+            continue
+
+        if open_block is not None:
+            raise ValueError(f"{path}:{line_number} {field}: display blocks cannot be nested")
+        if kind == "reference" and language is not None:
+            raise ValueError(f"{path}:{line_number} {field}: reference display block cannot declare a language")
+        if language is not None and not DISPLAY_BLOCK_LANGUAGE.fullmatch(language):
+            raise ValueError(f"{path}:{line_number} {field}: display block language must be lowercase kebab-case")
+        open_block = (kind, marker.end())
+
+    if open_block is not None:
+        raise ValueError(f"{path}:{line_number} {field}: display block closing marker is missing")
+
+
 def parse_round(path: Path, vault_root: Path) -> dict[str, object]:
     match = ROUND_FILE_PATTERN.fullmatch(path.name)
     if not match:
@@ -89,6 +123,8 @@ def parse_round(path: Path, vault_root: Path) -> dict[str, object]:
         number = int(number_text)
         if item_type not in VALID_TYPES:
             raise ValueError(f"{path}:{zero_index}: unsupported item type {item_type}")
+        validate_display_blocks(prompt, path, zero_index, "prompt")
+        validate_display_blocks(answer, path, zero_index, "answer")
         numbers.append(number)
         item_id = f"R{match['round']}-Q{number:02d}"
         items.append({

@@ -72,6 +72,7 @@
     --shadow-subtle: light-dark(0 0.3125rem 0.875rem rgb(28 45 78 / 4%), 0 0.3125rem 0.875rem rgb(0 0 0 / 18%));
     --opacity-dragging: 0.45;
     --filter-hover-dim: brightness(0.97);
+    --z-index-floating: 10;
     /* Responsive breakpoints are documented here but must remain in layout.css:
        53.125rem (two-column controls) and 32.5rem (single-column controls). */
 

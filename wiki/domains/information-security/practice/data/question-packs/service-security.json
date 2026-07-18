@@ -63,7 +63,7 @@
       "examPrompt": [{ "type": "code", "content": "String sql = \"SELECT pw FROM member WHERE id = (A)\";\n(B) ps = conn.(C)(sql);\nps.(D)(1, userId);" }],
       "answer": { "type": "cloze", "matchPolicy": "case-insensitive", "blanks": [{ "id": "A", "label": "parameter placeholder", "accepted": ["?"] }, { "id": "B", "label": "statement type", "accepted": ["preparedstatement"] }, { "id": "C", "label": "statement creation method", "accepted": ["preparestatement"] }, { "id": "D", "label": "string binding method", "accepted": ["setstring"] }] },
       "explanation": [{ "type": "text", "content": "PreparedStatement와 parameter binding은 SQL 구조와 값을 분리한다. 동적 table·column 같은 식별자는 placeholder로 바꿀 수 없으므로 allowlist가 필요하다." }],
-      "sourceRefs": [{ "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md", "line": 49, "excerpt": "preparedStatement", "status": "source-derived" }, { "path": "drafts/study/3장 정리.md", "line": 211, "excerpt": "PreparedStatement", "status": "source-derived" }],
+      "sourceRefs": [{ "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md", "line": 49, "excerpt": "prepareStatement", "status": "source-derived" }, { "path": "drafts/study/3장 정리.md", "line": 211, "excerpt": "PreparedStatement", "status": "source-derived" }],
       "tags": ["sqli", "preparedstatement", "parameter-binding"]
     },
     {

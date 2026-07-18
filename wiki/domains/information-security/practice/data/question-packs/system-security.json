@@ -55,7 +55,7 @@
       "prompt": [{ "type": "text", "content": "일정 시간 유휴 상태인 셸 세션을 자동 종료하도록 설정하는 환경변수를 쓰세요." }],
       "answer": { "type": "short", "matchPolicy": "exact", "inputLabel": "환경변수", "accepted": ["TMOUT"] },
       "explanation": [{ "type": "text", "content": "TMOUT은 PAM 옵션이 아니라 셸 유휴 세션 타임아웃 환경변수다. 문제에서 값을 제시하면 export TMOUT=값 형태로 답한다." }],
-      "sourceRefs": [{ "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md", "line": 52, "excerpt": "TMOUT", "status": "source-derived" }, { "path": "drafts/study/1장 정리.md", "line": 89, "excerpt": "`TMOUT`", "status": "source-derived" }],
+      "sourceRefs": [{ "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md", "line": 54, "excerpt": "TMOUT", "status": "source-derived" }, { "path": "drafts/study/1장 정리.md", "line": 89, "excerpt": "`TMOUT`", "status": "source-derived" }],
       "tags": ["linux", "session", "tmout", "recall"]
     },
     {
@@ -73,7 +73,7 @@
       "prompt": [{ "type": "text", "content": "umask 022일 때 새 일반 파일과 새 디렉터리의 대표 기본 권한을 각각 쓰세요." }],
       "answer": { "type": "cloze", "matchPolicy": "exact", "blanks": [{ "id": "A", "label": "일반 파일 권한", "accepted": ["644"] }, { "id": "B", "label": "디렉터리 권한", "accepted": ["755"] }] },
       "explanation": [{ "type": "text", "content": "umask는 허용 권한이 아니라 새 객체의 기본 권한에서 제거할 비트다. 일반 파일은 666, 디렉터리는 777에서 022를 적용하는 대표 계산이다." }],
-      "sourceRefs": [{ "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md", "line": 52, "excerpt": "umask 022", "status": "source-derived" }, { "path": "drafts/study/1장 정리.md", "line": 141, "excerpt": "일반 파일은 보통 `644`, 디렉터리는 `755`", "status": "source-derived" }],
+      "sourceRefs": [{ "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md", "line": 54, "excerpt": "umask 022", "status": "source-derived" }, { "path": "drafts/study/1장 정리.md", "line": 141, "excerpt": "일반 파일은 보통 `644`, 디렉터리는 `755`", "status": "source-derived" }],
       "tags": ["linux", "permission", "umask", "cloze"]
     },
     {
