@@ -1,0 +1,91 @@
+---
+title: "정보보안기사 실기 2013–2022 — P1·P2·P3 미포함 반복 항목 분리 원장"
+tier: llm-synthesis
+page_type: benchmark
+domain: information-security
+domain_confidence: high
+shared_scope: domain
+tags: []
+status: active
+date_created: 2026-07-17
+date_updated: 2026-07-17
+source_paths:
+  - drafts/study/1장 정리.md
+  - drafts/study/2장 정리.md
+  - drafts/study/3장 정리.md
+  - drafts/study/4장 정리.md
+  - drafts/study/5장 정리.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md
+  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md
+source_count: 26
+provenance: extracted
+summary: "2013년 1회부터 2022년 4회까지의 복원 기출을 P1·P2·P3 명시 내용과 문항별로 대조하여, 개념 자체의 미기재와 문제 고유 조건·세부 답안 요구를 분리한 반복 항목 원장."
+evergreen: false
+---
+
+# 정보보안기사 실기 2013–2022 — P1·P2·P3 미포함 반복 항목 분리 원장
+
+## 범위와 판정 규칙
+
+- 대상은 2013년 1회부터 2022년 4회까지의 **21회차** 복원 문항이다. `past-exam-study-coverage.md`의 회차별 합계만으로 누락 문항을 역산하지 않고, 각 복원 파일의 `Reconstruction` 표에서 문항·정답을 다시 읽었다.
+- 반복은 같은 개념 또는 같은 답안 요소가 **서로 다른 2회차 이상**에 직접 나타난 경우로 한정했다. 이 문서는 회차 빈도만 보이며 배점·득점·합격을 추정하지 않는다.
+- **A. 개념 미기재**: P1·P2·P3의 5개 학습 문서에 해당 용어와 정의·답안 요소가 모두 직접 기록되어 있지 않은 경우다. 관련 상위 개념(예: 버퍼 오버플로우)이 있어도, 기출이 요구한 하위 개념이 없으면 A에 둔다.
+- **B. 문제 고유 조건·세부 답안**: 상위 개념·원리는 학습 문서에 있으나, 정답이 출제 당시 법령 수치, 제품·OS·버전·명령 구문, 지문에 주어진 IP·포트·문자열·패킷 필드에 의존하는 경우다. B는 대주제의 누락으로 세지 않는다.
+- 주제 묶음은 겹칠 수 있고 행별 회차 수를 합산하지 않는다. 복원 파일은 비공식 자료이므로, 이 원장은 그 파일이 보존한 문항·정답 범위에서만 성립한다.
+
+## A. P1·P2·P3에 개념·답안 요소가 없는 반복 항목
+
+| 항목 | 직접 출제 근거 | 회차 수 | P1·P2·P3 대조 결과 | 분류 |
+|---|---|---:|---|---|
+| 익스플로잇 페이로드 기초 — Shellcode, `0x90` NOP, `JMP ESP` | 2016-1 2번, 2022-4 9번 | 2/21 | `1장`에는 버퍼 오버플로우의 원인·방어가 있으나, Shellcode·NOP·`JMP ESP`의 의미와 제어흐름 답안은 없다. 1~5장 전체에서 이 용어들의 직접 항목을 찾지 못했다. | 개념 미기재 |
+| Office DDE 악용 | 2019-2 4번, 2021-2 4번 | 2/21 | 1~5장에 `DDE` 또는 `Dynamic Data Exchange`의 정의·악용 조건이 없다. | 개념 미기재 |
+| ISAC(정보공유·분석센터)의 역할 | 2015-1 12번, 2019-1 2번 | 2/21 | 1~5장에 `ISAC` 또는 `정보공유·분석센터`의 역할·약어 풀이가 없다. | 개념 미기재 |
+
+위 세 항목만 A로 남겼다. 2회차 재출제는 확인되지만, 21회차 중 2회이므로 다른 최우선 반복 주제와 동등한 빈도라는 뜻은 아니다. 추가한다면 답안량이 짧은 **P3 단답 묶음**으로 시작하고, Shellcode는 버퍼 오버플로우 방어와 연결할 필요가 있어 P2까지 확장할 수 있다.
+
+## B. 상위 개념은 있으나 문제 고유 조건·세부 답안이 필요한 반복 항목
+
+| 항목 | 직접 출제 근거 | 회차 수 | 현재 학습 문서의 상위 개념 | 기출에서 별도로 필요한 것 |
+|---|---|---:|---|---|
+| 당시 법령·고시·인증기준의 열거·수치·주체 | 2013-1, 2013-2, 2014-1, 2014-2, 2015-1, 2015-2, 2016-1, 2016-2, 2017-1, 2017-2, 2018-1, 2018-2, 2019-2, 2020-1, 2020-2, 2021-1, 2022-1, 2022-2, 2022-4 | 19/21 | `5장` P1은 개인정보 처리, 안전성 확보조치, ISMS-P, 법규 사례 풀이와 현행성 구분을 제공한다. | 출제 시점의 접근권한·접속기록 보존기간, PIA 대상 인원 기준, 제3자 제공·위탁 고지 항목, 구 정보통신망법·전자서명법·ISMS-P 항목 수처럼 시점에 따라 달라지는 값. 현행 값을 과거 정답으로 치환하지 않는다. |
+| Snort 룰의 복합 조건 해석·작성 | 2013-2 12번, 2014-1 5번, 2014-2 14번, 2016-1 4번, 2018-1 15번, 2018-2 13번, 2019-1 14번, 2019-2 16번, 2021-1 15번, 2022-2 13번 | 10/21 | `2장` P1은 header, `content`, `nocase`, `offset/depth`, `distance/within`, `threshold`, `sid`의 역할을 직접 설명한다. | 지문에 주어진 문자열·hex 바이트, 상대 위치, 포트·방향, Snort 세대별 문법, 임계값 수와 시간. 상위 문법을 암기해도 지문 값 없이 특정 rule 전체를 미리 확정할 수 없다. |
+| IPsec의 모드·헤더·인증 범위 | 2014-1 14번, 2014-2 11번, 2015-2 11번, 2016-2 11번, 2018-1 3번, 2018-2 2번, 2019-1 13번, 2019-2 3번, 2020-1 10·11번, 2022-2 6번, 2022-4 7번 | 11/21 | `2장` P1은 AH·ESP·IKE·SA, 전송/터널 모드와 기본 패킷 도식을 제공한다. | AH/ESP 중 무엇을 썼는지, 전송/터널 모드, 선택된 SA·알고리즘, 지문이 요구한 인증·암호화 범위. 특히 ESP의 인증은 SA·알고리즘에 따라 달라진다. |
+| 제품·OS·서비스의 명령·설정 파일·지시자 | 2013-1, 2013-2, 2014-2, 2015-1, 2015-2, 2016-1, 2016-2, 2017-1, 2017-2, 2018-1, 2018-2, 2019-1, 2019-2, 2020-1, 2020-2, 2021-1, 2021-2, 2022-1, 2022-2, 2022-4 | 20/21 | `1장`의 OS 점검, `2장`의 방화벽·라우터, `3장`의 Apache·DNS·Sendmail이 각각 원리와 대표 구문을 제공한다. | Solaris/AIX/Linux별 경로, Cisco IOS·iptables·BIND·Sendmail·Apache의 지문 버전과 문법, 서비스별 기본값·옵션. 같은 목적이라도 제품·버전에 따라 파일명과 구문이 달라질 수 있다. |
+| 취약 버전·레거시 TLS/SSL 처리 세부 | 2014-1 2번, 2016-2 14번, 2017-1 7번, 2020-1 7번, 2020-2 6번 | 5/21 | `2장`은 TLS 핸드셰이크·레코드 계층, Heartbleed·POODLE·TLS 1.3 0-RTT의 원리와 보완 방향을 다룬다. | Heartbleed의 영향 OpenSSL 버전 범위, TLS 1.2 이하 레코드 처리 순서, 특정 취약 버전·구성의 적용 범위. 이 값은 역사적 버전·문제 조건에 묶인다. |
+| CVE 식별자 세부와 CVSS 평가 요소 | 2014-2 1번, 2015-1 2번, 2021-1 5번 | 3/21 | `3장`은 SCA·취약점 관리에서 CWE/CVE를 취약점 식별자로 사용한다. | `CVE-연도-번호` 형식의 각 필드 의미와 CVSS의 코드베이스·시간성·환경·영향 요소. `CVE`라는 용어의 등장만으로 이 세부 답안을 쓸 수는 없다. |
+
+## 교차검증에서 제외한 오탐 후보
+
+다음은 과거 합계가 낮은 회차에 등장하지만, 현재 P1·P2·P3에 이미 직접 설명되어 A로 넣지 않은 항목이다.
+
+| 후보 | 현재 직접 근거 | 제외 이유 |
+|---|---|---|
+| DB 접근·추론·흐름 통제, 집성, Data Diddling | `3장` 3.5.1·3.5.4 | 2018년 문항의 용어·원리와 대응된다. |
+| CC의 PP·ST·EAL | `4장` 4.9.3, `5장` 5.5.2 | PP·ST·EAL의 역할과 EAL의 의미가 명시되어 있다. |
+| DNS Master/Slave·`allow-transfer`, Sendmail `access.db`·`makemap`, Apache `LimitRequestBody` | `3장` 3.3.1, 3.4.1, 3.4.3 | 문항의 대주제와 대표 설정은 포함되어 있다. 단, 실제 답은 B의 제품·버전 조건을 따른다. |
+| NAC, SNMPv3, DNS/NTP 증폭, TLS 메일 인증 | `2장` 2.3~2.6, `3장` 3.4.4 | 정의·원리·대응이 직접 있다. 단순히 과거 문항에 나왔다는 이유로 누락으로 분류하지 않았다. |
+
+## 결론
+
+- 2013–2022의 낮은 풀이 커버리지에서 **반복되며 P1·P2·P3 자체에 없는 개념**으로 확인된 것은 Shellcode 계열, DDE, ISAC의 3개 묶음이다. 각각 2회차 근거를 갖는다.
+- 더 큰 반복군은 대개 **미학습 대주제**가 아니라 법령 시점, Snort/IPsec의 지문 조건, 제품·OS·버전별 정확한 값 때문에 답안 전체를 보장하지 못하는 경우다.
+- 따라서 학습 보완 시에는 A의 3개를 별도 단답 묶음으로 추가하고, B는 일반 개념을 중복 확장하지 말고 회차별 조건·수치·명령을 원문과 함께 연습한다.
