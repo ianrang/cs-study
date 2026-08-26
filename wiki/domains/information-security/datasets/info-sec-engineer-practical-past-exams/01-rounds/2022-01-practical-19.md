@@ -1,34 +1,34 @@
 ---
-title: "정보보안기사 실기 19회 2022년 1회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 19회 2022년 1회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://nhustler.tistory.com/40"
-  - "https://nhustler.tistory.com/41"
-  - "https://blog.naver.com/stereok2/222723288429"
-source_count: 3
-provenance: inferred
-summary: "정보보안기사 실기 19회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: Naver blog cross-check."
-evergreen: false
+- raw/sources/clipping/4c5fc2935d41423bafce7cf8a17dcdd74f60e27c4a3d84492b6e724e98520208/22058df05d5123ff23b1231d4569ee4b7405724ac1ad3b105efe0f51a17565aa/manifest.json
+summary: '정보보안기사 실기 19회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: Naver blog cross-check.'
 ---
+
+## Overview
+
+
+
+
+
 
 # 정보보안기사 실기 19회 2022년 1회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2022년 1회 실기.
 - Source status: Naver blog reconstruction cross-check; confidence: high for topic coverage, medium for exact wording.
 - This file stores paraphrased reconstruction notes, not verbatim source text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 위험을 구성하는 요소의 빈칸을 채우시오. (A): 조직이 보호해야 할 대상으로 정보, 하드웨어, 소프트웨어, 시설, 관련 인력, 기업 이미지 같은 무형자산을 포함한다. (B): (A)에 손실을 초래할 수 있는 원치 않는 사건의 잠재적 원인 또는 행위자다. (C): (B)에 의해 손실이 발생하게 되는 (A)에 내재된 약점이다. | 자산, 위협, 취약점 | source-derived; PDF compilation cross-check restored prompt condition |
@@ -48,7 +48,29 @@ evergreen: false
 | 15 | practical | 파일 업로드 취약점 대응을 위한 `.htaccess` 설정의 의미를 설명하시오. (1) `<FilesMatch \.(ph\|lib\|sh\|)> Order Allow DENY; Deny From ALL; </FilesMatch>` (2) `AddType text/html .php .php1 .php2 .php3 .php4 .phtml` | FilesMatch는 해당 확장자 URL 접근을 제한하는 구형 Apache 설정이다. AddType은 MIME mapping일 뿐 실행 handler 제거를 보장하지 않으므로, 업로드 파일은 웹 루트 밖에 저장하고 서버측 allowlist·파일 시그니처 검증·실행 handler 제거를 함께 적용한다. | source-derived; 2026-07-17 technical correction: AddType is not a universal execution block |
 | 16 | practical | 위험평가서 양식과 관련하여 답하시오. 열은 자산명, 자산 중요도(C/I/A), 우려사항, 가능성, 위험도(C/I/A)이다. 행1 ERP 데이터는 중요도 H/H/M, 우려사항은 “DB 접근통제 위반이나 위반 시도를 적시에 발견하여 처리할 수 없다”, 가능성 H, 위험도 H/H/M이다. 행2 워드문서는 중요도 L/L/L, 우려사항은 “적절한 보안 규정이 부족하여 자산이 제대로 보호되지 않을 수 있음”, 가능성 M, 위험도 L/L/L이다. (1) 자산 중요도 평가의 목적, (2) 우려사항의 의미, (3) 가능성의 의미, (4) ERP 데이터·ERP 서버·워드문서 자산표를 보고 위험분석기법을 적용한 분석을 쓰시오. | (1) CIA 관점의 자산 가치를 산정해 정보보호 우선순위 기준을 마련한다. (2) 우려사항은 자산에 발생할 수 있는 위협과 취약성을 통합해 표현한 고려요소다. (3) 가능성은 기존 보호대책을 고려한 현재 시점의 발생·영향 가능성이다. (4) PDF 편집본의 예시는 복합접근법으로, 고위험 ERP군은 상세 위험분석, 저위험 워드문서는 베이스라인 접근법을 적용한다. | PDF compilation cross-check restored the two tables and all four questions; this is a non-official blog compilation, not KCA wording. |
 
-## Verification Notes
+### Verification Notes
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Rows are normalized from accessible web reconstructions and cross-checked against the Naver blog reconstruction listed in `source_paths`; they were cross-checked against the unlocked thodi-lab/blog-source PDFs where in 1~28 scope; KCA official wording is still not claimed.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/4c5fc2935d41423bafce7cf8a17dcdd74f60e27c4a3d84492b6e724e98520208/22058df05d5123ff23b1231d4569ee4b7405724ac1ad3b105efe0f51a17565aa/manifest.json`

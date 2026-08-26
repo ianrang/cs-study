@@ -1,32 +1,32 @@
 ---
-title: "정보보안기사 실기 17회 2021년 1회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 17회 2021년 1회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://blog.naver.com/stereok2/222396448808"
-source_count: 1
-provenance: inferred
-summary: "정보보안기사 실기 17회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: Naver direct analysis/reconstruction blog with answers."
-evergreen: false
+- raw/sources/clipping/d2bf29b2a5314ed8aa82943a2bd37be8a468a4cc42f4010c5e2bae5fae6dbea3/55128190044a3069368d4925dceaeb1abd76af3b9d7552413b2883230751eab8/manifest.json
+summary: '정보보안기사 실기 17회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: Naver direct analysis/reconstruction
+  blog with answers.'
 ---
+
+## Overview
+
+
 
 # 정보보안기사 실기 17회 2021년 1회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2021년 1회 실기.
 - Source status: Naver direct analysis/reconstruction blog with answers; confidence: medium-high for topic and answer coverage, medium for exact official wording.
 - This file stores paraphrased reconstruction notes, not verbatim source text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 로그인 인증 우회 공격 기법 | Pass the Hash | Naver answer cross-check; exact official wording unverified |
@@ -46,8 +46,30 @@ evergreen: false
 | 15 | essay | 다음 PDF 편집본의 Snort 룰 표기를 대상으로 각 옵션의 의미를 설명하시오. `alert tcp any any -> any 80 (msg:"GET Flooding"; content:"GET /HTTP1."; content:"USER"; content:!"anonymous"; content:"\|00\|"; depth:1; nocase; sid:1;)` (1) `msg`, (2) `content:"GET /HTTP1."`, (3) `content:"USER"; content:!"anonymous"`, (4) `content:"\|00\|"; depth:1`. | (1) `msg`는 조건이 모두 일치할 때 기록할 경고 메시지다. (2) 두 번째 조건은 `GET /HTTP1.`이라는 **문자열 그대로**를 찾는다. (3) 앞 content 일치 지점 이후 `USER`가 있고 그 뒤에 바로 `anonymous`가 없는지 확인한다. (4) 그 이전 content 일치 지점 이후 첫 1바이트가 `00`인지 확인한다. `nocase`는 대소문자를 구분하지 않는다. 이 룰 표기는 HTTP 문법·헤더 `anry` 오탈자·문자열 조건이 서로 어색하므로 일반적인 HTTP GET Flood 탐지 룰로 일반화하지 않는다. | PDF compilation cross-check restored the original reconstructed rule and questions; Snort Rule Writing Guide cross-checks literal content, relative content and `depth` semantics. This is a non-official blog compilation, not KCA wording. |
 | 16 | essay | Apache 설정 `<Directory /> Options FollowSymLinks AllowOverride none Require all granted </Directory>`와 `<Directory /var/www> Options indexes FollowSymLinks AllowOverride none Require all granted </Directory>`를 보고 답하시오. (1) 발생 가능한 두 가지 문제점은? (2) 두 가지 문제점에 대한 대응 방안은? | `/`에 `Require all granted`를 둔 것은 DocumentRoot 밖 경로까지 노출할 수 있는 더 큰 문제이며 기본은 `Require all denied`로 두고 필요한 웹 루트만 허용해야 한다. `/var/www`의 `Indexes`는 index 파일이 없을 때 디렉터리 열람을 허용하므로 `-Indexes`로 끈다. `FollowSymLinks`는 실제 배포 요건을 확인해 최소화하거나 `SymLinksIfOwnerMatch`를 검토한다. | Naver text extracted; 2026-07-17 technical correction: root authorization exposure was missing |
 
-## Verification Notes
+### Verification Notes
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Rows are normalized from accessible web reconstructions and were cross-checked against the unlocked thodi-lab/blog-source PDFs where in 1~28 scope; KCA official wording is still not claimed.
 - Legal/regulatory answers should be checked against current statutes before memorization.
 - Learning normalization: row 6의 원문 표현 `해결`은 보존한다. 학습용 정리에서는 이를 `복구 및 재발방지`로 풀어 쓰며, 실제 문제에서 `해결`이 제시되면 해당 표현을 따른다.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/d2bf29b2a5314ed8aa82943a2bd37be8a468a4cc42f4010c5e2bae5fae6dbea3/55128190044a3069368d4925dceaeb1abd76af3b9d7552413b2883230751eab8/manifest.json`

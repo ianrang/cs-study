@@ -151,13 +151,13 @@ frontmatter `page_type: <enum>` 필수.
 
 ## 검증 (lint.py grep)
 
-각 page_type 별 표준 섹션 (level-2 heading `## `) 전수 존재 확인. 누락 시 soft-warn.
+각 page_type 별 표준 섹션 (level-2 heading `## `) 전수 존재 확인. 일반 누락은 soft-warn이다. 단, `provenance: ambiguous` 페이지의 `Open Questions` 누락은 충돌 표시 요건 위반이므로 HIGH hard-fail이다.
 
 섹션 *순서* 도 위 매트릭스 순서대로 강제. 순서 위반 시 soft-warn.
 
 ## evergreen 플래그
 
-foundational paper (예: Transformer 2017 - "Attention Is All You Need") 는 frontmatter `evergreen: true` 명시 시 재현성·시의성 축 2년 임계 면제. concept type 한정.
+foundational paper (예: Transformer 2017 - "Attention Is All You Need") 는 frontmatter `evergreen: true` 명시 시 재현성·시의성 축 age ≥730일 hard-fail 임계 면제. concept type 한정.
 
 ## 비교 — 기존 cs/, development/ 노트
 

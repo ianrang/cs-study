@@ -1,0 +1,15 @@
+{
+  "artifact_digest": "sha256:53040e2978adc7c77e693a0160e965d1ef16294c9ea334f4842c5a04a40f9b83",
+  "created_at": "2026-08-24T10:38:12Z",
+  "generator": {
+    "name": "cs-study-capture",
+    "version": "1.0"
+  },
+  "media_type": "text/markdown",
+  "payload": "payload.md",
+  "primary_source": "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/prediction-validation-report.md",
+  "schema_version": "1.0",
+  "size": 2684,
+  "source_id": "d9c93a6d04020d0e71c8a9569c2c96cf913b28a8f43f8ea3f84ee47c880613b5",
+  "source_type": "clipping"
+}

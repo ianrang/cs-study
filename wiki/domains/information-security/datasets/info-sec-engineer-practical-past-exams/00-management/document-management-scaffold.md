@@ -1,38 +1,38 @@
 ---
-title: "정보보안기사 실기 문서 관리 스캐폴드"
-tier: llm-synthesis
+title: 정보보안기사 실기 문서 관리 스캐폴드
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, documentation-architecture, scaffold]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-09
+tags:
+- information-security
+- certification
+- documentation-architecture
+- scaffold
+date_created: '2026-07-03'
+date_updated: '2026-07-09'
 source_paths:
-  - "document-architecture.md"
-  - "document-physical-migration-plan.md"
-  - "analysis-roadmap-todo.md"
-  - "../index.md"
-source_count: 4
-provenance: inferred
-summary: "정보보안기사 실기 기출 분석 문서군의 역할별 분류, 진입점, 변경 규칙, 검증 게이트를 관리한다."
-evergreen: false
+- raw/sources/clipping/b5f8e13310da21d9f9b84fe22b371758ffbe0c5fdd0aeef526f83e4c6f1b3206/da85dce163492b152fcd12908d9bb5ecda98daf124694b9c4970784f35718357/manifest.json
+summary: 정보보안기사 실기 기출 분석 문서군의 역할별 분류, 진입점, 변경 규칙, 검증 게이트를 관리한다.
 ---
+
+## Overview
+
+
+
+
+
 
 # 정보보안기사 실기 문서 관리 스캐폴드
 
-## 목적
+### 목적
 문서군을 복잡하게 나누기보다, 응집도와 변경 이유를 기준으로 문서 역할을 고정한다. 이 문서는 문서 탐색과 변경 진입점을 관리하며, 분석 본문이나 기출 문항 원문을 보관하지 않는다.
 
-## 관리 원칙
+### 관리 원칙
 - 응집도: 같은 변경 이유를 가진 문서만 같은 그룹으로 본다.
 - SSOT: 원문, 분류, 매핑, 분석, 전략, 예상문제는 각각 하나의 원본 문서군만 가진다.
 - 원자성: 한 변경은 하나의 주 문서군에서 시작하고, 파생 문서는 변경 절차에 따라 갱신한다.
 - 정합성: 모든 파생 문서는 상위 근거 문서의 ID, 파일명, 집계값을 재사용한다.
 - 보수성: 링크와 `source_paths`를 깨뜨릴 수 있는 물리 이동은 별도 마이그레이션 작업으로만 수행한다.
 
-## 진입점
+### 진입점
 
 | 목적 | 먼저 열 문서 | 다음 문서 | 금지 |
 |---|---|---|---|
@@ -45,7 +45,7 @@ evergreen: false
 | 학습 실행 | `study-strategy-2026-02.md`, `hands-on-integrated-study-roadmap-2026-02.md` | `predicted-practical-questions-2026-02.md` | 예상문제를 실제 출제 보장처럼 표현하지 않는다. |
 | 품질 검증 | 관련 `*-cross-verify-report.md` 또는 `prediction-validation-report.md` | `analysis-roadmap-todo.md` | 검증 리포트에서 원문을 임의 보정하지 않는다. |
 
-## 문서 그룹
+### 문서 그룹
 
 | 그룹 | 문서 | 응집 기준 | 주 변경 이유 |
 |---|---|---|---|
@@ -60,7 +60,7 @@ evergreen: false
 | Study Output | `study-strategy-2026-02.md`, `integrated-study-guide-2026-02.md`, `hands-on-integrated-study-roadmap-2026-02.md`, `hands-on-lab-feasibility-deep-research.md`, `learning-priority-and-prediction-validity-2026-02.md`, `privacy-safety-ismsp-cheatsheet-2026-07.md` | 학습 전략, 통합 가이드, 실습 로드맵, 암기표 | 시험 대비 전략, 독립 실습 계획, 법령·ISMS-P 학습표가 바뀔 때 |
 | Prediction | `predicted-practical-questions-2026-02.md` | 예상문제와 채점 포인트 | 예상문제 세트가 바뀔 때 |
 
-## 변경 절차
+### 변경 절차
 
 | 변경 유형 | 원자적 시작점 | 파생 갱신 | 검증 |
 |---|---|---|---|
@@ -73,14 +73,14 @@ evergreen: false
 | 예상문제 수정 | `predicted-practical-questions-2026-02.md` | `prediction-validation-report.md` | 문항 수, 근거, confidence 정합 확인 |
 | 물리 스캐폴딩 수정 | `document-physical-migration-plan.md` | `index.md`, `document-architecture.md`, 이 문서 | dataset 문서 수, 회차 파일 수, 링크 정합 확인 |
 
-## 물리 스캐폴딩 정책
+### 물리 스캐폴딩 정책
 - 현재 `document-physical-migration-plan.md`의 계획 대상 문서 물리 분리를 완료했다. 이후 새 문서는 같은 책임 그룹에 배치하고, 링크·frontmatter·인덱스 검증을 동반한다.
 - 물리 디렉터리 분리는 `document-physical-migration-plan.md`를 기준으로 링크·frontmatter·인덱스 마이그레이션을 동반하는 별도 작업으로만 한다.
 - 새 문서는 기존 그룹 중 하나에 먼저 배정한다.
 - 새 그룹은 기존 그룹의 변경 이유로 설명할 수 없을 때만 만든다.
 - 임시 조사 결과는 permanent 문서로 승격하기 전 `analysis-roadmap-todo.md`에 상태와 폐기 조건을 먼저 남긴다.
 
-## 신규 문서 생성 규칙
+### 신규 문서 생성 규칙
 
 | 질문 | 생성 허용 기준 |
 |---|---|
@@ -90,7 +90,7 @@ evergreen: false
 | 시험 대비 산출물인가? | 시험 회차, 근거 문서, confidence 정책을 명시할 때만 생성 가능 |
 | 검증 리포트인가? | 수정 권한 없이 report-only 성격이면 생성 가능 |
 
-## 검증 체크리스트
+### 검증 체크리스트
 
 | 항목 | 기준 |
 |---|---|
@@ -99,3 +99,25 @@ evergreen: false
 | 역참조 | 회차 파일은 분석·전략·예상문제를 참조하지 않는다. |
 | 중복 | 문항 원문, 참고문서 원문, 분석 집계, 예상문제 본문을 다른 문서에 재복제하지 않는다. |
 | 보류 근거 | 현재 근거로 수행하지 않기로 한 작업은 `analysis-roadmap-todo.md`에 남긴다. |
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/b5f8e13310da21d9f9b84fe22b371758ffbe0c5fdd0aeef526f83e4c6f1b3206/da85dce163492b152fcd12908d9bb5ecda98daf124694b9c4970784f35718357/manifest.json`

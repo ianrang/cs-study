@@ -1,31 +1,31 @@
 ---
-title: "정보보안기사 실기 12회 2018년 2회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 12회 2018년 2회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-18
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-18'
 source_paths:
-  - "https://information-security.tistory.com/269"
-source_count: 1
-provenance: inferred
-summary: "정보보안기사 실기 12회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지."
-evergreen: false
+- raw/sources/clipping/8b4cc25ac8f2a04e00322a4b6a0b97d910efeb00e9474e5436e45b868374b1a0/a1b53173076125d35862f545d9e1027079f80b3c2ea9b4a6d346247b1691d665/manifest.json
+summary: 정보보안기사 실기 12회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지.
 ---
+
+## Overview
+
+
+
 
 # 정보보안기사 실기 12회 2018년 2회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2018년 2회 실기.
 - Source status: Information Security Tistory direct reconstruction post; confidence: medium-high.
 - This file stores paraphrased reconstruction notes and answer keys, not verbatim official exam text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 악성코드와 광고의 합성어로, 온라인 광고 네트워크를 이용해 정상 광고처럼 위장하고 사용자가 클릭하거나 광고가 로드될 때 악성코드를 전파하는 공격 기법의 명칭을 쓰시오. | Malvertising(멀버타이징) | source-derived from Information Security Tistory; answer block present |
@@ -45,7 +45,29 @@ evergreen: false
 | 15 | essay | NTP 취약점을 이용한 DDoS 공격 대응 방안이다. 다음 각 항목의 의미를 서술하시오.<br>{{code:shell}}(1) ntp -version\n(2) disable monlist\n(3) ntpdc -c monlist [점검 대상 NTP 서버 IP]\n(4) iptables -A OUTPUT -p udp --sport 123 -m length --length 100 -j DROP{{/code}} | (1) NTP 데몬의 버전을 확인하여 monlist 기능이 비활성화된 최신 버전으로 업그레이드한다. (2) 구형 구현에서 monlist/monitor 기능을 비활성화하는 설정 문맥이다. (3) 점검 대상 NTP 서버가 monlist 명령을 허용하는지 여부를 점검한다. (4) `--length 100`은 길이가 **정확히 100바이트인** 패킷만 매치한다. 100바이트 이상을 대상으로 하려면 구현의 패킷 길이 기준을 확인한 뒤 `--length 100:65535`처럼 범위를 명시해야 한다. | source-derived from Information Security Tistory; 2026-07-17 technical correction: iptables length exact value versus range |
 | 16 | essay | 개인정보 파일에서 최소한 암호화가 필요한 항목 (A)과 대상별 암호화 알고리즘 (B)을 서술하시오. | (A) 암호화 필요 항목은 적용 법령·당시 고시에 따라 달라질 수 있으므로 시험 시점 기준을 확인한다. (B) 비밀번호는 복호화 가능한 암호화가 아니라 salt와 작업 비용을 적용한 전용 비밀번호 해시/KDF로 저장하며, 단순 SHA-2 반복만을 일반 권고로 단정하지 않는다. 주민등록번호·여권번호·신용카드번호 등 복호화가 필요한 값은 승인된 대칭키 암호와 키관리 체계로 보호한다. | source-derived from Information Security Tistory; 2026-07-17 technical correction: password hashing and time-bound legal scope |
 
-## Verification Notes
+### Verification Notes
 - Cross-check basis: the round-specific Tistory post linked in `source_paths` was parsed by sequential question number and answer marker.
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/8b4cc25ac8f2a04e00322a4b6a0b97d910efeb00e9474e5436e45b868374b1a0/a1b53173076125d35862f545d9e1027079f80b3c2ea9b4a6d346247b1691d665/manifest.json`

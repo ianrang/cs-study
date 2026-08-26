@@ -1,31 +1,31 @@
 ---
-title: "정보보안기사 실기 8회 2016년 2회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 8회 2016년 2회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-18
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-18'
 source_paths:
-  - "https://information-security.tistory.com/280"
-source_count: 1
-provenance: inferred
-summary: "정보보안기사 실기 8회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지."
-evergreen: false
+- raw/sources/clipping/450bdbbbd7c20be00a661899017225f98ec56e260de91404628124a62ba711ad/d8ac428080f74a3bf3babc88fc67c8a3fa40dc818cf5633bd56b72df43fac4c6/manifest.json
+summary: 정보보안기사 실기 8회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지.
 ---
+
+## Overview
+
+
+
 
 # 정보보안기사 실기 8회 2016년 2회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2016년 2회 실기.
 - Source status: Information Security Tistory direct reconstruction post; confidence: medium-high.
 - This file stores paraphrased reconstruction notes and answer keys, not verbatim official exam text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | MySQL 설정 파일의 현재 설정이 다음과 같을 때 외부 인터페이스에서 리스닝하도록 설정을 변경하시오.<br>{{code:config}}bind-address = 127.0.0.1{{/code}} | {{code:config}}bind-address = 허용할 서버 IP 또는 0.0.0.0{{/code}}로 변경한다. 이 설정은 리스닝 주소만 정하므로, 실제 외부 접속에는 방화벽·계정 host 권한·TLS 정책도 별도로 충족해야 한다. | source-derived from Information Security Tistory; 2026-07-17 wording correction: bind address alone does not authorize remote access |
@@ -45,7 +45,29 @@ evergreen: false
 | 15 | essay | Linux crontab에 대해 답하시오. (가) cron에 현재 등록된 작업 내용을 보는 명령어, (나) `sis` 계정의 crontab을 편집하는 명령어, (다) 매주 일요일 새벽 3시에 `/home` 하위의 일반(비숨김) 항목을 삭제하는 crontab 설정을 작성하시오. | (가) crontab -l (나) crontab -u sis -e (다) `0 3 * * 0 rm -rf /home/* 1>/dev/null 2>&1`. 이 glob은 숨김 항목을 포함하지 않으므로, 원문 표현처럼 `/home`의 모든 항목을 삭제한다고 일반화하지 않는다. | source-derived from Information Security Tistory; 2026-07-17 wording correction: shell glob scope |
 | 16 | essay | 정보보호관리체계(ISMS) 인증에 따라 정보보호 정책을 각각 어떻게 승인·공표하는지 서술하시오.<br>(1) 승인<br>(2) 공표 | (1) 정보보호 정책의 승인은 이해관계자의 검토를 거쳐 최고경영자의 승인을 받아야 한다.<br>(2) 정책의 공표는 정보보호 정책 문서를 모든 임직원 및 관련자에게 이해하기 쉬운 형태로 전달하여야 한다. | source-derived from Information Security Tistory; 2026-07-18 prompt-format correction: approval and publication requirements are explicitly mapped; exact official wording unavailable |
 
-## Verification Notes
+### Verification Notes
 - Cross-check basis: the round-specific Tistory post linked in `source_paths` was parsed by sequential question number and answer marker.
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/450bdbbbd7c20be00a661899017225f98ec56e260de91404628124a62ba711ad/d8ac428080f74a3bf3babc88fc67c8a3fa40dc818cf5633bd56b72df43fac4c6/manifest.json`

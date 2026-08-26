@@ -1,31 +1,31 @@
 ---
-title: "정보보안기사 실기 2회 2013년 2회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 2회 2013년 2회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://information-security.tistory.com/292"
-source_count: 1
-provenance: inferred
-summary: "정보보안기사 실기 2회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지."
-evergreen: false
+- raw/sources/clipping/663849780f44735df4f900e111ef09d4e27537fb36ad1643bf9d17f4fc639d0c/989ccc2392138d2b177bb9401cccd5425302ef504a3598165d617e8fc0ce0ac0/manifest.json
+summary: 정보보안기사 실기 2회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지.
 ---
+
+## Overview
+
+
+
 
 # 정보보안기사 실기 2회 2013년 2회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2013년 2회 실기.
 - Source status: Information Security Tistory direct reconstruction post; confidence: medium-high.
 - This file stores paraphrased reconstruction notes and answer keys, not verbatim official exam text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 소스 IP가 정당한 범위인지 기준으로 트래픽을 허용하는 필터링 방식에서, 로컬 네트워크로 들어오는 트래픽 필터링, 로컬 네트워크에서 나가는 트래픽 필터링, 특정 IP 또는 대역을 가상 인터페이스로 보내 차단하는 기법의 빈칸 (가), (나), (다)를 채우시오. | 가 : Ingress 필터링 나 : Egress 필터링 다 : Blackhole 필터링(Null Routing) | source-derived from Information Security Tistory; answer block present |
@@ -44,7 +44,29 @@ evergreen: false
 | 14 | essay | 정보통신망 이용촉진 및 정보보호 등에 관한 법률에 따라 고객 정보 보호를 위해 취해야 할 기술적·관리적 조치를 5가지 이상 서술하시오. | (1) 개인정보에 대한 접근 권한을 차등 부여하고 접근 권한의 변경·말소 이력을 관리한다. (2) 개인정보를 안전하게 저장·전송하기 위해 암호화를 적용한다. (3) 개인정보처리시스템에 대한 접속 기록을 보관하고 위변조 방지 조치를 한다. (4) 악성 소프트웨어 방지를 위해 보안 프로그램을 설치하고 주기적으로 갱신·점검한다. (5) 개인정보 보호를 위한 내부관리계획을 수립하고 시행한다. (6) 개인정보취급자에 대한 정기적인 교육을 실시한다. (7) 개인정보처리시스템에 대한 불법적인 접근 및 침해 사고 방지를 위한 시스템을 구축한다. | source-derived from Information Security Tistory; answer block present |
 | 15 | essay | IIS 웹 로그를 보고 답하시오.<br>정상 URL: `login.asp?id=admin&pw=1234`<br>공격 URL: `login.asp?id=admin'--&pw=anything`<br>(1) 공격명<br>(2) 공격 URL 실행 결과<br>(3) 취약점 제거 조치 | (1) SQL Injection<br>(2) SQL 쿼리문에서 `--`로 인해 패스워드 검증 조건이 주석 처리되어 무력화되므로, 올바른 패스워드 입력 없이 admin 계정으로 인증이 우회되어 로그인이 가능해진다.<br>(3) SQL 문자열 결합을 제거하고 Prepared Statement(파라미터 바인딩)를 사용한다. 허용 목록 기반 입력 검증은 보조 조치로 적용한다. | source-derived from Information Security Tistory; 2026-07-16 technical correction: special-character denylisting alone is not a primary SQL injection defense |
 
-## Verification Notes
+### Verification Notes
 - Cross-check basis: the round-specific Tistory post linked in `source_paths` was parsed by sequential question number and answer marker.
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/663849780f44735df4f900e111ef09d4e27537fb36ad1643bf9d17f4fc639d0c/989ccc2392138d2b177bb9401cccd5425302ef504a3598165d617e8fc0ce0ac0/manifest.json`

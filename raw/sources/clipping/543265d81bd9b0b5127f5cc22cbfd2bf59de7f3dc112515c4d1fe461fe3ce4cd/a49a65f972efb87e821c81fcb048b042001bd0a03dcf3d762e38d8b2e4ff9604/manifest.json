@@ -1,0 +1,15 @@
+{
+  "artifact_digest": "sha256:a49a65f972efb87e821c81fcb048b042001bd0a03dcf3d762e38d8b2e4ff9604",
+  "created_at": "2026-08-24T10:38:12Z",
+  "generator": {
+    "name": "cs-study-capture",
+    "version": "1.0"
+  },
+  "media_type": "text/markdown",
+  "payload": "payload.md",
+  "primary_source": "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/03-classification/subject-type-cross-verify-report.md",
+  "schema_version": "1.0",
+  "size": 3529,
+  "source_id": "543265d81bd9b0b5127f5cc22cbfd2bf59de7f3dc112515c4d1fe461fe3ce4cd",
+  "source_type": "clipping"
+}

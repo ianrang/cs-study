@@ -1,31 +1,31 @@
 ---
-title: "정보보안기사 실기 11회 2018년 1회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 11회 2018년 1회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-18
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-18'
 source_paths:
-  - "https://information-security.tistory.com/270"
-source_count: 1
-provenance: inferred
-summary: "정보보안기사 실기 11회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지."
-evergreen: false
+- raw/sources/clipping/25fcbc05cd3551436784834751117fb70f0b88bc04c27edf3d5540d6588e9477/73b1b38e4856918a09d02431c1d4fe002e639c244d3c6cc85803874ad027ffb8/manifest.json
+summary: 정보보안기사 실기 11회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지.
 ---
+
+## Overview
+
+
+
 
 # 정보보안기사 실기 11회 2018년 1회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2018년 1회 실기.
 - Source status: Information Security Tistory direct reconstruction post; confidence: medium-high.
 - This file stores paraphrased reconstruction notes and answer keys, not verbatim official exam text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | Windows에서 하나 이상의 볼륨을 암호화하고, TPM을 사용해 초기 시작 구성 요소의 무결성을 검사하는 암호화 기능의 명칭을 쓰시오. | BitLocker | source-derived from Information Security Tistory; answer block present |
@@ -44,7 +44,29 @@ evergreen: false
 | 14 | essay | 공격자가 `view.php`의 `no` 파라미터에 `union select`와 `substr(database(),0,1)='t'` 조건을 포함한 URL을 입력했더니 화면에 `1`이 출력되었다. 다음을 서술하시오.<br>(A) 공격 명칭<br>(B) 공격자가 알 수 있는 정보<br>(C) HTML 출력만 숨기는 조치의 한계와 올바른 대응 방안 | (A) Blind SQL Injection<br>(B) 데이터베이스 명을 파악할 수 있다. 위 공격을 통해 데이터베이스 첫 글자가 `t`임을 확인할 수 있으며, 유사한 공격을 반복하여 전체 데이터베이스 이름을 알아낼 수 있다.<br>(C) HTML 수정으로 특정 출력 필드를 숨기더라도 SQL Injection이 동작하는 한 다른 페이지에도 동일한 공격이 가능하며, 출력이 차단되더라도 악의적인 쿼리가 내부적으로 실행되는 것은 막을 수 없다. HTML 수정이 아닌 Prepared Statement(준비된 구문)를 이용하여 SQL Injection 공격을 원천 차단해야 한다. | source-derived from Information Security Tistory; 2026-07-18 prompt-format correction: attack, inference, and mitigation questions are explicitly mapped; exact official wording unavailable |
 | 15 | essay | 조건에 맞는 Snort 룰을 작성하시오. (1) 텔넷 서비스 기본 포트 23번을 대상으로 한다. (2) 탐지 시 alert를 발생시키고 이벤트명은 `Dangerous`로 설정한다. (3) 첫 번째 바이트부터 14번째 바이트 범위 내에 `anonymous` 문자열 패턴이 있는지 검사한다. | {{code:snort}}alert tcp any any -> any 23 (msg:"Dangerous"; content:"anonymous"; depth:14;){{/code}} | source-derived from Information Security Tistory; image visually inspected, OCR attempted |
 
-## Verification Notes
+### Verification Notes
 - Cross-check basis: the round-specific Tistory post linked in `source_paths` was parsed by sequential question number and answer marker.
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/25fcbc05cd3551436784834751117fb70f0b88bc04c27edf3d5540d6588e9477/73b1b38e4856918a09d02431c1d4fe002e639c244d3c6cc85803874ad027ffb8/manifest.json`

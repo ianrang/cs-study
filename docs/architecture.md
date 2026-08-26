@@ -1,9 +1,13 @@
 # Architecture: cs-study `scripts/ingest.py` — 결정적 video importer (1차)
 
+> **상태: Superseded.** 2026-08-23 `scripts/wiki_ingest.py capture`와 content-addressed ArtifactBundle 구조가 이 pair importer를 대체했다. 본문은 historical non-normative 기록이다.
+
 > 대상 PRD: `docs/prd.md`. 본 문서는 **1차 라운드(결정적 importer)** 의 아키텍처만 정의한다.
 > 비즈니스 규칙·명제는 `docs/business-logic.md`(dev-design-logic) 소관.
 >
 > **인용 경로 범례**: cs-study 파일은 `~/dev/personal/001_cs-study/` 기준(`lint.py`=`scripts/`, `*-spec.md`·`quality-bar.md`=`_meta/`, `AGENTS.md`=루트). 추출기 파일은 `~/dev/personal/007_youtube-script/` 기준(`domain.py`·`pipeline.py`=`src/ytscript/`, `doc_hook.py`=`src/ytscript/hooks/`, `default.md.j2`=`templates/`).
+>
+> **기준선 수명**: 본문의 “현재/현행/미구현”은 v1 설계 작성 당시 기준선이다. 2026-08-21 current evidence baseline은 `docs/wiki-ingest-review.md` §2, aggregate verdict는 같은 문서 §9가 소유하며, 이 문서에서 구현됨으로 표시한 항목은 그 verdict의 evidence snapshot일 뿐 별도 판정 owner가 아니다. 본 문서의 구조 결정은 `docs/wiki-ingest-prd.md`의 단계별 supersede 전까지만 v1 의도 설계로 유효하다.
 
 ## 1. 기술 스택
 
@@ -37,7 +41,7 @@
                           ─ 표준 라이브러리만. 어떤 내부 함수도 호출 안 함
 ```
 
-**호출 체인 깊이** (NFR-5, 신규 코드 ≤ 함수 5개 / edge ≤4):
+**호출 체인 깊이** (NFR-5, 신규 코드 함수 5개 미만 / edge 4 미만, edge 4 이상 경고):
 - `main → ingest → select_variant`  (edge 2)
 - `main → ingest → build_raw_page`  (edge 2)
 - `main → ingest → to_markdown`     (edge 2)
@@ -124,7 +128,7 @@
 
 ## 7. 파이프라인 오케스트레이션 + LLM synthesis seam
 
-### 7.1 extract→ingest 오케스트레이터 (구현됨)
+### 7.1 extract→ingest 오케스트레이터 (v1 구현 evidence snapshot)
 
 한 명령으로 추출(stage 1) + 적재(stage 2). `scripts/pipeline.py` + `_meta/pipeline.yaml`.
 

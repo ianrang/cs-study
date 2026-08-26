@@ -1,34 +1,34 @@
 ---
-title: "정보보안기사 실기 21회 2022년 4회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 21회 2022년 4회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://nhustler.tistory.com/36"
-  - "https://nhustler.tistory.com/37"
-  - "https://blog.naver.com/stereok2/222985383781"
-source_count: 3
-provenance: inferred
-summary: "정보보안기사 실기 21회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: Naver blog cross-check."
-evergreen: false
+- raw/sources/clipping/cb90b088b5b8528859de5cf2dc58c0e502cd893e973718e80ed04bd6406544fb/630a283b0eb4e5286c0cb346e276273cb78606ed2635ba44b8fd78c17929115f/manifest.json
+summary: '정보보안기사 실기 21회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: Naver blog cross-check.'
 ---
+
+## Overview
+
+
+
+
+
 
 # 정보보안기사 실기 21회 2022년 4회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2022년 4회 실기.
 - Source status: Naver blog reconstruction cross-check; confidence: high for topic coverage, medium for exact wording.
 - This file stores paraphrased reconstruction notes, not verbatim source text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | Sendmail에서 스팸메일 릴레이 제한 설정 후 access DB를 생성하려고 한다. `# (A) (B) /etc/mail/access.db < /etc/mail/access`의 빈칸을 채우시오. | (A) `makemap`, (B) `hash` | source-derived; Naver cross-checked; leading slash in reconstructed source was ambiguous |
@@ -48,7 +48,29 @@ evergreen: false
 | 15 | practical | ALE와 관련해 1) SLE 정의, 2) SLE 계산식, 3) ALE 계산에 필요한 정보, 4) 연간 손실이 완전 제거되는데 투입된 비용이 X일 때 ROI(%) 계산식을 답하시오. | 1) 단일 사건 손실액 2) `SLE = AV * EF` 3) ARO 4) `(ALE - X) / X * 100` | source-derived; Naver cross-checked; official wording unverified |
 | 16 | practical | Master DNS `ns1.korea.co.kr(192.168.1.1)`와 Slave DNS `ns2.korea.co.kr(192.168.1.2)`의 zone 설정 빈칸을 채우시오. Master `/etc/named.conf`: `type (A); allow-transfer { (B) }`; zone file: `ns1 IN A (C)`, `ns2 IN A (D)`; Slave `/etc/named.conf`: `type (E); masters { (F) }`. | (A) `master`, (B) `192.168.1.2;`, (C) `192.168.1.1`, (D) `192.168.1.2`, (E) `slave`, (F) `192.168.1.1;`. Slave의 zone transfer 허용은 `allow-update`가 아니라 `allow-transfer` 문맥이다. | source-derived; 2026-07-17 technical correction: BIND transfer/update distinction |
 
-## Verification Notes
+### Verification Notes
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Rows are normalized from accessible web reconstructions and cross-checked against the Naver blog reconstruction listed in `source_paths`; they were cross-checked against the unlocked thodi-lab/blog-source PDFs where in 1~28 scope; KCA official wording is still not claimed.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/cb90b088b5b8528859de5cf2dc58c0e502cd893e973718e80ed04bd6406544fb/630a283b0eb4e5286c0cb346e276273cb78606ed2635ba44b8fd78c17929115f/manifest.json`

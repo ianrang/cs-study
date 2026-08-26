@@ -1,0 +1,15 @@
+{
+  "artifact_digest": "sha256:0a799ff8f1da6ce002869d29bf9f431d858b4db1b6e5b18e6b146f06007387fb",
+  "created_at": "2026-08-24T10:38:12Z",
+  "generator": {
+    "name": "cs-study-capture",
+    "version": "1.0"
+  },
+  "media_type": "text/markdown",
+  "payload": "payload.md",
+  "primary_source": "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/first-100-content-review-2026-07-16.md",
+  "schema_version": "1.0",
+  "size": 7088,
+  "source_id": "7a3822b1f191e2ec3be5f8754373ee7e4c492d4ac6ffb5973e823d4594ad1159",
+  "source_type": "clipping"
+}

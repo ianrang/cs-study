@@ -1,58 +1,58 @@
 ---
-title: "정보보안기사 실기 참고문서 원천 인덱스"
-tier: llm-synthesis
+title: 정보보안기사 실기 참고문서 원천 인덱스
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-references, source-index]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-09
+tags:
+- information-security
+- certification
+- exam-references
+- source-index
+date_created: '2026-07-03'
+date_updated: '2026-07-09'
 source_paths:
-  - "../00-management/document-architecture.md"
-  - "exam-criteria-and-reference-catalog.md"
-  - "https://owasp.org/www-project-top-ten/"
-  - "https://owasp.org/www-project-mobile-top-10/"
-  - "https://nvd.nist.gov/vuln/detail/CVE-2014-0160"
-  - "https://nvd.nist.gov/vuln/detail/CVE-2021-44228"
-  - "https://cwe.mitre.org/top25/"
-  - "https://www.first.org/cvss/v4.0/"
-  - "https://attack.mitre.org/"
-  - "https://www.rfc-editor.org/rfc/rfc9111"
-  - "https://cwe.mitre.org/data/definitions/444.html"
-  - "https://csrc.nist.gov/glossary/term/data_loss_prevention"
-  - "https://csrc.nist.gov/glossary/term/security_orchestration_automation_and_response"
-  - "https://csrc.nist.gov/glossary/term/TEMPEST"
-  - "https://csrc.nist.gov/pubs/sp/800/83/r1/final"
-  - "https://csrc.nist.gov/pubs/sp/800/34/r1/final"
-  - "https://csrc.nist.gov/glossary/term/end_to_end_encryption"
-  - "https://www.gnu.org/software/acct/manual/accounting.html"
-  - "https://owasp.org/www-community/attacks/Credential_stuffing"
-  - "https://csrc.nist.gov/glossary/term/zero_day_attack"
-  - "https://csrc.nist.gov/pubs/sp/800/124/r2/final"
-  - "https://www.law.go.kr/법령/전자금융거래법"
-  - "https://www.law.go.kr/법령/정보통신망이용촉진및정보보호등에관한법률"
-  - "https://www.law.go.kr/법령/개인정보보호법"
-  - "raw/sources/web/information-security-exam-references/kca-info-security-engineer-practical-criteria-2023-2026.md"
-  - "raw/sources/web/information-security-exam-references/privacy-safety-measures-law-go-kr.md"
-  - "raw/sources/web/information-security-exam-references/pipc-privacy-impact-assessment-guide-2025-10.md"
-  - "raw/sources/web/information-security-exam-references/pipc-privacy-safety-measures-guide-2025-11.md"
-  - "raw/sources/web/information-security-exam-references/kisa-ciip-technical-vulnerability-assessment-guide-2026.md"
-  - "raw/sources/web/information-security-exam-references/kisa-ismsp-criteria-guide-2023-11.md"
-  - "raw/sources/web/information-security-exam-references/kisa-secure-coding-guide-2021-12-29.md"
-source_count: 31
-provenance: extracted
-summary: "정보보안기사 실기 기출-근거문서 연결을 위한 공식 참고문서 원천 URL, 패칭 상태, 추출 상태를 관리한다."
-evergreen: false
+- raw/sources/clipping/6ca572243cea8b996c3cae70f2942d609a6eb1cdb4ce830fb7d42ea5cf5facaa/868b6c168bbf7398965a6450a48cce8b38bc459a41e2a44ee5ca9d374af63311/manifest.json
+summary: 정보보안기사 실기 기출-근거문서 연결을 위한 공식 참고문서 원천 URL, 패칭 상태, 추출 상태를 관리한다.
 ---
+
+## Overview
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 정보보안기사 실기 참고문서 원천 인덱스
 
-## Scope
+### Scope
 이 문서는 참고문서 원천 메타데이터의 SSOT이다. 문서 본문 요약, 문항별 연결, 빈도 분석은 이 문서에 넣지 않는다.
 
-## Source Index
+### Source Index
 
 | ref_id | 문서 | 발행/운영 주체 | 공식 URL | 상태 | local raw/source | local asset | version/effective | text_extract | 시험 연결 우선순위 | 비고 |
 |---|---|---|---|---|---|---|---|---|---:|---|
@@ -84,7 +84,7 @@ evergreen: false
 | REF-LAW-NETWORK-ACT | 정보통신망 이용촉진 및 정보보호 등에 관한 법률 | 국가법령정보센터 | https://www.law.go.kr/법령/정보통신망이용촉진및정보보호등에관한법률 | official page confirmed | - | - | current law page checked 2026-07-03 | not stored | 2 | 정보통신망 정의와 정보보호 법적 준거성 보조 원천 |
 | REF-LAW-PIPA | 개인정보 보호법 | 국가법령정보센터 | https://www.law.go.kr/법령/개인정보보호법 | official page confirmed | - | - | current law page checked 2026-07-03 | not stored | 2 | CCTV, 영상정보처리기기, 개인정보 처리 근거 보조 원천 |
 
-## Status Semantics
+### Status Semantics
 
 | status | 의미 |
 |---|---|
@@ -93,7 +93,7 @@ evergreen: false
 | official page confirmed | 공식 상세 페이지는 확인했으나 첨부 원문 다운로드 또는 asset 저장이 아직 미완료 |
 | pending | 공식 URL 또는 원문 파일을 아직 확인하지 못함 |
 
-## Selective Raw/Source Policy
+### Selective Raw/Source Policy
 
 현재 `official page confirmed` 보조 원천은 정보보안기사 실기 준비와 문항-근거 연결에 필요한 URL, 버전, 상태 메타데이터가 확보되어 있으므로 대량 raw/source 패칭을 수행하지 않는다. LLM wiki에는 보조 원천 전문보다 `ref_id`, 공식 URL, 버전·시행일, 문항 연결 이유, confidence를 우선 보존한다.
 
@@ -103,3 +103,25 @@ evergreen: false
 | 남은 medium 행을 high로 올릴 직접 공식·표준·공공기관·벤더 1차 원천 | 발견 시 해당 원천만 선별 패칭 |
 | 학습전략·예상문제에서 핵심 근거로 반복 인용되고 외부 변경·삭제 위험이 큰 원천 | 필요 시 해당 원천만 선별 패칭 |
 | OWASP/CVE/NVD/CWE/CVSS/MITRE/IETF/NIST/GNU/법령 계열 보조 원천 | 현재는 `official page confirmed` 유지, 대량 패칭 보류 |
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/6ca572243cea8b996c3cae70f2942d609a6eb1cdb4ce830fb7d42ea5cf5facaa/868b6c168bbf7398965a6450a48cce8b38bc459a41e2a44ee5ca9d374af63311/manifest.json`

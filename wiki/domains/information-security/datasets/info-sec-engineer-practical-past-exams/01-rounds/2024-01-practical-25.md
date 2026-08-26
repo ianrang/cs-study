@@ -1,33 +1,33 @@
 ---
-title: "정보보안기사 실기 25회 2024년 1회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 25회 2024년 1회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://it-utopia.tistory.com/entry/정보보안기사-2024년-25회-정보보안기사-실기-기출문제-복원"
-  - "https://blog.naver.com/stereok2/223481498564"
-source_count: 2
-provenance: inferred
-summary: "정보보안기사 실기 25회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: direct web reconstruction, Naver blog cross-check."
-evergreen: false
+- raw/sources/clipping/8a0822a56fef290224846039024b4a89f05170f0b9caa38d0c1cc4d375dddca0/f4a42dff3dcc043a6703cf9f72e0fe49dbc9f7432bb4d73cbc9e6f9369d6b1b7/manifest.json
+summary: '정보보안기사 실기 25회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: direct web reconstruction,
+  Naver blog cross-check.'
 ---
+
+## Overview
+
+
+
 
 # 정보보안기사 실기 25회 2024년 1회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2024년 1회 실기.
 - Source status: direct web reconstruction cross-checked with Naver blog `stereok2/223481498564`; confidence: high for topic coverage, official wording still unverified.
 - This file stores paraphrased reconstruction notes, not verbatim source text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 다음은 윈도우 OS의 계정 그룹 5가지 유형에 대한 설명이다. ( )에 들어갈 그룹명을 기술하시오. - Administrators: 도메인 또는 로컬 컴퓨터에 대한 모든 권한 보유 - ( A ): 일반 사용자보다는 많은 권한을 가지나, Administrators 그룹보다는 제한적인 권한 보유 - ( B ): 시스템 백업을 목적으로 모든 파일과 디렉터리 접근 가능 - ( C ): 도메인 및 로컬 컴퓨터를 일반적으로 사용하는 그룹 - Guests: 제한된 권한을 가지며 일시적으로 시스템을 사용하는 사용자를 위해 설계됨 | (A): Power Users, (B): Backup Operators, (C): Users | source-derived; exact wording unverified |
@@ -49,7 +49,29 @@ evergreen: false
 | 17 | practical | 홍길동은 인터넷 접속이 갑자기 느려져 PC 내 ARP 캐시 테이블을 조회했다. `192.168.100.1`과 `192.168.100.5`가 같은 MAC `01-00-5e-00-00-02`로 표시되는 상황에서 1) 출력 명령, 2) 공격명, 3) 판단 이유, 4) 정적 ARP 대응 명령을 답하시오. | 1) `arp -a` 2) ARP spoofing 또는 캐시 이상을 의심한다. 3) `01:00:5e`는 IPv4 multicast MAC 범위이므로 일반 단말의 유니캐스트 ARP 매핑으로 부적절하다. 다만 실제 게이트웨이·스위치 MAC과 Proxy ARP/VRRP 같은 구성을 함께 확인한다. 4) 정적 ARP는 검증된 게이트웨이 MAC을 알 때만 예: `arp -s 192.168.100.1 <verified-unicast-mac>`로 설정한다. 임의 MAC을 답으로 넣지 않는다. | source-derived; 2026-07-17 technical correction: multicast MAC and static-ARP evidence requirement |
 | 18 | practical | 윈도우 PE(Portable Executable) 파일은 윈도우 7과 같이 NT계열 운영체제에서 실행 가능한 파일 포맷이다. PE 파일은 실행 코드, 데이터, 리소스 및 메타데이터를 포함하는 구조를 가지며, 일반적으로 .exe(executable), .dll(dynamic link library), .sys(driver) 확장자를 가진 파일들을 포함한다. 악성파일의 경우에도 윈도우 OS에서 실행되기 위해 PE포맷을 사용하는데, 악성코드 작성자는 PE파일을 난독화하거나, PE헤더와 섹션 정보를 변형하여 디버깅 및 분석을 어렵게 만든다. 이러한 악성파일을 분석하는 3가지 방법을 설명하시오. | 자동 분석은 샌드박스 등으로 실행 행위를 수집하고, 정적 분석은 실행하지 않고 헤더·섹션·코드·문자열을 분석한다. 반자동 분석은 자동 결과를 분석가가 검토·보완하는 방식이며, 수동 동적 분석은 격리 환경의 디버거로 단계별 실행을 추적한다. 정적 분석과 샌드박스 실행 분석을 같은 방법으로 혼동하지 않는다. | source-derived; 2026-07-17 technical correction: static versus dynamic analysis |
 
-## Verification Notes
+### Verification Notes
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Rows are normalized from accessible web reconstructions and cross-checked against the Naver blog reconstruction listed in `source_paths`; they were cross-checked against the unlocked thodi-lab/blog-source PDFs where in 1~28 scope; KCA official wording is still not claimed.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/8a0822a56fef290224846039024b4a89f05170f0b9caa38d0c1cc4d375dddca0/f4a42dff3dcc043a6703cf9f72e0fe49dbc9f7432bb4d73cbc9e6f9369d6b1b7/manifest.json`

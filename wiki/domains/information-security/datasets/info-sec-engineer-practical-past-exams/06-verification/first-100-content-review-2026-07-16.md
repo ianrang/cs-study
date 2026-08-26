@@ -1,44 +1,44 @@
 ---
-title: "정보보안기사 실기 복원 1~100번 기술 정확성 교차검증"
-tier: llm-synthesis
+title: 정보보안기사 실기 복원 1~100번 기술 정확성 교차검증
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction, verification]
-status: active
-date_created: 2026-07-16
-date_updated: 2026-07-16
+tags:
+- information-security
+- certification
+- exam-reconstruction
+- verification
+date_created: '2026-07-16'
+date_updated: '2026-07-16'
 source_paths:
-  - "../01-rounds/2013-01-practical-01.md"
-  - "../01-rounds/2013-02-practical-02.md"
-  - "../01-rounds/2014-01-practical-03.md"
-  - "../01-rounds/2014-02-practical-04.md"
-  - "../01-rounds/2015-01-practical-05.md"
-  - "../01-rounds/2015-02-practical-06.md"
-  - "../01-rounds/2016-01-practical-07.md"
-  - "round-file-pdf-exhaustive-cross-verify-report.md"
-  - "prompt-completeness-cross-verify-report.md"
-source_count: 9
-provenance: inferred
-summary: "기출 복원 1~100번을 문항별로 검토해 확인된 기술 오류를 정정하고, 원문 복원 한계와 현행성 한계를 분리한 감사 기록."
-evergreen: false
+- raw/sources/clipping/7a3822b1f191e2ec3be5f8754373ee7e4c492d4ac6ffb5973e823d4594ad1159/0a799ff8f1da6ce002869d29bf9f431d858b4db1b6e5b18e6b146f06007387fb/manifest.json
+summary: 기출 복원 1~100번을 문항별로 검토해 확인된 기술 오류를 정정하고, 원문 복원 한계와 현행성 한계를 분리한 감사 기록.
 ---
+
+## Overview
+
+
+
+
+
+
+
+
+
+
 
 # 정보보안기사 실기 복원 1~100번 기술 정확성 교차검증
 
-## Scope
+### Scope
 - 대상은 1~100번(R01 전항, R02 전항, R03 전항, R04 전항, R05 전항, R06 전항, R07 1~5번)이다.
 - 회차 MD는 비공식 기출 복원 SoT이며, 이 문서는 KCA 공식 원문을 대체하거나 공식 문구 일치를 주장하지 않는다.
 - 정정은 기술 표준·공식 제품 문서·OWASP·CVE Program과 수학적으로 결정되는 라우팅 계산을 기준으로 했다.
 
-## Verdict
+### Verdict
 - 문항 수·ID·MD에서 파생한 JSON의 일대일 보존은 유지한다.
 - 문항별 판정은 아래 표에 기록했다. 법령·버전·당시 기준 문항은 현행성 주의로 분리했다.
 - 총 21개 회차 행에 기술 정정 또는 독립 풀이를 위한 표현 보완을 반영했다. 이 중 핵심 기술 오답·과장에 해당한 13개는 표준·공식 문서 또는 결정적 계산으로 정정했다.
 - 2026-07-17 PDF 대조에서 R06-Q01의 TCP Open/Half-Open 스캔 조건과 A~E 레이블을 확인해, 기존 복원 한계를 해소했다. PDF는 블로그 편집본이며 KCA 공식 원문으로 승격하지 않는다.
 
-## Item-by-item Disposition
+### Item-by-item Disposition
 표기: `OK` 현재 유지, `TIME` 당시 법령·버전/환경 주의, `WORDING` 표현 보완, `FIXED` 기술 정정 반영, `LIMITED` 복원 한계.
 
 | range | item dispositions |
@@ -51,7 +51,7 @@ evergreen: false
 | 80~95 | 80 FIXED, 81 FIXED, 82 FIXED, 83 FIXED, 84 TIME, 85 TIME, 86 OK, 87 OK, 88 TIME, 89 OK, 90 OK, 91 OK, 92 OK, 93 WORDING, 94 OK, 95 FIXED |
 | 96~100 | 96 OK, 97 OK, 98 FIXED, 99 FIXED, 100 FIXED |
 
-## Corrected Items and Grounds
+### Corrected Items and Grounds
 | item | correction | ground |
 |---|---|---|
 | R01-Q11 | Sticky directory에서는 파일 소유자 또는 디렉터리 소유자가 삭제·이름 변경할 수 있다. | [GNU Coreutils mode structure](https://www.gnu.org/s/coreutils/manual/html_node/Mode-Structure.html) |
@@ -72,6 +72,28 @@ evergreen: false
 | R06-Q16 | 같은 MAC만으로 ARP 스푸핑을 단정하지 않도록 조건을 추가했다. | [RFC 1027](https://www.rfc-editor.org/info/rfc1027/)의 Proxy ARP 동작 |
 | R07-Q03~05 | Zone 정의를 정정하고, Snort offset/depth 범위와 injector 정의를 정정했다. | [Snort Rule Guide](https://docs.snort.org/rules/options/payload/oddw), [MITRE ATT&CK T1055](https://attack.mitre.org/techniques/T1055/) |
 
-## Limits
+### Limits
 - 법령·보관기간·개인정보 영향평가·ISMS 이전 체계·운영체제 경로는 해당 시점 기출 복원값으로 보존한다. 현행 법령 답으로 재사용하려면 별도 법령 대조가 필요하다.
 - `source-derived`는 회차 MD에서 JSON이 결정적으로 파생되었음을 뜻한다. KCA 공식 시험지 여부의 승격 표기가 아니다.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/7a3822b1f191e2ec3be5f8754373ee7e4c492d4ac6ffb5973e823d4594ad1159/0a799ff8f1da6ce002869d29bf9f431d858b4db1b6e5b18e6b146f06007387fb/manifest.json`

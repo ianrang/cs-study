@@ -1,0 +1,626 @@
+{
+  "version": 1,
+  "packId": "privacy-operational-controls",
+  "questions": [
+    {
+      "id": "privacy-breach-response-01",
+      "curriculumId": "privacy-breach-response",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "개인정보 유출 통지와 신고 기한",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "개인정보 유출 사실을 알게 된 때, 정보주체 통지는 (A) 이내에 해야 합니다. 신고 대상에 해당하면 보호위원회 또는 전문기관 신고도 (B) 이내에 해야 합니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          { "id": "A", "label": "정보주체 통지 기한", "accepted": ["72시간", "72시간 이내"] },
+          { "id": "B", "label": "신고 기한", "accepted": ["72시간", "72시간 이내"] }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "통지와 신고의 기한은 모두 72시간이지만, 통지는 유출 사실을 알게 된 경우의 정보주체 보호 조치이고 신고는 법정 신고 대상일 때만 수행합니다. 둘은 서로 대체되지 않습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 682,
+          "excerpt": "정보주체 통지",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 690,
+          "excerpt": "위원회 또는 전문기관 신고",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["privacy", "breach", "notification", "reporting", "deadline"]
+    },
+    {
+      "id": "privacy-breach-response-02",
+      "curriculumId": "privacy-breach-response",
+      "stage": "cloze",
+      "prerequisites": ["privacy-breach-response-01"],
+      "title": "개인정보 유출 신고 대상",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "개인정보 유출을 보호위원회 또는 전문기관에 신고해야 하는 대표 경우는 (A)명 이상 정보주체의 개인정보 유출, (B) 유출, (C)에 의한 유출입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          { "id": "A", "label": "정보주체 수 기준", "accepted": ["1천", "1,000", "1000", "1천명", "1,000명", "1000명"] },
+          { "id": "B", "label": "특별 보호 정보", "accepted": ["민감정보 또는 고유식별정보", "민감정보·고유식별정보", "민감정보 또는 고유 식별 정보", "민감정보 또는 고유식별 정보"] },
+          { "id": "C", "label": "침해 경로", "accepted": ["외부의 불법적 접근", "외부로부터의 불법적인 접근", "외부 불법 접근"] }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "신고 대상은 ‘1천명 이상’, ‘민감정보 또는 고유식별정보’, ‘외부의 불법적 접근’ 중 하나입니다. 300명 일반 개인정보 유출처럼 세 조건에 해당하지 않으면 정보주체 통지는 하되 법정 신고 대상은 아닙니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 692,
+          "excerpt": "1천명 이상 정보주체",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 693,
+          "excerpt": "민감정보 또는 고유식별정보",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 694,
+          "excerpt": "외부의 불법적 접근",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["privacy", "breach", "reporting", "sensitive-information", "unique-identifying-information"]
+    },
+    {
+      "id": "privacy-breach-response-03",
+      "curriculumId": "privacy-breach-response",
+      "stage": "essay",
+      "prerequisites": ["privacy-breach-response-02"],
+      "title": "개인정보 유출 통지 5항목",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "개인정보 유출을 정보주체에게 통지할 때 포함할 항목 다섯 가지를 쓰세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "개인정보 유출 사실을 알았을 때 이용자에게 알려야 하는 사항 5가지를 쓰시오."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "유출된 개인정보의 항목을 통지한다.",
+          "유출 시점과 경위를 통지한다.",
+          "정보주체가 할 수 있는 피해 최소화 방법을 알린다.",
+          "개인정보처리자의 대응조치와 피해구제 절차를 알린다.",
+          "신고·문의 담당부서와 연락처를 알린다."
+        ],
+        "keywordGroups": [
+          { "label": "무엇이 유출되었는가", "terms": ["유출", "항목"] },
+          { "label": "언제·어떻게 유출되었는가", "terms": ["시점", "경위"] },
+          { "label": "정보주체의 피해 최소화 방법", "terms": ["피해", "최소화"] },
+          { "label": "처리자의 대응과 피해구제", "terms": ["대응", "피해구제"] },
+          { "label": "신고·문의 연락처", "terms": ["담당", "연락처"] }
+        ],
+        "deductionRisks": [
+          "‘통지 72시간’만 쓰고 통지 항목 다섯 가지를 쓰지 않으면 답이 불완전합니다.",
+          "감독기관 신고 대상과 정보주체 통지 항목을 같은 것으로 쓰면 안 됩니다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "백지 답안은 ‘무엇이 → 언제·왜 → 내가 할 일 → 회사 조치 → 연락처’ 순서로 재현하면 됩니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+          "line": 43,
+          "excerpt": "이용자에게 지체 없이 알려야 하는 사항 5가지",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 684,
+          "excerpt": "유출된 개인정보의 항목",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["privacy", "breach", "notification", "essay", "past-exam"]
+    },
+    {
+      "id": "privacy-safeguards-01",
+      "curriculumId": "privacy-safeguards",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "접속기록 항목",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "개인정보처리시스템의 접속기록에는 (A), (B), (C), (D), (E) 등을 기록합니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          { "id": "A", "label": "접속한 주체", "accepted": ["식별자"] },
+          { "id": "B", "label": "접속 시간", "accepted": ["접속일시", "접속 일시"] },
+          { "id": "C", "label": "접속한 곳", "accepted": ["접속지", "접속 지"] },
+          { "id": "D", "label": "처리 대상", "accepted": ["처리한 정보주체", "처리한 정보주체 정보", "처리 정보주체"] },
+          { "id": "E", "label": "수행한 일", "accepted": ["수행업무", "수행 업무"] }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "시험 답안에는 ‘접속이력’보다 법령 표현인 ‘접속기록’을 쓰고, 식별자·언제·어디서·누구의 정보·무슨 업무 순서로 적습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 718,
+          "excerpt": "식별자·접속일시·접속지·처리한 정보주체·수행업무",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["privacy", "safeguards", "access-log", "logging"]
+    },
+    {
+      "id": "privacy-safeguards-02",
+      "curriculumId": "privacy-safeguards",
+      "stage": "decision",
+      "prerequisites": ["privacy-safeguards-01"],
+      "title": "고유식별정보 시스템의 접속기록 보관",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "2천 명의 고객을 처리하지만 주민등록번호도 처리하는 시스템입니다. 접속기록은 최소 몇 년 보관해야 하나요?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "최소 보관기간",
+        "accepted": ["2년", "2년 이상"]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "접속기록은 원칙 1년 이상이지만, 고유식별정보 또는 민감정보를 처리하는 시스템이면 인원 수와 관계없이 2년 이상입니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 725,
+          "excerpt": "1년 이상",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 726,
+          "excerpt": "고유식별정보 또는 민감정보를 처리하는 시스템",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["privacy", "safeguards", "access-log", "retention", "unique-identifying-information"]
+    },
+    {
+      "id": "privacy-safeguards-03",
+      "curriculumId": "privacy-safeguards",
+      "stage": "cloze",
+      "prerequisites": ["privacy-safeguards-01"],
+      "title": "접속기록과 접근권한 이력의 보관기간",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "2년 보관 사유가 없는 일반 시스템에서 접속기록은 최소 (A)년, 접근권한 부여·변경·말소 이력은 최소 (B)년 보관합니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          { "id": "A", "label": "접속기록", "accepted": ["1", "1년", "1년 이상"] },
+          { "id": "B", "label": "접근권한 이력", "accepted": ["3", "3년", "3년 이상"] }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "‘접속기록’은 접속 행위를 남긴 것이고, ‘접근권한 이력’은 권한을 부여·변경·말소한 기록입니다. 대상과 보관기간을 섞지 않습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 714,
+          "excerpt": "부여·변경·말소 이력을 최소 3년 보관",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 725,
+          "excerpt": "1년 이상",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["privacy", "safeguards", "access-log", "access-authorization", "retention"]
+    },
+    {
+      "id": "privacy-safeguards-04",
+      "curriculumId": "privacy-safeguards",
+      "stage": "cloze",
+      "prerequisites": ["privacy-safeguards-03"],
+      "title": "비밀번호·주민등록번호·암호키 보호",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "비밀번호는 (A) 방식으로 보호하고, 주민등록번호 등 고유식별정보는 저장·전송 시 (B)하며, 암호키는 개인정보가 저장된 DB와 분리해 (C)합니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          { "id": "A", "label": "비밀번호 보호 방식", "accepted": ["일방향 암호화", "일방향암호화", "해시"] },
+          { "id": "B", "label": "고유식별정보 보호 조치", "accepted": ["암호화", "암호화한다", "암호화해야 한다", "암호화 수행"] },
+          { "id": "C", "label": "암호키 조치", "accepted": ["안전하게 관리", "안전하게 관리한다", "분리 관리", "분리하여 관리", "KMS 또는 Vault에 분리 저장", "KMS 또는 Vault로 분리 관리", "KMS/Vault에 분리 저장"] }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "답안 핵심은 ‘비밀번호 일방향’, ‘법정 대상 저장·전송 암호화’, ‘키 안전관리’입니다. KMS나 Vault는 키를 분리 관리하는 구현 예시입니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 717,
+          "excerpt": "비밀번호 일방향",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["privacy", "safeguards", "encryption", "password", "key-management"]
+    },
+    {
+      "id": "privacy-safeguards-05",
+      "curriculumId": "privacy-safeguards",
+      "stage": "essay",
+      "prerequisites": ["privacy-safeguards-03"],
+      "title": "개인정보 접근권한과 접근통제",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "고객 개인정보처리시스템의 접근권한 관리와 접근통제를 위해 수행할 조치를 작성하세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "개인정보처리시스템의 접근권한 관리와 접근통제를 위해 준수해야 할 사항을 기술하시오."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "업무상 필요한 최소 범위로 권한을 부여하고, 인사이동·퇴직 시 지체 없이 변경·말소한다.",
+          "권한 부여·변경·말소 내역은 최소 3년 보관하고, 개인정보취급자별 계정을 발급해 공유하지 않는다.",
+          "IP 등으로 인가되지 않은 접근을 제한하고, 접속기록을 분석해 불법 유출 시도를 탐지·대응한다."
+        ],
+        "keywordGroups": [
+          { "label": "최소권한과 인사변경", "terms": ["최소", "변경", "말소"] },
+          { "label": "권한 이력 3년", "terms": ["부여", "3년"] },
+          { "label": "개별 계정과 공유 금지", "terms": ["개별", "공유"] },
+          { "label": "비인가 접근 제한", "terms": ["인가", "제한"] },
+          { "label": "접속기록 기반 탐지·대응", "terms": ["접속", "탐지"] }
+        ],
+        "deductionRisks": [
+          "접속기록 보관기간과 권한 부여·변경·말소 이력의 3년 보관을 혼동하면 안 됩니다.",
+          "계정 공유를 허용하거나 퇴직자 권한을 그대로 둔다고 쓰면 안 됩니다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "실기 답안은 ‘최소권한 → 인사변경 정비 → 이력 보관 → 개별계정 → 비인가 차단·로그 대응’의 흐름으로 쓰면 누락을 줄일 수 있습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+          "line": 49,
+          "excerpt": "접근권한 관리, 접근통제를 위해 준수해야 할 사항",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 714,
+          "excerpt": "업무상 최소범위로 부여",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["privacy", "safeguards", "access-authorization", "access-control", "essay", "past-exam"]
+    },
+    {
+      "id": "video-information-devices-01",
+      "curriculumId": "video-information-devices",
+      "stage": "recall",
+      "prerequisites": [],
+      "title": "CCTV 안내판 핵심 항목",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "개인정보보호법에 따른 영상정보처리기기 설치 시 안내문에 포함해야 하는 핵심 항목을 쓰세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "개인정보보호법에 따른 영상정보처리기기 설치 시 안내문에 포함해야 하는 사항이다. 빈칸 (A)를 채우시오."
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "안내 항목",
+        "accepted": ["설치 장소 및 목적", "설치장소 및 목적", "설치 장소와 목적", "설치장소와 목적"]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "기출형 최소 답은 ‘설치 장소 및 목적’입니다. 현행 안내판에는 촬영범위·시간·관리책임자 등도 함께 표시합니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+          "line": 36,
+          "excerpt": "설치 장소 및 목적",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 742,
+          "excerpt": "설치 목적·장소·촬영범위·시간·관리책임자",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["privacy", "cctv", "video-information", "notice", "past-exam"]
+    },
+    {
+      "id": "video-information-devices-02",
+      "curriculumId": "video-information-devices",
+      "stage": "cloze",
+      "prerequisites": ["video-information-devices-01"],
+      "title": "공개장소 CCTV의 법정 설치·운영 예외",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "공개장소 고정형 CCTV를 설치·운영할 수 있는 법정 예외는 (A), (B), (C), (D), (E), (F)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          { "id": "A", "label": "법령상 허용", "accepted": ["법령이 구체적으로 허용", "법령상 구체적 허용"] },
+          { "id": "B", "label": "범죄 관련", "accepted": ["범죄 예방·수사", "범죄 예방 및 수사"] },
+          { "id": "C", "label": "안전 관련", "accepted": ["시설안전·관리·화재예방", "시설의 안전 및 관리, 화재 예방", "시설 안전·관리·화재 예방", "시설안전관리 및 화재예방"] },
+          { "id": "D", "label": "교통 단속", "accepted": ["교통단속", "교통 단속"] },
+          { "id": "E", "label": "교통 정보", "accepted": ["교통정보 수집·분석·제공", "교통정보의 수집·분석 및 제공", "교통정보 수집, 분석, 제공"] },
+          { "id": "F", "label": "저장하지 않는 영상정보", "accepted": ["촬영된 영상정보를 저장하지 아니하는 경우로서 대통령령으로 정하는 경우", "촬영된 영상정보를 저장하지 않는 경우로서 대통령령으로 정하는 경우"] }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "공개장소 CCTV는 ‘보안에 좋아 보인다’는 사유만으로 설치하지 않습니다. 법정 예외 여섯 가지 중 하나에 해당하는지부터 판단합니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 736,
+          "excerpt": "법령이 구체적으로 허용",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 737,
+          "excerpt": "범죄 예방·수사",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 738,
+          "excerpt": "시설안전·관리·화재예방",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 739,
+          "excerpt": "교통단속",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 740,
+          "excerpt": "교통정보 수집·분석·제공",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 741,
+          "excerpt": "촬영된 영상정보를 저장하지 아니하는 경우로서 대통령령으로 정하는 경우",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["privacy", "cctv", "video-information", "legal-basis"]
+    },
+    {
+      "id": "video-information-devices-03",
+      "curriculumId": "video-information-devices",
+      "stage": "cloze",
+      "prerequisites": ["video-information-devices-02"],
+      "title": "CCTV 운영 금지행위",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "시설 안전 목적으로 설치한 로비 CCTV를 직원 휴게실 쪽으로 돌리고 녹음했다면, (A)와 (B) 금지행위에 해당합니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          { "id": "A", "label": "목적 외 조작", "accepted": ["설치 목적과 다른 목적으로 임의 조작하거나 다른 곳을 비춤", "목적 외 임의 조작", "다른 곳을 비춤", "목적과 다른 곳 촬영"] },
+          { "id": "B", "label": "음성 녹음", "accepted": ["녹음기능 사용", "녹음 기능 사용", "음성 녹음", "녹음"] }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "이 문제는 설치 가능 여부가 아니라 설치 뒤 운영 금지행위를 묻습니다. 답안은 ‘목적 외 임의조작·다른 곳 비춤’과 ‘녹음기능 사용’입니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 743,
+          "excerpt": "목적과 무관한 곳을 비추거나 임의조작하지 않고, 녹음 기능을 사용하지 않는다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["privacy", "cctv", "video-information", "prohibition"]
+    },
+    {
+      "id": "video-information-devices-04",
+      "curriculumId": "video-information-devices",
+      "stage": "essay",
+      "prerequisites": ["video-information-devices-03"],
+      "title": "공개·비공개 장소 CCTV 구분",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "회사 사옥 외부 공개 장소와 출입카드가 필요한 서버실에 CCTV를 설치할 때, 각각의 설치 판단 기준과 핵심 조치를 구분해 작성하세요."
+        }
+      ],
+      "examPrompt": [
+        {
+          "type": "text",
+          "content": "CCTV 설치 시 개인정보처리자가 해야 할 조치를 회사 사옥 외부 공개 장소와 사내 출입통제구역 내부 관점으로 구분해 쓰시오."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "공개장소 고정형 CCTV는 법정 설치 사유에 해당하는지 확인하고, 설치 목적·장소·촬영 범위·시간·관리책임자 등을 안내한다.",
+          "공개장소 CCTV는 목적 외 임의조작·다른 곳 촬영과 녹음기능 사용을 금지하고, 접근권한·운영관리·안전조치를 관리한다.",
+          "출입통제 서버실 같은 비공개 장소는 공개장소의 법정 설치 사유 목록이 아니라 개인정보 수집·이용의 적법한 처리근거와 필요 최소 범위를 확인한다.",
+          "비공개 장소도 목적 제한, 투명성, 접근권한, 안전조치와 열람·제공 기록을 적용한다."
+        ],
+        "keywordGroups": [
+          { "label": "공개장소의 법정 설치 사유", "terms": ["법정", "설치 사유"] },
+          { "label": "공개장소 안내와 운영 제한", "terms": ["안내", "목적 외", "녹음"] },
+          { "label": "비공개 장소의 적법 근거", "terms": ["처리근거", "수집", "이용"] },
+          { "label": "비공개 장소의 최소 범위와 보호조치", "terms": ["최소", "접근", "안전"] }
+        ],
+        "deductionRisks": [
+          "비공개 장소에도 공개장소 CCTV의 법정 설치 사유 목록만 적용한다고 쓰면 안 됩니다.",
+          "비공개 장소라고 해서 목적 제한·안전조치가 없어지는 것은 아닙니다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "백지 답안은 ‘공개장소=법정 설치목적, 비공개 장소=개인정보 처리근거+최소범위’로 먼저 나누고, 양쪽 모두 운영·안전조치를 적으면 됩니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+          "line": 53,
+          "excerpt": "공개 장소와 사내 출입통제구역 내부 관점으로 구분",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 749,
+          "excerpt": "개인정보보호법 제15조의 일반 수집·이용 근거",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["privacy", "cctv", "video-information", "legal-basis", "essay", "past-exam"]
+    },
+    {
+      "id": "video-information-devices-05",
+      "curriculumId": "video-information-devices",
+      "stage": "recall",
+      "prerequisites": ["video-information-devices-04"],
+      "title": "이동형 영상정보처리기기",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "사람이 신체에 착용·휴대하거나 이동 가능한 물체에 부착·거치되어 사람 또는 사물의 영상을 촬영·전송하는 장치를 법령상 무엇이라고 하는가?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "법령상 명칭",
+        "accepted": ["이동형 영상정보처리기기", "이동형 영상정보 처리기기"]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "바디캠처럼 사람이 착용·휴대하는 기기, 드론·차량처럼 이동 가능한 물체에 부착·거치한 기기는 이동형 영상정보처리기기다. 업무 목적으로 공개장소를 촬영하는 것은 원칙적으로 제한되며, 처리근거·표시와 촬영 거부 의사·합리적 범위 등 허용 요건을 별도로 판단한다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 754,
+          "excerpt": "사람이 신체에 착용 또는 휴대하거나 이동 가능한 물체에 부착·거치되어 사람 또는 사물의 영상을 촬영하거나 이를 유·무선망으로 전송",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 755,
+          "excerpt": "업무 목적으로 공개된 장소에서 개인 또는 그와 관련된 사물을 촬영하는 것은 원칙적으로 제한",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["privacy", "video-information", "mobile-device", "supplemental"]
+    }
+  ]
+}

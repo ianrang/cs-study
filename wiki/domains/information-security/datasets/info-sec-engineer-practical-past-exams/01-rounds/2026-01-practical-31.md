@@ -1,31 +1,31 @@
 ---
-title: "정보보안기사 실기 31회 2026년 1회 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 31회 2026년 1회 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-07
-date_updated: 2026-07-07
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-07'
+date_updated: '2026-07-07'
 source_paths:
-  - "user-provided Naver HTML table excerpt for 31회 문제·정답, 2026-07-07"
-  - "https://cafeptthumb-phinf.pstatic.net/MjAyNjA0MTJfOTYg/MDAxNzc1OTg1MTQzNzg4.Kn6vPteZueR_hZgmsjjkF2gow1QzyxS5t0GlH7msV_gg.U1lSMtR4pBESVkTE30ndDPTpLsmKGf02Ea-cQjrllXYg.JPEG/4%EB%B2%88_%EA%B8%B0%EC%B6%9C.jpg"
-source_count: 2
-provenance: inferred
-summary: "사용자가 제공한 HTML 표와 4번 이미지 문항을 기준으로 정보보안기사 실기 31회 2026년 1회 문제와 정답을 정리한 문서."
-evergreen: false
+- raw/sources/clipping/ddf71bc8d4bfcf328175f06c64edcb3d17236568dff5d63e3c0f514818d53ee7/9ffa138f4758f429f8fb0c52f92abc63acda38357cbcd949871c905b341748e2/manifest.json
+summary: 사용자가 제공한 HTML 표와 4번 이미지 문항을 기준으로 정보보안기사 실기 31회 2026년 1회 문제와 정답을 정리한 문서.
 ---
+
+## Overview
+
+
+
+
 
 # 정보보안기사 실기 31회 2026년 1회 복원
 
-## Scope
+### Scope
 - This is a paraphrased reconstruction from the user-provided HTML table for the 31st practical exam.
 - Count: 18 items = 12 short-answer, 4 essay, 2 practical.
 - Item 4 was image-only in the HTML table; the linked image was downloaded and visually inspected.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | `/etc/passwd` 파일 항목에서 `/etc/shadow`에 비밀번호가 암호화되어 저장되어 있을 때 패스워드 항목의 값을 쓰시오. | `x` | User-provided 31st HTML table; 수제비 reference noted as 2026 수제비 정보보안기사 실기 기본서 1-64. |
@@ -47,7 +47,29 @@ evergreen: false
 | 17 | practical | Fiddler 도구 점검 결과에 답하시오. 그림1에는 `HTTPS decrypted disabled`, `A SSLv3-compatible ClientHello handshake was found`, `Fiddler extracted for following parameter`, `Version:3.3(TLS/1.2)`가 표시된다. 그림2 HTML 코드에는 `Title: <alert>document.cookie();<alert>`가 표시된다. 1) 그림1의 문제 원인 2) 그림1의 문제 해결 방법 3) 그림2의 취약점 설명 4) 해당 취약점 대응방안을 쓰시오. | (1) `HTTPS decrypted disabled`는 Fiddler의 HTTPS 복호화 설정·신뢰 루트 인증서 문제일 수 있다. `SSLv3-compatible ClientHello` 표기만으로 SSL 3.0 협상·POODLE을 확정하지 말고 실제 협상 버전과 cipher suite를 확인한다. (2) 테스트 환경에서만 Fiddler root 인증서를 신뢰하고, 서버·클라이언트의 SSL 3.0을 비활성화하며 최신 TLS를 강제한다. (3) 제공된 `<alert>` 태그는 표준 실행 태그가 아니므로 이것만으로 XSS 실행을 단정할 수 없지만, 신뢰되지 않은 값이 HTML 문맥에 출력되면 XSS 위험이 있다. (4) 입력 차단만 의존하지 말고 출력 위치별 인코딩, 안전한 DOM API, CSP, 세션 쿠키 보호를 적용한다. | User-provided 31st HTML table; 2026-07-17 technical correction: evidence boundary and XSS defense. |
 | 18 | practical | CSRF 관련 취약점 조치 코드와 물음에 답하시오. `@GetMapping("/write.do") public String write(HttpSession session) { session.setAttribute("CSRF_RANDOM_TOKEN", UUID.randomUUID().toString()); return "/board/write"; }` 1) Session과 Cookie를 서술하시오. 2) 해당 취약점의 명칭을 쓰고 설명하시오. 3) 웹 취약점 조치방안을 서술하시오. | 1) 쿠키는 브라우저가 저장·전송하는 key/value이고, 세션은 서버가 보관하는 사용자 상태와 보통 세션 식별 쿠키의 조합이다. 2) CSRF는 피해자의 인증 상태를 이용해 의도하지 않은 상태 변경 요청을 보내게 하는 공격이다. 3) 코드는 토큰을 **생성만** 하므로 form/API에 토큰을 전달하고 서버에서 세션 토큰과 동등성·수명·사용자 결속을 검증해야 한다. state-changing GET을 피하고, Origin/Referer 검증과 SameSite는 방어 심층화로 병행하며 중요 기능은 재인증을 고려한다. | User-provided 31st HTML table; 2026-07-17 technical correction: token generation alone is not CSRF protection. |
 
-## Verification Notes
+### Verification Notes
 - Completeness: user-provided HTML table exposes 18 numbered items and answers.
 - Image handling: item 4 was restored from the linked image by visual inspection; no additional image-only prompt remains in this file.
 - Source boundary: this file preserves the user-provided reconstruction and answer table. It does not claim KCA official wording unless a separate official source is later acquired.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/ddf71bc8d4bfcf328175f06c64edcb3d17236568dff5d63e3c0f514818d53ee7/9ffa138f4758f429f8fb0c52f92abc63acda38357cbcd949871c905b341748e2/manifest.json`

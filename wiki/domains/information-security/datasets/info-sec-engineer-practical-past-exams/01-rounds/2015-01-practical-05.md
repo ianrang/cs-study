@@ -1,31 +1,31 @@
 ---
-title: "정보보안기사 실기 5회 2015년 1회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 5회 2015년 1회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://information-security.tistory.com/289"
-source_count: 1
-provenance: inferred
-summary: "정보보안기사 실기 5회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지."
-evergreen: false
+- raw/sources/clipping/ac3e046dc97ab6c77a06ca1d4787f4cb524efb02a1e87ab955e6974a7ba7a4f5/28b9b40ff0fa19bae22af74668ca6b35c4283043a967f88dbf72399838d3ccd2/manifest.json
+summary: 정보보안기사 실기 5회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지.
 ---
+
+## Overview
+
+
+
 
 # 정보보안기사 실기 5회 2015년 1회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2015년 1회 실기.
 - Source status: Information Security Tistory direct reconstruction post; confidence: medium-high.
 - This file stores paraphrased reconstruction notes and answer keys, not verbatim official exam text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 리눅스 파일 시스템에서 ext3부터 지원하며, 파일 시스템의 메타데이터·변경 기록을 남겨 갑작스러운 종료 등으로 손상될 때 일관성 복구에 사용하는 기능의 명칭을 쓰시오. | 저널링(Journaling) | source-derived from Information Security Tistory; 2026-07-16 technical wording correction: journaling is not command-execution logging |
@@ -45,7 +45,29 @@ evergreen: false
 | 15 | essay | Apache 웹 서버 `192.168.0.10`의 `/backup/`에 접근했더니 `HTTP/1.1 200 OK`와 함께 `Index of /backup/`, `db-backup.sql`, `config.php` 등 디렉터리 내 파일 목록이 표시되었다. (1) 취약점 유형, (2) 취약한 대상, (3) 정보 노출 여부와 판단 근거, (4) Apache 주 설정 파일의 해당 `<Directory>` 구간에 적용할 대응 설정을 각각 서술하시오. | (1) 디렉터리 리스팅(Directory Listing, AutoIndex) 설정 취약점 (2) Apache 웹 서버 `192.168.0.10`의 `/backup/` 디렉터리 설정 (3) 파일명·경로 등 정보가 노출되었다. HTTP 200 OK만으로는 목록 노출을 단정할 수 없지만, `Index of /backup/`와 실제 파일 목록이 함께 출력되었으므로 자동 디렉터리 목록이 제공된 것이다. (4) 해당 디렉터리에 적용되는 Apache 주 설정의 `<Directory>` 구간에서 `Options -Indexes`를 설정하고, 설정 검증 후 httpd를 재적용한다. | source-derived from Information Security Tistory; 2026-07-18 prompt restoration: observable directory-listing evidence and Apache-specific mitigation added; `Options -Indexes` cross-checked against Apache HTTP Server documentation; exact official wording unavailable |
 | 16 | essay | 다음 AXFR 결과를 보고 답하시오.<br>`dig @NS1.abc.COM def.com axfr` → `Transfer failed`<br>`dig @NS2.abc.COM def.com axfr` → SOA, MX, A 레코드 등 존 정보 출력<br>(1) 1차 네임서버의 Zone Transfer 상태 해석<br>(2) 2차 네임서버에서 Zone Transfer 허용 시 보안 위협<br>(3) 대응책 | (1) NS1에 대한 해당 AXFR 요청은 실패했지만, 이 결과만으로 차단 설정 여부나 안전성을 단정할 수는 없다. 설정·로그로 허용 대상을 확인해야 한다.<br>(2) 비인가 Zone Transfer가 허용되면 호스트명·레코드·네트워크 구조가 노출되어 정찰에 악용될 수 있다.<br>(3) Zone Transfer가 필요하지 않은 경우 비활성화하고, 필요한 경우 신뢰할 수 있는 Secondary DNS 서버 IP에 대해서만 Zone Transfer를 허용하도록 설정한다. | source-derived from Information Security Tistory; 2026-07-16 technical correction: Transfer failed alone does not prove a secure configuration |
 
-## Verification Notes
+### Verification Notes
 - Cross-check basis: the round-specific Tistory post linked in `source_paths` was parsed by sequential question number and answer marker.
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/ac3e046dc97ab6c77a06ca1d4787f4cb524efb02a1e87ab955e6974a7ba7a4f5/28b9b40ff0fa19bae22af74668ca6b35c4283043a967f88dbf72399838d3ccd2/manifest.json`

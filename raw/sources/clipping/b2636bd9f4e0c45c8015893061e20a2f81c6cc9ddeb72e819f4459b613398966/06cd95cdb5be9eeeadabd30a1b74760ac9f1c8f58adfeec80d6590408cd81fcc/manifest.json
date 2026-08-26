@@ -1,0 +1,15 @@
+{
+  "artifact_digest": "sha256:06cd95cdb5be9eeeadabd30a1b74760ac9f1c8f58adfeec80d6590408cd81fcc",
+  "created_at": "2026-08-24T10:38:12Z",
+  "generator": {
+    "name": "cs-study-capture",
+    "version": "1.0"
+  },
+  "media_type": "text/markdown",
+  "payload": "payload.md",
+  "primary_source": "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/05-analysis/analysis-cross-verify-report.md",
+  "schema_version": "1.0",
+  "size": 3427,
+  "source_id": "b2636bd9f4e0c45c8015893061e20a2f81c6cc9ddeb72e819f4459b613398966",
+  "source_type": "clipping"
+}

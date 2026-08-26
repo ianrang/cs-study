@@ -1,33 +1,33 @@
 ---
-title: "정보보안기사 실기 15회 2020년 1회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 15회 2020년 1회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://itwiki.kr/w/정보보안기사_15회"
-  - "https://blog.naver.com/stereok2/222051462751"
-source_count: 2
-provenance: inferred
-summary: "정보보안기사 실기 15회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: Naver blog cross-check."
-evergreen: false
+- raw/sources/clipping/c79f4613239e10e6bc01c31bca0f182cdb328d6f9465cb2cfcac51f82c6e0231/cd37befcd1fa35d4a1b22027ff5707c4a0dd1377ae6a7d4db77092c273bcf37b/manifest.json
+summary: '정보보안기사 실기 15회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: Naver blog cross-check.'
 ---
+
+## Overview
+
+
+
+
 
 # 정보보안기사 실기 15회 2020년 1회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2020년 1회 실기.
 - Source status: Naver blog reconstruction cross-check; confidence: high for topic coverage, medium for exact wording.
 - This file stores paraphrased reconstruction notes, not verbatim source text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 - Note: ITWiki practical section has several blank items; Naver reconstruction was used to fill missing prompts and answer summaries.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 웹 취약점 설명과 점검 스크립트 빈칸이다. (A)는 게시판, 웹 메일 등에 삽입된 악의적인 스크립트에 의해 페이지가 깨지거나 다른 사용자의 사용을 방해하거나 쿠키 및 기타 개인정보를 특정 사이트로 전송시키는 공격이다. 점검 스크립트는 `<script> (B)(document.cookie) </script>`이다. | XSS, alert | Naver text extracted; official wording unverified |
@@ -47,7 +47,29 @@ evergreen: false
 | 15 | practical | HTTP Request 패킷 캡처 화면에서 `POST / HTTP/1.1`, `content-length: 1000000`이 보이고, 다른 화면에서 `TCP segment data (1 byte)`로 1바이트씩 분할 전송되는 상황이다. (1) 어떤 공격인가? (2) 판단 근거를 구체적으로 설명하시오. (3) 서버 측 대응 방안 2가지를 설명하시오. | Slow HTTP POST DoS(RUDY). 큰 body 길이와 저속 전송으로 연결을 장시간 점유하며 connection/read timeout, 동시연결 제한, 방화벽 임계치로 대응 | Naver text extracted; official wording unverified |
 | 16 | practical | A시 어르신 교통카드 신청서 안내문에서 개인정보보호법 위반 사항 4가지를 찾으시오. (1) 수집·이용(필수): 주민등록번호 포함, 목적 본인확인, 기간 영구보관, 동의 거부 권리·불이익 고지는 있음. (2) 제3자 제공: 제공기관 유관기관, 주민등록번호 포함, 목적·기간은 교통카드 만료 시까지. (3) 위탁: 위탁기관 OO신용카드, 위탁업무 교통카드 발급업무. (4) 위 세 항목에 대한 동의 확인을 요청한다. | PDF 편집본의 제시 답안은 (a) 주민등록번호 수집·제3자 제공의 법정 근거 부재, (b) 영구 보관, (c) 제3자 제공 동의 거부권 및 거부에 따른 불이익 고지 누락, (d) 제3자 제공 기관 명칭 불명확이다. 법령 문구·적용 기준은 시험 당시 법령 대조가 필요하며 현행 기준으로 치환하지 않는다. | PDF compilation cross-check restored the complete form and answer points. This is a non-official blog compilation, not KCA wording; legal correctness remains time-bounded. |
 
-## Verification Notes
+### Verification Notes
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Rows are normalized from accessible web reconstructions and cross-checked against the Naver blog reconstruction listed in `source_paths`; they were cross-checked against the unlocked thodi-lab/blog-source PDFs where in 1~28 scope; KCA official wording is still not claimed.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/c79f4613239e10e6bc01c31bca0f182cdb328d6f9465cb2cfcac51f82c6e0231/cd37befcd1fa35d4a1b22027ff5707c4a0dd1377ae6a7d4db77092c273bcf37b/manifest.json`

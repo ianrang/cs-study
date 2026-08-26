@@ -1,31 +1,31 @@
 ---
-title: "정보보안기사 실기 1회 2013년 1회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 1회 2013년 1회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://information-security.tistory.com/293"
-source_count: 1
-provenance: inferred
-summary: "정보보안기사 실기 1회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지."
-evergreen: false
+- raw/sources/clipping/a3014b0c678106452b252ab42c88f8b210d0d985929578ca18a2e65c1da42389/f987d81b5198bdf5e914e7004200da1b5f606d38af6971325564e37fcba2f772/manifest.json
+summary: 정보보안기사 실기 1회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지.
 ---
+
+## Overview
+
+
+
 
 # 정보보안기사 실기 1회 2013년 1회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2013년 1회 실기.
 - Source status: Information Security Tistory direct reconstruction post; confidence: medium-high.
 - This file stores paraphrased reconstruction notes and answer keys, not verbatim official exam text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 다음 위험관리 용어의 빈칸 (A), (B), (C)를 채우시오.<br>(A) 위협의 종류·영향·발생 가능성을 평가하는 과정<br>(B) 위험평가 결과를 바탕으로 비용 대비 통제 방안을 선택·적용하여 위험을 통제하는 과정<br>(C) 선택한 통제의 목적·방안·적용 주체·시점·대상을 문서화한 계획 | (A) 위험평가<br>(B) 위험관리<br>(C) 위험관리계획 | source-derived from Information Security Tistory; 2026-07-18 prompt-format correction: three answer slots are explicitly mapped; exact official wording unavailable |
@@ -45,7 +45,29 @@ evergreen: false
 | 15 | essay | Cisco 라우터 패스워드 설정 명령어를 각각 완성하시오. (1) 패스워드 암호화 서비스를 활성화하는 전역 설정: `Router(config)# ____`. (2) 패스워드를 암호화하여 저장하는 설정: `Router(config)# ____`. (3) 패스워드를 평문으로 저장하는 설정: `Router(config)# ____`. | (1) service password-encryption (2) enable secret [패스워드] (3) enable password [패스워드] | source-derived from Information Security Tistory; command blanks restored |
 | 16 | essay | ARP 테이블을 보고 답하시오. 관리자가 알고 있는 게이트웨이는 `175.113.81.1`이고 실제 MAC은 `a1-b1-c1-d1-e1-f1`이다. ARP 테이블에는 `175.113.81.65 -> 90-9f-5e-00-2f-16`, `175.113.81.1 -> 90-9f-5e-00-2f-16`, `175.113.81.55 -> f4-e1-5e-7f-f0-8f`, `175.113.81.88 -> f4-e1-5e-7f-80-16`이 표시된다. (A) 공격명, (B) 판단 이유, (C) 공격 의심 IP와 MAC, (D) 차단 명령어를 쓰시오. | (A) ARP Spoofing(ARP 스푸핑) 공격 (B) 관리자가 알고 있는 Gateway(175.113.81.1)의 실제 MAC 주소는 a1-b1-c1-d1-e1-f1이지만, ARP 테이블에는 90-9f-5e-00-2f-16으로 변조되어 있다. 동일한 MAC 주소가 175.113.81.65에도 등록되어 있어 ARP Spoofing 공격으로 판단된다. (C) 175.113.81.65 (MAC: 90-9f-5e-00-2f-16) (D) arp -s 175.113.81.1 a1-b1-c1-d1-e1-f1 (Gateway IP에 대한 ARP 캐시를 정적으로 설정하여 위조된 ARP 응답으로 덮어쓰이지 않도록 한다.) | source-derived from Information Security Tistory; ARP table restored |
 
-## Verification Notes
+### Verification Notes
 - Cross-check basis: the round-specific Tistory post linked in `source_paths` was parsed by sequential question number and answer marker.
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/a3014b0c678106452b252ab42c88f8b210d0d985929578ca18a2e65c1da42389/f987d81b5198bdf5e914e7004200da1b5f606d38af6971325564e37fcba2f772/manifest.json`

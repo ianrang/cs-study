@@ -1,0 +1,15 @@
+{
+  "artifact_digest": "sha256:5f739c4d2923abeac32dbe4cb92a40df1557974d6002daff16015020c48a3b10",
+  "created_at": "2026-08-24T10:38:12Z",
+  "generator": {
+    "name": "cs-study-capture",
+    "version": "1.0"
+  },
+  "media_type": "text/markdown",
+  "payload": "payload.md",
+  "primary_source": "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/101-513-content-review-2026-07-17.md",
+  "schema_version": "1.0",
+  "size": 31256,
+  "source_id": "03ae8bee7d6a27ab858a5a816866d0cff1c803364b5dee03089db203a9dae030",
+  "source_type": "clipping"
+}

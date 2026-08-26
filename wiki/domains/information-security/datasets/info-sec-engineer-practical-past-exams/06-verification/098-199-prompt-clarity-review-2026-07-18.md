@@ -1,38 +1,38 @@
 ---
-title: "정보보안기사 실기 복원 98~199번 문제·답안 대응성 검토"
-tier: llm-synthesis
+title: 정보보안기사 실기 복원 98~199번 문제·답안 대응성 검토
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction, verification]
-status: active
-date_created: 2026-07-18
-date_updated: 2026-07-18
+tags:
+- information-security
+- certification
+- exam-reconstruction
+- verification
+date_created: '2026-07-18'
+date_updated: '2026-07-18'
 source_paths:
-  - "../01-rounds/2016-01-practical-07.md"
-  - "../01-rounds/2016-02-practical-08.md"
-  - "../01-rounds/2017-01-practical-09.md"
-  - "../01-rounds/2017-02-practical-10.md"
-  - "../01-rounds/2018-01-practical-11.md"
-  - "../01-rounds/2018-02-practical-12.md"
-  - "../01-rounds/2019-01-practical-13.md"
-  - "101-513-content-review-2026-07-17.md"
-source_count: 8
-provenance: inferred
-summary: "R07-Q03~R13-Q09, 즉 변환 순서 98~199번을 직접 읽어 질문·정답 항목의 대응, 복원 한계, 기술적 판정 연결을 확인한 기록. KCA 공식 시험지 문구를 주장하지 않는다."
-evergreen: false
+- raw/sources/clipping/c848db84cd752a141a9eb087628cf6d06da0c4549df318326b7db3e7a028b360/46d8fb7ac5c3ba7fa4dbcc13a33120814af028e9b70881bd761e2db1879b82a2/manifest.json
+summary: R07-Q03~R13-Q09, 즉 변환 순서 98~199번을 직접 읽어 질문·정답 항목의 대응, 복원 한계, 기술적 판정 연결을 확인한
+  기록. KCA 공식 시험지 문구를 주장하지 않는다.
 ---
+
+## Overview
+
+
+
+
+
+
+
+
 
 # 정보보안기사 실기 복원 98~199번 문제·답안 대응성 검토
 
-## Scope and Boundary
+### Scope and Boundary
 
 - 대상은 변환 순서 **98~199번**, 즉 `R07-Q03~R07-Q16`, `R08-Q01~R08-Q16`, `R09-Q01~R09-Q16`, `R10-Q01~R10-Q16`, `R11-Q01~R11-Q15`, `R12-Q01~R12-Q16`, `R13-Q01~R13-Q09`이다.
 - 각 문항의 복원 prompt·answer를 직접 읽어, 복수 답이 특정 값·명령·상황과 대응하는지 검토했다. 기술 사실의 기존 전수 판정은 [101~513 기술 정확성 검증](101-513-content-review-2026-07-17.md)을 교차 참조한다.
 - 회차 MD는 블로그·편집본 기반의 **비공식 복원 SoT**다. 이 기록은 KCA 공식 시험지 문구·공식 정답을 주장하지 않는다.
 
-## Disposition Codes
+### Disposition Codes
 
 | code | meaning |
 |---|---|
@@ -41,7 +41,7 @@ evergreen: false
 | `PATCHED` | 문제 요구사항과 답안 항목이 섞여 있어, 복원 문구에 라벨·조건·개행을 추가했다. |
 | `BOUNDARY` | 법령 시점·제품/구현 환경·비공식 복원 한계가 있어 기존 기술 검증의 경계를 유지한다. |
 
-## Direct Read Results
+### Direct Read Results
 
 | source range | per-item disposition |
 |---|---|
@@ -53,7 +53,7 @@ evergreen: false
 | `R12-Q01~Q16` | Q01 `CLEAR`; Q02 `CLEAR`; Q03 `CLEAR`; Q04 `CLEAR`; Q05 `CLEAR`; Q06 `LIST`; Q07 `BOUNDARY`; Q08 `CLEAR`; Q09 `CLEAR`; Q10 `CLEAR`; Q11 `PATCHED` (인터넷망/업무망 가상화 장점 분리); Q12 `LIST`; Q13 `PATCHED` (Snort depth 빈칸·action·threshold 분리); Q14 `CLEAR`; Q15 `CLEAR`; Q16 `BOUNDARY`. |
 | `R13-Q01~Q09` | Q01 `CLEAR`; Q02 `CLEAR`; Q03 `PATCHED` (오용·이상·오탐 정의 분리); Q04 `CLEAR`; Q05 `BOUNDARY`; Q06 `PATCHED` (블랙박스/화이트박스 정의 분리); Q07 `PATCHED` (확률 분포법/델파이법 정의 분리); Q08 `CLEAR`; Q09 `CLEAR`. |
 
-## Applied Prompt Corrections
+### Applied Prompt Corrections
 
 아래 항목만 복수 요구사항이 한 문장에 섞였거나, 답안의 순서·조건을 문제에서 찾기 어려워 source-derived 복원 문구를 정리했다. 기술 정답의 근거는 각 회차 MD의 verification과 [101~513 기술 정확성 검증](101-513-content-review-2026-07-17.md)의 개별 판정을 따른다.
 
@@ -67,9 +67,31 @@ evergreen: false
 | `R12-Q11/Q13` | 망 가상화 두 종류의 장점과 Snort rule의 depth·action·threshold를 분리했다. |
 | `R13-Q03/Q06/Q07` | 침입 탐지, 웹 분석, 정성 위험 분석의 각 정의를 대응하는 빈칸별로 분리했다. |
 
-## Cross-Verification and Non-Expansion Rules
+### Cross-Verification and Non-Expansion Rules
 
 - `R08-Q09`는 회차별 복원 원천의 문장(고유식별정보·연 1회·취약점)을 대조해 누락된 조건만 복구했다. 현행 법령을 과거 시험 정답으로 치환하지 않는다.
 - `R09-Q16`, `R11-Q07`, `R11-Q11`, `R12-Q13`은 [101~513 기술 정확성 검증](101-513-content-review-2026-07-17.md)의 Netfilter, SNMP, TCP, Snort 관련 경계와 모순하지 않는지 재확인했다.
 - `LIST` 문항에는 임의의 항목별 고정 순서·추가 답안을 만들지 않았다. `BOUNDARY` 문항에는 제품 버전·법령 시행일·공식 KCA 원문이 없는 사실을 감춘 단정문을 추가하지 않았다.
-- `practice/scripts/test-practice-contract.py`는 이번 `PATCHED` 항목의 prompt와 answer에 동일한 라벨 및 줄바꿈이 남아 있는지 검증한다.
+- 계약 검증은 이번 `PATCHED` 항목의 prompt와 answer에 동일한 라벨 및 줄바꿈이 남아 있는지 확인한다.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/c848db84cd752a141a9eb087628cf6d06da0c4549df318326b7db3e7a028b360/46d8fb7ac5c3ba7fa4dbcc13a33120814af028e9b70881bd761e2db1879b82a2/manifest.json`

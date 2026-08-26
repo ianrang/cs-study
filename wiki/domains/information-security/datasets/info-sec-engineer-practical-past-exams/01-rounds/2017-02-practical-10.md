@@ -1,32 +1,32 @@
 ---
-title: "정보보안기사 실기 10회 2017년 2회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 10회 2017년 2회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-18
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-18'
 source_paths:
-  - "https://information-security.tistory.com/273"
-  - "/Users/ian/Downloads/KakaoTalk_Photo_2026-07-17-13-29-25 001.jpeg"
-source_count: 2
-provenance: inferred
-summary: "정보보안기사 실기 10회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지."
-evergreen: false
+- raw/sources/clipping/e132be59acad1188bde314b573e52922b9071838e07cf1459e408b8c274e2262/87e712874f7a733c2ea410faeecdee52864dfbeb25309415e199b338f4b3aeb0/manifest.json
+summary: 정보보안기사 실기 10회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지.
 ---
+
+## Overview
+
+
+
+
 
 # 정보보안기사 실기 10회 2017년 2회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2017년 2회 실기.
 - Source status: Information Security Tistory direct reconstruction post; confidence: medium-high.
 - This file stores paraphrased reconstruction notes and answer keys, not verbatim official exam text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | TCP 포트가 닫혀 있을 때만 RST+ACK 응답이 오는 스텔스 스캔 3가지를 쓰시오. | NULL Scan, FIN Scan, Xmas Scan | source-derived from Information Security Tistory; answer block present |
@@ -46,7 +46,29 @@ evergreen: false
 | 15 | essay | 하나의 발신지가 브로드캐스트 주소로 ICMP Echo Request를 전송하는 패킷 캡처를 보고 다음을 서술하시오.<br>(A) 공격명<br>(B) 출발지 IP 위조·브로드캐스트·Echo Reply가 연결되는 공격 원리<br>(C) 라우터와 호스트에서 각각 적용할 대응 조치 | (A) 스머프(Smurf) 공격<br>(B) 공격자는 출발지 IP를 희생자 IP로 위조한 ICMP Echo Request 패킷을 브로드캐스트 주소로 전송한다. 네트워크 내 모든 호스트가 ICMP Echo Reply를 희생자에게 일제히 전송하여 대량의 트래픽이 집중되고 서비스 거부 상태가 발생한다.<br>(C) 라우터에서 외부 네트워크로부터 자신의 네트워크로 들어오는 Directed Broadcast 패킷을 차단한다(`no ip directed-broadcast`). 호스트에서 브로드캐스트 주소로 전송된 ICMP Echo Request에 응답하지 않도록 설정한다. | source-derived from Information Security Tistory; 2026-07-18 prompt-format correction: attack name, mechanism, and defense scopes are explicitly mapped; exact official wording unavailable |
 | 16 | essay | CentOS에서 네트워크 인터페이스가 Promiscuous Mode로 동작하고 있음이 확인되었다. (1) 의심 공격명과 판단 근거, (2) Promiscuous Mode 해제 명령어, (3) 관련 로그 확인 위치를 쓰시오. | (1) 패킷 스니핑 또는 합법적 가상화·브리지·캡처 도구 사용을 모두 확인해야 한다. Promiscuous Mode는 비목적지 프레임 수신을 가능하게 하지만 그 사실만으로 공격을 확정하지 않는다. (2) 예:<br>{{code:shell}}ip link set dev eth0 promisc off\nifconfig eth0 -promisc{{/code}}<br>구형 환경에서는 `ifconfig`를 사용할 수 있다. (3) CentOS 계열의 rsyslog 설정이면 `/var/log/messages`일 수 있으나, systemd 환경은 `journalctl`과 해당 서비스 로그를 함께 확인한다. | source image unavailable; 2026-07-17 technical correction: inference and distro-dependent log path |
 
-## Verification Notes
+### Verification Notes
 - Cross-check basis: the round-specific Tistory post linked in `source_paths` was parsed by sequential question number and answer marker.
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/e132be59acad1188bde314b573e52922b9071838e07cf1459e408b8c274e2262/87e712874f7a733c2ea410faeecdee52864dfbeb25309415e199b338f4b3aeb0/manifest.json`

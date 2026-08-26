@@ -1,34 +1,34 @@
 ---
-title: "정보보안기사 실기 20회 2022년 2회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 20회 2022년 2회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://nhustler.tistory.com/38"
-  - "https://nhustler.tistory.com/39"
-  - "https://blog.naver.com/stereok2/222860841923"
-source_count: 3
-provenance: inferred
-summary: "정보보안기사 실기 20회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: Naver blog cross-check."
-evergreen: false
+- raw/sources/clipping/7ed48230a06d70a11af3fff4cbf0d9e4f9dde3b16b4a8caaf1dc2d0abd04d4f9/f5f9bcc524cdfe884642711672544d816aab7377e2499cc0a5212078c72467c1/manifest.json
+summary: '정보보안기사 실기 20회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: Naver blog cross-check.'
 ---
+
+## Overview
+
+
+
+
+
 
 # 정보보안기사 실기 20회 2022년 2회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2022년 2회 실기.
 - Source status: Naver blog reconstruction cross-check; confidence: high for topic coverage, medium for exact wording.
 - This file stores paraphrased reconstruction notes, not verbatim source text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | Telnet으로 웹 서버에 접속한 후 응답 헤더에 `Allow: GET,HEAD,POST,OPTIONS,TRACE`가 표시되었다. 허용 HTTP Method를 확인하는 명령을 쓰시오. | OPTIONS | source-derived; Naver text extracted; official wording unverified |
@@ -48,7 +48,29 @@ evergreen: false
 | 15 | practical | Smurf attack을 방지하기 위하여 신뢰할 수 있는 네트워크 범위 `192.168.1.0/24`에서 시작하는 UDP 패킷으로 directed broadcast를 제한하는 라우터 명령어를 쓰시오. `(config)# (A)`, `(config)# (B)`, `(config-if)# (C)`, `^z`, `Router#` | (A) `access-list 100 permit udp 192.168.1.0 0.0.0.255 any` (B) `interface FastEthernet 0/0` (C) `no ip directed-broadcast 100` | PDF compilation cross-check restored the negation in (C). The exact IOS syntax and ACL attachment are platform/version-dependent; Cisco documentation confirms `no ip directed-broadcast` disables directed-broadcast forwarding. This is a non-official blog compilation, not KCA wording. |
 | 16 | practical | 위험 대응 기법에 대하여 답하시오. (1) 위험수용의 의미는? (2) 위험감소를 위한 보안대책 선정 시 특정 보안대책의 평가기준을 결정하는 정량적인 방법은? (3) 위험회피 시 위험이 있는 프로세스나 사업은 어떻게 대처하는가? (4) 위험전가를 위한 2가지 방법은? | (1) 위험수용은 승인된 잔여 위험을 감수하는 것이다. (2) 보안대책의 비용 대비 위험 감소 효과를 비교하는 비용-편익/ROI 분석을 사용한다. (3) 위험이 있는 프로세스·사업을 중단하거나 수행하지 않는다. (4) 보험 가입, 계약·외주를 통한 손실 책임 이전 등이 있다. | source-derived; 2026-07-17 technical correction: prior answer only listed headings |
 
-## Verification Notes
+### Verification Notes
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Rows are normalized from accessible web reconstructions and cross-checked against the Naver blog reconstruction listed in `source_paths`; they were cross-checked against the unlocked thodi-lab/blog-source PDFs where in 1~28 scope; KCA official wording is still not claimed.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/7ed48230a06d70a11af3fff4cbf0d9e4f9dde3b16b4a8caaf1dc2d0abd04d4f9/f5f9bcc524cdfe884642711672544d816aab7377e2499cc0a5212078c72467c1/manifest.json`

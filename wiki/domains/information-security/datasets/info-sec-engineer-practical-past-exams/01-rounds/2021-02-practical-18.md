@@ -1,32 +1,32 @@
 ---
-title: "정보보안기사 실기 18회 2021년 2회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 18회 2021년 2회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://blog.naver.com/stereok2/222587717690"
-source_count: 1
-provenance: inferred
-summary: "정보보안기사 실기 18회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: Naver direct analysis/reconstruction blog with answers."
-evergreen: false
+- raw/sources/clipping/c1549ac54fe5597dc36bc7af12e0981a036777937b5931ec6ca15acbf13e971c/f668712790924ff9e13e422add0cfea176d5bbe377df7efe18a84bd1c82446fa/manifest.json
+summary: '정보보안기사 실기 18회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: Naver direct analysis/reconstruction
+  blog with answers.'
 ---
+
+## Overview
+
+
 
 # 정보보안기사 실기 18회 2021년 2회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2021년 2회 실기.
 - Source status: Naver direct analysis/reconstruction blog with answers; confidence: medium-high for topic and answer coverage, medium for exact official wording.
 - This file stores paraphrased reconstruction notes, not verbatim source text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | EAP를 통해 인증을 수행하고 AES-CCMP 기반 암호화를 지원하는 무선랜 보안 표준은? | WPA2 | Naver text extracted; source says reconstructed wording may not be 100% exact |
@@ -46,7 +46,29 @@ evergreen: false
 | 15 | essay | 리눅스 보안 설정에 대하여 답하시오. (1) 계정 임곗값 설정 파일명 (A)와 `auth required /lib/security/pam_tally.so (B)=5 unlock_time=120 no_magic_root reset`의 (B)를 쓰시오. (2) `iptables -A INPUT -p tcp -s 172.30.1.55 --dport 21 -j (C)`에서 차단 옵션은? (3) `/etc/shadow` 소유자를 root로 변경하고 소유자에게만 읽기 권한을 부여하는 명령은? (4) Apache 설정 `LimitRequestBody 5000000`의 의미는? | PAM 설정에서 deny로 잠금 임계값을 설정하고, iptables DROP으로 차단하며, /etc/shadow는 root 소유와 400 권한으로 보호한다. LimitRequestBody는 요청 본문 크기를 제한한다 | Naver text extracted; source says reconstructed wording may not be 100% exact |
 | 16 | essay | DNS 로그 `DNS standard query 0x2872 ANY cpsc.gov ...`를 보고 답하시오. (1) 어떤 공격인가? (2) 판단 이유는? (3) 공격 원리는? (4) 공격자들이 이 기법을 사용하는 이유 두 가지는? | ANY 질의는 큰 응답을 노린 DNS 증폭 공격에 악용될 수 있는 징후지만, 이 한 질의만으로 DRDoS를 확정할 수는 없다. 출발지 IP 위조, 다수 재귀 리졸버에 대한 반복 질의, 피해자에게 향한 큰 응답·트래픽량을 함께 확인해야 한다. 조건이 충족되면 응답 증폭과 반사를 이용한 DRDoS가 된다. | Naver text extracted; 2026-07-17 technical correction: DNS ANY log alone is insufficient attribution |
 
-## Verification Notes
+### Verification Notes
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Rows are normalized from accessible web reconstructions and were cross-checked against the unlocked thodi-lab/blog-source PDFs where in 1~28 scope; KCA official wording is still not claimed.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/c1549ac54fe5597dc36bc7af12e0981a036777937b5931ec6ca15acbf13e971c/f668712790924ff9e13e422add0cfea176d5bbe377df7efe18a84bd1c82446fa/manifest.json`

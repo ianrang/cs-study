@@ -1,31 +1,31 @@
 ---
-title: "정보보안기사 실기 13회 2019년 1회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 13회 2019년 1회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-18
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-18'
 source_paths:
-  - "https://information-security.tistory.com/260"
-source_count: 1
-provenance: inferred
-summary: "정보보안기사 실기 13회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지."
-evergreen: false
+- raw/sources/clipping/ab6c5cbb38239381dc3b84532c799f41641ce9a5d2c1413a1064c6c367da1df7/4b661dd182ba73a3e55161ec16b7a8e2b062342a35e872aeb4025989487b6fcc/manifest.json
+summary: 정보보안기사 실기 13회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지.
 ---
+
+## Overview
+
+
+
 
 # 정보보안기사 실기 13회 2019년 1회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2019년 1회 실기.
 - Source status: Information Security Tistory direct reconstruction post; confidence: medium-high.
 - This file stores paraphrased reconstruction notes and answer keys, not verbatim official exam text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 공격자가 위조 ARP Reply를 희생자에게 지속 전송해 ARP 캐시 테이블을 변조하고, 희생자 패킷이 공격자에게 전달되도록 만들어 트래픽을 도청하는 네트워크 공격 기법의 명칭을 쓰시오. | ARP Spoofing(ARP 스푸핑) | source-derived from Information Security Tistory; answer block present |
@@ -44,7 +44,29 @@ evergreen: false
 | 14 | essay | 다음 Snort 룰의 각 항목 의미를 서술하시오.<br>{{code:snort}}alert tcp any any <> any [443,465,523] (content:"\|18 03 00\|"; depth:3; content:"\|01\|"; distance:2; within:1; content:!"\|00\|"; within:1; msg:"SSLv3 Malicious Heartbleed Request V2"; sid:1;){{/code}} | (1) 탐지 대상 포트를 443, 465, 523으로 지정한다. (2) 페이로드의 첫 3바이트 내에서 바이너리 값 18 03 00이 있는지 검사한다. (3) (2)가 끝난 위치에서 2바이트 떨어진 위치부터 1바이트를 검사하여 바이너리 값 01이 있는지 검사한다. (4) (3)이 끝난 위치에서 바로 1바이트를 검사하여 바이너리 값 00이 없는지 여부를 검사한다. (5) (1)~(4)의 탐지 룰에 모두 매칭되는 경우 로그에 "SSLv3 Malicious Heartbleed Request V2"로 기록한다. (6) 해당 룰의 식별자(sid)를 1로 지정한다. | source-derived from Information Security Tistory; image visually inspected, OCR attempted |
 | 15 | essay | `robots.txt`의 개념을 서술하고 다음 설정의 의미를 각각 서술하시오.<br>{{reference}}User-agent: yeti\nUser-agent: googlebot\n(가) Allow: /\nUser-agent: googlebot-image\n(나) Disallow: /admin/\n(다) Disallow: /*.pdf${{/reference}} | (1) robots.txt는 협조하는 웹 크롤러에 대한 수집 지침이며, 브라우저·공격자의 접근을 통제하는 접근제어 수단이 아니다. (2) (가) yeti와 googlebot에 루트 이하 수집을 허용한다. (나)·(다)는 googlebot-image에 /admin/ 및 PDF 패턴 수집을 하지 말라고 요청한다. 실제 비공개 보호에는 인증·인가와 서버 접근통제가 필요하다. | source-derived from Information Security Tistory; 2026-07-17 technical correction: robots.txt is advisory, not access control |
 
-## Verification Notes
+### Verification Notes
 - Cross-check basis: the round-specific Tistory post linked in `source_paths` was parsed by sequential question number and answer marker.
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/ab6c5cbb38239381dc3b84532c799f41641ce9a5d2c1413a1064c6c367da1df7/4b661dd182ba73a3e55161ec16b7a8e2b062342a35e872aeb4025989487b6fcc/manifest.json`

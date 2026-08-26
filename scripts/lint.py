@@ -13,7 +13,7 @@ LLM Wiki Lint — 6축 + AGENTS.md directive 자동 검증.
     2. 전문성 (Expertise)    : page_type 표준 섹션 (soft)
     3. 일관성 (Consistency)  : taxonomy controlled vocab
     4. 논리성 (Logical)      : page 간 모순 — logic-proposition-checker 호출 (별도 wrapper)
-    5. 정합성 (Integrity)    : orphan / broken link / index 등재 / log 추적
+    5. 정합성 (Integrity)    : legacy broken link 검사
     6. 재현성·시의성         : source_date + last_verified + superseded
     + raw 필수 필드          : raw/sources/ 페이지 RAW_REQUIRED_FIELDS 강제
     + AGENTS.md directive    : write scope 위반 (model_id 본문 grep 은 ADR-0001 로 폐기)
@@ -27,14 +27,22 @@ import json
 import re
 import subprocess
 import sys
+from collections.abc import Iterator
 from datetime import date
 from pathlib import Path
-from typing import Iterator
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 try:
     import yaml  # PyYAML
+    from knowledge.artifacts import ArtifactError, verify_manifest
+    from knowledge.check import check_target
+    from knowledge.migration import build_tree_manifest
 except ImportError:
-    print("ERROR: PyYAML 필요. `pip install pyyaml`", file=sys.stderr)
+    print(
+        "ERROR: lint dependencies 필요. `pip install -r requirements-lint.txt`",
+        file=sys.stderr,
+    )
     sys.exit(1)
 
 
@@ -87,6 +95,7 @@ TAXONOMY_VOCAB_LINE_RE = re.compile(
 )
 TAXONOMY_TAG_TOKEN_RE = re.compile(r"`([a-z0-9]+(?:-[a-z0-9]+)*)`")
 WIKILINK_TARGET_RE = re.compile(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]")
+SHA256_DIR_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
 class Finding:
@@ -312,11 +321,48 @@ def calculate_claim_rollup(rows: list[dict[str, str]]) -> tuple[str, dict[str, i
 
 def iter_markdown_files(paths: list[Path]) -> Iterator[Path]:
     for p in paths:
-        if p.is_file() and p.suffix == ".md":
+        if p.is_file() and p.suffix == ".md" and not is_artifact_bundle_markdown(p):
             yield p
         elif p.is_dir():
             for child in p.rglob("*.md"):
-                yield child
+                if not is_artifact_bundle_markdown(child):
+                    yield child
+
+
+def is_artifact_bundle_markdown(path: Path) -> bool:
+    """Identify immutable content-addressed artifact Markdown payloads."""
+    try:
+        relative = path.resolve().relative_to(REPO_ROOT.resolve())
+    except ValueError:
+        return False
+    parts = relative.parts
+    shaped_as_bundle = (
+        len(parts) == 6
+        and parts[:2] == ("raw", "sources")
+        and bool(parts[2])
+        and bool(parts[3])
+        and SHA256_DIR_RE.fullmatch(parts[4]) is not None
+        and path.suffix == ".md"
+    )
+    if not shaped_as_bundle:
+        return False
+    try:
+        manifest = verify_manifest(path.parent / "manifest.json")
+    except (ArtifactError, OSError):
+        return False
+    declared_paths = {manifest.get("payload")}
+    content = manifest.get("content")
+    if isinstance(content, dict):
+        declared_paths.add(content.get("path"))
+    for asset in manifest.get("assets", []):
+        if isinstance(asset, dict):
+            declared_paths.add(asset.get("path"))
+    return (
+        manifest.get("source_type") == parts[2]
+        and manifest.get("source_id") == parts[3]
+        and manifest.get("artifact_digest") == f"sha256:{parts[4]}"
+        and path.name in declared_paths
+    )
 
 
 def check_axis_1_accuracy(path: Path, text: str, fm: dict | None) -> list[Finding]:
@@ -601,11 +647,26 @@ def check_directive_write_scope(path: Path, fm: dict | None) -> list[Finding]:
     # tier=llm-synthesis 면 위반 의심
     if fm and fm.get("tier") == "llm-synthesis":
         findings.append(Finding("HIGH", "directive", path, 1,
-                                f"LLM write scope 위반: read-only 영역에 llm-synthesis 페이지"))
+                                "LLM write scope 위반: read-only 영역에 llm-synthesis 페이지"))
     return findings
 
 
-def collect_findings(paths: list[Path]) -> list[Finding]:
+def wiki_contract_mode(repo_root: Path, wiki_root: Path) -> str:
+    resolution = json.loads(
+        (repo_root / "_meta" / "knowledge-migration-resolution.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    base_tree_sha256 = resolution.get("base_tree_sha256")
+    if not isinstance(base_tree_sha256, str) or not re.fullmatch(
+        r"[a-f0-9]{64}", base_tree_sha256
+    ):
+        raise ValueError("migration resolution has no valid base_tree_sha256")
+    current_tree_sha256 = build_tree_manifest(wiki_root)["tree_sha256"]
+    return "legacy" if current_tree_sha256 == base_tree_sha256 else "canonical"
+
+
+def collect_legacy_findings(paths: list[Path]) -> list[Finding]:
     findings = []
     canonical_tags, tag_aliases = load_taxonomy_tags()
     canonical_entities, entity_aliases = load_taxonomy_entities()
@@ -626,6 +687,40 @@ def collect_findings(paths: list[Path]) -> list[Finding]:
         findings.extend(check_directive_write_scope(path, fm))
         # 축 5 (orphan) 은 별도 wrapper 필요 — TODO
         # 축 4 (logic-proposition-checker 호출) 은 외부 subagent — TODO
+    return findings
+
+
+def _target_finding(value: dict) -> Finding:
+    path = Path(str(value["path"]))
+    if not path.is_absolute():
+        path = REPO_ROOT / path
+    return Finding(
+        str(value.get("severity", "HIGH")),
+        str(value.get("rule_id", "canonical")),
+        path,
+        value.get("line") if isinstance(value.get("line"), int) else None,
+        str(value.get("message", "canonical wiki validation failed")),
+    )
+
+
+def collect_findings(paths: list[Path]) -> list[Finding]:
+    markdown_paths = list(iter_markdown_files(paths))
+    wiki_paths = [path for path in markdown_paths if is_relative_to(path, WIKI_DIR)]
+    wiki_requested = bool(wiki_paths) or any(
+        is_relative_to(path, WIKI_DIR) or is_relative_to(WIKI_DIR, path)
+        for path in paths
+    )
+    if not wiki_requested:
+        return collect_legacy_findings(markdown_paths)
+    mode = wiki_contract_mode(REPO_ROOT, WIKI_DIR)
+    if mode == "legacy":
+        return collect_legacy_findings(markdown_paths)
+    non_wiki_paths = [
+        path for path in markdown_paths if not is_relative_to(path, WIKI_DIR)
+    ]
+    findings = collect_legacy_findings(non_wiki_paths) if non_wiki_paths else []
+    result = check_target(WIKI_DIR, repo_root=REPO_ROOT, mode="all")
+    findings.extend(_target_finding(value) for value in result.findings)
     return findings
 
 

@@ -1,31 +1,31 @@
 ---
-title: "정보보안기사 실기 6회 2015년 2회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 6회 2015년 2회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://information-security.tistory.com/285"
-source_count: 1
-provenance: inferred
-summary: "정보보안기사 실기 6회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지."
-evergreen: false
+- raw/sources/clipping/b5090bba7ef6152006fcc3c4d649f39bf2b978621eaf86dd05c041a663d102bc/edbd036cbc7fccabf130006336b0c5bd5239f1d63e70627de9aafe12157dfab6/manifest.json
+summary: 정보보안기사 실기 6회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지.
 ---
+
+## Overview
+
+
+
 
 # 정보보안기사 실기 6회 2015년 2회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2015년 2회 실기.
 - Source status: Information Security Tistory direct reconstruction post; confidence: medium-high.
 - This file stores paraphrased reconstruction notes and answer keys, not verbatim official exam text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | TCP 스캔을 수행 중이다. 각 경우에 알맞은 Flag를 쓰시오.<br>(1) TCP Open Scan에서 포트가 닫힌 경우: 공격자가 (A)를 송신하면 수신 호스트는 (B)를 응답한다.<br>(2) TCP Half-Open Scan에서 포트가 열린 경우: 공격자가 (C)를 송신하면 수신 호스트는 (D)를 응답하고, 공격자는 (E)를 송신하여 연결을 끊는다. | (A) SYN, (B) RST+ACK, (C) SYN, (D) SYN+ACK, (E) RST | PDF compilation cross-check restored all A~E conditions; RFC 9293 confirms a closed endpoint responds to an initial SYN with RST+ACK and SYN consumes one sequence number. This is a non-official blog compilation, not KCA wording. |
@@ -45,7 +45,29 @@ evergreen: false
 | 15 | essay | 패킷 캡처에서 클라이언트가 HTTP 요청 헤더를 완성하지 않고 불완전한 헤더 정보를 매우 천천히 지속 전송하면서 웹 서버 연결을 장시간 유지한다. 다수 연결이 같은 상태로 유지되어 정상 접속이 거부되고 있다. (1) 공격명, (2) 발생 현상과 이유, (3) 대응 방법을 서술하시오. | (1) Slow HTTP Header DoS 공격(Slowloris 공격) (2) 서비스가 느려지고 새로운 정상 접속 요청이 거부된다. 공격자가 HTTP 요청 헤더를 비정상적으로 조작하여 불완전한 헤더 정보를 천천히 지속적으로 전달하면, 웹 서버는 헤더 정보가 완전히 수신될 때까지 연결을 유지한다. 웹 서버의 동시 연결 가능 자원이 제한적이므로 다수의 비정상 연결이 자원을 점유하면 정상 사용자의 접속이 불가능해진다. (3) 서버 방화벽 등을 이용하여 동일 IP에서의 동시 연결 수에 대한 임계치(Threshold)를 설정하여 비정상적으로 많은 연결 상태를 유지하는 IP를 차단한다. | source-derived from Information Security Tistory; packet condition restored |
 | 16 | essay | 게이트웨이 IP/MAC이 `172.111.11.1`, `11-22-33-44-55-66`인 환경에서 ARP 테이블에 `172.111.11.3`도 동일 MAC `11-22-33-44-55-66`으로 표시된다. 다음을 서술하시오.<br>(1) 공격 판단과 판단 전 확인할 정상 구성 조건<br>(2) 대응 방안 | (1) 정상 자산 목록에서 172.111.11.3의 MAC이 달라야 하고 Proxy ARP·VRRP/HSRP 등 정상 공유 MAC 구성이 아니라는 조건이 확인되면 ARP Spoofing을 의심한다. 동일 MAC 표시만으로 공격을 단정하지 않는다.<br>(2) 정적 ARP는 제한된 단말에서의 보조 대응이며, 스위치 DHCP Snooping/DAI와 ARP 변경 모니터링을 병행한다. | source-derived from Information Security Tistory; 2026-07-16 technical correction: identical MAC can be legitimate in proxy or redundancy configurations |
 
-## Verification Notes
+### Verification Notes
 - Cross-check basis: the round-specific Tistory post linked in `source_paths` was parsed by sequential question number and answer marker.
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/b5090bba7ef6152006fcc3c4d649f39bf2b978621eaf86dd05c041a663d102bc/edbd036cbc7fccabf130006336b0c5bd5239f1d63e70627de9aafe12157dfab6/manifest.json`

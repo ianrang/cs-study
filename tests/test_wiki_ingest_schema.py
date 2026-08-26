@@ -74,18 +74,18 @@ def _valid_plan(**overrides) -> dict:
 TESTS = []
 
 
-def test(fn):
+def _register(fn):
     TESTS.append(fn)
     return fn
 
 
-@test
+@_register
 def test_valid_semantic_write_plan():
     """B안: semantic fields 만 포함한 plan 은 schema valid."""
     _validator().validate(_valid_plan())
 
 
-@test
+@_register
 def test_rejects_file_write_fields():
     """LLM/사람 입력에 writes 같은 파일 write 계획이 들어오면 reject."""
     plan = _valid_plan(writes=[{"path": "wiki/index.md", "content": "bad"}])
@@ -94,7 +94,7 @@ def test_rejects_file_write_fields():
     assert any(error.validator == "additionalProperties" for error in errors)
 
 
-@test
+@_register
 def test_rejects_empty_claims():
     """wiki source summary 는 claim table 원천 claim 을 최소 1개 가져야 한다."""
     plan = _valid_plan(claims=[])
@@ -103,7 +103,7 @@ def test_rejects_empty_claims():
     assert any(list(error.path) == ["claims"] and error.validator == "minItems" for error in errors)
 
 
-@test
+@_register
 def test_rejects_derived_frontmatter_fields():
     """derived roll-up/frontmatter 는 validator 가 재계산하므로 plan 에 넣을 수 없다."""
     plan = _valid_plan(verification_status="claimed", claim_status_counts={"claimed": 1})
@@ -112,7 +112,7 @@ def test_rejects_derived_frontmatter_fields():
     assert any(error.validator == "additionalProperties" for error in errors)
 
 
-@test
+@_register
 def test_rejects_redundant_new_candidate_status():
     """신규 후보는 review-needed로 단일화하고 별도 new 상태를 허용하지 않는다."""
     plan = _valid_plan()
@@ -122,7 +122,7 @@ def test_rejects_redundant_new_candidate_status():
     assert any(error.validator == "enum" for error in errors)
 
 
-@test
+@_register
 def test_rejects_non_mvp_candidate_kind():
     """MVP 후보는 concept/entity로 제한하고 다른 page type은 허용하지 않는다."""
     plan = _valid_plan()
@@ -132,7 +132,7 @@ def test_rejects_non_mvp_candidate_kind():
     assert any(error.validator == "enum" for error in errors)
 
 
-@test
+@_register
 def test_requires_candidate_matched_path_key():
     """matched_path는 nullable이지만 key 자체는 항상 존재해야 한다."""
     plan = _valid_plan()
@@ -142,7 +142,7 @@ def test_requires_candidate_matched_path_key():
     assert any(error.validator == "required" for error in errors)
 
 
-@test
+@_register
 def test_requires_claim_notes_key_but_allows_empty_value():
     plan = _valid_plan()
     plan["claims"][0]["notes"] = ""

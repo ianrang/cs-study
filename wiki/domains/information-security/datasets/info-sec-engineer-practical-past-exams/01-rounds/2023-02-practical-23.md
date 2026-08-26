@@ -1,33 +1,33 @@
 ---
-title: "정보보안기사 실기 23회 2023년 2회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 23회 2023년 2회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-04
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-04'
 source_paths:
-  - "https://it-utopia.tistory.com/entry/정보보안기사-2023년-23회-정보보안기사-실기-기출문제-복원"
-  - "https://blog.naver.com/stereok2/223202583456"
-source_count: 2
-provenance: inferred
-summary: "정보보안기사 실기 23회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: direct web reconstruction, Naver blog cross-check."
-evergreen: false
+- raw/sources/clipping/7d6bd11fb5a4c8e78b40a9de11cfe7b44d4d359eb3076e707df25669d22d4950/1de1fc24f2756c7a5b23fe0c8e2cc2f25383c0de2274f5426d913216550a42b0/manifest.json
+summary: '정보보안기사 실기 23회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: direct web reconstruction,
+  Naver blog cross-check.'
 ---
+
+## Overview
+
+
+
 
 # 정보보안기사 실기 23회 2023년 2회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2023년 2회 실기.
 - Source status: direct web reconstruction cross-checked with Naver blog `stereok2/223202583456`; confidence: high for topic coverage, official wording still unverified.
 - This file stores paraphrased reconstruction notes, not verbatim source text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 윈도우 OS 환경에서 특정 서비스의 로그 파일 저장 경로를 참고하여, ( )에 들어갈 로그 파일 경로를 기술하시오. (IIS 로그) `C:\Windows\inetpub\logs\Logfiles\W3SVC1`, `C:\Windows\inetpub\logs\Logfiles\MSFTPSVC1`, `C:\Windows\System32\LogFiles\(A)` (DHCP) `C:\Windows\System32\(B)` | (A) : `HTTPERR`, (B) : `dhcp` | source-derived; 2026-07-17 technical correction: Windows default DHCP path is not under LogFiles |
@@ -49,7 +49,29 @@ evergreen: false
 | 17 | practical | 코로나 극복 후 새로운 서비스를 재개하려는 소상공인이 있다. 기존에 보유하고 있던 1만명 미만의 고객 정보를 프리미엄 서비스에 활용하는 경우 개인정보의 안전성 확보조치 기준에 따라 개인정보처리시스템 접근권한 관리, 접근통제를 위해 준수해야 할 사항을 기술하시오. | 접근권한 관리: 인사이동 시 접근권한을 지체 없이 변경·말소하고, 권한 부여·변경·말소 내역을 최소 3년 보관하며, 개인정보취급자별 사용자계정을 발급하고 공유를 금지한다. 접근통제: IP 등으로 인가받지 않은 접근을 제한하고, 접속 IP 등을 분석해 불법 개인정보 유출 시도를 탐지·대응한다. | source-derived; Naver cross-checked; official wording unverified |
 | 18 | practical | Korea.co.kr 도메인의 존 파일을 설정하려고 한다. MASTER와 SLAVE DNS 서버의 named.conf 설정값을 각각 작성하시오(zone 파일은 ns.korea.co.kr.zone 이다.). - master name 서버 : ns1.korea.co.kr (192.168.1.53) - slave name 서버 : ns2.korea.co.kr (192.168.2.53) | Master 예: `zone "korea.co.kr" IN { type master; file "ns.korea.co.kr.zone"; allow-transfer { 192.168.2.53; }; };` Slave 예: `zone "korea.co.kr" IN { type slave; file "slave/ns.korea.co.kr.zone"; masters { 192.168.1.53; }; };`. `zone` 문자열은 설정하려는 `korea.co.kr`이고, 파일명 `ns.korea.co.kr.zone`은 이를 바꾸지 않는다. Slave가 zone을 받는 권한은 `allow-update`가 아니라 master의 `allow-transfer`로 제한한다. | source-derived; 2026-07-17 technical correction: BIND zone name and transfer/update distinction |
 
-## Verification Notes
+### Verification Notes
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Rows are normalized from accessible web reconstructions and cross-checked against the Naver blog reconstruction listed in `source_paths`; they were cross-checked against the unlocked thodi-lab/blog-source PDFs where in 1~28 scope; KCA official wording is still not claimed.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/7d6bd11fb5a4c8e78b40a9de11cfe7b44d4d359eb3076e707df25669d22d4950/1de1fc24f2756c7a5b23fe0c8e2cc2f25383c0de2274f5426d913216550a42b0/manifest.json`

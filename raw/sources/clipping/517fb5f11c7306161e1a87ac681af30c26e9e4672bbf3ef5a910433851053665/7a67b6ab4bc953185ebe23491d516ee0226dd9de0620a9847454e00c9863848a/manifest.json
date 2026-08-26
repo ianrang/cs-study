@@ -1,0 +1,15 @@
+{
+  "artifact_digest": "sha256:7a67b6ab4bc953185ebe23491d516ee0226dd9de0620a9847454e00c9863848a",
+  "created_at": "2026-08-24T10:38:12Z",
+  "generator": {
+    "name": "cs-study-capture",
+    "version": "1.0"
+  },
+  "media_type": "text/markdown",
+  "payload": "payload.md",
+  "primary_source": "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/03-classification/subject-type-classification-detail.md",
+  "schema_version": "1.0",
+  "size": 89541,
+  "source_id": "517fb5f11c7306161e1a87ac681af30c26e9e4672bbf3ef5a910433851053665",
+  "source_type": "clipping"
+}

@@ -1,31 +1,31 @@
 ---
-title: "정보보안기사 실기 9회 2017년 1회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 9회 2017년 1회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-18
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-18'
 source_paths:
-  - "https://information-security.tistory.com/274"
-source_count: 1
-provenance: inferred
-summary: "정보보안기사 실기 9회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지."
-evergreen: false
+- raw/sources/clipping/f2a6224b03411c630150eea487dc7306ab28866f83e47d0737532d1052788786/cd4f74a4769f3740eedd9855046e8879345e12fefb8eddecf0ca521aa1f4a485/manifest.json
+summary: 정보보안기사 실기 9회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지.
 ---
+
+## Overview
+
+
+
 
 # 정보보안기사 실기 9회 2017년 1회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2017년 1회 실기.
 - Source status: Information Security Tistory direct reconstruction post; confidence: medium-high.
 - This file stores paraphrased reconstruction notes and answer keys, not verbatim official exam text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 운영체제별로 경로는 다르지만 DNS 정보를 담고 있으며, Windows 7 이상에서는 관리자 외 수정이 제한되는 파일의 이름을 쓰시오. | hosts | source-derived from Information Security Tistory; answer block present |
@@ -45,7 +45,29 @@ evergreen: false
 | 15 | essay | 헬스클럽 회원 가입 신청서에서 발생하는 개인정보보호법 위반 사항 2가지와 개선 방안을 서술하시오. | (1) 위반 사항 : 개인의 질병(건강 상태) 등 민감 정보를 수집한다. 개선 방안 : 민감 정보는 원칙적으로 수집을 금지하며, 처리가 불가피한 경우 다른 개인정보와 분리하여 정보주체의 별도 동의를 받아야 한다. (2) 위반 사항 : 법정 대리인의 동의 없이 만 14세 미만 아동의 개인정보를 수집한다. 개선 방안 : 만 14세 미만 아동의 개인정보를 수집할 때는 반드시 법정 대리인의 동의를 받아야 한다. | source-derived from Information Security Tistory; answer block present |
 | 16 | essay | 다수의 출발지 IP가 단일 목적지 IP의 80번 포트로 SYN 패킷을 대량 전송하는 캡처가 확인되었다. 다음을 답하시오.<br>(A) 의심되는 공격명<br>(B) 서버에서 발생할 수 있는 상황<br>(C) 다음 명령의 빈칸 `(가)`, `(나)`, `(다)`<br>{{code:shell}}iptables -A INPUT -p tcp (가) -m limit (나) (다) DROP{{/code}} | (A) TCP SYN Flooding 공격을 의심한다.<br>(B) SYN backlog 고갈 시 정상 연결이 지연·거부될 수 있다.<br>(C) 예시 완성값은 `(가) --syn --dport 80`, `(나) --limit 10/s`, `(다) -j`이다. 다만 이 한 줄은 **limit에 매치한 패킷을 DROP**하므로 초과 패킷만 차단하는 완전한 rate limit이 아니다. 허용률을 먼저 ACCEPT하고 다음 규칙에서 DROP하거나 `hashlimit`/SYN proxy 등 정책을 함께 구성해야 한다. | source-derived from Information Security Tistory; 2026-07-18 prompt-format correction preserves the 2026-07-17 warning: the example completion alone is not a complete excess-rate blocking policy; exact official wording unavailable |
 
-## Verification Notes
+### Verification Notes
 - Cross-check basis: the round-specific Tistory post linked in `source_paths` was parsed by sequential question number and answer marker.
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/f2a6224b03411c630150eea487dc7306ab28866f83e47d0737532d1052788786/cd4f74a4769f3740eedd9855046e8879345e12fefb8eddecf0ca521aa1f4a485/manifest.json`

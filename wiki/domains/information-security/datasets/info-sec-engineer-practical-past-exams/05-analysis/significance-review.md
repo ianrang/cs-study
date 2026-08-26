@@ -1,28 +1,28 @@
 ---
-title: "정보보안기사 실기 빈도 분석 유의미성 검토"
-tier: llm-synthesis
+title: 정보보안기사 실기 빈도 분석 유의미성 검토
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-analysis, significance]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-03
+tags:
+- information-security
+- certification
+- exam-analysis
+- significance
+date_created: '2026-07-03'
+date_updated: '2026-07-03'
 source_paths:
-  - "frequency-analysis.md"
-  - "recurrence-analysis.md"
-  - "pattern-analysis.md"
-  - "../04-mapping/item-reference-map.md"
-source_count: 4
-provenance: inferred
-summary: "정보보안기사 실기 빈도·재출제 결과를 최근성, 출제기준 중요도, 근거 신뢰도 관점에서 해석한 유의미성 검토."
-evergreen: false
+- raw/sources/clipping/c5af4c78ae625657ba76928861c4a05092c00bce0fce98fb1d9de532e007c608/48f95700635c36133aad81b2ef2321e708d0721ed16a5869693c507b991dd6da/manifest.json
+summary: 정보보안기사 실기 빈도·재출제 결과를 최근성, 출제기준 중요도, 근거 신뢰도 관점에서 해석한 유의미성 검토.
 ---
+
+## Overview
+
+
+
+
+
 
 # 정보보안기사 실기 빈도 분석 유의미성 검토
 
-## Review Criteria
+### Review Criteria
 | criterion | meaning |
 |---|---|
 | frequency | 1~30회 전체 반복 횟수 |
@@ -31,7 +31,7 @@ evergreen: false
 | source confidence | `item-reference-map.md`의 23~30회 reference confidence |
 | exam-scope fit | KCA 실기 출제기준 세부항목과의 직접성 |
 
-## Significant Topics
+### Significant Topics
 | rank | topic | significance | reason |
 |---:|---|---|---|
 | 1 | 위험관리/위험평가 | very high | 전 30회 등장, 최근 25건 탐지, 위험평가 criteria 12건과 직접 연결된다. |
@@ -45,7 +45,7 @@ evergreen: false
 | 9 | 무선/모바일 | medium | 전체 빈도는 낮지만 최근 MDM/deep link/무선 표준으로 확장된다. |
 | 10 | 데이터베이스/데이터보호 | medium | 빈도는 중간이나 DB 감사·마스킹·DLP가 최근 실무형과 연결된다. |
 
-## Caution Topics
+### Caution Topics
 | topic | caution |
 |---|---|
 | Cyber Kill Chain | `R28-Q6`은 medium confidence로 남아 있어 전용 공식 원천 확보 전까지 근거 강도를 과장하지 않는다. |
@@ -53,7 +53,7 @@ evergreen: false
 | EAM/IAM 비교 | `R30-Q15`는 ISMS-P 접근권한 관리와 연결되지만 벤더 용어 차이가 있다. |
 | 무선랜 세부 표준 | `R24-Q4`는 KCA 프로토콜 보안특성과 연결되지만 세부 표준 직접 원천이 아직 보강 대상이다. |
 
-## Study Priority Decision
+### Study Priority Decision
 | priority | include in next strategy? | basis |
 |---:|---|---|
 | 1 | yes | 위험관리/위험평가, 접근통제/권한관리, 서비스 보안설정, 리눅스/유닉스 로그·명령 |
@@ -61,6 +61,28 @@ evergreen: false
 | 3 | yes, focused | 악성코드/APT/포렌식, IPSec/VPN/암호통신, DB/데이터보호 |
 | 4 | selective | 무선/모바일, 특수 표준·벤더 용어 항목 |
 
-## Limits
+### Limits
 - 빈도는 복원본 기준이며 공식 PDF 문구 대조가 아니다.
 - 최근 23~30회는 reference confidence가 높지만, 4개 medium 항목은 전략 문서에서 과도한 확신도로 다루지 않는다.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/c5af4c78ae625657ba76928861c4a05092c00bce0fce98fb1d9de532e007c608/48f95700635c36133aad81b2ef2321e708d0721ed16a5869693c507b991dd6da/manifest.json`

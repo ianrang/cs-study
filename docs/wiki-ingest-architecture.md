@@ -1,415 +1,532 @@
-# Architecture: raw video -> LLM wiki synthesis (2차)
+# Architecture: 지속 가능한 지식 파이프라인
 
-> 대상 PRD: `docs/wiki-ingest-prd.md`.
-> 본 설계는 1차 결정적 importer 뒤에 붙는 독립 2차 stage 만 정의한다.
+## 1. 설계 범위와 전제
 
-## 1. 기술 스택
+본 문서는 `docs/wiki-ingest-prd.md`의 전체 지식 파이프라인 구조를 정의한다. 1차 video importer의 v1 요구 계약과 실행 경로는 2026-08-23 순서 4 전환으로 superseded됐으며 digest revision 계약만 normative다. 두 저장 모델의 동시 쓰기는 금지한다.
 
-| 분류 | 기술 | 근거 |
+설계 시작 기준선(2026-08-21, historical non-normative):
+
+- extractor는 canonical JSON과 Markdown을 산출한다.
+- cs-study는 extractor CLI를 subprocess로 호출하고 canonical JSON을 pull한다.
+- 당시 2차 wiki ingest 실행 파일과 통합 테스트는 존재하지 않았다.
+- 당시 wiki에는 안정 page ID, collection, relation의 machine contract가 없었다.
+- 당시 dirty code/wiki 변경은 설계 작성 범위가 아니었다.
+
+현재 전환 범위(2026-08-25, 순서 1–6b)는 immutable capture·target schema/parser/checker·migration inventory, 75-page preservation resolution·clipping capture·no-apply preview, external-reference no-write cascade planner와 resolved-plan·cascade-plan 결합 journal v2 apply·restore·recovery engine까지다. 결합 transaction의 실행 여부와 결과는 승인 digest, journal state, live wiki tree와 external digest vector로 판정하며 이 아키텍처 문서의 서술을 운영 상태 SoT로 사용하지 않는다. 현재 실행 surface와 최종 목표 surface는 §7에서 분리하고, 시점별 검증 evidence는 `docs/wiki-ingest-review.md`가 기록한다.
+
+## 2. 아키텍처 원칙
+
+1. **Ownership before automation**: 동일 규칙의 canonical owner는 한 곳이다.
+2. **Canonical before derived**: 수동 입력과 재생성 가능한 결과를 구분한다.
+3. **Pull boundary**: downstream consumer만 upstream artifact contract를 안다.
+4. **Append-only raw**: raw identity는 capture-contract bytes digest이며 overwrite하지 않는다. clipping Markdown은 개인 로컬 홈 prefix를 결정적으로 치환한 bytes가 capture contract다.
+5. **At most one canonical page per ordinary apply**: 일반 lifecycle·page command는 no-op 또는 canonical page 1개만 변경한다. 사용자 승인 전역 schema migration은 NFR-KP-015와 BR-MIG-001~015의 exact full-tree transaction·active 이전 참조 snapshot만 예외다.
+6. **Outgoing-only graph**: inverse, backlink, transitive closure는 계산한다.
+7. **Parse then validate**: Markdown을 deterministic instance로 변환한 뒤 표준 JSON Schema로 검증한다.
+8. **Fail closed**: checker가 지원하지 않는 hard rule은 PASS가 아니라 unsupported failure다.
+9. **Semantic humility**: 구조 검증과 사실성 검토를 분리한다.
+10. **RDF export only on demand**: ontology 용어를 적용하되 RDF/SHACL을 canonical stack에 추가하지 않는다.
+
+## 3. 시스템 경계와 의존 방향
+
+```text
+external providers
+        |
+        v
+007_youtube-script
+  extractor CLI -> canonical contract + payload
+        |
+        | versioned files only
+        v
+001_cs-study
+  capture -> synthesize -> promote -> materialize -> check
+```
+
+금지 edge:
+
+- extractor source code → cs-study package, path, schema, callback
+- cs-study runtime → extractor Python module import
+- promote → synthesize command 호출
+- materialize → canonical wiki 수정
+- checker → 자동 repair
+- canonical page → backlink/inverse registry
+
+목표 module DAG:
+
+```text
+wiki_ingest.py -> artifacts.py
+wiki_ingest.py -> documents.py
+wiki_ingest.py -> materialize.py
+wiki_ingest.py -> check.py
+artifacts.py -> schema.py
+artifacts.py -> fs.py
+artifacts.py -> privacy.py
+documents.py -> schema.py
+documents.py -> fs.py
+materialize.py -> schema.py
+check.py -> schema.py
+check.py -> fs.py
+check.py -> graph.py
+schema.py -> timestamps.py
+graph.py: validated DocumentInstance만 소비하며 project module import 없음
+```
+
+command module끼리 import하지 않는다. 목표 core+neutral-contract 그래프는 10 modules, 14 directed edges, cycle 0, 최대 dependency edge chain 3이다. `fs.py`는 path confinement와 atomic leaf primitive의 canonical owner이므로 `check.py`가 confinement 검증을 위해 직접 의존한다. dependency-free `scripts/contracts/timestamps.py`는 canonical date-time predicate의 단일 owner이며 knowledge와 project가 단방향 소비한다. dependency-free `scripts/contracts/privacy.py`는 clipping Markdown의 local-user-home 정규화 단일 owner이며 artifact capture와 preservation migration이 단방향 소비한다. 현재 내부 Python 전환 그래프는 9 modules, 14 directed edges, cycle 0, 최대 edge chain 2다. cascade planner의 실제 command edge와 project imports를 포함하면 `wiki_ingest.py → migration.py → build-practice-data.py → past_exam_converter.py → timestamps.py`가 최대 경로이고, 전환 command-inclusive 그래프는 12 modules, 18 directed edges, cycle 0, 최대 dependency edge chain 4다. edge 4는 NFR-KP-002 경고선의 승인된 transition ratchet이며 더 늘리지 않는다. AST architecture test는 목표 graph, 내부 전환 graph, subprocess target과 project import를 합친 command-inclusive graph를 각각 계산한다. 실제 수치가 다르면 문서를 임의 갱신하지 않고 설계 변경 게이트를 연다.
+
+## 4. Canonical·Derived 소유권
+
+| Concern | Canonical owner | Derived consumer |
 |---|---|---|
-| 언어 | Python | 기존 `scripts/*.py` 와 테스트 구조 정합 |
-| frontmatter 파싱 | PyYAML | `scripts/lint.py`, `scripts/ingest.py` 와 동일 |
-| CLI | argparse | 기존 `scripts/lint.py`, `scripts/pipeline.py` 패턴 |
-| 파일 처리 | pathlib | 기존 scripts 정합 |
-| LLM | CLI 세션 / profile alias | `_meta/llm-config.yaml` 의 `ingest` profile 사용. API 직접 호출 금지 |
+| extractor output contract | `007_youtube-script/schemas/canonical-transcript-v1.schema.json` | cs-study의 pinned vendored copy와 contract fixture |
+| artifact·draft·page structure | `_meta/knowledge.schema.json` | parser, renderer, materializer, checker |
+| domain names·status | `_meta/domains.yaml` | index, overview, templates, Bases, domain validation |
+| controlled vocabulary | `_meta/taxonomy.md` | tag/alias checker |
+| raw payload identity | artifact `manifest.json`의 capture-contract byte digest | capture no-op와 evidence resolver |
+| knowledge content | Markdown page | index, overview, Bases, Obsidian backlink view, checker graph |
+| collection membership | CollectionPage의 `Members` table | collection navigation view |
+| relation | subject page의 `Relations` table | checker inverse/closure, Obsidian backlink view |
 
-## 2. 레이어 구조
+최종 목표에서 다음 파일은 generated-only다.
 
-```text
-CLI
-  -> orchestrator
-      -> parser/raw reader
-      -> classifier
-      -> planner/renderer (prompt/write-plan boundary 포함)
-      -> validator
-      -> commit
-```
+- `wiki/index.md`
+- `wiki/overview.md`
+- `wiki/templates/*.md`
+- `wiki/views/*.base`
 
-의존 방향:
+generated 파일에는 machine marker와 schema digest를 기록한다. checker는 임시 디렉터리 재생성 결과와 committed 결과를 byte 비교한다. `wiki/log.md`는 현재 legacy system page이며 순서 6a migration inventory에서 content migration 제외 대상으로만 취급한다. `wiki/log.md`, 현행 backlink 외부 인덱스 선언(`AGENTS.md` §Cross-link), 현행 provenance 외부 인덱스 선언(`_meta/frontmatter-spec.md` §human_authored 추적)의 제거는 순서 9 no-write plan과 별도 승인 후 apply가 소유한다. 두 외부 인덱스 파일은 현재 생성되지 않았다.
 
-```text
-scripts/wiki_ingest.py
-  reads -> raw/sources/video/<id>.md
-  reads -> wiki/, _meta/domains.yaml, _meta/taxonomy.md, _meta/frontmatter-spec.md
-  writes -> wiki/domains/<domain>/sources/<id>.md
-         -> wiki/staging/domain-review/<id>.md
-         -> wiki/staging/domain-review/<id>-candidates.md
-```
+## 5. 데이터 모델
 
-금지 방향:
+### Source identity
 
-```text
-scripts/wiki_ingest.py -> scripts/pipeline.py import 금지
-scripts/wiki_ingest.py -> scripts/ingest.py import 금지
-scripts/wiki_ingest.py -> raw 수정 금지
-scripts/pipeline.py -> scripts/wiki_ingest.py 자동 호출 금지
-```
+별도 Source registry를 만들지 않는다. 각 artifact manifest가 다음 source identity를 보유한다.
 
-이 분리는 생명주기를 단순하게 유지한다. 1차는 "원문 적재", 2차는 "지식 합성"이다.
+- provider-native immutable ID가 있으면 `{source_type}:{native_id}`를 사용한다.
+- provider ID가 없는 legacy wiki preservation은 `logical_locator = "wiki/" + NFC(repo-relative legacy path)`, `source_id = SHA-256(UTF-8(logical_locator))`, `primary_source = logical_locator`로 고정한다. base tree와 payload revision은 source identity에 혼합하지 않고 resolution·resolved plan의 mapping과 `artifact_digest`가 각각 소유한다.
+- source identity는 content identity가 아니다. 한 source는 여러 immutable artifact revision을 가질 수 있다.
 
-## 3. 디자인 패턴
+### ArtifactBundle
 
-| 패턴 | 적용 위치 | 선택 이유 | 기각한 대안 |
-|---|---|---|---|
-| Anti-Corruption Boundary | raw reader | raw page 를 SourceInput 으로만 변환하고 raw 파일 자체는 수정하지 않음 | raw frontmatter 를 2차에서 보강: 원본 불변 위반 |
-| Plan-then-Apply | planner/commit | dry-run 에서 생성/skip/staging 결정을 검토 가능 | 즉시 apply: review gate 와 멱등 판단이 불명확 |
-| Idempotent Target Key | target path 계산 | source summary key 는 `video_id`; 같은 raw 는 같은 path | 날짜/제목 기반 파일명: rename drift, 중복 위험 |
-| Candidate Report | concept/entity 후보 | MVP 에서 기존 지식 페이지 rewrite 를 막고 review 가능성 확보 | concept/entity 자동 생성: taxonomy drift, 중복 증가 |
-| Link Resolver | validator | Obsidian link 가 실제 파일에 연결되는지 사전 검증 | lint 사후 실패만 의존: broken graph 누적 |
-| Semantic WritePlan Boundary | prompt/write-plan boundary | LLM/사람 산출물을 파일 쓰기 계획이 아닌 semantic JSON 검증 대상 입력으로만 취급 | LLM 직접 write: 캡슐화·검증 경계 붕괴 |
+| 속성 | 제약 | 의미 |
+|---|---|---|
+| `schema_version` | 지원 version | manifest contract |
+| `source_type` | schema enum | video, web, paper 등 |
+| `source_id` | non-empty | 논리 source identity |
+| `artifact_digest` | `sha256:<64 lowercase hex>` | primary capture-contract bytes |
+| `media_type` | non-empty | primary payload media type |
+| `size` | non-negative integer | primary payload byte size |
+| `payload` | bundle-relative safe path | immutable primary bytes |
+| `created_at` | canonical date-time; 기본 producer는 UTC `Z` 생성 | capture activity time. preservation fallback은 ASCII 숫자, 대문자 `T`와 `Z` 또는 `±HH:MM`, 유효 달력·시각, 초 `00`–`59` subset을 허용한다 |
+| `generator` | name+version | artifact 생성 activity |
+| `primary_source` | URI 또는 local locator | provenance origin |
 
-## 4. 데이터 모델
+manifest는 generated descriptor이며 payload와 함께 immutable bundle로 commit된다. normalized Markdown이나 screen asset이 포함되면 각각 digest·size·media type descriptor를 가진다.
 
-### SourceInput
+`source_type=clipping`이면서 `media_type=text/markdown`인 primary payload는 UTF-8이어야 한다. capture와 preservation migration은 digest 계산 전에 Apple `/Users/<profile>/` 및 Windows `<drive>:\\Users\\<profile>\\` prefix만 `<local-user-home>/` 또는 `<local-user-home>\\`로 치환한다. 일반 Linux `/home/**`, `/tmp/**`, `/var/**` 예시는 개인 경로로 단정하지 않고 그대로 보존한다. 이 정규화는 결정적·멱등인 `privacy.py` leaf가 단독 소유하며 기존 revision을 overwrite하지 않는다. 그 밖의 source type·media type은 입력 exact bytes가 capture-contract bytes다.
 
-| 속성 | 타입 | 제약 | 설명 |
-|---|---|---|---|
-| `raw_path` | Path | raw/sources/video 하위 | 입력 raw markdown |
-| `video_id` | str | 파일 stem | target key |
-| `title` | str | non-empty | raw frontmatter title |
-| `source_url` | str | required key, empty 허용 | YouTube URL |
-| `source_date` | str | required key, empty 허용 | 영상 게시일 |
-| `last_verified` | str | non-empty | raw 추출 확인일 |
-| `body` | str | non-empty required | raw script body |
+### KnowledgePage
 
-### DomainDecision
+- stable page ID는 전역 유일한 filename stem이다.
+- ID는 kebab-case이며 생성 후 title·domain·path 변경과 무관하게 유지한다.
+- 외부 source summary ID는 source identity를 정규화한 deterministic key를 사용한다.
+- canonical properties는 title, page type, tags, created/updated dates, source manifest paths, summary의 최소 집합이다.
+- domain과 lifecycle은 path에서 파생한다. `tier`, `shared_scope`, `source_count`, `provenance`, `domain_confidence`, `evergreen`을 공통 수동 필드로 두지 않는다.
+- exact property 이름·타입·조건은 `_meta/knowledge.schema.json`만 소유한다.
 
-| 속성 | 타입 | 제약 | 설명 |
-|---|---|---|---|
-| `domain` | str | kebab-case | target domain |
-| `confidence` | high/medium/low | required | low 는 staging |
-| `rationale` | str | required | 분류 근거 |
-| `source` | classifier/write_plan/override | required | 자동 분류, SemanticWritePlan, active domain override |
-
-### DomainRegistry
-
-| 속성 | 타입 | 제약 | 설명 |
-|---|---|---|---|
-| `version` | int | required | registry schema version |
-| `domains` | dict | required | domain SoT |
-| `status` | active/inactive | required | active 만 domain target 허용 |
-| `source_roots` | list[str] | optional | 분류 힌트. write scope 허용 목록이 아님 |
+초기 page 역할은 concept, entity, method, comparison, benchmark, dataset, source summary, collection이다. 구현 시 이 목록은 schema enum으로 이동하고 본 문서는 역할 설명만 유지한다.
 
 ### Claim
 
-| 속성 | 타입 | 제약 | 설명 |
-|---|---|---|---|
-| `text` | str | required | 보수적 claim 문장 |
-| `status` | claimed/corroborated/verified/rejected | required | 검증 상태 |
-| `evidence` | str | required | raw path 또는 verified source |
-| `notes` | str | required key, empty 허용 | 검증 필요/반례 |
+Claim은 page의 `Claims` table 한 행이다. ID는 page 내부에서 유일하다. `primary`, claim text, verification status, evidence manifest path, notes를 가진다. 상세 claim을 flat YAML property로 중첩하지 않는다.
 
-Claim table 이 검증 상태의 SoT 이다. Source summary frontmatter 의 `verification_status` 와 `claim_status_counts` 는 claim table 에서 계산되는 파생값이다.
+### CollectionPage
 
-### SourceSummaryMeta
+CollectionPage는 일반 Markdown page이며 별도 collection registry를 갖지 않는다. `Members` table의 행 순서 자체가 canonical sequence다. 행은 member wikilink와 역할·순서 근거만 가진다. 숫자 position을 행 순서와 중복 저장하지 않는다.
 
-| 속성 | 타입 | 제약 | 설명 |
-|---|---|---|---|
-| `verification_status` | claimed/corroborated/verified/rejected | derived | claim table roll-up |
-| `claim_status_counts` | dict | derived | claim table status counts |
+2026-08-24 사용자 승인 A에 따라 현재 `wiki/collections/info-sec-engineer-practical-past-exams.md`는 migration에서 제외하지 않고 canonical universe에 포함한다. 목표 stable ID와 경로는 `wiki/collections/info-sec-engineer-practical-past-exams.md`, 목표 `page_type`은 `collection`이며 전체 canonical universe는 75개다. `_meta/knowledge-migration-resolution.json`이 target path·page type·source digest와 현재 index link 순서에서 승인된 52개 `Members` ID를 단일 machine-readable resolution으로 소유한다. role·rationale는 의미 추론을 하지 않고 빈 문자열로 보존한다.
 
-### Candidate
+### Relation
 
-| 속성 | 타입 | 제약 | 설명 |
-|---|---|---|---|
-| `kind` | concept/entity | required | MVP 후보 page type |
-| `slug` | str | kebab-case | target 후보 |
-| `label` | str | non-empty | 사람이 읽는 후보 이름 |
-| `status` | existing/review-needed/duplicate | required | 처리 상태 |
-| `matched_path` | Path \| null | required | 기존 페이지가 없으면 null |
-| `reason` | str | required | 판단 근거 |
+Relation은 subject page의 `Relations` table 한 행이다. 최소 관계는 broader, related, prerequisite-of, followed-by다.
 
-### SemanticWritePlan
+- broader, prerequisite-of, followed-by는 directed edge다.
+- related는 symmetric 의미지만 두 endpoint 중 ID가 사전식으로 작은 page만 저장한다.
+- narrower, inverse, backlink, transitive closure는 저장하지 않는다.
+- broader, prerequisite-of, followed-by는 relation type별로 각각 DAG를 강제한다.
 
-SoT: `_meta/wiki-ingest-write-plan.schema.json`.
+### Asset
 
-SemanticWritePlan 은 LLM/사람이 제공할 수 있는 구조화 입력이다. 파일 경로, frontmatter, rendered markdown, write operation 은 plan 에서 받지 않고 Python validator 가 재계산한다.
+Asset은 content digest로 식별되는 파일이며 별도 entity page나 registry를 만들지 않는다. page가 asset path를 outgoing reference로 소유한다.
 
-| 속성 | 타입 | 제약 | 설명 |
-|---|---|---|---|
-| `schema_version` | str | const `wiki-ingest-plan.v1` | schema version |
-| `raw_path` | Path | required | 입력 raw source |
-| `video_id` | str | required | source summary key |
-| `domain_decision` | DomainDecision | required | target 분류 |
-| `source_summary` | object | required | title, summary, main_claims |
-| `claims` | list[ClaimRow] | min 1 | claim table 원천 |
-| `candidates` | list[Candidate] | empty 허용 | candidate report 원천 |
+## 6. 문서 모델과 Obsidian 표현
 
-금지 필드:
-- `writes`, `skips`
-- `source_summary_path`, `candidate_report_path`
-- `frontmatter`
-- `verification_status`, `claim_status_counts`
-- rendered markdown body
-
-예시:
-
-```json
-{
-  "schema_version": "wiki-ingest-plan.v1",
-  "raw_path": "raw/sources/video/abc123.md",
-  "video_id": "abc123",
-  "domain_decision": {
-    "domain": "developer-tools",
-    "confidence": "high",
-    "rationale": "영상 주제가 CLI 기반 개발 도구 사용법이다.",
-    "source": "write_plan"
-  },
-  "source_summary": {
-    "title": "영상 제목 기반 source summary",
-    "summary": "영상은 개발 도구 사용 흐름을 설명한다.",
-    "main_claims": ["영상은 X라고 주장한다."]
-  },
-  "claims": [
-    {
-      "id": "C1",
-      "primary": true,
-      "claim": "영상은 X라고 주장한다.",
-      "status": "claimed",
-      "evidence": "raw/sources/video/abc123.md",
-      "notes": "추가 검증 필요"
-    }
-  ],
-  "candidates": [
-    {
-      "kind": "concept",
-      "slug": "model-context-protocol",
-      "label": "Model Context Protocol",
-      "status": "existing",
-      "matched_path": "wiki/domains/developer-tools/concepts/model-context-protocol.md",
-      "reason": "기존 wiki page 와 slug 일치"
-    }
-  ]
-}
+```text
+Markdown/YAML
+  -> deterministic parser
+  -> DocumentInstance
+     {properties, ordered_sections, claims, relations, members, links}
+  -> JSON Schema 2020-12
+  -> cross-document graph checker
 ```
 
-SemanticWritePlan 은 신뢰 입력이 아니다. `--write-plan` 으로 들어온 JSON 은 Python validator 가 `_meta/wiki-ingest-write-plan.schema.json`, 현재 raw, domain registry, wiki filesystem, frontmatter spec, claim table rules 를 기준으로 다시 검증한다.
+JSON Schema 표준 keyword가 소유하는 검증:
 
-### ClaimTable
+- property type, enum, required, conditional required
+- page type별 ordered section array
+- Claim, Relation, Member row structure
+- local unique arrays와 ID/digest pattern
+- unknown property/field rejection
 
-Claim table 은 source summary 본문 `## Claims` 아래의 고정 pipe table 이다. SemanticWritePlan 의 `claims[]` 는 이 table 을 렌더링하기 위한 원천 데이터이며, markdown table 자체는 Python renderer 가 생성한다.
+cross-document checker가 소유하는 검증:
 
-| column | type | required | rule |
-|---|---|---|---|
-| `id` | str | yes | `C1`, `C2` 형식. 문서 내 unique |
-| `primary` | bool | yes | `true \| false` |
-| `claim` | str | yes | 보수적 주장 문장 |
-| `status` | enum | yes | claimed/corroborated/verified/rejected |
-| `evidence` | str | yes | raw path 또는 verified evidence |
-| `notes` | str | yes, empty 허용 | 검증 필요/반례/보충 |
+- page ID·basename 전역 유일성
+- artifact manifest 존재·digest·size
+- broken 또는 ambiguous wikilink
+- duplicate inverse·symmetric ownership
+- typed DAG cycle
+- collection duplicate member
+- active index coverage
+- generated drift와 replay identity
 
-Parsing rules:
-- `## Claims` 아래 header row 와 delimiter row 가 바로 온다. 중간 blank line 은 header 전까지만 허용한다.
-- column 순서와 이름은 고정이며 누락·추가·순서 변경은 reject 한다.
-- cell 안의 literal pipe 는 `\|` 로 escape 한다.
-- cell 안의 newline 은 허용하지 않는다.
-- `claim_status_counts` 는 전체 rows count, `verification_status` 는 `primary=true` rows roll-up 이다.
-- `primary=true` row가 없으면 `verification_status` 는 `claimed` 이다.
+임의 `x-*` keyword를 일반 JSON Schema validator가 검증한다고 가정하지 않는다. Markdown section order도 parser가 표준 JSON instance의 ordered array로 변환한 뒤 schema `prefixItems`, `const`, 길이 제약으로 검사한다.
 
-설계 근거:
-- Obsidian properties 는 small atomic metadata 에 적합하고 Markdown in properties 를 지원하지 않는다.
-- Claim 상세는 사람이 읽고 validator 가 파싱해야 하므로 본문 table SoT 로 둔다.
-- Frontmatter 의 `verification_status`, `claim_status_counts` 는 ClaimTable 에서 계산한다.
+Obsidian 표현 규칙:
 
-## 5. CLI 설계
+- Properties는 flat scalar 또는 scalar list만 사용한다.
+- stable ID와 filename stem을 같게 하여 `[[id]]`가 이동 후에도 유효하게 한다.
+- basename 전역 유일성을 hard rule로 강제한다.
+- backlink는 Obsidian의 계산 view로, Bases는 generated view로만 사용한다.
+- template은 authoring 편의이며 validator가 아니다.
 
-```bash
-scripts/wiki_ingest.py raw/sources/video/<id>.md [--apply] [--force] [--now YYYY-MM-DD] [--write-plan plan.json] [--domain <active-domain>] [--format text|json]
-```
+## 7. CLI와 모듈 구조
 
-기본은 plan-only 이다.
+cs-study knowledge pipeline의 단일 진입점은 `python scripts/wiki_ingest.py`다. legacy `scripts/pipeline.py`와 `scripts/ingest.py`는 2026-08-23 제거됐다. 독립 저장소의 ytscript extractor CLI와 cs-study의 무관한 도구 CLI는 이 단일 진입점 범위 밖이다.
 
-| 옵션 | 의미 |
+현재 전환 CLI(순서 1–6b engine):
+
+| Command | 상태 | canonical write 범위 | 역할·수명 |
+|---|---|---:|---|
+| `capture <artifact>` | 구현 | artifact bundle 1 | 최종 목표에도 유지 |
+| `capture-asset <asset>` | 구현 | asset bundle 1 | 최종 목표에도 유지 |
+| `check --all\|--changed` | 구현 | 0 | 선택한 target root 전체에 동일 rule-set 적용; 순서 6b 전에는 target fixture와 no-write migration tree만 입력하며 legacy wiki root를 호출하지 않음 |
+| `migrate-plan --knowledge-root wiki` | 전환 전용 | 0 | canonical universe·exclusion·collision·reserved conflict와 exact tree manifest inventory |
+| `migrate-capture-preservation` | 전환 전용 | immutable clipping bundle 최대 75 | 승인 resolution이 명시한 75개 경로에 one-artifact capture primitive를 각각 1회 적용한다. 암묵 scan은 없고 기존 digest는 no-op이다 |
+| `migrate-resolve` | 전환 전용 | 0 | 75-page resolution·manifest를 target privacy-normalized bytes와 resolved plan으로 결정적 render |
+| `migrate-preview` | 전환 전용 | 0 | operation payload의 content-addressed manifest binding을 독립 판별해 mode downgrade를 거부하고, preservation plan은 외부 temp tree에서 full checker·tree digest·payload parity·external reference blocker를 의무 검증한 뒤 preview를 atomic no-replace 게시 |
+| `migrate-cascade-plan` | 전환 전용 | 0 | external reference를 고정 owner 정책으로 분류하고 question-pack은 `sourceRefs.path`만 변경하며 generated JS·past-exams JSON은 격리된 target tree에서 기존 generator로 함께 재생성한다. operation의 base/target bytes·mode와 `diff_sha256`을 결합한 plan·full diff를 sibling temp directory에서 완성한 뒤 하나의 approval bundle로 atomic no-replace 게시한다. plan은 독립 write 명령의 입력이 아니라 결합 migration transaction 입력이다 |
+| `migrate-backup` / `migrate-verify-backup` | 전환 전용 | 0 | resolved plan과 exact tree path·type·mode·bytes를 묶은 exclusive backup 생성·검증 |
+| `migrate-apply` | 구현·실행 결과는 journal 판정 | full `wiki/` exchange + cascade plan exact files | resolved plan·backup·cascade plan confirmation, preservation lineage, 결합 staged checker·generator·stale-zero 검증 후 journal v2가 external target과 wiki exchange를 함께 commit한다. active reference가 있는 migration의 cascade 없는 apply는 거부한다 |
+| `migrate-restore` | 구현·실데이터 복제 검증 | full `wiki/` exchange + cascade plan exact files | post-apply tree·external target digest와 사용자 confirmation이 일치할 때 external base와 exact backup tree를 하나의 journal v2 transaction으로 복원한다 |
+| `migrate-recover` | 구현·failure injection 검증 | full `wiki/` + cascade rollback 판정 | journal v1은 기존 두 tree digest로 복구한다. v2는 두 tree와 external digest vector가 유일하게 판별되는 경우에만 non-committed apply를 base로, non-committed restore를 restore 시작 상태인 target으로 복구하며 candidate는 자동 삭제하지 않는다 |
+
+결합 transaction v2에서 자동 복구 가능한 non-conflict 상태와 허용 조합은 다음 표가 단일 기준이다. 여기서 base는 migration 전 wiki·external 조합, target은 migration 후 조합이다. 표에 없는 미지 조합은 아래 규칙에 따라 `CONFLICT`로 기록하며 자동 복구하지 않는다.
+
+| operation | journal state | live wiki | live external | candidate wiki | 다음 동작 |
+|---|---|---|---|---|---|
+| apply | `PREPARED` | base | base | target | external target 기록 |
+| apply | `EXTERNAL_WRITTEN` | base | target | target | wiki exchange |
+| apply | `SWAPPED` | target | target | base | 결합 검증 후 commit |
+| apply | `COMMITTED` | target | target | base 또는 보존됨 | terminal |
+| apply | `ABORTED` | base | base | target 또는 보존됨 | terminal |
+| restore | `PREPARED` | target | target | base | external base 기록 |
+| restore | `EXTERNAL_WRITTEN` | target | base | base | wiki exchange |
+| restore | `SWAPPED` | base | base | target | 결합 검증 후 commit |
+| restore | `COMMITTED` | base | base | target 또는 보존됨 | terminal |
+| restore | `ABORTED` | target | target | base 또는 보존됨 | terminal |
+
+`PREPARED`, `EXTERNAL_WRITTEN`, `SWAPPED`에서 중단되면 recover는 operation의 시작 조합으로만 rollback한다. 각 external 파일이 plan의 base·target 중 하나로 식별되는 mixed vector는 부분 기록으로 판정해 operation 시작 상태로 rollback한다. 개별 external 파일이 base·target 어느 쪽에도 해당하지 않거나 wiki tree 조합이 표로 유일하게 판별되지 않으면 `CONFLICT`로 전이하고 자동 overwrite하지 않는다.
+
+terminal state가 보존한 repository-top-level `.<knowledge-root>.migration.*`와 `.<knowledge-root>.restore.*` regular tree는 rollback artifact이며 active reference owner가 아니다. exact journal shape·canonical bytes·terminal state·knowledge root·candidate path와 state별 candidate tree digest가 결속된 root만 cascade scan과 staging에서 제외하고, prefix만 같은 unbound·nonterminal·digest-mismatched regular tree는 다른 hidden active owner와 동일하게 포함한다. current in-flight candidate는 호출자가 명시한 excluded root로만 제외한다. reserved root 자체가 symlink·special file이거나 내부 regular-tree 검증에 실패하면 제외로 우회하지 않고 거부한다.
+
+최종 목표 CLI(순서 7–9 완료 후):
+
+| Command | canonical write 범위 | 역할 |
+|---|---:|---|
+| `capture <artifact>` | artifact bundle 1 | capture-contract payload를 immutable bundle로 적재 |
+| `capture-asset <asset>` | asset bundle 1 | content-addressed asset을 불변 적재 |
+| `synthesize --source <manifest>...` | 0 | semantic plan과 검증 가능한 draft 생성 계획 |
+| `synthesize --apply` | staging page 1 | Python renderer가 draft Markdown 한 개 생성 |
+| `promote <draft>` | page 1의 path move | 검토된 draft를 active path로 이동 |
+| `collection add-member` | collection page 1 | Members table 행 한 개 추가 |
+| `collection reorder` | collection page 1 | Members table 행 순서 변경 |
+| `move <page> <target-dir>` | page 1 move | ID 보존 경로 이동 |
+| `materialize` | generated-only | index, overview, templates, Bases 생성 |
+| `materialize --check` | 0 | 임시 생성 결과와 repository 비교 |
+| `check --all` | 0 | 전체 deterministic validation |
+| `check --changed` | 0 | 변경 surface와 영향 graph validation |
+
+`synthesize`의 외부 LLM/사람 입력은 schema instance이며 path, frontmatter, derived field, rendered Markdown, write operation을 포함할 수 없다. Python이 입력 manifest와 current vault에서 이를 재계산한다.
+
+현재 전환 모듈(순서 1–6b engine):
+
+| Module | 상태·수명 |
 |---|---|
-| 기본 | 변경하지 않고 write plan 만 출력 |
-| `--apply` | 검증 통과 시 파일 생성 |
-| `--force` | same target source summary 덮어쓰기. 다른 domain/staging 중복은 여전히 reject |
-| `--now` | 테스트 결정성을 위한 date 주입 |
-| `--write-plan` | 사람/외부 CLI 세션이 만든 SemanticWritePlan JSON 입력. 검증 통과 시에만 apply 가능 |
-| `--domain` | active registry domain 으로 수동 override. missing/inactive 는 reject |
-| `--format` | plan 출력 형식. `text` 또는 `json` |
+| `wiki_ingest.py` | 현재 argparse routing과 exit code |
+| `knowledge/schema.py` | 구현된 target schema load·parse·instance validation |
+| `knowledge/fs.py` | 구현된 path confinement·atomic no-replace·Darwin/Linux directory exchange primitive |
+| `knowledge/artifacts.py` | 구현된 capture·asset capture·digest 검증 |
+| `knowledge/documents.py` | preservation target의 순수 deterministic Markdown serializer; 일반 lifecycle command는 미구현 |
+| `knowledge/graph.py` | 구현된 link·relation·collection graph 계산 |
+| `knowledge/check.py` | 구현된 target fixture·no-write tree checker |
+| `knowledge/migration.py` | 전환 전용 resolution·capture request·preview, inventory, resolved-plan validation, external-reference no-write cascade plan, exact backup, full-tree candidate, apply·restore·recovery transaction owner; artifact capture·검증은 CLI가 sibling `artifacts.py`로 조합하며 승인된 순서 9 apply 뒤 제거 |
 
-옵션 설계 원칙:
-- 옵션은 leaf command 의 입력과 실행 모드만 제어한다.
-- 옵션은 claim 상태 전이, domain registry, source summary uniqueness, lint, roll-up 규칙을 우회하지 못한다.
-- 내부 상태 처리 옵션은 추가하지 않는다.
+최종 목표 모듈 책임:
 
-exit code:
-- `0`: plan 또는 apply 성공
-- `1`: 입력/검증 실패
-- `2`: review 필요로 staging plan 생성. 파일 생성 자체는 실패가 아님이므로 CLI 정책에서 선택 가능
+| Module | 단일 책임 |
+|---|---|
+| `wiki_ingest.py` | argparse routing과 exit code |
+| `knowledge/schema.py` | schema load, Markdown→DocumentInstance parse, instance validation |
+| `knowledge/fs.py` | path confinement와 atomic leaf replace |
+| `knowledge/artifacts.py` | capture와 digest 검증 |
+| `knowledge/documents.py` | synthesize, promote, collection, move |
+| `knowledge/graph.py` | link/relation/collection graph 계산 |
+| `knowledge/materialize.py` | generated view 렌더링 |
+| `knowledge/check.py` | rule registry 실행과 finding 출력 |
 
-## 6. 저장 규칙
+단순 pass-through wrapper를 추가하지 않는다. command 함수는 shared schema/fs/graph leaf를 직접 호출한다.
 
-high/medium confidence:
-
-```text
-wiki/domains/<domain>/sources/<video_id>.md
-```
-
-low confidence:
+## 8. 저장 구조
 
 ```text
-wiki/staging/domain-review/<video_id>.md
-wiki/staging/domain-review/<video_id>-candidates.md
+007_youtube-script/
+├── schemas/
+│   └── canonical-transcript-v1.schema.json
+├── src/ytscript/
+└── tests/fixtures/contracts/
+
+001_cs-study/
+├── _meta/
+│   ├── knowledge.schema.json
+│   ├── domains.yaml
+│   ├── taxonomy.md
+│   └── contracts/
+│       └── canonical-transcript-v1.schema.json
+├── raw/
+│   ├── sources/<source-type>/<source-id>/<sha256>/
+│   │   ├── manifest.json
+│   │   ├── payload.<ext>
+│   │   └── content.md
+│   └── assets/<source-id>/<sha256>/
+├── wiki/
+│   ├── domains/<domain>/**/<page-id>.md
+│   ├── collections/<collection-id>.md
+│   ├── staging/**/<page-id>.md
+│   ├── archive/**/<page-id>.md
+│   ├── index.md
+│   ├── overview.md
+│   ├── templates/
+│   └── views/
+├── scripts/
+│   ├── wiki_ingest.py
+│   └── knowledge/
+└── tests/
 ```
 
-MVP 에서는 concept/entity page 를 쓰지 않는다. source summary 에서 실제 존재하는 wiki page 는 wikilink 로 연결하고, 존재하지 않는 후보는 plain text 또는 candidate table 로 둔다.
+vendored extractor contract는 downstream이 편집하는 SoT가 아니다. upstream `$id`, version, SHA-256을 기록한 pinned dependency이며 update command와 contract test로만 교체한다.
 
-## 7. Obsidian link 정책
+기존 `.claude/rules/structure-rules.md`의 authored tree 규칙은 `cs/`, `lang/`, `coding-test/`, `tools/`, `development/`에만 적용하도록 scope를 정정해야 한다. raw/wiki/schema tree에는 본 문서의 구조가 적용된다.
 
-허용 예시는 다음 형태다. 아래는 lint 가 설계 문서 예시를 실제 link 로 오인하지 않도록 괄호를 띄어 쓴 표기다.
+## 9. 트랜잭션·멱등성·동시성
 
-```markdown
-[ [wiki/domains/developer-tools/sources/abc123|영상 source summary] ]
-[ [wiki/domains/developer-tools/concepts/model-context-protocol] ]
-```
+### Artifact
 
-조건부 허용:
-- 같은 apply plan 에서 생성되는 파일로의 link
+- primary capture-contract bytes에서 digest를 계산한다. clipping Markdown은 §5의 privacy normalization을 먼저 적용한다.
+- temporary sibling directory에 bundle 전체를 작성하고 검증 후 final digest directory로 atomic rename한다.
+- final directory가 있고 모든 bytes가 같으면 no-op다.
+- final directory가 있는데 bytes가 다르면 corruption으로 거부한다.
+- 같은 source의 새 digest는 새 directory다. overwrite와 `--force`는 없다.
 
-금지:
-- 존재하지 않는 미래 page wikilink
-- 디렉토리 link
-- placeholder `[ [wikilink] ]`, `[ [source path] ]`
-- root-relative 인지 file-relative 인지 불명확한 markdown link
+### Ordinary canonical page command
 
-lint 정비 시 link resolver 는 다음을 지원해야 한다.
-- wikilink target 을 repo root 기준으로 먼저 해석
-- 실패 시 현재 파일 기준으로 해석
-- `.md` 확장자 보강
-- 디렉토리는 `overview.md` 또는 `index.md` 가 있을 때만 허용
-- `wiki/templates/` placeholder 는 일반 link 검사에서 제외
+- 일반 lifecycle·page command는 page 한 개만 수정한다. NFR-KP-015의 승인된 전역 schema migration은 §7의 full-tree transaction을 따른다.
+- 기존 page update는 plan 시점의 base SHA-256을 요구한다.
+- apply 직전 current SHA-256이 다르면 stale-plan으로 거부한다.
+- 새 bytes를 sibling temporary file에 쓰고 fsync 후 `os.replace`한다.
+- promote는 content를 변경하지 않고 staging page를 target으로 rename한다. lifecycle은 path에서 파생한다.
 
-## 8. LLM 호출 경계
+### Generated surface
 
-MVP 구현은 prompt-plan + validated SemanticWritePlan input 으로 고정한다. CLI-assisted 방식은 다음 단계에서 adapter 설계가 필요할 때 재검토한다.
+- materializer는 deterministic sort와 normalized newline·YAML serialization을 사용한다.
+- 전체 결과를 temporary tree에 생성하고 validation한 후 generated 파일만 교체한다.
+- 중간 실패는 canonical page를 변경하지 않는다.
+- 부분 generated drift는 `materialize --check`가 탐지하고 재실행으로 복구한다.
 
-| 방식 | 설명 | 장점 | 단점 |
-|---|---|---|---|
-| prompt-plan + SemanticWritePlan | script 가 raw/context bundle 과 prompt 를 만들고, 사람이 CLI 세션에서 생성한 `write-plan.json` 을 `--write-plan` 으로 검증 입력 | API/모델 결합 최소, 검증 경계 명확 | 외부 CLI 실행은 수동 |
-| CLI-assisted | script 가 `LLMResolver.resolve("ingest")` 로 profile 을 확인하고 외부 CLI 세션에 넘길 command/prompt 를 생성 | profile 규약 명확 | 실제 CLI adapter 설계 필요. MVP 제외 |
+### Replay identity
 
-LLM 출력은 apply 전 구조화 검증을 거쳐야 하며, raw/wiki write 는 Python validator 가 담당한다. LLM 이 직접 파일을 쓰지 않는다.
+멱등성 key는 URL·filename 존재가 아니라 입력 digest, schema digest, generator version, normalized command options의 tuple이다. wall clock은 `--now`로 주입하며 content가 변하지 않으면 `date_updated`를 바꾸지 않는다.
 
-SemanticWritePlan 검증은 다음을 포함한다.
-- `_meta/wiki-ingest-write-plan.schema.json` strict schema 확인
-- unknown/additional field reject
-- `raw_path`, `video_id` 가 실제 raw 파일과 일치하는지 확인
-- target path 를 raw video_id 와 domain decision 으로 재계산
-- same target force 외 동일 video_id 중복 reject
-- claim rows schema 와 derived roll-up 검증
-- verified claim evidence가 검토·보존된 `raw/sources/{papers,web,urls}/...md`인지 검증
-- wikilink target 검증
-- 생성 파일 lint HIGH=0 검증
-- `writes`, `skips`, `frontmatter`, derived fields, rendered markdown 이 plan 에 있으면 reject
+## 10. 검증 아키텍처
 
-## 9. 멱등성
+`check`는 현재 활성 normative rule-set의 모든 hard rule을 보고한다. active normative 문서에 hard rule이 선언됐지만 구현 rule ID가 없으면 `UNSUPPORTED_RULE` HIGH finding으로 실패한다. historical·superseded 절은 registry 대상이 아니다.
 
-멱등 key:
+전환 중 `scripts/lint.py`는 별도 wiki rule을 복제하지 않는 lifecycle dispatcher다. live wiki tree digest가 preservation resolution의 `base_tree_sha256`과 정확히 같을 때만 legacy 15-field wiki lint를 실행한다. 그 외 tree는 `check --all`과 같은 canonical checker가 단독 소유하며, canonical failure를 legacy fallback으로 바꾸지 않는다. raw·authored directive 검사는 이 wiki contract 선택과 독립적으로 계속 실행한다.
 
-```text
-source_summary_path = wiki/domains/<domain>/sources/<video_id>.md
-staging_path = wiki/staging/domain-review/<video_id>.md
-```
-
-규칙:
-- 대상 파일이 있고 `--force` 가 없으면 skip.
-- 동일 raw 재실행 시 후보 report 는 같은 target path 로 계산.
-- 동일 `video_id` source summary 는 `wiki/domains/*/sources/` 와 `wiki/staging/domain-review/` 전체에서 하나만 존재할 수 있다.
-- 다른 domain 에 동일 `video_id` source summary 가 이미 있으면 reject 하고 existing path 를 출력한다.
-- domain 이 low 에서 high 로 승격되면 staging 파일을 자동 삭제하지 않는다. 승격은 별도 review command 또는 사람 작업으로 처리한다.
-- MVP 는 `wiki/index.md` 와 `wiki/log.md` 를 갱신하지 않는다. index/log 는 다음 promote/index stage 에서 처리한다.
-
-## 10. Domain registry
-
-Domain 목록은 `_meta/domains.yaml` 이 단일 진실이다.
-
-초기 seed:
-
-```text
-developer-tools
-ai-engineering
-software-engineering
-information-security
-network
-cryptography
-programming-language
-algorithms
-```
-
-구현 규칙:
-- `wiki_ingest.py` 는 registry loader 를 통해 domain 목록을 읽는다.
-- domain 이름을 코드 상수로 하드코딩하지 않는다.
-- registry 에 없는 domain decision 은 `confidence=low`, `registry_status=missing` 으로 staging 처리한다.
-- inactive domain 은 target 으로 쓰지 않는다.
-- `--domain` override 는 active registry domain 에만 허용한다. missing/inactive override 는 reject 한다.
-- taxonomy 는 vocab SoT 이고 domain registry 가 아니다.
-
-## 11. 프로젝트 구조
-
-```text
-_meta/
-  domains.yaml               # domain registry SoT
-scripts/
-  wiki_ingest.py              # 2차 orchestrator
-tests/
-  test_wiki_ingest.py         # raw fixture -> plan/render/validate
-docs/
-  wiki-ingest-prd.md
-  wiki-ingest-architecture.md
-  wiki-ingest-business-logic.md
-  wiki-ingest-review.md
-wiki/
-  staging/domain-review/
-  domains/<domain>/sources/
-```
-
-## 12. 요구사항 추적성
-
-| PRD ID | 아키텍처 surface | 비즈니스 로직·검증 surface |
+| Validator | 입력 | 보장 |
 |---|---|---|
-| D-5 | §7 Obsidian link 정책 | BR-LINT-1~4 |
-| D-6 | §7 Link Resolver | BR-LNK-1~4 |
-| D-7 | §2 금지 방향, §3 Candidate Report, §6 저장 규칙 | BR-CAN-4~5 |
-| FR-5 | §4 Claim·SourceSummaryMeta·ClaimTable | BR-CLM-1~7, BR-ROLL-1~7·14 |
-| FR-12 | §2 금지 방향 | 1차 pipeline import·수정 금지 |
-| FR-14 | §10 Domain registry | ADR-0003, BR-DOM-3~6, VR-11 |
-| FR-15 | §9 source summary 전역 유일성 | BR-IDEM-7~8, VR-13 |
-| FR-16 | §4 ClaimTable 고정 형식 | BR-ROLL-8~13, VR-14 |
-| FR-17 | §4 SemanticWritePlan 검증 경계 | BR-LLM-7~9, VR-15 |
-| FR-18 | §5 `--domain`, §10 registry override | BR-DOM-7, VR-17 |
-| FR-19 | §5 CLI 옵션 경계 | BR-OPT-1~3, VR-16 |
-| NFR-1 | §2 단방향 의존 | importer import·수정 금지 |
-| NFR-3 | §2 orchestrator 5-stage 구조 | parse/classify/plan-render/validate/commit 경계 |
-| NFR-4 | §2 raw 수정 금지, §3 Anti-Corruption Boundary | raw read-only |
-| NFR-6 | §7 Obsidian link 정책 | BR-LNK-1~4, VR-7 |
-| NFR-8 | §6 staging, §9 별도 승격 생명주기 | BR-DOM-2, BR-IDEM-3·6 |
-| NFR-9 | §10 registry loader | BR-DOM-3~6, VR-11 |
-| NFR-10 | §4 ClaimTable·derived roll-up | BR-ROLL-1~7·14, VR-12 |
-| NFR-11 | §9 `video_id` 전역 유일성 | BR-IDEM-7~8, VR-13 |
-| NFR-12 | §5 옵션 최소화 | BR-OPT-1~3, VR-16 |
-| NFR-13 | §4 SemanticWritePlan Boundary | BR-LLM-6~9, VR-15 |
+| contract | upstream schema·fixture·vendored digest | cross-repo artifact shape drift 탐지 |
+| schema | DocumentInstance·ArtifactManifest | local shape·enum·section order |
+| graph | all parsed pages | ID, link, relation, collection, cycle |
+| evidence | claims·manifest | evidence 실재·digest·허용 source class |
+| materialize | schema·registry·pages | generated bytes 재현성·coverage |
+| architecture | Python AST imports | 금지 edge·cycle·layer depth |
+| replay | fixture command twice | byte identity와 no-op semantics |
 
-## 13. 자체 검증
+CI 순서:
 
-| 항목 | 상태 | 근거 |
+```text
+static format/lint
+  -> unit/property tests
+  -> contract + mock integration
+  -> full vault check
+  -> materialize --check
+  -> replay/failure-injection integration
+```
+
+local pre-commit은 `check --changed`와 빠른 test만 실행한다. merge authority는 우회 불가능한 required CI status check가 가진다.
+
+finding은 `rule_id`, severity, path, line, subject_id, message, remediation을 가진 machine-readable JSONL과 사람용 text 두 형식으로 출력한다.
+
+## 11. Last-leaf 변경 모델
+
+| 변경 | canonical 수동 변경 | 파생 재생성·검증 후속 |
+|---|---:|---|
+| 동일 source 재capture | 0 | 0 |
+| source 새 revision | artifact bundle 1 | 0 |
+| 지식 draft 추가 | staging page 1 | 0 |
+| draft 승격 | page move 1 | navigation 재생성과 derived backlink resolution 검사 |
+| collection member 추가 | collection page 1 | collection/index view 재생성 |
+| domain 추가 | `domains.yaml` 1 | index/overview/templates/Bases 재생성 |
+| page type 추가 | `knowledge.schema.json` 1 | 전체 materialize·parser/renderer/materializer(template 포함)/checker contract test 재실행 |
+| relation type 추가 | `knowledge.schema.json` 1 | 전체 materialize·parser/renderer/materializer(template 포함)/checker contract test·graph rule parameterized test 재실행 |
+| page 이동 | page path move 1 | navigation 재생성과 derived backlink resolution 검사 |
+| 전역 schema 의미 변경 | schema + migration + compatibility test | 전체 materialize |
+
+전역 schema 의미 변경은 시스템 전체 불변식을 바꾸므로 last-leaf 대상이 아니다. 별도 migration과 사용자 승인을 요구한다. 생성 파일 개수는 수동 관리 지점 수에 포함하지 않는다.
+
+## 12. 기각한 대안
+
+| 대안 | 기각 이유 |
+|---|---|
+| extractor `DocHook`에 cs-study 구현 주입 | reverse coupling과 commit 이후 hook 실패의 이중 성공 경계 |
+| raw `<video_id>.md/.json` force overwrite | content identity 부재; 기존 pair 교체 중 JSON rename 실패 시 새 Markdown 삭제·이전 JSON 잔존 |
+| `_meta/collections/<id>.yaml` + collection Markdown | membership 이중 SoT |
+| 현행 backlink 외부 인덱스 선언(`AGENTS.md` §Cross-link) | outgoing links에서 계산 가능하며 생성 경로도 별도 관리점. 파일은 현재 생성되지 않음 |
+| 현행 provenance 외부 인덱스 선언(`_meta/frontmatter-spec.md` §human_authored 추적) | manifest·page source_paths·Git과 중복. 파일은 현재 생성되지 않음 |
+| `wiki/log.md` | Git history와 중복되고 실제 상태와 drift |
+| ReviewRecord page/entity | Git review evidence와 lifecycle path로 충분 |
+| 모든 page의 sequence field | collection별 순서를 page에 중복 저장하고 복수 collection 표현 불가 |
+| 양쪽 page에 inverse relation 저장 | rename·edit 시 동기화 지점 증가 |
+| RDF/OWL/SHACL canonical stack | Markdown·JSON Schema와 이중 모델·validator stack 발생 |
+| JSON Schema `x-sections` 선언만 사용 | 미인식 keyword는 assertion이 아니므로 false PASS |
+| local hook만 사용 | `--no-verify`로 우회 가능해 지속 보장 불가 |
+| 한 command가 page·collection·index·log 동시 갱신 | transaction과 rollback 범위 확대, last-leaf 위반 |
+
+## 13. 구현 순서
+
+| 순서 | 작업 | 선행 게이트 | 완료 증거 |
+|---:|---|---|---|
+| 0 | dirty worktree와 기준 commit 확정, 전용 branch/worktree 생성 | 사용자 설계 승인 | 기존 사용자 diff와 작업 diff 분리 |
+| 1 | 두 저장소 baseline fixture와 migration inventory 고정 | 0 | counts·exclusions·fixture hash report |
+| 2 | extractor canonical JSON Schema·fixture 추가, reverse hook 제거 | 1 | extractor tests·contract tests·AST graph |
+| 3 | `knowledge.schema.json`과 deterministic Markdown parser 작성 | 2 | schema mutation·section order·property tests |
+| 4 | immutable ArtifactBundle capture와 현 importer migration | 3 | same/different digest·corruption·failure injection |
+| 5 | full checker의 schema·graph·evidence rule 구현; target rule은 fixture·no-write dry-run 전용 | 3,4 | target rule coverage manifest, unsupported hard rule 0, legacy vault write/enforcement 0 |
+| 6 | 6a stable ID·basename·frontmatter inventory, 6b fail-closed engine, semantic resolved plan 사용자 승인 후 실제 apply | 5 | 75-page exact universe, canonical collision 0·reserved conflict 1, exact-tree backup·failure-injection·migration parity report |
+| 7 | synthesize·promote·collection·move leaf command 구현 | 5,6 | one-page write-set·stale base digest tests |
+| 8 | materializer 구현 후 index·overview·template·Bases 전환 | 5,7 | two-run tree hash, active coverage 100% |
+| 9 | legacy structure-rule scope·log/backlink/provenance no-write removal plan, 사용자 승인 후 migration apply | 8 | repository grep와 derived parity report |
+| 10 | local hook와 두 저장소 독립 CI 연결 | 2,5,8 | clean checkout required commands 성공 |
+| 11 | 두 대상 YouTube source를 새 pipeline로 재처리 | 7, 8, 9, 10 | artifact·draft·통합 wiki evidence trace |
+| 12 | full vault 검증과 Claude/code review | 11 | HIGH 0, 자동화 가능한 5계층 영역 전부 시도 |
+
+각 순서는 독립 commit 후보이며 앞 단계 검증 실패 시 다음 단계로 진행하지 않는다. 6a와 순서 9의 no-write plan은 변경 없이 실행하고, 6b와 순서 9의 migration apply는 각 plan의 별도 사용자 승인 없이는 실행하지 않는다.
+
+## 14. 자체 검증
+
+### 요구사항 추적성
+
+| PRD ID | Architecture surface | Logic surface |
 |---|---|---|
-| 순환 참조 | PASS | 2차는 1차를 import 하지 않고 raw 산출물만 읽음 |
-| 계층 깊이 | PASS | CLI -> orchestrator -> stage 함수 구조. edge 4 이내로 설계 |
-| 캡슐화 | PASS | LLM 출력은 직접 write 하지 않고 plan/validator 를 거침. domain 은 registry loader 로만 접근 |
-| 요구사항 커버리지 | PASS | PRD FR-1~19 반영 |
-| 기술 스택 정합성 | PASS | 기존 Python/PyYAML/argparse 패턴 유지 |
-| 복잡성 억제 | PASS | concept/entity 자동 rewrite 와 pipeline 자동 연결 제외 |
-| 전역 유일성 | PASS | 동일 video_id source summary 는 staging/domains 전체에서 1개만 허용 |
-| 옵션 경계 | PASS | 옵션은 leaf command 입력/실행 모드만 제어하고 비즈니스 규칙 우회 불가 |
-| index/log 생명주기 | PASS | MVP 에서 제외하고 promote/index stage 로 분리 |
+| FR-KP-001 | §3, §4, §8 | BR-ART-007 |
+| FR-KP-002 | §7, §9 | BR-ART-001 |
+| FR-KP-003 | §5, §9 | BR-ART-002, BR-ART-006 |
+| FR-KP-004 | §9 | BR-ART-003 |
+| FR-KP-005 | §9 | BR-ART-004 |
+| FR-KP-006 | §7 | BR-SYN-001 |
+| FR-KP-007 | §5, §7 | BR-SYN-002, BR-SYN-003, BR-SYN-006 |
+| FR-KP-008 | §5, §6 | BR-PAGE-001, BR-PAGE-002 |
+| FR-KP-009 | §5, §6 | BR-PAGE-001, VR-KP-007 |
+| FR-KP-010 | §5 | BR-SYN-004, BR-ART-009 |
+| FR-KP-011 | §5, §6 | BR-CLM-001~BR-CLM-006 |
+| FR-KP-012 | §5, §6 | BR-COL-001~BR-COL-007 |
+| FR-KP-013 | §5, §6 | BR-REL-001~BR-REL-007 |
+| FR-KP-014 | §5, §10 | BR-REL-005, VR-KP-013 |
+| FR-KP-015 | §5, §9 | BR-LIFE-001~BR-LIFE-004 |
+| FR-KP-016 | §7, §9 | BR-APPLY-004, VR-KP-016 |
+| FR-KP-017 | §4, §7, §10 | BR-GEN-001~BR-GEN-005 |
+| FR-KP-018 | §7, §10 | BR-CHK-002, BR-CHK-003 |
+| FR-KP-019 | §4, §6, §10 | BR-CHK-001, VR-KP-020 |
+| FR-KP-020 | §10 | BR-CHK-004 |
+| FR-KP-021 | §5, §8 | BR-ASSET-001, BR-ASSET-002 |
+| FR-KP-022 | §5, §7, §9 | BR-MOVE-001 |
+| NFR-KP-001 | §2, §3, §10 | VR-KP-019 |
+| NFR-KP-002 | §14 | 자체 검증: 자기 코드 함수 직렬 호출 깊이 |
+| NFR-KP-003 | §3, §10 | 완료 술어: Boundary independence |
+| NFR-KP-004 | §5, §9 | BR-ART-003~BR-ART-006 |
+| NFR-KP-005 | §9, §10 | BR-GEN-004, VR-KP-021 |
+| NFR-KP-006 | §9 | BR-GEN-001 |
+| NFR-KP-007 | §5, §10 | BR-ART-009, BR-CLM-006 |
+| NFR-KP-008 | §4, §6 | BR-CHK-001 |
+| NFR-KP-009 | §9 | BR-APPLY-001~BR-APPLY-004 |
+| NFR-KP-010 | §4, §11 | BR-COL-001, BR-REL-007 |
+| NFR-KP-011 | §6 | BR-CLM-005 |
+| NFR-KP-012 | §4, §11 | BR-CHK-001 |
+| NFR-KP-013 | §10 | BR-CHK-008 |
+| NFR-KP-014 | §2, §10 | BR-CHK-005, BR-CHK-006 |
+| NFR-KP-015 | §7, §13 | BR-MIG-001~BR-MIG-015 |
 
-## 14. 리스크
+요구사항 추적성 표의 Logic surface 셀에서 물결표는 동일 rule 접두사의 시작 ID부터 종료 ID까지 양 끝을 포함하는 연속 숫자 범위를 뜻한다. 이 표는 문서 section·logic mapping을 소유하고, `_meta/knowledge-requirements.json`은 구현·검증 파일 mapping만 소유한다.
 
-| 리스크 | 영향 | 대응 |
+| Acceptance ID | 구현 순서 | 계획된 관찰 증거 |
+|---|---:|---|
+| AC-KP-001 | 2, 10, 12 | 두 저장소 AST import graph와 extractor 전용 hook 검색 |
+| AC-KP-002 | 2 | versioned schema fixture contract test |
+| AC-KP-003 | 4 | same/different payload capture integration test |
+| AC-KP-004 | 4 | overwrite 경로·`--force` 전수 검색과 immutable replay test |
+| AC-KP-005 | 3, 5, 8 | schema mutation contract test |
+| AC-KP-006 | 5, 6, 12 | full-vault ID·link·relation·cycle checker |
+| AC-KP-007 | 8, 12 | active index exact coverage assertion |
+| AC-KP-008 | 8 | consecutive materialize tree-hash assertion |
+| AC-KP-009 | 7 | page apply failure-injection test |
+| AC-KP-010 | 7 | collection add-member write-set assertion |
+| AC-KP-011 | 7, 8 | stable ID move·materialized navigation·derived backlink resolution integration test |
+| AC-KP-012 | 10 | clean checkout required CI command set |
+| AC-KP-013 | 5, 7, 11, 12 | primary claim evidence resolver와 review verdict assertion |
+| AC-KP-014 | 5, 12 | structure result와 semantic review result field 분리 assertion |
+
+| 항목 | 설계 판정 | 구현 판정 |
 |---|---|---|
-| domain taxonomy 부족 | 많은 문서가 staging 에 쌓임 | 초기에는 정상. review 로 taxonomy 확장 |
-| 검증 상태가 frontmatter 와 claim table 에 중복 | 관리 drift | claim table 을 SoT 로 두고 page-level 은 derived roll-up 으로만 허용 |
-| index/log 갱신 요구 증가 | source summary lifecycle 과 navigation lifecycle 혼합 | MVP 제외, promote/index stage 로 분리 |
-| LLM 출력 품질 불안정 | broken link, 과감한 사실화 | validator 가 claimed 기본값과 existing-link-only 정책 강제 |
+| dependency cycle | 목표 module DAG cycle 0 | 현재 command-inclusive graph 12 modules·18 edges·cycle 0 exact guard; 순서 7–8 모듈은 미구현 |
+| module dependency 깊이 | 목표 dependency edge chain 3 | 현재 command-inclusive graph 최대 dependency edge 4 transition ratchet |
+| 자기 코드 호출 깊이 | 함수 5개 미만 직렬(= 호출 edge 4 미만), edge 4 이상 경고 | preservation capture·resolve 신규 경로는 edge 3 이하; cascade CLI의 plan 재검증 경로는 함수 6개 직렬(= edge 5), generic apply의 기존 inventory 재검증 경로도 edge 5 경고 baseline이며 각 검증 경계는 pass-through가 아니므로 둘 다 증가 금지 |
+| canonical owner | concern별 owner 1개 | payload contract는 extractor, ArtifactManifest·지식 구조는 cs-study가 단독 소유 |
+| raw immutability | append-only digest bundle | atomic no-replace capture와 same/new digest·corruption·경쟁 주입 test 구현 |
+| page apply atomicity | one-page temp+replace 또는 rename | 일반 page command는 순서 7 GAP; 일회성 전역 migration은 full-tree atomic exchange 구현 |
+| collection sequence | one Members table row order | schema·parser·checker 구현; 변경 command는 순서 7 GAP |
+| relation inverse duplication | outgoing-only | schema·graph checker 구현; 변경 command는 순서 7 GAP |
+| generated drift | regeneration diff | FAIL — materializer/CI 부재 |
+| semantic correctness | evidence review로 분리 | 사용자·review 필수 영역 |
+| requirement coverage | PRD FR/NFR 전체 surface 매핑 | 75-page preservation resolution·resolved plan·external-reference cascade planner·결합 journal v2 engine까지 구현; 실행 결과는 journal evidence로 분리하고 순서 7–12 surface는 GAP 유지 |
+
+설계 모델은 순환·양방향 canonical dependency를 만들지 않는다. 2026-08-25 기준 순서 1–6b engine, 75개 page preservation resolution·preview, external-reference cascade planner와 결합 journal v2 transaction은 구현됐다. 실제 실행 여부는 architecture 완전성과 분리해 journal evidence로 판정하며, 순서 7–12가 남아 있으므로 전체 시스템 PASS를 주장하지 않는다.
+
+## 15. 변경 이력
+
+- 2026-08-21: immutable artifact, deterministic parser+JSON Schema, stable filename ID, ordered collection, outgoing-only relation, generated navigation, one-page apply 구조로 `archives/design/docs/wiki-ingest-architecture-v1.md`를 대체했다.
+- 2026-08-23: 순서 1–6a 구현·검증 결과와 순서 7–12 잔여 GAP을 정적 판정 표에 반영했다.
+- 2026-08-24: `check.py → fs.py` leaf dependency를 승인하고 목표 DAG를 8 modules·12 edges로 정정했으며 AST regression guard를 연결했다.
+- 2026-08-25: canonical date-time 규칙을 neutral dependency-free `scripts/contracts/timestamps.py` leaf로 승격하고 목표 core+contract DAG 9 modules·13 edges·최대 edge 3, 전환 command-inclusive DAG 11 modules·16 edges·cycle 0·최대 edge 4 ratchet으로 정합화했다.
+- 2026-08-25: clipping Markdown privacy normalization을 dependency-free `scripts/contracts/privacy.py` leaf로 단일화하고 목표 core+contract DAG 10 modules·14 edges, 내부 전환 DAG 9 modules·14 edges, command-inclusive DAG 12 modules·18 edges로 정합화했다. 최대 dependency edge chain은 각각 3·2·4로 유지된다.
+- 2026-08-24: project 실행 자산 77개를 `projects/`로 분리하고 canonical 75-page inventory, 별도 resolved-plan schema, exact backup, atomic exchange·restore·crash recovery engine을 추가했다. 해당 날짜에는 실제 migration apply를 수행하지 않았다.
+- 2026-08-25: 승인된 결합 plan으로 apply를 commit했으나 post-apply validation harness 결함을 확인해 exact restore를 commit했고, terminal candidate 격리와 base/target validator lifecycle을 보완했다. 해당 restore 직후 live wiki와 external files는 base 상태였다.
+- 2026-08-25: lifecycle remediation 후 승인된 결합 plan을 reapply해 live wiki와 external files를 target으로 전환했다. 후속 교차검증에서 terminal journal binding과 checker text exclusions 보고를 보강했으며, committed journal은 당시 승인 bytes의 실행 증거로 보존한다.

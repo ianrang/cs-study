@@ -207,7 +207,7 @@ alias 는 같은 개념의 다른 표기를 동일 entity 로 redirect. taxonomy
 
 예: `tags: [self-attention]` 금지. `tags: [attention]` 만 허용 (canonical).
 
-LLM 이 alias 어휘 사용 시 lint.py 가 자동 변환 또는 warn.
+LLM 이 alias 어휘를 사용하면 lint.py가 canonical 대체값을 MEDIUM으로 안내한다. 자동 치환은 수행하지 않는다.
 
 ## 검증
 

@@ -1,31 +1,31 @@
 ---
-title: "정보보안기사 실기 7회 2016년 1회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 7회 2016년 1회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-18
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-18'
 source_paths:
-  - "https://information-security.tistory.com/284"
-source_count: 1
-provenance: inferred
-summary: "정보보안기사 실기 7회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지."
-evergreen: false
+- raw/sources/clipping/029b1bfa6da76b542fa0381adc0635dfc0d009774dd12003b16974634a525666/84b0c6271c1f63d8d3fb75ea784d2cba446dad95670e7318ce6ad28e5dafc628/manifest.json
+summary: 정보보안기사 실기 7회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지.
 ---
+
+## Overview
+
+
+
 
 # 정보보안기사 실기 7회 2016년 1회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2016년 1회 실기.
 - Source status: Information Security Tistory direct reconstruction post; confidence: medium-high.
 - This file stores paraphrased reconstruction notes and answer keys, not verbatim official exam text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 윈도우 PE 파일 섹션의 빈칸을 채우시오. (A): 실행 코드(기계어)가 저장되는 섹션. (B): 전역 변수, 상수 등의 데이터 정보가 저장되는 섹션. (C): DLL에서 가져온 함수 정보(임포트 테이블)가 저장되는 섹션. | A : .text B : .data C : .idata | source-derived from Information Security Tistory; prompt descriptions restored |
@@ -45,7 +45,29 @@ evergreen: false
 | 15 | essay | 다음 HTTP 관찰 정보를 보고 판단을 각각 서술하시오.<br>{{reference}}Source port 443 -> Destination port 80\nGET /login.php HTTP/1.1\nCookie\nPragma: no-cache\nCache-Control: must-revalidate\nid=admin&password=1234&act=login{{/reference}}<br>(1) `must-revalidate`의 의미와 이 헤더만으로 단정할 수 없는 사항<br>(2) 요청이 실제 HTTP 평문 구간에서 관찰된 경우의 보안 위험<br>(3) 출발지 포트 443으로 TLS 사용 여부를 단정할 수 없는 이유와 추가 확인 대상 | (1) `must-revalidate`는 stale 응답을 재검증하게 하는 **응답** 지시자이며, 그 값만으로 캐시를 쓰지 않거나 서버 부하가 증가한다고 단정할 수 없다.<br>(2) 패킷이 실제 HTTP 평문 구간에서 관찰됐다면 요청 파라미터와 쿠키 노출로 도청·세션 탈취 위험이 있다.<br>(3) 출발지 포트 443은 클라이언트 임시 포트일 수 있으므로, 포트 번호만으로 HTTPS에서 HTTP로 전환됐다고 판단할 수 없다. TLS 사용 여부는 실제 TLS 레코드·서버 설정으로 확인한다. | source-derived from Information Security Tistory; 2026-07-18 prompt-format correction preserves the 2026-07-17 cache semantics and source-port inference boundary; exact official wording unavailable |
 | 16 | essay | Bash 쉘 취약점에 대해 답하시오.<br>(A) 취약점 명칭<br>(B) Bash 함수 선언 기능과 환경 변수를 이용한 취약점 원인<br>(C) 공격자가 대기 포트를 열고 피해 서버가 공격자 서버로 접속하도록 유도해 수립하는 쉘 연결 행위 | (A) ShellShock(쉘 쇼크)<br>(B) Bash 쉘이 제공하는 함수 선언 기능에서 취약점이 발견되었다. 환경 변수에 함수 정의 형태로 임의의 명령어를 삽입하면 Bash 실행 시 해당 명령어가 함께 실행되는 구조적 결함이 원인이다.<br>(C) 공격자는 자신의 서버에 포트를 열어 대기하고, 피해자 서버에서 공격자 서버로 접속하도록 유도하여 리버스 쉘(Reverse Shell) 연결을 수립하는 행위이다. | source image unavailable; 2026-07-18 prompt-format correction maps the reconstructed answer block without claiming official KCA wording |
 
-## Verification Notes
+### Verification Notes
 - Cross-check basis: the round-specific Tistory post linked in `source_paths` was parsed by sequential question number and answer marker.
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/029b1bfa6da76b542fa0381adc0635dfc0d009774dd12003b16974634a525666/84b0c6271c1f63d8d3fb75ea784d2cba446dad95670e7318ce6ad28e5dafc628/manifest.json`

@@ -1,48 +1,48 @@
 ---
-title: "정보보안기사 실기 참고문서 패칭 교차검증 리포트"
-tier: llm-synthesis
+title: 정보보안기사 실기 참고문서 패칭 교차검증 리포트
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, verification, exam-references]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-09
+tags:
+- information-security
+- certification
+- verification
+- exam-references
+date_created: '2026-07-03'
+date_updated: '2026-07-09'
 source_paths:
-  - "reference-source-index.md"
-  - "../00-management/document-architecture.md"
-  - "raw/sources/web/information-security-exam-references/kisa-secure-coding-guide-2021-12-29.md"
-  - "https://owasp.org/www-project-top-ten/"
-  - "https://owasp.org/www-project-mobile-top-10/"
-  - "https://nvd.nist.gov/vuln/"
-  - "https://cwe.mitre.org/top25/"
-  - "https://www.first.org/cvss/v4.0/"
-  - "https://attack.mitre.org/"
-  - "https://www.rfc-editor.org/rfc/rfc9111"
-  - "https://cwe.mitre.org/data/definitions/444.html"
-  - "https://csrc.nist.gov/glossary/term/data_loss_prevention"
-  - "https://csrc.nist.gov/glossary/term/security_orchestration_automation_and_response"
-  - "https://csrc.nist.gov/glossary/term/TEMPEST"
-  - "https://csrc.nist.gov/pubs/sp/800/83/r1/final"
-  - "https://csrc.nist.gov/pubs/sp/800/34/r1/final"
-  - "https://csrc.nist.gov/glossary/term/end_to_end_encryption"
-  - "https://www.gnu.org/software/acct/manual/accounting.html"
-  - "https://owasp.org/www-community/attacks/Credential_stuffing"
-  - "https://csrc.nist.gov/glossary/term/zero_day_attack"
-  - "https://csrc.nist.gov/pubs/sp/800/124/r2/final"
-  - "https://www.law.go.kr/법령/전자금융거래법"
-  - "https://www.law.go.kr/법령/정보통신망이용촉진및정보보호등에관한법률"
-  - "https://www.law.go.kr/법령/개인정보보호법"
-source_count: 24
-provenance: inferred
-summary: "필수 참고문서 원문 패칭 결과를 SSOT, 독립성, 추출 가능성, 공식성 기준으로 검토한다."
-evergreen: false
+- raw/sources/clipping/4c4a5b08ad24f00bee57400d1a6f9c1c2336a908211fb4ba5cea48fcc48286a9/1fde491ca52119c9f6337e06b55406c99a2e9c363ce02b0d7c3bbbba362c0b05/manifest.json
+summary: 필수 참고문서 원문 패칭 결과를 SSOT, 독립성, 추출 가능성, 공식성 기준으로 검토한다.
 ---
+
+## Overview
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 정보보안기사 실기 참고문서 패칭 교차검증 리포트
 
-## Verdict
+### Verdict
 - Pass: 문서 아키텍처의 SSOT/단일 책임/단방향 참조 원칙을 유지했다.
 - Pass: 공식 URL이 확인된 원천만 `patched` 또는 `partial`로 올렸다.
 - Pass: 공식 URL이 확인되지 않은 문서는 `pending`으로 남기고 raw 원문을 저장하지 않는 fail-closed 원칙을 유지했다.
@@ -50,7 +50,7 @@ evergreen: false
 - Pass: OWASP Top 10 Web, OWASP Mobile Top 10, NVD CVE detail, CWE Top 25, FIRST CVSS, MITRE ATT&CK, IETF RFC 9111, CWE-444, NIST CSRC glossary/SP, GNU Accounting Utilities, OWASP Credential Stuffing, 국가법령정보센터 현행 법령 페이지는 공식 페이지가 확인됐지만 raw/source asset 저장을 수행하지 않았으므로 `official page confirmed`로만 올렸다.
 - Pass: 현재 `official page confirmed` 보조 원천은 정보보안기사 실기 준비에 필요한 메타데이터와 문항 연결 근거가 확보되어 있으므로 대량 raw/source 패칭하지 않고, 직접 1차 원천이 새로 필요해질 때만 선별 패칭한다.
 
-## Checks
+### Checks
 
 | check | result | evidence |
 |---|---|---|
@@ -75,7 +75,7 @@ evergreen: false
 | IETF/NIST/GNU/OWASP Credential Stuffing/법령 공식 페이지 확인 | pass | RFC 9111, CWE-444, NIST DLP/SOAR/TEMPEST/E2EE/zero-day glossary, NIST SP 800-83/SP 800-34/SP 800-124, GNU Accounting Utilities, OWASP Credential Stuffing, 국가법령정보센터 개인정보보호법/전자금융거래법/정보통신망법 공식 페이지 확인 |
 | IETF/NIST/GNU/OWASP Credential Stuffing/법령 raw asset 저장 | not selected | 현재는 공식 URL·버전·상태 메타데이터만 보존한다. 조문·정의·문서 원문이 핵심 근거로 반복 인용될 때 해당 원천만 선별 패칭 |
 
-## Review Findings
+### Review Findings
 
 | severity | finding | action |
 |---|---|---|
@@ -84,7 +84,7 @@ evergreen: false
 | LOW | OWASP/CVE/CWE/CVSS/MITRE 계열 원천은 공식 페이지 확인으로 6개 medium 문항을 high로 승격했지만, raw/source asset 저장은 선별 대상이 아니다. | 대량 패칭하지 않는다. 학습전략·예상문제의 핵심 근거로 반복 인용되거나 삭제 위험이 확인되면 해당 원천만 선별 패칭한다. |
 | LOW | IETF/NIST/GNU/OWASP Credential Stuffing/법령 계열 원천은 공식 페이지 확인으로 16개 medium 문항을 high로 승격했지만, raw/source asset 저장은 선별 대상이 아니다. | 대량 패칭하지 않는다. 조문·정의·문서 원문이 핵심 근거로 반복 인용되면 해당 원천만 선별 패칭한다. |
 
-## Architecture Review
+### Architecture Review
 
 | 항목 | 결과 | 비고 |
 |---|---|---|
@@ -94,3 +94,25 @@ evergreen: false
 | OCP | pass | 새 문서는 source index 행 추가로 확장 가능 |
 | 순환 참조 | pass | raw/source index/catalog 방향 유지 |
 | 중복 | pass | 원문 본문 장문 복제 없음 |
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/4c4a5b08ad24f00bee57400d1a6f9c1c2336a908211fb4ba5cea48fcc48286a9/1fde491ca52119c9f6337e06b55406c99a2e9c363ce02b0d7c3bbbba362c0b05/manifest.json`

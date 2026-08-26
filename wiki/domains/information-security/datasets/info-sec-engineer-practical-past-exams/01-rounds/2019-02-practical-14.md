@@ -1,32 +1,32 @@
 ---
-title: "정보보안기사 실기 14회 2019년 2회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 14회 2019년 2회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://blog.naver.com/stereok2/221751404526"
-source_count: 1
-provenance: inferred
-summary: "정보보안기사 실기 14회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: Naver direct analysis/reconstruction blog with answers."
-evergreen: false
+- raw/sources/clipping/f9b1459ee347ea83f97b617decd855f32c764f56f4f62ed11db7f53054437b79/b4902454ababea8870b7f167f8c82e29175e87cccd868b286c6231ba4dff9281/manifest.json
+summary: '정보보안기사 실기 14회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: Naver direct analysis/reconstruction
+  blog with answers.'
 ---
+
+## Overview
+
+
 
 # 정보보안기사 실기 14회 2019년 2회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2019년 2회 실기.
 - Source status: Naver direct analysis/reconstruction blog with answers; confidence: medium-high for topic and answer coverage, medium for exact official wording.
 - This file stores paraphrased reconstruction notes, not verbatim source text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 접근통제 정책 모델에 관한 설명이다. (A)는 모든 객체가 정보의 비밀 수준에 근거한 보안 레벨을 가지며 허가된 사용자만 접근 가능하도록 제어하는 모델이다. (B)는 사용자나 사용자 그룹에 근거한 사용자 중심 접근 제어 모델이다. (C)는 사용자와 객체의 상호 관계를 역할로 구분하여 접근 제어하는 모델이다. 빈칸을 채우시오. | MAC, DAC, RBAC | Naver text extracted; official wording unverified |
@@ -46,7 +46,29 @@ evergreen: false
 | 15 | essay | Apache 설정 옵션의 의미를 설명하시오. (1) `Timeout 300` (2) `MaxKeepAliveRequests 100` (3) `DirectoryIndex index.htm, index.html, index.php` (4) `ErrorLog "경로"` | Timeout 300은 300초 무응답 시 연결 종료, MaxKeepAliveRequests 100은 KeepAlive 연결당 최대 요청 수, DirectoryIndex는 기본 인덱스 파일 순서, ErrorLog는 오류 로그 경로를 의미한다 | Naver text extracted; official wording unverified |
 | 16 | essay | XSS 공격 탐지 Snort 룰 `alert tcp any any -> any 80 (msg:"XSS"; content:"GET"; offset:1; depth:3; content:"/login.php<script>XSS"; distance:1;)`에 대하여 답하시오. (1) `content:"GET"; offset:1; depth:3`의 의미는? (2) `content:"/login.php<script>XSS"; distance:1`의 의미는? (3) 바이너리로 전송된 패킷에서 `Login`의 L이 대문자라 위 룰로 탐지되지 않을 경우 수정 방법은? | offset은 검색 시작 위치, depth는 그 위치 기준 검색 범위이며, 패킷 첫 바이트에서 `GET`이 시작한다면 `offset:1; depth:3`은 그 문자열을 매치하지 못한다. 의도한 HTTP 메서드 조건은 적절한 HTTP 버퍼에서 `content:"GET"; offset:0; depth:3;`처럼 써야 한다. distance 1은 이전 매치 끝 이후 1바이트를 건너 다음 content 검색을 시작한다. 대소문자 무시는 `nocase`를 해당 content에 적용한다. 제공된 룰이 실제 원문과 동일한지는 복원 한계로 남긴다. | Naver text extracted; 2026-07-17 technical correction: offset/depth made the reconstructed rule internally inconsistent |
 
-## Verification Notes
+### Verification Notes
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Rows are normalized from accessible web reconstructions and were cross-checked against the unlocked thodi-lab/blog-source PDFs where in 1~28 scope; KCA official wording is still not claimed.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/f9b1459ee347ea83f97b617decd855f32c764f56f4f62ed11db7f53054437b79/b4902454ababea8870b7f167f8c82e29175e87cccd868b286c6231ba4dff9281/manifest.json`

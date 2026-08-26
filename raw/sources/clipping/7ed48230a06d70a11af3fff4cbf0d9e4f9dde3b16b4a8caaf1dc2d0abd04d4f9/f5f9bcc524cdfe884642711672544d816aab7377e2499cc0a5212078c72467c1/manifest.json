@@ -1,0 +1,15 @@
+{
+  "artifact_digest": "sha256:f5f9bcc524cdfe884642711672544d816aab7377e2499cc0a5212078c72467c1",
+  "created_at": "2026-08-24T10:38:12Z",
+  "generator": {
+    "name": "cs-study-capture",
+    "version": "1.0"
+  },
+  "media_type": "text/markdown",
+  "payload": "payload.md",
+  "primary_source": "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+  "schema_version": "1.0",
+  "size": 8873,
+  "source_id": "7ed48230a06d70a11af3fff4cbf0d9e4f9dde3b16b4a8caaf1dc2d0abd04d4f9",
+  "source_type": "clipping"
+}

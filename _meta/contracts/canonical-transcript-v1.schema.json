@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ytscript:canonical-transcript:1.0",
+  "title": "Canonical Transcript 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "video", "extraction", "segments", "full_text"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "video": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "id", "title", "channel", "upload_date", "duration_seconds", "language"],
+      "properties": {
+        "url": {"type": "string", "minLength": 1},
+        "id": {"type": "string", "minLength": 1, "pattern": "^[^/\\\\]+$"},
+        "title": {"type": ["string", "null"]},
+        "channel": {"type": ["string", "null"]},
+        "upload_date": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+        "duration_seconds": {"type": ["integer", "null"], "minimum": 0},
+        "language": {"type": ["string", "null"]}
+      }
+    },
+    "extraction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "language", "model", "engine", "extracted_at"],
+      "properties": {
+        "method": {"enum": ["manual", "auto_sub", "stt"]},
+        "language": {"type": "string", "minLength": 1},
+        "model": {"type": ["string", "null"]},
+        "engine": {"type": ["string", "null"]},
+        "extracted_at": {"type": "string", "format": "date-time"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"method": {"const": "stt"}}},
+          "then": {
+            "properties": {
+              "model": {"type": "string", "minLength": 1},
+              "engine": {"type": "string", "minLength": 1}
+            }
+          },
+          "else": {
+            "properties": {
+              "model": {"type": "null"},
+              "engine": {"type": "null"}
+            }
+          }
+        }
+      ]
+    },
+    "segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["start", "end", "text"],
+        "properties": {
+          "start": {"type": "number", "minimum": 0},
+          "end": {"type": "number", "minimum": 0},
+          "text": {"type": "string"}
+        }
+      }
+    },
+    "full_text": {"type": "string"}
+  }
+}

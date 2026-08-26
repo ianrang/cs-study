@@ -1,0 +1,15 @@
+{
+  "artifact_digest": "sha256:5e15d2cf8f6ac6b47c47408612b1001e633a897b37aecdef29ea61f89971735e",
+  "created_at": "2026-08-24T10:38:12Z",
+  "generator": {
+    "name": "cs-study-capture",
+    "version": "1.0"
+  },
+  "media_type": "text/markdown",
+  "payload": "payload.md",
+  "primary_source": "wiki/domains/information-security/drafts/udemy/readme.md",
+  "schema_version": "1.0",
+  "size": 1477,
+  "source_id": "769cd4ae0655f4e7a97ca61f22d1f0f8b9e146b2df02a8597f5648606a726194",
+  "source_type": "clipping"
+}

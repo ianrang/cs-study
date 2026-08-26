@@ -1,62 +1,62 @@
 ---
-title: "정보보안기사 실기 — 시기별 반복 출제 주제와 보완 우선순위"
-tier: llm-synthesis
+title: 정보보안기사 실기 — 시기별 반복 출제 주제와 보완 우선순위
 page_type: benchmark
-domain: information-security
-domain_confidence: high
-shared_scope: domain
 tags: []
-status: active
-date_created: 2026-07-17
-date_updated: 2026-07-17
+date_created: '2026-07-17'
+date_updated: '2026-07-17'
 source_paths:
-  - drafts/study/1장 정리.md
-  - drafts/study/2장 정리.md
-  - drafts/study/3장 정리.md
-  - drafts/study/4장 정리.md
-  - drafts/study/5장 정리.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md
-source_count: 36
-provenance: extracted
-summary: "2013–2020과 2021–2026의 복원 기출을 서로 다른 모수로 나누어 회차별 반복 주제와 현재 P1·P2·P3 정리 범위를 집계한 우선순위표."
-evergreen: false
+- raw/sources/clipping/6c32c7da5edab50e014d50acd0a74cdb7d3ec34ecacf233ff37de4d8b6c8bd27/bde83ea715360fdfc44401588bd62096e5c929558e8af03f8a243d9f8a37fbd5/manifest.json
+summary: 2013–2020과 2021–2026의 복원 기출을 서로 다른 모수로 나누어 회차별 반복 주제와 현재 P1·P2·P3 정리 범위를
+  집계한 우선순위표.
 ---
+
+## Definition
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 정보보안기사 실기 — 반복 출제 주제와 보완 우선순위
 
 두 기간의 문항 수·유형 구성이 다르므로 회차 수와 우선순위를 합산하지 않는다. 각 기간의 표와 회차 근거를 별도로 읽는다.
 
-## 2013–2020 집계
+### 2013–2020 집계
 
 ### 판단 기준
 
@@ -121,7 +121,7 @@ EDR, `strace`, TMS, Billion Laughs, SSDP DRDoS, `alert(document.cookie)` 같은 
 - 그 다음은 **DoS/DDoS → Snort → IPsec**의 패킷·설정·도식형 문항이다.
 - 현재 정리의 넓은 개념 범위보다 부족한 부분은 대주제가 아니라, 역사적 법규 열거와 문제 고유의 정확한 명령·옵션·필드 범위다.
 
-## 2021–2026 집계
+### 2021–2026 집계
 
 ### 판단 기준
 
@@ -194,3 +194,25 @@ EDR, `strace`, TMS, Billion Laughs, SSDP DRDoS, `alert(document.cookie)` 같은 
 - 2021–2026의 15회차에서는 **위험관리·웹/서비스·네트워크**가 모두 15/15회차로 확인된다.
 - 그 다음은 **운영체제·개인정보·암호통신**(각 12/15), **IDS/관제**(10/15), **DoS/DDoS**(9/15) 순이다.
 - 이 수치는 복원 문항의 회차 빈도만 보인 것이며, 이 문서만으로 특정 회차의 득점·60점 통과·합격 여부를 판단하지 않는다.
+
+## Methodology
+
+## Leaderboard
+
+## Limitations
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/6c32c7da5edab50e014d50acd0a74cdb7d3ec34ecacf233ff37de4d8b6c8bd27/bde83ea715360fdfc44401588bd62096e5c929558e8af03f8a243d9f8a37fbd5/manifest.json`

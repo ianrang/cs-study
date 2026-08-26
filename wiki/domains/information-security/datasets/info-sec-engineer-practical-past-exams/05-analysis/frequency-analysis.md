@@ -1,33 +1,33 @@
 ---
-title: "정보보안기사 실기 기출 빈도 분석"
-tier: llm-synthesis
+title: 정보보안기사 실기 기출 빈도 분석
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-analysis, frequency]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-07
+tags:
+- information-security
+- certification
+- exam-analysis
+- frequency
+date_created: '2026-07-03'
+date_updated: '2026-07-07'
 source_paths:
-  - "../index.md"
-  - "../03-classification/subject-type-classification-detail.md"
-  - "../03-classification/subject-type-matrix.md"
-  - "../04-mapping/item-reference-map.md"
-source_count: 4
-provenance: inferred
-summary: "정보보안기사 실기 1~31회 513문항의 과목·문항유형·연도별 빈도와 최근 회차 출제기준/참고문서 연결 빈도를 계산한 분석."
-evergreen: false
+- raw/sources/clipping/d67ff5992e09bbe4b95f399d6dfe01bdbc4cb4d805efe5c139f707b8207c5f29/1898766be27cc5cbeb8b9fd78960a5944eb3eeed296599b205ddd963e87bbb4f/manifest.json
+summary: 정보보안기사 실기 1~31회 513문항의 과목·문항유형·연도별 빈도와 최근 회차 출제기준/참고문서 연결 빈도를 계산한 분석.
 ---
+
+## Overview
+
+
+
+
+
 
 # 정보보안기사 실기 기출 빈도 분석
 
-## Scope
+### Scope
 - 분석 단위: `subject-type-classification-detail.md`의 1~31회 513문항.
 - 참고문서/출제기준 빈도 단위: `item-reference-map.md`의 23~30회 144문항. 31회는 아직 `item-reference-map.md`에 세부 기준 매핑을 확장하지 않았으므로 과목·유형 빈도에만 반영한다.
 - 1~28회 thodi-lab/blog-source PDF 편집본은 대조했지만 KCA 공식 원문 문구는 미주장이므로 문구 단위가 아니라 과목·유형·개념 단위 빈도다.
 
-## Overall Frequency
+### Overall Frequency
 | subject | count | share |
 |---|---:|---:|
 | 정보보안 관리 및 법규 | 156 | 30.4% |
@@ -37,14 +37,14 @@ evergreen: false
 | 정보보안 일반 | 46 | 9.0% |
 | 합계 | 513 | 100.0% |
 
-## Type Frequency
+### Type Frequency
 | type group | count | share |
 |---|---:|---:|
 | 단답형 | 318 | 62.0% |
 | 서술형/실무형 | 195 | 38.0% |
 | 합계 | 513 | 100.0% |
 
-## Subject By Type
+### Subject By Type
 | subject | short | essay/practical | total |
 |---|---:|---:|---:|
 | 정보보안 관리 및 법규 | 95 | 61 | 156 |
@@ -53,7 +53,7 @@ evergreen: false
 | 시스템 보안 | 47 | 26 | 73 |
 | 정보보안 일반 | 36 | 10 | 46 |
 
-## Yearly Subject Frequency
+### Yearly Subject Frequency
 | year | total | 시스템 보안 | 네트워크 보안 | 어플리케이션 보안 | 정보보안 일반 | 정보보안 관리 및 법규 |
 |---:|---:|---:|---:|---:|---:|---:|
 | 2013 | 31 | 4 | 8 | 3 | 5 | 11 |
@@ -71,7 +71,7 @@ evergreen: false
 | 2025 | 54 | 14 | 10 | 8 | 5 | 17 |
 | 2026 | 18 | 3 | 3 | 6 | 1 | 5 |
 
-## Recent Frequency, 23~31회
+### Recent Frequency, 23~31회
 | subject | count | share |
 |---|---:|---:|
 | 정보보안 관리 및 법규 | 44 | 27.2% |
@@ -81,7 +81,7 @@ evergreen: false
 | 정보보안 일반 | 10 | 6.2% |
 | 합계 | 162 | 100.0% |
 
-## Criteria Frequency, 23~30회
+### Criteria Frequency, 23~30회
 | criteria detail | count |
 |---|---:|
 | 서비스 보안설정 점검과 보완 | 28 |
@@ -98,7 +98,7 @@ evergreen: false
 | 정보자산 위협 및 취약점 분석 정리 | 2 |
 | 네트워크 및 보안장비 설정 점검과 보완 | 1 |
 
-## Reference Frequency, 23~30회
+### Reference Frequency, 23~30회
 | reference id | count |
 |---|---:|
 | `REF-KCA-INFOSEC-PRACTICAL-CRITERIA` | 144 |
@@ -114,8 +114,30 @@ evergreen: false
 | `REF-NIST-DLP-GLOSSARY` | 2 |
 | `REF-MITRE-ATTACK` | 2 |
 
-## Findings
+### Findings
 - 전체 513문항 기준 최상위 축은 `정보보안 관리 및 법규`와 `네트워크 보안`이다.
 - 최근 23~31회 기준으로는 `시스템 보안` 비중이 21.0%로 전체 평균 14.2%보다 높고, 31회 XSS/CSRF/Fiddler 문항 반영으로 `어플리케이션 보안` 최근 비중도 20.4%까지 올라갔다.
 - `서비스 보안설정 점검과 보완`, `운영체제별 보안특성 파악`, `IT 자산 위협 분석`, `프로토콜별 보안특성 파악`은 23~30회 출제기준 연결의 핵심이다. 31회 세부 기준 매핑은 아직 확장하지 않았으므로 이 절은 23~30회 기준으로 유지한다.
 - 단답형이 62.0%로 많지만, 관리/법규·네트워크·어플리케이션은 서술형/실무형 비중도 커서 암기형 키워드만으로는 부족하다.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/d67ff5992e09bbe4b95f399d6dfe01bdbc4cb4d805efe5c139f707b8207c5f29/1898766be27cc5cbeb8b9fd78960a5944eb3eeed296599b205ddd963e87bbb4f/manifest.json`

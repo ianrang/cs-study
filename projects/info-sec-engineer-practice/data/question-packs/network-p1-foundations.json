@@ -1,0 +1,253 @@
+{
+  "version": 1,
+  "packId": "network-p1-foundations",
+  "questions": [
+    {
+      "id": "network-packet-basics-01", "curriculumId": "network-packet-basics", "stage": "practical", "prerequisites": [],
+      "title": "/26 서브넷 주소 범위 판독",
+      "prompt": [{ "type": "text", "content": "호스트 IP가 `10.0.0.150/26`이다. 이 호스트가 속한 서브넷의 네트워크 주소, 브로드캐스트 주소, 사용 가능한 호스트 IP 범위를 각각 쓰세요." }],
+      "answer": { "type": "cloze", "matchPolicy": "exact", "blanks": [
+        { "id": "A", "label": "네트워크 주소", "accepted": ["10.0.0.128"] },
+        { "id": "B", "label": "브로드캐스트 주소", "accepted": ["10.0.0.191"] },
+        { "id": "C", "label": "사용 가능한 호스트 범위", "accepted": ["10.0.0.129~10.0.0.190", "10.0.0.129 ~ 10.0.0.190", "10.0.0.129-10.0.0.190", "10.0.0.129 - 10.0.0.190"] }
+      ] },
+      "explanation": [{ "type": "text", "content": "/26의 마지막 옥텟 마스크는 192이고 블록 간격은 64다. 150은 128~191 블록에 있으므로 네트워크 주소는 128, 브로드캐스트 주소는 191, 사용 가능 범위는 129~190이다." }],
+      "sourceRefs": [{ "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 144, "excerpt": "블록 간격", "status": "source-derived" }, { "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 161, "excerpt": "2^h-2", "status": "source-derived" }],
+      "tags": ["network", "ipv4", "subnet", "cidr", "practical"]
+    },
+    {
+      "id": "network-packet-basics-02", "curriculumId": "network-packet-basics", "stage": "cloze", "prerequisites": ["network-packet-basics-01"],
+      "title": "ICMP 핵심 Type 판독",
+      "prompt": [{ "type": "text", "content": "다음 ICMP Type의 의미를 각각 쓰세요. (A) 8, (B) 0, (C) 3, (D) 11" }],
+      "answer": { "type": "cloze", "matchPolicy": "case-insensitive", "blanks": [
+        { "id": "A", "label": "Type 8", "accepted": ["echo request", "echo 요청"] },
+        { "id": "B", "label": "Type 0", "accepted": ["echo reply", "echo 응답"] },
+        { "id": "C", "label": "Type 3", "accepted": ["destination unreachable", "목적지 도달 불가"] },
+        { "id": "D", "label": "Type 11", "accepted": ["time exceeded", "시간 초과"] }
+      ] },
+      "explanation": [{ "type": "text", "content": "Type 8은 Echo Request, Type 0은 Echo Reply다. Type 3은 목적지 도달 불가이며 UDP 스캔의 Port Unreachable 판독에 사용된다. Type 11은 TTL이 0이 된 Time Exceeded다." }],
+      "sourceRefs": [{ "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 196, "excerpt": "Echo Reply", "status": "source-derived" }, { "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 200, "excerpt": "Time Exceeded", "status": "source-derived" }],
+      "tags": ["network", "icmp", "packet-analysis", "cloze"]
+    },
+    {
+      "id": "network-packet-basics-03", "curriculumId": "network-packet-basics", "stage": "cloze", "prerequisites": ["network-packet-basics-02"],
+      "title": "IPv4 단편화 플래그 의미",
+      "prompt": [{ "type": "text", "content": "IPv4 패킷에서 (A)=1은 단편화를 금지한다. (B)=1은 현재 단편 뒤에 이어지는 단편이 더 있음을 뜻한다. (A), (B)의 플래그명을 각각 쓰세요." }],
+      "answer": { "type": "cloze", "matchPolicy": "case-insensitive", "blanks": [
+        { "id": "A", "label": "단편화 금지 플래그", "accepted": ["df", "don't fragment"] },
+        { "id": "B", "label": "뒤 단편 존재 플래그", "accepted": ["mf", "more fragments"] }
+      ] },
+      "explanation": [{ "type": "text", "content": "DF=1은 단편화 금지이고, DF=0은 필요 시 단편화 허용이다. MF=1은 뒤 단편이 더 있음을, MF=0은 마지막 단편이거나 단편화되지 않은 패킷임을 뜻한다." }],
+      "sourceRefs": [{ "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 186, "excerpt": "DF(단편화 금지), MF(뒤 단편 존재)", "status": "source-derived" }],
+      "tags": ["network", "ipv4", "fragmentation", "df", "mf"]
+    },
+    {
+      "id": "network-packet-basics-04", "curriculumId": "network-packet-basics", "stage": "practical", "prerequisites": ["network-packet-basics-03"],
+      "title": "TCP 3-way handshake 순서번호",
+      "prompt": [{ "type": "text", "content": "클라이언트가 `SYN(seq=100)`을 보냈고, 서버가 자신의 초기 sequence 번호 500으로 응답한다. 서버의 두 번째 패킷과 클라이언트의 세 번째 패킷의 `seq`, `ack`, 플래그를 각각 쓰세요." }],
+      "answer": { "type": "cloze", "matchPolicy": "case-insensitive", "blanks": [
+        { "id": "A", "label": "서버 두 번째 패킷", "accepted": ["syn/ack(seq=500, ack=101)", "syn+ack(seq=500, ack=101)", "syn ack(seq=500, ack=101)", "syn/ack, seq=500, ack=101", "syn/ack seq=500 ack=101"] },
+        { "id": "B", "label": "클라이언트 세 번째 패킷", "accepted": ["ack(seq=101, ack=501)", "ack, seq=101, ack=501", "ack seq=101 ack=501"] }
+      ] },
+      "explanation": [{ "type": "text", "content": "SYN은 sequence 번호 1을 소비한다. 따라서 서버는 ack=101을 보내고, 클라이언트는 서버 SYN에 대해 ack=501로 확인한다. 최종 ACK가 처리되면 연결이 성립한다." }],
+      "sourceRefs": [{ "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 239, "excerpt": "SYN(seq=x)", "status": "source-derived" }, { "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 241, "excerpt": "SYN과 FIN은 각각 순서번호 1을 소비", "status": "source-derived" }],
+      "tags": ["network", "tcp", "handshake", "sequence", "practical"]
+    },
+    {
+      "id": "network-packet-basics-05", "curriculumId": "network-packet-basics", "stage": "essay", "prerequisites": ["network-packet-basics-01"],
+      "title": "다른 서브넷 전송의 IP와 MAC",
+      "prompt": [{ "type": "text", "content": "호스트가 다른 서브넷의 서버로 패킷을 처음 전송한다. 이때 IP 패킷의 목적지와 현재 LAN Ethernet 프레임의 목적지 MAC을 각각 무엇으로 설정하는지, 이유와 함께 보기 없이 작성하세요." }],
+      "answer": { "type": "essay", "modelAnswer": ["IP 패킷의 목적지 IP는 최종 서버의 IP 주소로 유지한다.", "현재 LAN의 Ethernet 프레임 목적지 MAC은 기본 게이트웨이 인터페이스의 MAC 주소이며, 호스트는 게이트웨이 IP에 대해 ARP를 수행한다."], "keywordGroups": [
+        { "label": "최종 서버 목적지 IP 유지", "terms": ["최종 서버의 ip", "목적지 ip는 최종 서버", "최종 목적지 ip"] },
+        { "label": "기본 게이트웨이 MAC", "terms": ["기본 게이트웨이의 mac", "기본 게이트웨이 인터페이스의 mac", "게이트웨이 mac"] },
+        { "label": "게이트웨이에 대한 ARP", "terms": ["게이트웨이 ip에 대해 arp", "게이트웨이 arp"] }
+      ], "deductionRisks": ["다른 서브넷이라고 IP 패킷의 목적지 IP를 기본 게이트웨이 IP로 바꾸지 않는다.", "최종 서버의 MAC 주소를 직접 ARP한다고 쓰지 않는다."] },
+      "explanation": [{ "type": "text", "content": "라우터를 지날 때마다 Ethernet 프레임의 MAC 주소는 다음 링크에 맞게 새로 붙지만, NAT 같은 주소 변환이 없는 한 IP 목적지는 최종 서버로 유지된다." }],
+      "sourceRefs": [{ "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 274, "excerpt": "기본 게이트웨이의 MAC", "status": "source-derived" }, { "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 275, "excerpt": "최종 서버 IP", "status": "source-derived" }],
+      "tags": ["network", "arp", "gateway", "packet-analysis", "essay", "blank-recall"]
+    },
+    {
+      "id": "network-routing-basics-01", "curriculumId": "network-routing-basics", "stage": "decision", "prerequisites": ["network-packet-basics-05"],
+      "title": "최장 프리픽스 일치 라우팅",
+      "prompt": [{ "type": "code", "content": "10.0.0.0/8     -> 게이트웨이 A\n10.0.1.0/24    -> 게이트웨이 B\n0.0.0.0/0      -> 게이트웨이 C" }, { "type": "text", "content": "목적지 `10.0.1.50` 패킷이 선택할 게이트웨이를 쓰세요." }],
+      "answer": { "type": "short", "matchPolicy": "case-insensitive", "inputLabel": "게이트웨이", "accepted": ["게이트웨이 b", "b"] },
+      "explanation": [{ "type": "text", "content": "10.0.1.50은 /8과 /24에 모두 일치하지만 /24가 더 구체적이다. 일치하는 경로가 없을 때만 0.0.0.0/0 기본 경로를 사용한다." }],
+      "sourceRefs": [{ "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md", "line": 34, "excerpt": "default `0.0.0.0/0", "status": "source-derived" }, { "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 288, "excerpt": "Longest Prefix Match", "status": "source-derived" }],
+      "tags": ["network", "routing", "longest-prefix-match", "past-exam"]
+    },
+    {
+      "id": "network-routing-basics-02", "curriculumId": "network-routing-basics", "stage": "cloze", "prerequisites": ["network-routing-basics-01"],
+      "title": "동적 라우팅 프로토콜 핵심 구분",
+      "prompt": [{ "type": "text", "content": "Hop Count를 기준으로 하는 거리 벡터 프로토콜은 (A), 링크 상태 정보를 바탕으로 Cost를 계산하는 프로토콜은 (B), 고급 거리 벡터 계열 프로토콜은 (C)이다." }],
+      "answer": { "type": "cloze", "matchPolicy": "case-insensitive", "blanks": [
+        { "id": "A", "label": "Hop Count 기반", "accepted": ["rip"] },
+        { "id": "B", "label": "링크 상태·Cost 기반", "accepted": ["ospf"] },
+        { "id": "C", "label": "고급 거리 벡터 계열", "accepted": ["eigrp"] }
+      ] },
+      "explanation": [{ "type": "text", "content": "RIP는 거리 벡터와 hop count, OSPF는 링크 상태와 SPF·cost, EIGRP는 DUAL을 이용하는 고급 거리 벡터 계열로 구분한다." }],
+      "sourceRefs": [{ "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 319, "excerpt": "RIP", "status": "source-derived" }, { "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 321, "excerpt": "EIGRP", "status": "source-derived" }],
+      "tags": ["network", "routing", "rip", "ospf", "eigrp", "cloze"]
+    },
+    {
+      "id": "network-attack-analysis-01", "curriculumId": "network-attack-analysis", "stage": "cloze", "prerequisites": ["network-packet-basics-04"],
+      "title": "스캔 응답 기반 포트 상태",
+      "prompt": [{ "type": "text", "content": "(A) SYN 스캔에 대해 `SYN/ACK`가 오면 포트 상태는 무엇인가? (B) UDP 스캔에 대해 ICMP Type 3 Code 3(Port Unreachable)이 오면 포트 상태는 무엇인가? (C) FIN/NULL/XMAS 스캔에 RST가 오지 않고 무응답이면 스캐너 관점의 상태는 무엇인가?" }],
+      "answer": { "type": "cloze", "matchPolicy": "case-insensitive", "blanks": [
+        { "id": "A", "label": "SYN/ACK 응답", "accepted": ["open", "열림"] },
+        { "id": "B", "label": "ICMP Port Unreachable", "accepted": ["closed", "닫힘"] },
+        { "id": "C", "label": "FIN/NULL/XMAS 무응답", "accepted": ["open|filtered", "open filtered", "열림 또는 필터링", "open 또는 filtered"] }
+      ] },
+      "explanation": [{ "type": "text", "content": "SYN/ACK는 SYN 스캔에서 열린 포트의 핵심 응답이다. UDP Port Unreachable은 닫힌 포트의 단서다. FIN/NULL/XMAS 무응답은 열린 포트일 수도, 방화벽에 필터링됐을 수도 있어 Open|Filtered로 판정한다." }],
+      "sourceRefs": [{ "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 374, "excerpt": "SYN/ACK 후 RST", "status": "source-derived" }, { "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 376, "excerpt": "ICMP Port Unreachable", "status": "source-derived" }],
+      "tags": ["network", "scan", "syn-scan", "udp-scan", "fin-null-xmas"]
+    },
+    {
+      "id": "network-attack-analysis-02", "curriculumId": "network-attack-analysis", "stage": "essay", "prerequisites": ["network-attack-analysis-01"],
+      "title": "SYN Flooding 원리와 대응",
+      "prompt": [{ "type": "text", "content": "다수의 SYN, SYN_RECV 상태 누적, backlog 포화, 정상 신규 연결 실패가 관찰된다. 공격명, 원리, 영향, 대응 두 가지 이상을 보기 없이 작성하세요." }],
+      "answer": { "type": "essay", "modelAnswer": ["TCP SYN Flooding 공격이다. 공격자가 다수의 SYN을 보내고 최종 ACK를 보내지 않아 half-open 연결을 SYN_RECV 상태로 누적한다.", "서버의 backlog와 연결 상태 자원이 고갈되어 정상 신규 연결이 거부된다. SYN cookie 또는 SYN proxy, 연결 임계치·rate limit, timeout·backlog 조정, 출발지 IP 검증을 적용한다."], "keywordGroups": [
+        { "label": "SYN Flooding 공격명", "terms": ["syn flooding", "syn flood"] },
+        { "label": "최종 ACK 미전송과 half-open 누적", "terms": ["최종 ack를 보내지", "half-open 연결", "half open 연결", "syn_recv"] },
+        { "label": "backlog 또는 연결 자원 고갈", "terms": ["backlog", "연결 대기 큐", "연결 상태 자원"] },
+        { "label": "정상 신규 연결 거부", "terms": ["정상 신규 연결이 거부", "정상 접속이 불가능", "서비스 거부"] },
+        { "label": "SYN cookie·proxy 또는 rate limit 대응", "terms": ["syn cookie", "syn proxy", "rate limit", "임계치"] }
+      ], "deductionRisks": ["backlog를 애플리케이션의 DB connection pool과 같은 의미로 쓰지 않는다.", "SYN/ACK만 많이 보낸 서버가 공격자라고 단정하지 않는다."] },
+      "explanation": [{ "type": "text", "content": "서술형은 공격명만 쓰지 말고 ‘최종 ACK 미전송 → half-open/SYN_RECV 누적 → backlog 고갈 → 신규 연결 거부’의 인과를 이어 써야 한다." }],
+      "sourceRefs": [{ "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md", "line": 33, "excerpt": "SYN_RECEIVED", "status": "source-derived" }, { "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 398, "excerpt": "SYN Flooding", "status": "source-derived" }],
+      "tags": ["network", "dos", "syn-flood", "essay", "blank-recall", "past-exam"]
+    },
+    {
+      "id": "network-attack-analysis-03", "curriculumId": "network-attack-analysis", "stage": "essay", "prerequisites": ["network-attack-analysis-02"],
+      "title": "반사·증폭 DRDoS 공통 답안",
+      "prompt": [{ "type": "text", "content": "공격자가 피해자 IP를 출발지로 위조한 작은 UDP 요청을 여러 공개 DNS 또는 NTP 서버에 보내고, 큰 응답이 피해자에게 집중된다. 공격 유형, 원리, 대응을 보기 없이 작성하세요." }],
+      "answer": { "type": "essay", "modelAnswer": ["DNS/NTP 증폭 DRDoS(반사·증폭 DDoS) 공격이다. 공격자는 피해자 IP로 출발지를 위조해 공개 반사 서버에 작은 UDP 요청을 보내고, 더 큰 응답이 피해자에게 집중되게 한다.", "Ingress/Egress filtering 또는 uRPF로 위조 출발지 IP를 차단하고, 공개 DNS 재귀·NTP 접근을 제한하며, rate limit 또는 Anti-DDoS 스크러빙을 적용한다."], "keywordGroups": [
+        { "label": "반사·증폭 DRDoS 식별", "terms": ["drdos", "반사 증폭", "증폭 ddos", "dns 증폭", "ntp 증폭"] },
+        { "label": "피해자 출발지 IP 위조", "terms": ["피해자 ip로 출발지를 위조", "출발지 ip를 위조", "ip spoofing"] },
+        { "label": "반사 서버의 큰 응답 집중", "terms": ["큰 응답이 피해자", "응답이 피해자에게 집중", "반사 서버"] },
+        { "label": "출발지 위조 차단", "terms": ["ingress filtering", "egress filtering", "urpf", "출발지 ip를 차단"] },
+        { "label": "공개 서비스 제한 또는 rate limit", "terms": ["공개 dns", "ntp 접근을 제한", "rate limit", "스크러빙"] }
+      ], "deductionRisks": ["DNS/NTP 증폭을 단순 UDP Flooding이라고만 쓰지 않는다.", "대응에서 피해자 서버만의 방화벽 설정으로 출발지 위조를 막는다고 쓰지 않는다."] },
+      "explanation": [{ "type": "text", "content": "반사·증폭 문제의 공용 템플릿은 ‘위조 출발지 차단 → 공개 반사 서비스 제한 → rate limit/스크러빙’이다. DNS와 NTP 중 문제에 제시된 서비스를 명시한다." }],
+      "sourceRefs": [{ "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md", "line": 43, "excerpt": "DNS 증폭 공격", "status": "source-derived" }, { "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 400, "excerpt": "DNS/NTP 증폭 DRDoS", "status": "source-derived" }],
+      "tags": ["network", "drdos", "dns-amplification", "ntp-amplification", "essay", "blank-recall", "past-exam"]
+    },
+    {
+      "id": "network-attack-analysis-04", "curriculumId": "network-attack-analysis", "stage": "cloze", "prerequisites": ["network-attack-analysis-01"],
+      "title": "IP Spoofing과 Session Hijacking 구분",
+      "prompt": [{ "type": "text", "content": "출발지 IP 주소를 위조하는 공격은 (A)이고, 인증된 사용자의 세션 쿠키·세션 식별자 또는 TCP 연결을 탈취해 사용자를 사칭하는 공격은 (B)이다." }],
+      "answer": { "type": "cloze", "matchPolicy": "case-insensitive", "blanks": [
+        { "id": "A", "label": "출발지 IP 위조", "accepted": ["ip spoofing", "ip 스푸핑"] },
+        { "id": "B", "label": "인증 세션 탈취", "accepted": ["session hijacking", "세션 하이재킹"] }
+      ] },
+      "explanation": [{ "type": "text", "content": "IP Spoofing은 패킷의 출발지 IP를 위조하는 것이고, Session Hijacking은 인증 후의 세션을 탈취·가로채는 것이다. 둘은 함께 쓰일 수 있어도 같은 공격명은 아니다." }],
+      "sourceRefs": [{ "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 388, "excerpt": "IP spoofing", "status": "source-derived" }, { "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 390, "excerpt": "TCP session hijacking", "status": "source-derived" }],
+      "tags": ["network", "spoofing", "session-hijacking", "cloze"]
+    },
+    {
+      "id": "network-attack-analysis-05", "curriculumId": "network-attack-analysis", "stage": "cloze", "prerequisites": ["network-attack-analysis-02"],
+      "title": "Slow HTTP DoS 두 유형",
+      "prompt": [{ "type": "text", "content": "HTTP 요청 헤더를 끝내지 않고 조각을 천천히 보내 연결을 점유하는 공격은 (A)이고, 큰 Content-Length를 선언한 뒤 POST 본문을 아주 느리게 보내는 공격은 (B)이다." }],
+      "answer": { "type": "cloze", "matchPolicy": "case-insensitive", "blanks": [
+        { "id": "A", "label": "불완전 헤더 유지", "accepted": ["slowloris", "slow http header dos"] },
+        { "id": "B", "label": "느린 POST 본문", "accepted": ["rudy", "slow http post dos"] }
+      ] },
+      "explanation": [{ "type": "text", "content": "Slowloris는 헤더 완료를 기다리는 연결을, RUDY는 큰 POST 본문 완료를 기다리는 연결을 점유한다. 공통적으로 timeout, 최소 전송률, 동시 연결 제한, reverse proxy/WAF를 고려한다." }],
+      "sourceRefs": [{ "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md", "line": 45, "excerpt": "Slow HTTP Header DoS", "status": "source-derived" }, { "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 402, "excerpt": "Slow HTTP POST DoS", "status": "source-derived" }],
+      "tags": ["network", "dos", "slowloris", "rudy", "http"]
+    },
+    {
+      "id": "network-dns-monitoring-01", "curriculumId": "network-name-monitoring-basics", "stage": "cloze", "prerequisites": [],
+      "title": "DNS 전송·캐시·TTL",
+      "prompt": [{ "type": "text", "content": "일반 DNS 질의의 대표 전송 프로토콜과 포트는 (A)이고, Zone Transfer에 사용하는 전송 프로토콜과 포트는 (B)이다. DNS 응답을 임시 저장하는 방식은 (C)이고 그 유지 시간을 나타내는 값은 (D)이다." }],
+      "answer": { "type": "cloze", "matchPolicy": "case-insensitive", "blanks": [
+        { "id": "A", "label": "일반 질의", "accepted": ["udp 53", "udp/53"] },
+        { "id": "B", "label": "Zone Transfer", "accepted": ["tcp 53", "tcp/53"] },
+        { "id": "C", "label": "임시 저장 방식", "accepted": ["dns cache", "cache", "dns 캐시", "캐시"] },
+        { "id": "D", "label": "캐시 유지 시간", "accepted": ["ttl"] }
+      ] },
+      "explanation": [{ "type": "text", "content": "일반 질의는 주로 UDP 53이며 큰 응답 등 조건에서는 TCP를 쓸 수 있다. Zone Transfer는 TCP 53이다. TTL은 resolver가 응답을 캐시할 수 있는 시간을 제어한다." }],
+      "sourceRefs": [{ "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md", "line": 42, "excerpt": "DNS 캐시(Cache), TTL", "status": "source-derived" }, { "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 364, "excerpt": "Zone transfer는 TCP 53", "status": "source-derived" }],
+      "tags": ["network", "dns", "udp", "tcp", "ttl", "past-exam"]
+    },
+    {
+      "id": "network-dns-monitoring-02", "curriculumId": "network-name-monitoring-basics", "stage": "decision", "prerequisites": ["network-dns-monitoring-01"],
+      "title": "Recursive DNS와 Authoritative DNS 구분",
+      "prompt": [{ "type": "text", "content": "클라이언트의 질의를 받아 캐시를 먼저 확인하고, 답이 없으면 DNS 계층을 따라 최종 답을 찾아 반환하는 서버 역할을 쓰세요." }],
+      "answer": { "type": "short", "matchPolicy": "case-insensitive", "inputLabel": "DNS 서버 역할", "accepted": ["recursive dns", "recursive resolver", "재귀 dns", "재귀 dns 서버", "재귀 리졸버"] },
+      "explanation": [{ "type": "text", "content": "Recursive DNS는 클라이언트에 최종 답을 돌려주며 보통 캐시 기능을 함께 수행한다. Authoritative DNS는 특정 도메인의 공식 zone 레코드를 제공하는 역할이다." }],
+      "sourceRefs": [{ "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 361, "excerpt": "recursive/cache DNS", "status": "source-derived" }, { "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 362, "excerpt": "Authoritative DNS", "status": "source-derived" }],
+      "tags": ["network", "dns", "recursive", "authoritative", "decision"]
+    },
+    {
+      "id": "network-dns-monitoring-03", "curriculumId": "network-name-monitoring-basics", "stage": "recall", "prerequisites": ["network-dns-monitoring-01"],
+      "title": "DNS 캐시 오염 공격",
+      "prompt": [{ "type": "text", "content": "공격자가 재귀 DNS의 캐시에 위조된 도메인-IP 응답을 저장시켜 사용자를 공격자 서버로 유도하는 공격을 쓰세요." }],
+      "answer": { "type": "short", "matchPolicy": "case-insensitive", "inputLabel": "공격명", "accepted": ["dns cache poisoning", "dns 캐시 포이즈닝"] },
+      "explanation": [{ "type": "text", "content": "DNS Cache Poisoning은 위조된 DNS 응답을 캐시에 넣어 이후 사용자가 잘못된 IP를 받게 하는 공격이다. 신뢰 DNS 제한, 소스 포트·트랜잭션 ID 무작위화, DNSSEC 검증 등을 적용한다." }],
+      "sourceRefs": [{ "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 389, "excerpt": "DNS spoofing/cache poisoning", "status": "source-derived" }, { "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md", "line": 33, "excerpt": "DNS Cache Poisoning", "status": "source-derived" }],
+      "tags": ["network", "dns", "cache-poisoning", "spoofing"]
+    },
+    {
+      "id": "network-dns-monitoring-04", "curriculumId": "network-name-monitoring-basics", "stage": "cloze", "prerequisites": [],
+      "title": "SNMP Polling과 Trap 포트",
+      "prompt": [{ "type": "text", "content": "SNMP Manager가 Agent에 상태를 질의하는 기본 UDP 포트는 (A)이고, Agent가 Manager에 Trap 알림을 보내는 기본 UDP 포트는 (B)이다." }],
+      "answer": { "type": "cloze", "matchPolicy": "exact", "blanks": [
+        { "id": "A", "label": "Manager -> Agent", "accepted": ["161", "udp 161", "udp/161"] },
+        { "id": "B", "label": "Agent -> Manager Trap", "accepted": ["162", "udp 162", "udp/162"] }
+      ] },
+      "explanation": [{ "type": "text", "content": "Manager는 UDP 161의 Agent에 polling 질의를 보내고, Agent는 UDP 162로 Trap을 보낸다. SNMPv1/v2c community string은 평문이므로 SNMPv3 authPriv, ACL, Read-Only 권한을 고려한다." }],
+      "sourceRefs": [{ "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 126, "excerpt": "UDP 161/162", "status": "source-derived" }, { "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 621, "excerpt": "SNMP 관리 보안", "status": "source-derived" }],
+      "tags": ["network", "snmp", "polling", "trap", "port"]
+    },
+    {
+      "id": "network-monitoring-controls-02", "curriculumId": "network-name-monitoring-basics", "stage": "cloze", "prerequisites": [],
+      "title": "오탐과 미탐 구분",
+      "prompt": [{ "type": "text", "content": "정상 행위를 공격으로 잘못 판단한 것은 (A)이고, 실제 공격을 정상으로 판단해 놓친 것은 (B)이다." }],
+      "answer": { "type": "cloze", "matchPolicy": "case-insensitive", "blanks": [
+        { "id": "A", "label": "정상을 공격으로 판단", "accepted": ["false positive", "fp", "오탐"] },
+        { "id": "B", "label": "공격을 정상으로 판단", "accepted": ["false negative", "fn", "미탐"] }
+      ] },
+      "explanation": [{ "type": "text", "content": "False Positive는 오탐, False Negative는 미탐이다. IPS 환경에서는 오탐이 정상 업무 차단으로 이어질 수 있고, 미탐은 실제 공격을 놓친다는 점이 핵심이다." }],
+      "sourceRefs": [{ "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 656, "excerpt": "False Positive", "status": "source-derived" }],
+      "tags": ["network", "ids", "ips", "false-positive", "false-negative"]
+    },
+    {
+      "id": "network-monitoring-controls-03", "curriculumId": "network-name-monitoring-basics", "stage": "recall", "prerequisites": [],
+      "title": "중요정보 반출 통제 솔루션",
+      "prompt": [{ "type": "text", "content": "이동식 저장매체, 이메일, 메신저, 웹 업로드를 통한 중요 문서·개인정보 반출을 탐지·차단하는 솔루션을 쓰세요." }],
+      "examPrompt": [{ "type": "text", "content": "PC 에이전트와 네트워크 센서로 문서 유출을 탐지·차단하는 정보보호 솔루션을 쓰시오." }],
+      "answer": { "type": "short", "matchPolicy": "case-insensitive", "inputLabel": "솔루션", "accepted": ["dlp", "data loss prevention", "정보 유출 방지"] },
+      "explanation": [{ "type": "text", "content": "DLP는 중요정보의 저장·사용·전송과 반출 경로를 식별해 탐지·차단·기록한다. Firewall은 IP·Port·Protocol 중심, WAF는 HTTP 웹 공격 중심이라는 점과 구분한다." }],
+      "sourceRefs": [{ "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md", "line": 39, "excerpt": "DLP", "status": "source-derived" }, { "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 713, "excerpt": "DLP(Data Loss Prevention)", "status": "source-derived" }],
+      "tags": ["network", "dlp", "data-loss-prevention", "past-exam"]
+    },
+    {
+      "id": "network-monitoring-controls-04", "curriculumId": "network-name-monitoring-basics", "stage": "essay", "prerequisites": [],
+      "title": "기본 Snort 룰 직접 작성",
+      "prompt": [{ "type": "text", "content": "TCP Telnet 목적지 포트 23으로 향하는 패킷의 payload에 `anonymous` 문자열이 있으면 `Dangerous` 경보를 발생시키고 SID 100001을 부여하는 Snort 룰을 보기 없이 작성하세요." }],
+      "answer": { "type": "essay", "modelAnswer": ["alert tcp any any -> any 23 (msg:\"Dangerous\"; content:\"anonymous\"; sid:100001;)"], "keywordGroups": [
+        { "label": "alert action", "terms": ["alert tcp"] },
+        { "label": "TCP 목적지 포트 23", "terms": ["-> any 23", "-> any 23 ("] },
+        { "label": "Dangerous 경보 메시지", "terms": ["msg:\"dangerous\"", "msg:'dangerous'"] },
+        { "label": "anonymous content 검사", "terms": ["content:\"anonymous\"", "content:'anonymous'"] },
+        { "label": "SID 100001", "terms": ["sid:100001"] }
+      ], "deductionRisks": ["content와 msg의 역할을 바꾸지 않는다.", "sid를 룰 수정 버전인 rev와 혼동하지 않는다.", "threshold를 차단 동작이라고 단정하지 않는다."] },
+      "explanation": [{ "type": "text", "content": "기본 구조는 `action protocol source -> destination (options)`다. 옵션 순서는 바뀌어도 되지만 msg, content, sid와 세미콜론은 각각 있어야 한다. `nocase`는 content의 대소문자 비교를 무시하고, `depth:14`는 앞 14바이트 검색 범위를 뜻한다." }],
+      "sourceRefs": [{ "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md", "line": 34, "excerpt": "content", "status": "source-derived" }, { "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 667, "excerpt": "Header", "status": "source-derived" }, { "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 677, "excerpt": "sid/rev", "status": "source-derived" }],
+      "tags": ["network", "snort", "rule", "essay", "blank-recall", "past-exam"]
+    },
+    {
+      "id": "network-secure-communications-01", "curriculumId": "network-secure-communications", "stage": "cloze", "prerequisites": [],
+      "title": "TLS 인증서·키 역할",
+      "prompt": [{ "type": "text", "content": "TLS에서 서버의 신원을 검증하는 것은 (A)이고, 공동 비밀을 만들어 세션키를 파생하는 임시 키 교환은 (B)이며, 연결 성립 뒤 실제 응용 데이터를 빠르게 암호화하는 것은 (C)이다." }],
+      "answer": { "type": "cloze", "matchPolicy": "case-insensitive", "blanks": [
+        { "id": "A", "label": "TLS 서버 신원 검증", "accepted": ["서버 인증서", "certificate", "server certificate"] },
+        { "id": "B", "label": "임시 키 교환", "accepted": ["ecdhe", "(ec)dhe"] },
+        { "id": "C", "label": "TLS 응용 데이터 암호화", "accepted": ["대칭 세션키", "세션키", "session key", "symmetric session key"] }
+      ] },
+      "explanation": [{ "type": "text", "content": "인증서는 CA 서명으로 서버 공개키와 신원을 결합해 검증한다. (EC)DHE는 임시 키 교환으로 공동 비밀을 만들고, 합의로 파생한 대칭 세션키가 실제 데이터를 보호한다." }],
+      "sourceRefs": [{ "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 766, "excerpt": "Certificate", "status": "source-derived" }, { "path": "drafts/study/info-sec-engineer-network-security-study.md", "line": 769, "excerpt": "대칭키", "status": "source-derived" }],
+      "tags": ["network", "tls", "certificate", "ecdhe", "session-key"]
+    }
+  ]
+}

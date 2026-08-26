@@ -1,32 +1,32 @@
 ---
-title: "정보보안기사 실기 16회 2020년 2회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 16회 2020년 2회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://blog.naver.com/stereok2/222191200052"
-source_count: 1
-provenance: inferred
-summary: "정보보안기사 실기 16회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: Naver direct analysis/reconstruction blog with answers."
-evergreen: false
+- raw/sources/clipping/c5ab661f3a653d0e429ec7cde76f391554a364b4c8ef88f8546e3cf61b4041e2/7d00894d8b876d04a093feaf78075a5dbd6ad49cebd10b3e66d52fa2d4e639ce/manifest.json
+summary: '정보보안기사 실기 16회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: Naver direct analysis/reconstruction
+  blog with answers.'
 ---
+
+## Overview
+
+
 
 # 정보보안기사 실기 16회 2020년 2회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2020년 2회 실기.
 - Source status: Naver direct analysis/reconstruction blog with answers; confidence: medium-high for topic and answer coverage, medium for exact official wording.
 - This file stores paraphrased reconstruction notes, not verbatim source text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | /etc/shadow 파일 해시 알고리즘 식별자 | 1=MD5, 5=SHA-256, 6=SHA-512 | Naver answer cross-check; exact official wording unverified |
@@ -46,7 +46,29 @@ evergreen: false
 | 15 | essay | 정보보호 위험평가에서 A/B 보호대책 적용 시 빈칸을 계산하고 더 효과적인 대책을 고르시오. A: AV=100,000, EF=0.2, ARO=0.5, 감소한 ALE=30,000, 운영비용=17,000. B: AV=100,000, EF=0.8, ARO=0.25, 감소한 ALE=20,000, 운영비용=4,000. 각 대책의 SLE, ALE, 보호대책 효과를 계산하시오. | A: SLE=20,000, ALE=10,000, 효과=13,000. B: SLE=80,000, ALE=20,000, 효과=16,000. 여기서 효과는 제시된 감소 ALE에서 운영비용을 뺀 값이므로 B가 3,000 더 크다. | PDF compilation cross-check restored all B-side inputs and the calculation basis; this is a non-official blog compilation, not KCA wording. |
 | 16 | essay | 공공기관의 개인정보 흐름표에서 문제가 되는 사항 4가지를 찾아 설명하시오. 흐름표 주요 내용은 다음과 같다. (1) 수집: 수집항목은 성명, 주민등록번호, 전화번호, 이메일이고 주민등록번호 수집 근거는 정보주체의 동의이다. (2) 저장: 저장항목은 성명, 주민등록번호, 전화번호, 이메일이며 주민등록번호를 MD5로 암호화한다. (3) 제공 및 파기: 주민등록번호를 DB 실시간 연동 방식으로 제공하고 암호화 적용 여부는 평문전송이며 파기주기는 영구보관이다. | 주민등록번호 수집 법령 근거 부재, 안전하지 않은 MD5 사용, 주민번호 평문 전송, 영구보관으로 파기주기 부재 | PDF compilation cross-check restored prompt condition |
 
-## Verification Notes
+### Verification Notes
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Rows are normalized from accessible web reconstructions and were cross-checked against the unlocked thodi-lab/blog-source PDFs where in 1~28 scope; KCA official wording is still not claimed.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/c5ab661f3a653d0e429ec7cde76f391554a364b4c8ef88f8546e3cf61b4041e2/7d00894d8b876d04a093feaf78075a5dbd6ad49cebd10b3e66d52fa2d4e639ce/manifest.json`

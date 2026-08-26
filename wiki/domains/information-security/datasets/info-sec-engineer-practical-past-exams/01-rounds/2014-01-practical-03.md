@@ -1,31 +1,31 @@
 ---
-title: "정보보안기사 실기 3회 2014년 1회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 3회 2014년 1회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://information-security.tistory.com/291"
-source_count: 1
-provenance: inferred
-summary: "정보보안기사 실기 3회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지."
-evergreen: false
+- raw/sources/clipping/5239761f72bf1d46fd1da96ff7d32c95966d6a42bf739ef9eb9f71c7eb8aea75/2a672daff5a00a0381ac8cbd133839560aaeb44c5c6408d14396bbead6b424b8/manifest.json
+summary: 정보보안기사 실기 3회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지.
 ---
+
+## Overview
+
+
+
 
 # 정보보안기사 실기 3회 2014년 1회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2014년 1회 실기.
 - Source status: Information Security Tistory direct reconstruction post; confidence: medium-high.
 - This file stores paraphrased reconstruction notes and answer keys, not verbatim official exam text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | Diffie-Hellman 키 교환 과정에서 빈칸을 채우시오. 공개값은 소수 `p`와 원시근 `g`, Alice의 비밀값은 `a`, Bob의 비밀값은 `b`이다. Alice는 `g^a mod p`를 Bob에게 보내고 Bob은 `g^b mod p`를 Alice에게 보낸다. (A): Alice가 계산하는 최종 공유 비밀값. (B): Bob이 계산하는 최종 공유 비밀값. (C): 최종 공유값의 용도. | A : B^a mod p (Bob이 전송한 값의 a 거듭제곱 mod p) B : A^b mod p (Alice가 전송한 값의 b 거듭제곱 mod p) C : 비밀키(대칭키) | source-derived from Information Security Tistory; DH process restored |
@@ -45,7 +45,29 @@ evergreen: false
 | 15 | essay | HTTP 웹 서버 접속 후 로그인이 되지 않는 상황에서 동일 출발지 IP가 짧은 시간 동안 대량의 GET 요청을 지속 전송하는 것이 확인되었다. 다음을 서술하시오.<br>(1) 공격 유형<br>(2) 서버에 미치는 영향 | (1) HTTP GET Flooding 공격<br>(2) 대량의 HTTP GET 요청을 지속적으로 전송하여 서버의 TCP 세션 자원과 처리 자원을 모두 소진시킨다. 그 결과 정상적인 사용자가 접속 요청을 해도 서버가 새로운 연결을 수용하지 못하여 서비스 거부 상태가 발생한다. | source-derived from Information Security Tistory; 2026-07-18 prompt-format correction: two requested answer parts are explicitly mapped; exact official wording unavailable |
 | 16 | essay | 개인정보 영향평가 대상으로 대통령령으로 정한 기준에 해당하는 개인정보 파일 유형을 각각 서술하시오.<br>(1) 민감정보 또는 고유식별정보 처리 기준<br>(2) 개인정보 파일 연계 기준<br>(3) 일반 개인정보 파일 기준 | (1) 구축·운용 또는 변경하려는 개인정보 파일로서 5만 명 이상의 정보주체에 관한 민감 정보 또는 고유식별정보의 처리가 수반되는 개인정보 파일<br>(2) 구축·운용하고 있는 개인정보 파일을 해당 공공기관 내부 또는 외부에서 구축·운용하고 있는 다른 개인정보 파일과 연계하려는 경우로서, 연계 결과 50만 명 이상의 정보주체에 관한 개인정보가 포함되는 개인정보 파일<br>(3) 구축·운용 또는 변경하려는 개인정보 파일로서 100만 명 이상의 정보주체에 관한 개인정보 파일 | source-derived from Information Security Tistory; 2026-07-18 prompt-format correction: three requested answer slots are explicit; statutory answer remains source-derived |
 
-## Verification Notes
+### Verification Notes
 - Cross-check basis: the round-specific Tistory post linked in `source_paths` was parsed by sequential question number and answer marker.
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/5239761f72bf1d46fd1da96ff7d32c95966d6a42bf739ef9eb9f71c7eb8aea75/2a672daff5a00a0381ac8cbd133839560aaeb44c5c6408d14396bbead6b424b8/manifest.json`

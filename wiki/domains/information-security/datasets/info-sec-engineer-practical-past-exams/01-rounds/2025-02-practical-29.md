@@ -1,36 +1,36 @@
 ---
-title: "정보보안기사 실기 29회 2025년 2회 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 29회 2025년 2회 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://blog.naver.com/stereok2/224308597646"
-  - "https://jaesung.tistory.com/91"
-  - "https://jaesung.tistory.com/category/자격증/정보보안 기사?page=1..8"
-  - "cs/information-security/round-1/docs/info-sec-engineer-criteria-2023-2026.pdf"
-  - "cs/information-security/round-1/docs/외부자료-검증체크리스트.md"
-  - "cs/information-security/round-1/01.system-security/03.linux-basic.md"
-  - "cs/information-security/round-1/02.network-security/08.security-solutions-and-monitoring.md"
-  - "cs/information-security/round-1/05.management-and-law/02.risk-assessment.md"
-source_count: 8
-provenance: inferred
-summary: "2025년 2회 정보보안기사 실기 29회 복원 문항을 동일 구조로 정리하고 공식 출제범위 및 기존 노트로 교차 검증한 문서. Naver category post was added as a cross-check source."
-evergreen: false
+- raw/sources/clipping/58f8406c1d801b54276f1083a81f983eb35247b27cb5e53b8213171123c137b6/4ee01a2c228df989f8da3ed4d7a46bde7edabd825783593fd6a460b4deae224a/manifest.json
+summary: 2025년 2회 정보보안기사 실기 29회 복원 문항을 동일 구조로 정리하고 공식 출제범위 및 기존 노트로 교차 검증한 문서. Naver
+  category post was added as a cross-check source.
 ---
+
+## Overview
+
+
+
+
+
+
+
+
+
 
 # 정보보안기사 실기 29회 2025년 2회 복원
 
-## Scope
+### Scope
 - This is a paraphrased reconstruction of the explicit 29th practical restoration posts from Naver and Jaesung-derived sources.
 - Count: 18 items = 12 short-answer, 4 essay, 2 practical.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | Linux PAM 모듈 유형의 빈칸을 채우시오. (A): 사용자에게 비밀번호 등 인증 정보를 요청하고 입력값이 맞는지 검사하는 모듈 유형. (B): 명시된 계정이 현재 조건에서 유효한 인증 목표인지 검사하며 계정 접근 통제와 정책을 관리하는 모듈 유형. `password`: 사용자가 비밀번호를 변경할 수 있도록 비밀번호 갱신을 관장하는 모듈 유형. (C): 사용자가 인증을 받기 전·후에 수행해야 할 일을 정의하는 모듈 유형. | A : auth B : account C : session | Jaesung source text cross-check; source answer order restored |
@@ -52,7 +52,29 @@ evergreen: false
 | 17 | practical | Windows 이벤트 로그 최대 크기 설정에 대해 답하시오. 단일 이벤트 최대 크기 500바이트, 하루 이벤트 발생량 1,000개, 보관 기간 30일일 때 (가) 최대 이벤트 로그 크기 계산식, (나) 계산값, (다) 최대 이벤트 로그 크기 설정 경로를 쓰시오. | 500바이트 × 1,000건/일 × 30일 = 15,000,000바이트. 이벤트 뷰어에서 해당 로그 속성의 최대 로그 크기를 설정한다. | Jaesung source text cross-check; Windows event log management appears in practical criteria. |
 | 18 | practical | CCTV 설치 시 개인정보처리자가 해야 할 조치를 회사 사옥 외부 공개 장소와 사내 출입통제구역 내부 관점으로 구분해 쓰시오. | 공개 장소 고정형 영상정보처리기기는 법정 사유가 있을 때 설치하고 안내판에 설치 목적·장소, 촬영 범위·시간, 관리책임자 연락처, 위탁 시 수탁자 정보를 기재한다. 녹음과 목적 외 임의 조작을 금지하고 운영·관리 방침과 안전성 확보조치를 마련한다. 비공개 장소는 법 제15조 기반 개인정보 수집으로 보아 정보주체 동의 등 적법 근거를 확보하고 공개 장소 보호조치를 준용한다 | Jaesung source text cross-check; legal wording needs current-law check before operational use. |
 
-## Verification Notes
+### Verification Notes
 - Completeness: primary source exposes 18 numbered items and one attached PDF for the same round.
 - Confidence: high for technical items; medium for legal CCTV details because statutory wording must be rechecked against the current law at use time.
 - Known normalization: item 12 is treated as process accounting history, not shell history; this matches `lastcomm` but requires accounting to be enabled. Item 7 preserves Naver's `UDP 또는 TCP` answer with the usual DNS-use nuance.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/58f8406c1d801b54276f1083a81f983eb35247b27cb5e53b8213171123c137b6/4ee01a2c228df989f8da3ed4d7a46bde7edabd825783593fd6a460b4deae224a/manifest.json`

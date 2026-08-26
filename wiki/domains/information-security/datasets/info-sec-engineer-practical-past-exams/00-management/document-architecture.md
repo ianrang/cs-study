@@ -1,35 +1,35 @@
 ---
-title: "정보보안기사 실기 분석 문서 아키텍처"
-tier: llm-synthesis
+title: 정보보안기사 실기 분석 문서 아키텍처
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, documentation-architecture]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-09
+tags:
+- information-security
+- certification
+- documentation-architecture
+date_created: '2026-07-03'
+date_updated: '2026-07-09'
 source_paths:
-  - "document-management-scaffold.md"
-  - "document-physical-migration-plan.md"
-  - "analysis-roadmap-todo.md"
-  - "../02-references/reference-patching-review.md"
-  - "../02-references/reference-source-index.md"
-  - "../02-references/exam-criteria-and-reference-catalog.md"
-  - "../03-classification/subject-type-matrix.md"
-  - "../03-classification/subject-type-classification-detail.md"
-source_count: 8
-provenance: inferred
-summary: "정보보안기사 실기 기출 분석 문서군의 SSOT, 책임 경계, 참조 방향, 중복 방지 규칙을 정의한다."
-evergreen: false
+- raw/sources/clipping/4f9998cfdccb403d3272af43b465c7674d3776a9934d1921dd2a6aa62f0a3023/172b4007987618f78c79523892287760b5c934d9f1d2f2bcf002cf14e9995ba2/manifest.json
+summary: 정보보안기사 실기 기출 분석 문서군의 SSOT, 책임 경계, 참조 방향, 중복 방지 규칙을 정의한다.
 ---
+
+## Overview
+
+
+
+
+
+
+
+
+
+
 
 # 정보보안기사 실기 분석 문서 아키텍처
 
-## 목적
+### 목적
 문서가 늘어나도 유지보수 가능한 구조를 유지하기 위해, 각 문서의 단일 책임과 단방향 참조 규칙을 고정한다.
 
-## 설계 원칙
+### 설계 원칙
 - SSOT: 같은 사실은 한 문서에만 원본으로 기록한다.
 - 단일 책임: 각 문서는 하나의 질문에만 답한다.
 - 단방향 참조: 상위 분석 문서는 하위 근거 문서를 참조하지만, 하위 문서는 상위 분석 결과를 역참조하지 않는다.
@@ -37,7 +37,7 @@ evergreen: false
 - 독립성: 원문 보존, 문항 분류, 참고문서 연결, 통계 분석, 학습 전략은 서로 다른 변경 이유를 갖는다.
 - 최소 중복: 문항 원문, 참고문서 목차, 빈도 결과, 예상문제는 각각 한 곳에만 본문을 둔다.
 
-## 문서 레이어
+### 문서 레이어
 
 | 레이어 | 역할 | 문서 | 책임 |
 |---|---|---|---|
@@ -54,7 +54,7 @@ evergreen: false
 | Prediction | 예상문제 | `predicted-practical-questions-2026-02.md` | 예측 문제, 근거, 확신도, 채점 포인트만 관리한다. |
 | Roadmap | 작업 상태 | `analysis-roadmap-todo.md` | 작업 순서와 상태만 관리한다. 분석 본문을 넣지 않는다. |
 
-## 참조 방향
+### 참조 방향
 
 ```text
 document-management-scaffold.md
@@ -78,7 +78,7 @@ raw/sources/
 
 역방향 참조는 금지한다. 예를 들어 `*-practical-*.md`는 `predicted-practical-questions-2026-02.md`를 참조하지 않는다.
 
-## SSOT 규칙
+### SSOT 규칙
 
 | 사실 | SSOT | 다른 문서에서의 허용 방식 |
 |---|---|---|
@@ -93,7 +93,7 @@ raw/sources/
 | 예상문제 | `predicted-practical-questions-2026-02.md` | 예상문제 문서에서만 본문 관리 |
 | 문서 운영 규칙 | `document-architecture.md`, `document-management-scaffold.md` | 문서 역할·진입점·변경 절차만 참조 |
 
-## 문서 ID 규칙
+### 문서 ID 규칙
 
 | 대상 | ID 형식 | 예시 |
 |---|---|---|
@@ -103,7 +103,7 @@ raw/sources/
 | 분석 finding | `FIND-{type}-{seq}` | `FIND-CLASSIFICATION-001` |
 | 예상문제 | `PRED-2026-02-{seq}` | `PRED-2026-02-001` |
 
-## 중복 방지 규칙
+### 중복 방지 규칙
 
 - 참고문서 원문 본문은 wiki에 장문 복제하지 않는다.
 - 문항 원문은 회차 파일에만 둔다.
@@ -112,7 +112,7 @@ raw/sources/
 - 전략 문서는 학습 우선순위만 보관하고, 기출 전체 목록을 다시 복제하지 않는다.
 - 예상문제는 근거 ID를 붙이되 기출 문항을 그대로 복제하지 않는다.
 
-## 변경 절차
+### 변경 절차
 
 | 변경 유형 | 먼저 수정할 문서 | 이후 갱신 문서 |
 |---|---|---|
@@ -124,7 +124,7 @@ raw/sources/
 | 예상문제 수정 | `predicted-practical-questions-2026-02.md` | 없음 |
 | 문서 관리 규칙 수정 | `document-architecture.md` 또는 `document-management-scaffold.md` | `analysis-roadmap-todo.md`, `index.md` |
 
-## 검증 체크리스트
+### 검증 체크리스트
 
 | 항목 | 기준 | 상태 |
 |---|---|---|
@@ -135,10 +135,32 @@ raw/sources/
 | 복잡성 | 분석 문서와 전략 문서를 분리해 장문 단일 문서화를 피한다. | pass |
 | 물리 스캐폴딩 | `document-physical-migration-plan.md`의 파일별 매핑과 검증 절차를 기준으로 별도 마이그레이션으로만 수행한다. | pass |
 
-## 금지 사항
+### 금지 사항
 
 - 회차 파일에 학습 전략이나 예상문제를 넣지 않는다.
 - 참고문서 카탈로그에 문항별 전체 매핑을 넣지 않는다.
 - 빈도 분석 문서에 참고문서 원문 요약을 넣지 않는다.
 - 예상문제 문서에서 KCA가 특정 문서를 참고했다고 단정하지 않는다.
 - 공식 원문이 확인되지 않은 문서를 `확인됨` 상태로 올리지 않는다.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/4f9998cfdccb403d3272af43b465c7674d3776a9934d1921dd2a6aa62f0a3023/172b4007987618f78c79523892287760b5c934d9f1d2f2bcf002cf14e9995ba2/manifest.json`

@@ -1,30 +1,30 @@
 ---
-title: "라우터·NAT·방화벽·로드밸런서·IDS·IPS의 역할과 네트워크 배치"
-tier: llm-synthesis
+title: 라우터·NAT·방화벽·로드밸런서·IDS·IPS의 역할과 네트워크 배치
 page_type: concept
-domain: information-security
-domain_confidence: high
-shared_scope: domain
 tags: []
-status: active
-date_created: 2026-07-12
-date_updated: 2026-07-12
+date_created: '2026-07-12'
+date_updated: '2026-07-12'
 source_paths:
-  - raw/assets/information-security-exam-references/kca-info-security-engineer-criteria-2023-2026.pdf
-  - cs/information-security/02.network-security/01.network-fundamentals.md
-  - cs/information-security/02.network-security/02.network-protocols-and-addressing.md
-  - cs/information-security/02.network-security/08.security-solutions-and-monitoring.md
-source_count: 4
-provenance: inferred
-summary: "라우팅·주소 변환·접근통제·부하분산·침입 탐지·차단을 서로 다른 논리 기능으로 구분하고, 통합·분리 장비 구성에서 패킷이 처리되는 흐름을 설명한다."
-evergreen: false
+- raw/sources/clipping/008abad49a00903f1c040c46f1543972e26f7ce52fea8adb6c4c4dfec423a4a4/744711d533280a69f6f3ed253b0af89f3a08a91bb59d25401e7b219dfb9e63ba/manifest.json
+summary: 라우팅·주소 변환·접근통제·부하분산·침입 탐지·차단을 서로 다른 논리 기능으로 구분하고, 통합·분리 장비 구성에서 패킷이 처리되는
+  흐름을 설명한다.
 ---
+
+## Definition
+
+
+
+
+
+
+
+
 
 # 라우터·NAT·방화벽·로드밸런서·IDS·IPS의 역할과 네트워크 배치
 
 라우팅·NAT/PAT·방화벽·로드밸런싱·IDS·IPS는 각각 다른 질문에 답하는 **논리 기능**이다. 하나의 물리 장비가 여러 기능을 함께 수행할 수 있고, 각 기능을 별도 장비로 분리할 수도 있으므로 장비 이름보다 실제 패킷 경로와 처리 책임을 따라가야 한다.
 
-## Definition
+### Definition
 
 ### 먼저 분리해야 하는 두 층: 기능과 장비
 
@@ -68,7 +68,7 @@ NAT 이후:  TCP 203.0.113.10:41001 → 198.51.100.80:443
 
 분석할 때는 `원본(original) tuple`, `변환 후(translated) tuple`, `관찰 지점`, `시간`, `세션 ID`를 함께 기록해야 한다.
 
-## Mechanism
+### Mechanism
 
 ### 1. 정상적인 전달 흐름부터 본다
 
@@ -213,7 +213,7 @@ NAT 전 IDS는 공개 주소를, NAT 후 IDS는 사설 주소를 볼 수 있다.
      → IDS/IPS signature → firewall action → server request ID
 ```
 
-## Variants
+### Variants
 
 ### 통합형: 가정·소규모 환경
 
@@ -310,7 +310,7 @@ Servers
 
 한 위치가 모든 목적에 최적인 것은 아니다. 중요한 경계에는 여러 관찰 지점을 두고 공통 시간·세션 정보로 상관분석한다.
 
-## Trade-offs
+### Trade-offs
 
 ### 통합과 분리의 선택
 
@@ -377,7 +377,7 @@ NAT, stateful firewall, proxy load balancer는 세션 상태를 사용하므로 
 
 이 순서를 사용하면 “어느 장비가 무엇을 했는가”를 장비 이름이 아니라 관찰 가능한 패킷 변화와 정책 결과로 설명할 수 있다.
 
-## Open Questions
+### Open Questions
 
 이 문서의 기능 구분은 일반 원리다. 실제 환경의 정답을 결정하려면 다음 항목을 구성과 로그에서 확인해야 한다.
 
@@ -407,9 +407,9 @@ NAT, stateful firewall, proxy load balancer는 세션 상태를 사용하므로 
 
 답을 만들 때는 항상 `경로 선택 → 주소 변환 → 허용·차단 → 서버 선택 → 탐지·차단 → 반환 경로 → 로그 상관분석` 순서로 설명한다.
 
-## Sources
+### Sources
 
-- `wiki/domains/information-security/drafts/study/2장 정리.md` ^[extracted] — 라우팅, NAT, 방화벽, IDS/IPS 배치와 패킷·로그 판독에 대한 domain-local 학습 기준.
+- `wiki/domains/information-security/drafts/study/info-sec-engineer-network-security-study.md` ^[extracted] — 라우팅, NAT, 방화벽, IDS/IPS 배치와 패킷·로그 판독에 대한 domain-local 학습 기준.
 - [RFC 3022: Traditional IP Network Address Translator](https://www.rfc-editor.org/rfc/rfc3022.html) ^[extracted] — Basic NAT와 NAPT, outbound binding, 양방향 변환 및 헤더·checksum 처리의 근거.
 - [RFC 4787: Network Address Translation Behavioral Requirements for UDP](https://www.rfc-editor.org/rfc/rfc4787.html) ^[extracted] — 내부·외부 주소/포트 tuple mapping과 NAT session의 용어 근거.
 - [NIST SP 800-41 Rev. 1: Guidelines on Firewalls and Firewall Policy](https://csrc.nist.gov/pubs/sp/800/41/r1/final) ^[extracted] — 서로 다른 보안 수준의 네트워크·호스트 사이 트래픽 흐름을 통제하는 방화벽 정의와 정책 근거.
@@ -417,3 +417,27 @@ NAT, stateful firewall, proxy load balancer는 세션 상태를 사용하므로 
 - [Cisco: Configure Route Selection for Routers](https://www.cisco.com/c/en/us/support/docs/ip/enhanced-interior-gateway-routing-protocol-eigrp/8651-21.html) ^[extracted] — 라우팅 테이블에 설치된 경로 중 longest prefix match로 포워딩 경로를 선택하는 설명의 근거.
 - [NGINX: HTTP Load Balancing](https://docs.nginx.com/nginx/admin-guide/load-balancer/http-load-balancer/) ^[extracted] — listener/reverse proxy가 upstream server group으로 요청을 분산하는 L7 load balancing 설명의 근거.
 - [AWS: How Elastic Load Balancing works](https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/how-elastic-load-balancing-works.html) ^[extracted] — listener가 client 트래픽을 받아 health 상태가 정상인 등록 대상에 전달하는 load balancer 역할의 교차 근거.
+
+## Mechanism
+
+## Variants
+
+## Trade-offs
+
+## Open Questions
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/008abad49a00903f1c040c46f1543972e26f7ce52fea8adb6c4c4dfec423a4a4/744711d533280a69f6f3ed253b0af89f3a08a91bb59d25401e7b219dfb9e63ba/manifest.json`

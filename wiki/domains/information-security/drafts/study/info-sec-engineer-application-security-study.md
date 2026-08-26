@@ -1,0 +1,835 @@
+---
+title: 정보보안기사 실기 3장 — 애플리케이션 보안
+page_type: method
+tags: []
+date_created: '2026-07-11'
+date_updated: '2026-07-12'
+source_paths:
+- raw/sources/clipping/d01b66ac00eee0c89ff4182cfe8299837535bdfc1cbe0f1164343f1fde265417/6867eb927aa0af935cefce77e6ecfecd438b38ce62c12dd284285fd1bf99204e/manifest.json
+summary: 정보보안기사 실기의 서비스 동작·웹 취약점·서버 보안설정·시큐어 코딩·WAF·로그 분석을 우선순위와 답안 형태로 통합한 학습 문서.
+---
+
+## Definition
+
+
+
+
+
+
+
+
+
+# 3 애플리케이션 보안
+
+> 목표: HTTP 요청·응답, 웹 코드·로그·서버 설정을 보고 **정상 동작, 취약점, 판단 근거, 영향, 보완 방법**을 답안으로 쓴다. 이 문서는 KCA 실기 출제기준의 FTP·메일·웹·DNS·DB 서비스 보안특성, 서비스 보안설정 점검·보완, WAF와 서비스 로그 분석 범위를 시험용으로 정리한다.
+
+> 이 장만 학습할 때는 `0 학습 지도 → 3.1 정상 동작 → 3.2 공격 → 3.3~3.6 설정·개발 대응 → 3.7 P1 체크리스트 → 기출 적용` 순서로 본다. 3.8 P3는 시간이 남을 때 확장하고 마지막에는 3.9의 질문에 자료 없이 답한다.
+
+> 이 문서는 3장 개념 복습의 기준 문서다. PDF를 다시 대조할 필요는 없지만, **기출 문제의 로그·코드·설정을 직접 판독하고 답을 쓰는 훈련**은 별도로 수행해야 한다.
+
+> 코드·설정 예시는 문법 전체를 통암기하는 자료가 아니다. **입력 위치, 위험한 처리, 통제의 목적, 점검 결과**를 판독하고 문제에 제시된 제품·버전의 문법으로 답하는 데 사용한다.
+
+### 0. 학습 우선순위와 출제 패턴
+
+### 태그 규칙
+
+- **[P1]**: 기출 풀이 전 반드시 즉답·서술 가능한 핵심. 최근성·반복성·공식 기준이 강하다.
+- **[P2]**: P1을 마친 뒤 연결할 변형·설정형 대비 항목.
+- **[P3]**: 저빈도·레거시·구현 종속 세부. 이름과 보안 목적을 우선 기억한다.
+- **[답안]**: 단답·서술·실무형에서 점수로 바꾸는 문장 구조다.
+
+### 한눈에 보는 이해 흐름
+
+```text
+정상 요청·처리        입력·상태 악용          코드·설정 통제         로그·도구 검증          답안 작성
+HTTP·쿠키·세션   →   SQLi·XSS·CSRF·SSRF  →  검증·인코딩·권한  →  Access/Error·Proxy  →  원리·근거·영향·대응
+```
+
+- 3.1에서 브라우저·서버·세션의 정상 흐름을 이해해야 3.2의 공격 원인이 보인다.
+- 3.3~3.5는 웹 서버·서비스·DB 설정으로 피해 범위를 줄이고, 3.6은 개발 단계에서 원인을 제거한다.
+- 모든 문제는 `신뢰 경계의 입력 → 위험한 처리 → 관찰 증거 → 보완 → 재검증` 순서로 푼다.
+
+### 문제를 읽기 위한 최소 용어
+
+| 용어 | 이 문서에서의 뜻 | 예시 |
+|---|---|---|
+| 신뢰 경계(Trust Boundary) | 신뢰 수준이나 권한이 다른 영역 사이의 경계 | Browser↔Web, Web↔DB, Server↔외부 API |
+| Source | 외부 입력이 들어오는 지점 | Parameter, Header, Cookie, File, URL |
+| Sink | 입력을 SQL·HTML·명령·경로처럼 위험하게 해석할 수 있는 처리 지점 | SQL 실행, HTML 출력, Shell 호출, File 열기 |
+| Validation | 입력의 형식·길이·범위·허용값이 업무 규칙에 맞는지 확인 | 숫자 범위, 확장자 Allowlist |
+| Encoding | 출력 문맥에서 값이 Code가 아니라 Data로 해석되도록 변환 | HTML·속성·JavaScript·URL별 Encoding |
+| Parameterization/Binding | Query·명령 구조와 입력값을 분리하여 값이 문법을 바꾸지 못하게 함 | PreparedStatement, XPath Variable Binding |
+| 인증(Authentication) / 인가(Authorization) | 인증은 신원 확인, 인가는 해당 사용자에게 행위·객체 접근을 허용할지 결정 | Login / 타인 게시물 수정 권한 확인 |
+| Canonicalization | 우회 표기를 제거해 경로·URL·Encoding을 하나의 표준 형태로 정규화 | `../`와 Encoding 변형 정규화 후 경로 검사 |
+
+> 문제 풀이 순서는 `Source 식별 → 신뢰 경계 확인 → Sink 확인 → 통제 제시 → Log·재시험으로 검증`이다.
+
+### 우선순위별 학습 완료 수준
+
+| 우선순위 | 완료 기준 | 지금 제외해도 되는 것 |
+|---|---|---|
+| P1 | 공격 원리·증거를 판별하고 코드/설정 대응 2개 이상을 쓴다 | 없음 |
+| P2 | 용어를 식별하고 대표 위험·대응 1개를 설명한다 | 제품별 전체 설정, 프로토콜 내부 세부 |
+| P3 | 이름과 핵심 보안 목적을 알아본다 | 명령 전체, 레거시 내부 동작, 세부 옵션 |
+
+**시간이 부족하면 제외 가능한 범위**: 3.8 전체와 P2의 레거시 공격·제품별 세부 옵션은 마지막으로 미룬다. 그러나 SQL Injection·XSS·CSRF·SSRF·파일 업로드, Apache/IIS, 메일 릴레이, DB 감사, 개발보안·퍼징은 최근 변형이 강하므로 P1/P2 표시대로 학습한다.
+
+### 근거 기반 우선순위
+
+| 우선순위 | 학습 묶음 | 근거 | 시험에서의 변형 |
+|---|---|---|---|
+| P1 | HTTP·웹 서버 설정 | HTTP/웹 서버 설정 반복군 55건, 최근 16건 | 헤더·쿠키 단답 → 로그 판독 → Apache/IIS 보완 설정 |
+| P1 | SQLi·XSS·CSRF·SSRF·파일 업로드 | 웹 취약점/시큐어코딩 반복군 36건, 최근 15건 | 공격명 → 코드·로그 근거 → 안전한 코드·설정 |
+| P1 | 메일·DNS 서비스 설정 | KCA 서비스 설정 직접 범위, 최근 Sendmail·DNS 설정 반복 | 파일·옵션 빈칸 → open relay/zone transfer 대응 |
+| P1 | DB 접근통제·감사 | DB/데이터보호 반복군 19건, 최근 7건 | SQL 의미 → 최소권한·암호화 → 감사 로그 설정 |
+| P1 | 개발보안·점검 방법 | 최근 PreparedStatement·분석 산출물·퍼징·웹 프록시 반복 | 취약 코드 수정 → SAST/DAST/퍼징 구분 |
+| P2 | FTP·TLS·모바일 점검 연계 | 공식 범위와 최근 Deep Link·인증서 고정·BYOD 변형 | 정상 동작 비교 → 안전한 대체·운영 점검 |
+| P3 | 클라우드·PKI 경계·추가 웹 용어 | 저빈도 또는 다른 장과 경계 | 용어 식별과 대표 통제 수준 |
+
+> 과목 비중은 1~31회 513문항 기준이다. 위 반복군 수치는 recurrence 분석의 1~30회 및 최근 23~30회 기준이며, 31회 XSS·CSRF·Fiddler 등은 최근 학습 판단에 정성 반영했다. 서로 다른 모수를 합산하지 않으며 특정 다음 문항이나 공식 배점을 보장하지 않는다.
+
+### 반복 출제 패턴
+
+1. **용어 식별형**: 공격 설명에서 SQLi, XSS, CSRF, SSRF, request smuggling, fuzzing을 찾는다.
+2. **코드 판독형**: 문자열 결합 SQL, 업로드 확장자 검사, CSRF token, XML parser 설정의 위험을 찾는다.
+3. **로그·패킷형**: Apache/IIS 로그, URL query, HTTP header를 근거로 공격과 성공 가능성을 판단한다.
+4. **설정 완성형**: Apache Options, Sendmail access, DNS zone, Oracle audit, IIS response header 설정을 채운다.
+5. **원리-영향-대응형**: 공격명을 쓴 뒤 서버·코드·운영 계층의 대응을 분리한다.
+
+### 공식 범위 대응표
+
+| KCA 세세 범위 | 이 문서의 대응 섹션 |
+|---|---|
+| FTP 동작·환경설정·보안 | 3.4.2 |
+| 메일 동작·환경설정·보안 | 3.4.3~3.4.4 |
+| 웹 동작·환경설정·보안 | 3.1~3.3 |
+| DNS 동작·환경설정·보안 | 3.4.1 |
+| DB 동작·환경설정·보안 | 3.5 |
+| 전자서명·PKI | 3.8.3의 경계 요약, 상세 암호 원리는 4장 |
+| 비인가 서비스, FTP·메일·WEB/WAS·DNS·DB 설정 점검 | 3.3~3.5, 3.4.6 |
+| WAF 설정, 서비스 로그 수집·분석·대응 | 3.3.2, 3.3.4, 3.4.5, 3.5.3, 3.7 |
+| 취약점 점검 방법·도구·보완 이력 | 3.6, 3.7.2 |
+
+### 이 장과 다른 장의 경계
+
+- DNS의 일반 질의·증폭, SNMP·DHCP의 네트워크 동작은 2장에서 다뤘다. 이 장은 DNS zone·서비스 설정과 애플리케이션 공격에 집중한다.
+- TLS 핸드셰이크와 IPsec은 2장, 암호 알고리즘·전자서명·PKI의 원리는 4장에서 상세히 다룬다. 이 장은 HTTPS·인증서 점검 결과를 해석하는 수준만 다룬다.
+- 개인정보 관련 법적 보관기간·의무는 5장 범위다. 이 장에서는 기술적 접근통제·암호화·로그 설정만 다룬다.
+
+### 3.1 [P1] HTTP·쿠키·세션의 정상 동작
+
+### 3.1.1 [P1] 요청·응답 구조
+
+```http
+GET /search?q=book HTTP/1.1
+Host: www.example.com
+Cookie: SESSIONID=...
+User-Agent: ...
+
+HTTP/1.1 200 OK
+Content-Type: text/html; charset=UTF-8
+Set-Cookie: SESSIONID=...; Secure; HttpOnly; SameSite=Lax
+Content-Length: 1234
+```
+
+- 요청: `요청라인(Method URI Version) → Header → 빈 줄 → 선택적 Body`.
+- 응답: `상태라인(Version Status-Code Reason) → Header → 빈 줄 → Body`.
+- HTTP는 기본적으로 상태를 기억하지 않으므로 쿠키·세션·토큰으로 로그인 상태를 연결한다.
+- HTTPS는 HTTP를 TLS로 보호한다. 전송 중 기밀성·무결성을 제공하지만 SQLi·XSS 같은 애플리케이션 취약점을 없애지는 않는다.
+
+### 3.1.2 [P1] Method·상태 코드·핵심 Header
+
+| Method | 의미 | 보안 점검 |
+|---|---|---|
+| GET | 자원 조회 | 민감정보를 URL query에 넣지 않음, 상태 변경에 사용하지 않음 |
+| POST | 자원 생성·처리 | CSRF·입력 검증·본문 크기 제한 |
+| PUT / PATCH | 전체/부분 수정 | 불필요하면 차단, 객체별 인가 확인 |
+| DELETE | 자원 삭제 | 강한 인가·CSRF 방어·재인증 |
+| HEAD | GET과 같은 header만 조회 | 정보 노출·허용 여부 점검 |
+| OPTIONS | 지원 method 확인 | 불필요 method 노출 점검 |
+| TRACE | 요청을 되돌려 진단 | XST·정보 노출 우려가 있으면 비활성화 |
+| CONNECT | Proxy tunnel 생성 | 공개 proxy 악용 방지 |
+
+| 상태 | 의미 | 구분 포인트 |
+|---:|---|---|
+| 200 / 201 | 성공 / 생성 성공 | 200만으로 공격 성공을 단정하지 않음 |
+| 301 / 302 | 영구 / 임시 이동 | Open Redirect·Location 확인 |
+| 400 | 잘못된 요청 | 비정상 입력·parser 오류 가능 |
+| 401 | 인증 필요·실패 | “누구인지 확인되지 않음” |
+| 403 | 인증 여부와 별개로 권한 없음 | “알지만 허용하지 않음” |
+| 404 | 자원 없음 | 상세 경로·제품 정보 노출 제한 |
+| 500 | 서버 내부 오류 | stack trace·SQL 오류 노출 방지 |
+
+- 요청 header: `Host`, `Content-Type`, `Content-Length`, `Transfer-Encoding`, `Authorization`, `Cookie`, `Referer`, `Origin`, `User-Agent`.
+- 응답 header: `Content-Type`, `Content-Length`, `Location`, `Set-Cookie`, cache 정책과 보안 header.
+- `Content-Length`와 `Transfer-Encoding`의 해석 불일치는 request smuggling의 핵심 단서다.
+- `Cache-Control: no-store`는 민감 응답 저장 방지, `no-cache`는 재검증 요구다. 두 값을 같은 의미로 쓰지 않는다.
+
+### 3.1.3 [P1] 쿠키·세션과 보안 속성
+
+| 속성 | 의미 | 방어 범위 |
+|---|---|---|
+| `Secure` | HTTPS 연결에서만 쿠키 전송 | 평문 HTTP 노출 감소 |
+| `HttpOnly` | JavaScript의 `document.cookie` 접근 제한 | XSS의 쿠키 탈취 완화, XSS 자체 제거 아님 |
+| `SameSite=Strict/Lax/None` | 교차 사이트 요청 시 쿠키 전송 통제 | CSRF 완화. `None`은 `Secure`와 함께 사용 |
+| `Domain` / `Path` | 쿠키가 전송될 호스트·경로 범위 | 불필요하게 넓게 설정하지 않음 |
+| `Expires` / `Max-Age` | Cookie의 절대 만료시각 / 유지 초 | Browser의 Cookie 보관·전송 수명 제한. Server Session 만료는 별도 |
+
+- 쿠키는 클라이언트에 저장되는 key-value 데이터이며 요청 때 조건에 맞으면 자동 전송된다.
+- 세션은 보통 서버에 사용자 상태를 저장하고, 브라우저는 추측하기 어려운 session ID만 쿠키로 보낸다.
+- 로그인 성공·권한 상승 시 session ID를 재발급하고, 로그아웃·만료 시 서버에서 무효화한다.
+- URL에 session ID를 넣지 않고 TLS를 사용하며, 절대·유휴 만료시간과 동시 세션 정책을 적용한다.
+
+**[답안]** `Secure`는 HTTPS에서만 쿠키를 전송하고, `HttpOnly`는 script의 쿠키 접근을 제한하며, `SameSite`는 교차 사이트 요청의 쿠키 전송을 제한한다. 세 속성은 서로 대체하지 않으며 입력 검증·출력 인코딩·CSRF token과 함께 적용한다.
+
+### 3.1.4 [P2] HTTP 버전과 보안 관찰점
+
+- HTTP/1.0은 기본적으로 요청마다 연결을 닫고, HTTP/1.1은 지속 연결을 기본 지원한다.
+- HTTP/2는 하나의 연결에서 여러 stream을 multiplexing하고 header를 압축한다. HTTP/3는 QUIC/UDP 기반이다.
+- 버전 자체보다 frontend proxy와 backend가 요청 경계를 일관되게 해석하는지, 지원하지 않는 구버전·downgrade를 허용하는지를 점검한다.
+- Keep-Alive의 timeout·최대 요청 수가 과도하면 자원 고갈에 악용될 수 있고 너무 작으면 정상 성능이 저하된다.
+
+### 3.2 [P1] 웹 애플리케이션 취약점
+
+### 3.2.1 [P1] SQL Injection
+
+- 원인: 외부 입력을 SQL 문자열의 일부로 직접 결합하여 입력이 데이터가 아니라 SQL 문법으로 해석된다.
+- 판단 근거: query parameter에 quote·주석·논리식·UNION·시간 지연 함수가 나타나고, DB 오류·응답 내용·응답시간이 입력에 따라 달라진다.
+- 영향: 인증 우회, 데이터 조회·변조·삭제, DB 권한에 따른 파일·명령 기능 악용.
+- 유형: 오류 기반, UNION 기반, Boolean/Time 기반 Blind SQLi. 이름보다 **서버 응답 차이를 이용해 정보를 추론하는지**를 이해한다.
+
+```java
+// 취약: 입력이 SQL 구조를 바꿀 수 있음
+String sql = "SELECT pw FROM member WHERE id='" + userId + "'";
+
+// 안전한 방향: SQL 구조와 값을 분리
+String sql = "SELECT pw FROM member WHERE id = ?";
+PreparedStatement ps = conn.prepareStatement(sql);
+ps.setString(1, userId);
+```
+
+- 핵심 대응: PreparedStatement/parameter binding, 동적 식별자는 allowlist, DB 계정 최소권한, 상세 오류 비노출, 코드 점검과 WAF 보조.
+- 입력 검증만으로 모든 DB 문법을 차단하거나 quote를 escape하는 방식에 의존하지 않는다. Parameter binding이 가능한 위치에서는 이를 우선한다.
+
+**[답안]** 로그의 `' OR '1'='1` 같은 입력이 SQL 조건을 항상 참으로 바꾸려 하므로 SQL Injection 시도다. SQL 구조와 입력값을 PreparedStatement로 분리하고, DB 계정 최소권한·오류 메시지 제한·로그 모니터링을 적용한다.
+
+### 3.2.2 [P1] XSS
+
+| 유형 | 동작 | 대표 근거 |
+|---|---|---|
+| Reflected XSS | 요청 입력이 즉시 응답에 반사되어 피해자 브라우저에서 실행 | 악성 link·검색어·오류 메시지 |
+| Stored XSS | 악성 입력이 DB·게시글 등에 저장되고 조회 사용자에게 실행 | 다수 사용자가 같은 저장 데이터 조회 |
+| DOM-based XSS | client script가 위험한 source를 DOM sink에 넣어 실행 | 서버 응답과 무관하게 브라우저 DOM 조작 |
+
+- 영향: 세션·민감정보 탈취, 사용자 행위 위조, 피싱·화면 변조. `HttpOnly`는 cookie 탈취를 줄이지만 script가 사용자 권한으로 요청을 보내는 것까지 막지는 못한다.
+- 핵심 대응:
+  1. 출력 위치별 context-aware encoding(HTML, attribute, JavaScript, URL)을 적용한다.
+  2. HTML 입력을 허용해야 할 때 검증된 sanitizer와 allowlist를 사용한다.
+  3. `innerHTML`, `document.write`, `eval` 등 위험 sink를 피하고 안전한 DOM API를 사용한다.
+  4. CSP는 보조 방어로 적용하고 `HttpOnly`·`Secure` cookie를 함께 사용한다.
+- 입력 필터 하나로 `<script>` 문자열만 차단하면 event handler, encoding, 다른 tag·context로 우회될 수 있다.
+
+### 3.2.3 [P1] CSRF
+
+- 원인: 브라우저가 대상 사이트의 cookie·인증정보를 자동 첨부하는 점을 악용하여 로그인 사용자의 의지와 무관한 상태 변경 요청을 보낸다.
+- 성립 조건: 사용자가 인증 중이고, 예측 가능한 상태 변경 요청이 있으며, 서버가 요청의 출처·의도를 검증하지 않는다.
+- CSRF 방어:
+  - session과 연결된 예측 불가능한 anti-CSRF token을 form/header에 포함하고 서버에서 검증한다.
+  - `SameSite` cookie, `Origin` 우선 및 필요 시 `Referer` 검증을 보조로 사용한다.
+  - 중요 거래는 재인증·거래서명·2차 확인을 요구하고 GET으로 상태를 변경하지 않는다.
+- XSS가 있으면 token을 읽거나 같은 origin에서 요청할 수 있으므로 XSS 방어도 필요하다.
+
+**[답안]** CSRF는 인증된 사용자의 브라우저가 자동으로 cookie를 보내는 성질을 악용하여 공격자가 의도한 요청을 수행시키는 공격이다. Session별 token 검증, SameSite, Origin/Referer 확인, 중요 기능 재인증을 적용한다.
+
+### 3.2.4 [P1] SSRF
+
+- 원인: 서버가 사용자 입력 URL·host를 검증하지 않고 대신 요청한다.
+- 영향: 외부에서 접근할 수 없는 내부 API·관리 서비스·cloud metadata 조회, port 탐색, 자격증명 탈취, 후속 공격.
+- 판단 근거: URL fetch, webhook, image import, PDF 변환 같은 기능에서 localhost·사설 IP·link-local·metadata 주소로의 요청이 관찰된다.
+- SSRF 방어 계층:
+  - 업무상 필요한 scheme·domain·port의 allowlist를 우선한다.
+  - URL을 표준 parser로 해석하고 DNS resolve 후 실제 목적지 IP가 loopback·사설·link-local·예약 대역인지 검사한다.
+  - redirect마다 다시 검증하고 DNS rebinding을 고려한다.
+  - 서버 egress firewall/proxy로 내부 관리망·metadata 접근을 차단하고 최소권한 자격증명을 사용한다.
+- blocklist만 사용할 때는 IPv6, 십진/16진 IP, redirect, DNS 변환 우회가 생길 수 있다.
+
+### 3.2.5 [P1] 파일 업로드·다운로드·경로 조작
+
+**업로드 취약점**
+
+- Content-Type 변조, 대소문자·이중 확장자, trailing dot, 우회 encoding, 레거시 null byte 등으로 검사를 우회해 web shell·악성파일을 저장하려 한다.
+- Web Shell은 web server에 업로드·생성되어 HTTP 요청으로 file 조회·command 실행 등에 악용되는 server-side script다.
+- 공격 성공에는 업로드 파일이 외부에서 접근 가능하고, 서버가 해당 확장자·내용을 실행 가능한 handler로 처리하며, 프로세스 권한이 공격 행위를 허용하는 조건이 필요하다.
+- 대응: 확장자 allowlist, 서버 측 MIME·magic 검증, 난수 파일명, web root 밖 저장, 실행 권한·handler 제거, 크기·개수 제한, malware 검사, 다운로드 시 강제 attachment, 최소 파일 권한.
+- client-side 검사와 요청의 Content-Type만 신뢰하지 않는다. `.htaccess` 같은 설정 파일 업로드도 차단한다.
+
+**다운로드·Path Traversal**
+
+- `../`, encoding 변형, 절대경로 등으로 허용된 base directory 밖의 파일을 읽으려 한다. LFI는 서버 로컬 파일, RFI는 원격 자원을 include하는 취약점과 연결된다.
+- 대응: 사용자 입력 경로 대신 서버 내부 file ID를 매핑하고, canonicalize 후 base directory 내부인지 검증하며, allowlist·접근권한·최소 OS 권한을 적용한다.
+
+### 3.2.6 [P1] 명령·XML·Query Injection
+
+| 우선순위 | 취약점 | 원인·영향 | 핵심 대응 |
+|---|---|---|---|
+| P1 | OS Command Injection | 입력을 shell command에 결합해 서버 권한으로 명령 실행 | shell 호출 회피, 안전한 API, 인자 allowlist, 최소권한 |
+| P1 | XXE | XML parser가 외부 entity/DTD를 해석해 파일·내부망 접근 | DTD·external entity 비활성, 안전한 parser, egress 제한 |
+| P1 | XPath/XQuery Injection | 입력을 XML query에 결합해 조건·조회 범위 변조 | variable binding/parameterization, 입력 검증, 최소권한 |
+| P2 | Template Injection | 입력이 server-side template 표현식으로 평가 | 입력을 template code로 평가하지 않음, sandbox·allowlist |
+
+- 단순 특수문자 제거보다 “문자열을 코드·명령·query로 해석하지 않게 분리”하는 것이 공통 원칙이다.
+- Log4Shell은 Log4j의 JNDI lookup에 공격자 입력이 평가되어 원격 자원 조회·코드 실행으로 이어질 수 있었던 취약점이다. 지원 버전으로 patch하고 취약 library·설정을 제거하며 outbound 통신과 로그를 점검한다.
+
+### 3.2.7 [P1] HTTP Response Splitting·Request Smuggling
+
+**Response Splitting/CRLF Injection**
+
+- 외부 입력이 응답 header에 들어갈 때 CR(Carriage Return, `%0D`)과 LF(Line Feed, `%0A`)로 header 경계를 삽입한다.
+- 영향: 임의 header·응답 주입, cache poisoning, cookie 설정, XSS.
+- 대응: header 값의 CR/LF 거부, framework의 안전한 header API, allowlist, redirect 대상 검증.
+
+**Request Smuggling**
+
+- frontend와 backend가 `Content-Length(CL)`·`Transfer-Encoding(TE)` 또는 중복 header를 다르게 해석하여 요청 경계가 어긋난다.
+- 영향: 다음 사용자 요청 오염, backend 접근, cache poisoning, 인증 우회·XSS 유도.
+- 대응: 모호한 CL/TE·중복 header 거부, proxy/backend parser와 HTTP version 일치, 요청 normalize, frontend에서 완전 재구성, patch와 regression test.
+
+### 3.2.8 [P1] 세션·인증 공격
+
+- Session Hijacking: 탈취·예측한 session ID로 사용자를 사칭한다. TLS, 강한 random ID, cookie 속성, 짧은 수명, 이상 세션 탐지를 적용한다.
+- Session Fixation: 공격자가 미리 정한 session ID를 피해자가 로그인 후에도 사용하게 한다. 로그인·권한 변경 때 ID를 재발급한다.
+- Brute Force: 한 계정에 많은 password 시도. Rate limit, 지연, MFA, 탐지와 안전한 잠금 정책을 적용한다.
+- Password Spraying: 소수의 흔한 password를 다수 계정에 시도. 계정별뿐 아니라 IP·device·전체 분포를 탐지한다.
+- Credential Stuffing: 다른 서비스에서 유출된 ID/password 조합을 재사용한다. MFA, 유출 password 차단, 위험 기반 인증, 재사용 방지를 적용한다.
+- 인증과 인가는 다르다. 로그인 성공 후에도 **요청 대상 객체마다 서버 측 권한**을 확인하여 IDOR/BOLA를 막는다.
+
+### 3.2.9 [P2] Web DoS·기타 공격 경계
+
+- GET Flooding은 다량의 GET 요청으로 자원을 고갈시킨다. 비정상 빈도, URI·User-Agent·Referer, cache 우회 header를 함께 본다.
+- HULK는 URL query·header 등을 계속 바꿔 cache를 우회하며 GET 부하를 유발하는 도구/방식과 연결한다.
+- Slowloris는 header를 끝내지 않고, Slow POST(RUDY)는 body를 천천히 보내며, Slow Read는 작은/Zero Window로 응답을 지연한다.
+- 대응: 요청·header·body timeout, body 크기, connection·rate limit, cache/CDN, reverse proxy/WAF/Anti-DDoS와 backend 자원 보호.
+- TCP SYN Flooding·DNS/NTP DRDoS의 네트워크 원리와 경계 대응은 2장을 따른다.
+
+**[답안]** HTTP 요청이 많다는 사실만으로 공격을 단정하지 않는다. 기준선 대비 빈도, 동일 source·URI, cache 우회, 미완성 header/body, backend 자원 증가를 함께 근거로 제시한다.
+
+### 3.3 [P1] 웹 서버 설정·로그·WAF
+
+### 3.3.1 [P1] Apache 핵심 보안설정
+
+```apache
+ServerTokens Prod
+ServerSignature Off
+TraceEnable Off
+
+<Directory "/var/www/html">
+    Options -Indexes
+    AllowOverride None
+    Require all granted
+</Directory>
+
+LimitRequestBody 10485760
+```
+
+- `Options Indexes`: DirectoryIndex 파일이 없을 때 directory listing을 허용한다. 제거하거나 `Options -Indexes`로 명시한다.
+- `ServerTokens Prod`, `ServerSignature Off`: response header·error page의 상세 버전 노출을 줄인다.
+- `TraceEnable Off`: 불필요한 TRACE method를 비활성화한다.
+- `AllowOverride None`: `.htaccess` override를 막고 중앙 설정을 사용한다. 애플리케이션이 `.htaccess`를 필요로 한다면 허용 directive 범위를 최소화한다.
+- `LimitRequestBody`: request body 크기를 제한한다. 적용 context·기본값·상한은 Apache version과 문제 조건을 따른다.
+- `Timeout`, `KeepAliveTimeout`, `MaxKeepAliveRequests`: 정상 사용량을 기준으로 과도한 연결 점유를 줄인다.
+- `DirectoryIndex`: 기본 문서를 지정한다. 목록 노출 방지와 혼동하지 않는다.
+- Apache 2.4는 `Require`, 구버전은 `Order/Deny/Allow` 문법이 주로 보인다. 시험 지문의 version을 우선한다.
+- 위 예시의 `Require all granted`는 공개 web root를 가정한다. 관리·backup·upload directory에는 deny 또는 승인 주체 제한을 별도로 적용한다.
+
+```apache
+# 필요한 method만 허용하는 대표 예
+<LimitExcept GET POST HEAD>
+    Require all denied
+</LimitExcept>
+```
+
+**[P2] 업로드·`.htaccess` 설정 판독**
+
+```apache
+<Directory "/var/www/uploads">
+    Options -Indexes -ExecCGI -FollowSymLinks
+    AllowOverride None
+    <FilesMatch "(?i:\.(php|phtml|phar|cgi|pl|sh))$">
+        Require all denied
+    </FilesMatch>
+</Directory>
+```
+
+- Upload Directory 내부의 `FilesMatch`와 `Require all denied`는 그 directory에 있는 지정 확장자의 직접 HTTP 접근을 차단한다. 전역 범위에 두면 다른 정상 PHP까지 차단할 수 있으므로 적용 context를 확인한다.
+- `-ExecCGI`는 CGI 실행, `-FollowSymLinks`는 symbolic link 추적을 제한한다. 기능상 link가 필요하면 `SymLinksIfOwnerMatch` 등 대안을 검토한다.
+- 과거 문제의 `AddType text/html .php ...`는 MIME type 지정 의미로 읽되, 이것만으로 모든 환경에서 script handler 실행이 확실히 꺼진다고 단정하지 않는다. Upload directory에서 handler/module을 제거하고 직접 접근·실행을 실제로 시험한다.
+
+> 설정 한 줄을 외워 붙이지 말고 적용 대상 Directory/Location, 상속, module 활성화, 정상 기능 영향을 확인한다. 변경 후 config test와 실제 요청으로 검증한다.
+
+### 3.3.2 [P1] Apache/IIS 로그 판독
+
+Apache Combined Log의 대표 순서:
+
+```text
+clientIP ident user [time zone] "method URI protocol" status bytes "Referer" "User-Agent"
+```
+
+- Access log: 누가 언제 어떤 URI·method로 요청했고 status·bytes가 무엇인지 확인한다.
+- Error log: application/server 오류, module message, stack·권한·resource 문제를 확인한다.
+- Apache의 대표 directive는 `CustomLog`와 `ErrorLog`이며 실제 path·format은 virtual host 설정을 확인한다.
+- 판단 순서: `시간 → client IP → method/URI/query → status → bytes → Referer/User-Agent → 같은 session의 전후 요청 → error/WAF/DB log`.
+- `200`은 요청이 처리됐다는 뜻이지 공격 payload 실행·정보 유출 성공을 단독 증명하지 않는다.
+- URL encoding을 decode하되 원본 log를 보존하고, 시간대·proxy의 `X-Forwarded-For` 신뢰 범위를 확인한다.
+- 최근 IIS 관련 경로 예:
+  - IIS site log: `%SystemDrive%\inetpub\logs\LogFiles\W3SVC*`가 일반적이며 설정에 따라 달라질 수 있다.
+  - HTTP.sys error log: `%SystemRoot%\System32\LogFiles\HTTPERR`.
+  - Microsoft FTP log는 환경에 따라 `MSFTPSVC*` 이름이 사용된다.
+
+### 3.3.3 [P1] IIS·WEB/WAS 점검
+
+- Directory Browsing 비활성화, 불필요 handler/module·method 제거, request filtering과 upload 제한, 상세 오류·stack trace 비노출을 점검한다.
+- 응답의 `Server`, `X-Powered-By` 같은 불필요 header와 제품 버전 노출을 줄인다.
+- IIS URL Rewrite module의 outbound rule은 response header를 재작성·제거하는 데 사용할 수 있다. 정확한 server variable과 설정 형식은 IIS/module version과 문제 지문을 따른다.
+- WEB과 WAS 사이 관리 port를 외부에 노출하지 않고, reverse proxy→WAS 통신만 허용하며 관리자 console에 별도 인증·ACL을 적용한다.
+- session·upload·temporary directory 권한, service account 최소권한, patch와 backup·rollback 절차를 점검한다.
+
+### 3.3.4 [P1] robots.txt·WAF·보안 Header
+
+- `robots.txt`는 root 경로의 일반 text 파일로 crawler의 수집 허용/제외 의사를 표현한다. 악성 사용자의 접근을 막는 access control이 아니며 민감 경로를 적으면 오히려 구조를 노출할 수 있다.
+- WAF는 HTTP 요청·응답을 검사하여 SQLi·XSS·upload 등 web attack을 탐지·차단한다.
+- ModSecurity는 Apache/IIS/Nginx 연계 환경 등에서 사용되는 대표적인 open-source WAF engine이다.
+- WAF 점검: 보호 host/URL, reverse proxy 또는 inline 경로, TLS 복호화 위치, 탐지/차단 mode, signature·positive policy, 예외, body size, log/SIEM 연동, bypass path를 확인한다.
+- WAF는 취약 code 수정의 대체물이 아니다. 긴급 virtual patch 후 근본 수정과 regression test를 수행한다.
+
+| Header | 보안 목적 |
+|---|---|
+| `Content-Security-Policy` | script/resource 출처를 제한해 XSS 영향 완화 |
+| `Strict-Transport-Security` | 일정 기간 HTTPS만 사용하도록 browser에 지시 |
+| `X-Content-Type-Options: nosniff` | MIME sniffing 억제 |
+| `X-Frame-Options` 또는 CSP `frame-ancestors` | clickjacking 완화 |
+| `Referrer-Policy` | 외부로 전달되는 referrer 정보 제한 |
+
+**[답안]** Directory listing이 활성화되면 파일명·backup·source 구조가 노출된다. `Options Indexes`를 제거하거나 `-Indexes`로 설정하고, DirectoryIndex·파일 권한·민감 파일 접근을 함께 점검한 뒤 403/목록 비노출을 검증한다.
+
+### 3.4 [P1] DNS·FTP·메일 서비스 보안
+
+### 3.4.1 [P1] DNS record·zone·보안설정
+
+| 종류 | 의미 |
+|---|---|
+| A / AAAA | hostname을 IPv4 / IPv6 주소에 연결 |
+| NS | zone의 authoritative name server 지정 |
+| SOA | zone의 권한·serial·refresh·retry·expire 등 기본 정보 |
+| CNAME | canonical name에 대한 별칭 |
+| MX | mail exchanger와 우선순위 |
+| PTR | IP 주소의 reverse lookup 이름 |
+| TXT | SPF·domain 검증 등 text 정책 정보 |
+
+- AXFR은 전체 zone transfer, IXFR은 변경분 transfer를 위한 query/operation이며 일반 resource record type 목록과 구분한다. `ANY`도 “모든 record를 저장하는 record type”이 아니라 여러 정보를 요청하는 query type이며 증폭 악용을 줄이도록 응답 최소화·rate limit을 검토한다.
+- BIND의 대표 파일: `/etc/named.conf` 또는 배포판별 equivalent, zone file, client resolver 설정 `/etc/resolv.conf`, local 정적 매핑 `/etc/hosts`.
+
+```conf
+# Master 예시
+zone "example.com" IN {
+    type master;
+    file "example.com.zone";
+    allow-transfer { 192.0.2.54; };
+};
+
+# Slave 예시
+zone "example.com" IN {
+    type slave;
+    file "slaves/example.com.zone";
+    masters { 192.0.2.53; };
+};
+```
+
+```dns
+$TTL 3600
+@   IN SOA ns1.example.com. admin.example.com. (
+        2026071101 3600 600 86400 3600 )
+    IN NS  ns1.example.com.
+    IN NS  ns2.example.com.
+ns1 IN A   192.0.2.53
+ns2 IN A   192.0.2.54
+```
+
+- SOA의 domain name은 끝의 dot, serial 증가, NS hostname의 A/AAAA record, MX priority와 대상 name을 함께 확인한다. 위 값은 형식 예시이며 시험에서는 제시값을 사용한다.
+
+- `allow-transfer`는 승인된 secondary DNS로 제한하고 가능하면 TSIG 등 transfer 인증을 적용한다.
+- authoritative server의 불필요 recursion을 끄거나 `allow-recursion`을 내부 resolver로 제한하여 open resolver·증폭 악용을 막는다.
+- version 노출 최소화, dynamic update 제한, split DNS 필요성 검토, DNSSEC 서명·검증, cache·query·transfer log와 patch를 점검한다.
+- Master/Slave의 zone 이름·file path·IP는 문제에서 제시한 값을 그대로 사용한다. `allow-update`와 `allow-transfer`의 목적을 혼동하지 않는다.
+
+### 3.4.2 [P2] FTP 동작과 보안
+
+- Control 연결은 일반적으로 TCP 21이다.
+- Active mode: client가 `PORT`로 수신 주소·port를 알리고 server가 일반적으로 TCP 20에서 client로 data 연결을 시작한다.
+- Passive mode: client가 `PASV/EPSV`를 요청하고 server가 알려준 data port로 client가 연결한다. NAT/firewall 환경에 상대적으로 유리하다.
+- FTP·TFTP는 안전한 대체 관계가 아니다. TFTP는 UDP 69 기반이며 기본 인증·암호화가 없어 제한된 관리망 외 사용에 부적합하다.
+- FTPS는 FTP에 TLS를 적용하고, SFTP는 SSH subsystem으로 동작하는 별도 protocol이다.
+- 점검: anonymous·root 직접 로그인 금지, 평문 credential 제거, chroot/virtual user, directory별 최소권한, upload/download 분리, banner·version 최소화, passive port 범위와 firewall, transfer log, patch.
+- FTP Bounce는 PORT command로 server가 제3의 host·port에 연결하도록 악용한다. 제3자 주소 지정 제한과 modern server 설정·patch를 적용한다.
+
+### 3.4.3 [P1] 메일 동작·Sendmail relay
+
+| 서비스 | 기본 port | 역할 |
+|---|---:|---|
+| SMTP | TCP 25 | server 간 mail 전송 |
+| Message Submission | TCP 587 | client가 인증 후 mail 제출 |
+| SMTPS | TCP 465 | implicit TLS submission 관행 |
+| POP3 / POP3S | TCP 110 / 995 | mail 내려받기 중심 |
+| IMAP / IMAPS | TCP 143 / 993 | server mailbox 동기화·관리 |
+
+- MUA는 사용자 mail client, MTA는 mail server 간 전송, MDA는 mailbox 배달, MAA는 POP3/IMAP 접근 역할로 구분한다.
+- Open Relay는 비인가 외부 사용자가 server를 경유해 제3자에게 mail을 보내게 하는 설정이다. spam 발송·평판 하락·차단 목록 등록으로 이어진다.
+- Sendmail 관련 대표 파일:
+  - `/etc/mail/sendmail.mc` 또는 생성된 `sendmail.cf`: daemon·rule 설정
+  - `/etc/mail/access`: host/domain별 relay·거부 정책 원본
+  - `/etc/mail/access.db`: `makemap`으로 생성하는 hash DB
+
+```text
+# 시험형 access 예
+kca.or.kr    RELAY
+spam.com     DISCARD
+```
+
+```bash
+makemap hash /etc/mail/access.db < /etc/mail/access
+```
+
+- `RELAY`는 relay 허용, `REJECT`는 거부 응답, `DISCARD`는 message를 폐기하는 정책과 연결한다. `OK` 등 exact 동작·key 형식은 Sendmail 설정과 문제 지문을 따른다.
+- 변경 후 DB를 재생성하고 relay test·mail log로 승인 domain만 동작하는지 확인한다.
+
+### 3.4.4 [P1] 발신자 인증·메일 내용 보호
+
+| 기술 | 핵심 역할 | 한계·연결 |
+|---|---|---|
+| SPF | DNS TXT에 domain을 대신해 발송 가능한 server/IP 정책 게시 | 보이는 From이 아니라 envelope domain 중심, forwarding 고려 |
+| DKIM | 발신 domain private key로 header/body 일부에 전자서명 | DNS public key로 검증, account 탈취 자체는 방지 못함 |
+| DMARC | SPF/DKIM alignment 결과에 따른 none/quarantine/reject 정책과 report | SPF 또는 DKIM의 정렬된 통과 필요 |
+| S/MIME | 인증서/PKI 기반 mail 서명·암호화 | 인증서 관리 필요 |
+| PGP/OpenPGP | Phil Zimmermann의 PGP에서 발전한 사용자 key 기반 서명·암호화 | 신뢰·key 배포 모델 관리 필요 |
+
+- SMTP AUTH와 TLS를 적용하고, POP3/IMAP도 TLS 보호 port를 사용한다. TLS만으로 발신 domain 진위를 보장하지는 않는다.
+- Anti-spam은 reputation, content·URL·attachment 검사, rate limit, SPF/DKIM/DMARC 결과를 결합한다.
+- phishing 대응은 기술 필터뿐 아니라 표시 이름·domain 확인, attachment sandbox, 사용자 신고·교육, account MFA와 이상 로그인 탐지가 필요하다.
+
+**[답안]** SPF는 허용 발송 server를 선언하고, DKIM은 mail에 domain 서명을 추가하며, DMARC는 두 결과의 domain alignment와 처리 정책·report를 제공한다.
+
+### 3.4.5 [P2] FTP·메일·DNS 로그 관찰
+
+| 서비스 | 대표 관찰 항목 | 공격·오설정 단서 |
+|---|---|---|
+| FTP | 시각, client IP, user, login 성공/실패, command, file·bytes, 결과 | anonymous/root login, 반복 실패, 비인가 upload/download, bounce 시도 |
+| Mail | 시각, client IP, sender/recipient, queue ID, AUTH, relay 판정, delivery status | open relay, 대량 수신자, 발신 위조, 인증 실패, spam/phishing |
+| DNS | client IP, query name/type, response code, recursion, update/transfer, response size | 비인가 AXFR, open recursion, NXDOMAIN 급증, amplification·tunneling 의심 |
+
+- Unix 계열의 mail log는 `/var/log/maillog` 또는 `/var/log/mail.log`, FTP는 service별 log나 `xferlog`, BIND는 named logging/syslog가 대표적이다. 정확한 path·format은 OS·daemon·설정에 따라 달라지므로 config를 먼저 확인한다.
+- `시간 → client IP/account → transaction·queue ID → request/action → result → bytes` 순으로 service·firewall·WAF·DB log를 상관분석한다.
+- log level이 너무 낮아 필요한 field가 없거나 너무 높아 민감정보·저장공간 문제가 생기지 않는지, rotation·시간 동기화·원격 전송·무결성·보존을 함께 점검한다.
+
+### 3.4.6 [P2] 비인가·불필요 서비스 제거
+
+- `ss -lntup` 등으로 listening port·process를, `systemctl --type=service --state=running` 등으로 실행 service를 확인하고 자산·업무 승인 목록과 대조한다.
+- process의 실행 file·package·owner·startup 설정과 정상 의존성을 확인한 뒤 승인된 변경 절차로 중지·부팅 비활성화·제거한다. 즉시 제거할 수 없으면 firewall·ACL로 노출을 임시 제한한다.
+- 조치 후 port·process·service 상태와 정상 업무를 재확인하고 대상·사유·변경·검증·rollback을 기록한다. 명령과 service manager는 OS·version을 따른다.
+
+### 3.5 [P1] 데이터베이스 보안
+
+### 3.5.1 [P1] 계정·권한·접근통제
+
+- 애플리케이션 DB 계정은 DBA 권한이 아닌 업무에 필요한 table·view·procedure 권한만 갖는다.
+- 개인별 관리자 계정, MFA/접속 통제, password·credential vault, 휴면·기본 계정 제거, 개발·운영 계정 분리를 적용한다.
+- DB listener를 internet에 직접 노출하지 않고 app server·관리망의 승인 IP만 허용한다.
+- `GRANT`는 권한 부여, `REVOKE`는 회수다. Role과 view·stored procedure로 직접 table 접근 범위를 줄인다.
+- 접근통제는 인증된 사용자의 허용 범위를 제한하고, 추론통제는 통계·상관관계로 민감값을 유추하는 것을 막으며, 흐름통제는 높은 보안등급 정보가 낮은 등급으로 이동하는 것을 제한한다.
+- SQL query 생성 시 DB 연결 계정의 최소권한, dynamic SQL 회피, 입력값 검증·parameter binding을 함께 적용한다.
+
+### 3.5.2 [P2] DB 암호화·key 관리
+
+| 방식 | 위치·특징 | 고려사항 |
+|---|---|---|
+| API 방식 | application에서 암·복호화 API 호출 | code 수정·key 호출 통제 필요 |
+| Plug-in 방식 | DB server의 module이 column 등을 암·복호화 | DB 부하·호환성 검토 |
+| TDE | DB engine이 datafile·backup 등 저장 영역 암호화 | application 변경이 적지만 DB 권한 사용자의 평문 조회는 별도 통제 |
+| File/OS 방식 | file system·volume 단위 암호화 | DB 내부 column별 통제와 구분 |
+
+- password는 복호화 가능한 암호화가 아니라 salt를 포함한 안전한 password hashing을 사용한다.
+- 주민번호·card number 등 복호화가 필요한 민감정보는 검증된 대칭암호와 별도 key 관리, 접근통제, rotation·backup·폐기를 적용한다.
+- 암호 key를 DB data와 같은 위치·권한으로 저장하면 통제 효과가 줄어든다. KMS/HSM 또는 분리된 key 저장소와 권한·감사를 사용한다.
+- masking/tokenization은 화면·test data 노출을 줄이지만 원본 저장 암호화와 동일하지 않다.
+- Pattern 기반 Masking은 column·data 형식에 미리 정한 치환 rule을 적용해 일부 문자를 `*` 등으로 바꾼다.
+- SQL Parsing 기반 Masking은 SQL 문장·요청 context를 분석하여 대상 column과 사용자·조건에 따라 query 결과를 선택적으로 masking한다.
+
+### 3.5.3 [P1] DB 감사와 Oracle 설정 판독
+
+- 감사 목적: 누가 언제 어디서 어떤 object·statement를 조회·변경했는지 추적하고 권한 오남용·침해를 탐지한다.
+- 감사 대상: login 성공/실패, 관리자·권한 변경, DDL/DCL, 중요 table의 SELECT/INSERT/UPDATE/DELETE, audit 설정 변경.
+- 감사 log는 DB 관리자도 임의 변경하기 어렵도록 remote syslog/SIEM 등 외부에 전송하고, 접근통제·무결성·시간 동기화·보존 정책을 적용한다.
+
+| 전통적 Oracle parameter | 의미 |
+|---|---|
+| `audit_trail=NONE` | 전통적 감사 비활성 |
+| `audit_trail=DB` | 감사 record를 DB audit trail에 저장 |
+| `audit_trail=DB, EXTENDED` | SQL text·bind 정보 등을 확장 저장 |
+| `audit_trail=OS` | OS audit trail에 저장 |
+| `audit_file_dest` | OS/XML 감사 file 경로 관련 |
+| `audit_sys_operations` | SYS 등 특권 사용자 작업 감사 여부 |
+| `audit_syslog_level` | Unix syslog 연동 facility/level 관련 |
+
+> 위 표는 전통적 auditing을 묻는 시험형 기준이다. Oracle version·Unified Auditing 사용 여부에 따라 저장 위치·parameter 의미가 달라질 수 있으므로 제시된 version과 출력값을 우선한다.
+
+**[답안]** `audit_trail=NONE`이면 전통적 DB 감사가 꺼져 있다. 문제에서 `SYS.AUD$` 저장을 요구하면 `DB` 계열 설정을 검토한다. 외부 저장은 DB가 침해되거나 DBA 권한이 악용돼도 log 위변조·삭제 가능성을 낮추고 통합관제와 증거 보존에 유리하다.
+
+### 3.5.4 [P2] DB 위협·조회 결과 판독
+
+- Aggregation(집성): 낮은 등급의 여러 정보를 조합해 높은 가치 정보를 얻는다.
+- Inference(추론): 허용된 query 결과·통계·상관관계로 비공개 값을 유추한다.
+- Data Diddling: 입력·처리 전후 data를 부정하게 변경한다.
+- Excessive privilege·권한 집중, default account, test DB·backup 노출, 미암호화 connection, 취약 stored procedure를 점검한다.
+- `SELECT pw FROM member WHERE id='user01'`은 member table에서 id가 user01인 row의 pw column을 조회한다. SQL 의미와 취약 여부는 분리한다. 문자열 결합 등 입력이 query 구조를 바꿀 수 있을 때 SQLi가 성립한다.
+
+### 3.6 [P1] Secure SDLC·취약점 점검
+
+### 3.6.1 [P1] 공통 Secure Coding 원칙
+
+1. 모든 외부 입력은 server 측에서 type·length·range·format·allowlist로 검증한다.
+2. SQL·OS command·XML query·template에서는 code와 data를 parameterization/API로 분리한다.
+3. 출력은 HTML·attribute·JavaScript·URL 등 context에 맞게 encoding한다.
+4. 인증 후에도 기능·object마다 server-side authorization을 확인한다.
+5. secret을 source·log에 넣지 않고 안전한 vault/KMS와 rotation을 사용한다.
+6. 오류는 사용자에게 일반화하고 내부 log에는 원인과 correlation ID를 남기되 password·token·개인정보는 기록하지 않는다.
+7. dependency·framework·runtime을 inventory로 관리하고 patch·EOL·CVE를 추적한다.
+8. service·DB·file 권한은 최소화하고 fail-safe default와 deny-by-default를 적용한다.
+
+**[P2] SW 보안약점 7개 분류**
+
+| 분류 | 대표 점검 예 |
+|---|---|
+| 입력데이터 검증 및 표현 | SQLi, XSS, command·path·header injection |
+| 보안기능 | 부적절한 인증·인가·암호화, hard-coded credential |
+| 시간 및 상태 | race condition, session·state 관리 오류 |
+| 에러처리 | 오류 누락, 민감한 오류 정보 노출 |
+| 코드오류 | null dereference, resource 해제 오류 등 |
+| 캡슐화 | 민감 member·data의 부적절한 노출 |
+| API 오용 | 위험·금지 API 사용, API contract 위반 |
+
+> 분류명을 쓰는 문제와 실제 취약점 대응 문제를 구분한다. 분류 암기보다 P1의 안전한 data flow 원칙을 먼저 적용한다.
+
+### 3.6.2 [P1] 분석 단계 산출물
+
+| 산출물 | 확인 내용 |
+|---|---|
+| 요구사항 정의서/명세서 | 기능·비기능·보안 요구사항과 acceptance 기준 |
+| 요구사항 추적표/Matrix | 요구사항이 설계·구현·test 결과까지 누락 없이 연결되는지 |
+| Use Case Diagram | actor와 system 기능·trust boundary 관계 |
+| Use Case 명세서 | 정상·대안·예외 flow, 사전·사후조건, 권한·입력·오류 처리 |
+
+- 분석 단계에서는 중요정보·인증·권한·외부 연계·file·log 요구사항과 abuse case를 찾는다.
+- 설계 단계에서는 trust boundary, data flow, threat modeling, 암호·key, session, error·log, component 선택을 검토한다.
+- 구현·test 단계에서는 code review, SAST/SCA, DAST, fuzzing, penetration test, 보완·재시험 이력을 연결한다.
+
+### 3.6.3 [P1] 점검 방법·도구 구분
+
+| 방법 | 관찰 대상 | 장점·한계 |
+|---|---|---|
+| White-box | source code·내부 구조 | code path를 깊게 보지만 실행환경 문제는 놓칠 수 있음 |
+| Black-box | 외부 interface·동작 | 실제 공격 surface를 보지만 내부 원인 파악이 제한됨 |
+| SAST | 실행하지 않은 source/bytecode | 개발 초기에 탐지, 오탐 tuning 필요 |
+| DAST | 실행 중 application의 request/response | 배포환경 반영, code 위치 파악 제한 |
+| SCA | open-source dependency·license·known CVE | inventory·version 정확성이 중요 |
+| Fuzzing | 비정상·무작위·경계 입력에 대한 crash·오류 | 예상 못한 parser 결함 탐지, 재현·triage 필요 |
+| Web Proxy | HTTP/HTTPS를 중계·관찰·수정 | Burp Suite·ZAP·Paros·Fiddler 등, 승인된 환경에서 사용 |
+
+- Fiddler에서 HTTPS를 복호화하려면 test 환경에서 Fiddler root certificate를 신뢰하도록 구성해야 한다. 운영 단말에 무분별하게 신뢰 certificate를 배포하지 않는다.
+- “SSLv3-compatible ClientHello” 표기는 client hello record 형식과 실제 협상 TLS version을 함께 확인해야 하며 문구 하나로 SSLv3 사용을 단정하지 않는다.
+- 취약점 scan 결과는 `자산·URL → 취약점·CWE/CVE → 근거 request/response → 영향 → severity → 담당자·기한 → 보완 → retest`로 관리한다.
+
+### 3.6.4 [P2] 취약점 보완 우선순위
+
+- internet 노출, 인증 우회·RCE·민감정보 영향, exploit 가능성, 자산 중요도와 compensating control을 함께 평가한다.
+- WAF rule·차단은 긴급 완화이고 source/library patch가 근본 조치다. 완화·근본 조치·재시험 상태를 구분한다.
+- patch 전 backup·호환성 test·rollback을 준비하고, 적용 후 version만 보지 말고 취약 동작이 재현되지 않는지 확인한다.
+- false positive는 근거 없이 취약하다고 판단한 경우, false negative는 실제 취약점을 놓친 경우다. 도구 결과를 수동 검증한다.
+
+### 3.6.5 [P2] Mobile App·BYOD 보안
+
+- Deep Link는 link로 app의 특정 화면·기능을 직접 여는 기술이다. scheme/host/path·parameter를 allowlist로 검증하고, link가 열렸다는 사실을 인증·인가로 신뢰하지 않으며 중요 기능은 server에서 재인증한다.
+- Certificate Pinning은 app이 신뢰할 server certificate/public key 정보를 미리 고정해 MITM을 줄이는 기법이다. 일반 TLS chain·hostname 검증을 대체하지 않으며 certificate 교체를 고려한 backup pin·갱신 절차가 필요하다.
+- 공격자는 runtime hooking으로 검증 함수를 우회하거나 app을 변조·repackaging하여 pinning code·값을 바꿀 수 있다. 난독화·무결성/서명 확인·anti-tamper·device attestation과 server 이상행위 탐지를 보조로 적용하되 client 통제를 절대적으로 신뢰하지 않는다.
+- MDM은 device 등록, password·암호화·app allowlist, root/jailbreak 탐지, 원격 잠금·삭제 등 조직 정책을 중앙 관리한다.
+- Mobile Containerization은 한 device에서 업무 app·data 영역을 개인 영역과 논리적으로 분리한다.
+- Mobile Virtualization은 별도의 OS/가상 실행환경으로 업무·개인 영역을 더 강하게 분리한다.
+- 추가 점검: local sensitive data·log·backup, WebView/JavaScript bridge, screen/clipboard, app 권한, API object authorization, code 난독화·무결성, 분실 device token 폐기.
+
+**[답안]** Deep Link는 이동 수단일 뿐 권한 증명이 아니다. 입력 URI를 검증하고 모든 민감 기능의 인증·인가를 server에서 다시 수행하며, 중요 거래는 재인증한다.
+
+### 3.7 [P1] 실전 답안·점검 체크리스트
+
+### 3.7.1 [P1] 로그·코드·설정 문제 풀이 순서
+
+1. 보호 대상과 trust boundary(client/web/WAS/DB/외부 API)를 표시한다.
+2. 외부 입력이 들어오는 parameter·header·cookie·file·URL을 찾는다.
+3. 입력이 SQL·HTML·command·path·header로 어떻게 처리되는지 추적한다.
+4. 로그·code·설정에서 공격명보다 먼저 객관적 근거를 적는다.
+5. 기밀성·무결성·가용성·인증/인가 영향을 쓴다.
+6. code의 근본 대응, server/DB의 제한, WAF·관제 보조 대응을 분리한다.
+7. 정상·공격·우회 입력으로 retest하고 log·변경 이력을 남긴다.
+
+### 3.7.2 [P1] 점검·보완 이력
+
+| 항목 | 기록 내용 |
+|---|---|
+| 대상 | service·URL·host·version·담당자 |
+| 방법 | 수동/도구, test 시각·계정·환경, 사용 rule |
+| 발견 | 취약점명, request/response·log·code 근거, 영향·severity |
+| 보완 | 변경 code/config, 적용자·일시, 예외·승인, rollback |
+| 검증 | 재시험 결과, 잔여 위험, log/monitoring rule, 종료 승인 |
+
+- 원본 log·capture를 보존하고 시간대를 맞춘다. 실제 개인정보·token·password는 보고서에 불필요하게 복제하지 않는다.
+- 운영 공격인지 승인된 점검인지 change/test schedule과 source IP로 교차 확인한다.
+
+### 3.7.3 [P1] 취약점별 한 줄 답안 틀
+
+> `외부 입력`이 `위험한 처리`에서 code/data 구분 없이 해석되어 `영향`이 발생한다. `로그·코드의 관찰값`이 판단 근거다. `근본 code 통제`를 적용하고 `server/DB/WAF 보조 통제`와 `재시험·로그 확인`으로 검증한다.
+
+- SQLi: 문자열 결합 → query 구조 변경 → binding·최소권한.
+- XSS: 신뢰하지 않은 값이 HTML/DOM에 실행 → context encoding·sanitizer·CSP.
+- CSRF: 인증 cookie 자동 전송 → token·SameSite·Origin·재인증.
+- SSRF: server가 입력 URL 요청 → allowlist·resolve 후 IP 검증·egress 제한.
+- Upload: 우회된 file이 web path에서 실행 → allowlist·외부 저장·non-executable·재명명.
+- Request Smuggling: proxy/backend request 경계 불일치 → 모호한 CL/TE 거부·parser 일치.
+
+### 3.7.4 [P1] 필수·P2 확장 즉답 체크리스트
+
+- [ ] HTTP request/response 구조와 주요 method·status를 설명한다.
+- [ ] Secure·HttpOnly·SameSite·Expires의 차이를 쓴다.
+- [ ] SQLi의 근거와 PreparedStatement 방어 원리를 코드로 설명한다.
+- [ ] Stored·Reflected·DOM XSS를 구분하고 context encoding을 쓴다.
+- [ ] CSRF 성립 조건과 token·SameSite·Origin·재인증을 쓴다.
+- [ ] SSRF의 내부망·metadata 위험과 allowlist·egress 대응을 쓴다.
+- [ ] 파일 업로드 우회·실행 조건·web root 밖 저장을 설명한다.
+- [ ] OS Command·XXE·XPath/XQuery Injection의 위험한 처리와 안전한 API를 설명한다.
+- [ ] CR/LF와 Response Splitting, CL/TE와 Request Smuggling을 연결한다.
+- [ ] Session Hijacking/Fixation과 login 후 ID 재발급을 설명한다.
+- [ ] Brute Force·Spraying·Credential Stuffing을 구분하고 object별 인가를 설명한다.
+- [ ] Apache `-Indexes`, `LimitRequestBody`, `ServerTokens`, log field를 해석한다.
+- [ ] IIS 불필요 header·handler·directory browsing 점검을 설명한다.
+- [ ] WAF의 역할·배치·예외·bypass 점검을 쓴다.
+- [ ] DNS record와 master/slave·allow-transfer를 설명한다.
+- [ ] Sendmail `access`, `access.db`, `RELAY/REJECT/DISCARD`를 쓴다.
+- [ ] SPF·DKIM·DMARC의 역할을 구분한다.
+- [ ] DB 최소권한·암호화·외부 감사 log의 목적을 설명한다.
+- [ ] 요구사항 산출물 4개와 White/Black-box·SAST/DAST·Fuzzing을 구분한다.
+
+**P2 확장 체크**
+
+- [ ] **[P2]** FTP active/passive, FTPS/SFTP/TFTP 차이를 설명한다.
+- [ ] **[P2]** Template Injection의 입력 평가 위험과 code/data 분리 원칙을 설명한다.
+- [ ] **[P2]** Deep Link·Certificate Pinning·MDM·Containerization·Mobile Virtualization을 구분한다.
+- [ ] **[P2]** FTP·메일·DNS log의 client·account·action·result를 상관분석한다.
+
+### 3.8 [P3] 세부 참고·저빈도 암기
+
+### 3.8.1 [P3] 추가 웹 공격 용어
+
+- RFI/LFI 구현 세부: 핵심 원리·공통 대응은 3.2.5에서 학습하고, 여기서는 PHP의 불필요한 `allow_url_fopen`·`allow_url_include`와 include 경로 점검처럼 구현 종속 사항의 이름·목적만 기억한다.
+- Subdomain Takeover: DNS record가 삭제·미소유 cloud/SaaS resource를 가리킬 때 공격자가 resource를 선점한다. DNS inventory와 service 해지 순서를 관리한다.
+- Drive-by Download: 침해·악성 web page 방문만으로 browser/plugin 취약점 등을 통해 malware download·실행을 유도한다.
+- Clickjacking: 투명 frame 등으로 사용자가 다른 UI를 누르게 한다. CSP `frame-ancestors`·X-Frame-Options로 완화한다.
+- Open Redirect: 검증하지 않은 redirect URL로 phishing·token 유출을 유도한다. relative path 또는 domain allowlist를 사용한다.
+- Insecure Deserialization: 신뢰하지 않은 serialized data를 복원하며 gadget chain·object 변조가 발생한다. native object 역직렬화를 피하고 schema·type allowlist, integrity, dependency patch를 적용한다.
+- CORS는 browser가 다른 origin의 response를 script에서 읽을 수 있는지를 server header로 통제한다. credential 허용 시 wildcard origin을 사용하지 않고 승인 origin을 정확히 검증한다.
+
+### 3.8.2 [P3] Cloud·Container
+
+- IaaS는 infrastructure, PaaS는 application 실행 platform, SaaS는 완성 application을 service로 제공한다.
+- Shared Responsibility는 provider와 customer의 책임 범위가 service model에 따라 달라진다는 원칙이다. “cloud라서 provider가 모두 보호한다”고 쓰지 않는다.
+- 핵심 점검: public storage·security group, IAM 최소권한, secret·key, tenant 분리, audit log, image/dependency, backup, region·법적 요구.
+- Container는 image provenance·취약점, root 실행, 과도한 capability, host mount, secret, network policy를 점검한다.
+
+### 3.8.3 [P3] 전자서명·PKI 경계 요약
+
+- 전자서명은 private key로 signature를 만들고 public key로 검증하여 서명자 인증·무결성·부인방지를 지원한다. 기밀성은 별도 암호화가 필요하다.
+- 인증서는 public key와 subject identity를 CA 서명으로 결합한다. chain, hostname, validity, revocation 상태를 검증한다.
+- HTTPS 점검에서는 self-signed 여부만이 아니라 신뢰 chain, hostname mismatch, 만료, 취약 protocol/cipher, private key 보호를 함께 본다.
+- PKI 구성·OCSP/CRL·암호 algorithm의 상세는 4장 P1에서 학습한다.
+
+### 3.8.4 [P3] 레거시·구현 종속 주의
+
+- Apache·IIS·PHP·Oracle·Sendmail directive는 version과 module에 따라 달라진다. 문제에서 제시한 경로·version·syntax를 우선한다.
+- `host.conf`, PHP null byte 우회, 전통 Oracle audit parameter 등은 현대 환경에서 동작이 제한될 수 있으나 과거 설정형 단답을 위해 이름·목적만 보존한다.
+- OWASP Top 10의 연도별 category명을 통째로 암기하기보다 이 문서의 취약점별 원인·증거·대응을 우선한다.
+
+### 3.9 이 장만 보는 최종 회독 순서
+
+### 1회독: 구조 이해
+
+`HTTP·상태(3.1) → 입력·세션 공격(3.2) → 웹 서버 통제(3.3) → DNS·FTP·메일(3.4) → DB(3.5) → 개발·점검(3.6)` 순서로 읽는다.
+
+### 2회독: 백지 회상
+
+아래 질문에 자료 없이 2~4문장으로 답한다.
+
+1. HTTP request/response는 어떤 순서로 구성되는가?
+2. Secure·HttpOnly·SameSite는 각각 무엇을 막는가?
+3. SQL Injection의 원인과 PreparedStatement의 방어 원리는 무엇인가?
+4. Stored·Reflected·DOM XSS는 어디에서 저장·실행되는가?
+5. CSRF가 성립하는 조건과 대응 네 가지는 무엇인가?
+6. SSRF에서 URL 문자열 검사만으로 부족한 이유는 무엇인가?
+7. File upload 공격이 실제 command 실행으로 이어지는 조건은 무엇인가?
+8. CR/LF와 Content-Length/Transfer-Encoding은 각각 어떤 공격과 연결되는가?
+9. Session Hijacking과 Fixation은 어떻게 다른가?
+10. Apache에서 directory listing·version·불필요 method를 어떻게 제한하는가?
+11. Web access log 한 줄을 어떤 순서로 해석하는가?
+12. DNS zone transfer를 누구에게 어떻게 제한하는가?
+13. FTP Active/Passive와 FTPS/SFTP/TFTP는 어떻게 다른가?
+14. Sendmail relay file·action·DB 생성 명령은 무엇인가?
+15. SPF·DKIM·DMARC는 각각 무엇을 검증·정책화하는가?
+16. DB audit log를 외부에 저장하는 이유는 무엇인가?
+17. SAST·DAST·SCA·Fuzzing·Web Proxy는 무엇을 보는가?
+18. FTP·메일·DNS log를 어떤 공통 key로 상관분석하는가?
+19. Deep Link·Certificate Pinning·MDM은 각각 무엇을 통제하는가?
+20. OS Command Injection·XXE·XPath Injection의 공통 원인과 대응은 무엇인가?
+21. Brute Force·Password Spraying·Credential Stuffing은 어떻게 다른가?
+22. 취약점 조치가 끝났음을 어떤 근거로 확인하는가?
+
+### 3회독: 기출 답안화
+
+- 단답형은 공격명·header·cookie 속성·파일명·directive를 정확히 쓴다.
+- 서술형은 `정의/원인 → 판단 근거 → 영향 → 근본 대응 → 보조 대응` 순으로 쓴다.
+- 코드형은 위험한 data flow를 표시하고 안전한 API·binding·encoding으로 바꾼다.
+- 설정형은 적용 context와 대상, 변경값, 정상 기능 영향, 확인 log·retest까지 쓴다.
+- 오답은 공격명만 적지 말고 놓친 입력 source·위험 sink·trust boundary·검증 방법을 해당 P1 절에 연결한다.
+
+### 완료 조건
+
+- P1 체크리스트를 보지 않고 말하거나 쓸 수 있다.
+- 로그·code·설정에서 공격명을 먼저 추측하지 않고 객관적 근거를 표시한다.
+- 취약점마다 code 근본 대응 1개, server/DB 통제 1개, 검증 방법 1개 이상을 쓴다.
+- P3는 P1 답안이 안정된 뒤 남는 시간에 회독한다.
+
+## Algorithm
+
+## Implementation
+
+## Trade-offs
+
+## Open Questions
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/d01b66ac00eee0c89ff4182cfe8299837535bdfc1cbe0f1164343f1fde265417/6867eb927aa0af935cefce77e6ecfecd438b38ce62c12dd284285fd1bf99204e/manifest.json`

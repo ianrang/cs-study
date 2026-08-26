@@ -1,33 +1,33 @@
 ---
-title: "정보보안기사 실기 26회 2024년 2회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 26회 2024년 2회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://it-utopia.tistory.com/entry/정보보안기사-2024년-26회-정보보안기사-실기-기출문제-복원"
-  - "https://blog.naver.com/stereok2/223603394618"
-source_count: 2
-provenance: inferred
-summary: "정보보안기사 실기 26회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: direct web reconstruction, Naver blog cross-check."
-evergreen: false
+- raw/sources/clipping/427ee7551bda6628e3ca517472a0f13fdb035608286540afbd06a1f7fac72c91/682fbb2d9fdbc016a9770b4fba19450727ea7bbddc74c2aa03ab5a3056b18276/manifest.json
+summary: '정보보안기사 실기 26회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: direct web reconstruction,
+  Naver blog cross-check.'
 ---
+
+## Overview
+
+
+
 
 # 정보보안기사 실기 26회 2024년 2회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2024년 2회 실기.
 - Source status: direct web reconstruction cross-checked with Naver blog `stereok2/223603394618`; confidence: high for topic coverage, official wording still unverified.
 - This file stores paraphrased reconstruction notes, not verbatim source text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 리눅스에서 패스워드 최소 길이를 8자리 이상으로 설정하려고 한다. 패스워드 설정을 위한 파일명(A)과 설정 내용(B, C)을 기술하시오. # cat /etc/(A) (B) (C) | (A) : login.defs, (B) : PASS_MIN_LEN, (C) : 8 | source-derived; exact wording unverified |
@@ -49,7 +49,29 @@ evergreen: false
 | 17 | practical | 데이터베이스 권한 관리가 미흡한 경우 비인가자가 DB에 접근해 정보 유출·훼손·파괴 등 악의적 행위를 할 수 있다. (1) DBA가 일반 사용자 또는 원격 사용자에게 부여하면 안 되는 권한 3가지, (2) 접근권한을 최소화할 수 있는 방법 4가지를 기술하시오. | (1) Oracle 예시로 `CREATE USER`, `DROP USER`, `DROP ANY TABLE`, `BACKUP ANY TABLE` 중 3가지. (2) 지정 IP에서만 원격 DB 접속 허용, DBA 외 시스템 테이블 접근 제한, 응용프로그램/DBA 계정 Role의 Public 설정 금지, `OS_ROLES`·`REMOTE_OS_AUTHENTICATION`·`REMOTE_OS_ROLES`를 `FALSE`로 제한, 최신 보안 패치·벤더 권고 적용 중 4가지. 이는 Oracle 예시이며 권한명·매개변수 지원 여부는 제품·버전에 종속된다. | PDF compilation cross-check restored the full question and listed choices. This is a non-official blog compilation, not KCA wording; the answer is explicitly Oracle-version-bound. |
 | 18 | practical | 아래 취약점 점검 결과를 기반으로, 다음 물음에 답하시오. [취약점 점검 결과] # openssl version -a OpenSSL 1.0.1 14 May 2012 # openssl s_client -connect domain.com:8443 -tlsextdebug -debug -state \| grep -i heartbeat SSL_connect:before SSL initialization SSL_connect:SSLv3/TLS write client hello SSL_connect:SSLv3/TLS read server hello TLS server extension "heartbeat" (id=15), len=1 1) 취약점 명은? 2) 시스템적으로 해당 취약점을 조치하는 방법은? 3) 서비스적으로 해당 취약점을 조치하는 방법은? | 취약점명: 하트블리드(HeartBleed). 시스템 조치: OpenSSL을 취약점이 패치된 버전으로 업데이트하거나 Heartbeat를 비활성화해 재컴파일한다. 서비스 조치: 인증서와 개인키를 교체하고 취약점 조치 완료 후 사용자 비밀번호 재설정을 안내한다. | source-derived; Naver cross-checked; official wording unverified |
 
-## Verification Notes
+### Verification Notes
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Rows are normalized from accessible web reconstructions and cross-checked against the Naver blog reconstruction listed in `source_paths`; they were cross-checked against the unlocked thodi-lab/blog-source PDFs where in 1~28 scope; KCA official wording is still not claimed.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/427ee7551bda6628e3ca517472a0f13fdb035608286540afbd06a1f7fac72c91/682fbb2d9fdbc016a9770b4fba19450727ea7bbddc74c2aa03ab5a3056b18276/manifest.json`

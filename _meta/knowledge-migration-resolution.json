@@ -1,0 +1,587 @@
+{
+  "base_tree_sha256": "93c86fd0fef0fee3bb4aed6c20e231b0e548c8d8181647dab70f7c2809b54a69",
+  "capture_created_at": "2026-08-24T10:38:12Z",
+  "knowledge_root": "wiki",
+  "mode": "preservation",
+  "pages": [
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/00-management/analysis-roadmap-todo.md",
+      "source_sha256": "e7f46816dca1f2169f14431ffc1b202fd298a2797858b72552eb5571c84354dc",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/00-management/analysis-roadmap-todo.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/00-management/document-architecture.md",
+      "source_sha256": "172b4007987618f78c79523892287760b5c934d9f1d2f2bcf002cf14e9995ba2",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/00-management/document-architecture.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/00-management/document-management-scaffold.md",
+      "source_sha256": "da85dce163492b152fcd12908d9bb5ecda98daf124694b9c4970784f35718357",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/00-management/document-management-scaffold.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/00-management/document-physical-migration-plan.md",
+      "source_sha256": "1bcc5441f989c67a1decd166cf1b6ef227131caf4441d28222ed694a162602aa",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/00-management/document-physical-migration-plan.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md",
+      "source_sha256": "f987d81b5198bdf5e914e7004200da1b5f606d38af6971325564e37fcba2f772",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+      "source_sha256": "989ccc2392138d2b177bb9401cccd5425302ef504a3598165d617e8fc0ce0ac0",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md",
+      "source_sha256": "2a672daff5a00a0381ac8cbd133839560aaeb44c5c6408d14396bbead6b424b8",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md",
+      "source_sha256": "d4a8cae1cbaf1744705a92899210939c0a495ec0d6efb6ccaf7738cdcf443038",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md",
+      "source_sha256": "28b9b40ff0fa19bae22af74668ca6b35c4283043a967f88dbf72399838d3ccd2",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+      "source_sha256": "edbd036cbc7fccabf130006336b0c5bd5239f1d63e70627de9aafe12157dfab6",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+      "source_sha256": "84b0c6271c1f63d8d3fb75ea784d2cba446dad95670e7318ce6ad28e5dafc628",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+      "source_sha256": "d8ac428080f74a3bf3babc88fc67c8a3fa40dc818cf5633bd56b72df43fac4c6",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md",
+      "source_sha256": "cd4f74a4769f3740eedd9855046e8879345e12fefb8eddecf0ca521aa1f4a485",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md",
+      "source_sha256": "87e712874f7a733c2ea410faeecdee52864dfbeb25309415e199b338f4b3aeb0",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md",
+      "source_sha256": "73b1b38e4856918a09d02431c1d4fe002e639c244d3c6cc85803874ad027ffb8",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md",
+      "source_sha256": "a1b53173076125d35862f545d9e1027079f80b3c2ea9b4a6d346247b1691d665",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md",
+      "source_sha256": "4b661dd182ba73a3e55161ec16b7a8e2b062342a35e872aeb4025989487b6fcc",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md",
+      "source_sha256": "b4902454ababea8870b7f167f8c82e29175e87cccd868b286c6231ba4dff9281",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md",
+      "source_sha256": "cd37befcd1fa35d4a1b22027ff5707c4a0dd1377ae6a7d4db77092c273bcf37b",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+      "source_sha256": "7d00894d8b876d04a093feaf78075a5dbd6ad49cebd10b3e66d52fa2d4e639ce",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+      "source_sha256": "55128190044a3069368d4925dceaeb1abd76af3b9d7552413b2883230751eab8",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md",
+      "source_sha256": "f668712790924ff9e13e422add0cfea176d5bbe377df7efe18a84bd1c82446fa",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md",
+      "source_sha256": "22058df05d5123ff23b1231d4569ee4b7405724ac1ad3b105efe0f51a17565aa",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md",
+      "source_sha256": "f5f9bcc524cdfe884642711672544d816aab7377e2499cc0a5212078c72467c1",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md",
+      "source_sha256": "630a283b0eb4e5286c0cb346e276273cb78606ed2635ba44b8fd78c17929115f",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md",
+      "source_sha256": "aeb3764c219e5b0b8bbd7361be8b10cfcd8aac50e1471de1b011864f2ada2695",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+      "source_sha256": "1de1fc24f2756c7a5b23fe0c8e2cc2f25383c0de2274f5426d913216550a42b0",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md",
+      "source_sha256": "9877849a269a50715e7c1ec6336b81a9f2f3d17419cc93503f626d3ee78adacc",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md",
+      "source_sha256": "f4a42dff3dcc043a6703cf9f72e0fe49dbc9f7432bb4d73cbc9e6f9369d6b1b7",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md",
+      "source_sha256": "682fbb2d9fdbc016a9770b4fba19450727ea7bbddc74c2aa03ab5a3056b18276",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+      "source_sha256": "c71b32fb147efa8807407c44f3ff16304003f2050bfbb73a8e605c0a610774a8",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md",
+      "source_sha256": "9f085cff41ff1e39b01198df625362e8633cf91457fc7cb1848050b22fe0dc2b",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md",
+      "source_sha256": "4ee01a2c228df989f8da3ed4d7a46bde7edabd825783593fd6a460b4deae224a",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md",
+      "source_sha256": "3e61ccf704ff489966694eefef799107bddd097ecfa1ff444e4d146e247c6e60",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+      "source_sha256": "9ffa138f4758f429f8fb0c52f92abc63acda38357cbcd949871c905b341748e2",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/02-references/exam-criteria-and-reference-catalog.md",
+      "source_sha256": "b63ce5039897f2bcfdf1cc1a9df8c98d14431022322bdd49e743086615870d9f",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/02-references/exam-criteria-and-reference-catalog.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/02-references/reference-patching-review.md",
+      "source_sha256": "1fde491ca52119c9f6337e06b55406c99a2e9c363ce02b0d7c3bbbba362c0b05",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/02-references/reference-patching-review.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/02-references/reference-source-index.md",
+      "source_sha256": "868b6c168bbf7398965a6450a48cce8b38bc459a41e2a44ee5ca9d374af63311",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/02-references/reference-source-index.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/03-classification/subject-type-classification-detail.md",
+      "source_sha256": "7a67b6ab4bc953185ebe23491d516ee0226dd9de0620a9847454e00c9863848a",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/03-classification/subject-type-classification-detail.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/03-classification/subject-type-cross-verify-report.md",
+      "source_sha256": "a49a65f972efb87e821c81fcb048b042001bd0a03dcf3d762e38d8b2e4ff9604",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/03-classification/subject-type-cross-verify-report.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/03-classification/subject-type-matrix.md",
+      "source_sha256": "90dfa9bac8a26b888e1bd84a2ec42deca87c2d636c516c0c68cf40c3e1f24a57",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/03-classification/subject-type-matrix.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/04-mapping/item-reference-map.md",
+      "source_sha256": "e4fb014305b0d0032b082355f94cdcd82d2fb01a95814beca087eed3731e6a25",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/04-mapping/item-reference-map.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/05-analysis/analysis-cross-verify-report.md",
+      "source_sha256": "06cd95cdb5be9eeeadabd30a1b74760ac9f1c8f58adfeec80d6590408cd81fcc",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/05-analysis/analysis-cross-verify-report.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/05-analysis/frequency-analysis.md",
+      "source_sha256": "1898766be27cc5cbeb8b9fd78960a5944eb3eeed296599b205ddd963e87bbb4f",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/05-analysis/frequency-analysis.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/05-analysis/pattern-analysis.md",
+      "source_sha256": "8563a7549fb673e9cb4d35c62b9b5271aaefa28416db8dedfac8f41206b41b26",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/05-analysis/pattern-analysis.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/05-analysis/recurrence-analysis.md",
+      "source_sha256": "853cab9c0749feb8fc76d6a2f7c5d8f2d7584d32e6ddbd521b9c002913d8822a",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/05-analysis/recurrence-analysis.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/05-analysis/session-slot-pattern-analysis.md",
+      "source_sha256": "3d28979544b46149f9da7936f6bb1180875ba4ee0c96721de14cf9b7b70405d5",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/05-analysis/session-slot-pattern-analysis.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/05-analysis/significance-review.md",
+      "source_sha256": "48f95700635c36133aad81b2ef2321e708d0721ed16a5869693c507b991dd6da",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/05-analysis/significance-review.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/098-199-prompt-clarity-review-2026-07-18.md",
+      "source_sha256": "46d8fb7ac5c3ba7fa4dbcc13a33120814af028e9b70881bd761e2db1879b82a2",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/098-199-prompt-clarity-review-2026-07-18.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/101-513-content-review-2026-07-17.md",
+      "source_sha256": "5f739c4d2923abeac32dbe4cb92a40df1557974d6002daff16015020c48a3b10",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/101-513-content-review-2026-07-17.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/first-100-content-review-2026-07-16.md",
+      "source_sha256": "0a799ff8f1da6ce002869d29bf9f431d858b4db1b6e5b18e6b146f06007387fb",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/first-100-content-review-2026-07-16.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/pdf-source-cross-verify-report.md",
+      "source_sha256": "55fc0a54a32f15322cdf788ececa5bdbb763c3f15d800e0bf8011346065c7a7c",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/pdf-source-cross-verify-report.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/prediction-validation-report.md",
+      "source_sha256": "53040e2978adc7c77e693a0160e965d1ef16294c9ea334f4842c5a04a40f9b83",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/prediction-validation-report.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/prompt-completeness-cross-verify-report.md",
+      "source_sha256": "75f56d6395ceb538fb43f4e3b5061127d6af68e4b944d45a9b1594d4e73cc2e8",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/prompt-completeness-cross-verify-report.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/round-file-pdf-exhaustive-cross-verify-report.md",
+      "source_sha256": "48e821aec119eab2de564c6b9527944044e11156f436ff986c43bfbd3b243b4b",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/round-file-pdf-exhaustive-cross-verify-report.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/07-study/hands-on-integrated-study-roadmap-2026-02.md",
+      "source_sha256": "98c03eb7f502bd47964e188acb0630502d501c2734b5de0ded54959044b5bf99",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/07-study/hands-on-integrated-study-roadmap-2026-02.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/07-study/hands-on-lab-feasibility-deep-research.md",
+      "source_sha256": "61d1df6f789718a2532b5a5c89d2f8500a5128718311e6eacd2fea5e745d99be",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/07-study/hands-on-lab-feasibility-deep-research.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/07-study/integrated-study-guide-2026-02.md",
+      "source_sha256": "007b5ede76aad7797fc80d2688eb34db47c01a980fe69fe2e1591f3be826dbec",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/07-study/integrated-study-guide-2026-02.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/07-study/learning-priority-and-prediction-validity-2026-02.md",
+      "source_sha256": "f3d344173d922e0b775987cf817906e65d802827dee7579d3714a97be6d06500",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/07-study/learning-priority-and-prediction-validity-2026-02.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/07-study/privacy-safety-ismsp-cheatsheet-2026-07.md",
+      "source_sha256": "77269e296c4947cbf786b9b88098bd5c259d8899c0811899eac058a815a7f478",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/07-study/privacy-safety-ismsp-cheatsheet-2026-07.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/07-study/study-strategy-2026-02.md",
+      "source_sha256": "9cc80dafd2bda3b5aa77e56618fa28853132ccb27f6fc9472b045e3abf91590d",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/07-study/study-strategy-2026-02.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/08-prediction/predicted-practical-questions-2026-02.md",
+      "source_sha256": "bb7d82f4ec3582e2aa98188c397b16847405f36453605945a60e06d6587a5062",
+      "target_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/08-prediction/predicted-practical-questions-2026-02.md"
+    },
+    {
+      "members": [
+        "document-architecture",
+        "document-management-scaffold",
+        "document-physical-migration-plan",
+        "analysis-roadmap-todo",
+        "subject-type-matrix",
+        "subject-type-classification-detail",
+        "reference-source-index",
+        "exam-criteria-and-reference-catalog",
+        "item-reference-map",
+        "prompt-completeness-cross-verify-report",
+        "pdf-source-cross-verify-report",
+        "round-file-pdf-exhaustive-cross-verify-report",
+        "hands-on-lab-feasibility-deep-research",
+        "frequency-analysis",
+        "recurrence-analysis",
+        "pattern-analysis",
+        "session-slot-pattern-analysis",
+        "study-strategy-2026-02",
+        "hands-on-integrated-study-roadmap-2026-02",
+        "privacy-safety-ismsp-cheatsheet-2026-07",
+        "predicted-practical-questions-2026-02",
+        "2013-01-practical-01",
+        "2013-02-practical-02",
+        "2014-01-practical-03",
+        "2014-02-practical-04",
+        "2015-01-practical-05",
+        "2015-02-practical-06",
+        "2016-01-practical-07",
+        "2016-02-practical-08",
+        "2017-01-practical-09",
+        "2017-02-practical-10",
+        "2018-01-practical-11",
+        "2018-02-practical-12",
+        "2019-01-practical-13",
+        "2019-02-practical-14",
+        "2020-01-practical-15",
+        "2020-02-practical-16",
+        "2021-01-practical-17",
+        "2021-02-practical-18",
+        "2022-01-practical-19",
+        "2022-02-practical-20",
+        "2022-04-practical-21",
+        "2023-01-practical-22",
+        "2023-02-practical-23",
+        "2023-04-practical-24",
+        "2024-01-practical-25",
+        "2024-02-practical-26",
+        "2024-04-practical-27",
+        "2025-01-practical-28",
+        "2025-02-practical-29",
+        "2025-04-practical-30",
+        "2026-01-practical-31"
+      ],
+      "page_type": "collection",
+      "source_path": "domains/information-security/datasets/info-sec-engineer-practical-past-exams/index.md",
+      "source_sha256": "af719510ab7cf5126b32f01a2b4fa5a54719d2643a0ebeceb9ba3c5445043d51",
+      "target_path": "collections/info-sec-engineer-practical-past-exams.md"
+    },
+    {
+      "members": [],
+      "page_type": "method",
+      "source_path": "domains/information-security/drafts/study/1장 정리.md",
+      "source_sha256": "c70a578950ac8c239109c50387a5416fa22734d3f4505f3afc4b5d40dd4bf13f",
+      "target_path": "domains/information-security/drafts/study/info-sec-engineer-system-security-study.md"
+    },
+    {
+      "members": [],
+      "page_type": "method",
+      "source_path": "domains/information-security/drafts/study/2장 정리.md",
+      "source_sha256": "2bcd155075129e3c34ea7a4314da583af997a3971f16a625fb1ccb4b67b28631",
+      "target_path": "domains/information-security/drafts/study/info-sec-engineer-network-security-study.md"
+    },
+    {
+      "members": [],
+      "page_type": "method",
+      "source_path": "domains/information-security/drafts/study/3장 정리.md",
+      "source_sha256": "6867eb927aa0af935cefce77e6ecfecd438b38ce62c12dd284285fd1bf99204e",
+      "target_path": "domains/information-security/drafts/study/info-sec-engineer-application-security-study.md"
+    },
+    {
+      "members": [],
+      "page_type": "method",
+      "source_path": "domains/information-security/drafts/study/4장 정리.md",
+      "source_sha256": "4b012c5549493353f60ed880347addb198926434fff2fe802f88afd116fb7cf6",
+      "target_path": "domains/information-security/drafts/study/info-sec-engineer-security-general-study.md"
+    },
+    {
+      "members": [],
+      "page_type": "method",
+      "source_path": "domains/information-security/drafts/study/5장 정리.md",
+      "source_sha256": "e9aa177340558237332fbe4facc88fb8930e58575060ef318e6fd00455d216c4",
+      "target_path": "domains/information-security/drafts/study/info-sec-engineer-management-and-law-study.md"
+    },
+    {
+      "members": [],
+      "page_type": "benchmark",
+      "source_path": "domains/information-security/drafts/study/past-exam-recurring-topic-priorities.md",
+      "source_sha256": "bde83ea715360fdfc44401588bd62096e5c929558e8af03f8a243d9f8a37fbd5",
+      "target_path": "domains/information-security/drafts/study/past-exam-recurring-topic-priorities.md"
+    },
+    {
+      "members": [],
+      "page_type": "benchmark",
+      "source_path": "domains/information-security/drafts/study/past-exam-study-coverage.md",
+      "source_sha256": "a273882295a300b34b389f996ef5c75d2ac401ffbb8fa8abf42a45ce4df62518",
+      "target_path": "domains/information-security/drafts/study/past-exam-study-coverage.md"
+    },
+    {
+      "members": [],
+      "page_type": "benchmark",
+      "source_path": "domains/information-security/drafts/study/past-exam-uncovered-recurring-topics.md",
+      "source_sha256": "adb2590b87bcc1e396adb2034a07ae02712997c2b07f8fab0fc5ce112074fe50",
+      "target_path": "domains/information-security/drafts/study/past-exam-uncovered-recurring-topics.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/drafts/udemy/1장_정보보호일반_접근통제.md",
+      "source_sha256": "f25b956b6f831371840c85c9bb046e4801e64e6a76f29d9473d116a9640b3ce1",
+      "target_path": "domains/information-security/drafts/udemy/udemy-info-sec-engineer-security-general-access-control-notes.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/drafts/udemy/2장_네트워크_보안.md",
+      "source_sha256": "c9c82cee980873678cf6806e8544de995b42dc5563263f992d43ff044e1951fb",
+      "target_path": "domains/information-security/drafts/udemy/udemy-info-sec-engineer-network-security-notes.md"
+    },
+    {
+      "members": [],
+      "page_type": "dataset",
+      "source_path": "domains/information-security/drafts/udemy/readme.md",
+      "source_sha256": "5e15d2cf8f6ac6b47c47408612b1001e633a897b37aecdef29ea61f89971735e",
+      "target_path": "domains/information-security/drafts/udemy/readme.md"
+    },
+    {
+      "members": [],
+      "page_type": "concept",
+      "source_path": "domains/information-security/queries/network-path-functions-and-placement.md",
+      "source_sha256": "744711d533280a69f6f3ed253b0af89f3a08a91bb59d25401e7b219dfb9e63ba",
+      "target_path": "domains/information-security/queries/network-path-functions-and-placement.md"
+    }
+  ],
+  "schema_version": "1.0"
+}

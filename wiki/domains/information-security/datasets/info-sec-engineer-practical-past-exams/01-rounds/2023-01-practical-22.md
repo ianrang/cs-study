@@ -1,34 +1,34 @@
 ---
-title: "정보보안기사 실기 22회 2023년 1회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 22회 2023년 1회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://nhustler.tistory.com/34"
-  - "https://nhustler.tistory.com/35"
-  - "https://blog.naver.com/stereok2/223148136930"
-source_count: 3
-provenance: inferred
-summary: "정보보안기사 실기 22회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: Naver blog cross-check."
-evergreen: false
+- raw/sources/clipping/c816535cca959b2e121c47635f6fa46c730a3c1b24dcb2fca034ddd6554e2436/aeb3764c219e5b0b8bbd7361be8b10cfcd8aac50e1471de1b011864f2ada2695/manifest.json
+summary: '정보보안기사 실기 22회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: Naver blog cross-check.'
 ---
+
+## Overview
+
+
+
+
+
 
 # 정보보안기사 실기 22회 2023년 1회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2023년 1회 실기.
 - Source status: Naver blog reconstruction cross-check; confidence: high for topic coverage, medium for exact wording.
 - This file stores paraphrased reconstruction notes, not verbatim source text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 라우팅 프로토콜의 빈칸을 채우시오. (A)는 거리 벡터 알고리즘을 사용하는 오래된 내부 라우팅 프로토콜, (B)는 링크 상태 알고리즘을 사용하며 변화 시 즉시 갱신하고 주기적 refresh도 수행하는 내부 라우팅 프로토콜, (C)는 Cisco가 제안한 하이브리드 라우팅 프로토콜이다. | (A) RIP, (B) OSPF, (C) EIGRP | source-derived; 2026-07-17 wording correction: OSPF is not change-only |
@@ -50,7 +50,29 @@ evergreen: false
 | 17 | practical | HTTP Request 로그 `GET /member/login.php?user_id=1' or '1' = '1'# &user_pw=foo HTTP/1.1`와 `GET /member/login.php?user_id=1' or '1' = '1 &user_pw=foo HTTP/1.1`을 보고 답하시오. 1) 해당 취약점은 무엇인가? 2) 그렇게 판단한 이유는? 3) 대응 방안은? | SQL Injection. 입력값이 쿼리 구조를 바꿀 수 있으면 취약하며 입력검증, PreparedStatement, 최소권한, 오류노출 제한으로 조치 | source-derived; PDF compilation cross-check restored prompt condition |
 | 18 | practical | 개인정보의 안전성 확보조치 기준에서 요구하는 보호조치 5가지를 기술하시오. 예시는 접근통제, 접속기록의 위·변조 방지, 개인정보 암호화, 악성프로그램 등 방지, 물리적 안전조치 관점이다. | 내부관리계획, 접근권한 관리, 접근통제, 암호화, 접속기록 보관·점검, 악성프로그램 방지, 물리적 안전조치 등 | source-derived; PDF compilation cross-check restored prompt condition; current-law wording needs check |
 
-## Verification Notes
+### Verification Notes
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Rows are normalized from accessible web reconstructions and cross-checked against the Naver blog reconstruction listed in `source_paths`; they were cross-checked against the unlocked thodi-lab/blog-source PDFs where in 1~28 scope; KCA official wording is still not claimed.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/c816535cca959b2e121c47635f6fa46c730a3c1b24dcb2fca034ddd6554e2436/aeb3764c219e5b0b8bbd7361be8b10cfcd8aac50e1471de1b011864f2ada2695/manifest.json`

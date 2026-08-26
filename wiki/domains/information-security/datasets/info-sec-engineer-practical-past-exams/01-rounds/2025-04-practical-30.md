@@ -1,38 +1,38 @@
 ---
-title: "정보보안기사 실기 30회 2025년 4회 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 30회 2025년 4회 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-17
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-17'
 source_paths:
-  - "/Users/ian/Downloads/정보보안기사 실기 - 30회.pdf"
-  - "/Users/ian/Downloads/KakaoTalk_Photo_2026-07-17-13-29-26 002.jpeg"
-  - "/Users/ian/Downloads/KakaoTalk_Photo_2026-07-17-13-29-26 003.jpeg"
-  - "https://jaesung.tistory.com/92"
-  - "https://jaesung.tistory.com/category/자격증/정보보안 기사?page=1..8"
-  - "cs/information-security/round-1/docs/info-sec-engineer-criteria-2023-2026.pdf"
-  - "cs/information-security/round-1/docs/외부자료-검증체크리스트.md"
-  - "cs/information-security/round-1/01.system-security/03.linux-basic.md"
-  - "cs/information-security/round-1/02.network-security/08.security-solutions-and-monitoring.md"
-  - "cs/information-security/round-1/05.management-and-law/02.risk-assessment.md"
-source_count: 10
-provenance: inferred
-summary: "2025년 4회 정보보안기사 실기 30회 복원 문항을 이전 사용자 제공 PDF 기록, 사용자 제공 보조 사진, 기존 웹 복원 원천으로 교차 검증한 문서."
-evergreen: false
+- raw/sources/clipping/86e2856582e8715b67944a782c096ac6ebe764b8e71f93701dd377c12576e029/3e61ccf704ff489966694eefef799107bddd097ecfa1ff444e4d146e247c6e60/manifest.json
+summary: 2025년 4회 정보보안기사 실기 30회 복원 문항을 이전 사용자 제공 PDF 기록, 사용자 제공 보조 사진, 기존 웹 복원 원천으로
+  교차 검증한 문서.
 ---
+
+## Overview
+
+
+
+
+
+
+
+
+
+
+
 
 # 정보보안기사 실기 30회 2025년 4회 복원
 
-## Scope
+### Scope
 - This is a paraphrased reconstruction of the explicit 30th practical restoration post and the user-provided 30th practical PDF.
 - Count: 18 items = 12 short-answer, 4 essay, 2 practical.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | Linux `/etc/shadow` 파일의 해시 문자열 `$id$salt$encryption-password`에서 밑줄 친 `$id`가 의미하는 값을 쓰시오. | 일방향 해시 알고리즘 식별자. 예: 1=MD5, 5=SHA-256, 6=SHA-512. | Jaesung source text cross-check; round-1 Linux notes cover shadow; hash id mapping is standard crypt format. |
@@ -54,7 +54,29 @@ evergreen: false
 | 17 | practical | 리눅스 서버 보안 강화 설정에 답하시오. 1) `/etc/profile` 등에 세션 타임아웃을 600초로 설정하는 환경변수와 export 명령. 2) root 계정 로그인 터미널 제한 파일. 3) `/etc/passwd`와 `/etc/shadow` 권한. 4) `/` 이하 world-writable 일반 파일 탐색 find 명령. 5) 그룹 및 기타 사용자 쓰기 권한을 제거하는 일반적 umask 값. 6) xinetd 관리 테스트 서비스 비활성화 지시어. | 1) `export TMOUT=600` 2) `/etc/securetty` 3) `/etc/passwd` 644, `/etc/shadow` 400 4) `find / -type f -perm -2` 5) `umask 022` 6) `disable` | User-provided 30th PDF text extraction; KCA criteria covers OS security settings, authentication, log/file permission management. |
 | 18 | practical | 홈페이지 DB SQL 요청 `SELECT pw FROM member WHERE id='user01'`을 보고 답하시오. 1) 위 SQL 구문을 설명하시오. 2) 해당 쿼리에 어떤 취약점을 이용할 수 있는가? 3) 2번 취약점을 이용하여 `pw` 값을 알아내려면 `user01` 위치에 어떤 값을 입력해야 하는가? | 1) `member` 테이블에서 ID가 `user01`인 사용자의 `pw` 정보를 확인하는 쿼리다. 2) SQL Injection 공격. 3) `' or '1'='1` | User-provided 30th PDF text extraction; Jaesung source text cross-check; KCA criteria explicitly includes SQL Injection. |
 
-## Verification Notes
+### Verification Notes
 - Completeness: user-provided PDF exposes 18 numbered items and answers.
 - Confidence: high for most technical topics; medium for item 8 terminology because the source answer is credential stuffing while the wording resembles password cracking using leaked hashes.
 - Known normalization: item 17 preserves the source answer but `/etc/shadow` permission may be distribution-policy dependent; stricter settings such as 000/400 are commonly seen in exam answers.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/86e2856582e8715b67944a782c096ac6ebe764b8e71f93701dd377c12576e029/3e61ccf704ff489966694eefef799107bddd097ecfa1ff444e4d146e247c6e60/manifest.json`

@@ -1,42 +1,42 @@
 ---
-title: "정보보안기사 실기 문서 물리 스캐폴딩 마이그레이션 계획"
-tier: llm-synthesis
+title: 정보보안기사 실기 문서 물리 스캐폴딩 마이그레이션 계획
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, documentation-architecture, migration-plan]
-status: active
-date_created: 2026-07-09
-date_updated: 2026-07-09
+tags:
+- information-security
+- certification
+- documentation-architecture
+- migration-plan
+date_created: '2026-07-09'
+date_updated: '2026-07-09'
 source_paths:
-  - "document-architecture.md"
-  - "document-management-scaffold.md"
-  - "../index.md"
-source_count: 3
-provenance: inferred
-summary: "정보보안기사 실기 기출 분석 문서군을 책임별 폴더로 분리하기 위한 단계별 물리 마이그레이션 계획과 파일별 목적지 매핑을 정의한다."
-evergreen: false
+- raw/sources/clipping/19d50f60525ef98a49c133733fee8428eafd17794ed4e6e10f771716edb58049/1bcc5441f989c67a1decd166cf1b6ef227131caf4441d28222ed694a162602aa/manifest.json
+summary: 정보보안기사 실기 기출 분석 문서군을 책임별 폴더로 분리하기 위한 단계별 물리 마이그레이션 계획과 파일별 목적지 매핑을 정의한다.
 ---
+
+## Overview
+
+
+
+
 
 # 정보보안기사 실기 문서 물리 스캐폴딩 마이그레이션 계획
 
-## 목적
+### 목적
 현재 `datasets/info-sec-engineer-practical-past-exams/`에는 회차 복원, 문서 운영, 참고문서, 분류, 매핑, 분석, 검증, 학습, 예측 산출물이 같은 디렉터리에 있다. 이 계획은 기출문제 유실과 링크 파손을 방지하면서 문서의 책임과 변경 이유에 맞게 물리 폴더를 분리하기 위한 실행 순서와 검증 기준을 고정한다.
 
 이 문서는 이동 계획과 단계별 진행 상태를 함께 관리한다. 실제 파일 이동은 이 문서의 파일별 목적지 매핑과 검증 절차를 기준으로 작은 배치 단위로 수행한다.
 
-## 이동 불변 조건
+### 이동 불변 조건
 - 기출 회차 파일은 31개를 유지한다.
 - 전체 dataset 문서 수는 60개를 유지한다. 이는 기존 59개 문서에 이 계획 문서 1개를 더한 수다.
 - `*-practical-*.md` 파일명은 바꾸지 않는다.
 - `index.md`는 dataset 루트 진입점으로 유지한다.
 - 회차 파일 본문은 이동 단계에서 수정하지 않는다. 링크와 `source_paths` 보정만 별도 단계에서 수행한다.
-- `labs/info-sec-engineer-practical/`는 독립 실행 실습 세트이므로 `datasets/` 내부로 합치지 않는다.
+- 실행형 실습 자산은 독립 경계이므로 `datasets/` 내부로 합치지 않는다.
 - `drafts/udemy/` 문서는 기출 분석 산출물로 확정하기 전까지 회차·분석·레퍼런스 문서군과 섞지 않는다.
 - `.sandbox/` 생성물은 이동 대상이 아니며 git 추적 대상도 아니다.
 
-## 목표 디렉터리
+### 목표 디렉터리
 
 | 디렉터리 | 책임 | 포함 기준 | 제외 기준 |
 |---|---|---|---|
@@ -52,7 +52,7 @@ evergreen: false
 | `08-prediction/` | 예상문제와 예측 산출물 | 예상문제 세트 | 확정 기출로 표현되는 문서 |
 | `archive/` | 폐기·대체 문서 | superseded 문서만 | 활성 SSOT 문서 |
 
-## 단계별 실행 순서
+### 단계별 실행 순서
 
 | 단계 | 작업 | 성공 기준 | 중단 조건 |
 |---|---|---|---|
@@ -64,7 +64,7 @@ evergreen: false
 | 6 | `01-rounds/` 회차 파일 이동 | 회차 파일 31개가 모두 존재하고 item count 표가 유지된다. | 회차 파일 수가 31개가 아니거나 파일명이 바뀐다. |
 | 7 | 최종 링크·frontmatter 검증 | 이전 경로 잔여 참조가 의도된 호환 링크 외에는 없다. | 깨진 링크나 누락 파일이 발견된다. |
 
-## 진행 상태
+### 진행 상태
 
 | 단계 | 상태 | 근거 |
 |---|---|---|
@@ -76,7 +76,7 @@ evergreen: false
 | 6 | done | 회차 파일 31개를 `01-rounds/`로 이동했고 파일명은 유지했다. |
 | 7 | done | dataset 문서 수 60개, 회차 파일 31개, 상대 Markdown 링크 0건 오류, dataset 내부 `source_paths` 0건 오류를 확인했다. |
 
-## 파일별 목적지 매핑
+### 파일별 목적지 매핑
 
 ### dataset root
 | 현재 파일 | 목표 파일 |
@@ -178,14 +178,14 @@ evergreen: false
 |---|---|
 | `predicted-practical-questions-2026-02.md` | `08-prediction/predicted-practical-questions-2026-02.md` |
 
-## 별도 유지 대상
+### 별도 유지 대상
 
 | 경로 | 처리 | 이유 |
 |---|---|---|
 | `labs/` | 현재 구조 유지 | 독립 실행 가능한 실습 세트이며 `datasets/`와 책임이 다르다. |
 | `drafts/udemy/` | draft 격리 완료 | 강의 기반 학습 노트로 보관하고, 기출 복원·분석 산출물로 쓰려면 별도 검증 후 승격한다. |
 
-## 검증 명령
+### 검증 명령
 
 이동 전후 다음 조건을 확인한다.
 
@@ -196,16 +196,34 @@ rg -P ']\((?!https?://|/)' datasets/info-sec-engineer-practical-past-exams
 git diff --check
 ```
 
-`labs/` 경로를 수정한 경우에만 다음 검증을 추가한다.
+실습 실행물의 경로 변경 검증은 해당 실행 프로젝트가 소유하며 dataset migration 검증과 결합하지 않는다.
 
-```bash
-labs/info-sec-engineer-practical/bin/check-labs.sh
-```
-
-## 완료 기준
+### 완료 기준
 - dataset 문서 수가 계획 대상 수와 일치한다.
 - 회차 파일 31개가 모두 존재한다.
 - `index.md`에서 모든 문서 진입점이 새 경로를 가리킨다.
 - `document-architecture.md`와 `document-management-scaffold.md`가 새 디렉터리 구조를 설명한다.
 - 회차 파일 본문은 이동 전후 내용 변경이 없어야 한다.
 - `labs/` 실습 세트는 그대로 실행 가능해야 한다.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/19d50f60525ef98a49c133733fee8428eafd17794ed4e6e10f771716edb58049/1bcc5441f989c67a1decd166cf1b6ef227131caf4441d28222ed694a162602aa/manifest.json`

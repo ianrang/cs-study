@@ -1,31 +1,31 @@
 ---
-title: "정보보안기사 실기 4회 2014년 2회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 4회 2014년 2회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://information-security.tistory.com/290"
-source_count: 1
-provenance: inferred
-summary: "정보보안기사 실기 4회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지."
-evergreen: false
+- raw/sources/clipping/74d01da47a33ca40cefcec71f63ef6560473d77c07b8f33a482877912106fb8e/d4a8cae1cbaf1744705a92899210939c0a495ec0d6efb6ccaf7738cdcf443038/manifest.json
+summary: 정보보안기사 실기 4회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지.
 ---
+
+## Overview
+
+
+
 
 # 정보보안기사 실기 4회 2014년 2회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2014년 2회 실기.
 - Source status: Information Security Tistory direct reconstruction post; confidence: medium-high.
 - This file stores paraphrased reconstruction notes and answer keys, not verbatim official exam text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | CVE 표기 `CVE-2014-6628`에서 (1) `2014`, (2) `6628`의 의미를 쓰시오. | (1) CVE ID가 예약되었거나 취약점이 공개된 연도 (2) 해당 연도에 부여된 취약점 고유 번호 | source-derived from Information Security Tistory; 2026-07-16 technical correction cross-checked against CVE Program identifier guidance |
@@ -45,7 +45,29 @@ evergreen: false
 | 15 | essay | WPA 크래킹 과정에 답하시오. (1) `--bssid` 옵션에 입력하는 값의 의미, (2) `-c` 옵션의 의미, (3) `pw.lst` 파일의 용도, (4) 공격 대상 AP의 MAC 주소를 이용해 수행하는 공격의 목적을 서술하시오. | (1) 공격 대상 AP(무선 공유기)의 MAC 주소 (2) 공격 대상 AP에 연결된 클라이언트의 MAC 주소를 지정하는 옵션 (3) 사전(Dictionary) 공격을 위해 미리 정의된 패스워드 목록이 기록된 파일 (4) 공격 대상 AP의 MAC 주소를 이용하여 해당 AP와 클라이언트 간의 4-Way Handshake 패킷을 캡처하고, 사전 파일과 비교하여 WPA 패스워드를 크래킹하는 것이다. | source-derived from Information Security Tistory; option prompts restored |
 | 16 | essay | 위험 분석 수치를 계산하시오. 회사 전체 자산 가치는 40억 원, 화재 발생 빈도는 5년에 1회, 화재 발생 시 손실 비율은 전체 자산의 30%, 소방 방재 시설 설치 비용은 수 천만 원, 화재 보험은 연 1억 원이고 화재 발생 시 10억 원을 보상한다. (1) AV, (2) EF, (3) SLE, (4) ARO, (5) ALE, (6) 위험 대응 대책 유형을 쓰시오. | (1) 자산 가치(AV) : 40억 원 (2) 노출 계수(EF) : 30%(0.3) (3) 단일 손실 예상액(SLE) : 40억 × 0.3 = 12억 원 (4) 연간 발생률(ARO) : 0.2 (5년에 1회 = 1/5) (5) 연간 예상 손실액(ALE) : 12억 × 0.2 = 2.4억 원 (6) 소방 방재 시설 설치 → 위험 감소(위험 완화) / 화재 보험 가입 → 위험 전가(위험 전이) | source-derived from Information Security Tistory; calculation conditions restored |
 
-## Verification Notes
+### Verification Notes
 - Cross-check basis: the round-specific Tistory post linked in `source_paths` was parsed by sequential question number and answer marker.
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/74d01da47a33ca40cefcec71f63ef6560473d77c07b8f33a482877912106fb8e/d4a8cae1cbaf1744705a92899210939c0a495ec0d6efb6ccaf7738cdcf443038/manifest.json`

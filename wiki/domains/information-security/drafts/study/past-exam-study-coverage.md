@@ -1,60 +1,60 @@
 ---
-title: "정보보안기사 실기 — 학습 단계별 기출 풀이 커버리지"
-tier: llm-synthesis
+title: 정보보안기사 실기 — 학습 단계별 기출 풀이 커버리지
 page_type: benchmark
-domain: information-security
-domain_confidence: high
-shared_scope: domain
 tags: []
-status: active
-date_created: 2026-07-17
-date_updated: 2026-07-17
+date_created: '2026-07-17'
+date_updated: '2026-07-17'
 source_paths:
-  - drafts/study/1장 정리.md
-  - drafts/study/2장 정리.md
-  - drafts/study/3장 정리.md
-  - drafts/study/4장 정리.md
-  - drafts/study/5장 정리.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-01-practical-01.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-01-practical-03.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2014-02-practical-04.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-01-practical-05.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-01-practical-09.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2017-02-practical-10.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-01-practical-11.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2018-02-practical-12.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-01-practical-13.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2019-02-practical-14.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-01-practical-15.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-02-practical-18.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-01-practical-19.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-02-practical-20.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2022-04-practical-21.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-01-practical-22.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-04-practical-24.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-01-practical-25.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-02-practical-26.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-01-practical-28.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-02-practical-29.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2025-04-practical-30.md
-  - datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md
-source_count: 36
-provenance: extracted
-summary: "drafts/study의 P1·P2·P3 명시 내용만으로 각 실기 기출 문항을 직접 풀 수 있는 범위를 유형별·회차별로 누적 집계한 기준표."
-evergreen: false
+- raw/sources/clipping/7fccf660f181e471235eca23ab038ad09b58bc36cd6e05d15ab53c74eef4979a/a273882295a300b34b389f996ef5c75d2ac401ffbb8fa8abf42a45ce4df62518/manifest.json
+summary: drafts/study의 P1·P2·P3 명시 내용만으로 각 실기 기출 문항을 직접 풀 수 있는 범위를 유형별·회차별로 누적 집계한
+  기준표.
 ---
+
+## Definition
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 정보보안기사 실기 — 학습 단계별 기출 풀이 커버리지
 
-## 2013년 1회
+### 2013년 1회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -66,7 +66,7 @@ evergreen: false
  P1+P2+P3      4/9     5/7     0/0    9/16
 ```
 
-## 2013년 2회
+### 2013년 2회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -78,7 +78,7 @@ evergreen: false
  P1+P2+P3      8/8     7/7     0/0   15/15
 ```
 
-## 2014년 1회
+### 2014년 1회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -90,7 +90,7 @@ evergreen: false
  P1+P2+P3      8/9     2/7     0/0   10/16
 ```
 
-## 2014년 2회
+### 2014년 2회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -102,7 +102,7 @@ evergreen: false
  P1+P2+P3      4/6    5/10     0/0    9/16
 ```
 
-## 2015년 1회
+### 2015년 1회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -114,7 +114,7 @@ evergreen: false
  P1+P2+P3     5/10     3/6     0/0    8/16
 ```
 
-## 2015년 2회
+### 2015년 2회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -126,7 +126,7 @@ evergreen: false
  P1+P2+P3      5/6    9/10     0/0   14/16
 ```
 
-## 2016년 1회
+### 2016년 1회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -138,7 +138,7 @@ evergreen: false
  P1+P2+P3     7/10     2/6     0/0    9/16
 ```
 
-## 2016년 2회
+### 2016년 2회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -150,7 +150,7 @@ evergreen: false
  P1+P2+P3      5/8     4/8     0/0    9/16
 ```
 
-## 2017년 1회
+### 2017년 1회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -162,7 +162,7 @@ evergreen: false
  P1+P2+P3      5/9     3/7     0/0    8/16
 ```
 
-## 2017년 2회
+### 2017년 2회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -174,7 +174,7 @@ evergreen: false
  P1+P2+P3     6/10     2/6     0/0    8/16
 ```
 
-## 2018년 1회
+### 2018년 1회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -186,7 +186,7 @@ evergreen: false
  P1+P2+P3      6/8     5/7     0/0   11/15
 ```
 
-## 2018년 2회
+### 2018년 2회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -198,7 +198,7 @@ evergreen: false
  P1+P2+P3      6/9     1/7     0/0    7/16
 ```
 
-## 2019년 1회
+### 2019년 1회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -210,7 +210,7 @@ evergreen: false
  P1+P2+P3      5/7     5/8     0/0   10/15
 ```
 
-## 2019년 2회
+### 2019년 2회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -222,7 +222,7 @@ evergreen: false
  P1+P2+P3     6/10     2/6     0/0    8/16
 ```
 
-## 2020년 1회
+### 2020년 1회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -234,7 +234,7 @@ evergreen: false
  P1+P2+P3     7/10     0/3     1/3    8/16
 ```
 
-## 2020년 2회
+### 2020년 2회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -246,7 +246,7 @@ evergreen: false
  P1+P2+P3     7/10     5/6     0/0   12/16
 ```
 
-## 2021년 1회
+### 2021년 1회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -258,7 +258,7 @@ evergreen: false
  P1+P2+P3     6/10     2/6     0/0    8/16
 ```
 
-## 2021년 2회
+### 2021년 2회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -270,7 +270,7 @@ evergreen: false
  P1+P2+P3     7/10     4/6     0/0   11/16
 ```
 
-## 2022년 1회
+### 2022년 1회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -282,7 +282,7 @@ evergreen: false
  P1+P2+P3     9/10     2/3     1/3   12/16
 ```
 
-## 2022년 2회
+### 2022년 2회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -294,7 +294,7 @@ evergreen: false
  P1+P2+P3     8/10     2/3     2/3   12/16
 ```
 
-## 2022년 4회
+### 2022년 4회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -306,7 +306,7 @@ evergreen: false
  P1+P2+P3     6/10     3/3     2/3   11/16
 ```
 
-## 2023년 1회
+### 2023년 1회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -318,7 +318,7 @@ evergreen: false
  P1+P2+P3    10/12     4/4     2/2   16/18
 ```
 
-## 2023년 2회
+### 2023년 2회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -330,7 +330,7 @@ evergreen: false
  P1+P2+P3     8/12     3/4     1/2   12/18
 ```
 
-## 2023년 4회
+### 2023년 4회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -342,7 +342,7 @@ evergreen: false
  P1+P2+P3    11/12     1/4     2/2   14/18
 ```
 
-## 2024년 1회
+### 2024년 1회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -354,7 +354,7 @@ evergreen: false
  P1+P2+P3      9/12    3/4     1/2   13/18
 ```
 
-## 2024년 2회
+### 2024년 2회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -366,7 +366,7 @@ evergreen: false
  P1+P2+P3     10/12    3/4     0/2   13/18
 ```
 
-## 2024년 4회
+### 2024년 4회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -378,7 +378,7 @@ evergreen: false
  P1+P2+P3     11/12    4/4     1/2   16/18
 ```
 
-## 2025년 1회
+### 2025년 1회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -390,7 +390,7 @@ evergreen: false
  P1+P2+P3     12/12    4/4     2/2   18/18
 ```
 
-## 2025년 2회
+### 2025년 2회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -402,7 +402,7 @@ evergreen: false
  P1+P2+P3      9/12    4/4     2/2   15/18
 ```
 
-## 2025년 4회
+### 2025년 4회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -414,7 +414,7 @@ evergreen: false
  P1+P2+P3      9/12    4/4     2/2   15/18
 ```
 
-## 2026년 1회
+### 2026년 1회
 
 ```text
  학습 범위    단답    서술    실무    합계
@@ -425,3 +425,25 @@ evergreen: false
 ───────────  ──────  ──────  ──────  ──────
  P1+P2+P3     12/12    4/4     2/2   18/18
 ```
+
+## Methodology
+
+## Leaderboard
+
+## Limitations
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/7fccf660f181e471235eca23ab038ad09b58bc36cd6e05d15ab53c74eef4979a/a273882295a300b34b389f996ef5c75d2ac401ffbb8fa8abf42a45ce4df62518/manifest.json`

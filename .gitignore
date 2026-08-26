@@ -13,6 +13,11 @@ scripts/__pycache__/
 .lint-cache/
 .venv-lint/
 
+# Terminal migration journals and rollback candidates (local recovery evidence)
+.knowledge-migration-*.json
+.wiki.migration.*/
+.wiki.restore.*/
+
 # Exam OCR / cbtbank fetch intermediates (regenerable via scripts/)
 .tmp/
 

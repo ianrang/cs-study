@@ -1,35 +1,35 @@
 ---
-title: "정보보안기사 실기 24회 2023년 4회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 24회 2023년 4회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-07
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-07'
 source_paths:
-  - "https://it-utopia.tistory.com/entry/정보보안기사-2023년-24회-정보보안기사-실기-기출문제-복원"
-  - "https://blog.naver.com/stereok2/223403908181"
-  - "raw/sources/web/information-security-exam-references/pipc-privacy-impact-assessment-guide-2025-10.md"
-  - "raw/assets/information-security-exam-references/pipc-privacy-impact-assessment-guide-2025-10.pdf"
-source_count: 4
-provenance: inferred
-summary: "정보보안기사 실기 24회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: direct web reconstruction, Naver blog cross-check, PIPC/KISA 개인정보영향평가 수행 안내서 formula cross-check for item 1."
-evergreen: false
+- raw/sources/clipping/3fb289051d3ec2e205c63b349184a285b485128b50d422d9a207ae365ba1266b/9877849a269a50715e7c1ec6336b81a9f2f3d17419cc93503f626d3ee78adacc/manifest.json
+summary: '정보보안기사 실기 24회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: direct web reconstruction,
+  Naver blog cross-check, PIPC/KISA 개인정보영향평가 수행 안내서 formula cross-check for item 1.'
 ---
+
+## Overview
+
+
+
+
+
 
 # 정보보안기사 실기 24회 2023년 4회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2023년 4회 실기.
 - Source status: direct web reconstruction cross-checked with Naver blog `stereok2/223403908181`; confidence: high for topic coverage, official wording still unverified.
 - This file stores paraphrased reconstruction notes, not verbatim source text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 개인정보보호위원회와 한국인터넷진흥원에서 발간한 "개인정보영향평가 수행 안내서"에 따르면 위험도 산정 공식을 다음과 같이 제시하고 있다. ( )에 들어갈 항목명을 기술하시오. [위험도 산정 공식] 위험도 = 자산가치(영향도) + ((A) * (B)) * (C) | (A) : 침해요인 발생 가능성, (B) : 법적 준거성, (C) : 2 | PIPC/KISA guide formula cross-checked: `자산 가치(영향도) + (침해요인 발생가능성 * 법적 준거성) * 2`; C is the constant multiplier 2, not 조직의 위험 수용 수준 |
@@ -51,9 +51,31 @@ evergreen: false
 | 17 | practical | A 기업에서는 다양한 유닉스 계열 서버를 운영하고 있다. Solaris, Linux, AIX, HP-UX 서버에서 패스워드 최소 길이를 8자리 이상으로 강화하기 위한 설정 파일과 설정값을 기술하시오. | Solaris: `/etc/default/passwd`의 `PASSLENGTH=8`; Linux: `/etc/login.defs`의 `PASS_MIN_LEN 8`; AIX: `/etc/security/user`의 `minlen=8`; HP-UX: `/etc/default/security`의 `MIN_PASSWORD_LENGTH=8` | source-derived; Naver cross-checked; official wording unverified |
 | 18 | practical | xinetd 서비스에 대한 환경설정 파일에서 (1) ~ (4)에 적절한 값을 기술하시오. # cd /etc/xinetd.d/ # cat telnet service telnet { flag = REUSE # 서비스 포트가 사용중인 경우 해당포트 재사용 허용 socket_type = stream # TCP 프로토콜 선택 wait = no # 한번에 다중사용자에게 서비스 제공 user = root # root 권한으로 실행 server = /usr/sbin/in.telnetd # 실행할 데몬 파일 log_on_failure += USERID # 서버 접속 실패 시 USERID를 로그에 기록 disable = no # 서비스 사용 ( 1 ) = 10.0.0.0/8 # 10.0.0.0/8 대역은 서비스 미허용 ( 2 ) = 192.168.10.0/24 # 192.168.10.0/24 대역은 서비스 허용 ( 3 ) = 3 # 동시에 접속가능한 최대 세션 수 3개 access_times = ( 4 ) # 접속을 허용할 시간 (9시~18시) } | (1) no_access, (2) only_from, (3) instances, (4) 09:00-18:00 | source-derived; 2026-07-17 technical correction: xinetd directive is access_times |
 
-## Verification Notes
+### Verification Notes
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Rows are normalized from accessible web reconstructions and cross-checked against the Naver blog reconstruction listed in `source_paths`; they were cross-checked against the unlocked thodi-lab/blog-source PDFs where in 1~28 scope; KCA official wording is still not claimed.
 - 2026-07-07: Item 1 was checked against the PIPC/KISA 개인정보영향평가 수행 안내서 text. The source guide gives `위험도 = 자산 가치(영향도) + (침해요인 발생가능성 * 법적 준거성) * 2`; therefore `(C)` is the constant/multiplier `2`. It is not 조직의 위험 수용 수준; that concept appears in item 7's ISO 31000 위험평가 description. The reconstructed prompt says `항목명`, but the guide formula's third blank is a numeric multiplier rather than a named risk-management item.
 - 2026-07-07: Items 2, 10, and 18 had reconstruction transcription defects from web-source wording (`방` truncation, Apache path spelling/spacing, and CIDR slash). These were normalized without changing the intended answers.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/3fb289051d3ec2e205c63b349184a285b485128b50d422d9a207ae365ba1266b/9877849a269a50715e7c1ec6336b81a9f2f3d17419cc93503f626d3ee78adacc/manifest.json`

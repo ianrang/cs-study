@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cs-study:knowledge:1.0",
+  "title": "cs-study Knowledge Pipeline Schema 1.0",
+  "$defs": {
+    "PageType": {
+      "enum": ["concept", "entity", "comparison", "benchmark", "dataset", "method", "source-summary", "collection"]
+    },
+    "Claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "primary", "text", "status", "evidence", "notes"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+        "primary": {"type": "boolean"},
+        "text": {"type": "string", "minLength": 1},
+        "status": {"enum": ["claimed", "corroborated", "verified", "rejected"]},
+        "evidence": {"type": "string", "minLength": 1},
+        "notes": {"type": "string"}
+      }
+    },
+    "Relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "target", "notes"],
+      "properties": {
+        "type": {"enum": ["broader", "related", "prerequisite-of", "followed-by"]},
+        "target": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "notes": {"type": "string"}
+      }
+    },
+    "Member": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target", "role", "rationale"],
+      "properties": {
+        "target": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "role": {"type": "string"},
+        "rationale": {"type": "string"}
+      }
+    },
+    "Descriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["digest", "size", "media_type", "path"],
+      "properties": {
+        "digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "size": {"type": "integer", "minimum": 0},
+        "media_type": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "pattern": "^[^/\\\\]+$"}
+      }
+    },
+    "Properties": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "page_type", "tags", "date_created", "date_updated", "source_paths", "summary"],
+      "properties": {
+        "title": {"type": "string", "minLength": 1},
+        "page_type": {"$ref": "#/$defs/PageType"},
+        "tags": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "aliases": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "date_created": {"type": "string", "format": "date"},
+        "date_updated": {"type": "string", "format": "date"},
+        "source_paths": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^raw/sources/[^/]+/[^/]+/[a-f0-9]{64}/manifest\\.json$"},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "summary": {"type": "string", "minLength": 1}
+      }
+    },
+    "DocumentInstance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "properties", "ordered_sections", "claims", "relations", "members", "links"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "properties": {"$ref": "#/$defs/Properties"},
+        "ordered_sections": {"type": "array", "items": {"type": "string"}},
+        "claims": {"type": "array", "items": {"$ref": "#/$defs/Claim"}},
+        "relations": {"type": "array", "items": {"$ref": "#/$defs/Relation"}},
+        "members": {"type": "array", "items": {"$ref": "#/$defs/Member"}},
+        "links": {"type": "array", "items": {"type": "string"}}
+      },
+      "allOf": [
+        {"if": {"properties": {"properties": {"properties": {"page_type": {"const": "concept"}}}}}, "then": {"properties": {"ordered_sections": {"const": ["Definition", "Mechanism", "Variants", "Trade-offs", "Open Questions", "Claims", "Relations", "Sources"]}}}},
+        {"if": {"properties": {"properties": {"properties": {"page_type": {"const": "entity"}}}}}, "then": {"properties": {"ordered_sections": {"const": ["Overview", "Products / Outputs", "Timeline", "Claims", "Relations", "Sources"]}}}},
+        {"if": {"properties": {"properties": {"properties": {"page_type": {"const": "comparison"}}}}}, "then": {"properties": {"ordered_sections": {"const": ["Comparison Table", "Trade-offs", "When to Use", "Open Questions", "Claims", "Relations", "Sources"]}}}},
+        {"if": {"properties": {"properties": {"properties": {"page_type": {"const": "benchmark"}}}}}, "then": {"properties": {"ordered_sections": {"const": ["Definition", "Methodology", "Leaderboard", "Limitations", "Claims", "Relations", "Sources"]}}}},
+        {"if": {"properties": {"properties": {"properties": {"page_type": {"const": "dataset"}}}}}, "then": {"properties": {"ordered_sections": {"const": ["Overview", "Schema / Composition", "Usage", "Limitations / Biases", "Claims", "Relations", "Sources"]}}}},
+        {"if": {"properties": {"properties": {"properties": {"page_type": {"const": "method"}}}}}, "then": {"properties": {"ordered_sections": {"const": ["Definition", "Algorithm", "Implementation", "Trade-offs", "Open Questions", "Claims", "Relations", "Sources"]}}}},
+        {"if": {"properties": {"properties": {"properties": {"page_type": {"const": "source-summary"}}}}}, "then": {"properties": {"ordered_sections": {"const": ["Overview", "Claims", "Relations", "Sources"]}}}},
+        {"if": {"properties": {"properties": {"properties": {"page_type": {"const": "collection"}}}}}, "then": {"properties": {"ordered_sections": {"const": ["Overview", "Members", "Claims", "Relations", "Sources"]}}}}
+      ]
+    },
+    "ArtifactManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "source_type", "source_id", "artifact_digest", "media_type", "size", "payload", "created_at", "generator", "primary_source"],
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "source_type": {"enum": ["video", "web", "paper", "blog", "podcast", "conversation", "clipping"]},
+        "source_id": {"type": "string", "minLength": 1, "pattern": "^[^/\\\\]+$"},
+        "artifact_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "media_type": {"type": "string", "minLength": 1},
+        "size": {"type": "integer", "minimum": 0},
+        "payload": {"type": "string", "pattern": "^payload(?:\\.[A-Za-z0-9]+)?$"},
+        "created_at": {"type": "string", "format": "date-time"},
+        "generator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "version"],
+          "properties": {"name": {"type": "string", "minLength": 1}, "version": {"type": "string", "minLength": 1}}
+        },
+        "primary_source": {"type": "string", "minLength": 1},
+        "content": {"$ref": "#/$defs/Descriptor"},
+        "assets": {"type": "array", "items": {"$ref": "#/$defs/Descriptor"}, "uniqueItems": true}
+      }
+    },
+    "AssetManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "source_id", "asset_digest", "media_type", "size", "payload", "created_at", "generator"],
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "source_id": {"type": "string", "minLength": 1, "pattern": "^[^/\\\\]+$"},
+        "asset_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "media_type": {"type": "string", "minLength": 1},
+        "size": {"type": "integer", "minimum": 0},
+        "payload": {"type": "string", "pattern": "^asset(?:\\.[A-Za-z0-9]+)?$"},
+        "created_at": {"type": "string", "format": "date-time"},
+        "generator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "version"],
+          "properties": {"name": {"type": "string", "minLength": 1}, "version": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "SemanticPlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "page_type", "domain", "tags", "source_paths", "summary", "sections", "claims", "relations", "members"],
+      "properties": {
+        "title": {"type": "string", "minLength": 1},
+        "page_type": {"$ref": "#/$defs/PageType"},
+        "domain": {"type": "string", "minLength": 1},
+        "tags": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "source_paths": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+        "summary": {"type": "string", "minLength": 1},
+        "sections": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["heading", "body"], "properties": {"heading": {"type": "string"}, "body": {"type": "string"}}}},
+        "claims": {"type": "array", "items": {"$ref": "#/$defs/Claim"}},
+        "relations": {"type": "array", "items": {"$ref": "#/$defs/Relation"}},
+        "members": {"type": "array", "items": {"$ref": "#/$defs/Member"}}
+      }
+    }
+  }
+}

@@ -1,33 +1,33 @@
 ---
-title: "정보보안기사 실기 27회 2024년 4회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 27회 2024년 4회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://it-utopia.tistory.com/entry/정보보안기사-2024년-제27회-정보보안기사-실기-기출문제-복원"
-  - "https://blog.naver.com/stereok2/223762794914"
-source_count: 2
-provenance: inferred
-summary: "정보보안기사 실기 27회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: direct web reconstruction, Naver blog cross-check."
-evergreen: false
+- raw/sources/clipping/b4d00d73d5947f9b9e636ad4ccd05a950d29637a36dbfe4e66358e11dd693eca/c71b32fb147efa8807407c44f3ff16304003f2050bfbb73a8e605c0a610774a8/manifest.json
+summary: '정보보안기사 실기 27회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: direct web reconstruction,
+  Naver blog cross-check.'
 ---
+
+## Overview
+
+
+
 
 # 정보보안기사 실기 27회 2024년 4회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2024년 4회 실기.
 - Source status: direct web reconstruction cross-checked with Naver blog `stereok2/223762794914`; confidence: high for topic coverage, official wording still unverified.
 - This file stores paraphrased reconstruction notes, not verbatim source text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 접근통제 정책에 대하여 다음 물음에 답하시오. - (A) : 사용자나 사용자 그룹에 근거한 사용자 중심의 접근 제어 수행 - (B) : 모든 객체는 정보의 비밀수준에 근거하여 보안 레벨이 주어지고 허가된 사용자만 접근 가능토록 제어 - (C) : 사용자와 객체 상호관계를 역할에 따라 접근 제어 수행 | (A) : DAC, (B) : MAC, (C) : RBAC | source-derived; Naver cross-checked; official wording unverified |
@@ -49,7 +49,29 @@ evergreen: false
 | 17 | practical | 다음 자바 프로그램의 SQL Injection 취약점을 해소하는 빈칸을 채우시오. 취약 코드: `String gubun = request.getParameter("gubun");` 및 `String sql = "SELECT * FROM board WHERE b_gubun = '" + gubun + "'";`, `Statement stmt = con.createStatement();`, `ResultSet rs = stmt.executeQuery(sql);`. 안전한 코드: `String sql = "SELECT * FROM board WHERE b_gubun = (A)";`, `PreparedStatement pstmt = con.(B)(sql);`, `pstmt.(C)(1, gubun);`, `ResultSet rs = pstmt.(D);`. | (A) `?`, (B) `prepareStatement`, (C) `setString`, (D) `executeQuery()`. `?`는 SQL 문자열 리터럴 안이 아니라 바인드 변수 위치에 둔다. | PDF compilation cross-check restored the complete safe-code blanks. Oracle JDBC documentation cross-checks `prepareStatement`, `setString` and `executeQuery()` semantics. This is a non-official blog compilation, not KCA wording. |
 | 18 | practical | NTP 서비스 취약점을 이용한 DDoS 공격 대응방안 4가지를 서버 측면 2가지, 네트워크 측면 2가지로 나누어 서술하시오. | 서버 측면: 취약한 구형 `ntpd`는 배포판/벤더가 제공하는 수정 버전으로 갱신하고, 해당 버전에서 지원되면 `/etc/ntp.conf`의 `disable monitor`로 `monlist`/monitor 기능을 비활성화한다. 네트워크 측면: 신뢰할 수 있는 관리망·클라이언트만 NTP 접근을 허용하도록 ACL/방화벽을 적용하고, 외부에서 내부 NTP 서버로 들어오는 UDP/123 트래픽 또는 비정상 대량 NTP 응답 트래픽을 차단·속도 제한한다. | NTP 4.2.8-series documentation cross-check: `disable monitor`는 해당 계열의 옵션이다. 정확한 취약 버전·패치명은 배포판/ntpd 구현별 보안 권고를 따른다. |
 
-## Verification Notes
+### Verification Notes
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Rows are normalized from accessible web reconstructions and cross-checked against the Naver blog reconstruction listed in `source_paths`; they were cross-checked against the unlocked thodi-lab/blog-source PDFs where in 1~28 scope; KCA official wording is still not claimed.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/b4d00d73d5947f9b9e636ad4ccd05a950d29637a36dbfe4e66358e11dd693eca/c71b32fb147efa8807407c44f3ff16304003f2050bfbb73a8e605c0a610774a8/manifest.json`

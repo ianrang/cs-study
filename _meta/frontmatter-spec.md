@@ -2,6 +2,8 @@
 
 본 문서는 등급 별 frontmatter 필수·선택 필드를 정의한다.
 
+규칙 수명: raw video pair·field 절은 2026-08-23 immutable ArtifactBundle capture 전환으로 superseded된 historical non-normative다. wiki content 절은 순서 6b 전까지 current legacy contract다. 순서 5의 target checker는 fixture·no-write dry-run에만 적용하고 legacy wiki에는 적용하지 않는다. 승인된 순서 6b migration 성공과 같은 변경에서 wiki content의 frontmatter lifecycle·claim/evidence·content-page `provenance` field 규칙을 `_meta/knowledge.schema.json`과 `docs/wiki-ingest-business-logic.md` 규칙으로 supersede한다. 외부 `wiki/_meta/provenance.json` 선언은 순서 9 migration apply 성공과 같은 변경에서 supersede한다. 각 surface의 전환 전에는 legacy 규칙만 active normative이고 전환 후에는 target 규칙만 active normative다. superseded 절은 historical non-normative로 남으며 active hard-rule registry 대상에서 제외하고, 같은 surface에 legacy와 target validator를 동시에 적용하지 않는다.
+
 ## wiki/ content 페이지 (synthesis 등급) — 15 필드
 
 ```yaml
@@ -35,7 +37,7 @@ source_url: "https://arxiv.org/abs/2401.04088"   # 외부 url 또는 local path
 source_date: 2024-01-08                            # 출처 발행일
 source_type: paper                                  # enum: paper | blog | video | podcast | conversation | clipping
 last_verified: 2026-05-20                           # 최종 확인 timestamp (재현성·시의성)
-ingested_date: 2026-05-20
+ingested_date: 2026-05-20                              # video importer 추가 필드; 전역 raw 최소 6에는 미포함
 tier: raw
 ---
 ```
@@ -69,7 +71,7 @@ tier: human-note
 human_authored: true
 inferred: true        # default 추정값임을 표시
 source_paths: []      # 사람 노트는 자체 source
-provenance: extracted # 사람 직접 작성
+provenance: extracted # 사람 작성 원문에 직접 존재하는 내용
 ```
 
 사용자가 의도적으로 frontmatter 추가 시 lazy 추정값을 override.
@@ -118,7 +120,7 @@ Claim table 표준 형식:
 
 Claim table 규칙:
 - `id`: 문서 내 claim 식별자. `C1`, `C2` 형식.
-- `primary`: `true | false`. page-level roll-up 은 `primary=true` claim 만 사용한다.
+- `primary`: `true | false`. page-level 등급 threshold는 `primary=true` claim으로 계산하고, 전체 claim row의 `rejected` 존재 여부는 verified/corroborated 승격 veto로 사용한다.
 - `claim`: 보수적 주장 문장. 영상 하나만 근거면 "영상은 ... 주장한다" 형태를 유지한다.
 - `status`: `claimed | corroborated | verified | rejected`.
 - `evidence`: 기본적으로 raw path를 기록한다. `verified` 상태는 검토·보존된 `raw/sources/papers/`, `raw/sources/web/`, `raw/sources/urls/` 아래 Markdown 근거만 허용하며 외부 URL은 먼저 raw source로 ingest한다.
@@ -137,13 +139,14 @@ Claim table escaping/parsing 규칙:
 - `status` 는 소문자 `claimed`, `corroborated`, `verified`, `rejected` 만 허용한다.
 - `claim` 과 `evidence` 는 non-empty 여야 한다.
 - `claim_status_counts` 는 전체 claim row 의 status count 이다.
-- `verification_status` roll-up 은 `primary=true` claim 만 기준으로 계산한다.
+- `verification_status` roll-up의 등급 threshold는 `primary=true` claim으로 계산하되, 전체 claim row의 `rejected` count가 1 이상이면 verified/corroborated가 될 수 없다.
 
 Roll-up 규칙:
+- 아래 순서를 위에서부터 평가해 처음 충족한 결과 하나만 사용한다.
 - `primary=true` claim이 하나도 없으면 `verification_status: claimed`.
+- 핵심 claim 전체가 `rejected` 이면 `verification_status: rejected`.
 - 핵심 claim 전체가 `verified` 이고 전체 claim row의 `rejected` count가 0이면 `verification_status: verified`.
 - 핵심 claim 전체가 최소 `corroborated` 이상이고 전체 claim row의 `rejected` count가 0이면 `verification_status: corroborated`.
-- 핵심 claim 전체가 `rejected` 이면 `verification_status: rejected`.
 - 그 외는 `verification_status: claimed`.
 - 영상 하나만 근거인 claim 은 `verified` 가 될 수 없다.
 - 자동 lint에서 `verified` evidence는 검토·보존된 `raw/sources/{papers,web,urls}/...md` 경로만 허용한다.
@@ -178,8 +181,8 @@ cs/, development/ 노트의 `human_authored` 메타는 **frontmatter 가 아닌 
 - wiki/ system/template 페이지: content page 필수 필드 검사 제외. system page 내부 링크는 검사하고 template의 예시·placeholder 링크만 제외
 - raw/ 페이지: 최소 6 필드(lint.py `RAW_REQUIRED_FIELDS`) hard-fail
 - source summary claim table: fixed columns, escaping/parsing, derived field 누락·roll-up 불일치 hard-fail
-- cs/, dev/ 노트: lazy fallback 적용 (검증 면제)
-- 모든 페이지 `last_verified` 임계 검증 (재현성·시의성 축)
+- cs/, dev/ 노트: lazy fallback 적용, wiki content 15필드 검사는 면제
+- source/raw 페이지의 `last_verified` 누락은 `evergreen`과 무관하게 hard-fail한다. 값이 있으면 모든 페이지에 age ≥180일 warning을 적용하고, concept의 `evergreen: true`만 age ≥730일 hard-fail을 면제한다. 현행 `lint.py`의 evergreen early return은 이 범위를 초과하는 알려진 spec drift이며 target checker 전환에서 제거한다.
 
 ## 참고
 
