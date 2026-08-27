@@ -250,6 +250,15 @@ def test_full_check_includes_hidden_canonical_markdown():
         temporary.cleanup()
 
 
+def test_p2_t5_validation_rules_are_active_and_executable():
+    for rule_id in ("VR-KP-015", "VR-KP-016", "VR-KP-022"):
+        assert RULE_REGISTRY[rule_id] == ("active", "page-command-contract")
+    assert not any(
+        finding["subject_id"] in {"VR-KP-015", "VR-KP-016", "VR-KP-022"}
+        for finding in rule_coverage_findings()
+    )
+
+
 def _run_check_cli(result: CheckResult, report: str) -> tuple[int, list[str]]:
     original = wiki_ingest.check_target
     wiki_ingest.check_target = lambda *args, **kwargs: result
@@ -402,6 +411,7 @@ def test_target_dag_contract_covers_current_non_transitional_edges():
     expected_transition_edges = {
         ("wiki_ingest.py", "artifacts.py"),
         ("wiki_ingest.py", "check.py"),
+        ("wiki_ingest.py", "documents.py"),
         ("wiki_ingest.py", "fs.py"),
         ("wiki_ingest.py", "migration.py"),
         ("artifacts.py", "fs.py"),
@@ -410,6 +420,8 @@ def test_target_dag_contract_covers_current_non_transitional_edges():
         ("check.py", "fs.py"),
         ("check.py", "graph.py"),
         ("check.py", "schema.py"),
+        ("documents.py", "fs.py"),
+        ("documents.py", "schema.py"),
         ("migration.py", "documents.py"),
         ("migration.py", "fs.py"),
         ("migration.py", "privacy.py"),
@@ -433,7 +445,7 @@ def test_target_dag_contract_covers_current_non_transitional_edges():
             + max(current_longest_path(target, next_visiting) for target in targets)
         )
 
-    assert max(current_longest_path(module, set()) for module in current_modules) == 2
+    assert max(current_longest_path(module, set()) for module in current_modules) == 3
 
 
 def test_project_timestamp_boundary_is_exact_and_one_way():
@@ -585,7 +597,7 @@ def test_project_timestamp_boundary_is_exact_and_one_way():
         raise AssertionError("retargeted generator command edge was accepted")
     combined_edges.add(("migration", command_target))
     assert len(combined_modules) == 12
-    assert len(combined_edges) == 18
+    assert len(combined_edges) == 21
     assert ("migration", "build-practice-data") in combined_edges
     assert ("build-practice-data", "past_exam_converter") in combined_edges
     assert ("past_exam_converter", "timestamps") in combined_edges
@@ -608,9 +620,90 @@ def test_project_timestamp_boundary_is_exact_and_one_way():
     )
     assert (
         "목표 core+contract edge set exact(10 modules·14 edges)·전환 command-inclusive "
-        "12 modules·18 edges·cycle 0·최대 dependency edge chain 4"
+        "12 modules·21 edges·cycle 0·최대 dependency edge chain 4"
         in business_logic
     )
+
+
+def test_page_apply_candidate_call_path_does_not_gain_an_edge():
+    import ast
+
+    sources = {
+        "wiki_ingest": ROOT / "scripts" / "wiki_ingest.py",
+        "documents": ROOT / "scripts" / "knowledge" / "documents.py",
+        "check": ROOT / "scripts" / "knowledge" / "check.py",
+        "schema": ROOT / "scripts" / "knowledge" / "schema.py",
+    }
+    functions = {}
+    for module, path in sources.items():
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        functions.update(
+            {
+                (module, node.name): node
+                for node in tree.body
+                if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+            }
+        )
+
+    expected_path = (
+        ("wiki_ingest", "main"),
+        ("wiki_ingest", "_apply_page_plan"),
+        ("documents", "apply_page_write_plan"),
+        ("documents", "_apply_page_write_plan_unlocked"),
+        ("wiki_ingest", "_check_page_candidate"),
+        ("check", "check_target"),
+        ("schema", "parse_markdown"),
+        ("schema", "_parse_table"),
+        ("schema", "_split_table_row"),
+    )
+    assert len(expected_path) == 9
+    assert len(expected_path) - 1 == 8
+
+    concrete_edges = (
+        (expected_path[0], expected_path[1]),
+        (expected_path[1], expected_path[2]),
+        (expected_path[2], expected_path[3]),
+        (expected_path[4], expected_path[5]),
+        (expected_path[5], expected_path[6]),
+        (expected_path[6], expected_path[7]),
+        (expected_path[7], expected_path[8]),
+    )
+    for source, target in concrete_edges:
+        called_names = {
+            call.func.id
+            for call in ast.walk(functions[source])
+            if isinstance(call, ast.Call) and isinstance(call.func, ast.Name)
+        }
+        assert target[1] in called_names, f"missing call edge: {source} -> {target}"
+
+    apply_calls = [
+        call
+        for call in ast.walk(functions[("wiki_ingest", "_apply_page_plan")])
+        if isinstance(call, ast.Call)
+        and isinstance(call.func, ast.Name)
+        and call.func.id == "apply_page_write_plan"
+    ]
+    assert len(apply_calls) == 1
+    candidate_bindings = [
+        keyword.value
+        for keyword in apply_calls[0].keywords
+        if keyword.arg == "candidate_check"
+    ]
+    assert len(candidate_bindings) == 1
+    assert isinstance(candidate_bindings[0], ast.Name)
+    assert candidate_bindings[0].id == "_check_page_candidate"
+
+    unlocked = functions[("documents", "_apply_page_write_plan_unlocked")]
+    callback_calls = {
+        call.func.id
+        for call in ast.walk(unlocked)
+        if isinstance(call, ast.Call) and isinstance(call.func, ast.Name)
+    }
+    assert "candidate_check" in callback_calls
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    assert "함수 9개 직렬(= edge 8)" in architecture
 
 
 def test_corrupt_evidence_is_rejected():

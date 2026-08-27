@@ -7,6 +7,7 @@
 | Source identity | provider object 또는 canonical locator를 식별하는 논리 key |
 | ArtifactBundle | capture-contract payload와 descriptor를 함께 보존하는 immutable directory |
 | SemanticPlan | LLM/사람이 제안한 지식 의미 입력. path·frontmatter·derived field·rendered Markdown·write operation은 포함하지 않음 |
+| PageWritePlan | Python이 SemanticPlan 또는 명시적 lifecycle command를 single-page write-set·base/target digest·rendered bytes로 resolve한 strict transaction instance |
 | DraftPage | `wiki/staging/` 아래의 schema-valid 검토 대상 Markdown |
 | ActivePage | `wiki/domains/` 또는 `wiki/collections/` 아래의 canonical Markdown |
 | ArchivedPage | `wiki/archive/` 아래의 보존 page |
@@ -49,12 +50,13 @@ Claim 상태는 `claimed`, `corroborated`, `verified`, `rejected`다. exact enum
 
 | ID | IF | THEN | 예외 |
 |---|---|---|---|
-| BR-SYN-001 | synthesize가 실행되면 | 사용자가 명시한 manifest만 입력 universe로 사용한다 | wiki/ 입력 금지 |
+| BR-SYN-001 | synthesize가 실행되면 | CLI `--source`와 SemanticPlan `source_paths`의 exact-match manifest 목록만 source universe로 사용한다 | wiki/는 collision·graph 검증 context로만 읽고 source로 ingest하지 않는다 |
 | BR-SYN-002 | SemanticPlan이 제공되면 | strict schema와 current artifact/vault 상태로 재검증한다 | unknown field reject |
 | BR-SYN-003 | SemanticPlan이 path·frontmatter·derived field·rendered Markdown·write operation을 포함하면 | 거부한다 | 없음 |
 | BR-SYN-004 | 동일 주제를 여러 manifest가 설명하면 | 한 DraftPage의 `source_paths`와 Claims에 함께 반영할 수 있다 | source별 별도 summary가 요구되면 separate page |
 | BR-SYN-005 | 기존 stable ID 또는 의미 중복 후보가 있으면 | 새 active page를 만들지 않고 draft에 merge/review finding을 남긴다 | 자동 merge 금지 |
-| BR-SYN-006 | draft를 apply하면 | Python renderer가 staging Markdown 한 개만 쓴다 | LLM direct write 금지 |
+| BR-SYN-006 | SemanticPlan을 resolve하면 | Python renderer가 staging candidate bytes와 logical write-set 최대 1개를 가진 PageWritePlan을 no-write로 게시한다 | LLM direct write·plan mode knowledge page write 금지 |
+| BR-SYN-007 | synthesize PageWritePlan을 apply하면 | plan SHA·schema·base tree·target 부재·candidate full check를 재검증한 뒤 staging Markdown 한 개만 atomic create한다 | apply mode의 semantic 재결정 금지 |
 
 ### Page와 claim
 
@@ -72,17 +74,29 @@ Claim 상태는 `claimed`, `corroborated`, `verified`, `rejected`다. exact enum
 
 ### 승격과 변경
 
+BR-LIFE-003·BR-LIFE-004는 archive·restore의 목표 상태 규칙이다. 두 전이의 executable command와 PageWritePlan operation은 P2-T5 범위가 아니며, 별도 schema version·task 승인 전에는 unsupported로 거부한다. P2-T5의 `move`는 같은 lifecycle root 안의 경로 변경만 소유한다.
+
 | ID | IF | THEN | 예외 |
 |---|---|---|---|
 | BR-LIFE-001 | draft를 active로 승격하면 | full check와 명시적 review approval을 요구한다 | 자동 승격 금지 |
 | BR-LIFE-002 | promote가 성공하면 | content bytes를 바꾸지 않고 page를 active path로 rename한다 | target collision reject |
+| BR-LIFE-005 | promote plan을 만들면 | strict review JSON의 모든 primary claim ID에 claim-level evidence verdict를 exact 1개 결속하고 status와 verdict 정합을 검증한다 | `claimed` primary·`insufficient` 승격, 누락·중복·비-primary verdict, boolean-only approval 금지 |
 | BR-LIFE-003 | active page를 archive하면 | filename ID와 content를 보존해 archive path로 이동한다 | 삭제 금지 |
 | BR-LIFE-004 | archived page의 explicit restore review를 시작하면 | 즉시 staging Draft로 이동하고 BR-LIFE-001을 다시 적용한다 | archive→active 직접 이동 금지 |
 | BR-APPLY-001 | 기존 page update plan을 만들면 | base SHA-256을 기록한다 | 없음 |
-| BR-APPLY-002 | apply 시 current SHA-256이 base와 다르면 | stale plan으로 거부한다 | force overwrite 금지 |
+| BR-APPLY-002 | current tree가 base와 일치하는 최초 apply에서 current page SHA-256이 plan의 page base SHA-256과 다르면 | stale plan으로 거부한다 | BR-APPLY-007의 exact target-state confirmed replay에는 적용하지 않고 force overwrite는 금지 |
 | BR-APPLY-003 | page bytes를 갱신하면 | temp file 검증·fsync 후 atomic replace한다 | validation 후속 실행에 의존 금지 |
-| BR-APPLY-004 | command write-set에 canonical page가 둘 이상이면 | 거부한다 | generated-only write는 materialize가 별도 소유 |
-| BR-MOVE-001 | page를 이동하면 | ID를 보존하고 target collision을 사전 검사한다 | inbound backlink 수동 수정 금지 |
+| BR-APPLY-004 | command write-set에 knowledge page가 둘 이상이면 | 거부한다 | generated-only write는 materialize가 별도 소유 |
+| BR-APPLY-005 | ordinary page plan을 게시하면 | canonical JSON plan bytes의 SHA-256, schema SHA-256, base/target tree SHA-256, normalized input SHA-256, generator version을 결속한다 | 기존 plan overwrite 금지 |
+| BR-APPLY-006 | ordinary page plan을 apply하면 | 사용자가 확인한 plan SHA-256과 exact plan bytes digest가 일치해야 한다 | confirmation 생략·prefix match 금지 |
+| BR-APPLY-007 | apply 시 current tree가 base와 다르면 | current tree·target page bytes·mode·move source 부재가 plan target state와 모두 정확히 같고 plan에 결속된 base bytes로 operation-specific delta를 재검증한 confirmed replay만 idempotent no-op으로 허용하고, 나머지는 write 0 stale/collision reject한다 | force·부분 target match·replay semantic gate 우회 금지 |
+| BR-APPLY-008 | candidate page operation을 apply하면 | write 전에 in-memory overlay full check를 통과해야 한다 | checker repair·검증 후 수정 금지 |
+| BR-APPLY-009 | replace를 commit하면 | sibling temp에 target bytes를 쓰고 검증·fsync한 뒤 atomic replace한다 | delete+create gap 금지 |
+| BR-APPLY-010 | create 또는 move를 commit하면 | target no-replace primitive를 사용하고 move는 source bytes와 ID를 보존한다 | competing target overwrite 금지 |
+| BR-APPLY-011 | ordinary apply를 실행하면 | `fs.py`의 non-blocking repository-root directory descriptor lock을 migration apply/restore/recover와 공유하고 invoked command·exact plan operation·operation input digest, candidate check 직후 tree·source bytes·mode를 재검증한다. commit·post-tree 실패 시 planned target 상태로 관찰된 own leaf만 이전 상태로 rollback한다 | 관찰된 외부 same-leaf bytes overwrite, lock 획득 실패 후 write, rollback conflict/failure를 단순 stale로 축소 금지; 관찰과 syscall 사이 non-cooperative race는 보장 범위 밖 |
+| BR-APPLY-012 | Markdown leaf를 create·replace·move하면 | create mode는 `0644`, replace·move mode는 source mode를 보존한다 | 기존 vault의 mode를 일괄 정규화하지 않는다 |
+| BR-APPLY-013 | namespace commit 뒤 process가 종료되면 | atomic leaf는 base 또는 target exact state이며 다음 confirmed plan replay가 상태를 재판별한다 | partial content·임의 자동 overwrite 금지 |
+| BR-MOVE-001 | page를 이동하면 | ID와 lifecycle root를 보존하고 target collision을 사전 검사한다 | staging→active·active→archive·archive→staging lifecycle 전이를 move로 우회하거나 inbound backlink를 수동 수정 금지 |
 
 전역 schema migration은 BR-APPLY-004의 일반 page command가 아니라 다음 일회성 전환 규칙을 따른다.
 
@@ -114,7 +128,7 @@ Claim 상태는 `claimed`, `corroborated`, `verified`, `rejected`다. exact enum
 | BR-COL-002 | collection member를 추가하면 | BR-COL-005가 결정한 초기 행 위치에 `[[page-id]]`를 한 번 기록한다 | page에 collection backlink 저장 금지 |
 | BR-COL-003 | Members row 순서가 바뀌면 | 변경된 행 순서가 새 canonical sequence다 | 숫자 position 이중 저장 금지 |
 | BR-COL-004 | collection에 같은 member가 둘 이상 있으면 | reject한다 | 없음 |
-| BR-COL-005 | collection member의 초기 행 위치를 결정하면 | ordered lecture/learning path는 review된 의미 순서, 단순 topic group은 deterministic ID sort를 기본값으로 사용한다 | 이후 명시적 reorder는 BR-COL-003 적용 |
+| BR-COL-005 | collection member의 초기 행 위치를 결정하면 | ordered lecture/learning path는 review된 `before` 또는 `after` 위치를, 단순 topic group은 명시적으로 선택한 deterministic ID sort를 사용한다 | 세 정책 중 정확히 하나를 선택해야 하며 이후 명시적 reorder는 BR-COL-003 적용 |
 | BR-COL-006 | provider playlist 순서와 논리 학습 순서가 다르면 | 별도 CollectionPage로 표현한다 | 한 collection에 두 sequence 저장 금지 |
 | BR-COL-007 | member target이 없거나 ambiguous하면 | collection update를 거부한다 | 미래 placeholder link 금지 |
 
@@ -132,7 +146,7 @@ Claim 상태는 `claimed`, `corroborated`, `verified`, `rejected`다. exact enum
 
 ## 5. 생성물과 검증 규칙
 
-아래 규칙은 최종 목표 rule-set이다. 전환 중 validator rule의 활성 상태는 `scripts/knowledge/check.py`의 `RULE_REGISTRY`가 소유하고, `_meta/knowledge-requirements.json`은 requirement-to-surface coverage만 소유한다. `inactive-until-*` rule은 명시된 순서에서 구현·검증 surface와 함께 `active`로 전환되기 전까지 BR-CHK-001의 “현재 활성 normative” 집합에 포함하지 않는다.
+아래 규칙은 최종 목표 rule-set이다. 전환 중 validator rule의 활성 상태는 `scripts/knowledge/check.py`의 `RULE_REGISTRY`가 소유하고, `_meta/knowledge-requirements.json`은 FR/NFR의 requirement-to-step·implementation/verification surface coverage를 소유한다. `inactive-until-*` rule은 명시된 순서에서 구현·검증 surface와 함께 `active`로 전환되기 전까지 BR-CHK-001의 “현재 활성 normative” 집합에 포함하지 않는다.
 
 | ID | IF | THEN | 예외 |
 |---|---|---|---|
@@ -141,7 +155,7 @@ Claim 상태는 `claimed`, `corroborated`, `verified`, `rejected`다. exact enum
 | BR-GEN-003 | `materialize --check`가 실행되면 | temp 결과와 repository bytes를 비교하고 차이가 있으면 non-zero다 | 자동 수정 금지 |
 | BR-GEN-004 | materialize를 같은 입력으로 두 번 실행하면 | 두 tree hash가 같아야 한다 | 다르면 nondeterminism HIGH |
 | BR-GEN-005 | active page가 추가·이동·archive되면 | 다음 materialize에서 index와 overview가 반영한다 | canonical page가 index를 직접 수정 금지 |
-| BR-CHK-001 | 현재 활성 normative schema/문서에 hard rule이 선언되면 | rule registry에 구현 rule ID가 있어야 한다 | historical·superseded 절은 제외하고, active rule ID가 없으면 `UNSUPPORTED_RULE` HIGH |
+| BR-CHK-001 | 현재 활성 normative schema/문서에 hard rule이 선언되면 | rule registry에 구현 rule ID가 있어야 한다 | historical·superseded 절과 구현·검증 surface가 아직 활성화되지 않은 `inactive-until-*` rule은 제외하고, active rule ID가 없으면 `UNSUPPORTED_RULE` HIGH |
 | BR-CHK-002 | `check --changed`가 실행되면 | changed page와 graph상 직접 영향 surface를 동일 rule implementation으로 검사한다 | 별도 축소 rule 정의 금지 |
 | BR-CHK-003 | `check --all`이 실행되면 | hidden 포함 canonical scope 전체를 검사하고 exclusions를 보고한다. 전환 lint는 exact base tree에만 legacy wiki contract를 적용하고 다른 tree는 같은 canonical checker에 단독 위임한다 | `.git`, declared cache·venv 제외; canonical 실패의 legacy fallback 금지 |
 | BR-CHK-004 | HIGH finding이 하나 이상이면 | promote·CI는 실패한다 | 사용자 위험 수용으로 CI PASS 치환 금지 |
@@ -167,11 +181,13 @@ Claim 상태는 `claimed`, `corroborated`, `verified`, `rejected`다. exact enum
 | 시작 | 종료 | 조건 |
 |---|---|---|
 | SemanticPlan | Rejected | schema, source, collision, evidence 검증 실패 |
-| SemanticPlan | Draft | staging Markdown 한 개 생성 |
-| Draft | Active | full check + review approval + atomic rename |
+| SemanticPlan | PageWritePlan | strict schema·source exact match·domain·ID·candidate 검증 성공 |
+| PageWritePlan | Rejected | plan/schema/base tree/source digest/target precondition/candidate check 불일치 |
+| PageWritePlan | Draft | confirmed synthesize plan이 staging Markdown 한 개 atomic create |
+| Draft | Active | full check + BR-LIFE-005 claim verdict exact/status gate + review approval + atomic rename |
 | Draft | Draft | review 수정 후 base digest 일치 atomic replace |
 | Active | Active | base digest 일치 update |
-| Active | Archived | explicit archive move |
+| Active | Archived | P2-T5 이후 별도 승인된 explicit archive transition |
 | Archived | Draft | explicit restore review 시작 |
 
 Draft·Active·Archived는 경로에서 배타적으로 결정된다. 파일 하나가 두 lifecycle 상태를 동시에 가질 수 없다.
@@ -198,14 +214,14 @@ Draft·Active·Archived는 경로에서 배타적으로 결정된다. 파일 하
 | VR-KP-012 | related | canonical owner page에만 1 edge | reject |
 | VR-KP-013 | directed relation | broader/prerequisite-of/followed-by cycle 0 | reject |
 | VR-KP-014 | lifecycle | path와 허용 operation 일치 | reject |
-| VR-KP-015 | update | current digest와 plan base digest 일치 | stale reject |
-| VR-KP-016 | 일반 lifecycle·page command write-set | canonical page 최대 1 | reject; NFR-KP-015의 승인된 전역 schema migration은 BR-MIG-001~015 적용 |
+| VR-KP-015 | update/replay | 최초 apply는 invoked operation·operation input digest·current bytes/mode와 plan base 일치; replay는 exact target tree·page bytes/mode·move source 부재 및 plan base bytes 기반 operation delta 일치 | 그 밖의 상태는 stale reject |
+| VR-KP-016 | 일반 lifecycle·page command write-set | shared repository lock 안에서 logical knowledge page 최대 1, plan·base/target tree digest와 operation-specific delta 일치 | reject; NFR-KP-015의 승인된 전역 schema migration은 BR-MIG-001~015 적용 |
 | VR-KP-017 | generated | schema digest marker·temp bytes 일치 | drift reject |
 | VR-KP-018 | index | active page coverage 100%, archived/staging 제외 | reject |
-| VR-KP-019 | architecture | 목표 core+contract edge set exact(10 modules·14 edges)·전환 command-inclusive 12 modules·18 edges·cycle 0·최대 dependency edge chain 4 | reject; edge 4 transition ratchet 증가 금지 |
-| VR-KP-020 | rule coverage | 현재 활성 normative hard rule마다 executable rule ID 존재. historical/superseded 규칙은 실행 대상에서 제외 | unsupported reject |
+| VR-KP-019 | architecture | 목표 core+contract edge set exact(10 modules·14 edges)·전환 command-inclusive 12 modules·21 edges·cycle 0·최대 dependency edge chain 4 | reject; edge 4 transition ratchet 증가 금지 |
+| VR-KP-020 | rule coverage | 현재 활성 normative hard rule마다 executable rule ID 존재. historical·superseded 규칙과 구현·검증 surface가 아직 활성화되지 않은 `inactive-until-*` rule은 실행 대상에서 제외 | unsupported reject |
 | VR-KP-021 | replay | 동일 input tuple의 output tree hash 동일 | nondeterminism reject |
-| VR-KP-022 | semantic gate | primary claim별 review verdict 존재 | active promotion reject |
+| VR-KP-022 | semantic gate | primary claim ID exact set·verdict enum·status matrix 일치, `claimed`·`insufficient` 0건 | active promotion reject |
 
 ## 8. 완료 술어
 
@@ -213,7 +229,7 @@ Draft·Active·Archived는 경로에서 배타적으로 결정된다. 파일 하
 |---|---|---|---|
 | Artifact immutability | 같은 source의 같은/different bytes | same=no-op, different=new bundle, old bytes 동일 | artifact integration test |
 | Atomic capture | bundle write 단계별 injected failure | final partial bundle 0, 기존 bundle 동일 | failure-injection test |
-| Page atomicity | existing page update 중 injected failure | 이전 page SHA-256 동일 | filesystem integration test |
+| Page atomicity | create·replace·move pre/post-commit failure와 cooperative/non-cooperative race | pre-commit·safe rollback은 own leaf bytes·mode가 base, rollback 전에 관찰된 same-leaf conflict는 외부 bytes를 보존한 indeterminate, 관찰 이후 새 경합은 보장 범위 밖, crash는 base 또는 target, 성공은 target tree 일치 | filesystem integration test |
 | Stable identity | active page move | filename stem 동일, resolved link 단일 | move integration test |
 | Collection sequence | member add/reorder | collection 한 파일만 canonical diff | write-set assertion |
 | Relation integrity | cycle/inverse/symmetric duplicate fixture | 각 invalid fixture non-zero | graph parameterized test |

@@ -14,7 +14,7 @@ from jsonschema import Draft202012Validator
 from .fs import (
     confined,
     fsync_directory,
-    rename_directory_no_replace,
+    rename_path_no_replace,
     write_bytes_fsync,
 )
 from .schema import (
@@ -263,7 +263,7 @@ def capture(
         _verify_bundle(temp, manifest)
         fsync_directory(temp)
         try:
-            rename_directory_no_replace(temp, final)
+            rename_path_no_replace(temp, final)
         except OSError:
             if not final.exists():
                 raise
@@ -344,7 +344,7 @@ def capture_asset(
         verify(temp)
         fsync_directory(temp)
         try:
-            rename_directory_no_replace(temp, final)
+            rename_path_no_replace(temp, final)
         except OSError:
             if not final.exists():
                 raise

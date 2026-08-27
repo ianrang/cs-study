@@ -4,6 +4,7 @@ import ast
 import hashlib
 import json
 import re
+from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -15,6 +16,7 @@ from .graph import inspect_graph
 from .schema import (
     REPO_ROOT,
     KnowledgeSchemaError,
+    canonical_document_paths,
     contract_format_checker,
     is_canonical_document_path,
     parse_markdown,
@@ -38,14 +40,14 @@ RULE_REGISTRY = {
     "VR-KP-012": ("active", "graph-check"),
     "VR-KP-013": ("active", "graph-check"),
     "VR-KP-014": ("active", "lifecycle-check"),
-    "VR-KP-015": ("inactive-until-7", "stale-plan-test"),
-    "VR-KP-016": ("inactive-until-7", "write-set-test"),
+    "VR-KP-015": ("active", "page-command-contract"),
+    "VR-KP-016": ("active", "page-command-contract"),
     "VR-KP-017": ("inactive-until-8", "materialize-check"),
     "VR-KP-018": ("inactive-until-8", "index-coverage-check"),
     "VR-KP-019": ("active", "architecture-check"),
     "VR-KP-020": ("active", "rule-coverage-check"),
     "VR-KP-021": ("active", "artifact-replay-check"),
-    "VR-KP-022": ("inactive-until-7", "promotion-semantic-gate"),
+    "VR-KP-022": ("active", "page-command-contract"),
 }
 
 
@@ -146,6 +148,68 @@ def artifact_replay_findings(
     ]
 
 
+def page_command_contract_findings(repo_root: Path = REPO_ROOT) -> list[dict]:
+    required = {
+        repo_root / "scripts" / "knowledge" / "documents.py": {
+            "apply_page_write_plan",
+            "build_promote_plan",
+        },
+        repo_root / "tests" / "test_page_commands.py": {
+            "test_apply_synthesize_requires_exact_confirmation_and_rejects_stale_tree",
+            "test_apply_rejects_synthesize_operation_input_not_bound_to_target",
+            "test_synthesize_renders_claims_and_relations_with_escaped_table_cells",
+            "test_promote_requires_review_and_preserves_content_and_id",
+            "test_promote_replay_revalidates_confirmed_review_semantics",
+            "test_collection_add_and_reorder_change_only_collection_page",
+            "test_collection_add_requires_one_explicit_policy_and_supports_id_order",
+            "test_collection_delta_preserves_raw_bytes_outside_members",
+            "test_apply_rechecks_tree_and_mode_after_candidate_validation",
+            "test_apply_rolls_back_own_leaf_when_post_write_tree_differs",
+            "test_move_is_same_lifecycle_only_and_rejects_collision",
+            "test_cli_rejects_plan_applied_through_wrong_command",
+            "test_document_tree_rejects_non_regular_markdown_entries",
+        },
+        repo_root / "tests" / "test_fs.py": {
+            "test_post_commit_rollback_failure_is_reported_indeterminate",
+            "test_repository_write_lock_is_nonblocking_and_process_scoped",
+        },
+        repo_root / "tests" / "test_migration_plan.py": {
+            "test_migration_writers_share_repository_lock",
+        },
+    }
+    findings: list[dict] = []
+    for path, names in required.items():
+        try:
+            tree = ast.parse(path.read_text(encoding="utf-8"))
+        except (OSError, SyntaxError) as exc:
+            findings.append(
+                _finding(
+                    "VR-KP-020",
+                    path,
+                    "page-command-contract",
+                    f"page command contract surface is unavailable: {exc}",
+                    "restore the P2-T5 implementation and executable tests",
+                )
+            )
+            continue
+        declared = {
+            node.name
+            for node in ast.walk(tree)
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+        }
+        for missing in sorted(names - declared):
+            findings.append(
+                _finding(
+                    "VR-KP-020",
+                    path,
+                    missing,
+                    f"UNSUPPORTED_RULE: missing page command contract {missing}",
+                    "restore the named implementation or executable test",
+                )
+            )
+    return findings
+
+
 def rule_coverage_findings(
     registry: dict[str, tuple[str, str]] | None = None,
 ) -> list[dict]:
@@ -161,6 +225,7 @@ def rule_coverage_findings(
         "architecture-check": architecture_findings,
         "rule-coverage-check": rule_coverage_findings,
         "artifact-replay-check": artifact_replay_findings,
+        "page-command-contract": page_command_contract_findings,
     }
     findings = []
     for rule_id, (status, implementation) in sorted(selected.items()):
@@ -194,6 +259,11 @@ def rule_coverage_findings(
                 "add the validation rule to the executable registry",
             )
         )
+    if any(
+        status == "active" and implementation == "page-command-contract"
+        for status, implementation in selected.values()
+    ):
+        findings.extend(page_command_contract_findings())
     return findings
 
 
@@ -285,7 +355,7 @@ def _artifact_findings(repo_root: Path, path: Path, instance: dict) -> list[dict
 
 
 def _lifecycle_findings(target_root: Path, path: Path, instance: dict) -> list[dict]:
-    relative = path.relative_to(target_root)
+    relative = path.resolve().relative_to(target_root.resolve())
     parts = relative.parts
     lifecycle = [
         name
@@ -413,17 +483,53 @@ def check_target(
     repo_root: Path = REPO_ROOT,
     mode: str = "all",
     changed_paths: list[Path] | None = None,
+    overrides: Mapping[Path, str | None] | None = None,
+    include_repository_contracts: bool = True,
 ) -> CheckResult:
     if mode not in {"all", "changed"}:
         raise ValueError(f"unknown check mode: {mode}")
     if not target_root.is_dir():
         raise ValueError(f"target root must be an existing directory: {target_root}")
-    all_paths = sorted(
-        path
-        for path in target_root.rglob("*.md")
-        if not EXCLUDED_PARTS.intersection(path.parts)
-        and is_canonical_document_path(target_root, path)
-    )
+    root = target_root.resolve()
+    override_by_path: dict[Path, str | None] = {}
+    for path, content in (overrides or {}).items():
+        resolved = path.resolve()
+        if not resolved.is_relative_to(root) or not is_canonical_document_path(
+            root, resolved
+        ):
+            raise ValueError(f"invalid candidate override path: {path}")
+        override_by_path[resolved] = content
+    try:
+        all_paths = {
+            path
+            for path in canonical_document_paths(target_root)
+            if not EXCLUDED_PARTS.intersection(path.parts)
+        }
+    except KnowledgeSchemaError as exc:
+        return CheckResult(
+            structural_verdict="FAIL",
+            semantic_review="not-performed",
+            mode=mode,
+            exclusions=tuple(sorted(EXCLUDED_PARTS)),
+            findings=(
+                _finding(
+                    "VR-KP-004",
+                    target_root,
+                    "<target-root>",
+                    str(exc),
+                    "replace symlink or special entries with regular directories/files",
+                ),
+            ),
+        )
+    for path, content in override_by_path.items():
+        all_paths = {
+            candidate for candidate in all_paths if candidate.resolve() != path
+        }
+        if content is None:
+            continue
+        else:
+            all_paths.add(path)
+    sorted_paths = sorted(all_paths)
     if mode == "changed" and not changed_paths:
         raise ValueError("changed mode requires at least one explicit path")
     if mode == "changed":
@@ -439,8 +545,12 @@ def check_target(
                     "changed path must be a Markdown file location under target root: "
                     f"{changed_path}"
                 )
-    findings = contract_findings() + rule_coverage_findings() + architecture_findings()
-    if not all_paths:
+    findings = []
+    if include_repository_contracts:
+        findings.extend(contract_findings())
+        findings.extend(rule_coverage_findings())
+        findings.extend(architecture_findings())
+    if not sorted_paths:
         findings.append(
             _finding(
                 "VR-KP-004",
@@ -452,9 +562,9 @@ def check_target(
         )
     records: list[tuple[Path, dict]] = []
     parse_findings: list[dict] = []
-    for path in all_paths:
+    for path in sorted_paths:
         try:
-            instance = parse_markdown(path)
+            instance = parse_markdown(path, override_by_path.get(path.resolve()))
         except (OSError, KnowledgeSchemaError) as exc:
             parse_findings.append(
                 _finding(
@@ -469,7 +579,7 @@ def check_target(
         records.append((path, instance))
 
     if mode == "all":
-        impacted_paths = set(all_paths)
+        impacted_paths = set(sorted_paths)
         findings.extend(parse_findings)
     else:
         changed_resolved = {path.resolve() for path in changed_paths or []}
@@ -487,7 +597,7 @@ def check_target(
             path for path, instance in records if instance["id"] in impacted_ids
         }
         impacted_paths.update(
-            path for path in all_paths if path.resolve() in changed_resolved
+            path for path in sorted_paths if path.resolve() in changed_resolved
         )
         findings.extend(
             finding

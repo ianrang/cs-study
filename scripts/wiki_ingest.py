@@ -20,10 +20,21 @@ from knowledge.artifacts import (  # noqa: E402
     verify_manifest,
 )
 from knowledge.check import check_target  # noqa: E402
+from knowledge.documents import (  # noqa: E402
+    PagePlanError,
+    apply_page_write_plan,
+    build_collection_add_member_plan,
+    build_collection_reorder_plan,
+    build_move_plan,
+    build_promote_plan,
+    build_synthesize_plan,
+    page_plan_bytes,
+    write_set_overrides,
+)
 from knowledge.fs import (  # noqa: E402
     fsync_directory,
     publish_bytes_no_replace,
-    rename_directory_no_replace,
+    rename_path_no_replace,
     write_bytes_fsync,
 )
 from knowledge.migration import (  # noqa: E402
@@ -87,6 +98,62 @@ def _parser() -> argparse.ArgumentParser:
     check_parser.add_argument("--target-root", type=Path, required=True)
     check_parser.add_argument("--path", dest="paths", type=Path, action="append")
     check_parser.add_argument("--report", choices=("text", "jsonl"), default="text")
+
+    synthesize_parser = subcommands.add_parser(
+        "synthesize", help="plan or apply one semantic draft"
+    )
+    synthesize_mode = synthesize_parser.add_mutually_exclusive_group(required=True)
+    synthesize_mode.add_argument("--semantic-plan", type=Path)
+    synthesize_mode.add_argument("--apply-plan", type=Path)
+    synthesize_parser.add_argument("--source", dest="sources", action="append")
+    synthesize_parser.add_argument("--page-id")
+    synthesize_parser.add_argument("--now")
+    synthesize_parser.add_argument("--output", type=Path)
+    synthesize_parser.add_argument("--confirm-plan-sha256")
+
+    promote_parser = subcommands.add_parser(
+        "promote", help="plan or apply one reviewed draft promotion"
+    )
+    promote_parser.add_argument("draft", type=Path, nargs="?")
+    promote_parser.add_argument("--target-dir", type=Path)
+    promote_parser.add_argument("--review-verdicts", type=Path)
+    promote_parser.add_argument("--output", type=Path)
+    promote_parser.add_argument("--apply-plan", type=Path)
+    promote_parser.add_argument("--confirm-plan-sha256")
+    promote_parser.add_argument("--review-approved", action="store_true")
+
+    collection_parser = subcommands.add_parser(
+        "collection", help="plan or apply one collection page change"
+    )
+    collection_commands = collection_parser.add_subparsers(
+        dest="collection_command", required=True
+    )
+    add_member_parser = collection_commands.add_parser("add-member")
+    add_member_parser.add_argument("collection", type=Path, nargs="?")
+    add_member_parser.add_argument("member", nargs="?")
+    add_member_order = add_member_parser.add_mutually_exclusive_group()
+    add_member_order.add_argument("--before")
+    add_member_order.add_argument("--after")
+    add_member_order.add_argument("--order-by-id", action="store_true")
+    add_member_parser.add_argument("--output", type=Path)
+    add_member_parser.add_argument("--apply-plan", type=Path)
+    add_member_parser.add_argument("--confirm-plan-sha256")
+
+    reorder_parser = collection_commands.add_parser("reorder")
+    reorder_parser.add_argument("collection", type=Path, nargs="?")
+    reorder_parser.add_argument("--member", dest="members", action="append")
+    reorder_parser.add_argument("--output", type=Path)
+    reorder_parser.add_argument("--apply-plan", type=Path)
+    reorder_parser.add_argument("--confirm-plan-sha256")
+
+    move_parser = subcommands.add_parser(
+        "move", help="plan or apply one same-lifecycle page move"
+    )
+    move_parser.add_argument("page", type=Path, nargs="?")
+    move_parser.add_argument("target_dir", type=Path, nargs="?")
+    move_parser.add_argument("--output", type=Path)
+    move_parser.add_argument("--apply-plan", type=Path)
+    move_parser.add_argument("--confirm-plan-sha256")
 
     migration_parser = subcommands.add_parser(
         "migrate-plan", help="produce a stable-ID/frontmatter no-write plan"
@@ -197,6 +264,45 @@ def _check_migration_candidate(
         )
 
 
+def _check_page_candidate(write_set: list[dict]) -> None:
+    knowledge_root = REPO_ROOT / "wiki"
+    result = check_target(
+        knowledge_root,
+        repo_root=REPO_ROOT,
+        mode="all",
+        overrides=write_set_overrides(knowledge_root, write_set),
+        include_repository_contracts=False,
+    )
+    if result.structural_verdict != "PASS":
+        raise PagePlanError(
+            f"candidate failed structural check with {len(result.findings)} findings"
+        )
+
+
+def _publish_page_plan(output: Path | None, plan: dict) -> None:
+    if output is None:
+        raise PagePlanError("plan mode requires --output")
+    created = publish_bytes_no_replace(output, page_plan_bytes(plan))
+    print(f"{'planned' if created else 'existing'}: {output}")
+
+
+def _apply_page_plan(args: argparse.Namespace, expected_operation: str) -> None:
+    if args.apply_plan is None or args.confirm_plan_sha256 is None:
+        raise PagePlanError(
+            "apply mode requires --apply-plan and --confirm-plan-sha256"
+        )
+    changed = apply_page_write_plan(
+        args.apply_plan,
+        args.confirm_plan_sha256,
+        repo_root=REPO_ROOT,
+        knowledge_root=REPO_ROOT / "wiki",
+        candidate_check=_check_page_candidate,
+        expected_operation=expected_operation,
+        review_approved=getattr(args, "review_approved", False),
+    )
+    print(f"{'applied' if changed else 'unchanged'}: {args.apply_plan}")
+
+
 def _cascade_bundle_matches(destination: Path, expected: dict[str, bytes]) -> bool:
     try:
         destination_mode = destination.lstat().st_mode
@@ -236,7 +342,7 @@ def _publish_cascade_bundle(destination: Path, plan: bytes, diff: bytes) -> bool
             write_bytes_fsync(temporary / name, data)
         fsync_directory(temporary)
         try:
-            rename_directory_no_replace(temporary, destination)
+            rename_path_no_replace(temporary, destination)
         except FileExistsError:
             if _cascade_bundle_matches(destination, expected):
                 return False
@@ -299,6 +405,165 @@ def main(argv: list[str] | None = None) -> int:
                 )
                 print(f"exclusions={','.join(result.exclusions)}")
             return int(result.structural_verdict != "PASS")
+        elif args.command == "synthesize":
+            if args.apply_plan is not None:
+                if any(
+                    value is not None
+                    for value in (args.sources, args.page_id, args.now, args.output)
+                ):
+                    raise PagePlanError(
+                        "synthesize apply mode accepts only plan and confirmation"
+                    )
+                _apply_page_plan(args, "synthesize")
+            else:
+                if any(
+                    value is None
+                    for value in (
+                        args.semantic_plan,
+                        args.sources,
+                        args.page_id,
+                        args.now,
+                        args.output,
+                    )
+                ) or args.confirm_plan_sha256 is not None:
+                    raise PagePlanError(
+                        "synthesize plan mode requires semantic plan, source, "
+                        "page ID, now, and output"
+                    )
+                plan = build_synthesize_plan(
+                    semantic_plan_path=args.semantic_plan,
+                    source_paths=args.sources,
+                    page_id=args.page_id,
+                    now=args.now,
+                    repo_root=REPO_ROOT,
+                    knowledge_root=REPO_ROOT / "wiki",
+                )
+                _check_page_candidate(plan["write_set"])
+                _publish_page_plan(args.output, plan)
+            return 0
+        elif args.command == "promote":
+            if args.apply_plan is not None:
+                if any(
+                    value is not None
+                    for value in (
+                        args.draft,
+                        args.target_dir,
+                        args.review_verdicts,
+                        args.output,
+                    )
+                ):
+                    raise PagePlanError(
+                        "promote apply mode accepts only plan, confirmation, "
+                        "and review approval"
+                    )
+                _apply_page_plan(args, "promote")
+            else:
+                if (
+                    args.draft is None
+                    or args.target_dir is None
+                    or args.review_verdicts is None
+                    or args.output is None
+                    or args.confirm_plan_sha256 is not None
+                    or args.review_approved
+                ):
+                    raise PagePlanError(
+                        "promote plan mode requires draft, target directory, and output"
+                    )
+                plan = build_promote_plan(
+                    args.draft,
+                    args.target_dir,
+                    review_verdicts_path=args.review_verdicts,
+                    repo_root=REPO_ROOT,
+                    knowledge_root=REPO_ROOT / "wiki",
+                )
+                _check_page_candidate(plan["write_set"])
+                _publish_page_plan(args.output, plan)
+            return 0
+        elif args.command == "collection":
+            if args.apply_plan is not None:
+                plan_values = [args.collection, args.output]
+                if args.collection_command == "add-member":
+                    plan_values.extend([args.member, args.before, args.after])
+                    if args.order_by_id:
+                        plan_values.append(True)
+                else:
+                    plan_values.append(args.members)
+                if any(value is not None for value in plan_values):
+                    raise PagePlanError(
+                        "collection apply mode accepts only plan and confirmation"
+                    )
+                _apply_page_plan(args, f"collection-{args.collection_command}")
+            elif args.collection_command == "add-member":
+                if (
+                    args.collection is None
+                    or args.member is None
+                    or args.output is None
+                    or args.confirm_plan_sha256 is not None
+                ):
+                    raise PagePlanError(
+                        "collection add-member plan mode requires collection, "
+                        "member, order, and output"
+                    )
+                plan = build_collection_add_member_plan(
+                    args.collection,
+                    args.member,
+                    before=args.before,
+                    after=args.after,
+                    order_by_id=args.order_by_id,
+                    repo_root=REPO_ROOT,
+                    knowledge_root=REPO_ROOT / "wiki",
+                )
+                _check_page_candidate(plan["write_set"])
+                _publish_page_plan(args.output, plan)
+            else:
+                if (
+                    args.collection is None
+                    or args.members is None
+                    or args.output is None
+                    or args.confirm_plan_sha256 is not None
+                ):
+                    raise PagePlanError(
+                        "collection reorder plan mode requires collection, "
+                        "members, and output"
+                    )
+                plan = build_collection_reorder_plan(
+                    args.collection,
+                    args.members,
+                    repo_root=REPO_ROOT,
+                    knowledge_root=REPO_ROOT / "wiki",
+                )
+                _check_page_candidate(plan["write_set"])
+                _publish_page_plan(args.output, plan)
+            return 0
+        elif args.command == "move":
+            if args.apply_plan is not None:
+                if any(
+                    value is not None
+                    for value in (args.page, args.target_dir, args.output)
+                ):
+                    raise PagePlanError(
+                        "move apply mode accepts only plan and confirmation"
+                    )
+                _apply_page_plan(args, "move")
+            else:
+                if (
+                    args.page is None
+                    or args.target_dir is None
+                    or args.output is None
+                    or args.confirm_plan_sha256 is not None
+                ):
+                    raise PagePlanError(
+                        "move plan mode requires page, target directory, and output"
+                    )
+                plan = build_move_plan(
+                    args.page,
+                    args.target_dir,
+                    repo_root=REPO_ROOT,
+                    knowledge_root=REPO_ROOT / "wiki",
+                )
+                _check_page_candidate(plan["write_set"])
+                _publish_page_plan(args.output, plan)
+            return 0
         elif args.command == "migrate-plan":
             plan = build_migration_plan(REPO_ROOT, args.knowledge_root)
             rendered = plan_bytes(plan)

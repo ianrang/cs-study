@@ -2,8 +2,12 @@ from __future__ import annotations
 
 import copy
 import datetime as dt
+import hashlib
 import json
+import os
 import re
+import stat
+from collections.abc import Mapping
 from pathlib import Path
 
 import yaml
@@ -36,7 +40,7 @@ def contract_format_checker() -> FormatChecker:
 def is_canonical_document_path(target_root: Path, path: Path) -> bool:
     """Return whether a Markdown path belongs to the canonical document set."""
     try:
-        relative = path.resolve().relative_to(target_root.resolve())
+        relative = path.absolute().relative_to(target_root.absolute())
     except ValueError:
         return False
     return (
@@ -71,8 +75,99 @@ def load_schema() -> dict:
     return json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
 
 
-def validator_for(definition: str) -> Draft202012Validator:
-    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+def canonical_document_paths(target_root: Path) -> tuple[Path, ...]:
+    root = target_root.absolute()
+    try:
+        root_mode = root.lstat().st_mode
+    except OSError as exc:
+        raise KnowledgeSchemaError(
+            f"knowledge root must be an existing directory: {target_root}"
+        ) from exc
+    if not stat.S_ISDIR(root_mode) or stat.S_ISLNK(root_mode):
+        raise KnowledgeSchemaError("knowledge root must be a non-symlink directory")
+    paths: list[Path] = []
+    for current, directory_names, file_names in os.walk(root, followlinks=False):
+        current_path = Path(current)
+        for name in directory_names:
+            directory = current_path / name
+            mode = directory.lstat().st_mode
+            if not stat.S_ISDIR(mode) or stat.S_ISLNK(mode):
+                raise KnowledgeSchemaError(
+                    f"knowledge traversal directory must be regular: {directory}"
+                )
+        for name in file_names:
+            if not name.endswith(".md"):
+                continue
+            path = current_path / name
+            mode = path.lstat().st_mode
+            if not stat.S_ISREG(mode) or stat.S_ISLNK(mode):
+                raise KnowledgeSchemaError(
+                    f"Markdown entry must be a regular non-symlink file: {path}"
+                )
+            if is_canonical_document_path(root, path):
+                paths.append(path)
+    return tuple(sorted(paths))
+
+
+def document_tree_sha256(
+    target_root: Path,
+    overrides: Mapping[Path, str | None] | None = None,
+) -> str:
+    root = target_root.absolute()
+    documents = {
+        path.relative_to(root).as_posix(): path.read_bytes()
+        for path in canonical_document_paths(root)
+    }
+    for path, content in (overrides or {}).items():
+        resolved = path.absolute()
+        try:
+            relative = resolved.relative_to(root).as_posix()
+        except ValueError as exc:
+            raise KnowledgeSchemaError(
+                f"document override escapes root: {path}"
+            ) from exc
+        if not is_canonical_document_path(root, resolved):
+            raise KnowledgeSchemaError(f"invalid document override path: {path}")
+        if content is None:
+            documents.pop(relative, None)
+        else:
+            documents[relative] = content.encode("utf-8")
+    manifest = [
+        {"path": path, "sha256": hashlib.sha256(documents[path]).hexdigest()}
+        for path in sorted(documents)
+    ]
+    encoded = json.dumps(
+        manifest,
+        ensure_ascii=False,
+        separators=(",", ":"),
+        sort_keys=True,
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def active_domains(repo_root: Path = REPO_ROOT) -> frozenset[str]:
+    registry_path = repo_root / "_meta" / "domains.yaml"
+    try:
+        registry = yaml.safe_load(registry_path.read_text(encoding="utf-8"))
+        domains = registry["domains"]
+    except (OSError, KeyError, TypeError, yaml.YAMLError) as exc:
+        raise KnowledgeSchemaError(f"invalid domain registry: {exc}") from exc
+    if not isinstance(domains, dict):
+        raise KnowledgeSchemaError("domain registry domains must be a mapping")
+    active = {
+        name
+        for name, value in domains.items()
+        if isinstance(name, str)
+        and isinstance(value, dict)
+        and value.get("status") == "active"
+    }
+    return frozenset(active)
+
+
+def validator_for(
+    definition: str, schema_path: Path = SCHEMA_PATH
+) -> Draft202012Validator:
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
     if definition not in schema.get("$defs", {}):
         raise KnowledgeSchemaError(f"unknown schema definition: {definition}")
     selected = {

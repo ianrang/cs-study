@@ -1,10 +1,10 @@
-# cs-study 다음 세션 진입 — P2-T5 순서 7 leaf command TDD
+# cs-study 다음 세션 진입 — P2-T6 순서 8 deterministic materializer
 
 > 작성: 2026-08-26
-> 직전 작업: P2-T4 persistent snapshot 385개를 재스테이징하고 전체 자동 검증·구조 및 설계 교차검증·사용자 commit 승인을 완료했다.
+> 직전 작업: P2-T5 순서 7 leaf command를 TDD로 구현하고 전체 회귀·설계·코드·live no-write 교차검증을 완료했다.
 > 작업 위치: 현재 cs-study linked worktree (`feat/knowledge-pipeline` 브랜치)
-> 다음 세션 첫 동작 의무: 본 파일, `todo.md`, `reports/P2-T4-verification.md`, `docs/wiki-ingest-architecture.md` §13, `docs/wiki-ingest-business-logic.md`의 synthesize·apply 규칙을 먼저 읽고 P2-T5 TDD 범위를 고정한다.
-> commit: P2-T4 baseline snapshot은 사용자 승인을 받았고 본 인계와 함께 독립 commit으로 고정한다. 다음 변경은 P2-T5의 별도 TDD commit이다.
+> 다음 세션 첫 동작 의무: 본 파일, `todo.md`, `reports/P2-T5-verification.md`, `docs/wiki-ingest-architecture.md` §13, `docs/wiki-ingest-business-logic.md`의 generated-view 규칙을 먼저 읽고 P2-T6 materializer 범위를 고정한다.
+> commit: P2-T5 변경은 구현·검증했지만 아직 commit하지 않았다. 사용자의 별도 commit 승인 전에 P2-T6를 시작하지 않는다.
 
 ---
 
@@ -16,13 +16,13 @@
 - P2-T4 final restage에서 staged ACMR 363개 index/worktree byte mismatch 0과 tracked unstaged 0을 확인했다.
 - active persistent snapshot의 Apple·Windows local-user-home 경로는 P2-T2에서 TDD로 제거·재생성·cascade 검증했다.
 - runtime evidence를 제외한 순서 1–6b snapshot은 P2-T4에서 전체 검증과 사용자 commit 승인을 마쳤다.
-- 순서 7–12는 baseline commit 이후 각각의 설계 gate와 독립 commit 후보를 유지한다.
+- 순서 7은 P2-T5에서 구현·검증했고, 순서 8–12는 각각의 설계 gate와 독립 commit 후보를 유지한다.
 
 ---
 
 ## 2. 다음 진입 작업과 외부 trigger
 
-- next_task: P2-T5
+- next_task: P2-T6
 - focus_group: 지속 가능한 지식 파이프라인
 
 ### P2-T2. persistent 절대경로 비식별화
@@ -40,8 +40,13 @@
 - 증거: `reports/P2-T4-verification.md`; root 156 passed, 11 skipped, project contract 27 tests OK, 자동화 가능한 5계층 영역 미시도 0건.
 
 ### P2-T5. 순서 7 leaf command TDD
-- 다음 작업: synthesize·promote·collection·move command를 SemanticPlan·one-page write-set·stale base digest 계약에 따라 테스트부터 구현한다.
+- 완료: synthesize·promote·collection·move command, strict PageWritePlan, shared writer lock, validate-before-write, atomic rollback·exact replay를 TDD로 구현·검증했다.
+- 증거: `reports/P2-T5-verification.md`; root 212 passed, 11 skipped, live structural findings 0, lint exit 0.
 - P2-T6~P2-T11의 세부 작업·직접 선행·완료 증거의 canonical은 `todo.md`다.
+
+### P2-T6. 순서 8 deterministic materializer
+- 다음 작업: canonical page·registry·schema와 순서 7 leaf command를 입력으로 index·overview·template·Bases generated view를 TDD로 구현한다.
+- 완료 gate: 연속 2회 materialize tree hash 동일, active coverage 100%, authored source 무변경, 별도 commit 승인.
 
 ### 2-1. OFFICIAL-PRIMARY-SOURCE-GATE — KCA 공식 원문 대조
 - 근거: 회차 파일 공통 note와 `subject-type-cross-verify-report.md`의 official PDF scope limit.
@@ -68,10 +73,10 @@
 - 진입 전 확인: 현재는 same-directory 링크와 `source_paths` 정합 때문에 보류한다.
 - 작업 범위: 실제 디렉터리 분리가 필요해지면 링크·frontmatter·인덱스 마이그레이션을 별도 작업으로 수행한다.
 
-### 2-6. WIKI-INGEST-REMAINDER — 구현 순서 7–12
+### 2-6. WIKI-INGEST-REMAINDER — 구현 순서 8–12
 - 근거: `docs/wiki-ingest-architecture.md` §13, `docs/wiki-ingest-review.md` §9.
 - 진입 전 확인: 순서 1–6b engine·canonical cutover·privacy/runtime guard와 P2-T4 baseline 검증·승인이 완료됐다.
-- 작업 범위: P2-T5부터 P2-T11까지 직접 선행 DAG대로 수행한다.
+- 작업 범위: P2-T6부터 P2-T11까지 직접 선행 DAG대로 수행한다.
 
 ### 2-7. PAGE-TYPE-MIGRATION — 복합 dataset/lab 표준 섹션 정합화
 - 근거: `_meta/page-type-spec.md`의 승격 content 표준 섹션과 현재 복합 dataset/lab 89개 문서 구조가 다르다.
@@ -246,4 +251,4 @@
 - 보조 원천 raw/source 선별 패칭 여부 결정.
 - 문서 물리 디렉터리 분리가 필요해질 경우 별도 마이그레이션 수행.
 - 순서 1–6b persistent baseline은 P2-T4에서 final verification과 별도 commit 승인을 마쳤다.
-- `scripts/wiki_ingest.py` 기반 순서 1–6b는 구현됐다. 순서 7 synthesize·promote·collection·move부터 P2-T5에서 재개한다.
+- `scripts/wiki_ingest.py` 기반 순서 1–7은 구현·검증했다. 순서 8 deterministic materializer를 P2-T6에서 재개한다.

@@ -18,6 +18,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from knowledge import migration  # noqa: E402
 from knowledge.artifacts import capture, verify_manifest  # noqa: E402
 from knowledge.check import check_target  # noqa: E402
+from knowledge.fs import repository_write_lock  # noqa: E402
 from knowledge.migration import (  # noqa: E402
     apply_resolved_plan,
     build_migration_plan,
@@ -39,6 +40,33 @@ from wiki_ingest import (  # noqa: E402
     _parser,
     _publish_cascade_bundle,
 )
+
+
+@pytest.mark.parametrize(
+    ("operation", "arguments"),
+    [
+        (apply_resolved_plan, (Path("plan"), Path("backup"))),
+        (restore_backup, (Path("plan"), Path("backup"))),
+        (recover_transaction, (Path("journal"), Path("plan"), "0" * 64)),
+    ],
+)
+def test_migration_writers_share_repository_lock(
+    tmp_path: Path, operation, arguments: tuple
+):
+    (tmp_path / "wiki").mkdir()
+    with repository_write_lock(tmp_path):
+        with pytest.raises(BlockingIOError):
+            if operation is recover_transaction:
+                operation(*arguments, tmp_path, tmp_path / "wiki")
+            else:
+                operation(
+                    *arguments,
+                    tmp_path,
+                    tmp_path / "wiki",
+                    "0" * 64,
+                    Path("journal"),
+                    *(() if operation is restore_backup else (lambda *_: None,)),
+                )
 
 
 def _sha256(data: bytes) -> str:
@@ -1669,7 +1697,7 @@ def test_preview_reports_live_reference_impacts_without_applying():
 
 def test_preview_publish_failure_leaves_no_final_or_partial_destination():
     temporary, repo, wiki = _git_fixture()
-    real_publish = migration.rename_directory_no_replace
+    real_publish = migration.rename_path_no_replace
     try:
         plan_path, _ = _resolved_fixture(repo, wiki)
         preview = repo / "preview"
@@ -1677,7 +1705,7 @@ def test_preview_publish_failure_leaves_no_final_or_partial_destination():
         def fail_publish(source: Path, target: Path) -> None:
             raise OSError("injected preview publish failure")
 
-        migration.rename_directory_no_replace = fail_publish
+        migration.rename_path_no_replace = fail_publish
         try:
             preview_resolved_plan(
                 plan_path,
@@ -1693,7 +1721,7 @@ def test_preview_publish_failure_leaves_no_final_or_partial_destination():
         assert not preview.exists()
         assert list(repo.glob(".preview.preview.*")) == []
     finally:
-        migration.rename_directory_no_replace = real_publish
+        migration.rename_path_no_replace = real_publish
         temporary.cleanup()
 
 

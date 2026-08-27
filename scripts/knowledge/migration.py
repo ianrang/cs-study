@@ -27,7 +27,8 @@ from .fs import (
     chmod_fsync,
     exchange_directories,
     fsync_directory,
-    rename_directory_no_replace,
+    rename_path_no_replace,
+    repository_locked,
     write_bytes_fsync,
 )
 from .schema import (
@@ -2116,7 +2117,7 @@ def preview_resolved_plan(
                 impact["path"] = str(
                     destination / impact_path.resolve().relative_to(candidate.resolve())
                 )
-        rename_directory_no_replace(candidate, destination)
+        rename_path_no_replace(candidate, destination)
         fsync_directory(destination.parent)
     except Exception:
         if candidate.exists():
@@ -2138,6 +2139,7 @@ def preview_resolved_plan(
     }
 
 
+@repository_locked(2)
 def apply_resolved_plan(
     plan_path: Path,
     backup_path: Path,
@@ -2348,6 +2350,7 @@ def _verify_backup_for_restore(plan_path: Path, backup_path: Path, plan: dict) -
     return descriptor
 
 
+@repository_locked(2)
 def restore_backup(
     plan_path: Path,
     backup_path: Path,
@@ -2483,6 +2486,7 @@ def restore_backup(
         raise
 
 
+@repository_locked(3)
 def recover_transaction(
     journal_path: Path,
     plan_path: Path,

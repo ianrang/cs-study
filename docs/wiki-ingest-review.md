@@ -125,11 +125,11 @@ requirements checker의 `surfaces`는 requirement ID cardinality가 아니라 �
 
 | 계층 | 현재 결과 | 판정 |
 |---|---|---|
-| 1 명제 일관성 | FR/NFR/AC 51개 mapping과 10-module·14-edge 목표 core+contract DAG | ✅ 전환 command-inclusive 12 modules·18 edges·cycle 0·최대 dependency edge 4 ratchet |
+| 1 명제 일관성 | FR/NFR/AC 51개 mapping과 10-module·14-edge 목표 core+contract DAG | ✅ P2-T5 전환 command-inclusive 12 modules·21 edges·cycle 0·최대 dependency edge 4 ratchet; logic 재검증 2회 findings 0 |
 | 2 정적 분석 | live target lint HIGH 0·canonical findings 0; text report exclusions 9개; affected migration/check/test Ruff E/F 0; AST guard가 목표 수치와 현재 비전환 edge coverage 검증 | ✅ base/target validator 소유권과 목표 DAG edge contract 정합 |
-| 3 단위 | current live target 156 passed·legacy-base 전용 11 skipped. P2-T2·P2-T3 단계 증거는 각각 154·155 passed였고, 최종 1개 증가는 preservation resolved-plan privacy digest 회귀다 | ✅ canonical target lifecycle과 privacy·runtime guard 결함 재현·회귀 테스트 통과 |
-| 4 mock 통합 | live target의 156 passed에 capture·asset·schema·graph·check·migration fixture 통합 시나리오 포함 | ⚠️ 순서 7–8 command와 materializer는 미구현 |
-| 5 실환경 | 승인된 결합 plan을 `.knowledge-migration-6b-reapply.json`으로 재적용해 `COMMITTED`, live wiki target hash, 당시 external 15/15 target, active stale 0을 확인했다. 후속 승인된 architecture evidence 수정 뒤 historical cascade vector는 비문서 14/14 exact이고 architecture 1개만 새 digest `7377a1e2…c00f5`다. canonical check findings 0, lint HIGH 0, generator current이며 동일 plan 재적용은 write 0으로 거부됐다 | ⚠️ 자동화 가능한 local target 전환 검증은 모두 수행; Chrome DOM 계약은 자동 focus 권한 부재로 사용자 확인 영역 |
+| 3 단위 | current live target 212 passed·legacy-base 전용 11 skipped. P2-T5는 normal·edge·error·failure injection과 claim/relation escape·collection explicit ordering을 포함한다 | ✅ P2-T5 변경 함수 29개가 execution coverage에서 모두 1회 이상 실행됨; 변경 runtime Python 7개 모듈 coverage 77%는 baseline migration 미실행 경로를 포함한 참고값 |
+| 4 mock 통합 | live target의 212 passed에 capture·asset·schema·graph·check·migration fixture와 page plan/apply·rollback·별도 process lock 시나리오 포함 | ✅ 순서 7 command 구현; ⚠️ 순서 8 materializer 미구현 |
+| 5 실환경 | 기존 6b migration 실환경 증거에 더해 P2-T5 live `check --all` structural PASS·findings 0, lint exit 0, 실제 filesystem atomic leaf·별도 process lock 시나리오를 재실행했다 | ⚠️ 자동화 가능한 P2-T5 local 영역은 모두 시도; 의미 grounding은 P2-T10·P2-T11의 사용자 필수 영역 |
 
 이번 문서 정합 범위에서 자동화 가능한 로컬 정적·단위·mock 통합·실데이터 no-write 영역은 모두 시도했다. Obsidian Bases rendering은 materializer 미구현으로 자동화 조건을 충족하지 않고, 원격 branch protection은 접근권 미확인이다. 전체 pipeline 검증 완료나 release 가능 판정으로 확대하지 않는다.
 
@@ -139,7 +139,6 @@ requirements checker의 `surfaces`는 requirement ID cardinality가 아니라 �
 
 | Drift family | 구현 소유 순서 |
 |---|---:|
-| SemanticPlan·synthesize·promote·collection·move command | 7 |
 | generated marker·navigation·template | 8 |
 | structure-rule scope/depth·wiki path·log·backlink·provenance legacy surface | 9 |
 | 독립 CI·required check | 10 |
@@ -161,17 +160,17 @@ requirements checker의 `surfaces`는 requirement ID cardinality가 아니라 �
 
 남은 단계별 진입 gate:
 
-- 순서 7: 6b live target과 설계된 leaf write-set·stale base digest 계약을 기준으로 구현 범위를 고정한다
+- 순서 8: canonical page와 순서 7 leaf command 계약을 입력으로 materializer 구현 범위를 고정한다
 - 순서 9 apply: no-write removal plan과 derived parity plan의 사용자 승인 전 migration apply 금지
 
 ## 9. 최종 판정
 
-2026-08-25 기준 구현 순서 1–5, 6a no-write inventory와 6b fail-closed 결합 migration engine은 구현됐다. `check.py → fs.py`, neutral canonical timestamp leaf, clipping privacy leaf를 포함하는 목표 core+contract DAG는 10 modules·14 edges·cycle 0·최대 dependency edge 3이며, 전환 command-inclusive DAG는 12 modules·18 edges·cycle 0·최대 dependency edge 4 ratchet으로 AST guard에 연결됐다. post-apply validation lifecycle을 보완한 뒤 승인된 결합 plan을 재적용했으며 `.knowledge-migration-6b-reapply.json`은 `COMMITTED`, live wiki와 external reference는 모두 target 상태다. 순서 7–12는 실행되지 않았다.
+2026-08-26 기준 구현 순서 1–7이 구현됐다. `check.py → fs.py`, neutral canonical timestamp leaf, clipping privacy leaf를 포함하는 목표 core+contract DAG는 10 modules·14 edges·cycle 0·최대 dependency edge 3이며, P2-T5 전환 command-inclusive DAG는 12 modules·21 edges·cycle 0·최대 dependency edge 4 ratchet으로 AST guard에 연결됐다. 순서 7은 strict PageWritePlan, synthesize·promote·collection·move plan/apply, shared writer lock, validate-before-write, atomic leaf rollback과 exact replay 검증을 추가했다. 순서 8–12는 실행되지 않았다.
 
 - 설계 문서 gate: 승인된 목표 DAG와 AST regression guard 정합
-- 현재 범위 판정: 순서 1–6b engine과 승인된 canonical cutover를 정적·단위·mock 통합·실데이터 apply·refusal로 검증
-- 전체 시스템 판정: 6b canonical cutover는 완료됐지만 순서 7–12 GAP 때문에 PASS 선언 불가
-- 다음 진입 gate: 순서 7 SemanticPlan·synthesize·promote·collection·move leaf command 설계 범위 확인
+- 현재 범위 판정: 순서 1–7 engine과 승인된 canonical cutover를 정적·단위·mock 통합·실데이터 no-write·filesystem failure injection으로 검증
+- 전체 시스템 판정: 순서 7 leaf command는 구현됐지만 순서 8–12 GAP 때문에 PASS 선언 불가
+- 다음 진입 gate: 순서 8 deterministic materializer 설계 범위 확인
 
 75-page preservation resolution은 source/target 75/75, 이동 8, collection 1, `Members` 52 unique, unresolved 0으로 고정됐다. `Members` 순서는 legacy index의 Markdown link 52개와 exact-order로 대조했다. 활성 clipping manifest/payload는 75/75이며 P2-T2에서 개인 홈 prefix가 있던 8개 revision을 append-only로 추가하고 active manifest reference 16개와 resolution digest 8개를 새 digest로 전환했다. 당시 no-apply preview는 structural PASS, payload parity 75/75, Claims 0, Relations 0, Members 52를 확인했고 project question-pack의 전체 sourceRef 410/410이 target preview의 동일 line·excerpt를 가리켰다. 외부 참조 관찰값 676회는 active question-pack 329회, generated `practice-data.js` 329회, project docs 5회, `.claude/resume_prompt.md` 11회, architecture 1회와 append-only `log.md`의 historical 1회로 분해된다. historical 기록은 수정하지 않는다. 이전 actual apply에 사용한 cascade plan SHA-256은 `1004572e3966031923f0b1f168b15a7f1140e8b8de0c54622d75df4548105d28`였다. lifecycle remediation 후 승인·적용한 resolved plan은 `ef15632778e1490c281dd63224939ac20f56b1e99689e1ba694f00764dd0299c`, cascade plan은 `b0a8e366fb76fce6b7a3dddb3f5c266a9b3eece779df36ec2b728bd5e80f11b0`, full diff는 `636255b5ac3988c1c8ff0354844cd6376337055ce3641ced3a9b99c11336495a`, backup은 `3553e4ed6ef96a9069d46103e73f3e5335018f10862a6e78562e74540133d885`이며 두 번의 생성 결과가 byte-identical이었다. 당시 journal target wiki tree는 `23c8e82e54af6f6f5331435df64dcc0357601577e1f8282f45243eafec9e0d4a`였고, P2-T2 privacy 이행 뒤 현재 live wiki tree는 `ef5d0c42f08d1a5841a78633cb3e92adabc322e85eff8aeb5b87cf41bf0c6b21`이다. apply 시점의 external target 15/15 중 비문서 14개는 그대로이며, architecture는 승인된 후속 evidence 수정으로 SHA-256 `7377a1e206d0b405e1a0904be2bbf07dbcb5b551251fa23bae9c7ee9744c00f5`가 됐다. apply·restore·reapply journal과 journal-bound 세 candidate는 historical execution·recovery evidence로 보존한다.
 
@@ -188,6 +187,7 @@ requirements checker의 `surfaces`는 requirement ID cardinality가 아니라 �
 - 2026-08-24: 75-page preservation resolution·immutable clipping·결정적 preview·plan-bound backup과 123-test, full canonical check, project sourceRef 410/410 보존 증거를 반영했다.
 - 2026-08-24: collection 52 exact-order, capture expected digest, plan·preview atomic no-replace, preservation preview·apply mandatory lineage audit와 전환 graph exact guard를 회귀 게이트로 승격했다.
 - 2026-08-24: operation payload의 content-addressed manifest binding으로 preservation을 독립 판별해 `resolution_mode=generic` downgrade를 preview·backup·apply 전에 거부하는 적대적 회귀 게이트를 추가했다.
+- 2026-08-26: P2-T5 순서 7의 strict plan·leaf command·shared lock·rollback·replay 구현과 212-test, live no-write, 설계·구조 교차검증 결과를 반영하고 순서 8–12를 잔여 범위로 갱신했다.
 - 2026-08-25: clipping Markdown의 Apple·Windows local-user-home prefix를 digest 전에 단일 privacy leaf로 치환하고, 활성 wiki·manifest payload·web source의 개인 경로 정적 거부와 8개 revision·16개 active manifest reference·8개 resolution digest 이행을 반영했다. 이전 immutable revision은 recovery evidence로 유지한다.
 - 2026-08-25: lifecycle remediation 후 승인된 결합 plan을 재적용하고 live target hash, external target 15/15, active stale 0, canonical findings 0, 전체 target 테스트와 멱등 refusal 결과를 반영했다.
 - 2026-08-25: 후속 교차검증의 prefix-only candidate exclusion, checker text exclusions 누락, architecture live-state drift를 TDD로 보강하고 historical cascade vector와 후속 architecture digest를 분리 기록했다.

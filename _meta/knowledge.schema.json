@@ -6,6 +6,23 @@
     "PageType": {
       "enum": ["concept", "entity", "comparison", "benchmark", "dataset", "method", "source-summary", "collection"]
     },
+    "ManifestPath": {
+      "type": "string",
+      "pattern": "^raw/sources/[^/]+/[^/]+/[a-f0-9]{64}/manifest\\.json$"
+    },
+    "Digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "Generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1}
+      }
+    },
     "Claim": {
       "type": "object",
       "additionalProperties": false,
@@ -63,7 +80,7 @@
         "date_updated": {"type": "string", "format": "date"},
         "source_paths": {
           "type": "array",
-          "items": {"type": "string", "pattern": "^raw/sources/[^/]+/[^/]+/[a-f0-9]{64}/manifest\\.json$"},
+          "items": {"$ref": "#/$defs/ManifestPath"},
           "minItems": 1,
           "uniqueItems": true
         },
@@ -107,12 +124,7 @@
         "size": {"type": "integer", "minimum": 0},
         "payload": {"type": "string", "pattern": "^payload(?:\\.[A-Za-z0-9]+)?$"},
         "created_at": {"type": "string", "format": "date-time"},
-        "generator": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["name", "version"],
-          "properties": {"name": {"type": "string", "minLength": 1}, "version": {"type": "string", "minLength": 1}}
-        },
+        "generator": {"$ref": "#/$defs/Generator"},
         "primary_source": {"type": "string", "minLength": 1},
         "content": {"$ref": "#/$defs/Descriptor"},
         "assets": {"type": "array", "items": {"$ref": "#/$defs/Descriptor"}, "uniqueItems": true}
@@ -130,12 +142,7 @@
         "size": {"type": "integer", "minimum": 0},
         "payload": {"type": "string", "pattern": "^asset(?:\\.[A-Za-z0-9]+)?$"},
         "created_at": {"type": "string", "format": "date-time"},
-        "generator": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["name", "version"],
-          "properties": {"name": {"type": "string", "minLength": 1}, "version": {"type": "string", "minLength": 1}}
-        }
+        "generator": {"$ref": "#/$defs/Generator"}
       }
     },
     "SemanticPlan": {
@@ -147,13 +154,153 @@
         "page_type": {"$ref": "#/$defs/PageType"},
         "domain": {"type": "string", "minLength": 1},
         "tags": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
-        "source_paths": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+        "source_paths": {"type": "array", "items": {"$ref": "#/$defs/ManifestPath"}, "minItems": 1, "uniqueItems": true},
         "summary": {"type": "string", "minLength": 1},
         "sections": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["heading", "body"], "properties": {"heading": {"type": "string"}, "body": {"type": "string"}}}},
         "claims": {"type": "array", "items": {"$ref": "#/$defs/Claim"}},
         "relations": {"type": "array", "items": {"$ref": "#/$defs/Relation"}},
         "members": {"type": "array", "items": {"$ref": "#/$defs/Member"}}
       }
+    },
+    "PageWrite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action", "source_path", "target_path", "base_sha256", "target_sha256", "base_mode", "target_mode", "base_content", "content"],
+      "properties": {
+        "action": {"enum": ["create", "replace", "move"]},
+        "source_path": {
+          "type": ["string", "null"],
+          "pattern": "^(?:staging|domains|collections|archive)/(?:[a-z0-9]+(?:-[a-z0-9]+)*/)*[a-z0-9]+(?:-[a-z0-9]+)*\\.md$"
+        },
+        "target_path": {
+          "type": "string",
+          "pattern": "^(?:staging|domains|collections|archive)/(?:[a-z0-9]+(?:-[a-z0-9]+)*/)*[a-z0-9]+(?:-[a-z0-9]+)*\\.md$"
+        },
+        "base_sha256": {
+          "anyOf": [
+            {"$ref": "#/$defs/Digest"},
+            {"type": "null"}
+          ]
+        },
+        "target_sha256": {"$ref": "#/$defs/Digest"},
+        "base_mode": {"type": ["integer", "null"], "minimum": 0, "maximum": 4095},
+        "target_mode": {"type": "integer", "minimum": 0, "maximum": 4095},
+        "base_content": {"type": ["string", "null"]},
+        "content": {"type": "string"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"action": {"const": "create"}}},
+          "then": {"properties": {"source_path": {"const": null}, "base_sha256": {"const": null}, "base_mode": {"const": null}, "base_content": {"const": null}, "target_mode": {"const": 420}}}
+        },
+        {
+          "if": {"properties": {"action": {"enum": ["replace", "move"]}}},
+          "then": {
+            "properties": {
+              "source_path": {"type": "string"},
+              "base_sha256": {"$ref": "#/$defs/Digest"},
+              "base_mode": {"type": "integer", "minimum": 0, "maximum": 4095}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"action": {"const": "replace"}}},
+          "then": {"properties": {"base_content": {"type": "string"}}}
+        },
+        {
+          "if": {"properties": {"action": {"const": "move"}}},
+          "then": {"properties": {"base_content": {"const": null}}}
+        }
+      ]
+    },
+    "ReviewVerdict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_id", "verdict"],
+      "properties": {
+        "claim_id": {"type": "string", "pattern": "^C[1-9][0-9]*$"},
+        "verdict": {"enum": ["support", "contradiction", "insufficient"]}
+      }
+    },
+    "SynthesizeOperationInput": {"type": "object", "additionalProperties": false, "required": ["semantic_plan_sha256", "source_paths", "page_id", "now"], "properties": {"semantic_plan_sha256": {"$ref": "#/$defs/Digest"}, "source_paths": {"type": "array", "items": {"$ref": "#/$defs/ManifestPath"}, "minItems": 1, "uniqueItems": true}, "page_id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"}, "now": {"type": "string", "format": "date"}}},
+    "PromoteOperationInput": {"type": "object", "additionalProperties": false, "required": ["source_path", "target_path", "review_verdicts_sha256"], "properties": {"source_path": {"type": "string"}, "target_path": {"type": "string"}, "review_verdicts_sha256": {"$ref": "#/$defs/Digest"}}},
+    "CollectionAddOperationInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["collection_path", "member", "before", "after", "order_by_id"],
+      "properties": {
+        "collection_path": {"type": "string"},
+        "member": {"type": "string"},
+        "before": {"type": ["string", "null"]},
+        "after": {"type": ["string", "null"]},
+        "order_by_id": {"type": "boolean"}
+      },
+      "oneOf": [
+        {"properties": {"before": {"type": "string", "minLength": 1}, "after": {"const": null}, "order_by_id": {"const": false}}},
+        {"properties": {"before": {"const": null}, "after": {"type": "string", "minLength": 1}, "order_by_id": {"const": false}}},
+        {"properties": {"before": {"const": null}, "after": {"const": null}, "order_by_id": {"const": true}}}
+      ]
+    },
+    "CollectionReorderOperationInput": {"type": "object", "additionalProperties": false, "required": ["collection_path", "members"], "properties": {"collection_path": {"type": "string"}, "members": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}}},
+    "MoveOperationInput": {"type": "object", "additionalProperties": false, "required": ["source_path", "target_path"], "properties": {"source_path": {"type": "string"}, "target_path": {"type": "string"}}},
+    "PageOperationInput": {
+      "oneOf": [
+        {"$ref": "#/$defs/SynthesizeOperationInput"},
+        {"$ref": "#/$defs/PromoteOperationInput"},
+        {"$ref": "#/$defs/CollectionAddOperationInput"},
+        {"$ref": "#/$defs/CollectionReorderOperationInput"},
+        {"$ref": "#/$defs/MoveOperationInput"}
+      ]
+    },
+    "PageWritePlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "operation", "knowledge_root", "schema_sha256", "base_tree_sha256", "target_tree_sha256", "input_sha256", "generator", "requires_review_approval", "review_verdicts", "operation_input", "write_set"],
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "operation": {"enum": ["synthesize", "promote", "collection-add-member", "collection-reorder", "move"]},
+        "knowledge_root": {"const": "wiki"},
+        "schema_sha256": {"$ref": "#/$defs/Digest"},
+        "base_tree_sha256": {"$ref": "#/$defs/Digest"},
+        "target_tree_sha256": {"$ref": "#/$defs/Digest"},
+        "input_sha256": {"$ref": "#/$defs/Digest"},
+        "generator": {"$ref": "#/$defs/Generator"},
+        "requires_review_approval": {"type": "boolean"},
+        "review_verdicts": {"type": "array", "items": {"$ref": "#/$defs/ReviewVerdict"}},
+        "operation_input": {"$ref": "#/$defs/PageOperationInput"},
+        "write_set": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/PageWrite"},
+          "maxItems": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"operation": {"const": "promote"}}},
+          "then": {"properties": {"requires_review_approval": {"const": true}}},
+          "else": {"properties": {"requires_review_approval": {"const": false}}}
+        },
+        {
+          "if": {"properties": {"operation": {"const": "synthesize"}}},
+          "then": {"properties": {"review_verdicts": {"maxItems": 0}, "operation_input": {"$ref": "#/$defs/SynthesizeOperationInput"}, "write_set": {"minItems": 1, "items": {"allOf": [{"$ref": "#/$defs/PageWrite"}, {"properties": {"action": {"const": "create"}}}]}}}}
+        },
+        {
+          "if": {"properties": {"operation": {"const": "promote"}}},
+          "then": {"properties": {"operation_input": {"$ref": "#/$defs/PromoteOperationInput"}, "write_set": {"minItems": 1, "items": {"allOf": [{"$ref": "#/$defs/PageWrite"}, {"properties": {"action": {"const": "move"}}}]}}}}
+        },
+        {
+          "if": {"properties": {"operation": {"const": "collection-add-member"}}},
+          "then": {"properties": {"review_verdicts": {"maxItems": 0}, "operation_input": {"$ref": "#/$defs/CollectionAddOperationInput"}, "write_set": {"minItems": 1, "items": {"allOf": [{"$ref": "#/$defs/PageWrite"}, {"properties": {"action": {"const": "replace"}}}]}}}}
+        },
+        {
+          "if": {"properties": {"operation": {"const": "collection-reorder"}}},
+          "then": {"properties": {"review_verdicts": {"maxItems": 0}, "operation_input": {"$ref": "#/$defs/CollectionReorderOperationInput"}, "write_set": {"items": {"allOf": [{"$ref": "#/$defs/PageWrite"}, {"properties": {"action": {"const": "replace"}}}]}}}}
+        },
+        {
+          "if": {"properties": {"operation": {"const": "move"}}},
+          "then": {"properties": {"review_verdicts": {"maxItems": 0}, "operation_input": {"$ref": "#/$defs/MoveOperationInput"}, "write_set": {"items": {"allOf": [{"$ref": "#/$defs/PageWrite"}, {"properties": {"action": {"const": "move"}}}]}}}}
+        }
+      ]
     }
   }
 }

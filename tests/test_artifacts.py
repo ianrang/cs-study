@@ -258,13 +258,13 @@ def test_failure_before_commit_leaves_no_final_or_temp_bundle():
 def test_source_capture_does_not_replace_competing_empty_directory():
     with tempfile.TemporaryDirectory() as directory:
         raw = Path(directory) / "raw"
-        real_commit = artifacts.rename_directory_no_replace
+        real_commit = artifacts.rename_path_no_replace
 
         def inject_competitor(source, target):
             Path(target).mkdir()
             return real_commit(source, target)
 
-        artifacts.rename_directory_no_replace = inject_competitor
+        artifacts.rename_path_no_replace = inject_competitor
         try:
             try:
                 _capture(FIXTURE, raw)
@@ -273,7 +273,7 @@ def test_source_capture_does_not_replace_competing_empty_directory():
             else:
                 raise AssertionError("competing source directory was replaced")
         finally:
-            artifacts.rename_directory_no_replace = real_commit
+            artifacts.rename_path_no_replace = real_commit
         source_root = raw / "sources" / "video" / "fixture-video"
         final = next(
             path for path in source_root.iterdir() if not path.name.startswith(".")
@@ -287,13 +287,13 @@ def test_asset_capture_does_not_replace_competing_empty_directory():
         raw = root / "raw"
         asset = root / "frame.jpg"
         asset.write_bytes(b"image")
-        real_commit = artifacts.rename_directory_no_replace
+        real_commit = artifacts.rename_path_no_replace
 
         def inject_competitor(source, target):
             Path(target).mkdir()
             return real_commit(source, target)
 
-        artifacts.rename_directory_no_replace = inject_competitor
+        artifacts.rename_path_no_replace = inject_competitor
         try:
             try:
                 artifacts.capture_asset(
@@ -308,7 +308,7 @@ def test_asset_capture_does_not_replace_competing_empty_directory():
             else:
                 raise AssertionError("competing asset directory was replaced")
         finally:
-            artifacts.rename_directory_no_replace = real_commit
+            artifacts.rename_path_no_replace = real_commit
         source_root = raw / "assets" / "fixture-video"
         final = next(
             path for path in source_root.iterdir() if not path.name.startswith(".")
