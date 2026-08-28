@@ -150,19 +150,29 @@ BR-LIFE-003·BR-LIFE-004는 archive·restore의 목표 상태 규칙이다. 두 
 
 | ID | IF | THEN | 예외 |
 |---|---|---|---|
-| BR-GEN-001 | schema·registry·canonical page가 주어지면 | deterministic sort와 serialization로 generated surface를 만든다 | wall clock 직접 사용 금지 |
-| BR-GEN-002 | generated 파일을 commit하면 | machine marker와 schema digest를 포함한다 | marker 없는 기존 파일은 migration gate |
-| BR-GEN-003 | `materialize --check`가 실행되면 | temp 결과와 repository bytes를 비교하고 차이가 있으면 non-zero다 | 자동 수정 금지 |
+| BR-GEN-001 | schema·registry·canonical page가 주어지면 | strict UTF-8·finite JSON schema와 validated registry를 입력으로 deterministic sort·serialization generated surface를 만든다. title·summary는 CR/LF 없는 단일 행이고 domain label은 CR/LF/`|` 없는 table-safe 문자열이며, `domains/`의 canonical page는 registry `active` domain에만 존재해야 한다 | wall clock 직접 사용, malformed/non-finite schema, display control 입력 수용, inactive·unregistered domain page 포함 금지 |
+| BR-GEN-002 | generated 파일을 commit하면 | Markdown은 comment marker, Base는 공식 `formulas._generated_by` constant formula에 generator identity와 schema digest를 정확히 한 번 포함한다 | marker 없는 기존 파일은 migration gate; Base formula는 view `order`에 포함 금지 |
+| BR-GEN-003 | `materialize --check`가 실행되면 | 독립 검증된 expected in-memory map과 repository bytes를 비교하고 차이가 있으면 non-zero다 | 자동 수정 금지 |
 | BR-GEN-004 | materialize를 같은 입력으로 두 번 실행하면 | 두 tree hash가 같아야 한다 | 다르면 nondeterminism HIGH |
 | BR-GEN-005 | active page가 추가·이동·archive되면 | 다음 materialize에서 index와 overview가 반영한다 | canonical page가 index를 직접 수정 금지 |
+| BR-GEN-006 | generated manifest를 만들면 | index 1, overview 1, schema PageType exact set의 각 값별 template 1, `knowledge-pages.base` 1로 `3 + |PageType|` path를 만든다 | 고정 template 수·enum 복제·domain별 Base 파일·별도 template registry 금지 |
+| BR-GEN-007 | index를 render하면 | registry domain key, page type, stable ID 순으로 active page를 100% 열거하고 collection을 별도 열거한다 | staging·archive 포함, overview의 page 목록 중복 금지 |
+| BR-GEN-008 | overview를 render하면 | registry의 모든 domain label·status·active count와 active collection count를 출력한다 | canonical count 저장·active page 재열거 금지 |
+| BR-GEN-009 | template을 render하면 | `schema.py`가 공개한 schema property·PageType·section/table contract에서만 파생한다 | legacy property·schema 밖 section·table header 복제·canonical page validation 금지 |
+| BR-GEN-010 | Bases를 render하면 | 단일 Base의 global `filters.or`에 active canonical root 두 개만 두고 All active, active domain key 순서의 domain view, Collections view를 공식 `file.inFolder`·`order` syntax로 만든다. `order`의 note property는 Obsidian UI canonical identifier를 사용하고 sequence indentation·alias-free serialization을 고정한다 | persistent backlink·domain별 Base·SQL/Dataview식 source·Obsidian 저장 시 bytes drift 금지 |
+| BR-GEN-011 | generated write mode를 실행하면 | renderer와 분리된 validator가 독립 canonical universe에서 expected path·ownership marker 위치·YAML·index/overview coverage·template/Base 구조를 먼저 검증한다. shared lock 안에서 regular parent directory descriptor의 device/inode, preflight leaf bytes·device·inode·mode, temp bytes digest·device·inode·mode를 결속하고 atomic exchange 뒤 target bytes와 displaced identity를 확인해 path 순서로 missing leaf create와 ownership-bearing leaf replace만 수행한다. 중단 잔여 managed-name temp는 Markdown comment 또는 Base formula generator marker가 있는 own leaf만 다음 preflight에서 제거한다 | marker 없는 leaf overwrite·parent symlink 교체 추종·preflight 뒤 다른 leaf overwrite·bytes만 같은 경쟁 inode rollback·markerless temp 삭제·unknown generated leaf 삭제·canonical full-tree exchange 금지 |
+| BR-GEN-012 | generated leaf 적용 중 실패하면 | canonical page 변경은 0이고 `--check`가 partial derived drift를 실패로 보고하며 같은 입력 재실행이 target bytes로 수렴한다 | generated 전체 원자성을 canonical transaction으로 확대하거나 drift를 성공 처리 금지 |
+| BR-GEN-013 | generated marker를 render·validate하면 | generator identity `cs-study-materializer/1.0`과 current schema SHA-256을 Markdown exact comment grammar 또는 Base의 exact `formulas._generated_by` constant formula grammar로 한 번 기록한다 | marker 생략·중복·다른 generator·stale schema digest·Base marker formula의 화면 열 노출 허용 금지 |
+| BR-GEN-014 | 순서 8 최초 전환 commit을 만들면 | 기존 markerless generated 8개는 검증된 expected bytes로 교체하고 missing 3개를 생성한 뒤 정상 materialize 계약만 남긴다 | runtime adoption option·영구 migration branch·markerless steady-state replace 금지 |
 | BR-CHK-001 | 현재 활성 normative schema/문서에 hard rule이 선언되면 | rule registry에 구현 rule ID가 있어야 한다 | historical·superseded 절과 구현·검증 surface가 아직 활성화되지 않은 `inactive-until-*` rule은 제외하고, active rule ID가 없으면 `UNSUPPORTED_RULE` HIGH |
 | BR-CHK-002 | `check --changed`가 실행되면 | changed page와 graph상 직접 영향 surface를 동일 rule implementation으로 검사한다 | 별도 축소 rule 정의 금지 |
-| BR-CHK-003 | `check --all`이 실행되면 | hidden 포함 canonical scope 전체를 검사하고 exclusions를 보고한다. 전환 lint는 exact base tree에만 legacy wiki contract를 적용하고 다른 tree는 같은 canonical checker에 단독 위임한다 | `.git`, declared cache·venv 제외; canonical 실패의 legacy fallback 금지 |
+| BR-CHK-003 | CLI `check --all`이 repository `wiki/`에 실행되면 | hidden 포함 canonical scope 전체와 실제 generated parity를 함께 검사하고 합성 structural verdict·findings·exclusions를 보고한다. 전환 lint는 exact base tree에만 legacy wiki contract를 적용하고 다른 tree는 같은 canonical checker에 단독 위임한다 | `.git`, declared cache·venv 제외; AST surface 존재를 VR-KP-017·018 실행으로 치환, canonical 실패의 legacy fallback 금지 |
 | BR-CHK-004 | HIGH finding이 하나 이상이면 | promote·CI는 실패한다 | 사용자 위험 수용으로 CI PASS 치환 금지 |
 | BR-CHK-005 | 구조 check가 성공하면 | structural verdict만 PASS로 보고한다 | 사실성·완전성 PASS로 확대 금지 |
 | BR-CHK-006 | semantic review가 수행되면 | review 대상 claim마다 `support`, `contradiction`, `insufficient` 중 하나의 evidence verdict를 기록한다 | page-level 감상 판정 금지 |
 | BR-CHK-007 | 사람이 generated 파일을 수정하면 | regeneration diff로 실패한다 | generated 내용에서 정책 수정 금지 |
 | BR-CHK-008 | local hook이 성공하면 | 빠른 feedback으로만 보고한다 | required CI authority 대체 금지 |
+| BR-CHK-009 | canonical page candidate full check를 실행하면 | current canonical base의 generated repository parity, candidate overlay의 canonical rule, candidate expected index·overview coverage를 순서대로 검증한다 | 선행 generated drift 허용·candidate expected bytes와 pre-materialize repository bytes의 동일성 요구·generated 암묵 write 금지 |
 
 ## 6. 상태 전이
 
@@ -213,12 +223,12 @@ Draft·Active·Archived는 경로에서 배타적으로 결정된다. 파일 하
 | VR-KP-011 | collection | member 실재·중복 0·ordered rule | reject |
 | VR-KP-012 | related | canonical owner page에만 1 edge | reject |
 | VR-KP-013 | directed relation | broader/prerequisite-of/followed-by cycle 0 | reject |
-| VR-KP-014 | lifecycle | path와 허용 operation 일치 | reject |
+| VR-KP-014 | lifecycle | path와 허용 operation 일치; `domains/<key>/` page는 registry에 등록된 active domain만 허용 | reject |
 | VR-KP-015 | update/replay | 최초 apply는 invoked operation·operation input digest·current bytes/mode와 plan base 일치; replay는 exact target tree·page bytes/mode·move source 부재 및 plan base bytes 기반 operation delta 일치 | 그 밖의 상태는 stale reject |
 | VR-KP-016 | 일반 lifecycle·page command write-set | shared repository lock 안에서 logical knowledge page 최대 1, plan·base/target tree digest와 operation-specific delta 일치 | reject; NFR-KP-015의 승인된 전역 schema migration은 BR-MIG-001~015 적용 |
-| VR-KP-017 | generated | schema digest marker·temp bytes 일치 | drift reject |
-| VR-KP-018 | index | active page coverage 100%, archived/staging 제외 | reject |
-| VR-KP-019 | architecture | 목표 core+contract edge set exact(10 modules·14 edges)·전환 command-inclusive 12 modules·21 edges·cycle 0·최대 dependency edge chain 4 | reject; edge 4 transition ratchet 증가 금지 |
+| VR-KP-017 | generated repository parity | current canonical base에서 render·validate한 exact manifest·Markdown comment/Base formula generator-schema marker·valid YAML·expected in-memory bytes가 current repository generated bytes와 일치하고, Base bytes가 Obsidian UI canonical serialization과 일치 | `materialize --check`·순서 10 CI·page candidate base precondition에서 drift reject; candidate expected bytes와 repository 비교 금지 |
+| VR-KP-018 | generated index·overview | 검증 대상 canonical tree에서 render한 expected map이 active page coverage 100%, archived/staging 0%, domain·collection count 일치를 만족 | current tree는 `materialize --check`·CI, candidate tree는 page candidate full check에서 reject; repository parity와 독립 |
+| VR-KP-019 | architecture | 목표 core+contract edge set exact(10 modules·15 edges)·P2-T6 내부 전환 edge set exact(10 modules·20 edges)·cycle 0·최대 edge chain 3, P2-T6 전환 command-inclusive 13 modules·24 edges·cycle 0·최대 dependency edge chain 4 | reject; edge 4 transition ratchet 증가 금지 |
 | VR-KP-020 | rule coverage | 현재 활성 normative hard rule마다 executable rule ID 존재. historical·superseded 규칙과 구현·검증 surface가 아직 활성화되지 않은 `inactive-until-*` rule은 실행 대상에서 제외 | unsupported reject |
 | VR-KP-021 | replay | 동일 input tuple의 output tree hash 동일 | nondeterminism reject |
 | VR-KP-022 | semantic gate | primary claim ID exact set·verdict enum·status matrix 일치, `claimed`·`insufficient` 0건 | active promotion reject |
@@ -261,9 +271,11 @@ Draft·Active·Archived는 경로에서 배타적으로 결정된다. 파일 하
 - relation: directed, symmetric, missing target, self/duplicate, cycle을 정의했다.
 - collection: ordered, unordered deterministic sort, duplicate, missing member를 정의했다.
 - apply: create, update, stale, collision, injected failure를 정의했다.
+- generated: clean parity, missing path, marker/schema mismatch, unexpected marker-bearing path, unmarked collision, partial leaf failure, exact replay를 정의했다.
 
-설계 명제 사이의 미해소 충돌은 현재 자체 검토에서 발견되지 않았다. 구현 전 logic proposition 교차 검증 결과가 이 판정을 확정해야 한다.
+설계 명제 사이의 candidate base parity→canonical overlay→candidate coverage 충돌과 FR-KP-017 추적 누락을 수정했고, 2026-08-28 logic proposition repeat 2 재검증에서 finding 0건이었다. 이 판정은 P2-T6 설계 명제 범위이며 구현·실환경 검증 PASS로 확대하지 않는다.
 
 ## 10. 변경 이력
 
 - 2026-08-21: immutable artifact, one-page apply, path-derived lifecycle, collection row-order, outgoing-only relation, fail-closed checker 규칙으로 `archives/design/docs/wiki-ingest-business-logic-v1.md`를 대체했다.
+- 2026-08-28: P2-T6 generated marker, official Bases filter/order, schema/table contract 단일 소유, 최초 전환과 steady-state write 분리, candidate base parity→canonical overlay→candidate coverage 검증 순서를 BR-GEN-009–014·BR-CHK-009와 VR-KP-017–019에 고정했다. Obsidian 1.13.7 실환경 저장이 Base 주석·YAML alias·`note.*` 식별자를 정규화하는 결함을 재현해, marker ownership을 보존되는 constant formula로 이동하고 UI canonical serializer·property identifier를 같은 규칙에 추가했다.

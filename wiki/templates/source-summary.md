@@ -1,6 +1,6 @@
 ---
 title: ''
-page_type: dataset
+page_type: source-summary
 tags: []
 date_created: ''
 date_updated: ''
@@ -11,15 +11,6 @@ aliases: []
 <!-- generated-by: cs-study-materializer/1.0; schema-sha256: c466e1d84b69434d60e3504f1e5316f0b9ff86a5abafc0c739666cbada7ea718 -->
 
 ## Overview
-
-
-## Schema / Composition
-
-
-## Usage
-
-
-## Limitations / Biases
 
 
 ## Claims

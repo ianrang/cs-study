@@ -63,7 +63,7 @@
 
 ## 축 5 — 정합성 (Integrity)
 
-**명제**: broken link 0 / 누락 cross-ref 0 / directed relation cycle 0. 순서 8 이후 materializer가 active page 100%를 index·overview에 반영하고 temp bytes와 committed bytes의 parity를 검증한다. `wiki/log.md`는 target integrity surface가 아니다.
+**명제**: broken link 0 / 누락 cross-ref 0 / directed relation cycle 0. 순서 8 이후 materializer가 active page 100%를 index·overview에 반영하고 독립 검증된 expected in-memory bytes와 committed bytes의 parity를 검증한다. `wiki/log.md`는 target integrity surface가 아니다.
 
 **검증 도구**: `scripts/lint.py` orphan/broken-link 알고리즘 + `cross-linker` skill + `grounding-verifier`.
 

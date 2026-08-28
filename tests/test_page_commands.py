@@ -27,6 +27,7 @@ from knowledge.documents import (  # noqa: E402
 from knowledge.documents import (  # noqa: E402
     apply_page_write_plan as _apply_page_write_plan,
 )
+from knowledge.materialize import render_generated  # noqa: E402
 from knowledge.schema import (  # noqa: E402
     KnowledgeSchemaError,
     document_tree_sha256,
@@ -54,6 +55,8 @@ def _setup_repo(tmp_path: Path) -> tuple[Path, Path, str]:
     (repo / "_meta" / "domains.yaml").write_text(
         "version: 1\ndomains:\n  software-engineering:\n"
         "    status: active\n    label: Software Engineering\n"
+        "    source_roots: []\n  architecture:\n"
+        "    status: active\n    label: Architecture\n"
         "    source_roots: []\n  inactive-domain:\n"
         "    status: inactive\n    label: Inactive\n    source_roots: []\n",
         encoding="utf-8",
@@ -67,6 +70,10 @@ def _setup_repo(tmp_path: Path) -> tuple[Path, Path, str]:
         created_at="2026-08-26T00:00:00Z",
         raw_root=repo / "raw",
     ).manifest_path
+    for relative, content in render_generated(repo, knowledge_root).items():
+        path = repo / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(content)
     return repo, knowledge_root, manifest.relative_to(repo).as_posix()
 
 
@@ -430,9 +437,7 @@ def test_promote_requires_review_and_preserves_content_and_id(tmp_path: Path):
         manifest,
     )
     draft.write_text(
-        draft.read_text(encoding="utf-8").replace(
-            "| claimed |", "| verified |"
-        ),
+        draft.read_text(encoding="utf-8").replace("| claimed |", "| verified |"),
         encoding="utf-8",
     )
     verdicts = repo / "review-verdicts.json"
@@ -1153,9 +1158,7 @@ def test_apply_rolls_back_own_leaf_when_post_write_tree_differs(
         _write_existing_page(knowledge_root, "staging/unrelated.md", manifest)
         return changed
 
-    monkeypatch.setattr(
-        page_documents, "publish_bytes_no_replace", publish_then_mutate
-    )
+    monkeypatch.setattr(page_documents, "publish_bytes_no_replace", publish_then_mutate)
     with pytest.raises(PagePlanError, match="rolled back"):
         apply_page_write_plan(
             plan_path,
@@ -1401,9 +1404,7 @@ def test_document_tree_digest_ignores_generated_files_and_changes_for_page_overl
 
 
 @pytest.mark.parametrize("kind", ["symlink", "broken-symlink", "fifo"])
-def test_document_tree_rejects_non_regular_markdown_entries(
-    tmp_path: Path, kind: str
-):
+def test_document_tree_rejects_non_regular_markdown_entries(tmp_path: Path, kind: str):
     _, knowledge_root, _ = _setup_repo(tmp_path)
     target = knowledge_root / "staging" / "unsafe.md"
     if kind == "symlink":
@@ -1500,11 +1501,34 @@ def test_cli_rejects_plan_applied_through_wrong_command(
     semantic_path.write_text(json.dumps(_semantic_plan(manifest)), encoding="utf-8")
     monkeypatch.setattr(wiki_ingest, "REPO_ROOT", repo)
     output = repo / "page-plan.json"
-    assert wiki_ingest.main([
-        "synthesize", "--semantic-plan", str(semantic_path), "--source", manifest,
-        "--page-id", "page-command-contract", "--now", NOW, "--output", str(output),
-    ]) == 0
+    assert (
+        wiki_ingest.main(
+            [
+                "synthesize",
+                "--semantic-plan",
+                str(semantic_path),
+                "--source",
+                manifest,
+                "--page-id",
+                "page-command-contract",
+                "--now",
+                NOW,
+                "--output",
+                str(output),
+            ]
+        )
+        == 0
+    )
     digest = hashlib.sha256(output.read_bytes()).hexdigest()
-    assert wiki_ingest.main([
-        "move", "--apply-plan", str(output), "--confirm-plan-sha256", digest,
-    ]) == 1
+    assert (
+        wiki_ingest.main(
+            [
+                "move",
+                "--apply-plan",
+                str(output),
+                "--confirm-plan-sha256",
+                digest,
+            ]
+        )
+        == 1
+    )

@@ -1,0 +1,96 @@
+formulas:
+  _generated_by: '"cs-study-materializer/1.0; schema-sha256: c466e1d84b69434d60e3504f1e5316f0b9ff86a5abafc0c739666cbada7ea718"'
+filters:
+  or:
+    - file.inFolder("wiki/domains")
+    - file.inFolder("wiki/collections")
+views:
+  - type: table
+    name: All active
+    order:
+      - file.name
+      - title
+      - page_type
+      - summary
+      - date_updated
+  - type: table
+    name: AI Engineering
+    filters: file.inFolder("wiki/domains/ai-engineering")
+    order:
+      - file.name
+      - title
+      - page_type
+      - summary
+      - date_updated
+  - type: table
+    name: Algorithms
+    filters: file.inFolder("wiki/domains/algorithms")
+    order:
+      - file.name
+      - title
+      - page_type
+      - summary
+      - date_updated
+  - type: table
+    name: Cryptography
+    filters: file.inFolder("wiki/domains/cryptography")
+    order:
+      - file.name
+      - title
+      - page_type
+      - summary
+      - date_updated
+  - type: table
+    name: Developer Tools
+    filters: file.inFolder("wiki/domains/developer-tools")
+    order:
+      - file.name
+      - title
+      - page_type
+      - summary
+      - date_updated
+  - type: table
+    name: Information Security
+    filters: file.inFolder("wiki/domains/information-security")
+    order:
+      - file.name
+      - title
+      - page_type
+      - summary
+      - date_updated
+  - type: table
+    name: Network
+    filters: file.inFolder("wiki/domains/network")
+    order:
+      - file.name
+      - title
+      - page_type
+      - summary
+      - date_updated
+  - type: table
+    name: Programming Language
+    filters: file.inFolder("wiki/domains/programming-language")
+    order:
+      - file.name
+      - title
+      - page_type
+      - summary
+      - date_updated
+  - type: table
+    name: Software Engineering
+    filters: file.inFolder("wiki/domains/software-engineering")
+    order:
+      - file.name
+      - title
+      - page_type
+      - summary
+      - date_updated
+  - type: table
+    name: Collections
+    filters: file.inFolder("wiki/collections")
+    order:
+      - file.name
+      - title
+      - page_type
+      - summary
+      - date_updated

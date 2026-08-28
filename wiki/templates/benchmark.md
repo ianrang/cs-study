@@ -1,40 +1,35 @@
 ---
-title: ""
-tier: llm-synthesis
+title: ''
 page_type: benchmark
-domain: ""
-domain_confidence: high
-shared_scope: domain
-tags: [benchmark]
-status: active
-date_created: ""
-date_updated: ""
+tags: []
+date_created: ''
+date_updated: ''
 source_paths: []
-source_count: 0
-provenance: extracted
-summary: ""
+summary: ''
+aliases: []
 ---
-
-[1-2 문장 summary]
+<!-- generated-by: cs-study-materializer/1.0; schema-sha256: c466e1d84b69434d60e3504f1e5316f0b9ff86a5abafc0c739666cbada7ea718 -->
 
 ## Definition
 
-[benchmark 의 목적·평가 영역]
 
 ## Methodology
 
-[측정 방법·데이터·metric]
 
 ## Leaderboard
 
-| Rank | Model | Score | Date | Source |
-|---|---|---|---|---|
-| 1 | ... | ... | ... | ... |
 
 ## Limitations
 
-- [benchmark 자체의 한계·비판]
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
 
 ## Sources
-
-- [[source path]] ^[extracted] — 1-line context

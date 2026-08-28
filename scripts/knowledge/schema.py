@@ -16,7 +16,19 @@ from jsonschema import Draft202012Validator, FormatChecker
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCHEMA_PATH = REPO_ROOT / "_meta" / "knowledge.schema.json"
-GENERATED_ROOT_FILES = frozenset({"index.md", "overview.md", "log.md"})
+CANONICAL_ROOT_EXCLUSIONS = frozenset({"index.md", "overview.md", "log.md"})
+TABLE_COLUMNS = {
+    "Claims": ("id", "primary", "claim", "status", "evidence", "notes"),
+    "Relations": ("type", "target", "notes"),
+    "Members": ("member", "role", "rationale"),
+}
+BASE_TABLE_ORDER = (
+    "file.name",
+    "title",
+    "page_type",
+    "summary",
+    "date_updated",
+)
 WIKILINK_RE = re.compile(r"\[\[([^\]|#]+)(?:#[^\]|]+)?(?:\|[^\]]+)?\]\]")
 DELIMITER_RE = re.compile(r"^:?-{3,}:?$")
 
@@ -45,7 +57,7 @@ def is_canonical_document_path(target_root: Path, path: Path) -> bool:
         return False
     return (
         path.suffix == ".md"
-        and relative.as_posix() not in GENERATED_ROOT_FILES
+        and relative.as_posix() not in CANONICAL_ROOT_EXCLUSIONS
         and (not relative.parts or relative.parts[0] != "templates")
     )
 
@@ -71,8 +83,86 @@ _UniqueKeyLoader.add_constructor(
 )
 
 
-def load_schema() -> dict:
-    return json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+def load_unique_yaml(text: str, subject: str) -> object:
+    try:
+        return yaml.load(text, Loader=_UniqueKeyLoader)
+    except yaml.YAMLError as exc:
+        raise KnowledgeSchemaError(f"invalid {subject}: {exc}") from exc
+
+
+def _reject_json_constant(value: str) -> None:
+    raise KnowledgeSchemaError(f"non-finite JSON constant: {value}")
+
+
+def _load_schema_path(schema_path: Path) -> dict:
+    try:
+        loaded = json.loads(
+            schema_path.read_text(encoding="utf-8"),
+            parse_constant=_reject_json_constant,
+        )
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise KnowledgeSchemaError(f"invalid knowledge schema: {exc}") from exc
+    if not isinstance(loaded, dict):
+        raise KnowledgeSchemaError("knowledge schema root must be an object")
+    return loaded
+
+
+def load_schema(repo_root: Path = REPO_ROOT) -> dict:
+    return _load_schema_path(repo_root / "_meta" / "knowledge.schema.json")
+
+
+def schema_digest(repo_root: Path = REPO_ROOT) -> str:
+    return hashlib.sha256(
+        (repo_root / "_meta" / "knowledge.schema.json").read_bytes()
+    ).hexdigest()
+
+
+def _page_types_from_schema(schema: dict) -> tuple[str, ...]:
+    values = schema["$defs"]["PageType"]["enum"]
+    if (
+        not isinstance(values, list)
+        or not values
+        or any(not isinstance(value, str) or not value for value in values)
+        or len(values) != len(set(values))
+    ):
+        raise KnowledgeSchemaError(
+            "PageType enum must be a non-empty unique string list"
+        )
+    return tuple(values)
+
+
+def page_types(repo_root: Path = REPO_ROOT) -> tuple[str, ...]:
+    return _page_types_from_schema(load_schema(repo_root))
+
+
+def _property_contract_from_schema(
+    schema: dict,
+) -> tuple[tuple[str, ...], tuple[str, ...]]:
+    properties = schema["$defs"]["Properties"]
+    declared = properties["properties"]
+    required = properties["required"]
+    if (
+        not isinstance(declared, dict)
+        or not isinstance(required, list)
+        or len(required) != len(set(required))
+        or any(name not in declared for name in required)
+    ):
+        raise KnowledgeSchemaError("invalid Properties schema contract")
+    optional = [name for name in declared if name not in required]
+    return tuple(required), tuple(optional)
+
+
+def property_contract(
+    repo_root: Path = REPO_ROOT,
+) -> tuple[tuple[str, ...], tuple[str, ...]]:
+    return _property_contract_from_schema(load_schema(repo_root))
+
+
+def table_contract(section: str) -> list[str]:
+    try:
+        return list(TABLE_COLUMNS[section])
+    except KeyError as exc:
+        raise KnowledgeSchemaError(f"unknown table section: {section}") from exc
 
 
 def canonical_document_paths(target_root: Path) -> tuple[Path, ...]:
@@ -145,29 +235,93 @@ def document_tree_sha256(
     return hashlib.sha256(encoded).hexdigest()
 
 
-def active_domains(repo_root: Path = REPO_ROOT) -> frozenset[str]:
+def domain_registry(repo_root: Path = REPO_ROOT) -> dict[str, dict]:
     registry_path = repo_root / "_meta" / "domains.yaml"
     try:
-        registry = yaml.safe_load(registry_path.read_text(encoding="utf-8"))
+        registry = load_unique_yaml(
+            registry_path.read_text(encoding="utf-8"), "domain registry"
+        )
+        if not isinstance(registry, dict) or registry.get("version") != 1:
+            raise KnowledgeSchemaError("domain registry version must be 1")
         domains = registry["domains"]
-    except (OSError, KeyError, TypeError, yaml.YAMLError) as exc:
+    except (OSError, UnicodeDecodeError, KeyError, TypeError, yaml.YAMLError) as exc:
         raise KnowledgeSchemaError(f"invalid domain registry: {exc}") from exc
     if not isinstance(domains, dict):
         raise KnowledgeSchemaError("domain registry domains must be a mapping")
-    active = {
+    if any(not isinstance(name, str) for name in domains):
+        raise KnowledgeSchemaError("domain registry keys must be strings")
+    validated: dict[str, dict] = {}
+    for name, value in sorted(domains.items()):
+        if not isinstance(name, str) or not re.fullmatch(
+            r"[a-z0-9]+(?:-[a-z0-9]+)*", name
+        ):
+            raise KnowledgeSchemaError(f"invalid domain registry key: {name}")
+        if not isinstance(value, dict) or set(value) != {
+            "status",
+            "label",
+            "source_roots",
+        }:
+            raise KnowledgeSchemaError(f"invalid domain registry entry: {name}")
+        status_value = value["status"]
+        label = value["label"]
+        source_roots = value["source_roots"]
+        if status_value not in {"active", "inactive"}:
+            raise KnowledgeSchemaError(f"invalid domain status: {name}")
+        if not isinstance(label, str) or not label or re.search(r"[\r\n|]", label):
+            raise KnowledgeSchemaError(f"invalid domain label: {name}")
+        if (
+            not isinstance(source_roots, list)
+            or any(
+                not isinstance(root, str)
+                or not root
+                or root.startswith(("/", "\\"))
+                or "\\" in root
+                or ".." in Path(root).parts
+                for root in source_roots
+            )
+            or len(source_roots) != len(set(source_roots))
+        ):
+            raise KnowledgeSchemaError(f"invalid domain source_roots: {name}")
+        validated[name] = {
+            "status": status_value,
+            "label": label,
+            "source_roots": list(source_roots),
+        }
+    return validated
+
+
+def active_domains(repo_root: Path = REPO_ROOT) -> frozenset[str]:
+    return frozenset(
         name
-        for name, value in domains.items()
-        if isinstance(name, str)
-        and isinstance(value, dict)
-        and value.get("status") == "active"
-    }
-    return frozenset(active)
+        for name, value in domain_registry(repo_root).items()
+        if value["status"] == "active"
+    )
+
+
+def active_domain_for_path(
+    repo_root: Path,
+    target_root: Path,
+    path: Path,
+    registry: Mapping[str, Mapping[str, object]] | None = None,
+) -> str | None:
+    relative = path.absolute().relative_to(target_root.absolute())
+    if not relative.parts or relative.parts[0] != "domains":
+        return None
+    if len(relative.parts) < 3:
+        raise KnowledgeSchemaError(f"active page has invalid domain path: {path}")
+    domain = relative.parts[1]
+    selected = domain_registry(repo_root) if registry is None else registry
+    if domain not in selected:
+        raise KnowledgeSchemaError(f"active page has unregistered domain path: {path}")
+    if selected[domain]["status"] != "active":
+        raise KnowledgeSchemaError(f"active page is under inactive domain: {domain}")
+    return domain
 
 
 def validator_for(
     definition: str, schema_path: Path = SCHEMA_PATH
 ) -> Draft202012Validator:
-    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    schema = _load_schema_path(schema_path)
     if definition not in schema.get("$defs", {}):
         raise KnowledgeSchemaError(f"unknown schema definition: {definition}")
     selected = {
@@ -179,8 +333,7 @@ def validator_for(
     return Draft202012Validator(selected, format_checker=knowledge_format_checker())
 
 
-def section_contract(page_type: str) -> list[str]:
-    schema = load_schema()
+def _section_contract_from_schema(page_type: str, schema: dict) -> list[str]:
     for condition in schema["$defs"]["DocumentInstance"]["allOf"]:
         declared = condition["if"]["properties"]["properties"]["properties"][
             "page_type"
@@ -188,6 +341,40 @@ def section_contract(page_type: str) -> list[str]:
         if declared == page_type:
             return list(condition["then"]["properties"]["ordered_sections"]["const"])
     raise KnowledgeSchemaError(f"unknown page_type section contract: {page_type}")
+
+
+def section_contract(page_type: str, repo_root: Path = REPO_ROOT) -> list[str]:
+    return _section_contract_from_schema(page_type, load_schema(repo_root))
+
+
+def generated_contract(repo_root: Path = REPO_ROOT) -> dict:
+    schema = load_schema(repo_root)
+    types = _page_types_from_schema(schema)
+    required, optional = _property_contract_from_schema(schema)
+    return {
+        "base_table_order": BASE_TABLE_ORDER,
+        "page_types": types,
+        "required_properties": required,
+        "optional_properties": optional,
+        "placeholders": {
+            page_type: {
+                name: (
+                    page_type
+                    if name == "page_type"
+                    else []
+                    if name in {"tags", "aliases", "source_paths"}
+                    else ""
+                )
+                for name in (*required, *optional)
+            }
+            for page_type in types
+        },
+        "sections": {
+            page_type: tuple(_section_contract_from_schema(page_type, schema))
+            for page_type in types
+        },
+        "tables": {name: tuple(columns) for name, columns in TABLE_COLUMNS.items()},
+    }
 
 
 def validate_instance(instance: dict, validator: Draft202012Validator) -> None:
@@ -213,10 +400,7 @@ def _parse_frontmatter(text: str) -> tuple[dict, list[str]]:
         raise KnowledgeSchemaError(
             "YAML frontmatter closing delimiter missing"
         ) from exc
-    try:
-        loaded = yaml.load("\n".join(lines[1:end]), Loader=_UniqueKeyLoader)
-    except yaml.YAMLError as exc:
-        raise KnowledgeSchemaError(f"invalid YAML frontmatter: {exc}") from exc
+    loaded = load_unique_yaml("\n".join(lines[1:end]), "YAML frontmatter")
     if not isinstance(loaded, dict):
         raise KnowledgeSchemaError("YAML frontmatter must be a mapping")
     properties = {}
@@ -316,14 +500,19 @@ def _link_target(value: str) -> str:
     return Path(match.group(1)).stem
 
 
-def parse_markdown(path: Path, text: str | None = None) -> dict:
+def parse_markdown(
+    path: Path,
+    text: str | None = None,
+    *,
+    schema_path: Path = SCHEMA_PATH,
+) -> dict:
     source = path.read_text(encoding="utf-8") if text is None else text
     properties, body_lines = _parse_frontmatter(source)
     ordered_sections, sections = _section_ranges(body_lines)
 
     claim_rows = _parse_table(
         sections.get("Claims", []),
-        ["id", "primary", "claim", "status", "evidence", "notes"],
+        table_contract("Claims"),
     )
     claims = []
     for row in claim_rows:
@@ -341,7 +530,7 @@ def parse_markdown(path: Path, text: str | None = None) -> dict:
         )
 
     relation_rows = _parse_table(
-        sections.get("Relations", []), ["type", "target", "notes"]
+        sections.get("Relations", []), table_contract("Relations")
     )
     relations = [
         {
@@ -355,7 +544,7 @@ def parse_markdown(path: Path, text: str | None = None) -> dict:
     members = []
     if properties.get("page_type") == "collection":
         member_rows = _parse_table(
-            sections.get("Members", []), ["member", "role", "rationale"]
+            sections.get("Members", []), table_contract("Members")
         )
         members = [
             {
@@ -376,7 +565,7 @@ def parse_markdown(path: Path, text: str | None = None) -> dict:
         "members": members,
         "links": links,
     }
-    validate_instance(instance, validator_for("DocumentInstance"))
+    validate_instance(instance, validator_for("DocumentInstance", schema_path))
     return instance
 
 

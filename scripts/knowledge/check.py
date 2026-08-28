@@ -16,6 +16,7 @@ from .graph import inspect_graph
 from .schema import (
     REPO_ROOT,
     KnowledgeSchemaError,
+    active_domain_for_path,
     canonical_document_paths,
     contract_format_checker,
     is_canonical_document_path,
@@ -42,8 +43,8 @@ RULE_REGISTRY = {
     "VR-KP-014": ("active", "lifecycle-check"),
     "VR-KP-015": ("active", "page-command-contract"),
     "VR-KP-016": ("active", "page-command-contract"),
-    "VR-KP-017": ("inactive-until-8", "materialize-check"),
-    "VR-KP-018": ("inactive-until-8", "index-coverage-check"),
+    "VR-KP-017": ("active", "cli-generated-parity"),
+    "VR-KP-018": ("active", "cli-index-coverage"),
     "VR-KP-019": ("active", "architecture-check"),
     "VR-KP-020": ("active", "rule-coverage-check"),
     "VR-KP-021": ("active", "artifact-replay-check"),
@@ -95,9 +96,9 @@ def contract_findings(repo_root: Path = REPO_ROOT) -> list[dict]:
         pin = json.loads(pin_path.read_text(encoding="utf-8"))
         fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
         Draft202012Validator.check_schema(schema)
-        Draft202012Validator(
-            schema, format_checker=contract_format_checker()
-        ).validate(fixture)
+        Draft202012Validator(schema, format_checker=contract_format_checker()).validate(
+            fixture
+        )
         if schema["$id"] != pin["contract_id"]:
             raise ValueError("contract ID differs from pin")
         if fixture["schema_version"] != pin["schema_version"]:
@@ -148,6 +149,47 @@ def artifact_replay_findings(
     ]
 
 
+def _ast_contract_findings(
+    required: dict[Path, set[str]],
+    *,
+    subject: str,
+    unavailable_message: str,
+    missing_message: str,
+    unavailable_restore: str,
+) -> list[dict]:
+    findings: list[dict] = []
+    for path, names in required.items():
+        try:
+            tree = ast.parse(path.read_text(encoding="utf-8"))
+        except (OSError, SyntaxError) as exc:
+            findings.append(
+                _finding(
+                    "VR-KP-020",
+                    path,
+                    subject,
+                    f"{unavailable_message}: {exc}",
+                    unavailable_restore,
+                )
+            )
+            continue
+        declared = {
+            node.name
+            for node in ast.walk(tree)
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+        }
+        for missing in sorted(names - declared):
+            findings.append(
+                _finding(
+                    "VR-KP-020",
+                    path,
+                    missing,
+                    f"UNSUPPORTED_RULE: missing {missing_message} {missing}",
+                    "restore the named implementation or executable test",
+                )
+            )
+    return findings
+
+
 def page_command_contract_findings(repo_root: Path = REPO_ROOT) -> list[dict]:
     required = {
         repo_root / "scripts" / "knowledge" / "documents.py": {
@@ -177,36 +219,86 @@ def page_command_contract_findings(repo_root: Path = REPO_ROOT) -> list[dict]:
             "test_migration_writers_share_repository_lock",
         },
     }
-    findings: list[dict] = []
-    for path, names in required.items():
-        try:
-            tree = ast.parse(path.read_text(encoding="utf-8"))
-        except (OSError, SyntaxError) as exc:
-            findings.append(
-                _finding(
-                    "VR-KP-020",
-                    path,
-                    "page-command-contract",
-                    f"page command contract surface is unavailable: {exc}",
-                    "restore the P2-T5 implementation and executable tests",
-                )
+    return _ast_contract_findings(
+        required,
+        subject="page-command-contract",
+        unavailable_message="page command contract surface is unavailable",
+        missing_message="page command contract",
+        unavailable_restore="restore the P2-T5 implementation and executable tests",
+    )
+
+
+def materialize_contract_findings(repo_root: Path = REPO_ROOT) -> list[dict]:
+    required = {
+        repo_root / "scripts" / "knowledge" / "materialize.py": {
+            "render_generated",
+            "validate_generated",
+            "generated_drift",
+            "apply_generated",
+        },
+        repo_root / "tests" / "test_materialize.py": {
+            "test_render_is_deterministic_and_manifest_is_schema_derived",
+            "test_index_overview_templates_and_base_follow_canonical_contract",
+            "test_schema_page_type_change_automatically_changes_template_manifest",
+            "test_check_is_no_write_and_reports_missing_or_changed_leaf",
+            "test_canonical_page_marker_text_is_not_an_unexpected_generated_leaf",
+            "test_apply_preflight_rejects_markerless_symlink_and_unknown_generated_leaf",
+            "test_apply_rejects_generated_parent_symlink_before_external_write",
+            "test_apply_rejects_parent_swap_after_preflight_without_external_write",
+            "test_apply_rejects_leaf_swap_after_preflight_and_preserves_human_bytes",
+            "test_independent_validator_rejects_index_and_template_renderer_mutations",
+            "test_independent_validator_rejects_active_record_common_mode_mutation",
+            "test_validator_rejects_relocated_base_marker",
+            "test_apply_rejects_leaf_swap_at_atomic_exchange_and_preserves_human_bytes",
+            "test_temp_file_failure_leaves_no_leaf_and_exact_replay_converges",
+            "test_temp_content_mutation_before_commit_never_publishes_corrupt_bytes",
+            "test_managed_temp_leftover_does_not_block_exact_replay",
+            "test_check_reports_managed_marker_temp_until_apply_recovers",
+            "test_cleanup_unlink_failure_converges_on_next_replay",
+            "test_post_commit_failure_preserves_same_bytes_competing_inode",
+            "test_partial_leaf_failure_is_detected_and_exact_replay_converges",
+            "test_apply_rechecks_rendered_input_inside_repository_lock",
+            "test_cli_repository_check_executes_generated_parity_rules",
+            "test_inactive_domain_page_fails_checker_and_materializer",
+            "test_invalid_utf8_domain_registry_fails_both_public_boundaries",
+            "test_display_text_contract_rejects_multiline_and_table_separator",
+            "test_display_text_contract_rejects_trailing_line_break",
+            "test_schema_loader_fails_closed_at_materializer_boundary",
+            "test_generator_identity_has_one_runtime_owner",
+            "test_materialize_command_call_graph_max_depth_is_exactly_ratcheted",
+            "test_page_candidate_checks_base_parity_then_canonical_then_candidate_coverage",
+        },
+    }
+    return _ast_contract_findings(
+        required,
+        subject="materialize-contract",
+        unavailable_message="materialize contract surface is unavailable",
+        missing_message="materialize contract",
+        unavailable_restore="restore the P2-T6 implementation and executable tests",
+    )
+
+
+def generated_surface_findings(drift: tuple[str, ...]) -> list[dict]:
+    findings = []
+    for message in drift:
+        navigation_path = next(
+            (
+                Path(path)
+                for path in ("wiki/index.md", "wiki/overview.md")
+                if path in message
+            ),
+            None,
+        )
+        findings.append(
+            _finding(
+                "VR-KP-018" if navigation_path else "VR-KP-017",
+                navigation_path or Path("wiki"),
+                "generated-index" if navigation_path else "generated-surface",
+                message,
+                "run materialize after canonical pages, schema, or domain registry "
+                "changes",
             )
-            continue
-        declared = {
-            node.name
-            for node in ast.walk(tree)
-            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
-        }
-        for missing in sorted(names - declared):
-            findings.append(
-                _finding(
-                    "VR-KP-020",
-                    path,
-                    missing,
-                    f"UNSUPPORTED_RULE: missing page command contract {missing}",
-                    "restore the named implementation or executable test",
-                )
-            )
+        )
     return findings
 
 
@@ -226,6 +318,8 @@ def rule_coverage_findings(
         "rule-coverage-check": rule_coverage_findings,
         "artifact-replay-check": artifact_replay_findings,
         "page-command-contract": page_command_contract_findings,
+        "cli-generated-parity": generated_surface_findings,
+        "cli-index-coverage": generated_surface_findings,
     }
     findings = []
     for rule_id, (status, implementation) in sorted(selected.items()):
@@ -264,6 +358,7 @@ def rule_coverage_findings(
         for status, implementation in selected.values()
     ):
         findings.extend(page_command_contract_findings())
+    findings.extend(materialize_contract_findings())
     return findings
 
 
@@ -354,7 +449,9 @@ def _artifact_findings(repo_root: Path, path: Path, instance: dict) -> list[dict
     return findings
 
 
-def _lifecycle_findings(target_root: Path, path: Path, instance: dict) -> list[dict]:
+def _lifecycle_findings(
+    repo_root: Path, target_root: Path, path: Path, instance: dict
+) -> list[dict]:
     relative = path.resolve().relative_to(target_root.resolve())
     parts = relative.parts
     lifecycle = [
@@ -370,6 +467,18 @@ def _lifecycle_findings(target_root: Path, path: Path, instance: dict) -> list[d
                 instance["id"],
                 "page path must identify exactly one lifecycle root",
                 "place the page under staging, domains, collections, or archive",
+            )
+        ]
+    try:
+        active_domain_for_path(repo_root, target_root, path)
+    except KnowledgeSchemaError as exc:
+        return [
+            _finding(
+                "VR-KP-014",
+                path,
+                instance["id"],
+                str(exc),
+                "move the page to an active registered domain or activate its domain",
             )
         ]
     if (
@@ -609,7 +718,7 @@ def check_target(
         if path not in impacted_paths:
             continue
         findings.extend(_artifact_findings(repo_root, path, instance))
-        findings.extend(_lifecycle_findings(target_root, path, instance))
+        findings.extend(_lifecycle_findings(repo_root, target_root, path, instance))
     findings.extend(
         finding
         for finding in inspect_graph(records)

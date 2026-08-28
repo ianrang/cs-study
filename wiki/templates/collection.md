@@ -1,6 +1,6 @@
 ---
 title: ''
-page_type: dataset
+page_type: collection
 tags: []
 date_created: ''
 date_updated: ''
@@ -13,14 +13,10 @@ aliases: []
 ## Overview
 
 
-## Schema / Composition
+## Members
 
-
-## Usage
-
-
-## Limitations / Biases
-
+| member | role | rationale |
+|---|---|---|
 
 ## Claims
 

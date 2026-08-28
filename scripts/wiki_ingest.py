@@ -19,7 +19,7 @@ from knowledge.artifacts import (  # noqa: E402
     capture_asset,
     verify_manifest,
 )
-from knowledge.check import check_target  # noqa: E402
+from knowledge.check import check_target, generated_surface_findings  # noqa: E402
 from knowledge.documents import (  # noqa: E402
     PagePlanError,
     apply_page_write_plan,
@@ -36,6 +36,12 @@ from knowledge.fs import (  # noqa: E402
     publish_bytes_no_replace,
     rename_path_no_replace,
     write_bytes_fsync,
+)
+from knowledge.materialize import (  # noqa: E402
+    apply_generated,
+    generated_drift,
+    render_generated,
+    validate_generated,
 )
 from knowledge.migration import (  # noqa: E402
     apply_resolved_plan,
@@ -54,8 +60,11 @@ from knowledge.migration import (  # noqa: E402
 
 
 def _utc_now() -> str:
-    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace(
-        "+00:00", "Z"
+    return (
+        datetime.now(timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z")
     )
 
 
@@ -98,6 +107,11 @@ def _parser() -> argparse.ArgumentParser:
     check_parser.add_argument("--target-root", type=Path, required=True)
     check_parser.add_argument("--path", dest="paths", type=Path, action="append")
     check_parser.add_argument("--report", choices=("text", "jsonl"), default="text")
+
+    materialize_parser = subcommands.add_parser(
+        "materialize", help="render or check schema-derived wiki navigation"
+    )
+    materialize_parser.add_argument("--check", action="store_true")
 
     synthesize_parser = subcommands.add_parser(
         "synthesize", help="plan or apply one semantic draft"
@@ -266,17 +280,25 @@ def _check_migration_candidate(
 
 def _check_page_candidate(write_set: list[dict]) -> None:
     knowledge_root = REPO_ROOT / "wiki"
+    drift = generated_drift(REPO_ROOT, knowledge_root)
+    if drift:
+        raise PagePlanError(
+            f"generated repository drift blocks page candidate: {len(drift)} findings"
+        )
+    overrides = write_set_overrides(knowledge_root, write_set)
     result = check_target(
         knowledge_root,
         repo_root=REPO_ROOT,
         mode="all",
-        overrides=write_set_overrides(knowledge_root, write_set),
+        overrides=overrides,
         include_repository_contracts=False,
     )
     if result.structural_verdict != "PASS":
         raise PagePlanError(
             f"candidate failed structural check with {len(result.findings)} findings"
         )
+    rendered = render_generated(REPO_ROOT, knowledge_root, overrides)
+    validate_generated(rendered, REPO_ROOT, knowledge_root, overrides)
 
 
 def _publish_page_plan(output: Path | None, plan: dict) -> None:
@@ -383,28 +405,52 @@ def main(argv: list[str] | None = None) -> int:
                 mode=mode,
                 changed_paths=args.paths,
             )
+            generated_findings = []
+            if args.target_root.resolve() == (REPO_ROOT / "wiki").resolve():
+                generated_findings = generated_surface_findings(
+                    generated_drift(REPO_ROOT, REPO_ROOT / "wiki")
+                )
+            combined_findings = (*result.findings, *generated_findings)
+            combined_verdict = (
+                "FAIL"
+                if result.structural_verdict != "PASS" or generated_findings
+                else "PASS"
+            )
             if args.report == "jsonl":
-                for finding in result.findings:
+                for finding in combined_findings:
                     print(json.dumps(finding, ensure_ascii=False, sort_keys=True))
+                result_payload = result.to_dict()
+                result_payload["structural_verdict"] = combined_verdict
+                result_payload["findings"] = list(combined_findings)
                 print(
                     json.dumps(
-                        {"result": result.to_dict()}, ensure_ascii=False, sort_keys=True
+                        {"result": result_payload}, ensure_ascii=False, sort_keys=True
                     )
                 )
             else:
-                for finding in result.findings:
+                for finding in combined_findings:
                     print(
                         f"{finding['severity']} {finding['rule_id']} "
                         f"{finding['path']}:{finding['line']} "
                         f"[{finding['subject_id']}] {finding['message']}"
                     )
                 print(
-                    f"structural={result.structural_verdict} "
+                    f"structural={combined_verdict} "
                     f"semantic_review={result.semantic_review} "
-                    f"findings={len(result.findings)} mode={result.mode}"
+                    f"findings={len(result.findings) + len(generated_findings)} "
+                    f"mode={result.mode}"
                 )
                 print(f"exclusions={','.join(result.exclusions)}")
-            return int(result.structural_verdict != "PASS")
+            return int(combined_verdict != "PASS")
+        elif args.command == "materialize":
+            if args.check:
+                drift = generated_drift(REPO_ROOT, REPO_ROOT / "wiki")
+                for finding in drift:
+                    print(finding)
+                return int(bool(drift))
+            result = apply_generated(REPO_ROOT, REPO_ROOT / "wiki")
+            print(json.dumps(result, ensure_ascii=False, sort_keys=True))
+            return 0
         elif args.command == "synthesize":
             if args.apply_plan is not None:
                 if any(
@@ -416,16 +462,19 @@ def main(argv: list[str] | None = None) -> int:
                     )
                 _apply_page_plan(args, "synthesize")
             else:
-                if any(
-                    value is None
-                    for value in (
-                        args.semantic_plan,
-                        args.sources,
-                        args.page_id,
-                        args.now,
-                        args.output,
+                if (
+                    any(
+                        value is None
+                        for value in (
+                            args.semantic_plan,
+                            args.sources,
+                            args.page_id,
+                            args.now,
+                            args.output,
+                        )
                     )
-                ) or args.confirm_plan_sha256 is not None:
+                    or args.confirm_plan_sha256 is not None
+                ):
                     raise PagePlanError(
                         "synthesize plan mode requires semantic plan, source, "
                         "page ID, now, and output"

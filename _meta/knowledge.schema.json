@@ -72,7 +72,7 @@
       "additionalProperties": false,
       "required": ["title", "page_type", "tags", "date_created", "date_updated", "source_paths", "summary"],
       "properties": {
-        "title": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1, "pattern": "^(?![\\s\\S]*[\\r\\n])[\\s\\S]+$"},
         "page_type": {"$ref": "#/$defs/PageType"},
         "tags": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
         "aliases": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
@@ -84,7 +84,7 @@
           "minItems": 1,
           "uniqueItems": true
         },
-        "summary": {"type": "string", "minLength": 1}
+        "summary": {"type": "string", "minLength": 1, "pattern": "^(?![\\s\\S]*[\\r\\n])[\\s\\S]+$"}
       }
     },
     "DocumentInstance": {

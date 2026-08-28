@@ -162,7 +162,7 @@ PROV-O와 SKOS는 용어와 관계 의미만 참고한다. 별도 RDF 표현은 
 
 ## 9. 요구사항 추적성
 
-요구사항별 문서 section·Business Logic 매핑은 `docs/wiki-ingest-architecture.md` §14가 소유하고, 구현·검증 파일 매핑은 `_meta/knowledge-requirements.json`이 소유한다. 두 surface는 서로 다른 열을 소유하며 같은 mapping을 중복 저장하지 않는다. 본 PRD는 요구사항 ID와 수용 기준만 소유한다.
+요구사항별 문서 section·Business Logic 매핑은 `docs/wiki-ingest-architecture.md` §14가 소유하고, FR/NFR의 구현 순서와 구현·검증 파일 매핑은 `_meta/knowledge-requirements.json`이 소유한다. 두 surface는 서로 다른 열을 소유하며 같은 mapping을 중복 저장하지 않는다. 본 PRD는 요구사항 ID와 수용 기준만 소유한다.
 
 ## 10. 변경 이력
 

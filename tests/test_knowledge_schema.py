@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import copy
+import hashlib
 import json
 import re
 import sys
@@ -9,13 +10,134 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from knowledge.schema import (  # noqa: E402
+    CANONICAL_ROOT_EXCLUSIONS,
     SCHEMA_PATH,
     KnowledgeSchemaError,
+    domain_registry,
     parse_markdown,
+    schema_digest,
+    table_contract,
     validator_for,
 )
 
 FIXTURES = ROOT / "tests" / "fixtures" / "knowledge"
+REQUIREMENT_ID_PATTERN = r"(?:FR|NFR)-KP-\d{3}"
+REQUIREMENT_MANIFEST_KEYS = {"schema_version", "requirements"}
+REQUIREMENT_ENTRY_KEYS = {"id", "steps", "surfaces", "verification"}
+PRD_REQUIREMENT_TABLES = (
+    (
+        "| ID | 요구사항 | 관찰 가능한 수용 기준 |\n|---|---|---|\n",
+        r"FR-KP-\d{3}",
+    ),
+    ("| ID | 요구사항 | 기준 |\n|---|---|---|\n", r"NFR-KP-\d{3}"),
+)
+TRACEABILITY_HEADER = (
+    "| PRD ID | Architecture surface | Logic surface |\n"
+    "|---|---|---|\n"
+)
+
+
+def _requirement_traceability_errors(
+    manifest: dict, prd: str, architecture: str
+) -> list[str]:
+    errors = []
+    prd_id_list = []
+    for header, id_pattern in PRD_REQUIREMENT_TABLES:
+        if prd.count(header) != 1:
+            errors.append("PRD requirement table header differs from the exact contract")
+            continue
+        table = prd.split(header, 1)[1].split("\n\n", 1)[0]
+        for row in table.splitlines():
+            cells = row.split("|")
+            if len(cells) > 1 and re.fullmatch(REQUIREMENT_ID_PATTERN, cells[1].strip()):
+                prd_id_list.append(cells[1].strip())
+            if not re.fullmatch(rf"\| {id_pattern} \| [^|]+ \| [^|]+ \|", row):
+                errors.append("PRD requirement row differs from the exact contract")
+            semantic_cells = cells[1:-1]
+            if len(semantic_cells) == 3 and any(
+                not cell.strip() for cell in semantic_cells[1:]
+            ):
+                errors.append("PRD requirement semantic cells must be non-empty")
+    prd_ids = set(prd_id_list)
+    entries = manifest.get("requirements", [])
+    manifest_ids = [entry.get("id") for entry in entries]
+
+    if set(manifest) != REQUIREMENT_MANIFEST_KEYS:
+        errors.append("manifest top-level keys differ from the exact contract")
+    if len(prd_id_list) != len(prd_ids):
+        errors.append("PRD requirement IDs are duplicated")
+    if any(set(entry) != REQUIREMENT_ENTRY_KEYS for entry in entries):
+        errors.append("manifest requirement entry keys differ from the exact contract")
+    if len(manifest_ids) != len(set(manifest_ids)) or set(manifest_ids) != prd_ids:
+        errors.append("manifest requirement IDs differ from PRD IDs")
+
+    if architecture.count(TRACEABILITY_HEADER) != 1:
+        errors.append("architecture traceability table header differs from the exact contract")
+        return errors
+    table = architecture.split(TRACEABILITY_HEADER, 1)[1].split("\n\n", 1)[0]
+    architecture_rows = table.splitlines()
+    architecture_id_list = []
+    for row in architecture_rows:
+        cells = row.split("|")
+        if len(cells) > 1 and re.fullmatch(REQUIREMENT_ID_PATTERN, cells[1].strip()):
+            architecture_id_list.append(cells[1].strip())
+        mapping_cells = cells[1:-1]
+        if len(mapping_cells) == 3 and any(
+            not cell.strip() for cell in mapping_cells[1:]
+        ):
+            errors.append("architecture mapping cells must be non-empty")
+    architecture_ids = set(architecture_id_list)
+    if len(architecture_id_list) != len(architecture_ids):
+        errors.append("architecture requirement IDs are duplicated")
+    if any(
+        not re.fullmatch(
+            rf"\| {REQUIREMENT_ID_PATTERN} \| [^|]+ \| [^|]+ \|", row
+        )
+        for row in architecture_rows
+    ):
+        errors.append("architecture requirement row differs from the exact contract")
+    if architecture_ids != prd_ids:
+        errors.append("architecture requirement IDs differ from PRD IDs")
+    return errors
+
+
+def test_schema_metadata_contract_has_one_validated_owner():
+    registry = domain_registry(ROOT)
+    assert list(registry) == list(sorted(registry))
+    assert registry["software-engineering"]["status"] == "active"
+    assert schema_digest(ROOT) == hashlib.sha256(SCHEMA_PATH.read_bytes()).hexdigest()
+    assert CANONICAL_ROOT_EXCLUSIONS == {"index.md", "overview.md", "log.md"}
+    assert table_contract("Claims") == [
+        "id",
+        "primary",
+        "claim",
+        "status",
+        "evidence",
+        "notes",
+    ]
+    assert table_contract("Relations") == ["type", "target", "notes"]
+    assert table_contract("Members") == ["member", "role", "rationale"]
+
+
+def test_domain_registry_rejects_duplicate_and_non_string_keys(tmp_path: Path):
+    meta = tmp_path / "_meta"
+    meta.mkdir()
+    invalid_documents = (
+        "version: 1\ndomains:\n  alpha:\n    status: active\n    label: A\n"
+        "    source_roots: []\n  alpha:\n    status: inactive\n    label: B\n"
+        "    source_roots: []\n",
+        "version: 1\ndomains:\n  1:\n    status: active\n    label: A\n"
+        "    source_roots: []\n  alpha:\n    status: active\n    label: B\n"
+        "    source_roots: []\n",
+    )
+    for document in invalid_documents:
+        (meta / "domains.yaml").write_text(document, encoding="utf-8")
+        try:
+            domain_registry(tmp_path)
+        except KnowledgeSchemaError:
+            pass
+        else:
+            raise AssertionError("invalid domain registry accepted")
 
 
 def test_parser_produces_deterministic_document_instance():
@@ -259,9 +381,7 @@ def test_page_write_plan_rejects_ambiguous_collection_add_ordering_policy():
     plan["operation"] = "synthesize"
     plan["operation_input"] = {
         "semantic_plan_sha256": digest,
-        "source_paths": [
-            "raw/sources/video/source-id/" + digest + "/manifest.json"
-        ],
+        "source_paths": ["raw/sources/video/source-id/" + digest + "/manifest.json"],
         "page_id": "page-id",
         "now": "2026-08-26",
     }
@@ -326,6 +446,10 @@ def test_requirement_manifest_exactly_covers_prd_ids():
     ids = [entry["id"] for entry in entries]
     prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
     declared = set(re.findall(r"^\| ((?:FR|NFR)-KP-\d{3}) \|", prd, re.MULTILINE))
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    assert _requirement_traceability_errors(manifest, prd, architecture) == []
     assert len(ids) == len(set(ids)) == 37
     assert set(ids) == declared
     for entry in entries:
@@ -335,6 +459,193 @@ def test_requirement_manifest_exactly_covers_prd_ids():
                 (ROOT / path).exists()
                 for path in entry["surfaces"] + entry["verification"]
             )
+
+
+def test_requirement_traceability_rejects_architecture_id_omission():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    mutated = architecture.replace(
+        "| FR-KP-001 | §3, §4, §8 | BR-ART-007 |\n",
+        "",
+    )
+
+    assert "architecture requirement IDs differ from PRD IDs" in (
+        _requirement_traceability_errors(manifest, prd, mutated)
+    )
+
+
+def test_requirement_traceability_rejects_manifest_mapping_key():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    mutated = copy.deepcopy(manifest)
+    mutated["requirements"][0]["architecture"] = ["§4"]
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "manifest requirement entry keys differ from the exact contract" in (
+        _requirement_traceability_errors(mutated, prd, architecture)
+    )
+
+
+def test_requirement_traceability_rejects_prd_duplicate_id():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    duplicate = (
+        "| FR-KP-001 | extractor는 provider-agnostic canonical payload를 출력한다 | "
+        "payload가 versioned contract를 만족하고 cs-study 식별자·경로가 0건이며 "
+        "exact payload path를 CLI 결과로 반환한다 |"
+    )
+    mutated = prd.replace(duplicate, f"{duplicate}\n{duplicate}", 1)
+
+    assert "PRD requirement IDs are duplicated" in (
+        _requirement_traceability_errors(manifest, mutated, architecture)
+    )
+
+
+def test_requirement_traceability_rejects_architecture_duplicate_id():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    duplicate = "| FR-KP-001 | §3, §4, §8 | BR-ART-007 |"
+    mutated = architecture.replace(duplicate, f"{duplicate}\n{duplicate}", 1)
+
+    assert "architecture requirement IDs are duplicated" in (
+        _requirement_traceability_errors(manifest, prd, mutated)
+    )
+
+
+def test_requirement_traceability_rejects_malformed_architecture_duplicate():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    canonical = "| FR-KP-001 | §3, §4, §8 | BR-ART-007 |"
+    malformed = "| FR-KP-001 | §3 | BR-ART-007 | unexpected |"
+    mutated = architecture.replace(canonical, f"{canonical}\n{malformed}", 1)
+
+    errors = _requirement_traceability_errors(manifest, prd, mutated)
+    assert "architecture requirement IDs are duplicated" in errors
+    assert "architecture requirement row differs from the exact contract" in errors
+
+
+def test_requirement_traceability_rejects_whitespace_malformed_architecture_row():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    canonical = "| FR-KP-001 | §3, §4, §8 | BR-ART-007 |"
+    malformed = "|FR-KP-001| §3 | BR-ART-007 |"
+    mutated = architecture.replace(canonical, f"{canonical}\n{malformed}", 1)
+
+    assert "architecture requirement row differs from the exact contract" in (
+        _requirement_traceability_errors(manifest, prd, mutated)
+    )
+
+
+def test_requirement_traceability_rejects_manifest_top_level_mapping():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    mutated = copy.deepcopy(manifest)
+    mutated["architecture"] = {"FR-KP-001": ["§3"]}
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "manifest top-level keys differ from the exact contract" in (
+        _requirement_traceability_errors(mutated, prd, architecture)
+    )
+
+
+def test_requirement_traceability_rejects_whitespace_malformed_prd_row():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    canonical = (
+        "| FR-KP-001 | extractor는 provider-agnostic canonical payload를 출력한다 | "
+        "payload가 versioned contract를 만족하고 cs-study 식별자·경로가 0건이며 "
+        "exact payload path를 CLI 결과로 반환한다 |"
+    )
+    malformed = "|FR-KP-001| duplicate | duplicate |"
+    mutated = prd.replace(canonical, f"{canonical}\n{malformed}", 1)
+
+    assert "PRD requirement row differs from the exact contract" in (
+        _requirement_traceability_errors(manifest, mutated, architecture)
+    )
+
+
+def test_requirement_traceability_rejects_blank_prd_semantic_cells():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    canonical = (
+        "| FR-KP-001 | extractor는 provider-agnostic canonical payload를 출력한다 | "
+        "payload가 versioned contract를 만족하고 cs-study 식별자·경로가 0건이며 "
+        "exact payload path를 CLI 결과로 반환한다 |"
+    )
+    mutations = (
+        "| FR-KP-001 |   | payload contract |",
+        "| FR-KP-001 | extractor contract |   |",
+    )
+
+    for replacement in mutations:
+        mutated = prd.replace(canonical, replacement, 1)
+        assert "PRD requirement semantic cells must be non-empty" in (
+            _requirement_traceability_errors(manifest, mutated, architecture)
+        )
+
+
+def test_requirement_traceability_rejects_blank_architecture_mapping_cells():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    canonical = "| FR-KP-001 | §3, §4, §8 | BR-ART-007 |"
+    mutations = (
+        "| FR-KP-001 |   | BR-ART-007 |",
+        "| FR-KP-001 | §3 |   |",
+    )
+
+    for replacement in mutations:
+        mutated = architecture.replace(canonical, replacement, 1)
+        assert "architecture mapping cells must be non-empty" in (
+            _requirement_traceability_errors(manifest, prd, mutated)
+        )
 
 
 def test_migration_preservation_requirement_has_exact_owners():

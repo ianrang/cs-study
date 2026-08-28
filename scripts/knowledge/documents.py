@@ -22,23 +22,20 @@ from .schema import (
     active_domains,
     document_tree_sha256,
     parse_markdown,
+    schema_digest,
     section_contract,
+    table_contract,
     validate_instance,
     validator_for,
 )
 
-CLAIMS_HEADER = (
-    "| id | primary | claim | status | evidence | notes |",
-    "|---|---|---|---|---|---|",
-)
-RELATIONS_HEADER = (
-    "| type | target | notes |",
-    "|---|---|---|",
-)
-MEMBERS_HEADER = (
-    "| member | role | rationale |",
-    "|---|---|---|",
-)
+
+def _table_header(section: str) -> tuple[str, str]:
+    columns = table_contract(section)
+    return (
+        "| " + " | ".join(columns) + " |",
+        "|" + "|".join("---" for _ in columns) + "|",
+    )
 PAGE_ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 MEMBERS_BODY_RE = re.compile(r"(?ms)(^## Members[ \t]*\r?\n)(.*?)(?=^## |\Z)")
 PAGE_PLAN_GENERATOR = {"name": "cs-study", "version": "1.0"}
@@ -103,11 +100,11 @@ def render_preserved_document(
         lines.extend(["", f"## {section}"])
         if section == "Members":
             rows = [f"| [[{member}]] |  |  |" for member in members]
-            lines.extend(_table([*MEMBERS_HEADER, *rows]))
+            lines.extend(_table([*_table_header("Members"), *rows]))
         elif section == "Claims":
-            lines.extend(_table(CLAIMS_HEADER))
+            lines.extend(_table(_table_header("Claims")))
         elif section == "Relations":
-            lines.extend(_table(RELATIONS_HEADER))
+            lines.extend(_table(_table_header("Relations")))
         elif section == "Sources":
             lines.extend(["", f"- `{source_manifest}`", ""])
     return ("\n".join(lines).rstrip() + "\n").encode("utf-8")
@@ -142,12 +139,6 @@ def _canonical_digest(value: object) -> str:
         value, ensure_ascii=False, separators=(",", ":"), sort_keys=True
     ).encode("utf-8")
     return hashlib.sha256(encoded).hexdigest()
-
-
-def _schema_digest(repo_root: Path) -> str:
-    return hashlib.sha256(
-        (repo_root / "_meta" / "knowledge.schema.json").read_bytes()
-    ).hexdigest()
 
 
 def _relative_page(knowledge_root: Path, path: Path) -> str:
@@ -209,7 +200,7 @@ def _build_page_plan(
         "schema_version": "1.0",
         "operation": operation,
         "knowledge_root": _knowledge_root_name(repo_root, knowledge_root),
-        "schema_sha256": _schema_digest(repo_root),
+        "schema_sha256": schema_digest(repo_root),
         "base_tree_sha256": base_tree,
         "target_tree_sha256": target_tree,
         "input_sha256": _canonical_digest(operation_input),
@@ -283,10 +274,10 @@ def _render_semantic_plan(plan: dict, page_id: str, now: str) -> str:
         if heading in section_bodies:
             lines.extend(section_bodies[heading].rstrip().splitlines())
         elif heading == "Members":
-            lines.extend(MEMBERS_HEADER)
+            lines.extend(_table_header("Members"))
             lines.extend(_member_row(item) for item in plan["members"])
         elif heading == "Claims":
-            lines.extend(CLAIMS_HEADER)
+            lines.extend(_table_header("Claims"))
             lines.extend(
                 "| "
                 + " | ".join(
@@ -303,7 +294,7 @@ def _render_semantic_plan(plan: dict, page_id: str, now: str) -> str:
                 for item in plan["claims"]
             )
         elif heading == "Relations":
-            lines.extend(RELATIONS_HEADER)
+            lines.extend(_table_header("Relations"))
             lines.extend(_relation_row(item) for item in plan["relations"])
         elif heading == "Sources":
             lines.extend(f"- `{path}`" for path in plan["source_paths"])
@@ -544,7 +535,13 @@ def _replace_members(content: str, members: Sequence[dict]) -> str:
     if match is None:
         raise PagePlanError("collection Members section is missing")
     replacement = "\n".join(
-        ["", *MEMBERS_HEADER, *(_member_row(item) for item in members), "", ""]
+        [
+            "",
+            *_table_header("Members"),
+            *(_member_row(item) for item in members),
+            "",
+            "",
+        ]
     )
     return content[: match.start(2)] + replacement + content[match.end(2) :]
 
@@ -827,7 +824,7 @@ def _apply_page_write_plan_unlocked(
         raise PagePlanError("plan confirmation SHA-256 does not match exact bytes")
     if _knowledge_root_name(repo_root, knowledge_root) != plan["knowledge_root"]:
         raise PagePlanError("plan knowledge root does not match requested root")
-    if _schema_digest(repo_root) != plan["schema_sha256"]:
+    if schema_digest(repo_root) != plan["schema_sha256"]:
         raise PagePlanError("stale plan schema digest")
     if plan["generator"] != PAGE_PLAN_GENERATOR:
         raise PagePlanError("unsupported page plan generator")

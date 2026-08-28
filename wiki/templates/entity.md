@@ -1,43 +1,32 @@
 ---
-title: ""
-tier: llm-synthesis
+title: ''
 page_type: entity
-domain: ""
-domain_confidence: high
-shared_scope: domain
 tags: []
-status: active
-date_created: ""
-date_updated: ""
+date_created: ''
+date_updated: ''
 source_paths: []
-source_count: 0
-provenance: extracted
-summary: ""
+summary: ''
+aliases: []
 ---
-
-[1-2 문장 summary]
+<!-- generated-by: cs-study-materializer/1.0; schema-sha256: c466e1d84b69434d60e3504f1e5316f0b9ff86a5abafc0c739666cbada7ea718 -->
 
 ## Overview
 
-[entity 의 본질·역할 1 문단]
 
 ## Products / Outputs
 
-| 이름 | 종류 | 출시 / 발표 | 비고 |
-|---|---|---|---|
-| ... | ... | ... | ... |
 
 ## Timeline
 
-| Date | Event |
-|---|---|
-| YYYY-MM | ... |
 
-## Relationships
+## Claims
 
-- Parent: [[wikilink]]
-- Subsidiary / collaboration: [[wikilink]]
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
 
 ## Sources
-
-- [[source path]] ^[extracted] — 1-line context
