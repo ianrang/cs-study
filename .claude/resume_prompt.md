@@ -1,10 +1,10 @@
-# cs-study 다음 세션 진입 — P2-T11 전체 최종 감사
+# cs-study 다음 세션 진입 — 지식 파이프라인 순서 1–12 완료
 
 > 작성: 2026-09-02
-> 직전 작업: P2-T10에서 두 YouTube source를 immutable artifact로 capture하고 하나의 검토된 active concept page로 통합했다.
+> 직전 작업: P2-T11에서 full vault·설계·코드와 자동화 가능한 5계층 영역을 최종 감사했다.
 > 작업 위치: 현재 cs-study linked worktree (`feat/knowledge-pipeline` 브랜치)
-> 다음 세션 첫 동작 의무: 본 파일, `todo.md`, `reports/P2-T10-verification.md`, `docs/wiki-ingest-architecture.md` §13을 읽고 P2-T11의 전체 감사 범위를 고정한다.
-> commit: P2-T10 구현은 `cefc60a`이며 push run `33624656646`·PR run `33624661153`이 성공했다.
+> 다음 세션 첫 동작 의무: 본 파일, `todo.md`, `reports/P2-T11-verification.md`를 읽고 사용자가 새 범위를 지정하기 전 pipeline 후속 task를 추론해 만들지 않는다.
+> commit: P2-T11 감사 구현은 `0075659`이며 push run `33631360562`·PR run `33631364222`가 성공했다.
 
 ---
 
@@ -16,14 +16,11 @@
 - P2-T4 final restage에서 staged ACMR 363개 index/worktree byte mismatch 0과 tracked unstaged 0을 확인했다.
 - active persistent snapshot의 Apple·Windows local-user-home 경로는 P2-T2에서 TDD로 제거·재생성·cascade 검증했다.
 - runtime evidence를 제외한 순서 1–6b snapshot은 P2-T4에서 전체 검증과 사용자 commit 승인을 마쳤다.
-- 순서 7은 P2-T5, 순서 8은 P2-T6, 순서 9는 P2-T7·P2-T8, 순서 10은 P2-T9, 순서 11은 P2-T10에서 구현·검증·독립 CI까지 닫혔다. 순서 12는 별도 검증 commit 후보다.
+- 순서 7은 P2-T5, 순서 8은 P2-T6, 순서 9는 P2-T7·P2-T8, 순서 10은 P2-T9, 순서 11은 P2-T10, 순서 12는 P2-T11에서 구현·검증·독립 CI까지 닫혔다.
 
 ---
 
-## 2. 다음 진입 작업과 외부 trigger
-
-- next_task: P2-T11
-- focus_group: 지속 가능한 지식 파이프라인
+## 2. 완료 이력과 외부 trigger
 
 ### P2-T2. persistent 절대경로 비식별화
 - 완료: Apple·Windows user-home prefix를 단일 privacy leaf로 정규화하고 active persistent offender 0을 확인했다.
@@ -68,7 +65,8 @@
 - 완료: 지정된 두 transcript를 content-addressed video bundle 2개로 보존하고, C1–C12 직접 근거를 검토한 하나의 active concept page로 통합했다.
 - 완료: 승인된 promote plan 적용 뒤 generated 11 files를 재물질화했고 동일 plan replay `unchanged`, 전체 428 passed, canonical findings 0을 확인했다.
 - 증거: `reports/P2-T10-verification.md`; candidate `f9d33e2ce2a79b1098767036b2aba5bf164c7d5219dd2c06929e6a7a3a1b36ef`, plan `a1e2dca4513533d8460c4ec6e30eca8cd0189851d93970b1b3da257f557b8c9f`.
-- closure: 구현 commit `cefc60a`; origin push·PR `verify` run `33624656646`, `33624661153` success.
+- 구현 evidence: commit `cefc60a`; origin push·PR `verify` run `33624656646`, `33624661153` success.
+- closure evidence: commit `c60446c`; origin push·PR `verify` run `33625135719`, `33625140180` success.
 
 ### 2-1. OFFICIAL-PRIMARY-SOURCE-GATE — KCA 공식 원문 대조
 - 근거: 회차 파일 공통 note와 `subject-type-cross-verify-report.md`의 official PDF scope limit.
@@ -95,15 +93,10 @@
 - 진입 전 확인: 현재는 same-directory 링크와 `source_paths` 정합 때문에 보류한다.
 - 작업 범위: 실제 디렉터리 분리가 필요해지면 링크·frontmatter·인덱스 마이그레이션을 별도 작업으로 수행한다.
 
-### 2-6. WIKI-INGEST-REMAINDER — 검증 순서 12
+### 2-6. WIKI-INGEST-PIPELINE — 순서 1–12 완료
 - 근거: `docs/wiki-ingest-architecture.md` §13, `docs/wiki-ingest-review.md` §9.
-- 진입 전 확인: 순서 1–11 engine·canonical cutover·privacy/runtime guard·legacy 제거·독립 CI·두 source 운영 처리가 완료됐다.
-- 작업 범위: 현재 `next_task`는 P2-T11이다. full vault·설계·코드 교차검증과 자동화 가능한 5계층 검증을 전수 수행하고 최종 보고를 독립 commit으로 고정한다.
-
-### 2-7. PAGE-TYPE-MIGRATION — 복합 dataset/lab 표준 섹션 정합화
-- 근거: `_meta/page-type-spec.md`의 승격 content 표준 섹션과 현재 복합 dataset/lab 89개 문서 구조가 다르다.
-- 진입 전 확인: `wiki/domains/<domain>/drafts/`는 canonical cutover 전 legacy authored draft 경로이며, 목표 DraftPage 경로 `wiki/staging/`로의 lifecycle 전환은 P2-T5 이후 별도 작업이다.
-- 작업 범위: dataset/lab 복합 산출물의 page type 모델을 별도 결정한 뒤 표준 섹션 마이그레이션과 lint soft-warn 활성화를 함께 수행한다.
+- 완료: 순서 1–12 engine·canonical cutover·privacy/runtime guard·legacy 제거·독립 CI·두 source 운영 처리·최종 감사가 완료됐다.
+- 증거: `reports/P2-T11-verification.md`; P2-T11 commit `0075659`, push·PR `verify` run `33631360562`·`33631364222` success.
 
 ---
 
@@ -117,7 +110,7 @@
 - active persistent local-user-home offender는 0이고, active reference가 없는 기존 clipping revision 8개/34 occurrences는 P2-T4 denylist다.
 - 이 preflight 시점에는 순서 7–12가 미구현이었고 다음 진입은 별도 승인 gate인 P2-T4였다.
 
-아래 3-1~3-6은 2026-07-12 handoff의 과거 변경 이력이다.
+아래 3-1~3-5는 2026-07-12 handoff의 과거 변경 이력이다.
 
 ### 3-1. 신규 자산
 
@@ -188,7 +181,7 @@
 ### 3-6. dev-todo-update 현재 결과
 
 - local mode canonical은 `todo.md`이며 `.work-management.json`과 `.manage/todo/todo.md`는 없다.
-- `지속 가능한 지식 파이프라인` 그룹의 P2-T1~P2-T11이 현재·후속 작업을 소유한다.
+- `지속 가능한 지식 파이프라인` 그룹의 P2-T1~P2-T11은 완료 이력·직접 선행·완료 증거를 소유한다.
 
 ### 3-7. 2026-08-28 P2-T6 deterministic materializer
 
@@ -208,9 +201,9 @@
 
 ---
 
-## 4. 진입 전 필수 read
+## 4. 보존된 정보보안 작업 read
 
-우선 `todo.md`, `reports/P2-T9-verification.md`, `docs/wiki-ingest-architecture.md` §13, `docs/wiki-ingest-review.md` §9를 읽는다. 아래 표는 정보보안 학습 문서 작업을 재개할 때의 보존된 목록이다.
+Pipeline 진입 read는 문서 상단이 단독 소유한다. 아래 표는 정보보안 학습 문서 작업을 재개할 때의 보존된 목록이다.
 
 | 우선순위 | 파일 | 역할 |
 |---:|---|---|
@@ -224,7 +217,7 @@
 | 8 | `docs/wiki-ingest-prd.md` | 2차 wiki synthesis 요구사항 SoT |
 | 9 | `docs/wiki-ingest-architecture.md` | 구조·모델·추적성 설계 |
 | 10 | `docs/wiki-ingest-business-logic.md` | BR/VR와 상태 전이 SoT |
-| 11 | `docs/wiki-ingest-review.md` | 구현 전 완료 기반과 잔여 구현 목록 |
+| 11 | `docs/wiki-ingest-review.md` | 구현 이력·해소 상태·최종 판정 |
 
 ---
 
@@ -288,5 +281,3 @@
 - 남은 4개 medium confidence 문항의 전용 공식 원천 보강 또는 medium 유지 결정.
 - 보조 원천 raw/source 선별 패칭 여부 결정.
 - 문서 물리 디렉터리 분리가 필요해질 경우 별도 마이그레이션 수행.
-- 순서 1–6b persistent baseline은 P2-T4에서 final verification과 별도 commit 승인을 마쳤다.
-- `scripts/wiki_ingest.py` 기반 순서 1–8, 순서 9 legacy·전환 runtime 제거, 순서 10 독립 CI, 순서 11 두 source 재처리는 구현·검증·commit·CI까지 닫혔다. 다음 범위는 P2-T11의 순서 12 전체 최종 감사다.

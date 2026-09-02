@@ -40,7 +40,7 @@
 
 ### 저장소·데이터 경계
 
-- `git ls-files -z` 기준 tracked 713개다. `git ls-files --others --exclude-standard -z` 기준 untracked 17개 중 16개는 사용자 소유 clipping 8 bundle이고, 나머지 1개가 본 보고서다.
+- 감사 시작 snapshot에서 `git ls-files -z` 기준 tracked 713개였고 `git ls-files --others --exclude-standard -z` 기준 untracked 17개 중 16개는 사용자 소유 clipping 8 bundle, 1개는 본 보고서였다. 감사 commit `0075659` 뒤 현재 종결 snapshot은 tracked 714개·untracked clipping 16개다.
 - clipping 16개는 semantic content를 해석하지 않고 integrity 확인을 위해 bytes만 읽어 경로 정렬 뒤 파일별 SHA-256으로 다시 해시했다. denylist digest는 `fe2316435d1694c2c539ddad520f6739024910337af72af4d5a5f519c3a26e10`이며 감사 전후 동일하다.
 - canonical Markdown은 76개다. 지정 영상은 2 bundle·6 files이며 두 payload SHA-256이 revision 디렉터리명과 일치한다. active page 1개가 두 manifest 경로를 `source_paths`로 가진다.
 - 현재 canonical wiki tree SHA-256은 `8a13c8d752c09d6627b3d4b135ccad542cb1635498acf3405023345185f97041`이다. P2-T2 직후 해시를 현재 값으로 서술하던 문구는 historical 시점으로 한정했다.
@@ -51,7 +51,7 @@
 - canonical architecture guard는 core+contract 10 modules·16 edges·cycle 0·최대 dependency edge 3, command-inclusive 12 modules·18 edges·cycle 0·최대 dependency edge 3을 검사한다.
 - `RULE_REGISTRY`는 `VR-KP-001`~`VR-KP-023` 23개를 소유한다. PRD의 고유 ID는 FR 22개·NFR 15개·AC 14개로 합계 51개이며 외부 requirements checker 두 반복은 findings 0이었다. checker의 `requirements=52`는 고유 ID 분모로 해석하지 않는다.
 - local `todo.md`는 14 task·직접 선행 edge 13·unknown/self dependency 0·cycle 0이고, `check-local-todo-dag.py`도 14 rows를 승인했다. 14개 중 10개 작업명이 60자를 넘지만 모두 기존 상세 실행 문장이라 현재 완료 이력을 축약하지 않는 LOW 관찰로 종결하며 신규 관리 task를 만들지 않는다.
-- 현재 pipeline task는 P2-T11 하나만 열려 있다. 독립 감사 commit과 그 remote CI가 성공하기 전에는 완료 상태로 전이하지 않는다.
+- 현재 pipeline task P2-T1~P2-T11은 모두 완료됐고 열린 task는 0개다. P2-T11은 독립 감사 commit과 그 push·PR `verify` 성공 뒤에만 완료 상태로 전이했다.
 
 ### 발견·수정한 결함
 
@@ -61,8 +61,22 @@
 | P2T11-DOC-002 | HIGH | P2-T2 직후 tree digest를 순서 11 이후에도 `현재 live wiki tree`라고 서술했다. | 문구를 `P2-T2 privacy 이행 직후` historical 관찰값으로 한정하고 현재화 금지 assertion을 추가했다. |
 | P2T11-DOC-003 | HIGH | 순서 12를 진행 중이라면서 같은 문서가 `다음 진입 gate`로 표시했다. | `현재 완료 gate`로 단일화하고 진입/진행 시제 회귀 assertion을 추가했다. |
 | P2T11-DOC-004 | HIGH | §10의 개념적 검증 계층 목록을 `CI 순서`라고 표시해 canonical CI profile의 실제 명령 순서와 충돌했다. | 목록을 실행 순서가 아닌 검증 계층으로 명명하고 실제 순서는 workflow·canonical CI profile만 소유하도록 회귀 assertion을 추가했다. |
+| P2T11-DOC-005 | HIGH | P2-T11 완료 전이 뒤에도 resume 하단이 순서 12를 `다음 범위`로 지목해 상단 terminal 상태와 충돌했다. | 하단을 순서 1–12·P2-T11 완료와 명시적 신규 작업 원칙으로 정합화하고 stale 문구 부재 assertion을 추가했다. |
+| P2T11-DOC-006 | HIGH | resume의 pipeline 첫 동작은 P2-T11 보고서를 요구하지만 중간 진입 절은 P2-T9 보고서를 우선 대상으로 남겼다. | pipeline 진입 read의 단일 소유자를 문서 상단으로 고정하고 중간 절은 정보보안 작업용 목록으로 한정했다. |
+| P2T11-DOC-007 | HIGH | 감사 시작 당시 본 보고서가 untracked였던 17개 inventory와 종결 시점의 untracked 16개를 시점 구분 없이 함께 기록했다. | 시작 snapshot과 `0075659` 이후 종결 snapshot을 분리하고 tracked 713→714·untracked 17→16 전이를 명시했다. |
+| P2T11-DOC-008 | HIGH | review의 현재 위험표가 P2-T6 당시 75-page universe를 현행 collision 분모로 유지했다. | 현재 canonical 76 files·basename duplicate 0 실측으로 갱신하고 75-page 문구 회귀 assertion을 추가했다. |
+| P2T11-DOC-009 | HIGH | `P2-T6 historical 5계층 snapshot` 표의 결과 열을 `현재 결과`로 표시했다. | 열 이름을 `P2-T6 관찰 결과`로 한정해 historical/current 시점을 분리했다. |
+| P2T11-DOC-010 | HIGH | resume의 보존 목록이 review 문서를 `구현 전 완료 기반과 잔여 구현 목록`으로 설명해 최종 판정 역할과 충돌했다. | 역할을 `구현 이력·해소 상태·최종 판정`으로 현재화하고 stale 역할 회귀 assertion을 추가했다. |
+| P2T11-DOC-011 | HIGH | resume가 완료된 P2-T1~P2-T11을 `현재·후속 작업` 소유자로 남겨 열린 task 0 상태와 충돌했다. | 해당 그룹의 역할을 완료 이력·직접 선행·완료 증거로 한정하고 current/follow-up 소유 문구 회귀 assertion을 추가했다. |
+| P2T11-DOC-012 | HIGH | resume의 PAGE-TYPE-MIGRATION 후보가 현행 schema 단일 계약과 무관한 89개 문서·legacy draft 경로를 후속 관리 대상으로 남겼다. | `_meta/page-type-spec.md`가 이미 현행 schema owner와 authored-source 제외를 선언하므로 obsolete 후속 후보 전체를 제거하고 부재 assertion을 추가했다. |
+| P2T11-DOC-013 | HIGH | resume가 3-1~3-6을 2026-07-12 과거 이력으로 묶으면서 3-6의 현행 todo terminal 결과와 시점이 충돌했다. | historical 범위를 3-1~3-5로 축소하고 exact 범위 assertion을 추가했다. |
+| P2T11-DOC-014 | HIGH | review 서두가 §7~§9를 최신 상태 owner로 선언하지만 §7은 P2-T6 historical snapshot이었다. | §7 historical·§8~§9 current로 owner 범위를 분리하고 회귀 assertion을 추가했다. |
+| P2T11-DOC-015 | HIGH | P2-T10 구현 commit과 closure commit의 서로 다른 성공 run을 commit 표지 없이 비교하면 동일 증거 충돌로 해석됐다. | 구현 `cefc60a`의 두 run과 closure `c60446c`의 두 run을 commit별로 명시했다. |
+| P2T11-DOC-016 | MEDIUM | resume가 P2-T10 구현 `cefc60a`를 `closure`로 표시해 실제 closure `c60446c`의 identity를 누락했다. | 구현·closure evidence를 별도 행으로 분리하고 두 commit·네 run identity를 회귀 assertion으로 고정했다. |
+| P2T11-DOC-017 | MEDIUM | resume의 `본 세션에 미진입한 안건`에 P2-T4·P2-T11 완료 이력이 섞여 section 의미와 완료 이력 owner를 중복했다. | 완료 두 행을 제거하고 미진입 목록을 실제 외부-trigger 후보만 남기며 부재 assertion을 추가했다. |
+| P2T11-TEST-018 | MEDIUM | DOC-016 회귀 검사가 두 commit만 확인해 네 GitHub run ID 변조를 탐지하지 못했다. | 구현·closure별 commit과 두 run을 각각 완전한 문장 assertion으로 고정했다. |
 
-네 결함은 같은 `test_post_migration_normative_surfaces_use_current_contract_only`에 RED를 먼저 확인한 뒤 문서를 수정했다. historical report·patch는 당시 증거이므로 수정하지 않았다.
+문서 결함 17건은 같은 `test_post_migration_normative_surfaces_use_current_contract_only`에 RED를 먼저 확인한 뒤 문서를 수정했고, 테스트 계약 결함 1건은 정확한 원격 identity assertion으로 보강했다. historical report·patch는 당시 증거이므로 수정하지 않았다.
 
 ## 결정적 검증 결과
 
@@ -73,14 +87,14 @@
 | generated parity | `python scripts/wiki_ingest.py materialize --check` → exit 0; actual replay 2회 모두 created 0·replaced 0·unchanged 11, input `d0b660...b85`, output `c76bec...e9f`; 관찰 tree digest 3회 동일 `41f406...eb42` |
 | repository static | `python scripts/lint.py --report jsonl`, `compileall`, Ruff `E9,F63,F7,F82`, `git diff --check` → exit 0 |
 | extractor clean snapshot | `git archive 1891e0c...` 격리본에서 `uv sync --locked`, Ruff, `pytest -m 'not network'`, `uv build` → 194 passed·build 성공; Python 3.12.13 wheel install과 `ytscript --help` 성공 |
-| remote gate | 두 main protection 모두 `strict=true`, `verify/app_id=15368`, `enforce_admins=true`; extractor `33600648908`·`33600652635`, cs-study P2-T10 `33625135719`·`33625140180` success |
+| remote gate | 두 main protection 모두 `strict=true`, `verify/app_id=15368`, `enforce_admins=true`; extractor `33600648908`·`33600652635`, P2-T10 구현 `cefc60a`의 push·PR `33624656646`·`33624661153`, P2-T10 closure `c60446c`의 push·PR `33625135719`·`33625140180`, P2-T11 commit `0075659`의 push `33631360562`·PR `33631364222` success |
 | Obsidian | Obsidian 1.13.7에서 active page의 frontmatter·두 source path·Definition·timestamp links 렌더링을 자동 관찰했다. Base 내용은 이번 diff에서 변경하지 않았고 P2-T6 open/save bytes 및 사용자 시각 확인 증거를 재사용한다. |
 
 ## 5계층 판정
 
 | 계층 | 상태 | 근거 |
 |---|---|---|
-| 1 명제 일관성 | PASS | P2T11-P1~P8 source→구현→테스트→금지 surface 매핑, 발견 문서 모순 4건 정정 |
+| 1 명제 일관성 | PASS | P2T11-P1~P8 source→구현→테스트→금지 surface 매핑, 문서 모순 17건·테스트 계약 1건 정정 |
 | 2 정적 분석 | PASS | checker·lint·Ruff·compile·diff·DAG·import inventory |
 | 3 단위(mock) | PASS | 정상·edge·예외·mutation을 포함한 전체 428 tests |
 | 4 mock 통합 | PASS | artifact→plan→page→materializer와 clean extractor 194 tests·wheel smoke |
@@ -89,11 +103,12 @@
 
 ## 교차 검증 상태
 
-- Claude full 4관점 2회에서 spec drift findings 0, grounding findings 0, requirements coverage findings 0을 받았다. logic 관점은 stale 단계 상태를 검출했고 네 차례 TDD 정정으로 연결했다.
-- 최종 문서·보고서 snapshot에서 Claude logic 2회는 fingerprint dedup 뒤 findings 0, Codex Spec은 P2T11-P1~P8 GAP 0/findings 0, Standards findings 0, Grounding citations 20/20·findings 0으로 수렴했다.
-- 최초 외부 실행 원본은 `$HOME/.claude/logs/agents/claude-agents.8iYfnn`, 중간 logic 재검증 원본은 `$HOME/.claude/logs/agents/claude-agents.XNSXAL`·`$HOME/.claude/logs/agents/claude-agents.4zgz4N`·`$HOME/.claude/logs/agents/claude-agents.mk6suX`, 최종 원본은 `$HOME/.claude/logs/agents/claude-agents.jkx4n1`에 보존된다.
+- Claude full 4관점 2회에서 spec drift findings 0, grounding findings 0, requirements coverage findings 0을 받았다. logic 관점과 종결 교차검증은 stale 단계·진입 read·snapshot 시점·canonical 분모·문서 역할·historical owner·remote evidence 식별·section membership 충돌과 identity test gap을 검출했고 문서 17건·테스트 1건 정정으로 연결했다.
+- 감사 commit `0075659` snapshot에서 Claude logic 2회는 fingerprint dedup 뒤 findings 0, Codex Spec은 P2T11-P1~P8 GAP 0/findings 0, Standards findings 0, Grounding citations 20/20·findings 0으로 수렴했다. 이후 closure delta는 같은 관점을 수정 뒤 재실행해 별도 종결 증거로 분리한다.
+- 문서 17건·테스트 1건 정정 뒤 고정 closure working tree에서 Claude logic repeat 2는 findings 0, Codex Spec은 P2T11-P1~P8 GAP 0/findings 0, Standards는 findings 0이었다. exact closure commit의 원격 CI와 Grounding 재검은 자기 commit payload 밖 종결 gate로 분리한다.
+- 최초 외부 실행 원본은 `$HOME/.claude/logs/agents/claude-agents.8iYfnn`, 중간 logic 재검증 원본은 `$HOME/.claude/logs/agents/claude-agents.XNSXAL`·`$HOME/.claude/logs/agents/claude-agents.4zgz4N`·`$HOME/.claude/logs/agents/claude-agents.mk6suX`·`$HOME/.claude/logs/agents/claude-agents.A7Vfuc`·`$HOME/.claude/logs/agents/claude-agents.xdzwnG`, `0075659` 최종 원본은 `$HOME/.claude/logs/agents/claude-agents.jkx4n1`, closure 최종 원본은 `$HOME/.claude/logs/agents/claude-agents.V6fBO5`에 보존된다.
 
-최종 Claude logic 원본 반환:
+Closure working tree 최종 Claude logic 원본 반환:
 
 {"agent":"logic-proposition-checker","findings":0,"scanned":5,"abstain":false}
 
@@ -102,7 +117,7 @@
 - scope: P2-T11 full vault·설계·코드·데이터·작업 상태·자동화 가능 5계층 최종 감사.
 - excluded: 사용자 소유 clipping 8 bundle/16 files의 semantic inspection·수정·stage·삭제·ignore(무결성 digest용 byte read만 포함), extractor 변경, 저장소에 존재하지 않는 UI·DB·HTTP API의 구현.
 - tests run: `uv run --with-requirements requirements-lint.txt python -m pytest -q` → 428 passed; full checker findings 0; materialize actual replay 2회 unchanged 11; lint·compile·Ruff·diff exit 0; extractor `1891e0c` clean archive에서 Ruff·194 tests·build·Python 3.12 wheel smoke 성공.
-- changed files: tracked=5개(`.claude/resume_prompt.md`, `docs/wiki-ingest-architecture.md`, `docs/wiki-ingest-review.md`, `tests/test_knowledge_check.py`, `todo.md`); untracked=본 보고서 1개와 사용자 소유 clipping 16개.
+- changed files: task 전체 tracked=6개(`.claude/resume_prompt.md`, `docs/wiki-ingest-architecture.md`, `docs/wiki-ingest-review.md`, `reports/P2-T11-verification.md`, `tests/test_knowledge_check.py`, `todo.md`); task 밖 untracked=사용자 소유 clipping 16개.
 - known gaps: none
 - observations: extractor의 현재 `feat/screen-extraction` worktree는 사용자 변경으로 dirty라 수정·검증 기준에서 제외했고, P2-T9의 clean commit `1891e0c`를 격리 검증했다. 첫 wheel smoke가 시스템 Python 3.9.6으로 실패한 뒤 package의 Python ≥3.12 계약에 맞춘 3.12.13 환경에서 성공했다. 삭제 없는 정책 때문에 `/tmp/p2t11-extractor.9rXH1Q`, `/tmp/p2t11-wheel.VRKdW3`, `/tmp/p2t11-wheel312.A47wzt`를 자동 삭제하지 않았다.
-- SoT sync: todo=P2-T11 in-progress; resume=next_task P2-T11; memory=감사 완료 전 변경 제외.
+- SoT sync: todo=P2-T11 completed; resume=열린 task 0·pipeline 완료로 갱신; memory=변경 제외.

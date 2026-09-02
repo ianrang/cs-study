@@ -591,9 +591,9 @@ finding은 `rule_id`, severity, path, line, subject_id, message, remediation을 
 | relation inverse duplication | outgoing-only | schema·graph checker와 candidate overlay를 구현하고 순서 7 candidate 검증을 완료 |
 | generated drift | regeneration diff | materializer exact 11-file parity·two-run digest 구현; 순서 10 required CI 연결 완료 |
 | semantic correctness | evidence review로 분리 | 사용자·review 필수 영역 |
-| requirement coverage | PRD FR/NFR 전체 surface 매핑 | 순서 1–11 live 통합과 P2-T7~P2-T10 검증 증거 반영; 순서 12 최종 감사 진행 중 |
+| requirement coverage | PRD FR/NFR 전체 surface 매핑 | 순서 1–12 live 통합과 P2-T7~P2-T11 검증 증거 반영 |
 
-설계 모델은 순환·양방향 canonical dependency를 만들지 않는다. 2026-09-02 target state 기준 순서 1–11을 반영했으며 live 적용 전의 no-write 검증·승인 상태는 payload 밖 P2-T7 검증 보고가 소유한다. 순서 12 P2-T11의 독립 감사·remote CI 전에는 전체 시스템 PASS를 주장하지 않는다.
+설계 모델은 순환·양방향 canonical dependency를 만들지 않는다. 2026-09-02 target state 기준 순서 1–12를 반영했으며 live 적용 전의 no-write 검증·승인 상태는 payload 밖 P2-T7 검증 보고가 소유한다. P2-T11 독립 감사 commit과 push·PR `verify` 성공으로 구현 순서의 완료 증거를 닫았다.
 
 ## 15. 변경 이력
 

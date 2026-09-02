@@ -1645,7 +1645,24 @@ def test_post_migration_normative_surfaces_use_current_contract_only():
     assert "knowledge.schema.json" in page_type
     assert "WIKI-INGEST-REMAINDER — 구현 순서 9–12" not in resume
     assert "P2-T7부터 P2-T11까지" not in resume
-    assert "WIKI-INGEST-REMAINDER — 검증 순서 12" in resume
+    assert "WIKI-INGEST-REMAINDER — 검증 순서 12" not in resume
+    assert "WIKI-INGEST-PIPELINE — 순서 1–12 완료" in resume
+    assert "다음 범위는 P2-T11의 순서 12 전체 최종 감사" not in resume
+    assert "우선 `todo.md`, `reports/P2-T9-verification.md`" not in resume
+    assert "구현 전 완료 기반과 잔여 구현 목록" not in resume
+    assert "P2-T1~P2-T11이 현재·후속 작업을 소유한다" not in resume
+    assert "PAGE-TYPE-MIGRATION" not in resume
+    assert "아래 3-1~3-6은 2026-07-12 handoff의 과거 변경 이력이다" not in resume
+    assert "아래 3-1~3-5는 2026-07-12 handoff의 과거 변경 이력이다" in resume
+    assert (
+        "감사 시작 snapshot에서 `git ls-files -z` 기준 tracked 713개였고 "
+        "`git ls-files --others --exclude-standard -z` 기준 untracked 17개"
+        in p2_t11_report
+    )
+    assert (
+        "현재 종결 snapshot은 tracked 714개·untracked clipping 16개다"
+        in p2_t11_report
+    )
     assert "순서 9–12는 각각의 설계 gate와 독립 commit 후보" not in resume
     assert "NFR-KP-015 exact historical evidence GAP" not in resume
     next_task_lines = [
@@ -1714,17 +1731,36 @@ def test_post_migration_normative_surfaces_use_current_contract_only():
     assert "project boundary AST test" in business_logic
     assert "순서 9: 해소 — 승인된 migration apply" not in review
     assert "순서 9: 해소 —" in review
-    assert "target state 기준 구현 순서 1–11이 반영됐다" in review
+    assert "target state 기준 구현 순서 1–12가 반영됐다" in review
     assert "다음 진입 gate: 순서 12" not in review
-    assert "현재 완료 gate: 순서 12" in review
+    assert "현재 완료 gate: 순서 12" not in review
+    assert "전체 시스템 판정: PASS" in review
     assert "| 독립 CI·required check | 해소 — 순서 10 |" in review
     assert "| 두 영상 재처리 | 해소 — 순서 11 |" in review
-    assert "| full vault review | 순서 12 — 진행 중 |" in review
+    assert "| full vault review | 해소 — 순서 12 |" in review
+    assert "| 계층 | P2-T6 관찰 결과 | 판정 |" in review
+    assert "75-page universe에서 collision group 0" not in review
+    assert "76-page universe에서 collision group 0" in review
+    assert "최신 구현·검증 상태는 §7–§9와 변경 이력이 소유한다" not in review
+    assert "§7은 P2-T6 historical snapshot이고 최신 구현·검증 상태는 §8–§9" in review
+    assert "P2-T10 구현 `cefc60a`" in p2_t11_report
+    assert "P2-T10 closure `c60446c`" in p2_t11_report
+    assert "closure: 구현 commit `cefc60a`" not in resume
+    assert (
+        "구현 evidence: commit `cefc60a`; origin push·PR `verify` run "
+        "`33624656646`, `33624661153` success" in resume
+    )
+    assert (
+        "closure evidence: commit `c60446c`; origin push·PR `verify` run "
+        "`33625135719`, `33625140180` success" in resume
+    )
+    assert "순서 1–6b persistent baseline은 P2-T4에서 final verification" not in resume
+    assert "P2-T11 최종 감사는 구현·검증·commit·CI까지 닫혔다" not in resume
     assert "순서 10–12는 실행되지 않았다" not in review
     assert "순서 10–12가 남아 전체 PASS 선언 불가" not in review
     assert "순서 10–12 GAP 유지" not in architecture
     assert "순서 10–12가 남아 있으므로" not in architecture
-    assert "순서 1–11 live 통합" in architecture
+    assert "순서 1–12 live 통합" in architecture
     assert "CI 순서:" not in architecture
     assert "검증 계층(실행 순서는 canonical CI profile이 소유):" in architecture
     assert "P2-T2 privacy 이행 뒤 현재 live wiki tree" not in review

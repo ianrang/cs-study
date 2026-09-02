@@ -4,7 +4,7 @@
 
 - 대상: `docs/wiki-ingest-{prd,architecture,business-logic,review}.md`, 두 저장소의 관련 코드·schema·wiki scaffold·tests·CI
 - 모드: 검증 기록. 설계 단계의 report-only 결과와 이후 별도 승인된 구현·apply·restore 실행 증거를 함께 기록함
-- 설계 시작 기준 시각: 2026-08-22. §2–§6의 수치·판정·외부 기준은 당시 historical design baseline이며 현재 구현 판정으로 재사용하지 않는다. 최신 구현·검증 상태는 §7–§9와 변경 이력이 소유한다.
+- 설계 시작 기준 시각: 2026-08-22. §2–§6의 수치·판정·외부 기준은 당시 historical design baseline이며 현재 구현 판정으로 재사용하지 않는다. §7은 P2-T6 historical snapshot이고 최신 구현·검증 상태는 §8–§9와 변경 이력이 소유한다.
 - 검색: hidden 포함 `rg --files -uu`; `.git`, declared virtualenv/cache/vendor만 제외
 - 정적 차원: ownership, import/document DAG, schema drift, ID/link/collection/relation, raw immutability, atomicity, idempotence, generated coverage
 - 동적 차원: 기존 unit/mock tests, current lint, fixture replay 가능 여부
@@ -123,7 +123,7 @@ requirements checker의 `surfaces`는 requirement ID cardinality가 아니라 �
 
 ## 7. P2-T6 historical 5계층 snapshot
 
-| 계층 | 현재 결과 | 판정 |
+| 계층 | P2-T6 관찰 결과 | 판정 |
 |---|---|---|
 | 1 명제 일관성 | FR/NFR/AC 51개 mapping과 10-module·16-edge 최종 core+contract DAG | ✅ P2-T6 generated·candidate 명제는 설계 logic repeat 2 findings 0; 구현 후 spec·standards 적대 검증은 별도 P2-T6 검증 보고가 소유 |
 | 2 정적 분석 | live lint HIGH 0·MEDIUM 0, canonical findings 0, generated drift 0, 최종 DAG 10 modules·16 edges, command-inclusive 12 modules·18 edges | ✅ cycle 0, 최대 dependency edge 3 |
@@ -143,13 +143,13 @@ P2-T6의 자동화 가능한 로컬 정적·단위·mock 통합·실데이터·O
 | structure-rule scope/depth·wiki path·log·backlink·provenance legacy surface | 해소 — 순서 9 target state |
 | 독립 CI·required check | 해소 — 순서 10 |
 | 두 영상 재처리 | 해소 — 순서 11 |
-| full vault review | 순서 12 — 진행 중 |
+| full vault review | 해소 — 순서 12 |
 
 | 위험 | 상태 | 차단 게이트 |
 |---|---|---|
 | current dirty branches와 migration 충돌 | 해소 | 전용 worktree·독립 commit·exact allowlist로 분리 |
 | post-apply validator·test lifecycle cutover | 해소 | terminal journal-bound candidate exclusion, unbound/nonterminal/digest-mismatch inclusion, target-state test lifecycle, exact-base legacy lint→canonical checker 단독 위임과 text exclusions 보고를 live target에서 재검증함 |
-| canonical basename collision | 확인 | 75-page universe에서 collision group 0 |
+| canonical basename collision | 확인 | 현재 76-page universe에서 collision group 0 |
 | generated/template reserved ID conflict | 해소 | `index` 1건은 승인 A에 따라 collection page ID `info-sec-engineer-practical-past-exams`로 이동했고 external reference cascade와 함께 적용됨 |
 | 75개 canonical page schema migration | 해소 | 75/75 resolution·exact-tree backup·full diff 승인 후 결합 transaction으로 적용하고 live target을 재검증함 |
 | JSON Schema validator dialect 지원 | 확인 | 2020-12·format contract tests 통과 |
@@ -165,16 +165,16 @@ P2-T6의 자동화 가능한 로컬 정적·단위·mock 통합·실데이터·O
 - 순서 9: 해소 — 2026-09-02 사용자가 NFR-KP-015 미회수 bytes를 historical limitation으로 종결하고 lifecycle single owner·호출 깊이 검증을 단순화하는 재설계와 P2-T8 원자 통합을 승인했다. 기능 payload·closure overlay·검증 증거는 하나의 commit 경계로 결속한다.
 - 순서 10: 해소 — 두 저장소의 독립 local hook·canonical CI와 main required `verify`를 실환경 검증했다.
 - 순서 11: 해소 — 지정된 두 YouTube source를 immutable artifact 2개와 검토된 active page 1개로 통합하고 독립 CI까지 완료했다.
-- 순서 12: 진행 중 — P2-T11이 full vault·설계·코드와 자동화 가능한 5계층 영역을 최종 감사한다.
+- 순서 12: 해소 — P2-T11에서 full vault·설계·코드, 두 저장소 독립 경계와 자동화 가능한 5계층 영역을 감사하고 독립 push·PR `verify`를 완료했다.
 
 ## 9. 최종 판정
 
-2026-09-02 target state 기준 구현 순서 1–11이 반영됐다. final core+contract DAG는 10 modules·16 edges·cycle 0·최대 dependency edge 3이며, project generator를 포함한 command-inclusive DAG는 12 modules·18 edges·cycle 0·최대 dependency edge 3으로 AST guard에 연결됐다. 순서 9는 legacy log·external backlink/provenance 선언과 전환 전용 migration runtime을 제거했고, 순서 10은 독립 CI, 순서 11은 두 source의 artifact→active page 운영 증거를 추가했다.
+2026-09-02 target state 기준 구현 순서 1–12가 반영됐다. final core+contract DAG는 10 modules·16 edges·cycle 0·최대 dependency edge 3이며, project generator를 포함한 command-inclusive DAG는 12 modules·18 edges·cycle 0·최대 dependency edge 3으로 AST guard에 연결됐다. 순서 9는 legacy log·external backlink/provenance 선언과 전환 전용 migration runtime을 제거했고, 순서 10은 독립 CI, 순서 11은 두 source의 artifact→active page 운영 증거, 순서 12는 full vault·설계·코드·5계층 최종 감사 증거를 추가했다.
 
 - 설계 문서 gate: 승인된 목표 DAG와 AST regression guard 정합
-- 현재 범위 판정: target state의 순서 1–11 runtime·generated·운영 증거를 검증 대상으로 고정
-- 전체 시스템 판정: 순서 12 P2-T11의 독립 commit·remote CI 완료 전이므로 최종 PASS 선언은 보류
-- 현재 완료 gate: 순서 12 full vault·설계·코드·5계층 최종 감사
+- 현재 범위 판정: target state의 순서 1–12 runtime·generated·운영·최종 감사 증거를 검증 대상으로 고정
+- 전체 시스템 판정: PASS — P2-T11 명제 8/8, local 전체 428 tests, full checker findings 0, 자동화 가능 5계층 미시도 0, 독립 push·PR `verify`, Spec·Standards·Grounding·logic findings 0
+- 완료 증거: `reports/P2-T11-verification.md`, commit `0075659`, run `33631360562`·`33631364222`
 
 75-page preservation resolution은 source/target 75/75, 이동 8, collection 1, `Members` 52 unique, unresolved 0으로 고정됐다. `Members` 순서는 legacy index의 Markdown link 52개와 exact-order로 대조했다. 활성 clipping manifest/payload는 75/75이며 P2-T2에서 개인 홈 prefix가 있던 8개 revision을 append-only로 추가하고 active manifest reference 16개와 resolution digest 8개를 새 digest로 전환했다. 당시 no-apply preview는 structural PASS, payload parity 75/75, Claims 0, Relations 0, Members 52를 확인했고 project question-pack의 전체 sourceRef 410/410이 target preview의 동일 line·excerpt를 가리켰다. 외부 참조 관찰값 676회는 active question-pack 329회, generated `practice-data.js` 329회, project docs 5회, `.claude/resume_prompt.md` 11회, architecture 1회와 append-only `log.md`의 historical 1회로 분해된다. historical 기록은 수정하지 않는다. 이전 actual apply에 사용한 cascade plan SHA-256은 `1004572e3966031923f0b1f168b15a7f1140e8b8de0c54622d75df4548105d28`였다. lifecycle remediation 후 승인·적용한 resolved plan은 `ef15632778e1490c281dd63224939ac20f56b1e99689e1ba694f00764dd0299c`, cascade plan은 `b0a8e366fb76fce6b7a3dddb3f5c266a9b3eece779df36ec2b728bd5e80f11b0`, full diff는 `636255b5ac3988c1c8ff0354844cd6376337055ce3641ced3a9b99c11336495a`, backup은 `3553e4ed6ef96a9069d46103e73f3e5335018f10862a6e78562e74540133d885`이며 두 번의 생성 결과가 byte-identical이었다. 당시 journal target wiki tree는 `23c8e82e54af6f6f5331435df64dcc0357601577e1f8282f45243eafec9e0d4a`였고, P2-T2 privacy 이행 직후 live wiki tree는 `ef5d0c42f08d1a5841a78633cb3e92adabc322e85eff8aeb5b87cf41bf0c6b21`였다. apply 시점의 external target 15/15 중 비문서 14개는 그대로이며, architecture는 승인된 후속 evidence 수정으로 SHA-256 `7377a1e206d0b405e1a0904be2bbf07dbcb5b551251fa23bae9c7ee9744c00f5`가 됐다. apply·restore·reapply journal과 journal-bound 세 candidate는 historical execution·recovery evidence로 보존한다.
 
