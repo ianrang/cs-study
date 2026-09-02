@@ -95,9 +95,9 @@
 - 진입 전 확인: 현재는 same-directory 링크와 `source_paths` 정합 때문에 보류한다.
 - 작업 범위: 실제 디렉터리 분리가 필요해지면 링크·frontmatter·인덱스 마이그레이션을 별도 작업으로 수행한다.
 
-### 2-6. WIKI-INGEST-REMAINDER — 구현 순서 10–12
+### 2-6. WIKI-INGEST-REMAINDER — 검증 순서 12
 - 근거: `docs/wiki-ingest-architecture.md` §13, `docs/wiki-ingest-review.md` §9.
-- 진입 전 확인: 순서 1–10 engine·canonical cutover·privacy/runtime guard·legacy 제거·독립 CI의 live 통합이 완료됐다.
+- 진입 전 확인: 순서 1–11 engine·canonical cutover·privacy/runtime guard·legacy 제거·독립 CI·두 source 운영 처리가 완료됐다.
 - 작업 범위: 현재 `next_task`는 P2-T11이다. full vault·설계·코드 교차검증과 자동화 가능한 5계층 검증을 전수 수행하고 최종 보고를 독립 commit으로 고정한다.
 
 ### 2-7. PAGE-TYPE-MIGRATION — 복합 dataset/lab 표준 섹션 정합화

@@ -135,18 +135,19 @@ P2-T6의 자동화 가능한 로컬 정적·단위·mock 통합·실데이터·O
 
 ## 8. 잔여 위험과 구현 게이트
 
-남은 spec drift와 미구현 surface는 다음 결정·구현 순서가 소유한다.
+설계 당시의 drift family와 현재 해소 상태는 다음과 같다.
 
 | Drift family | 구현 소유 순서 |
 |---|---:|
 | generated marker·navigation·template | 해소 — 순서 8 |
 | structure-rule scope/depth·wiki path·log·backlink·provenance legacy surface | 해소 — 순서 9 target state |
-| 독립 CI·required check | 10 |
-| 두 영상 재처리·full vault review | 11, 12 |
+| 독립 CI·required check | 해소 — 순서 10 |
+| 두 영상 재처리 | 해소 — 순서 11 |
+| full vault review | 순서 12 — 진행 중 |
 
 | 위험 | 상태 | 차단 게이트 |
 |---|---|---|
-| current dirty branches와 migration 충돌 | HIGH | 기준 commit·전용 worktree 사용자 승인 |
+| current dirty branches와 migration 충돌 | 해소 | 전용 worktree·독립 commit·exact allowlist로 분리 |
 | post-apply validator·test lifecycle cutover | 해소 | terminal journal-bound candidate exclusion, unbound/nonterminal/digest-mismatch inclusion, target-state test lifecycle, exact-base legacy lint→canonical checker 단독 위임과 text exclusions 보고를 live target에서 재검증함 |
 | canonical basename collision | 확인 | 75-page universe에서 collision group 0 |
 | generated/template reserved ID conflict | 해소 | `index` 1건은 승인 A에 따라 collection page ID `info-sec-engineer-practical-past-exams`로 이동했고 external reference cascade와 함께 적용됨 |
@@ -156,23 +157,26 @@ P2-T6의 자동화 가능한 로컬 정적·단위·mock 통합·실데이터·O
 | source digest 대상 bytes | 결정 | 기본은 exact bytes, clipping Markdown preservation은 privacy-normalized exact bytes로 고정 |
 | logical collection ordering | 사용자 의미 판단 | provider order와 별도 review |
 | claim 사실성·누락 | 자동 증명 불가 | claim-level grounding review |
-| remote required check | 미확인 | GitHub branch setting 확인 |
+| remote required check | 해소 | 순서 10에서 두 저장소의 `verify` required status와 GitHub Actions app ID를 실환경 확인 |
 
 단계별 진입 gate 상태:
 
 - 순서 8: 해소 — Obsidian Base 사용자 확인, 자동화 open·save byte 불변, All active 렌더링·formula 비노출 확인
 - 순서 9: 해소 — 2026-09-02 사용자가 NFR-KP-015 미회수 bytes를 historical limitation으로 종결하고 lifecycle single owner·호출 깊이 검증을 단순화하는 재설계와 P2-T8 원자 통합을 승인했다. 기능 payload·closure overlay·검증 증거는 하나의 commit 경계로 결속한다.
+- 순서 10: 해소 — 두 저장소의 독립 local hook·canonical CI와 main required `verify`를 실환경 검증했다.
+- 순서 11: 해소 — 지정된 두 YouTube source를 immutable artifact 2개와 검토된 active page 1개로 통합하고 독립 CI까지 완료했다.
+- 순서 12: 진행 중 — P2-T11이 full vault·설계·코드와 자동화 가능한 5계층 영역을 최종 감사한다.
 
 ## 9. 최종 판정
 
-2026-09-02 target state 기준 구현 순서 1–9가 반영됐다. final core+contract DAG는 10 modules·16 edges·cycle 0·최대 dependency edge 3이며, project generator를 포함한 command-inclusive DAG는 12 modules·18 edges·cycle 0·최대 dependency edge 3으로 AST guard에 연결됐다. 순서 9는 legacy log·external backlink/provenance 선언과 전환 전용 migration runtime을 제거하고 lifecycle single owner·generated 재기준화·호출 깊이 검증 단순화를 반영한다. 순서 10–12는 실행되지 않았다.
+2026-09-02 target state 기준 구현 순서 1–11이 반영됐다. final core+contract DAG는 10 modules·16 edges·cycle 0·최대 dependency edge 3이며, project generator를 포함한 command-inclusive DAG는 12 modules·18 edges·cycle 0·최대 dependency edge 3으로 AST guard에 연결됐다. 순서 9는 legacy log·external backlink/provenance 선언과 전환 전용 migration runtime을 제거했고, 순서 10은 독립 CI, 순서 11은 두 source의 artifact→active page 운영 증거를 추가했다.
 
 - 설계 문서 gate: 승인된 목표 DAG와 AST regression guard 정합
-- 현재 범위 판정: target state의 순서 1–9 runtime과 generated cutover를 검증 대상으로 고정
-- 전체 시스템 판정: 순서 10–12가 남아 전체 PASS 선언 불가
-- 다음 진입 gate: 순서 10 독립 CI·required check
+- 현재 범위 판정: target state의 순서 1–11 runtime·generated·운영 증거를 검증 대상으로 고정
+- 전체 시스템 판정: 순서 12 P2-T11의 독립 commit·remote CI 완료 전이므로 최종 PASS 선언은 보류
+- 현재 완료 gate: 순서 12 full vault·설계·코드·5계층 최종 감사
 
-75-page preservation resolution은 source/target 75/75, 이동 8, collection 1, `Members` 52 unique, unresolved 0으로 고정됐다. `Members` 순서는 legacy index의 Markdown link 52개와 exact-order로 대조했다. 활성 clipping manifest/payload는 75/75이며 P2-T2에서 개인 홈 prefix가 있던 8개 revision을 append-only로 추가하고 active manifest reference 16개와 resolution digest 8개를 새 digest로 전환했다. 당시 no-apply preview는 structural PASS, payload parity 75/75, Claims 0, Relations 0, Members 52를 확인했고 project question-pack의 전체 sourceRef 410/410이 target preview의 동일 line·excerpt를 가리켰다. 외부 참조 관찰값 676회는 active question-pack 329회, generated `practice-data.js` 329회, project docs 5회, `.claude/resume_prompt.md` 11회, architecture 1회와 append-only `log.md`의 historical 1회로 분해된다. historical 기록은 수정하지 않는다. 이전 actual apply에 사용한 cascade plan SHA-256은 `1004572e3966031923f0b1f168b15a7f1140e8b8de0c54622d75df4548105d28`였다. lifecycle remediation 후 승인·적용한 resolved plan은 `ef15632778e1490c281dd63224939ac20f56b1e99689e1ba694f00764dd0299c`, cascade plan은 `b0a8e366fb76fce6b7a3dddb3f5c266a9b3eece779df36ec2b728bd5e80f11b0`, full diff는 `636255b5ac3988c1c8ff0354844cd6376337055ce3641ced3a9b99c11336495a`, backup은 `3553e4ed6ef96a9069d46103e73f3e5335018f10862a6e78562e74540133d885`이며 두 번의 생성 결과가 byte-identical이었다. 당시 journal target wiki tree는 `23c8e82e54af6f6f5331435df64dcc0357601577e1f8282f45243eafec9e0d4a`였고, P2-T2 privacy 이행 뒤 현재 live wiki tree는 `ef5d0c42f08d1a5841a78633cb3e92adabc322e85eff8aeb5b87cf41bf0c6b21`이다. apply 시점의 external target 15/15 중 비문서 14개는 그대로이며, architecture는 승인된 후속 evidence 수정으로 SHA-256 `7377a1e206d0b405e1a0904be2bbf07dbcb5b551251fa23bae9c7ee9744c00f5`가 됐다. apply·restore·reapply journal과 journal-bound 세 candidate는 historical execution·recovery evidence로 보존한다.
+75-page preservation resolution은 source/target 75/75, 이동 8, collection 1, `Members` 52 unique, unresolved 0으로 고정됐다. `Members` 순서는 legacy index의 Markdown link 52개와 exact-order로 대조했다. 활성 clipping manifest/payload는 75/75이며 P2-T2에서 개인 홈 prefix가 있던 8개 revision을 append-only로 추가하고 active manifest reference 16개와 resolution digest 8개를 새 digest로 전환했다. 당시 no-apply preview는 structural PASS, payload parity 75/75, Claims 0, Relations 0, Members 52를 확인했고 project question-pack의 전체 sourceRef 410/410이 target preview의 동일 line·excerpt를 가리켰다. 외부 참조 관찰값 676회는 active question-pack 329회, generated `practice-data.js` 329회, project docs 5회, `.claude/resume_prompt.md` 11회, architecture 1회와 append-only `log.md`의 historical 1회로 분해된다. historical 기록은 수정하지 않는다. 이전 actual apply에 사용한 cascade plan SHA-256은 `1004572e3966031923f0b1f168b15a7f1140e8b8de0c54622d75df4548105d28`였다. lifecycle remediation 후 승인·적용한 resolved plan은 `ef15632778e1490c281dd63224939ac20f56b1e99689e1ba694f00764dd0299c`, cascade plan은 `b0a8e366fb76fce6b7a3dddb3f5c266a9b3eece779df36ec2b728bd5e80f11b0`, full diff는 `636255b5ac3988c1c8ff0354844cd6376337055ce3641ced3a9b99c11336495a`, backup은 `3553e4ed6ef96a9069d46103e73f3e5335018f10862a6e78562e74540133d885`이며 두 번의 생성 결과가 byte-identical이었다. 당시 journal target wiki tree는 `23c8e82e54af6f6f5331435df64dcc0357601577e1f8282f45243eafec9e0d4a`였고, P2-T2 privacy 이행 직후 live wiki tree는 `ef5d0c42f08d1a5841a78633cb3e92adabc322e85eff8aeb5b87cf41bf0c6b21`였다. apply 시점의 external target 15/15 중 비문서 14개는 그대로이며, architecture는 승인된 후속 evidence 수정으로 SHA-256 `7377a1e206d0b405e1a0904be2bbf07dbcb5b551251fa23bae9c7ee9744c00f5`가 됐다. apply·restore·reapply journal과 journal-bound 세 candidate는 historical execution·recovery evidence로 보존한다.
 
 ## 10. 변경 이력
 

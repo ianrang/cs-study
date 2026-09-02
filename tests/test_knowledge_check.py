@@ -1602,6 +1602,9 @@ def test_post_migration_normative_surfaces_use_current_contract_only():
     review = (ROOT / "docs" / "wiki-ingest-review.md").read_text(
         encoding="utf-8"
     )
+    p2_t11_report = (ROOT / "reports" / "P2-T11-verification.md").read_text(
+        encoding="utf-8"
+    )
     agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
     frontmatter = (ROOT / "_meta" / "frontmatter-spec.md").read_text(
         encoding="utf-8"
@@ -1642,21 +1645,31 @@ def test_post_migration_normative_surfaces_use_current_contract_only():
     assert "knowledge.schema.json" in page_type
     assert "WIKI-INGEST-REMAINDER — 구현 순서 9–12" not in resume
     assert "P2-T7부터 P2-T11까지" not in resume
-    assert "WIKI-INGEST-REMAINDER — 구현 순서 10–12" in resume
+    assert "WIKI-INGEST-REMAINDER — 검증 순서 12" in resume
     assert "순서 9–12는 각각의 설계 gate와 독립 commit 후보" not in resume
     assert "NFR-KP-015 exact historical evidence GAP" not in resume
     next_task_lines = [
         line for line in resume.splitlines() if line.startswith("- next_task: ")
     ]
-    assert len(next_task_lines) == 1
-    next_task = next_task_lines[0].removeprefix("- next_task: ")
     todo_states = {
         columns[1].strip(): columns[2].strip()
         for line in todo.splitlines()
         if line.startswith("| P")
         and len(columns := line.split("|")) >= 4
     }
-    assert todo_states[next_task] in {"[ ]", "[-]"}
+    open_tasks = {
+        task for task, state in todo_states.items() if state in {"[ ]", "[-]"}
+    }
+    assert len(next_task_lines) <= 1
+    if next_task_lines:
+        next_task = next_task_lines[0].removeprefix("- next_task: ")
+        assert next_task in open_tasks
+    else:
+        assert not open_tasks
+    p2_t11_state_name = {"[-]": "in-progress", "[x]": "completed"}[
+        todo_states["P2-T11"]
+    ]
+    assert f"todo=P2-T11 {p2_t11_state_name}" in p2_t11_report
     assert "P2-T9. 순서 10 독립 CI 연결" in resume
     assert "P2-T8 별도 승인" not in resume
     assert "| P2-T9 | [x] | [구현]" in todo and "| P2-T6 | extractor/current" in todo
@@ -1701,8 +1714,21 @@ def test_post_migration_normative_surfaces_use_current_contract_only():
     assert "project boundary AST test" in business_logic
     assert "순서 9: 해소 — 승인된 migration apply" not in review
     assert "순서 9: 해소 —" in review
-    assert "target state 기준 구현 순서 1–9가 반영됐다" in review
-    assert "다음 진입 gate: 순서 10" in review
+    assert "target state 기준 구현 순서 1–11이 반영됐다" in review
+    assert "다음 진입 gate: 순서 12" not in review
+    assert "현재 완료 gate: 순서 12" in review
+    assert "| 독립 CI·required check | 해소 — 순서 10 |" in review
+    assert "| 두 영상 재처리 | 해소 — 순서 11 |" in review
+    assert "| full vault review | 순서 12 — 진행 중 |" in review
+    assert "순서 10–12는 실행되지 않았다" not in review
+    assert "순서 10–12가 남아 전체 PASS 선언 불가" not in review
+    assert "순서 10–12 GAP 유지" not in architecture
+    assert "순서 10–12가 남아 있으므로" not in architecture
+    assert "순서 1–11 live 통합" in architecture
+    assert "CI 순서:" not in architecture
+    assert "검증 계층(실행 순서는 canonical CI profile이 소유):" in architecture
+    assert "P2-T2 privacy 이행 뒤 현재 live wiki tree" not in review
+    assert "P2-T2 privacy 이행 직후 live wiki tree" in review
     assert "## 7. P2-T6 historical 5계층 snapshot" in review
     assert "live target 270 passed" not in review
     assert "| Global migration safety |" not in business_logic

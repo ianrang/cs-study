@@ -433,7 +433,7 @@ materialize input digest는 exact schema bytes digest, exact domain registry byt
 | architecture | Python AST imports | 금지 edge·cycle·layer depth |
 | replay | fixture command twice | byte identity와 no-op semantics |
 
-CI 순서:
+검증 계층(실행 순서는 canonical CI profile이 소유):
 
 ```text
 static format/lint
@@ -589,11 +589,11 @@ finding은 `rule_id`, severity, path, line, subject_id, message, remediation을 
 | page apply atomicity | one-page temp+replace 또는 rename | shared lock 안 candidate 재검증, base bytes·mode 재검증, atomic leaf commit, post-commit rollback·indeterminate 분류를 구현하고 순서 7 회귀·교차검증을 완료 |
 | collection sequence | one Members table row order | exact base bytes에서 Members body만 교체하고 add/reorder의 최초 apply·replay delta를 구현·검증 |
 | relation inverse duplication | outgoing-only | schema·graph checker와 candidate overlay를 구현하고 순서 7 candidate 검증을 완료 |
-| generated drift | regeneration diff | materializer exact 11-file parity·two-run digest 구현; required CI는 순서 10 소유 |
+| generated drift | regeneration diff | materializer exact 11-file parity·two-run digest 구현; 순서 10 required CI 연결 완료 |
 | semantic correctness | evidence review로 분리 | 사용자·review 필수 영역 |
-| requirement coverage | PRD FR/NFR 전체 surface 매핑 | 순서 1–9 live 통합과 P2-T7/P2-T8 검증 증거 반영; 순서 10–12 GAP 유지 |
+| requirement coverage | PRD FR/NFR 전체 surface 매핑 | 순서 1–11 live 통합과 P2-T7~P2-T10 검증 증거 반영; 순서 12 최종 감사 진행 중 |
 
-설계 모델은 순환·양방향 canonical dependency를 만들지 않는다. 2026-09-02 target state 기준 순서 1–9를 반영했으며 live 적용 전의 no-write 검증·승인 상태는 payload 밖 P2-T7 검증 보고가 소유한다. 순서 10–12가 남아 있으므로 전체 시스템 PASS를 주장하지 않는다.
+설계 모델은 순환·양방향 canonical dependency를 만들지 않는다. 2026-09-02 target state 기준 순서 1–11을 반영했으며 live 적용 전의 no-write 검증·승인 상태는 payload 밖 P2-T7 검증 보고가 소유한다. 순서 12 P2-T11의 독립 감사·remote CI 전에는 전체 시스템 PASS를 주장하지 않는다.
 
 ## 15. 변경 이력
 
