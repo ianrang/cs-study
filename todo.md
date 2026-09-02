@@ -42,6 +42,6 @@ SoT: 로컬 `todo.md`
 | P2-T6 | [x] | [구현] | 순서 8 materializer를 구현하고 index·overview·template·Bases를 generated view로 전환한다 | P2-T5 | canonical pages·registry·schema | two-run tree hash·active coverage 100%와 독립 commit | verified: [[reports/P2-T6-verification]] |
 | P2-T7 | [x] | [검증] | 순서 9 legacy structure-rule scope·log/backlink/provenance·전환 runtime 제거를 no-write exact patch와 derived parity로 검증한다 | P2-T6 | legacy rules·log·index 선언·전환 runtime | exact patch SHA-256·target Git tree OID·repository query·derived parity report | verified: [[reports/P2-T7-verification]] |
 | P2-T8 | [x] | [운영] | P2-T7 별도 사용자 승인 후 검증된 순서 9 target tree를 Git commit 경계로 통합한다 | P2-T7 | 승인된 patch digest·base commit·target tree OID | 순서 9 독립 commit·post-integration 검증 | verified: [[reports/P2-T8-verification]] |
-| P2-T9 | [ ] | [구현] | 순서 10 local hook와 extractor·현재 저장소의 독립 CI를 연결한다 | P2-T6 | extractor/current repo CI 계약, required commands | 두 저장소 clean-checkout required commands 성공과 독립 commit | |
+| P2-T9 | [x] | [구현] | 순서 10 local hook와 extractor·현재 저장소의 독립 CI를 연결한다 | P2-T6 | extractor/current repo CI 계약, required commands | 두 저장소 clean-checkout required commands 성공과 독립 commit | verified: [[reports/P2-T9-verification]] |
 | P2-T10 | [ ] | [운영] | 순서 11 두 대상 YouTube source를 새 pipeline로 재처리한다 | P2-T8, P2-T9 | 두 URL·artifact·canonical pipeline | artifact→draft→통합 wiki evidence trace와 독립 commit | |
 | P2-T11 | [ ] | [검증] | 순서 12 full vault·설계·코드 교차검증과 자동화 가능한 5계층 검증을 모두 수행한다 | P2-T10 | 전체 vault·설계 명제·검증 도구 inventory | HIGH 0, 명제 coverage, 5계층 최종 보고 | |

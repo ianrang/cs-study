@@ -1,10 +1,10 @@
-# cs-study 다음 세션 진입 — P2-T9 순서 10 독립 CI 연결
+# cs-study 다음 세션 진입 — P2-T10 두 YouTube source 재처리
 
-> 작성: 2026-08-28
-> 직전 작업: P2-T8에서 검증된 순서 9 기능 payload와 작업 상태·검증 증거를 비순환 단일 commit 경계로 통합했다.
+> 작성: 2026-09-02
+> 직전 작업: P2-T9에서 두 저장소의 독립 local feedback·canonical CI와 main required `verify` merge authority를 구현·실환경 검증했다.
 > 작업 위치: 현재 cs-study linked worktree (`feat/knowledge-pipeline` 브랜치)
-> 다음 세션 첫 동작 의무: 본 파일, `todo.md`, `reports/P2-T8-verification.md`, `docs/wiki-ingest-architecture.md` §13을 읽고 P2-T9의 두 저장소 CI 연결 범위를 고정한다.
-> commit: P2-T8은 이 파일을 포함하는 독립 commit에서 완료되며 실제 SHA는 `git log -1 --oneline`으로 확인한다.
+> 다음 세션 첫 동작 의무: 본 파일, `todo.md`, `reports/P2-T9-verification.md`, `docs/wiki-ingest-architecture.md` §13을 읽고 P2-T10의 두 source 재처리 범위를 고정한다.
+> commit: P2-T9 구현은 extractor `74b3038`, `1891e0c`와 cs-study `381d3df`, `b6fe1b1`에 있으며 closure 문서의 실제 SHA는 `git log -1 --oneline`으로 확인한다.
 
 ---
 
@@ -16,13 +16,13 @@
 - P2-T4 final restage에서 staged ACMR 363개 index/worktree byte mismatch 0과 tracked unstaged 0을 확인했다.
 - active persistent snapshot의 Apple·Windows local-user-home 경로는 P2-T2에서 TDD로 제거·재생성·cascade 검증했다.
 - runtime evidence를 제외한 순서 1–6b snapshot은 P2-T4에서 전체 검증과 사용자 commit 승인을 마쳤다.
-- 순서 7은 P2-T5, 순서 8은 P2-T6에서 구현·검증했고 순서 9는 P2-T7 검증과 P2-T8 원자 통합을 마쳤다. 순서 10–12는 각각의 설계 gate와 독립 commit 후보를 유지한다.
+- 순서 7은 P2-T5, 순서 8은 P2-T6, 순서 9는 P2-T7·P2-T8, 순서 10은 P2-T9에서 구현·검증했다. 순서 11–12는 각각의 설계 gate와 독립 commit 후보를 유지한다.
 
 ---
 
 ## 2. 다음 진입 작업과 외부 trigger
 
-- next_task: P2-T9
+- next_task: P2-T10
 - focus_group: 지속 가능한 지식 파이프라인
 
 ### P2-T2. persistent 절대경로 비식별화
@@ -59,6 +59,11 @@
 - 증거: `reports/P2-T8-verification.md`, `reports/P2-T7-removal-plan.json`, exact patch SHA-256·pre-closure tree OID.
 - 경계: raw 16파일과 terminal evidence 6개 root는 보존·비추적 상태이며 순서 10–12는 변경하지 않았다.
 
+### P2-T9. 순서 10 독립 CI 연결
+- 완료: 두 저장소의 local hook과 repository-local `verify` workflow를 연결하고 canonical CI profile을 단일 설계 SoT로 고정했다.
+- 완료: extractor GitHub Actions push·PR run과 cs-study push run이 성공했고, 두 main branch가 실제 `verify` check와 GitHub Actions app ID `15368`을 required status로 강제한다.
+- 증거: `reports/P2-T9-verification.md`; extractor 194 passed·build 성공, cs-study 403 passed·full check findings 0·materialize/lint 성공.
+
 ### 2-1. OFFICIAL-PRIMARY-SOURCE-GATE — KCA 공식 원문 대조
 - 근거: 회차 파일 공통 note와 `subject-type-cross-verify-report.md`의 official PDF scope limit.
 - 진입 전 확인: 사용자 제공 편집본 PDF 4개는 해제·대조했지만 KCA 공식 원문은 확보하지 못했다.
@@ -86,8 +91,8 @@
 
 ### 2-6. WIKI-INGEST-REMAINDER — 구현 순서 10–12
 - 근거: `docs/wiki-ingest-architecture.md` §13, `docs/wiki-ingest-review.md` §9.
-- 진입 전 확인: 순서 1–9 engine·canonical cutover·privacy/runtime guard·legacy 제거의 live 통합이 완료됐다.
-- 작업 범위: 현재 `next_task`는 P2-T9이다. extractor와 현재 저장소의 독립 CI·required command만 연결하며 P2-T10은 P2-T9가 끝난 뒤 진입한다.
+- 진입 전 확인: 순서 1–10 engine·canonical cutover·privacy/runtime guard·legacy 제거·독립 CI의 live 통합이 완료됐다.
+- 작업 범위: 현재 `next_task`는 P2-T10이다. 두 대상 YouTube source를 새 pipeline로 재처리하고 artifact→draft→통합 wiki evidence trace를 독립 commit으로 고정한다.
 
 ### 2-7. PAGE-TYPE-MIGRATION — 복합 dataset/lab 표준 섹션 정합화
 - 근거: `_meta/page-type-spec.md`의 승격 content 표준 섹션과 현재 복합 dataset/lab 89개 문서 구조가 다르다.
@@ -188,11 +193,18 @@
 - 사용자 소유 raw untracked 16개는 수정·stage·삭제·ignore하지 않았고 구현 전 지문과 같다.
 - P2-T6 독립 commit `e4e2d5b035401fe74b0f69721f4038a4e2bff2c8`로 확정됐다.
 
+### 3-8. 2026-09-02 P2-T9 독립 CI
+
+- canonical CI profile은 `docs/wiki-ingest-architecture.md` §10이 단독 소유하고 BR-CHK-011이 참조한다.
+- extractor 194개와 cs-study 403개 전체 suite, full check·materialize·lint, 실제 GitHub Actions 3건을 실행했다.
+- 두 main protection은 `strict=true`, `verify/app_id=15368`, `enforce_admins=true`로 API 재조회가 일치한다.
+- 1~4계층과 자동화 가능한 5계층 영역을 모두 시도했고 P2-T9 사용자 필수 영역은 없다.
+
 ---
 
 ## 4. 진입 전 필수 read
 
-우선 `todo.md`, `reports/P2-T8-verification.md`, `docs/wiki-ingest-architecture.md` §13, `docs/wiki-ingest-review.md` §9를 읽는다. 아래 표는 정보보안 학습 문서 작업을 재개할 때의 보존된 목록이다.
+우선 `todo.md`, `reports/P2-T9-verification.md`, `docs/wiki-ingest-architecture.md` §13, `docs/wiki-ingest-review.md` §9를 읽는다. 아래 표는 정보보안 학습 문서 작업을 재개할 때의 보존된 목록이다.
 
 | 우선순위 | 파일 | 역할 |
 |---:|---|---|
@@ -271,4 +283,4 @@
 - 보조 원천 raw/source 선별 패칭 여부 결정.
 - 문서 물리 디렉터리 분리가 필요해질 경우 별도 마이그레이션 수행.
 - 순서 1–6b persistent baseline은 P2-T4에서 final verification과 별도 commit 승인을 마쳤다.
-- `scripts/wiki_ingest.py` 기반 순서 1–8과 순서 9 legacy·전환 runtime 제거의 live 통합은 구현·검증했다. 다음 범위는 P2-T9의 순서 10 독립 CI 연결이다.
+- `scripts/wiki_ingest.py` 기반 순서 1–8, 순서 9 legacy·전환 runtime 제거, 순서 10 독립 CI의 live 통합은 구현·검증했다. 다음 범위는 P2-T10의 순서 11 두 source 재처리다.
