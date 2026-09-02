@@ -6,14 +6,20 @@ import re
 import sys
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
+import knowledge.schema as schema_module  # noqa: E402
 from knowledge.schema import (  # noqa: E402
     CANONICAL_ROOT_EXCLUSIONS,
     SCHEMA_PATH,
     KnowledgeSchemaError,
+    canonical_document_paths,
     domain_registry,
+    load_taxonomy,
+    page_types,
     parse_markdown,
     schema_digest,
     table_contract,
@@ -35,6 +41,50 @@ TRACEABILITY_HEADER = (
     "| PRD ID | Architecture surface | Logic surface |\n"
     "|---|---|---|\n"
 )
+
+
+def test_canonical_document_paths_fails_closed_when_walk_reports_error(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    def failed_walk(root: Path, *, followlinks: bool, onerror):
+        assert root == tmp_path.absolute()
+        assert followlinks is False
+        onerror(OSError("blocked traversal"))
+        yield from ()
+
+    monkeypatch.setattr(schema_module.os, "walk", failed_walk)
+
+    with pytest.raises(KnowledgeSchemaError, match="traversal unavailable"):
+        canonical_document_paths(tmp_path)
+
+
+@pytest.mark.parametrize("entry_kind", ["directory", "file"])
+def test_canonical_document_paths_wraps_entry_lstat_errors(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, entry_kind: str
+):
+    target = tmp_path / ("blocked" if entry_kind == "directory" else "blocked.md")
+    if entry_kind == "directory":
+        target.mkdir()
+    else:
+        target.write_text("# blocked\n", encoding="utf-8")
+    original_lstat = Path.lstat
+
+    def failed_lstat(path: Path):
+        if path == target:
+            raise OSError("blocked entry")
+        return original_lstat(path)
+
+    monkeypatch.setattr(Path, "lstat", failed_lstat)
+
+    with pytest.raises(KnowledgeSchemaError, match="entry unavailable"):
+        canonical_document_paths(tmp_path)
+
+
+def test_canonical_document_paths_rejects_markdown_named_directory(tmp_path: Path):
+    (tmp_path / "page.md").mkdir()
+
+    with pytest.raises(KnowledgeSchemaError, match="Markdown entry must be"):
+        canonical_document_paths(tmp_path)
 
 
 def _requirement_traceability_errors(
@@ -106,7 +156,7 @@ def test_schema_metadata_contract_has_one_validated_owner():
     assert list(registry) == list(sorted(registry))
     assert registry["software-engineering"]["status"] == "active"
     assert schema_digest(ROOT) == hashlib.sha256(SCHEMA_PATH.read_bytes()).hexdigest()
-    assert CANONICAL_ROOT_EXCLUSIONS == {"index.md", "overview.md", "log.md"}
+    assert CANONICAL_ROOT_EXCLUSIONS == {"index.md", "overview.md"}
     assert table_contract("Claims") == [
         "id",
         "primary",
@@ -117,6 +167,105 @@ def test_schema_metadata_contract_has_one_validated_owner():
     ]
     assert table_contract("Relations") == ["type", "target", "notes"]
     assert table_contract("Members") == ["member", "role", "rationale"]
+
+
+def test_lifecycle_paths_share_one_schema_definition():
+    roots = schema_module.lifecycle_roots(ROOT)
+
+    assert roots == ("staging", "domains", "collections", "archive")
+    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    lifecycle_path = schema["$defs"]["LifecyclePath"]
+    path_properties = schema["$defs"]["PageWrite"]["properties"]
+    assert path_properties["source_path"] == {
+        "anyOf": [
+            {"$ref": "#/$defs/LifecyclePath"},
+            {"type": "null"},
+        ]
+    }
+    assert path_properties["target_path"] == {"$ref": "#/$defs/LifecyclePath"}
+    assert lifecycle_path["type"] == "string"
+    assert lifecycle_path["pattern"].startswith("^(?:" + "|".join(roots) + ")/")
+    schema_text = SCHEMA_PATH.read_text(encoding="utf-8")
+    assert schema_text.count(lifecycle_path["pattern"].replace("\\", "\\\\")) == 1
+    duplicate_literal = '{"staging", "domains", "collections", "archive"}'
+    assert duplicate_literal not in (ROOT / "scripts" / "knowledge" / "check.py").read_text(
+        encoding="utf-8"
+    )
+    assert duplicate_literal not in (
+        ROOT / "scripts" / "knowledge" / "documents.py"
+    ).read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize(
+    "invalid_prefix",
+    ["", "staging|staging", "Staging|domains"],
+)
+def test_lifecycle_roots_reject_invalid_source_pattern_roots(
+    tmp_path: Path, invalid_prefix: str
+):
+    meta = tmp_path / "_meta"
+    meta.mkdir()
+    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    lifecycle_path = schema["$defs"]["LifecyclePath"]
+    lifecycle_path["pattern"] = re.sub(
+        r"^\^\(\?:[^)]*\)", f"^(?:{invalid_prefix})", lifecycle_path["pattern"]
+    )
+    (meta / "knowledge.schema.json").write_text(
+        json.dumps(schema), encoding="utf-8"
+    )
+
+    with pytest.raises(KnowledgeSchemaError, match="LifecycleRoot path pattern"):
+        schema_module.lifecycle_roots(tmp_path)
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "missing",
+        "properties-list",
+        "properties-null",
+        "properties-scalar",
+        "lifecycle-list",
+        "lifecycle-null",
+        "lifecycle-scalar",
+        "source-ref-drift",
+        "target-ref-drift",
+    ],
+)
+def test_lifecycle_roots_reject_missing_or_drifted_schema_reference(
+    tmp_path: Path, mutation: str
+):
+    meta = tmp_path / "_meta"
+    meta.mkdir()
+    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    if mutation == "missing":
+        del schema["$defs"]["LifecyclePath"]
+    elif mutation.startswith("properties-"):
+        schema["$defs"]["PageWrite"]["properties"] = {
+            "properties-list": [],
+            "properties-null": None,
+            "properties-scalar": 1,
+        }[mutation]
+    elif mutation.startswith("lifecycle-"):
+        schema["$defs"]["LifecyclePath"] = {
+            "lifecycle-list": [],
+            "lifecycle-null": None,
+            "lifecycle-scalar": 1,
+        }[mutation]
+    elif mutation == "source-ref-drift":
+        schema["$defs"]["PageWrite"]["properties"]["source_path"] = {
+            "type": ["string", "null"]
+        }
+    else:
+        schema["$defs"]["PageWrite"]["properties"]["target_path"] = {
+            "type": "string"
+        }
+    (meta / "knowledge.schema.json").write_text(
+        json.dumps(schema), encoding="utf-8"
+    )
+
+    with pytest.raises(KnowledgeSchemaError, match="LifecycleRoot"):
+        schema_module.lifecycle_roots(tmp_path)
 
 
 def test_domain_registry_rejects_duplicate_and_non_string_keys(tmp_path: Path):
@@ -140,6 +289,79 @@ def test_domain_registry_rejects_duplicate_and_non_string_keys(tmp_path: Path):
             raise AssertionError("invalid domain registry accepted")
 
 
+def test_taxonomy_rejects_duplicate_canonical_and_alias_collisions(tmp_path: Path):
+    meta = tmp_path / "_meta"
+    meta.mkdir()
+    (meta / "knowledge.schema.json").write_bytes(SCHEMA_PATH.read_bytes())
+    invalid_documents = (
+        "## Tag 목록\n\n- `architecture`\n- `architecture`\n"
+        "\n## Entity 목록\n\n- `entity`\n",
+        "## Tag 목록\n\n- `architecture` (alias: `legacy`)\n"
+        "- `legacy`\n\n## Entity 목록\n\n- `entity`\n",
+        "## Tag 목록\n\n- `architecture` (alias: `shared`)\n"
+        "- `design` (alias: `shared`)\n\n## Entity 목록\n\n- `entity`\n",
+        "## Tag 목록\n\n- `architecture` (alias: `legacy`, `legacy`)\n"
+        "\n## Entity 목록\n\n- `entity`\n",
+        "## Tag 목록\n\n- `architecture` (alias: `legacy`)\n"
+        "- `architecture` (alias: `legacy`)\n\n## Entity 목록\n\n- `entity`\n",
+    )
+    for document in invalid_documents:
+        (meta / "taxonomy.md").write_text(document, encoding="utf-8")
+        try:
+            load_taxonomy(tmp_path)
+        except KnowledgeSchemaError:
+            pass
+        else:
+            raise AssertionError("ambiguous taxonomy accepted")
+
+
+def test_taxonomy_rejects_dotted_entity_canonical(tmp_path: Path):
+    meta = tmp_path / "_meta"
+    meta.mkdir()
+    (meta / "knowledge.schema.json").write_bytes(SCHEMA_PATH.read_bytes())
+    (meta / "taxonomy.md").write_text(
+        "## Tag 목록\n\n- `architecture`\n\n"
+        "## Entity 목록\n\n- `qwen-2.5` (alias: `qwen-2.0`)\n",
+        encoding="utf-8",
+    )
+    try:
+        load_taxonomy(tmp_path)
+    except KnowledgeSchemaError as exc:
+        assert "entity canonical" in str(exc)
+    else:
+        raise AssertionError("dotted entity canonical accepted")
+
+
+def test_taxonomy_entity_canonical_pattern_is_owned_by_schema(tmp_path: Path):
+    meta = tmp_path / "_meta"
+    meta.mkdir()
+    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    schema["$defs"]["DocumentInstance"]["properties"]["id"]["pattern"] = (
+        r"^[a-z0-9]+(?:[.-][a-z0-9]+)*$"
+    )
+    (meta / "knowledge.schema.json").write_text(
+        json.dumps(schema), encoding="utf-8"
+    )
+    (meta / "taxonomy.md").write_text(
+        "## Tag 목록\n\n- `architecture`\n\n"
+        "## Entity 목록\n\n- `qwen-2.5`\n",
+        encoding="utf-8",
+    )
+
+    _, _, entities, _ = load_taxonomy(tmp_path)
+
+    assert entities == {"qwen-2.5"}
+
+
+def test_repository_taxonomy_uses_kebab_case_entity_canonical():
+    _, _, entities, aliases = load_taxonomy(ROOT)
+
+    assert "qwen-2-5" in entities
+    assert "qwen-2.5" not in entities
+    assert aliases["qwen-2.5"] == "qwen-2-5"
+    assert aliases["qwen-2.0"] == "qwen-2-5"
+
+
 def test_parser_produces_deterministic_document_instance():
     path = FIXTURES / "valid-concept.md"
     first = parse_markdown(path)
@@ -148,6 +370,64 @@ def test_parser_produces_deterministic_document_instance():
     assert first["id"] == "valid-concept"
     assert first["claims"][0]["primary"] is True
     assert first["relations"][0]["target"] == "fixture-parent"
+
+
+def _parse_links_with_fence(opening: str, body: list[str]) -> list[str]:
+    path = FIXTURES / "valid-concept.md"
+    source = path.read_text(encoding="utf-8").replace(
+        "Definition body.",
+        "\n".join(("Definition body.", opening, *body)),
+        1,
+    )
+    return parse_markdown(path, source)["links"]
+
+
+@pytest.mark.parametrize(
+    ("opening", "closing"),
+    (
+        ("```python", "```"),
+        ("   ```python", "   ````"),
+        ("~~~ language", "~~~~"),
+    ),
+)
+def test_parser_excludes_wikilinks_inside_commonmark_fences(
+    opening: str, closing: str
+):
+    links = _parse_links_with_fence(opening, ["[[fenced-target]]", closing])
+
+    assert "fenced-target" not in links
+
+
+@pytest.mark.parametrize(
+    "opening",
+    (
+        "    ```python",
+        "``` invalid`info",
+    ),
+)
+def test_parser_does_not_treat_invalid_commonmark_openers_as_fences(opening: str):
+    path = FIXTURES / "valid-concept.md"
+    source = path.read_text(encoding="utf-8") + f"\n{opening}\n[[visible-target]]\n"
+    links = parse_markdown(path, source)["links"]
+
+    assert "visible-target" in links
+
+
+@pytest.mark.parametrize("closing", ("```", "~~~~"))
+def test_parser_requires_same_marker_and_sufficient_closing_length(closing: str):
+    path = FIXTURES / "valid-concept.md"
+    source = path.read_text(encoding="utf-8") + "\n" + "\n".join(
+        (
+            "````python",
+            "[[first-fenced-target]]",
+            closing,
+            "[[second-fenced-target]]",
+        )
+    )
+    links = parse_markdown(path, source)["links"]
+
+    assert "first-fenced-target" not in links
+    assert "second-fenced-target" not in links
 
 
 def test_collection_member_row_order_is_preserved():
@@ -189,6 +469,93 @@ def test_unknown_frontmatter_property_is_rejected():
         assert "Additional properties" in str(exc)
     else:
         raise AssertionError("unknown property accepted")
+
+
+def _page_type_literal_owners(root: Path, expected: set[str]) -> list[str]:
+    import ast
+
+    duplicate_owners = []
+    for path in sorted(root.rglob("*.py")):
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        owned_values: set[str] = set()
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.Assign, ast.AnnAssign)):
+                value = node.value
+            elif isinstance(node, ast.ClassDef) and (
+                node.name == "PageType"
+                or any(
+                    (
+                        isinstance(base, ast.Name)
+                        and base.id in {"Enum", "StrEnum"}
+                    )
+                    or (
+                        isinstance(base, ast.Attribute)
+                        and base.attr in {"Enum", "StrEnum"}
+                    )
+                    for base in node.bases
+                )
+            ):
+                value = node
+            else:
+                continue
+            if value is None:
+                continue
+            owned_values.update(
+                child.value
+                for child in ast.walk(value)
+                if isinstance(child, ast.Constant)
+                and isinstance(child.value, str)
+                and child.value in expected
+            )
+        if owned_values == expected:
+            duplicate_owners.append(path.relative_to(root).as_posix())
+    return duplicate_owners
+
+
+def test_page_type_enum_has_no_second_python_owner():
+    duplicate_owners = _page_type_literal_owners(
+        ROOT / "scripts", set(page_types(ROOT))
+    )
+
+    assert duplicate_owners == []
+
+
+@pytest.mark.parametrize(
+    "source",
+    (
+        "PAGE_TYPES = ['concept', 'entity', 'comparison', 'benchmark', "
+        "'dataset', 'method', 'source-summary', 'collection']\n",
+        "PAGE_TYPES = {'concept': 1, 'entity': 2, 'comparison': 3, "
+        "'benchmark': 4, 'dataset': 5, 'method': 6, "
+        "'source-summary': 7, 'collection': 8}\n",
+        "from enum import Enum\nclass PageType(Enum):\n"
+        "    CONCEPT = 'concept'\n    ENTITY = 'entity'\n"
+        "    COMPARISON = 'comparison'\n    BENCHMARK = 'benchmark'\n"
+        "    DATASET = 'dataset'\n    METHOD = 'method'\n"
+        "    SOURCE_SUMMARY = 'source-summary'\n    COLLECTION = 'collection'\n",
+        "import enum\nclass PageType(enum.Enum):\n"
+        "    CONCEPT = 'concept'\n    ENTITY = 'entity'\n"
+        "    COMPARISON = 'comparison'\n    BENCHMARK = 'benchmark'\n"
+        "    DATASET = 'dataset'\n    METHOD = 'method'\n"
+        "    SOURCE_SUMMARY = 'source-summary'\n    COLLECTION = 'collection'\n",
+        "from enum import StrEnum\nclass PageType(StrEnum):\n"
+        "    CONCEPT = 'concept'\n    ENTITY = 'entity'\n"
+        "    COMPARISON = 'comparison'\n    BENCHMARK = 'benchmark'\n"
+        "    DATASET = 'dataset'\n    METHOD = 'method'\n"
+        "    SOURCE_SUMMARY = 'source-summary'\n    COLLECTION = 'collection'\n",
+        "CONCEPT = 'concept'\nENTITY = 'entity'\nCOMPARISON = 'comparison'\n"
+        "BENCHMARK = 'benchmark'\nDATASET = 'dataset'\nMETHOD = 'method'\n"
+        "SOURCE_SUMMARY = 'source-summary'\nCOLLECTION = 'collection'\n",
+    ),
+)
+def test_page_type_owner_guard_rejects_literal_container_and_enum(
+    tmp_path: Path, source: str
+):
+    (tmp_path / "duplicate.py").write_text(source, encoding="utf-8")
+
+    owners = _page_type_literal_owners(tmp_path, set(page_types(ROOT)))
+
+    assert owners == ["duplicate.py"]
 
 
 def test_duplicate_yaml_property_is_rejected():
@@ -648,7 +1015,7 @@ def test_requirement_traceability_rejects_blank_architecture_mapping_cells():
         )
 
 
-def test_migration_preservation_requirement_has_exact_owners():
+def test_retired_migration_preservation_requirement_has_exact_evidence_owners():
     manifest = json.loads(
         (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
     )
@@ -659,13 +1026,14 @@ def test_migration_preservation_requirement_has_exact_owners():
         "id": "NFR-KP-015",
         "steps": [6, 9],
         "surfaces": [
-            "_meta/knowledge-migration-plan.schema.json",
-            "_meta/knowledge-migration-resolution.schema.json",
-            "scripts/wiki_ingest.py",
-            "scripts/knowledge/migration.py",
-            "scripts/knowledge/fs.py",
+            ".gitignore",
+            "docs/wiki-ingest-architecture.md",
         ],
-        "verification": ["tests/test_migration_plan.py"],
+        "verification": [
+            "reports/P2-T4-verification.md",
+            "reports/P2-T7-verification.md",
+            "tests/test_project_boundaries.py",
+        ],
     }
 
 

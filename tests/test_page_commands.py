@@ -52,6 +52,9 @@ def _setup_repo(tmp_path: Path) -> tuple[Path, Path, str]:
     (repo / "_meta" / "knowledge.schema.json").write_bytes(
         (ROOT / "_meta" / "knowledge.schema.json").read_bytes()
     )
+    (repo / "_meta" / "taxonomy.md").write_bytes(
+        (ROOT / "_meta" / "taxonomy.md").read_bytes()
+    )
     (repo / "_meta" / "domains.yaml").write_text(
         "version: 1\ndomains:\n  software-engineering:\n"
         "    status: active\n    label: Software Engineering\n"
@@ -252,6 +255,79 @@ def test_synthesize_validates_against_requested_repository_schema(tmp_path: Path
             source_paths=[manifest],
             page_id="page-command-contract",
             now=NOW,
+            repo_root=repo,
+            knowledge_root=knowledge_root,
+        )
+
+
+def test_synthesize_uses_requested_repository_document_schema(tmp_path: Path):
+    repo, knowledge_root, manifest = _setup_repo(tmp_path)
+    schema_path = repo / "_meta" / "knowledge.schema.json"
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    schema["$defs"]["Properties"]["required"].append("repo_only_field")
+    schema_path.write_text(json.dumps(schema), encoding="utf-8")
+    semantic_path = repo / "semantic-plan.json"
+    semantic_path.write_text(json.dumps(_semantic_plan(manifest)), encoding="utf-8")
+
+    with pytest.raises(PagePlanError, match="repo_only_field"):
+        build_synthesize_plan(
+            semantic_plan_path=semantic_path,
+            source_paths=[manifest],
+            page_id="page-command-contract",
+            now=NOW,
+            repo_root=repo,
+            knowledge_root=knowledge_root,
+        )
+
+
+def test_synthesize_uses_requested_repository_section_contract(tmp_path: Path):
+    repo, knowledge_root, manifest = _setup_repo(tmp_path)
+    schema_path = repo / "_meta" / "knowledge.schema.json"
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    for condition in schema["$defs"]["DocumentInstance"]["allOf"]:
+        page_type = condition["if"]["properties"]["properties"]["properties"][
+            "page_type"
+        ].get("const")
+        if page_type == "concept":
+            condition["then"]["properties"]["ordered_sections"]["const"][0] = (
+                "Repository Definition"
+            )
+            break
+    schema_path.write_text(json.dumps(schema), encoding="utf-8")
+    semantic_path = repo / "semantic-plan.json"
+    semantic_path.write_text(json.dumps(_semantic_plan(manifest)), encoding="utf-8")
+
+    with pytest.raises(PagePlanError, match="semantic sections"):
+        build_synthesize_plan(
+            semantic_plan_path=semantic_path,
+            source_paths=[manifest],
+            page_id="page-command-contract",
+            now=NOW,
+            repo_root=repo,
+            knowledge_root=knowledge_root,
+        )
+
+
+def test_collection_plan_uses_requested_repository_document_schema(tmp_path: Path):
+    repo, knowledge_root, manifest = _setup_repo(tmp_path)
+    collection = _write_existing_page(
+        knowledge_root,
+        "collections/valid-collection.md",
+        manifest,
+        collection=True,
+    )
+    schema_path = repo / "_meta" / "knowledge.schema.json"
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    schema["$defs"]["Properties"]["required"].append("repo_only_field")
+    schema_path.write_text(json.dumps(schema), encoding="utf-8")
+
+    with pytest.raises(PagePlanError, match="repo_only_field"):
+        build_collection_add_member_plan(
+            collection,
+            "second-concept",
+            before=None,
+            after="valid-concept",
+            order_by_id=False,
             repo_root=repo,
             knowledge_root=knowledge_root,
         )

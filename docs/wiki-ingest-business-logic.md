@@ -27,7 +27,7 @@ staging -> active -> archive
 
 Claim 상태는 `claimed`, `corroborated`, `verified`, `rejected`다. exact enum owner는 `_meta/knowledge.schema.json`이다.
 
-## 2. 불변 원문과 provenance 규칙
+## 2. 불변 원문과 source evidence 규칙
 
 | ID | IF | THEN | 예외 |
 |---|---|---|---|
@@ -93,12 +93,12 @@ BR-LIFE-003·BR-LIFE-004는 archive·restore의 목표 상태 규칙이다. 두 
 | BR-APPLY-008 | candidate page operation을 apply하면 | write 전에 in-memory overlay full check를 통과해야 한다 | checker repair·검증 후 수정 금지 |
 | BR-APPLY-009 | replace를 commit하면 | sibling temp에 target bytes를 쓰고 검증·fsync한 뒤 atomic replace한다 | delete+create gap 금지 |
 | BR-APPLY-010 | create 또는 move를 commit하면 | target no-replace primitive를 사용하고 move는 source bytes와 ID를 보존한다 | competing target overwrite 금지 |
-| BR-APPLY-011 | ordinary apply를 실행하면 | `fs.py`의 non-blocking repository-root directory descriptor lock을 migration apply/restore/recover와 공유하고 invoked command·exact plan operation·operation input digest, candidate check 직후 tree·source bytes·mode를 재검증한다. commit·post-tree 실패 시 planned target 상태로 관찰된 own leaf만 이전 상태로 rollback한다 | 관찰된 외부 same-leaf bytes overwrite, lock 획득 실패 후 write, rollback conflict/failure를 단순 stale로 축소 금지; 관찰과 syscall 사이 non-cooperative race는 보장 범위 밖 |
+| BR-APPLY-011 | ordinary apply를 실행하면 | `fs.py`의 non-blocking repository-root directory descriptor lock을 materializer apply와 공유하고 invoked command·exact plan operation·operation input digest, candidate check 직후 tree·source bytes·mode를 재검증한다. commit·post-tree 실패 시 planned target 상태로 관찰된 own leaf만 이전 상태로 rollback한다 | 관찰된 외부 same-leaf bytes overwrite, lock 획득 실패 후 write, rollback conflict/failure를 단순 stale로 축소 금지; 관찰과 syscall 사이 non-cooperative race는 보장 범위 밖 |
 | BR-APPLY-012 | Markdown leaf를 create·replace·move하면 | create mode는 `0644`, replace·move mode는 source mode를 보존한다 | 기존 vault의 mode를 일괄 정규화하지 않는다 |
 | BR-APPLY-013 | namespace commit 뒤 process가 종료되면 | atomic leaf는 base 또는 target exact state이며 다음 confirmed plan replay가 상태를 재판별한다 | partial content·임의 자동 overwrite 금지 |
 | BR-MOVE-001 | page를 이동하면 | ID와 lifecycle root를 보존하고 target collision을 사전 검사한다 | staging→active·active→archive·archive→staging lifecycle 전이를 move로 우회하거나 inbound backlink를 수동 수정 금지 |
 
-전역 schema migration은 BR-APPLY-004의 일반 page command가 아니라 다음 일회성 전환 규칙을 따른다.
+다음 BR-MIG 규칙은 순서 6 전역 schema migration의 historical non-normative 실행 계약이다. 순서 9 이후 runtime command는 제공하지 않으며 향후 전역 migration은 별도 설계·승인을 요구한다. 보존된 journal digest와 결속되는 exact plan·backup bytes를 회수하지 못한 사실은 historical limitation으로 유지하되 현재 runtime 완료 술어나 P2-T7 적용 입력으로 사용하지 않는다.
 
 | ID | IF | THEN | 예외 |
 |---|---|---|---|
@@ -166,13 +166,14 @@ BR-LIFE-003·BR-LIFE-004는 archive·restore의 목표 상태 규칙이다. 두 
 | BR-GEN-014 | 순서 8 최초 전환 commit을 만들면 | 기존 markerless generated 8개는 검증된 expected bytes로 교체하고 missing 3개를 생성한 뒤 정상 materialize 계약만 남긴다 | runtime adoption option·영구 migration branch·markerless steady-state replace 금지 |
 | BR-CHK-001 | 현재 활성 normative schema/문서에 hard rule이 선언되면 | rule registry에 구현 rule ID가 있어야 한다 | historical·superseded 절과 구현·검증 surface가 아직 활성화되지 않은 `inactive-until-*` rule은 제외하고, active rule ID가 없으면 `UNSUPPORTED_RULE` HIGH |
 | BR-CHK-002 | `check --changed`가 실행되면 | changed page와 graph상 직접 영향 surface를 동일 rule implementation으로 검사한다 | 별도 축소 rule 정의 금지 |
-| BR-CHK-003 | CLI `check --all`이 repository `wiki/`에 실행되면 | hidden 포함 canonical scope 전체와 실제 generated parity를 함께 검사하고 합성 structural verdict·findings·exclusions를 보고한다. 전환 lint는 exact base tree에만 legacy wiki contract를 적용하고 다른 tree는 같은 canonical checker에 단독 위임한다 | `.git`, declared cache·venv 제외; AST surface 존재를 VR-KP-017·018 실행으로 치환, canonical 실패의 legacy fallback 금지 |
+| BR-CHK-003 | CLI `check --all` 또는 `lint.py` 검사가 실행되면 | read-only dispatcher가 explicit·changed·default input inventory를 한 번만 수행하고 path·Git·필수 root inventory 실패를 HIGH로 수렴한 뒤, hidden 포함 canonical scope의 checker 결과와 materializer의 실제 generated parity 결과를 단방향 조립한다. changed inventory는 repository root에 결속한 모든 Git NUL-delimited path bytes를 Markdown suffix 판정 전에 strict UTF-8로 해석하고 explicit path도 같은 UTF-8 경계를 사용한다. Git status를 보존해 wiki 삭제·이동은 현재 `WIKI_DIR` canonical 검사로 수렴한다. non-wiki 삭제는 current leaf가 부재할 때만 skip하고 재등장한 leaf는 current inventory로 검사하며 malformed status·빈/비정규 path record는 HIGH로 거부한다. 사람용 report의 path·message는 제어문자를 한 물리 행 escape로 출력하고 Markdown delimiter를 escape한다. CLI는 합성 structural verdict·findings·exclusions를 보고하고 lint는 동등한 HIGH findings·exit semantics를 반환한다 | `.git`, declared cache·venv 제외; 호출자 working directory Git 사용, 줄바꿈 기준 path 분리, non-Markdown path decode 생략, surrogateescape·raw control·Markdown delimiter 출력 누출, AST surface 존재를 VR-KP-017·018 실행으로 치환, 두 번째 inventory, wiki rule 복제·legacy validator·canonical 실패 fallback 금지 |
 | BR-CHK-004 | HIGH finding이 하나 이상이면 | promote·CI는 실패한다 | 사용자 위험 수용으로 CI PASS 치환 금지 |
 | BR-CHK-005 | 구조 check가 성공하면 | structural verdict만 PASS로 보고한다 | 사실성·완전성 PASS로 확대 금지 |
 | BR-CHK-006 | semantic review가 수행되면 | review 대상 claim마다 `support`, `contradiction`, `insufficient` 중 하나의 evidence verdict를 기록한다 | page-level 감상 판정 금지 |
 | BR-CHK-007 | 사람이 generated 파일을 수정하면 | regeneration diff로 실패한다 | generated 내용에서 정책 수정 금지 |
 | BR-CHK-008 | local hook이 성공하면 | 빠른 feedback으로만 보고한다 | required CI authority 대체 금지 |
 | BR-CHK-009 | canonical page candidate full check를 실행하면 | current canonical base의 generated repository parity, candidate overlay의 canonical rule, candidate expected index·overview coverage를 순서대로 검증한다 | 선행 generated drift 허용·candidate expected bytes와 pre-materialize repository bytes의 동일성 요구·generated 암묵 write 금지 |
+| BR-CHK-010 | canonical page 또는 taxonomy를 검사하면 | taxonomy canonical·alias 정의의 중복·충돌을 먼저 거부하고 tag와 entity page·경로형 entity wikilink를 같은 `VR-KP-023` 구현으로 검사한다 | 일반 concept wikilink를 entity로 분류하거나 alias를 자동 치환 금지 |
 
 ## 6. 상태 전이
 
@@ -225,13 +226,14 @@ Draft·Active·Archived는 경로에서 배타적으로 결정된다. 파일 하
 | VR-KP-013 | directed relation | broader/prerequisite-of/followed-by cycle 0 | reject |
 | VR-KP-014 | lifecycle | path와 허용 operation 일치; `domains/<key>/` page는 registry에 등록된 active domain만 허용 | reject |
 | VR-KP-015 | update/replay | 최초 apply는 invoked operation·operation input digest·current bytes/mode와 plan base 일치; replay는 exact target tree·page bytes/mode·move source 부재 및 plan base bytes 기반 operation delta 일치 | 그 밖의 상태는 stale reject |
-| VR-KP-016 | 일반 lifecycle·page command write-set | shared repository lock 안에서 logical knowledge page 최대 1, plan·base/target tree digest와 operation-specific delta 일치 | reject; NFR-KP-015의 승인된 전역 schema migration은 BR-MIG-001~015 적용 |
+| VR-KP-016 | 일반 lifecycle·page command write-set | shared repository lock 안에서 logical knowledge page 최대 1, plan·base/target tree digest와 operation-specific delta 일치 | reject; future global migration은 현재 runtime 예외가 아니며 별도 설계·승인 필요 |
 | VR-KP-017 | generated repository parity | current canonical base에서 render·validate한 exact manifest·Markdown comment/Base formula generator-schema marker·valid YAML·expected in-memory bytes가 current repository generated bytes와 일치하고, Base bytes가 Obsidian UI canonical serialization과 일치 | `materialize --check`·순서 10 CI·page candidate base precondition에서 drift reject; candidate expected bytes와 repository 비교 금지 |
 | VR-KP-018 | generated index·overview | 검증 대상 canonical tree에서 render한 expected map이 active page coverage 100%, archived/staging 0%, domain·collection count 일치를 만족 | current tree는 `materialize --check`·CI, candidate tree는 page candidate full check에서 reject; repository parity와 독립 |
-| VR-KP-019 | architecture | 목표 core+contract edge set exact(10 modules·15 edges)·P2-T6 내부 전환 edge set exact(10 modules·20 edges)·cycle 0·최대 edge chain 3, P2-T6 전환 command-inclusive 13 modules·24 edges·cycle 0·최대 dependency edge chain 4 | reject; edge 4 transition ratchet 증가 금지 |
+| VR-KP-019 | architecture | 최종 core+contract edge set exact(10 modules·16 edges)·command-inclusive 12 modules·18 edges·cycle 0·최대 dependency edge chain 3 | runtime checker는 core+contract exact set·cycle·depth reject; project boundary AST test는 command-inclusive exact set·cycle·depth reject |
 | VR-KP-020 | rule coverage | 현재 활성 normative hard rule마다 executable rule ID 존재. historical·superseded 규칙과 구현·검증 surface가 아직 활성화되지 않은 `inactive-until-*` rule은 실행 대상에서 제외 | unsupported reject |
 | VR-KP-021 | replay | 동일 input tuple의 output tree hash 동일 | nondeterminism reject |
 | VR-KP-022 | semantic gate | primary claim ID exact set·verdict enum·status matrix 일치, `claimed`·`insufficient` 0건 | active promotion reject |
+| VR-KP-023 | taxonomy | canonical·alias 정의 중복·충돌 0; tag와 entity page·경로형 entity wikilink는 canonical vocabulary만 사용 | unknown HIGH reject; alias MEDIUM canonical 안내 |
 
 ## 8. 완료 술어
 
@@ -248,7 +250,8 @@ Draft·Active·Archived는 경로에서 배타적으로 결정된다. 파일 하
 | Index completeness | active/staging/archive fixture | active 100%, 나머지 0% 등재 | index test |
 | Boundary independence | 각 저장소 clean environment | 상대 source import 없이 독립 test success | CI job |
 | Semantic grounding | primary claim과 evidence artifact | support/contradiction/insufficient 중 명시 verdict | grounding review |
-| Global migration safety | stale·unresolved·corrupt backup·unsupported exchange·crash fixture | canonical root write 0 또는 exact atomic exchange 후 digest 일치 | migration failure-injection test |
+
+제거된 global migration safety 완료 술어와 failure-injection test는 전환 실행 보고서가 보존하는 historical evidence이며 현재 완료 술어가 아니다.
 
 ## 9. 논리 일관성 검증
 
@@ -262,7 +265,7 @@ Draft·Active·Archived는 경로에서 배타적으로 결정된다. 파일 하
 | BR-REL-002 vs outgoing-only | symmetric relation의 양 endpoint 필요 | canonical smaller-ID owner 한 곳만 저장한다 |
 | BR-GEN-005 vs one-page apply | index도 함께 갱신해야 함 | apply와 materialize를 별도 command/commit 단계로 분리한다 |
 | BR-CHK-005 vs NFR 의미 안전성 | 구조 성공을 전체 성공으로 오인 | structural·semantic verdict를 별도 필드로 보고한다 |
-| BR-APPLY-004·VR-KP-016 vs BR-MIG-007 | 일반 lifecycle·page command는 one-page이나 schema migration은 multi-page | migration은 exact universe·별도 schema·backup·사용자 승인·atomic full-tree exchange를 요구하는 일회성 예외다 |
+| BR-APPLY-004·VR-KP-016 vs historical BR-MIG-007 | 일반 lifecycle·page command는 one-page이나 완료된 schema migration은 multi-page였다 | historical migration은 exact universe·별도 schema·backup·사용자 승인·atomic full-tree exchange를 적용했고 현재 runtime에서 제거했다 |
 
 분기 커버리지:
 
@@ -279,3 +282,4 @@ Draft·Active·Archived는 경로에서 배타적으로 결정된다. 파일 하
 
 - 2026-08-21: immutable artifact, one-page apply, path-derived lifecycle, collection row-order, outgoing-only relation, fail-closed checker 규칙으로 `archives/design/docs/wiki-ingest-business-logic-v1.md`를 대체했다.
 - 2026-08-28: P2-T6 generated marker, official Bases filter/order, schema/table contract 단일 소유, 최초 전환과 steady-state write 분리, candidate base parity→canonical overlay→candidate coverage 검증 순서를 BR-GEN-009–014·BR-CHK-009와 VR-KP-017–019에 고정했다. Obsidian 1.13.7 실환경 저장이 Base 주석·YAML alias·`note.*` 식별자를 정규화하는 결함을 재현해, marker ownership을 보존되는 constant formula로 이동하고 UI canonical serializer·property identifier를 같은 규칙에 추가했다.
+- 2026-09-02: 회수되지 않은 순서 6 exact plan·backup bytes를 historical limitation으로 고정하고 현재 runtime·P2-T7 완료 조건과 분리했다.

@@ -37,6 +37,7 @@ def _setup_repo(tmp_path: Path) -> tuple[Path, Path]:
     meta = repo / "_meta"
     meta.mkdir(parents=True)
     shutil.copy(ROOT / "_meta" / "knowledge.schema.json", meta)
+    shutil.copy(ROOT / "_meta" / "taxonomy.md", meta)
     (meta / "domains.yaml").write_text(
         """version: 1
 domains:

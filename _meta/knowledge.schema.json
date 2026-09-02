@@ -14,6 +14,10 @@
       "type": "string",
       "pattern": "^[a-f0-9]{64}$"
     },
+    "LifecyclePath": {
+      "type": "string",
+      "pattern": "^(?:staging|domains|collections|archive)/(?:[a-z0-9]+(?:-[a-z0-9]+)*/)*[a-z0-9]+(?:-[a-z0-9]+)*\\.md$"
+    },
     "Generator": {
       "type": "object",
       "additionalProperties": false,
@@ -169,13 +173,12 @@
       "properties": {
         "action": {"enum": ["create", "replace", "move"]},
         "source_path": {
-          "type": ["string", "null"],
-          "pattern": "^(?:staging|domains|collections|archive)/(?:[a-z0-9]+(?:-[a-z0-9]+)*/)*[a-z0-9]+(?:-[a-z0-9]+)*\\.md$"
+          "anyOf": [
+            {"$ref": "#/$defs/LifecyclePath"},
+            {"type": "null"}
+          ]
         },
-        "target_path": {
-          "type": "string",
-          "pattern": "^(?:staging|domains|collections|archive)/(?:[a-z0-9]+(?:-[a-z0-9]+)*/)*[a-z0-9]+(?:-[a-z0-9]+)*\\.md$"
-        },
+        "target_path": {"$ref": "#/$defs/LifecyclePath"},
         "base_sha256": {
           "anyOf": [
             {"$ref": "#/$defs/Digest"},

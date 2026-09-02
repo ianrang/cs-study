@@ -2,14 +2,14 @@
 
 ## 1. 문서 상태와 범위
 
-- 상태: `Accepted` — 2026-08-23 사용자 승인; migration apply는 순서 6b와 9에서 각각 별도 승인 필요
+- 상태: `Accepted` — 2026-08-23 사용자 승인; 순서 6b 전환 적용은 별도 승인으로 수행했다. 2026-09-02 사용자가 NFR-KP-015의 미회수 bytes를 historical limitation으로 종결하는 재설계와 순서 9 원자 통합을 승인했고 live state는 legacy·전환 runtime 제거와 schema single owner를 반영한다
 - 승인 범위: ADR-0003의 domain registry 결정은 `Accepted`로 유지되며 본 설계의 제약이다. 본 `Accepted` 상태는 그 결정을 포함해 재구성한 end-to-end pipeline 전체에 적용된다.
 - 적용 저장소: `007_youtube-script`, `001_cs-study`
 - canonical 경로: `docs/wiki-ingest-prd.md`
 - 이전 버전: `archives/design/docs/wiki-ingest-prd-v1.md`
 - 범위: 외부 콘텐츠 추출 결과의 불변 적재부터 지식 합성, 검토, 승격, Obsidian용 파생 뷰 생성, 지속 검증까지
 
-기존 1차 YouTube importer의 v1 요구 계약과 실행 경로는 2026-08-23 순서 4 immutable ArtifactBundle 전환으로 superseded됐다. `docs/prd.md`, `docs/architecture.md`, `docs/business-logic.md`는 historical non-normative 기록이다. 현재 persistent write·plan·apply 단일 진입점은 `scripts/wiki_ingest.py`이며 exact-file capture·digest revision, `_meta/knowledge.schema.json`, migration plan·resolution schema 계약을 runtime에 활성화한다. `_meta/wiki-ingest-write-plan.schema.json`과 `tests/test_wiki_ingest_schema.py`는 superseded v1 입력의 회귀 기록으로만 보존되며 현재 CLI가 import·호출하지 않는다. 구현 순서 2는 extractor 경계를 supersede했고, 순서 7은 `_meta/knowledge.schema.json`의 `SemanticPlan` synthesis seam을 contract test와 같은 변경에서 활성화한다.
+기존 1차 YouTube importer의 v1 요구 계약과 실행 경로는 2026-08-23 순서 4 immutable ArtifactBundle 전환으로 superseded됐다. `docs/prd.md`, `docs/architecture.md`, `docs/business-logic.md`는 historical non-normative 기록이다. 현재 persistent write·plan·apply 단일 진입점은 `scripts/wiki_ingest.py`이며 exact-file capture·digest revision, `_meta/knowledge.schema.json`, PageWritePlan lifecycle과 materializer 계약만 runtime에 활성화한다. 순서 6 전역 migration runtime·schema·resolution은 순서 9 target state에서 제거됐다. 순서 6에서 현재 확인 가능한 Git·검증 보고·terminal journal·rollback candidate는 historical evidence로 보존하며 journal digest와 결속되는 exact plan·backup bytes는 회수되지 않은 limitation으로 기록한다. `_meta/wiki-ingest-write-plan.schema.json`과 `tests/test_wiki_ingest_schema.py`는 superseded v1 입력의 회귀 기록으로만 보존되며 현재 CLI가 import·호출하지 않는다.
 
 ## 2. 문제와 목표
 
@@ -62,10 +62,10 @@
 | FR-KP-013 | relation은 subject page의 outgoing edge만 저장한다 | inverse edge 수동 저장 0건이며 derived backlink로 조회 가능하다 |
 | FR-KP-014 | 계층·선행 관계의 순환을 차단한다 | `broader`, `prerequisite-of`, `followed-by`별 directed cycle 0건이다 |
 | FR-KP-015 | draft와 active lifecycle을 분리한다 | promote PageWritePlan은 모든 primary claim의 claim ID별 evidence verdict를 결속하고 명시적 review 승인 없는 draft→active apply가 실패한다. `support`는 `corroborated`·`verified`, `contradiction`은 `rejected`와만 정합하며 `insufficient`가 하나라도 있으면 승격하지 않는다 |
-| FR-KP-016 | 일반 lifecycle·page command의 한 apply는 knowledge page를 최대 한 개만 변경한다 | PageWritePlan의 logical page write-set이 0 또는 1이고 plan SHA-256이 일치하며 current tree가 base tree와 일치할 때만 최초 apply한다. replace는 source base bytes·digest·mode 일치를, create는 target 부재를, move는 source base bytes·digest·mode 일치와 target 부재를 모두 추가로 요구한다. current tree·target page bytes·mode·move source 부재와 plan base bytes 기반 operation delta가 target state와 정확히 일치하는 confirmed plan replay만 idempotent no-op이고, 그 밖의 tree는 stale이다. 빈 write-set no-op은 base와 target tree가 같아야 한다. NFR-KP-015의 사용자 승인 전역 schema migration은 별도 resolved-plan·backup·full-tree transaction 규칙을 따른다 |
+| FR-KP-016 | 일반 lifecycle·page command의 한 apply는 knowledge page를 최대 한 개만 변경한다 | PageWritePlan의 logical page write-set이 0 또는 1이고 plan SHA-256이 일치하며 current tree가 base tree와 일치할 때만 최초 apply한다. replace는 source base bytes·digest·mode 일치를, create는 target 부재를, move는 source base bytes·digest·mode 일치와 target 부재를 모두 추가로 요구한다. current tree·target page bytes·mode·move source 부재와 plan base bytes 기반 operation delta가 target state와 정확히 일치하는 confirmed plan replay만 idempotent no-op이고, 그 밖의 tree는 stale이다. 빈 write-set no-op은 base와 target tree가 같아야 한다. 향후 전역 schema 변경은 현재 runtime을 재사용하지 않고 별도 설계·사용자 승인을 요구한다 |
 | FR-KP-017 | generated navigation을 재생성한다 | index, overview, templates, Bases가 schema, domain registry, canonical wiki에서 byte-identical하게 생성된다 |
 | FR-KP-018 | checker는 전체 vault와 변경 파일 모드를 제공한다 | `check --all`과 `check --changed`가 동일 rule set을 사용한다 |
-| FR-KP-019 | 모든 구조 규칙은 단일 machine-readable owner를 가진다 | required fields·enum·section·relation의 독립 규칙 정의가 schema 밖 코드 상수와 문서 표에 0건이다 |
+| FR-KP-019 | 모든 구조 규칙은 단일 machine-readable owner를 가진다 | required fields·enum·section·relation은 schema가, controlled vocabulary는 taxonomy가 소유한다. checker는 taxonomy canonical·alias 중복과 unknown·alias 사용을 결정적으로 검증한다 |
 | FR-KP-020 | 검증 finding은 fail-closed로 처리한다 | HIGH finding 또는 unvalidated generated drift가 있으면 promote와 CI가 non-zero다 |
 | FR-KP-021 | image/reference asset은 content-addressed로 보존한다 | 동일 bytes no-op, 변경 bytes 신규 digest, 기존 bytes overwrite 0건이다 |
 | FR-KP-022 | 페이지 이동은 ID를 보존한다 | move plan의 source와 target filename stem이 같고 lifecycle root가 유지되며, apply 전 candidate graph의 broken link가 0건이다. staging→active는 move가 아니라 promote만 소유한다 |
@@ -77,20 +77,20 @@
 | ID | 요구사항 | 기준 |
 |---|---|---|
 | NFR-KP-001 | 단방향 의존 | module·command·document ownership graph cycle 0 |
-| NFR-KP-002 | 낮은 호출 깊이 | 신규 자기 코드 함수 5개 미만 직렬(= 호출 edge 4 미만)을 목표로 하고 호출 edge 4 이상이면 설계 경고 |
+| NFR-KP-002 | 낮은 호출 깊이 | 신규 자기 코드 함수 5개 미만 직렬(= 호출 edge 4 미만)을 목표로 하고 호출 edge 4 이상이면 설계 경고한다. 정적 검증은 명시된 대표 실행 경계와 module DAG를 대상으로 하며 Python의 모든 동적 호출을 포괄하는 exact maximum을 주장하지 않는다 |
 | NFR-KP-003 | 독립성 | extractor 단독 테스트와 vault checker 단독 테스트가 상대 저장소 없이 실행된다 |
 | NFR-KP-004 | 불변성 | committed content-addressed ArtifactBundle payload와 manifest의 in-place mutation 0; legacy flat raw source의 privacy remediation은 별도 승인 변경으로 추적 |
 | NFR-KP-005 | 멱등성 | 동일 input digest·schema digest·generator version·normalized command options에서 두 번 실행한 결과 bytes와 exit semantics 동일 |
 | NFR-KP-006 | 결정성 | clock·UUID·정렬·locale을 주입 또는 고정하고 출력 순서를 명시한다 |
 | NFR-KP-007 | 완전성 | 입력 manifest의 모든 source와 primary claim이 page의 provenance/evidence로 추적된다 |
 | NFR-KP-008 | 정합성 | schema→parser instance→cross-document checker→generated materializer가 동일 용어를 사용한다 |
-| NFR-KP-009 | 안전성 | validate-before-write를 적용하고 동일 knowledge root를 변경하는 ordinary apply와 migration apply·restore·recover는 repository-root shared advisory lock을 사용한다. raw append-only artifact capture는 이 lock의 참여자가 아니라 독립 atomic capture primitive를 사용한다. ordinary apply는 write 직전 optimistic base bytes·mode 재검증, single-page atomic leaf commit과 실패 rollback을 적용한다. 잠금을 따르지 않는 외부 writer를 filesystem-wide CAS로 배제했다고 주장하지 않는다. rollback 전에 이미 관찰된 same-leaf 외부 변경은 덮지 않고 indeterminate로 보고하지만 관찰과 syscall 사이의 새 non-cooperative 경합은 무손실 보장 범위 밖이다. 내부 failure injection은 own leaf를 이전 bytes·mode로 복구하고 rollback 자체가 실패하면 observed state를 포함한 indeterminate error로 보고한다. process crash 뒤 leaf는 atomic namespace operation의 base 또는 target 상태이며 exact replay로 재판별한다 |
+| NFR-KP-009 | 안전성 | validate-before-write를 적용하고 동일 knowledge root를 변경하는 ordinary apply는 repository-root shared advisory lock을 사용한다. raw append-only artifact capture는 이 lock의 참여자가 아니라 독립 atomic capture primitive를 사용한다. ordinary apply는 write 직전 optimistic base bytes·mode 재검증, single-page atomic leaf commit과 실패 rollback을 적용한다. 잠금을 따르지 않는 외부 writer를 filesystem-wide CAS로 배제했다고 주장하지 않는다. rollback 전에 이미 관찰된 same-leaf 외부 변경은 덮지 않고 indeterminate로 보고하지만 관찰과 syscall 사이의 새 non-cooperative 경합은 무손실 보장 범위 밖이다. 내부 failure injection은 own leaf를 이전 bytes·mode로 복구하고 rollback 자체가 실패하면 observed state를 포함한 indeterminate error로 보고한다. process crash 뒤 leaf는 atomic namespace operation의 base 또는 target 상태이며 exact replay로 재판별한다 |
 | NFR-KP-010 | 최소 관리 지점 | backlinks, inverse relation, counts, index, log를 canonical로 수동 관리하지 않는다 |
 | NFR-KP-011 | Obsidian 호환 | flat YAML property와 standard Markdown table·wikilink만 canonical 표현에 사용한다 |
 | NFR-KP-012 | 확장성 | source type, page type, relation type 추가가 각각 소유 schema/registry 한 곳에서 시작한다 |
 | NFR-KP-013 | 검증 지속성 | local hook은 feedback, required CI check는 merge authority로 분리한다 |
 | NFR-KP-014 | 의미 안전성 | 정적 checker가 사실성 PASS를 주장하지 않고 review evidence를 요구한다 |
-| NFR-KP-015 | 보존성 | migration은 root를 포함한 exact path·type·mode·bytes manifest, resolved-plan digest, 검증된 backup, stale refusal, 같은 파일시스템의 atomic directory exchange와 crash recovery를 요구한다. journal에 결합된 rollback candidate는 자동 삭제하지 않으며 기존 사용자 wiki를 암묵 수정하지 않는다 |
+| NFR-KP-015 | 전환 증거 보존 | 완료된 전역 migration에서 현재 확인 가능한 Git·검증 보고·terminal journal·rollback candidate와 기록된 digest를 historical evidence로 보존하고 현재 runtime 입력으로 재활성화하지 않는다. journal digest와 결속되는 exact plan·backup bytes는 회수되지 않은 limitation으로 명시한다. 향후 전역 schema 변경은 기존 전환 runtime 재사용이 아니라 별도 설계·사용자 승인을 요구한다 |
 
 ## 6. 산출물과 사용자 흐름
 
@@ -167,3 +167,4 @@ PROV-O와 SKOS는 용어와 관계 의미만 참고한다. 별도 RDF 표현은 
 ## 10. 변경 이력
 
 - 2026-08-21: 원본 불변 revision, single-schema, stable ID, ordered collection, outgoing-only relation, generated navigation, fail-closed validation을 포함하는 완전 설계로 `archives/design/docs/wiki-ingest-prd-v1.md`를 대체했다.
+- 2026-09-02: NFR-KP-002의 정적 검증 범위를 대표 실행 경계와 module DAG로 한정하고 범용 Python call graph exact maximum 주장을 제거했다. NFR-KP-015는 보존된 historical evidence만 소유하며 회수되지 않은 과거 bytes를 현재 runtime 요구사항으로 재활성화하지 않는다.

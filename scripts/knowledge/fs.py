@@ -13,7 +13,6 @@ import tempfile
 from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
-from functools import wraps
 from pathlib import Path
 
 
@@ -83,7 +82,6 @@ def verified_directory(path: Path) -> Iterator[VerifiedDirectory]:
         yield handle
     finally:
         os.close(descriptor)
-
 
 def _observe_regular_leaf_from_descriptor(
     directory: VerifiedDirectory, name: str
@@ -535,23 +533,6 @@ def fsync_directory(path: Path) -> None:
         os.close(descriptor)
 
 
-def fsync_file(path: Path) -> None:
-    descriptor = os.open(str(path), os.O_RDONLY)
-    try:
-        os.fsync(descriptor)
-    finally:
-        os.close(descriptor)
-
-
-def chmod_fsync(path: Path, mode: int) -> None:
-    descriptor = os.open(str(path), os.O_RDONLY)
-    try:
-        os.fchmod(descriptor, mode)
-        os.fsync(descriptor)
-    finally:
-        os.close(descriptor)
-
-
 def _rename_path_no_replace_syscall(source: Path, target: Path) -> None:
     source_bytes = os.fsencode(source)
     target_bytes = os.fsencode(target)
@@ -637,51 +618,3 @@ def repository_write_lock(repo_root: Path) -> Iterator[None]:
         yield
     finally:
         os.close(descriptor)
-
-
-def repository_locked(repo_argument_index: int):
-    def decorate(function):
-        @wraps(function)
-        def locked(*args, **kwargs):
-            repo_root = kwargs.get("repo_root")
-            if repo_root is None:
-                repo_root = args[repo_argument_index]
-            with repository_write_lock(Path(repo_root)):
-                return function(*args, **kwargs)
-
-        return locked
-
-    return decorate
-
-
-def exchange_directories(left: Path, right: Path) -> None:
-    if left.resolve().parent != right.resolve().parent:
-        raise OSError(errno.EXDEV, "atomic directory exchange requires a common parent")
-    left_bytes = os.fsencode(left)
-    right_bytes = os.fsencode(right)
-    libc = ctypes.CDLL(None, use_errno=True)
-    if sys.platform == "darwin":
-        operation = libc.renamex_np
-        operation.argtypes = [ctypes.c_char_p, ctypes.c_char_p, ctypes.c_uint]
-        result = operation(left_bytes, right_bytes, 0x00000002)
-    elif sys.platform.startswith("linux"):
-        try:
-            operation = libc.renameat2
-        except AttributeError as exc:
-            raise OSError(
-                errno.ENOTSUP, "atomic directory exchange is unavailable"
-            ) from exc
-        operation.argtypes = [
-            ctypes.c_int,
-            ctypes.c_char_p,
-            ctypes.c_int,
-            ctypes.c_char_p,
-            ctypes.c_uint,
-        ]
-        result = operation(-100, left_bytes, -100, right_bytes, 2)
-    else:
-        raise OSError(errno.ENOTSUP, "atomic directory exchange is unavailable")
-    if result != 0:
-        error_number = ctypes.get_errno()
-        raise OSError(error_number, os.strerror(error_number), right)
-    fsync_directory(left.resolve().parent)

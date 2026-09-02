@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LLM Wiki Lint — 6축 + AGENTS.md directive 자동 검증.
+Repository lint dispatcher — canonical wiki + legacy raw/authored 검증.
 
 사용:
     python3 scripts/lint.py                    # 전수 검증
@@ -8,36 +8,28 @@ LLM Wiki Lint — 6축 + AGENTS.md directive 자동 검증.
     python3 scripts/lint.py --paths wiki/      # 특정 path 만
     python3 scripts/lint.py --report markdown  # markdown report 출력
 
-검증 축:
-    1. 정확도 (Accuracy)     : source_paths ≥1 + provenance
-    2. 전문성 (Expertise)    : page_type 표준 섹션 (soft)
-    3. 일관성 (Consistency)  : taxonomy controlled vocab
-    4. 논리성 (Logical)      : page 간 모순 — logic-proposition-checker 호출 (별도 wrapper)
-    5. 정합성 (Integrity)    : legacy broken link 검사
-    6. 재현성·시의성         : source_date + last_verified + superseded
-    + raw 필수 필드          : raw/sources/ 페이지 RAW_REQUIRED_FIELDS 강제
-    + AGENTS.md directive    : write scope 위반 (model_id 본문 grep 은 ADR-0001 로 폐기)
-
-본 파일은 skeleton. dogfood 1주 후 calibration (P50/P90) 으로 임계 조정.
+wiki 요청은 `knowledge.check.check_target`에 단독 위임한다. 이 파일은 wiki 규칙을
+복제하지 않고 legacy curated raw/authored의 broken link·recency·필수 필드와
+AGENTS.md directive만 직접 검사한다.
 """
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
+import stat
 import subprocess
 import sys
-from collections.abc import Iterator
-from datetime import date
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 try:
     import yaml  # PyYAML
     from knowledge.artifacts import ArtifactError, verify_manifest
-    from knowledge.check import check_target
-    from knowledge.migration import build_tree_manifest
+    from knowledge.check import check_target, generated_surface_findings
+    from knowledge.materialize import generated_drift
 except ImportError:
     print(
         "ERROR: lint dependencies 필요. `pip install -r requirements-lint.txt`",
@@ -49,29 +41,12 @@ except ImportError:
 REPO_ROOT = Path(__file__).resolve().parent.parent
 META_DIR = REPO_ROOT / "_meta"
 WIKI_DIR = REPO_ROOT / "wiki"
-WIKI_TEMPLATE_DIR = WIKI_DIR / "templates"
-WIKI_SYSTEM_PAGES = {
-    WIKI_DIR / "overview.md",
-    WIKI_DIR / "index.md",
-    WIKI_DIR / "log.md",
-}
-VERIFIED_EVIDENCE_ROOTS = (
-    REPO_ROOT / "raw" / "sources" / "papers",
-    REPO_ROOT / "raw" / "sources" / "web",
-    REPO_ROOT / "raw" / "sources" / "urls",
-)
+RAW_SOURCES_DIR = REPO_ROOT / "raw" / "sources"
 
 # ADR-0001 (2026-06-04): 페이지 본문 model_id/자기추론 grep 규칙 폐기.
 # 모델명은 taxonomy.md 가 wiki entity vocab 으로 요구(예: gpt-5, claude-opus-4-7)하므로
 # 본문 grep 은 taxonomy 와 모순 + raw verbatim 원본 보존(AGENTS.md raw 등급) 위반.
 # model_id alias 규율은 LLM 호출 site(scripts) 코드 규약으로만 유지(마크다운 검사 아님).
-
-# wiki/ content page frontmatter 필수 필드 (frontmatter-spec.md §wiki §15 필드)
-WIKI_REQUIRED_FIELDS = {
-    "title", "tier", "page_type", "domain", "domain_confidence",
-    "shared_scope", "tags", "status", "date_created", "date_updated",
-    "source_paths", "source_count", "provenance", "summary", "evergreen",
-}
 
 # raw/ frontmatter 최소 필드
 RAW_REQUIRED_FIELDS = {"title", "source_url", "source_date", "source_type", "last_verified", "tier"}
@@ -83,19 +58,15 @@ LLM_READONLY_DIRS = {"cs", "development", "coding-test", "lang", "tools"}
 WARN_AGE_DAYS = 180        # ≥6m
 HARDFAIL_AGE_DAYS = 730    # ≥2y
 
-CLAIM_TABLE_COLUMNS = ["id", "primary", "claim", "status", "evidence", "notes"]
-CLAIM_STATUSES = ("claimed", "corroborated", "verified", "rejected")
-CLAIM_STATUS_SET = set(CLAIM_STATUSES)
-ROLLUP_RANK = {"claimed": 0, "corroborated": 1, "verified": 2}
-PAGE_TYPES = {"concept", "entity", "comparison", "benchmark", "dataset", "method"}
-TAXONOMY_TAG_HEADING = "## Tag 목록"
-TAXONOMY_ENTITY_HEADING = "## Entity 목록"
-TAXONOMY_VOCAB_LINE_RE = re.compile(
-    r"^- `(?P<canonical>[a-z0-9]+(?:-[a-z0-9]+)*)`(?: \(alias: (?P<aliases>.+)\))?$"
-)
-TAXONOMY_TAG_TOKEN_RE = re.compile(r"`([a-z0-9]+(?:-[a-z0-9]+)*)`")
-WIKILINK_TARGET_RE = re.compile(r"\[\[([^\]|]+)(?:\|[^\]]+)?\]\]")
 SHA256_DIR_RE = re.compile(r"^[0-9a-f]{64}$")
+
+
+def is_raw_source_path(path: Path) -> bool:
+    try:
+        path.relative_to(RAW_SOURCES_DIR)
+    except ValueError:
+        return False
+    return True
 
 
 class Finding:
@@ -109,10 +80,14 @@ class Finding:
         self.message = message
 
     def to_dict(self) -> dict:
+        try:
+            display_path = self.path.relative_to(REPO_ROOT)
+        except ValueError:
+            display_path = self.path
         return {
             "severity": self.severity,
             "axis": self.axis,
-            "path": str(self.path.relative_to(REPO_ROOT)),
+            "path": str(display_path),
             "line": self.line,
             "message": self.message,
         }
@@ -132,86 +107,12 @@ def parse_frontmatter(text: str) -> tuple[dict | None, int]:
         return None, 0
 
 
-def load_taxonomy_tags() -> tuple[set[str], dict[str, str]]:
-    """taxonomy.md의 Tag 목록에서 canonical tag와 alias를 읽는다."""
-    canonical_tags: set[str] = set()
-    aliases: dict[str, str] = {}
-    in_tag_section = False
-
-    for line in (META_DIR / "taxonomy.md").read_text(encoding="utf-8").splitlines():
-        if line.startswith(TAXONOMY_ENTITY_HEADING):
-            break
-        if line.startswith(TAXONOMY_TAG_HEADING):
-            in_tag_section = True
-            continue
-        if line.startswith("## "):
-            in_tag_section = False
-            continue
-        if not in_tag_section:
-            continue
-        match = TAXONOMY_VOCAB_LINE_RE.fullmatch(line)
-        if not match:
-            continue
-        tag = match.group("canonical")
-        canonical_tags.add(tag)
-        for alias in TAXONOMY_TAG_TOKEN_RE.findall(match.group("aliases") or ""):
-            aliases[alias] = tag
-
-    return canonical_tags, aliases
-
-
-def load_taxonomy_entities() -> tuple[set[str], dict[str, str]]:
-    """taxonomy.md의 Entity 목록에서 canonical entity와 alias를 읽는다."""
-    canonical_entities: set[str] = set()
-    aliases: dict[str, str] = {}
-    in_entity_section = False
-
-    for line in (META_DIR / "taxonomy.md").read_text(encoding="utf-8").splitlines():
-        if line.startswith(TAXONOMY_ENTITY_HEADING):
-            in_entity_section = True
-            continue
-        if line.startswith("## "):
-            in_entity_section = False
-            continue
-        if not in_entity_section:
-            continue
-        match = TAXONOMY_VOCAB_LINE_RE.fullmatch(line)
-        if not match:
-            continue
-        entity = match.group("canonical")
-        canonical_entities.add(entity)
-        for alias in TAXONOMY_TAG_TOKEN_RE.findall(match.group("aliases") or ""):
-            aliases[alias] = entity
-
-    return canonical_entities, aliases
-
-
 def is_relative_to(path: Path, parent: Path) -> bool:
     try:
         path.resolve().relative_to(parent.resolve())
         return True
     except ValueError:
         return False
-
-
-def is_wiki_page(path: Path) -> bool:
-    return is_relative_to(path, WIKI_DIR) and path.suffix == ".md"
-
-
-def is_wiki_template(path: Path) -> bool:
-    return is_relative_to(path, WIKI_TEMPLATE_DIR)
-
-
-def is_wiki_system_page(path: Path) -> bool:
-    try:
-        resolved = path.resolve()
-    except OSError:
-        return False
-    return resolved in {p.resolve() for p in WIKI_SYSTEM_PAGES}
-
-
-def is_wiki_content_page(path: Path) -> bool:
-    return is_wiki_page(path) and not is_wiki_template(path) and not is_wiki_system_page(path)
 
 
 def strip_fenced_code_blocks(text: str) -> str:
@@ -243,90 +144,72 @@ def link_exists(target: Path) -> bool:
     return (target / "index.md").exists() or (target / "overview.md").exists()
 
 
-def is_curated_verified_evidence(evidence: str) -> bool:
-    if not isinstance(evidence, str) or not evidence:
-        return False
-    target = (REPO_ROOT / evidence).resolve()
-    return (target.is_file()
-            and target.suffix == ".md"
-            and any(is_relative_to(target, root) for root in VERIFIED_EVIDENCE_ROOTS))
+def _markdown_inventory(paths: list[Path]) -> tuple[list[Path], list[Finding]]:
+    markdown_paths: list[Path] = []
+    findings: list[Finding] = []
 
+    def inventory_error(path: Path, message: str) -> None:
+        findings.append(Finding("HIGH", "io", path, None, message))
 
-def split_pipe_row(line: str) -> list[str]:
-    row = line.strip()
-    if row.startswith("|"):
-        row = row[1:]
-    if row.endswith("|"):
-        row = row[:-1]
-    return [cell.replace(r"\|", "|").strip() for cell in re.split(r"(?<!\\)\|", row)]
+    def add_file(path: Path) -> None:
+        try:
+            mode = path.lstat().st_mode
+        except OSError as exc:
+            inventory_error(path, f"Markdown inventory stat failure: {exc}")
+            return
+        if stat.S_ISLNK(mode):
+            inventory_error(path, "Markdown inventory rejects symbolic links")
+        elif not stat.S_ISREG(mode):
+            inventory_error(path, "Markdown inventory requires a regular file")
+        elif path.suffix == ".md" and not is_artifact_bundle_markdown(path):
+            markdown_paths.append(path)
 
+    for path in paths:
+        try:
+            mode = path.lstat().st_mode
+        except OSError as exc:
+            inventory_error(path, f"Markdown inventory stat failure: {exc}")
+            continue
+        if stat.S_ISLNK(mode):
+            inventory_error(path, "Markdown inventory rejects symbolic links")
+            continue
+        if stat.S_ISREG(mode):
+            add_file(path)
+            continue
+        if not stat.S_ISDIR(mode):
+            inventory_error(path, "Markdown inventory requires a regular file or directory")
+            continue
 
-def is_delimiter_row(cells: list[str]) -> bool:
-    return bool(cells) and all(re.fullmatch(r":?-{3,}:?", cell.strip()) for cell in cells)
+        def walk_error(exc: OSError, requested: Path = path) -> None:
+            failed = Path(exc.filename) if exc.filename else requested
+            inventory_error(failed, f"Markdown inventory walk failure: {exc}")
 
-
-def parse_claim_table(text: str) -> tuple[list[dict[str, str]] | None, str | None]:
-    lines = text.splitlines()
-    heading_index = next((i for i, line in enumerate(lines) if line.strip() == "## Claims"), None)
-    if heading_index is None:
-        return None, "missing ## Claims section"
-
-    index = heading_index + 1
-    while index < len(lines) and not lines[index].strip():
-        index += 1
-    if index + 1 >= len(lines):
-        return None, "missing claim table header or delimiter"
-
-    header = split_pipe_row(lines[index])
-    delimiter = split_pipe_row(lines[index + 1])
-    if header != CLAIM_TABLE_COLUMNS:
-        return None, f"invalid claim table columns: {header}"
-    if len(delimiter) != len(CLAIM_TABLE_COLUMNS) or not is_delimiter_row(delimiter):
-        return None, "invalid claim table delimiter row"
-
-    rows: list[dict[str, str]] = []
-    index += 2
-    while index < len(lines):
-        line = lines[index]
-        if not line.strip():
-            break
-        if not line.lstrip().startswith("|"):
-            break
-        cells = split_pipe_row(line)
-        if len(cells) != len(CLAIM_TABLE_COLUMNS):
-            return None, f"invalid claim table row cell count at line {index + 1}: {len(cells)}"
-        rows.append(dict(zip(CLAIM_TABLE_COLUMNS, cells)))
-        index += 1
-    if not rows:
-        return None, "claim table has no rows"
-    return rows, None
-
-
-def calculate_claim_rollup(rows: list[dict[str, str]]) -> tuple[str, dict[str, int]]:
-    counts = {status: 0 for status in CLAIM_STATUSES}
-    for row in rows:
-        counts[row["status"]] += 1
-
-    primary_statuses = [row["status"] for row in rows if row["primary"] == "true"]
-    if not primary_statuses:
-        return "claimed", counts
-    if all(status == "rejected" for status in primary_statuses):
-        return "rejected", counts
-    if counts["rejected"] == 0 and all(status == "verified" for status in primary_statuses):
-        return "verified", counts
-    if counts["rejected"] == 0 and all(ROLLUP_RANK.get(status, -1) >= ROLLUP_RANK["corroborated"] for status in primary_statuses):
-        return "corroborated", counts
-    return "claimed", counts
-
-
-def iter_markdown_files(paths: list[Path]) -> Iterator[Path]:
-    for p in paths:
-        if p.is_file() and p.suffix == ".md" and not is_artifact_bundle_markdown(p):
-            yield p
-        elif p.is_dir():
-            for child in p.rglob("*.md"):
-                if not is_artifact_bundle_markdown(child):
-                    yield child
+        for directory, names, filenames in os.walk(
+            path, topdown=True, followlinks=False, onerror=walk_error
+        ):
+            names.sort()
+            filenames.sort()
+            parent = Path(directory)
+            accepted_names: list[str] = []
+            for name in names:
+                child = parent / name
+                try:
+                    child_mode = child.lstat().st_mode
+                except OSError as exc:
+                    inventory_error(child, f"Markdown inventory stat failure: {exc}")
+                    continue
+                if stat.S_ISLNK(child_mode):
+                    inventory_error(child, "Markdown inventory rejects symbolic links")
+                elif stat.S_ISDIR(child_mode):
+                    accepted_names.append(name)
+                else:
+                    inventory_error(child, "Markdown inventory requires a directory")
+            names[:] = accepted_names
+            for name in filenames:
+                child = parent / name
+                if child.suffix == ".md":
+                    add_file(child)
+    return markdown_paths, findings
 
 
 def is_artifact_bundle_markdown(path: Path) -> bool:
@@ -365,88 +248,9 @@ def is_artifact_bundle_markdown(path: Path) -> bool:
     )
 
 
-def check_axis_1_accuracy(path: Path, text: str, fm: dict | None) -> list[Finding]:
-    """축 1 정확도 — source_paths ≥1 + provenance (wiki 한정)."""
-    findings = []
-    if not is_wiki_content_page(path):
-        return findings
-    if not fm:
-        findings.append(Finding("HIGH", "1", path, 1, "frontmatter 부재"))
-        return findings
-    if not fm.get("source_paths"):
-        findings.append(Finding("HIGH", "1", path, 1, "source_paths 누락 또는 빈 배열"))
-    if fm.get("provenance") not in {"extracted", "inferred", "ambiguous"}:
-        findings.append(Finding("HIGH", "1", path, 1, f"provenance 누락 또는 invalid: {fm.get('provenance')}"))
-    return findings
-
-
-def check_axis_3_taxonomy_tags(path: Path, fm: dict | None,
-                               canonical_tags: set[str], aliases: dict[str, str]) -> list[Finding]:
-    """축 3 일관성 — wiki content page tag의 taxonomy canonical 여부를 확인한다."""
-    if not is_wiki_content_page(path) or not fm or not isinstance(fm.get("tags"), list):
-        return []
-
-    findings = []
-    for tag in fm["tags"]:
-        if tag in canonical_tags:
-            continue
-        if tag in aliases:
-            findings.append(Finding("MEDIUM", "3", path, 1,
-                                    f"taxonomy alias tag 사용: {tag}; canonical `{aliases[tag]}` 사용"))
-            continue
-        findings.append(Finding("HIGH", "3", path, 1,
-                                f"taxonomy 미등록 tag: {tag}"))
-    return findings
-
-
-def entity_slug_from_wikilink(link: str) -> str | None:
-    """경로형 entity wikilink의 마지막 slug를 반환한다."""
-    clean = link.strip().split("#", 1)[0].rstrip("/")
-    parts = clean.split("/")
-    if len(parts) < 2 or parts[-2] != "entities":
-        return None
-    slug = parts[-1]
-    return slug[:-3] if slug.endswith(".md") else slug
-
-
-def entity_slug_from_path(path: Path) -> str | None:
-    """entities/ 바로 아래 entity page의 filename slug를 반환한다."""
-    if path.suffix != ".md" or path.parent.name != "entities":
-        return None
-    return path.stem
-
-
-def check_axis_3_taxonomy_entities(path: Path, text: str,
-                                   canonical_entities: set[str], aliases: dict[str, str]) -> list[Finding]:
-    """축 3 일관성 — entity page와 경로형 entity wikilink의 taxonomy 여부를 확인한다."""
-    if not is_wiki_content_page(path) or is_wiki_template(path):
-        return []
-
-    entity_slugs = [(entity_slug_from_path(path), 1)]
-    entity_slugs.extend(
-        (entity_slug_from_wikilink(link), line_number)
-        for line_number, line in enumerate(strip_fenced_code_blocks(text).splitlines(), start=1)
-        for link in WIKILINK_TARGET_RE.findall(line)
-    )
-
-    findings = []
-    for slug, line_number in entity_slugs:
-        if slug is None or slug in canonical_entities:
-            continue
-        if slug in aliases:
-            findings.append(Finding("MEDIUM", "3", path, line_number,
-                                    f"taxonomy alias entity 사용: {slug}; canonical `{aliases[slug]}` 사용"))
-            continue
-        findings.append(Finding("HIGH", "3", path, line_number,
-                                f"taxonomy 미등록 entity: {slug}"))
-    return findings
-
-
 def check_axis_5_integrity_broken_links(path: Path, text: str) -> list[Finding]:
     """축 5 정합성 — broken link 검출."""
     findings = []
-    if is_wiki_template(path):
-        return findings
     text = strip_fenced_code_blocks(text)
     # markdown link [text](path) 와 wikilink [[path]] 모두 검사
     md_links = re.findall(r"\[[^\]]*\]\(([^)]+)\)", text)
@@ -460,145 +264,17 @@ def check_axis_5_integrity_broken_links(path: Path, text: str) -> list[Finding]:
     return findings
 
 
-def check_wiki_required_fields(path: Path, fm: dict | None) -> list[Finding]:
-    """frontmatter-spec.md §wiki — wiki content page 필수 필드 강제."""
-    findings = []
-    if not is_wiki_content_page(path):
-        return findings
-    if not fm:
-        findings.append(Finding("HIGH", "frontmatter", path, 1, "wiki content page frontmatter 부재"))
-        return findings
-    missing = sorted(WIKI_REQUIRED_FIELDS - set(fm.keys()))
-    if missing:
-        findings.append(Finding("HIGH", "frontmatter", path, 1,
-                                f"wiki 필수 필드 누락: {', '.join(missing)}"))
-    enum_fields = {
-        "tier": {"llm-synthesis"},
-        "page_type": PAGE_TYPES,
-        "domain_confidence": {"high", "medium", "low"},
-        "shared_scope": {"domain", "global"},
-        "status": {"draft", "active", "staged", "archived"},
-        "provenance": {"extracted", "inferred", "ambiguous"},
-    }
-    for field, allowed in enum_fields.items():
-        if field in fm and fm.get(field) not in allowed:
-            findings.append(Finding("HIGH", "frontmatter", path, 1,
-                                    f"{field} invalid: {fm.get(field)}"))
-    for field in ("title", "summary"):
-        if field in fm and (not isinstance(fm.get(field), str) or not fm.get(field).strip()):
-            findings.append(Finding("HIGH", "frontmatter", path, 1,
-                                    f"{field} 형식 오류: 비어 있지 않은 문자열 필요"))
-    for field in ("date_created", "date_updated"):
-        value = fm.get(field)
-        valid_date = isinstance(value, date)
-        if isinstance(value, str):
-            try:
-                date.fromisoformat(value)
-                valid_date = True
-            except ValueError:
-                valid_date = False
-        if field in fm and not valid_date:
-            findings.append(Finding("HIGH", "frontmatter", path, 1,
-                                    f"{field} 형식 오류: ISO 8601 date 필요"))
-    if "domain" in fm and (not isinstance(fm.get("domain"), str)
-                           or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", fm.get("domain", ""))):
-        findings.append(Finding("HIGH", "frontmatter", path, 1, "domain 형식 오류"))
-    if "tags" in fm and (not isinstance(fm.get("tags"), list)
-                         or not all(isinstance(tag, str) for tag in fm.get("tags", []))):
-        findings.append(Finding("HIGH", "frontmatter", path, 1, "tags 형식 오류: 문자열 배열 필요"))
-    source_paths = fm.get("source_paths")
-    source_count = fm.get("source_count")
-    if "source_paths" in fm and (not isinstance(source_paths, list)
-                                 or not source_paths
-                                 or not all(isinstance(source, str) and source.strip() for source in source_paths)):
-        findings.append(Finding("HIGH", "frontmatter", path, 1,
-                                "source_paths 형식 오류: 비어 있지 않은 문자열 배열 필요"))
-    if "source_count" in fm and (type(source_count) is not int or source_count < 0):
-        findings.append(Finding("HIGH", "frontmatter", path, 1,
-                                "source_count 형식 오류: 비음수 정수 필요"))
-    elif isinstance(source_paths, list) and source_count is not None and source_count != len(source_paths):
-        findings.append(Finding("HIGH", "frontmatter", path, 1,
-                                f"source_count 불일치: {source_count} != {len(source_paths)}"))
-    if "evergreen" in fm and type(fm.get("evergreen")) is not bool:
-        findings.append(Finding("HIGH", "frontmatter", path, 1, "evergreen 형식 오류: boolean 필요"))
-    return findings
-
-
-def check_claim_table(path: Path, text: str, fm: dict | None) -> list[Finding]:
-    """source summary claim table schema 와 derived roll-up 정합성 검증."""
-    findings = []
-    if not is_wiki_content_page(path):
-        return findings
-    if "## Claims" not in text and not (fm and ("verification_status" in fm or "claim_status_counts" in fm)):
-        return findings
-    rows, error = parse_claim_table(text)
-    if error or rows is None:
-        findings.append(Finding("HIGH", "frontmatter", path, None, f"claim table invalid: {error}"))
-        return findings
-
-    seen_ids: set[str] = set()
-    for row in rows:
-        claim_id = row["id"]
-        if not re.fullmatch(r"C[1-9][0-9]*", claim_id):
-            findings.append(Finding("HIGH", "frontmatter", path, None, f"invalid claim id: {claim_id}"))
-        if claim_id in seen_ids:
-            findings.append(Finding("HIGH", "frontmatter", path, None, f"duplicate claim id: {claim_id}"))
-        seen_ids.add(claim_id)
-        if row["primary"] not in {"true", "false"}:
-            findings.append(Finding("HIGH", "frontmatter", path, None, f"invalid claim primary: {row['primary']}"))
-        if row["status"] not in CLAIM_STATUS_SET:
-            findings.append(Finding("HIGH", "frontmatter", path, None, f"invalid claim status: {row['status']}"))
-        if not row["claim"]:
-            findings.append(Finding("HIGH", "frontmatter", path, None, f"empty claim text: {claim_id}"))
-        if not row["evidence"]:
-            findings.append(Finding("HIGH", "frontmatter", path, None, f"empty claim evidence: {claim_id}"))
-        if row["status"] == "verified":
-            if re.fullmatch(r"raw/sources/video/[A-Za-z0-9_-]+\.md", row["evidence"]):
-                findings.append(Finding("HIGH", "frontmatter", path, None,
-                                        f"영상 단독 evidence로 verified 금지: {claim_id}"))
-            elif not is_curated_verified_evidence(row["evidence"]):
-                findings.append(Finding("HIGH", "frontmatter", path, None,
-                                        f"verified evidence 부재 또는 허용 경로 이탈: {claim_id}"))
-
-    if findings:
-        return findings
-
-    rollup, counts = calculate_claim_rollup(rows)
-    if not fm or fm.get("verification_status") is None:
-        findings.append(Finding("HIGH", "frontmatter", path, 1, "verification_status 누락"))
-    elif fm.get("verification_status") != rollup:
-        findings.append(Finding("HIGH", "frontmatter", path, 1,
-                                f"verification_status 불일치: {fm.get('verification_status')} != {rollup}"))
-    if not fm or fm.get("claim_status_counts") is None:
-        findings.append(Finding("HIGH", "frontmatter", path, 1, "claim_status_counts 누락"))
-    else:
-        raw_counts = fm.get("claim_status_counts")
-        if not isinstance(raw_counts, dict):
-            findings.append(Finding("HIGH", "frontmatter", path, 1,
-                                    "claim_status_counts 형식 오류: status별 정수 mapping 필요"))
-        elif set(raw_counts) != CLAIM_STATUS_SET:
-            findings.append(Finding("HIGH", "frontmatter", path, 1,
-                                    f"claim_status_counts key 오류: {sorted(raw_counts)}"))
-        elif any(type(value) is not int or value < 0 for value in raw_counts.values()):
-            findings.append(Finding("HIGH", "frontmatter", path, 1,
-                                    "claim_status_counts 값 오류: 비음수 정수 필요"))
-        elif raw_counts != counts:
-            findings.append(Finding("HIGH", "frontmatter", path, 1,
-                                    f"claim_status_counts 불일치: {raw_counts} != {counts}"))
-    return findings
-
-
 def check_axis_6_recency(path: Path, fm: dict | None) -> list[Finding]:
     """축 6 재현성·시의성 — last_verified 임계."""
     findings = []
     if not fm:
         return findings
-    if fm.get("evergreen"):
-        return findings
+    relative = path.relative_to(REPO_ROOT)
+    is_raw = is_raw_source_path(path)
+    is_authored = bool(relative.parts) and relative.parts[0] in LLM_READONLY_DIRS
     last_verified = fm.get("last_verified")
     if not last_verified:
-        # raw/ 페이지면 last_verified 필수
-        if "raw/sources/" in str(path.relative_to(REPO_ROOT)):
+        if is_raw:
             findings.append(Finding("HIGH", "6", path, 1, "raw 페이지에 last_verified 누락"))
         return findings
     from datetime import date, datetime
@@ -608,8 +284,16 @@ def check_axis_6_recency(path: Path, fm: dict | None) -> list[Finding]:
         else:
             verified_date = datetime.fromisoformat(str(last_verified)).date()
         age_days = (date.today() - verified_date).days
-        if age_days >= HARDFAIL_AGE_DAYS:
-            findings.append(Finding("HIGH", "6", path, 1, f"last_verified ≥{HARDFAIL_AGE_DAYS}d (실제 {age_days}d). evergreen=true 면제 가능"))
+        evergreen_exempt = (
+            is_authored
+            and fm.get("page_type") == "concept"
+            and fm.get("evergreen") is True
+        )
+        if age_days >= HARDFAIL_AGE_DAYS and not evergreen_exempt:
+            message = f"last_verified ≥{HARDFAIL_AGE_DAYS}d (실제 {age_days}d)"
+            if is_authored:
+                message += ". concept evergreen=true이면 HIGH 면제 가능"
+            findings.append(Finding("HIGH", "6", path, 1, message))
         elif age_days >= WARN_AGE_DAYS:
             findings.append(Finding("MEDIUM", "6", path, 1, f"last_verified ≥{WARN_AGE_DAYS}d (실제 {age_days}d)"))
     except (ValueError, TypeError):
@@ -624,7 +308,7 @@ def check_raw_required_fields(path: Path, fm: dict | None) -> list[Finding]:
     (RAW_REQUIRED_FIELDS 가 선언만 되고 미호출이던 skeleton 갭 완성).
     """
     findings = []
-    if "raw/sources/" not in str(path.relative_to(REPO_ROOT)):
+    if not is_raw_source_path(path):
         return findings
     if not fm:
         findings.append(Finding("HIGH", "frontmatter", path, 1, "raw 페이지 frontmatter 부재"))
@@ -651,38 +335,19 @@ def check_directive_write_scope(path: Path, fm: dict | None) -> list[Finding]:
     return findings
 
 
-def wiki_contract_mode(repo_root: Path, wiki_root: Path) -> str:
-    resolution = json.loads(
-        (repo_root / "_meta" / "knowledge-migration-resolution.json").read_text(
-            encoding="utf-8"
-        )
-    )
-    base_tree_sha256 = resolution.get("base_tree_sha256")
-    if not isinstance(base_tree_sha256, str) or not re.fullmatch(
-        r"[a-f0-9]{64}", base_tree_sha256
-    ):
-        raise ValueError("migration resolution has no valid base_tree_sha256")
-    current_tree_sha256 = build_tree_manifest(wiki_root)["tree_sha256"]
-    return "legacy" if current_tree_sha256 == base_tree_sha256 else "canonical"
-
-
 def collect_legacy_findings(paths: list[Path]) -> list[Finding]:
     findings = []
-    canonical_tags, tag_aliases = load_taxonomy_tags()
-    canonical_entities, entity_aliases = load_taxonomy_entities()
-    for path in iter_markdown_files(paths):
+    for path in paths:
         try:
             text = path.read_text(encoding="utf-8")
-        except (UnicodeDecodeError, PermissionError):
+        except (OSError, UnicodeDecodeError) as exc:
+            findings.append(
+                Finding("HIGH", "io", path, None, f"Markdown read failure: {exc}")
+            )
             continue
         fm, _ = parse_frontmatter(text)
-        findings.extend(check_axis_1_accuracy(path, text, fm))
-        findings.extend(check_axis_3_taxonomy_tags(path, fm, canonical_tags, tag_aliases))
-        findings.extend(check_axis_3_taxonomy_entities(path, text, canonical_entities, entity_aliases))
         findings.extend(check_axis_5_integrity_broken_links(path, text))
         findings.extend(check_axis_6_recency(path, fm))
-        findings.extend(check_wiki_required_fields(path, fm))
-        findings.extend(check_claim_table(path, text, fm))
         findings.extend(check_raw_required_fields(path, fm))
         findings.extend(check_directive_write_scope(path, fm))
         # 축 5 (orphan) 은 별도 wrapper 필요 — TODO
@@ -704,35 +369,105 @@ def _target_finding(value: dict) -> Finding:
 
 
 def collect_findings(paths: list[Path]) -> list[Finding]:
-    markdown_paths = list(iter_markdown_files(paths))
+    repository_paths: list[Path] = []
+    findings: list[Finding] = []
+    for path in paths:
+        try:
+            boundary_path = path.parent.resolve(strict=False) / path.name
+            boundary_path.relative_to(REPO_ROOT)
+        except (OSError, ValueError) as exc:
+            detail = f": {exc}" if isinstance(exc, OSError) else ""
+            findings.append(
+                Finding(
+                    "HIGH",
+                    "io",
+                    path,
+                    None,
+                    f"Markdown inventory path is outside repository{detail}",
+                )
+            )
+        else:
+            repository_paths.append(path)
+    markdown_paths, inventory_findings = _markdown_inventory(repository_paths)
+    findings.extend(inventory_findings)
     wiki_paths = [path for path in markdown_paths if is_relative_to(path, WIKI_DIR)]
     wiki_requested = bool(wiki_paths) or any(
         is_relative_to(path, WIKI_DIR) or is_relative_to(WIKI_DIR, path)
         for path in paths
     )
     if not wiki_requested:
-        return collect_legacy_findings(markdown_paths)
-    mode = wiki_contract_mode(REPO_ROOT, WIKI_DIR)
-    if mode == "legacy":
-        return collect_legacy_findings(markdown_paths)
+        findings.extend(collect_legacy_findings(markdown_paths))
+        return findings
     non_wiki_paths = [
         path for path in markdown_paths if not is_relative_to(path, WIKI_DIR)
     ]
-    findings = collect_legacy_findings(non_wiki_paths) if non_wiki_paths else []
+    if non_wiki_paths:
+        findings.extend(collect_legacy_findings(non_wiki_paths))
+    wiki_inventory_failed = False
+    for finding in inventory_findings:
+        try:
+            finding.path.relative_to(WIKI_DIR)
+        except ValueError:
+            continue
+        wiki_inventory_failed = True
+        break
+    if wiki_inventory_failed:
+        return findings
     result = check_target(WIKI_DIR, repo_root=REPO_ROOT, mode="all")
     findings.extend(_target_finding(value) for value in result.findings)
+    findings.extend(
+        _target_finding(value)
+        for value in generated_surface_findings(generated_drift(REPO_ROOT, WIKI_DIR))
+    )
     return findings
 
 
+def _utf8_path(value: str | bytes) -> Path:
+    raw = os.fsencode(value) if isinstance(value, str) else value
+    return Path(raw.decode("utf-8", errors="strict"))
+
+
 def git_changed_paths(base: str = "main") -> list[Path]:
-    try:
-        out = subprocess.run(
-            ["git", "diff", "--name-only", f"{base}..HEAD"],
-            check=True, capture_output=True, text=True,
-        ).stdout
-    except subprocess.CalledProcessError:
-        return []
-    return [REPO_ROOT / line.strip() for line in out.splitlines() if line.strip().endswith(".md")]
+    out = subprocess.run(
+        ["git", "diff", "--no-renames", "--name-status", "-z", f"{base}..HEAD"],
+        check=True,
+        capture_output=True,
+        cwd=REPO_ROOT,
+        text=False,
+    ).stdout
+    records = out.split(b"\0")
+    if not records or records[-1] != b"" or (len(records) - 1) % 2:
+        raise UnicodeError("malformed Git changed-path inventory")
+    changed: list[Path] = []
+    for index in range(0, len(records) - 1, 2):
+        status = records[index].decode("ascii", errors="strict")
+        value = records[index + 1].decode("utf-8", errors="strict")
+        pure = PurePosixPath(value)
+        if len(status) != 1 or status not in "ABCDMTUX":
+            raise UnicodeError("unsupported Git changed-path status")
+        if (
+            not pure.parts
+            or pure.is_absolute()
+            or ".." in pure.parts
+            or value != pure.as_posix()
+        ):
+            raise UnicodeError("non-canonical Git changed path")
+        relative = Path(*pure.parts)
+        if relative.suffix != ".md":
+            continue
+        if relative.parts and relative.parts[0] == "wiki":
+            candidate = WIKI_DIR
+        elif status == "D":
+            candidate = REPO_ROOT / relative
+            try:
+                candidate.lstat()
+            except FileNotFoundError:
+                continue
+        else:
+            candidate = REPO_ROOT / relative
+        if candidate not in changed:
+            changed.append(candidate)
+    return changed
 
 
 def main() -> int:
@@ -743,15 +478,39 @@ def main() -> int:
     ap.add_argument("--report", choices=["text", "jsonl", "markdown"], default="text")
     args = ap.parse_args()
 
+    initial_findings: list[Finding] = []
     if args.changed:
-        paths = git_changed_paths(args.base)
+        try:
+            paths = git_changed_paths(args.base)
+        except (subprocess.CalledProcessError, OSError, UnicodeError):
+            paths = []
+            initial_findings.append(
+                Finding(
+                    "HIGH",
+                    "io",
+                    REPO_ROOT,
+                    None,
+                    "Git changed-path inventory failure",
+                )
+            )
     elif args.paths:
-        paths = [Path(p).resolve() for p in args.paths]
+        try:
+            paths = [_utf8_path(p).absolute() for p in args.paths]
+        except UnicodeError:
+            paths = []
+            initial_findings.append(
+                Finding(
+                    "HIGH",
+                    "io",
+                    REPO_ROOT,
+                    None,
+                    "Markdown input path encoding failure",
+                )
+            )
     else:
         paths = [WIKI_DIR, REPO_ROOT / "raw", META_DIR, REPO_ROOT / "AGENTS.md"]
-        paths = [p for p in paths if p.exists()]
 
-    findings = collect_findings(paths)
+    findings = [*initial_findings, *collect_findings(paths)]
     high = sum(1 for f in findings if f.severity == "HIGH")
     medium = sum(1 for f in findings if f.severity == "MEDIUM")
 
@@ -761,11 +520,14 @@ def main() -> int:
     elif args.report == "markdown":
         print(f"# Lint Report\n\n- HIGH: {high}\n- MEDIUM: {medium}\n")
         for f in findings:
-            print(f"- [{f.severity}] axis {f.axis} `{f.to_dict()['path']}`:{f.line or '?'} — {f.message}")
+            path = json.dumps(f.to_dict()["path"], ensure_ascii=False).replace("`", "\\`")
+            message = json.dumps(f.message, ensure_ascii=False).replace("`", "\\`")
+            print(f"- [{f.severity}] axis {f.axis} {path}:{f.line or '?'} — {message}")
     else:
         for f in findings:
-            loc = f"{f.to_dict()['path']}:{f.line or '?'}"
-            print(f"[{f.severity}] axis {f.axis} {loc} — {f.message}")
+            path = json.dumps(f.to_dict()["path"], ensure_ascii=False)
+            message = json.dumps(f.message, ensure_ascii=False)
+            print(f"[{f.severity}] axis {f.axis} {path}:{f.line or '?'} — {message}")
         print(f"\n--- Summary: HIGH={high}, MEDIUM={medium} ---")
 
     # hard-fail = HIGH ≥1

@@ -3,7 +3,9 @@ from __future__ import annotations
 import ast
 import hashlib
 import json
+import os
 import re
+import stat
 from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
@@ -15,11 +17,15 @@ from .fs import confined
 from .graph import inspect_graph
 from .schema import (
     REPO_ROOT,
+    WIKILINK_RE,
     KnowledgeSchemaError,
     active_domain_for_path,
     canonical_document_paths,
     contract_format_checker,
     is_canonical_document_path,
+    lifecycle_roots,
+    load_taxonomy,
+    markdown_fence_mask,
     parse_markdown,
     validate_instance,
     validator_for,
@@ -49,7 +55,43 @@ RULE_REGISTRY = {
     "VR-KP-020": ("active", "rule-coverage-check"),
     "VR-KP-021": ("active", "artifact-replay-check"),
     "VR-KP-022": ("active", "page-command-contract"),
+    "VR-KP-023": ("active", "taxonomy-check"),
 }
+ARCHITECTURE_MODULE_PATHS = {
+    "wiki_ingest": Path("scripts/wiki_ingest.py"),
+    "knowledge.artifacts": Path("scripts/knowledge/artifacts.py"),
+    "knowledge.check": Path("scripts/knowledge/check.py"),
+    "knowledge.documents": Path("scripts/knowledge/documents.py"),
+    "knowledge.fs": Path("scripts/knowledge/fs.py"),
+    "knowledge.graph": Path("scripts/knowledge/graph.py"),
+    "knowledge.materialize": Path("scripts/knowledge/materialize.py"),
+    "knowledge.schema": Path("scripts/knowledge/schema.py"),
+    "contracts.privacy": Path("scripts/contracts/privacy.py"),
+    "contracts.timestamps": Path("scripts/contracts/timestamps.py"),
+}
+ARCHITECTURE_EXPECTED_EDGES = {
+    ("wiki_ingest", "knowledge.artifacts"),
+    ("wiki_ingest", "knowledge.check"),
+    ("wiki_ingest", "knowledge.documents"),
+    ("wiki_ingest", "knowledge.fs"),
+    ("wiki_ingest", "knowledge.materialize"),
+    ("knowledge.artifacts", "contracts.privacy"),
+    ("knowledge.artifacts", "knowledge.fs"),
+    ("knowledge.artifacts", "knowledge.schema"),
+    ("knowledge.check", "knowledge.fs"),
+    ("knowledge.check", "knowledge.graph"),
+    ("knowledge.check", "knowledge.schema"),
+    ("knowledge.documents", "knowledge.fs"),
+    ("knowledge.documents", "knowledge.schema"),
+    ("knowledge.materialize", "knowledge.fs"),
+    ("knowledge.materialize", "knowledge.schema"),
+    ("knowledge.schema", "contracts.timestamps"),
+}
+ARCHITECTURE_MAX_EDGE_DEPTH = 3
+ARCHITECTURE_INITIALIZER_PATHS = (
+    Path("scripts/knowledge/__init__.py"),
+    Path("scripts/contracts/__init__.py"),
+)
 
 
 @dataclass(frozen=True)
@@ -71,11 +113,17 @@ class CheckResult:
 
 
 def _finding(
-    rule_id: str, path: Path, subject: str, message: str, remediation: str
+    rule_id: str,
+    path: Path,
+    subject: str,
+    message: str,
+    remediation: str,
+    *,
+    severity: str = "HIGH",
 ) -> dict:
     return {
         "rule_id": rule_id,
-        "severity": "HIGH",
+        "severity": severity,
         "path": str(path),
         "line": 1,
         "subject_id": subject,
@@ -161,7 +209,7 @@ def _ast_contract_findings(
     for path, names in required.items():
         try:
             tree = ast.parse(path.read_text(encoding="utf-8"))
-        except (OSError, SyntaxError) as exc:
+        except (OSError, UnicodeDecodeError, SyntaxError) as exc:
             findings.append(
                 _finding(
                     "VR-KP-020",
@@ -214,9 +262,6 @@ def page_command_contract_findings(repo_root: Path = REPO_ROOT) -> list[dict]:
         repo_root / "tests" / "test_fs.py": {
             "test_post_commit_rollback_failure_is_reported_indeterminate",
             "test_repository_write_lock_is_nonblocking_and_process_scoped",
-        },
-        repo_root / "tests" / "test_migration_plan.py": {
-            "test_migration_writers_share_repository_lock",
         },
     }
     return _ast_contract_findings(
@@ -304,6 +349,8 @@ def generated_surface_findings(drift: tuple[str, ...]) -> list[dict]:
 
 def rule_coverage_findings(
     registry: dict[str, tuple[str, str]] | None = None,
+    *,
+    repo_root: Path = REPO_ROOT,
 ) -> list[dict]:
     selected = RULE_REGISTRY if registry is None else registry
     executable_surfaces = {
@@ -320,6 +367,7 @@ def rule_coverage_findings(
         "page-command-contract": page_command_contract_findings,
         "cli-generated-parity": generated_surface_findings,
         "cli-index-coverage": generated_surface_findings,
+        "taxonomy-check": _taxonomy_findings,
     }
     findings = []
     for rule_id, (status, implementation) in sorted(selected.items()):
@@ -335,14 +383,21 @@ def rule_coverage_findings(
                     "register an existing executable checker or contract test",
                 )
             )
-    logic_path = REPO_ROOT / "docs" / "wiki-ingest-business-logic.md"
-    expected = set(
-        re.findall(
-            r"^\| (VR-KP-\d{3}) \|",
-            logic_path.read_text(encoding="utf-8"),
-            re.MULTILINE,
+    logic_path = repo_root / "docs" / "wiki-ingest-business-logic.md"
+    try:
+        logic = logic_path.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError) as exc:
+        findings.append(
+            _finding(
+                "VR-KP-020",
+                logic_path,
+                "business-logic-rules",
+                f"unavailable business logic rule source: {exc}",
+                "restore a readable UTF-8 business logic specification",
+            )
         )
-    )
+        logic = ""
+    expected = set(re.findall(r"^\| (VR-KP-\d{3}) \|", logic, re.MULTILINE))
     for missing in sorted(expected - set(selected)):
         findings.append(
             _finding(
@@ -357,8 +412,88 @@ def rule_coverage_findings(
         status == "active" and implementation == "page-command-contract"
         for status, implementation in selected.values()
     ):
-        findings.extend(page_command_contract_findings())
-    findings.extend(materialize_contract_findings())
+        findings.extend(page_command_contract_findings(repo_root))
+    findings.extend(materialize_contract_findings(repo_root))
+    return findings
+
+
+def _taxonomy_entity_slugs(path: Path, text: str) -> list[tuple[str, int]]:
+    values: list[tuple[str, int]] = []
+    if path.parent.name == "entities":
+        values.append((path.stem, 1))
+    lines = text.splitlines()
+    for line_number, (line, fenced) in enumerate(
+        zip(lines, markdown_fence_mask(lines)), start=1
+    ):
+        if fenced:
+            continue
+        for target in WIKILINK_RE.findall(line):
+            clean = target.strip().rstrip("/")
+            parts = clean.split("/")
+            if len(parts) >= 2 and parts[-2] == "entities":
+                leaf = parts[-1]
+                if leaf.endswith(".md"):
+                    leaf = leaf[: -len(".md")]
+                values.append((leaf, line_number))
+    return values
+
+
+def _taxonomy_findings(
+    path: Path,
+    text: str,
+    instance: dict,
+    taxonomy: tuple[
+        frozenset[str], dict[str, str], frozenset[str], dict[str, str]
+    ],
+) -> list[dict]:
+    canonical_tags, tag_aliases, canonical_entities, entity_aliases = taxonomy
+    findings: list[dict] = []
+    for tag in instance["properties"]["tags"]:
+        if tag in canonical_tags:
+            continue
+        if tag in tag_aliases:
+            findings.append(
+                _finding(
+                    "VR-KP-023",
+                    path,
+                    tag,
+                    f"taxonomy alias tag: {tag}; use {tag_aliases[tag]}",
+                    "replace the alias with its canonical taxonomy tag",
+                    severity="MEDIUM",
+                )
+            )
+        else:
+            findings.append(
+                _finding(
+                    "VR-KP-023",
+                    path,
+                    tag,
+                    f"taxonomy unknown tag: {tag}",
+                    "register the tag through taxonomy review or use a canonical tag",
+                )
+            )
+    for entity, line_number in _taxonomy_entity_slugs(path, text):
+        if entity in canonical_entities:
+            continue
+        if entity in entity_aliases:
+            finding = _finding(
+                "VR-KP-023",
+                path,
+                entity,
+                f"taxonomy alias entity: {entity}; use {entity_aliases[entity]}",
+                "replace the alias with its canonical taxonomy entity",
+                severity="MEDIUM",
+            )
+        else:
+            finding = _finding(
+                "VR-KP-023",
+                path,
+                entity,
+                f"taxonomy unknown entity: {entity}",
+                "register the entity through taxonomy review or use a canonical entity",
+            )
+        finding["line"] = line_number
+        findings.append(finding)
     return findings
 
 
@@ -450,23 +585,27 @@ def _artifact_findings(repo_root: Path, path: Path, instance: dict) -> list[dict
 
 
 def _lifecycle_findings(
-    repo_root: Path, target_root: Path, path: Path, instance: dict
+    repo_root: Path,
+    target_root: Path,
+    path: Path,
+    instance: dict,
+    roots: tuple[str, ...],
 ) -> list[dict]:
     relative = path.resolve().relative_to(target_root.resolve())
     parts = relative.parts
-    lifecycle = [
-        name
-        for name in ("staging", "domains", "collections", "archive")
-        if name in parts
-    ]
-    if len(lifecycle) != 1:
+    lifecycle_occurrences = [part for part in parts if part in roots]
+    if (
+        not parts
+        or parts[0] not in roots
+        or lifecycle_occurrences != [parts[0]]
+    ):
         return [
             _finding(
                 "VR-KP-014",
                 path,
                 instance["id"],
                 "page path must identify exactly one lifecycle root",
-                "place the page under staging, domains, collections, or archive",
+                "place the page under one of: " + ", ".join(roots),
             )
         ]
     try:
@@ -483,7 +622,7 @@ def _lifecycle_findings(
         ]
     if (
         instance["properties"]["page_type"] == "collection"
-        and lifecycle[0] == "domains"
+        and parts[0] == "domains"
     ):
         return [
             _finding(
@@ -496,7 +635,7 @@ def _lifecycle_findings(
         ]
     if (
         instance["properties"]["page_type"] != "collection"
-        and lifecycle[0] == "collections"
+        and parts[0] == "collections"
     ):
         return [
             _finding(
@@ -510,41 +649,373 @@ def _lifecycle_findings(
     return []
 
 
-def _module_name(path: Path, scripts_root: Path) -> str:
-    relative = path.relative_to(scripts_root).with_suffix("")
-    parts = list(relative.parts)
-    if parts[-1] == "__init__":
-        parts.pop()
-    return ".".join(parts)
+def _architecture_module_name(relative: Path) -> str:
+    if relative == Path("scripts/wiki_ingest.py"):
+        return "wiki_ingest"
+    if relative.parts[:2] == ("scripts", "knowledge"):
+        parts = relative.with_suffix("").parts[2:]
+        if parts[-1:] == ("__init__",):
+            parts = parts[:-1]
+        return ".".join(("knowledge", *parts))
+    if relative.parts[:2] == ("scripts", "contracts"):
+        parts = relative.with_suffix("").parts[2:]
+        if parts[-1:] == ("__init__",):
+            parts = parts[:-1]
+        return ".".join(("contracts", *parts))
+    raise ValueError(f"architecture path is outside the module roots: {relative}")
+
+
+def _architecture_import_targets(module: str, node: ast.AST) -> list[str]:
+    if isinstance(node, ast.Import):
+        targets = [alias.name for alias in node.names]
+    elif not isinstance(node, ast.ImportFrom):
+        return []
+    else:
+        if node.level:
+            package = module.split(".")[:-1]
+            prefix = package[: len(package) - node.level + 1]
+            base = ".".join(prefix + ([node.module] if node.module else []))
+        else:
+            base = node.module or ""
+        targets = [base] if base else []
+        targets.extend(
+            ".".join(part for part in (base, alias.name) if part)
+            for alias in node.names
+            if alias.name != "*"
+        )
+
+    return targets
+
+
+def _architecture_source_tree(path: Path, subject: str) -> tuple[ast.AST | None, list[dict]]:
+    try:
+        mode = path.lstat().st_mode
+    except OSError as exc:
+        return None, [
+            _finding(
+                "VR-KP-019",
+                path,
+                subject,
+                f"unavailable architecture source (stat): {exc}",
+                "restore a regular non-symlink UTF-8 Python architecture source",
+            )
+        ]
+    if stat.S_ISLNK(mode) or not stat.S_ISREG(mode):
+        return None, [
+            _finding(
+                "VR-KP-019",
+                path,
+                subject,
+                "non-regular architecture source",
+                "restore a regular non-symlink UTF-8 Python architecture source",
+            )
+        ]
+    try:
+        return ast.parse(path.read_text(encoding="utf-8")), []
+    except (OSError, UnicodeDecodeError, SyntaxError) as exc:
+        category = (
+            "read"
+            if isinstance(exc, OSError)
+            else "encoding"
+            if isinstance(exc, UnicodeDecodeError)
+            else "syntax"
+        )
+        return None, [
+            _finding(
+                "VR-KP-019",
+                path,
+                subject,
+                f"unavailable architecture source ({category}): {exc}",
+                "restore a regular non-symlink UTF-8 Python architecture source",
+            )
+        ]
+
+
+def _architecture_python_paths(root: Path) -> tuple[list[Path], list[dict]]:
+    paths: list[Path] = []
+    findings: list[dict] = []
+
+    def report_walk_error(error: OSError) -> None:
+        location = Path(error.filename) if error.filename else root
+        findings.append(
+            _finding(
+                "VR-KP-019",
+                location,
+                "architecture",
+                f"unavailable architecture inventory: {error}",
+                "restore a readable architecture module directory",
+            )
+        )
+
+    try:
+        for current, directory_names, file_names in os.walk(
+            root, followlinks=False, onerror=report_walk_error
+        ):
+            current_path = Path(current)
+            traversable: list[str] = []
+            for name in directory_names:
+                directory = current_path / name
+                try:
+                    mode = directory.lstat().st_mode
+                except OSError as exc:
+                    report_walk_error(exc)
+                    continue
+                if name.endswith(".py"):
+                    findings.append(
+                        _finding(
+                            "VR-KP-019",
+                            directory,
+                            "architecture",
+                            "non-regular architecture source",
+                            "restore a regular non-symlink UTF-8 Python "
+                            "architecture source",
+                        )
+                    )
+                    continue
+                if stat.S_ISLNK(mode) or not stat.S_ISDIR(mode):
+                    findings.append(
+                        _finding(
+                            "VR-KP-019",
+                            directory,
+                            "architecture",
+                            "non-regular architecture inventory",
+                            "restore a regular non-symlink architecture directory",
+                        )
+                    )
+                    continue
+                traversable.append(name)
+            directory_names[:] = traversable
+            paths.extend(
+                current_path / name
+                for name in file_names
+                if name.endswith(".py")
+            )
+    except OSError as exc:
+        report_walk_error(exc)
+    return paths, findings
 
 
 def architecture_findings(repo_root: Path = REPO_ROOT) -> list[dict]:
-    scripts_root = repo_root / "scripts"
-    package_root = repo_root / "scripts" / "knowledge"
-    python_paths = list(package_root.rglob("*.py"))
-    entrypoint = scripts_root / "wiki_ingest.py"
-    if entrypoint.is_file():
-        python_paths.append(entrypoint)
-    modules = {_module_name(path, scripts_root): path for path in python_paths}
-    edges: dict[str, set[str]] = {module: set() for module in modules}
+    actual_paths: set[Path] = set()
     findings: list[dict] = []
+    scripts_root = repo_root / "scripts"
+    module_roots = tuple(
+        repo_root / relative.parent for relative in ARCHITECTURE_INITIALIZER_PATHS
+    )
+    invalid_inventory_roots: set[Path] = set()
+    for root in (repo_root, scripts_root, *module_roots):
+        try:
+            mode = root.lstat().st_mode
+        except OSError as exc:
+            findings.append(
+                _finding(
+                    "VR-KP-019",
+                    root,
+                    "architecture",
+                    f"unavailable architecture inventory: {exc}",
+                    "restore a regular non-symlink architecture directory",
+                )
+            )
+            invalid_inventory_roots.add(root)
+            continue
+        if stat.S_ISLNK(mode) or not stat.S_ISDIR(mode):
+            findings.append(
+                _finding(
+                    "VR-KP-019",
+                    root,
+                    "architecture",
+                    "non-regular architecture inventory",
+                    "restore a regular non-symlink architecture directory",
+                )
+            )
+            invalid_inventory_roots.add(root)
+    if repo_root in invalid_inventory_roots or scripts_root in invalid_inventory_roots:
+        return findings
+    try:
+        script_entries = list(scripts_root.iterdir())
+    except OSError as exc:
+        findings.append(
+            _finding(
+                "VR-KP-019",
+                scripts_root,
+                "architecture",
+                f"unavailable architecture inventory: {exc}",
+                "restore a readable architecture scripts directory",
+            )
+        )
+        return findings
+    local_sibling_modules = {
+        path.stem
+        for path in script_entries
+        if path.suffix == ".py"
+        and path.stem.isidentifier()
+        and path.name != "wiki_ingest.py"
+    }
+    local_sibling_modules.update(
+        path.name
+        for path in script_entries
+        if path.name not in {"knowledge", "contracts"} and path.name.isidentifier()
+    )
+    for root in module_roots:
+        if any(
+            invalid == root or invalid in root.parents
+            for invalid in invalid_inventory_roots
+        ):
+            continue
+        candidates, inventory_findings = _architecture_python_paths(root)
+        findings.extend(inventory_findings)
+        actual_paths.update(
+            relative
+            for path in candidates
+            if (relative := path.relative_to(repo_root))
+            not in ARCHITECTURE_INITIALIZER_PATHS
+        )
+    entrypoint = Path("scripts/wiki_ingest.py")
+    try:
+        (repo_root / entrypoint).lstat()
+    except FileNotFoundError:
+        pass
+    except OSError as exc:
+        findings.append(
+            _finding(
+                "VR-KP-019",
+                repo_root / entrypoint,
+                "wiki_ingest",
+                f"unavailable architecture inventory: {exc}",
+                "restore a readable architecture entrypoint",
+            )
+        )
+    else:
+        actual_paths.add(entrypoint)
+    expected_paths = set(ARCHITECTURE_MODULE_PATHS.values())
+    modules: dict[str, Path] = {}
+    for relative in sorted(actual_paths):
+        module = _architecture_module_name(relative)
+        path = repo_root / relative
+        if module in modules:
+            findings.append(
+                _finding(
+                    "VR-KP-019",
+                    path,
+                    module,
+                    f"duplicate architecture module identity: {module}",
+                    "remove the colliding module path or revise the architecture contract",
+                )
+            )
+            continue
+        modules[module] = path
+    edges: dict[str, set[str]] = {module: set() for module in modules}
+    for module, relative in ARCHITECTURE_MODULE_PATHS.items():
+        if module not in modules:
+            findings.append(
+                _finding(
+                    "VR-KP-019",
+                    repo_root / relative,
+                    module,
+                    f"missing architecture module: {module}",
+                    "restore the exact documented architecture module set",
+                )
+            )
+    for relative in sorted(actual_paths - expected_paths):
+        module = _architecture_module_name(relative)
+        findings.append(
+            _finding(
+                "VR-KP-019",
+                repo_root / relative,
+                module,
+                f"unexpected architecture module: {module}",
+                "remove the module or revise the architecture contract before use",
+            )
+        )
+    for relative in ARCHITECTURE_INITIALIZER_PATHS:
+        initializer = repo_root / relative
+        if initializer.parent in invalid_inventory_roots:
+            continue
+        tree, source_findings = _architecture_source_tree(
+            initializer, relative.parent.name
+        )
+        findings.extend(source_findings)
+        if tree is not None and any(
+            isinstance(node, (ast.Import, ast.ImportFrom)) for node in ast.walk(tree)
+        ):
+            findings.append(
+                _finding(
+                    "VR-KP-019",
+                    initializer,
+                    relative.parent.name,
+                    "package initializer import is forbidden",
+                    "keep architecture package initializers import-free",
+                )
+            )
     for module, path in sorted(modules.items()):
-        tree = ast.parse(path.read_text(encoding="utf-8"))
+        tree, source_findings = _architecture_source_tree(path, module)
+        findings.extend(source_findings)
+        if tree is None:
+            continue
         for node in ast.walk(tree):
-            targets: list[str] = []
+            if (
+                isinstance(node, ast.ImportFrom)
+                and node.level > len(module.split(".")[:-1])
+            ):
+                findings.append(
+                    _finding(
+                        "VR-KP-019",
+                        path,
+                        module,
+                        f"invalid relative architecture import level: {node.level}",
+                        "keep relative imports within the declaring package",
+                    )
+                )
+                continue
+            import_targets = _architecture_import_targets(module, node)
             if isinstance(node, ast.Import):
-                targets = [alias.name for alias in node.names]
-            elif isinstance(node, ast.ImportFrom):
-                if node.level:
-                    base = module.split(".")[:-1]
-                    prefix = base[: len(base) - node.level + 1]
-                    targets = [
-                        ".".join(prefix + ([node.module] if node.module else []))
-                    ]
-                elif node.module:
-                    targets = [node.module]
-            for target in targets:
-                if target.startswith(("ytscript", "ingest", "pipeline")):
+                module_references = import_targets
+            elif isinstance(node, ast.ImportFrom) and import_targets:
+                base = import_targets[0]
+                module_references = (
+                    import_targets[1:] or [base]
+                    if base in {"knowledge", "contracts", "scripts"}
+                    else [base]
+                )
+            else:
+                module_references = []
+            for target in sorted(set(module_references)):
+                if (
+                    (
+                        target in {"knowledge", "contracts", "scripts"}
+                        or target.startswith(
+                            ("knowledge.", "contracts.", "scripts.")
+                        )
+                    )
+                    and target not in ARCHITECTURE_MODULE_PATHS
+                ):
+                    findings.append(
+                        _finding(
+                            "VR-KP-019",
+                            path,
+                            module,
+                            f"unregistered architecture import: {module} -> {target}",
+                            "register the module in the architecture contract or remove the import",
+                        )
+                    )
+            for target in sorted(set(import_targets)):
+                target_parts = target.split(".")
+                local_sibling = target_parts[0] in local_sibling_modules or (
+                    len(target_parts) > 1
+                    and target_parts[0] == "scripts"
+                    and target_parts[1] in local_sibling_modules
+                )
+                if target_parts[0] == "projects" or local_sibling:
+                    findings.append(
+                        _finding(
+                            "VR-KP-019",
+                            path,
+                            module,
+                            f"forbidden repository import: {module} -> {target}",
+                            "remove dependencies outside the declared architecture modules",
+                        )
+                    )
+                if target_parts[0] in {"ytscript", "ingest", "pipeline"}:
                     findings.append(
                         _finding(
                             "VR-KP-019",
@@ -558,11 +1029,38 @@ def architecture_findings(repo_root: Path = REPO_ROOT) -> list[dict]:
                 if target in modules:
                     edges[module].add(target)
 
+    actual_edges = {
+        (source, target) for source, targets in edges.items() for target in targets
+    }
+    for source, target in sorted(actual_edges - ARCHITECTURE_EXPECTED_EDGES):
+        findings.append(
+            _finding(
+                "VR-KP-019",
+                modules[source],
+                source,
+                f"unexpected architecture edge: {source} -> {target}",
+                "remove the edge or revise the architecture contract before use",
+            )
+        )
+    for source, target in sorted(ARCHITECTURE_EXPECTED_EDGES - actual_edges):
+        findings.append(
+            _finding(
+                "VR-KP-019",
+                modules.get(source, repo_root / ARCHITECTURE_MODULE_PATHS[source]),
+                source,
+                f"missing architecture edge: {source} -> {target}",
+                "restore the exact documented architecture edge set",
+            )
+        )
+
     visiting: set[str] = set()
     visited: set[str] = set()
+    cycle_detected = False
 
     def visit(module: str) -> None:
+        nonlocal cycle_detected
         if module in visiting:
+            cycle_detected = True
             findings.append(
                 _finding(
                     "VR-KP-019",
@@ -583,6 +1081,30 @@ def architecture_findings(repo_root: Path = REPO_ROOT) -> list[dict]:
 
     for module in sorted(modules):
         visit(module)
+    if not cycle_detected and set(modules) == set(ARCHITECTURE_MODULE_PATHS):
+        depth_cache: dict[str, int] = {}
+
+        def longest_path(module: str) -> int:
+            if module not in depth_cache:
+                depth_cache[module] = (
+                    0
+                    if not edges[module]
+                    else 1 + max(longest_path(target) for target in edges[module])
+                )
+            return depth_cache[module]
+
+        maximum_depth = max(longest_path(module) for module in modules)
+        if maximum_depth != ARCHITECTURE_MAX_EDGE_DEPTH:
+            findings.append(
+                _finding(
+                    "VR-KP-019",
+                    repo_root / "scripts/knowledge/check.py",
+                    "architecture",
+                    f"architecture dependency edge depth is {maximum_depth}, "
+                    f"expected {ARCHITECTURE_MAX_EDGE_DEPTH}",
+                    "restore the exact documented architecture depth",
+                )
+            )
     return findings
 
 
@@ -656,9 +1178,9 @@ def check_target(
                 )
     findings = []
     if include_repository_contracts:
-        findings.extend(contract_findings())
-        findings.extend(rule_coverage_findings())
-        findings.extend(architecture_findings())
+        findings.extend(contract_findings(repo_root))
+        findings.extend(rule_coverage_findings(repo_root=repo_root))
+        findings.extend(architecture_findings(repo_root))
     if not sorted_paths:
         findings.append(
             _finding(
@@ -669,12 +1191,19 @@ def check_target(
                 "select the intended non-empty canonical scope",
             )
         )
-    records: list[tuple[Path, dict]] = []
+    records: list[tuple[Path, dict, str]] = []
     parse_findings: list[dict] = []
     for path in sorted_paths:
         try:
-            instance = parse_markdown(path, override_by_path.get(path.resolve()))
-        except (OSError, KnowledgeSchemaError) as exc:
+            source = override_by_path.get(path.resolve())
+            if source is None:
+                source = path.read_text(encoding="utf-8")
+            instance = parse_markdown(
+                path,
+                source,
+                schema_path=repo_root / "_meta" / "knowledge.schema.json",
+            )
+        except (OSError, UnicodeDecodeError, KnowledgeSchemaError) as exc:
             parse_findings.append(
                 _finding(
                     "VR-KP-004",
@@ -685,7 +1214,38 @@ def check_target(
                 )
             )
             continue
-        records.append((path, instance))
+        records.append((path, instance, source))
+
+    taxonomy = None
+    try:
+        taxonomy = load_taxonomy(repo_root)
+    except KnowledgeSchemaError as exc:
+        findings.append(
+            _finding(
+                "VR-KP-023",
+                repo_root / "_meta" / "taxonomy.md",
+                "taxonomy",
+                str(exc),
+                "make taxonomy canonical and alias entries unique and parseable",
+            )
+        )
+
+    try:
+        roots = lifecycle_roots(repo_root)
+    except KnowledgeSchemaError as exc:
+        findings.append(
+            _finding(
+                "VR-KP-004",
+                repo_root / "_meta" / "knowledge.schema.json",
+                "schema",
+                str(exc),
+                (
+                    "define one non-empty LifecyclePath and reference it from "
+                    "PageWrite source_path and target_path"
+                ),
+            )
+        )
+        roots = ()
 
     if mode == "all":
         impacted_paths = set(sorted_paths)
@@ -694,7 +1254,7 @@ def check_target(
         changed_resolved = {path.resolve() for path in changed_paths or []}
         changed_ids = {path.stem for path in changed_paths or []}
         impacted_ids = set(changed_ids)
-        for _, instance in records:
+        for _, instance, _ in records:
             outgoing = set(instance["links"])
             outgoing.update(relation["target"] for relation in instance["relations"])
             outgoing.update(member["target"] for member in instance["members"])
@@ -703,7 +1263,9 @@ def check_target(
             if outgoing.intersection(changed_ids):
                 impacted_ids.add(instance["id"])
         impacted_paths = {
-            path for path, instance in records if instance["id"] in impacted_ids
+            path
+            for path, instance, _ in records
+            if instance["id"] in impacted_ids
         }
         impacted_paths.update(
             path for path in sorted_paths if path.resolve() in changed_resolved
@@ -714,24 +1276,33 @@ def check_target(
             if Path(finding["path"]).resolve() in changed_resolved
         )
 
-    for path, instance in records:
+    for path, instance, source in records:
         if path not in impacted_paths:
             continue
+        if taxonomy is not None:
+            findings.extend(_taxonomy_findings(path, source, instance, taxonomy))
         findings.extend(_artifact_findings(repo_root, path, instance))
-        findings.extend(_lifecycle_findings(repo_root, target_root, path, instance))
+        if roots:
+            findings.extend(
+                _lifecycle_findings(repo_root, target_root, path, instance, roots)
+            )
     findings.extend(
         finding
-        for finding in inspect_graph(records)
+        for finding in inspect_graph(
+            [(path, instance) for path, instance, _ in records]
+        )
         if Path(finding["path"]) in impacted_paths
     )
     findings.sort(key=lambda item: (item["path"], item["rule_id"], item["message"]))
     return CheckResult(
-        structural_verdict="FAIL" if findings else "PASS",
+        structural_verdict=(
+            "FAIL" if any(item["severity"] == "HIGH" for item in findings) else "PASS"
+        ),
         semantic_review="not-performed",
         mode=mode,
         exclusions=tuple(
             sorted(
-                EXCLUDED_PARTS | {"templates/**", "index.md", "overview.md", "log.md"}
+                EXCLUDED_PARTS | {"templates/**", "index.md", "overview.md"}
             )
         ),
         findings=tuple(findings),

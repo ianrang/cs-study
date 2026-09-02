@@ -1,0 +1,409 @@
+{
+  "schema_version": "2.1",
+  "task_id": "P2-T7",
+  "mode": "git-isolated-target",
+  "base_commit": "e4e2d5b035401fe74b0f69721f4038a4e2bff2c8",
+  "approval_state": "P2-T8-closure-approved",
+  "patch": {
+    "path": "reports/P2-T7-target.patch",
+    "sha256": "dc374e8f2be442be172f378917e3c7942fdfe3bf328338ddd82176a2c8ae9269",
+    "size": 654813,
+    "operation_count": 44,
+    "replace_count": 37,
+    "delete_count": 7,
+    "payload_target_tree_oid": "70b453d77bdc2e569a65550bb6e7bd8346c5141d"
+  },
+  "apply_contract": {
+    "preconditions": [
+      "create a clean detached worktree at base_commit",
+      "verify patch SHA-256",
+      "run git apply --check --index",
+      "refuse any unlisted path change"
+    ],
+    "candidate_commit": [
+      "apply exact patch only in detached worktree",
+      "require index tree equals payload_target_tree_oid",
+      "copy six ignored terminal evidence roots only for boundary tests",
+      "run all automated gates before any commit"
+    ],
+    "integration": [
+      "P2-T8 user approval was received before live integration",
+      "apply the exact patch to base_commit and require the pre-closure tree to equal payload_target_tree_oid",
+      "apply only the declared closure overlay and stage all declared evidence in the same atomic commit",
+      "verify the unaffected payload projection instead of embedding the final self-referential commit tree"
+    ],
+    "recovery": "discard failed detached worktree; live branch remains unchanged",
+    "evidence_paths": [
+      "reports/P2-T7-removal-plan.json",
+      "reports/P2-T7-target.patch",
+      "reports/P2-T7-verification.md",
+      "reports/P2-T8-verification.md"
+    ]
+  },
+  "p2_t8_closure": {
+    "decision": "single atomic commit with a non-self-referential payload projection",
+    "approved_on": "2026-09-02",
+    "pre_closure_tree_oid": "70b453d77bdc2e569a65550bb6e7bd8346c5141d",
+    "overlay_paths": [
+      ".claude/resume_prompt.md",
+      "docs/wiki-ingest-architecture.md",
+      "docs/wiki-ingest-prd.md",
+      "docs/wiki-ingest-review.md",
+      "tests/test_knowledge_check.py",
+      "todo.md"
+    ],
+    "unaffected_payload_projection": {
+      "serialization": "path-sorted '<target-sha256-or-DELETE>  <repo-relative-path>\\n' bytes",
+      "operation_count": 38,
+      "sha256": "f4b59f034d0d191d26dbf8484d7c05a1859e3917aa52b6ade2a67b923d868fac"
+    },
+    "self_reference_rule": "do not embed or require the final commit tree or any evidence file's own digest inside that evidence file"
+  },
+  "preserved": {
+    "terminal_evidence_roots": [
+      ".knowledge-migration-6b-apply.json",
+      ".knowledge-migration-6b-reapply.json",
+      ".knowledge-migration-6b-restore.json",
+      ".wiki.migration.ox34ouhi",
+      ".wiki.migration.unuy40ja",
+      ".wiki.restore.594c11uf"
+    ],
+    "terminal_evidence_file_count": 258,
+    "terminal_evidence_manifest_sha256": "1ee9e528ccd79cc9d562c37f9bbf0156bb8d6d8bed6d23ab5aaa6665485d91c3",
+    "user_owned_untracked_raw_file_count": 16,
+    "user_owned_untracked_raw_selector": "git ls-files --others --exclude-standard -z -- raw",
+    "user_owned_untracked_raw_sha256": "d8a2f9801babf1a08cfefe495159b3dd71a6ad168633d35610b6cbe801b0af6b",
+    "historical_exact_plan_backup_bytes": "unrecovered historical limitation; not a current runtime or P2-T7 candidate input",
+    "historical_reports_archives_journals": "preserved"
+  },
+  "derived_parity": {
+    "serialization": "path-sorted '<sha256>  <repo-relative-path>\\n' bytes",
+    "canonical_markdown_count": 75,
+    "canonical_content_manifest_sha256": "dffc9d10e2f353ec41f3262b75eacc2c833157910e2b7a84dbc301021694d3de",
+    "generated_file_count": 11,
+    "generated_content_manifest_sha256": "25dd08a61382e99ed635e34b9a627c5b9f90381ac1440fda7277e664a6f7f2a1",
+    "materialize_input_sha256": "835ae466899266f7a62cbc45c2eafef0ff88c8e20895a8d155fa7bf34423e33d",
+    "generated_tree_sha256": "833b3f853f1639486390f4d1f5e18958860c8943ddfdf47e46d2426e0b3d2433",
+    "generated_paths": [
+      "wiki/index.md",
+      "wiki/overview.md",
+      "wiki/templates/benchmark.md",
+      "wiki/templates/collection.md",
+      "wiki/templates/comparison.md",
+      "wiki/templates/concept.md",
+      "wiki/templates/dataset.md",
+      "wiki/templates/entity.md",
+      "wiki/templates/method.md",
+      "wiki/templates/source-summary.md",
+      "wiki/views/knowledge-pages.base"
+    ]
+  },
+  "active_surface_queries": {
+    "scope": [
+      ".gitignore",
+      "AGENTS.md",
+      "_meta/**",
+      "scripts/**",
+      "tests/**",
+      "todo.md",
+      ".claude/resume_prompt.md"
+    ],
+    "exclusions": [
+      ".git/**",
+      "archives/**",
+      "reports/**",
+      "docs/**",
+      "raw/**"
+    ],
+    "legacy_log_target_occurrences": 0,
+    "persistent_backlink_target_occurrences": 0,
+    "persistent_provenance_target_occurrences": 0,
+    "migration_runtime_target_occurrences": 0,
+    "legacy_call_analyzer_target_occurrences": 0,
+    "lifecycle_regex_active_occurrences": 1
+  },
+  "operations": [
+    {
+      "action": "replace",
+      "path": ".claude/resume_prompt.md",
+      "base_sha256": "e766e143109a735c0c3d11b7e0e4e42dd47b53a613c7188e03431047a1776d44",
+      "target_sha256": "a0f48f0e05e2bda5c308971e99e7670182084c12767f8622297959cc42f846d7"
+    },
+    {
+      "action": "replace",
+      "path": ".gitignore",
+      "base_sha256": "82213c11148c9cc0ceec86809ffa47db2c4d183aa5c2687a0109e29dec368f78",
+      "target_sha256": "ae4e971399d378fd573e13c689ad19992ad3101a78f54320b3679abc4fb68ed2"
+    },
+    {
+      "action": "replace",
+      "path": "AGENTS.md",
+      "base_sha256": "864a9f6db72aeed970d376e7822f3510d9d04e5cbf1d3618423c0e8904a93a58",
+      "target_sha256": "84aa22ec0e6a261c4d25e7569c67ca41ee622a6271e4428b315b25391a3d6b4f"
+    },
+    {
+      "action": "replace",
+      "path": "_meta/defaults.yaml",
+      "base_sha256": "466bc2714ad090fe229772ff75dc839f1bedb70a12d715cceefd20b34fbd109c",
+      "target_sha256": "de1901617604c16990cedc82f3f4942e5f81121d28ae10d5cb256770b3afdf8b"
+    },
+    {
+      "action": "replace",
+      "path": "_meta/frontmatter-spec.md",
+      "base_sha256": "1766879d3b5b0f82b15cfbd0d4cb32b77b3b1a996e1dfe647dba0b400f12d799",
+      "target_sha256": "e89a9b72f66942a53a2b5bde9a7f1284afbda6e45161ada474873c74e25a0bcc"
+    },
+    {
+      "action": "delete",
+      "path": "_meta/knowledge-migration-plan.schema.json",
+      "base_sha256": "c979e6cb8df0209313cfe3e976bfb60c13bb98fa1e6875512c02802c82f2a1d3",
+      "target_sha256": null
+    },
+    {
+      "action": "delete",
+      "path": "_meta/knowledge-migration-resolution.json",
+      "base_sha256": "117bbcd3887bcfb9d342c7c49583b0717c42d6197df890c69d23a12285049106",
+      "target_sha256": null
+    },
+    {
+      "action": "delete",
+      "path": "_meta/knowledge-migration-resolution.schema.json",
+      "base_sha256": "1288878304fbc42cdb39dfa455d89e22d98326da491a196c76ec623ea170323b",
+      "target_sha256": null
+    },
+    {
+      "action": "replace",
+      "path": "_meta/knowledge-requirements.json",
+      "base_sha256": "375f22c49c8fd35c0265781649e462d8f83827e00b29f5f36dc3941d9a7490df",
+      "target_sha256": "8e548d95546b8609bef9fa16a4459036cf379cdcade828a3281fd358ecfb4e46"
+    },
+    {
+      "action": "replace",
+      "path": "_meta/knowledge.schema.json",
+      "base_sha256": "c466e1d84b69434d60e3504f1e5316f0b9ff86a5abafc0c739666cbada7ea718",
+      "target_sha256": "a303523fe6fdd3090ae1c88bae2e7513260c1b22aa40e5d9b8c0e41d9cb38836"
+    },
+    {
+      "action": "replace",
+      "path": "_meta/page-type-spec.md",
+      "base_sha256": "d9c95b26bdf8dd4b12c5028fa6cede742a3af022fcd79995a7c6ddd3e45c05c0",
+      "target_sha256": "a275a741fc2dc1befd4fb1af261535dba78917afc91381920de72657fa0d2f9f"
+    },
+    {
+      "action": "replace",
+      "path": "_meta/quality-bar.md",
+      "base_sha256": "22eaf6f2aa7e1a33ca806a1221bb70361c28aee2a62d2188cc5ce7fb5501c3f0",
+      "target_sha256": "e3642c11cbd67ec9bce46f83bd1ceb755de1aadd880c8ffb8351c846eb4d72db"
+    },
+    {
+      "action": "replace",
+      "path": "_meta/taxonomy.md",
+      "base_sha256": "c02a91909483961ced535ebb4735fcbeb5571341c6b0ed2da25999f3488564ab",
+      "target_sha256": "922a8789f124fa84dc21b920a6b837427bcce60c2510d11445ab4db584a83718"
+    },
+    {
+      "action": "replace",
+      "path": "docs/wiki-ingest-architecture.md",
+      "base_sha256": "837fc47e95091551fefbe7919bfad1a99e826ae89fd301d7c7af767b278d5550",
+      "target_sha256": "1fb180535277b33e5d3d7ff51f0caeb1be6421045cda178900c4b44328c876fb"
+    },
+    {
+      "action": "replace",
+      "path": "docs/wiki-ingest-business-logic.md",
+      "base_sha256": "4a80293a54c8c2892b30cf0b7596dc10360ce35114746dae34845de59c8355b2",
+      "target_sha256": "9461f02e9cca6ff63fdd1db6a2518ec834028bb3e7365737074d9a01fe126ec5"
+    },
+    {
+      "action": "replace",
+      "path": "docs/wiki-ingest-prd.md",
+      "base_sha256": "fa3762a9510cbd947d3ee540a29028958cf2dedc2a7602fb937689dcd68d507f",
+      "target_sha256": "e772146f405f064574896adc8a54cd12198247dc58eb2e95dae6d5159a320ecd"
+    },
+    {
+      "action": "replace",
+      "path": "docs/wiki-ingest-review.md",
+      "base_sha256": "a8af3107c29301afc96bb1d79c97509efb127b1707478bd83f38e86a79d3a068",
+      "target_sha256": "18446c1ee06f6558491d48f966cc8dd53119eff290e164ed25398f010364c7ee"
+    },
+    {
+      "action": "replace",
+      "path": "scripts/knowledge/check.py",
+      "base_sha256": "14b129ce702aa6f08d2376a148403b13fc90dbbd556bf32f23929f2591dadef6",
+      "target_sha256": "481170cf0f070b67e37843959c44a2b498bdae18f56dead51645e78c772fca95"
+    },
+    {
+      "action": "replace",
+      "path": "scripts/knowledge/documents.py",
+      "base_sha256": "57c80ef5b5fa800355a5e822e18734f77d015f1266adb3fa8aa57754b444899d",
+      "target_sha256": "b911934a614697fabf8784ad487fa88c9bc9918372c28da6b069dd5e9f8155a3"
+    },
+    {
+      "action": "replace",
+      "path": "scripts/knowledge/fs.py",
+      "base_sha256": "9dead2ceb0108a7ecd3bd8229439aa44c361cdcebb8d951f1b5977bef4ce8f59",
+      "target_sha256": "355e4845e887eaf2f4f132dd2104f73d883210204f6b963ba8719bd2f7546c04"
+    },
+    {
+      "action": "delete",
+      "path": "scripts/knowledge/migration.py",
+      "base_sha256": "83c8b5327885624073dc79ed1952aa870004537820e13299a2c60fd8f214df28",
+      "target_sha256": null
+    },
+    {
+      "action": "replace",
+      "path": "scripts/knowledge/schema.py",
+      "base_sha256": "76fd14d6d65f0b5afc0e3bc17b8206ac4dcae557d3dac6701e82eccb8afb2785",
+      "target_sha256": "cdcd0f83819ae99e8d130449312d8dcc332e8b207c58eb9d460d37e3d8e41092"
+    },
+    {
+      "action": "replace",
+      "path": "scripts/lint.py",
+      "base_sha256": "70c08f2e3d89f63c59f3e90e5025e311c31fa7654300287f1ea700cbbdb72bab",
+      "target_sha256": "bba30c3ecc035b37fc9276ff32f2ea6b03d9b890362eef1066999eb775e8be87"
+    },
+    {
+      "action": "replace",
+      "path": "scripts/wiki_ingest.py",
+      "base_sha256": "935f41b52521815d36860dc3126ac06df350501d2ba90960ad29acde90ae4210",
+      "target_sha256": "866e9abf386342535497cb460f724bfe81c0498ae8c8dbbac92e8b48e5f82985"
+    },
+    {
+      "action": "delete",
+      "path": "tests/test_documents.py",
+      "base_sha256": "507ad138733dac2b8b5ab125e380a98f27f6ffae13641cc7309af8642a9090a5",
+      "target_sha256": null
+    },
+    {
+      "action": "replace",
+      "path": "tests/test_knowledge_check.py",
+      "base_sha256": "885c8a135796bc94555e4866f752aec58eae794745f2a65b576efbff462118df",
+      "target_sha256": "d4ebe74b7b85df0cf8875cc1a1382e0c87dcad9b65a4826c096a2b6b4c8b4177"
+    },
+    {
+      "action": "replace",
+      "path": "tests/test_knowledge_schema.py",
+      "base_sha256": "2f4561d3b058a87e389db71564119f3e83b822fe72efdb8d031656f00eed46f7",
+      "target_sha256": "d1a343f35e72616a78fe1430b7462e1a7882bf3c3bd42edf19203d1449381faa"
+    },
+    {
+      "action": "replace",
+      "path": "tests/test_lint.py",
+      "base_sha256": "4dfc84a846b47d92be836f0dcb4ec461fda228200ded3cce075651e6f3b01989",
+      "target_sha256": "cb4d0360f38b20bc09448d33f443a1f10f32dc2948676cea5b950ae7e9e4573a"
+    },
+    {
+      "action": "replace",
+      "path": "tests/test_materialize.py",
+      "base_sha256": "24760aa88a11a66cc78c1360371f0b603730fdd700b31da541a117893945c3e8",
+      "target_sha256": "2209c0c47ad60d9d63c7561808b03ce0d99db554a9daa7ac3d0f7abdbd10cdfe"
+    },
+    {
+      "action": "delete",
+      "path": "tests/test_migration_plan.py",
+      "base_sha256": "a17ee5d40d3dc7ace7b1dd83239bdd582d8a2d868121ea854275d3a4d570dce6",
+      "target_sha256": null
+    },
+    {
+      "action": "replace",
+      "path": "tests/test_page_commands.py",
+      "base_sha256": "35a28b66eccc25f4cf23cf1acf900183cc1fe03793f1a6ae1fe9e61537136d30",
+      "target_sha256": "6483bab8fe38ac8405a4ef5c535611ead2b4b99936d01cf189be200047502908"
+    },
+    {
+      "action": "replace",
+      "path": "todo.md",
+      "base_sha256": "0a0f44bd597248866e72657b35a9e48c40c0390042bf0767b538f808c99f9b77",
+      "target_sha256": "3c60c9391d5567c8f9198ba31e435ce70c6e81efda60f6dd635906b86e71797b"
+    },
+    {
+      "action": "replace",
+      "path": "wiki/index.md",
+      "base_sha256": "0c4c95b773350a096449fb662a124b1787384f2bbaabed9924f303d74c4d7531",
+      "target_sha256": "de763bfa57219b6e0a51eebc8f8bef3bc729c040b60c94eb480c7d784452104a"
+    },
+    {
+      "action": "delete",
+      "path": "wiki/log.md",
+      "base_sha256": "8ac27b6ff4b1585bd77d7f5633c136483570eb5b71f325f60f4efdca4fc1e294",
+      "target_sha256": null
+    },
+    {
+      "action": "replace",
+      "path": "wiki/overview.md",
+      "base_sha256": "6c4b6729ac3a4105bc7ece02927f61d2788459e96e4361bd6bc2848f6cd79254",
+      "target_sha256": "fb79b42c77a896c8a5bb0ae0cecb68925cf49daf6bdd20767c7cc9f58e6021d3"
+    },
+    {
+      "action": "replace",
+      "path": "wiki/templates/benchmark.md",
+      "base_sha256": "822d93666c48d49822644d0f4a9d37634a48d7cb695c39e77fe4d6862816e235",
+      "target_sha256": "2edf7150edd6f88d56d5032979abc12f89ae3963ef78deb922b25112d956e9bb"
+    },
+    {
+      "action": "replace",
+      "path": "wiki/templates/collection.md",
+      "base_sha256": "1a8252782e1d453aa300ac54a7c6dc45f278a101ea2e3140391b3ee0cedba064",
+      "target_sha256": "e447bb14d9dd85ff664eca887b1affbeda720fa93f1055c007d2c94464b61761"
+    },
+    {
+      "action": "replace",
+      "path": "wiki/templates/comparison.md",
+      "base_sha256": "3193bdce00ff8c043875fc516dc98da70c1f5a86a555592fb505c9c84b2f1f27",
+      "target_sha256": "e3307809e08b3a7340851e08ffb7a0ddb5365fabf3ad8672869d6b55b1340b5c"
+    },
+    {
+      "action": "replace",
+      "path": "wiki/templates/concept.md",
+      "base_sha256": "ff87d289115d18abea2a6f4c81b794046a35358edc821b02d348ae73292a2968",
+      "target_sha256": "2c184bcf248ab70a08b632d7186dba5c9fa6d60f0b53c406e144dcb439fbf1da"
+    },
+    {
+      "action": "replace",
+      "path": "wiki/templates/dataset.md",
+      "base_sha256": "2be5e65fcbc43e500c959618332046ba8f296c371e646a55f4e44d7881ad2edd",
+      "target_sha256": "3542ac04e6bb382d939be52c361d818afa057b5b42381ea982096a055d72135b"
+    },
+    {
+      "action": "replace",
+      "path": "wiki/templates/entity.md",
+      "base_sha256": "5ac395635ce2ce2a29bacc15844b67ac45566e8c40ea8f3cbb2c24ac0de0f8b0",
+      "target_sha256": "25704dabebf7285214373e66347b515642ea508d30901eaf5eb496f34f76a6eb"
+    },
+    {
+      "action": "replace",
+      "path": "wiki/templates/method.md",
+      "base_sha256": "087ca0545e32e8c1a7767bc17334c79eff255c6ee0910019c663ccb1ca0f9642",
+      "target_sha256": "e3c583b91ea5b127296a4895fe696953f04ca2cff1535d1fa23f352f8db8f162"
+    },
+    {
+      "action": "replace",
+      "path": "wiki/templates/source-summary.md",
+      "base_sha256": "c67acbf082c285d15ba1f150d1444f0e7e3634ed13b43c3f81b8c8542e310d06",
+      "target_sha256": "8f5ec49b7863f4d0746e2f399c184046b7f7affe946dff6519f63e301706dd7d"
+    },
+    {
+      "action": "replace",
+      "path": "wiki/views/knowledge-pages.base",
+      "base_sha256": "5aeb21544ba998b14ba63a777968699dac9472acdbdf5134c1694c29ba65c89f",
+      "target_sha256": "9fd34b57300bf552b64e81021bab59d61e5862a7aa67ab835f20cc7feced6a7c"
+    }
+  ],
+  "verification": {
+    "tdd_red": "LifecyclePath definition absent: 5 failed, 2 passed; non-mapping PageWrite.properties sibling: 1 failed, 3 passed with raw AttributeError",
+    "focused_green": "220 passed",
+    "detached_patch_replay_full_suite": "346 passed",
+    "canonical_check": "PASS, findings 0",
+    "materialize_check": "exit 0, no drift",
+    "default_lint": "HIGH 0, MEDIUM 0",
+    "wiki_lint": "HIGH 0, MEDIUM 0",
+    "ruff_changed_python": "F/I checks passed",
+    "diff_check": "no output",
+    "todo_dag": "14 task rows checked",
+    "doc_ref_graph_baseline": "241 findings across 750 Markdown files: broken 199, bidirectional 38, ref-only 4; changed-doc external URL count unchanged from base; not a P2-T7 pass claim",
+    "repository_wide_ruff_baseline": "5 findings in 4 unchanged files",
+    "formal_design_cross_verify": "Claude approved-design logic recheck findings 0; final reconciled spec-drift findings 0, abstain false",
+    "independent_reviews": "standards HIGH 1 reconciled and exact-boundary recheck PASS; spec implementation PASS and citation correction applied; grounding PASS 18/18 citations",
+    "automatable_layer5_unattempted": 0,
+    "unresolved_design_conflicts": []
+  }
+}

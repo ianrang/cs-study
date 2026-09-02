@@ -7,7 +7,7 @@ import json
 import os
 import re
 import stat
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from pathlib import Path
 
 import yaml
@@ -16,7 +16,7 @@ from jsonschema import Draft202012Validator, FormatChecker
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCHEMA_PATH = REPO_ROOT / "_meta" / "knowledge.schema.json"
-CANONICAL_ROOT_EXCLUSIONS = frozenset({"index.md", "overview.md", "log.md"})
+CANONICAL_ROOT_EXCLUSIONS = frozenset({"index.md", "overview.md"})
 TABLE_COLUMNS = {
     "Claims": ("id", "primary", "claim", "status", "evidence", "notes"),
     "Relations": ("type", "target", "notes"),
@@ -31,10 +31,49 @@ BASE_TABLE_ORDER = (
 )
 WIKILINK_RE = re.compile(r"\[\[([^\]|#]+)(?:#[^\]|]+)?(?:\|[^\]]+)?\]\]")
 DELIMITER_RE = re.compile(r"^:?-{3,}:?$")
+TAXONOMY_TAG_HEADING = "## Tag 목록"
+TAXONOMY_ENTITY_HEADING = "## Entity 목록"
+TAXONOMY_TOKEN_PATTERN = r"[a-z0-9]+(?:[.-][a-z0-9]+)*"
+TAXONOMY_VOCAB_RE = re.compile(
+    rf"^- `(?P<canonical>{TAXONOMY_TOKEN_PATTERN})`"
+    rf"(?: \(alias: (?P<aliases>`{TAXONOMY_TOKEN_PATTERN}`"
+    rf"(?:, `{TAXONOMY_TOKEN_PATTERN}`)*)\)| \([^)]*\))?$"
+)
+TAXONOMY_ALIAS_RE = re.compile(rf"`({TAXONOMY_TOKEN_PATTERN})`")
+FENCE_LINE_RE = re.compile(r"^ {0,3}(?P<fence>`{3,}|~{3,})(?P<tail>.*)$")
 
 
 class KnowledgeSchemaError(ValueError):
     pass
+
+
+def markdown_fence_mask(lines: Sequence[str]) -> tuple[bool, ...]:
+    mask: list[bool] = []
+    fence_character = ""
+    fence_length = 0
+    for line in lines:
+        match = FENCE_LINE_RE.fullmatch(line)
+        marker = match.group("fence") if match else ""
+        character = marker[:1]
+        run_length = len(marker)
+        tail = match.group("tail") if match else ""
+        if not fence_character:
+            if marker and not (character == "`" and "`" in tail):
+                fence_character = character
+                fence_length = run_length
+                mask.append(True)
+            else:
+                mask.append(False)
+            continue
+        mask.append(True)
+        if (
+            character == fence_character
+            and run_length >= fence_length
+            and not tail.strip(" \t")
+        ):
+            fence_character = ""
+            fence_length = 0
+    return tuple(mask)
 
 
 def knowledge_format_checker() -> FormatChecker:
@@ -117,6 +156,79 @@ def schema_digest(repo_root: Path = REPO_ROOT) -> str:
     ).hexdigest()
 
 
+def load_taxonomy(
+    repo_root: Path = REPO_ROOT,
+) -> tuple[frozenset[str], dict[str, str], frozenset[str], dict[str, str]]:
+    path = repo_root / "_meta" / "taxonomy.md"
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except (OSError, UnicodeDecodeError) as exc:
+        raise KnowledgeSchemaError(f"invalid taxonomy: {exc}") from exc
+    try:
+        entity_pattern = load_schema(repo_root)["$defs"]["DocumentInstance"][
+            "properties"
+        ]["id"]["pattern"]
+        entity_canonical_re = re.compile(entity_pattern)
+    except (KeyError, TypeError, re.error) as exc:
+        raise KnowledgeSchemaError(
+            f"invalid DocumentInstance id pattern: {exc}"
+        ) from exc
+    canonical: dict[str, set[str]] = {"tag": set(), "entity": set()}
+    aliases: dict[str, dict[str, str]] = {"tag": {}, "entity": {}}
+    section: str | None = None
+    headings = {"tag": False, "entity": False}
+    for line_number, line in enumerate(lines, start=1):
+        if line.startswith(TAXONOMY_TAG_HEADING):
+            section = "tag"
+            headings[section] = True
+            continue
+        if line.startswith(TAXONOMY_ENTITY_HEADING):
+            section = "entity"
+            headings[section] = True
+            continue
+        if line.startswith("## "):
+            section = None
+            continue
+        if section is None or not line.startswith("- "):
+            continue
+        match = TAXONOMY_VOCAB_RE.fullmatch(line)
+        if match is None:
+            raise KnowledgeSchemaError(
+                f"invalid taxonomy {section} entry at line {line_number}"
+            )
+        value = match.group("canonical")
+        if section == "entity" and entity_canonical_re.fullmatch(value) is None:
+            raise KnowledgeSchemaError(
+                f"invalid taxonomy entity canonical at line {line_number}: {value}"
+            )
+        if value in canonical[section]:
+            raise KnowledgeSchemaError(
+                f"duplicate taxonomy {section} canonical: {value}"
+            )
+        canonical[section].add(value)
+        for alias in TAXONOMY_ALIAS_RE.findall(match.group("aliases") or ""):
+            if alias in aliases[section]:
+                raise KnowledgeSchemaError(
+                    f"duplicate taxonomy {section} alias: {alias}"
+                )
+            aliases[section][alias] = value
+    if not all(headings.values()):
+        raise KnowledgeSchemaError("taxonomy must define tag and entity sections")
+    for section_name in ("tag", "entity"):
+        conflicts = canonical[section_name].intersection(aliases[section_name])
+        if conflicts:
+            raise KnowledgeSchemaError(
+                f"taxonomy {section_name} canonical/alias collision: "
+                f"{sorted(conflicts)[0]}"
+            )
+    return (
+        frozenset(canonical["tag"]),
+        dict(sorted(aliases["tag"].items())),
+        frozenset(canonical["entity"]),
+        dict(sorted(aliases["entity"].items())),
+    )
+
+
 def _page_types_from_schema(schema: dict) -> tuple[str, ...]:
     values = schema["$defs"]["PageType"]["enum"]
     if (
@@ -133,6 +245,53 @@ def _page_types_from_schema(schema: dict) -> tuple[str, ...]:
 
 def page_types(repo_root: Path = REPO_ROOT) -> tuple[str, ...]:
     return _page_types_from_schema(load_schema(repo_root))
+
+
+def _lifecycle_roots_from_schema(schema: dict) -> tuple[str, ...]:
+    try:
+        path_properties = schema["$defs"]["PageWrite"]["properties"]
+        lifecycle_path = schema["$defs"]["LifecyclePath"]
+        pattern = lifecycle_path["pattern"]
+    except (KeyError, TypeError) as exc:
+        raise KnowledgeSchemaError("LifecycleRoot path pattern is missing") from exc
+    lifecycle_ref = {"$ref": "#/$defs/LifecyclePath"}
+    expected_source = {"anyOf": [lifecycle_ref, {"type": "null"}]}
+    prefix = "^(?:"
+    separator = ")/"
+    if (
+        not isinstance(path_properties, Mapping)
+        or not isinstance(lifecycle_path, Mapping)
+        or lifecycle_path.get("type") != "string"
+        or path_properties.get("source_path") != expected_source
+        or path_properties.get("target_path") != lifecycle_ref
+        or not isinstance(pattern, str)
+        or not pattern.startswith(prefix)
+        or separator not in pattern
+    ):
+        raise KnowledgeSchemaError("LifecycleRoot path reference is invalid")
+    alternatives = pattern[len(prefix) :].split(separator, 1)[0]
+    values = alternatives.split("|")
+    if (
+        not alternatives
+        or any(not value for value in values)
+        or len(values) != len(set(values))
+        or any(
+            re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", value) is None
+            for value in values
+        )
+    ):
+        raise KnowledgeSchemaError(
+            "LifecycleRoot path pattern must declare unique kebab-case roots"
+        )
+    try:
+        re.compile(pattern)
+    except re.error as exc:
+        raise KnowledgeSchemaError("LifecycleRoot path pattern is invalid") from exc
+    return tuple(values)
+
+
+def lifecycle_roots(repo_root: Path = REPO_ROOT) -> tuple[str, ...]:
+    return _lifecycle_roots_from_schema(load_schema(repo_root))
 
 
 def _property_contract_from_schema(
@@ -175,27 +334,54 @@ def canonical_document_paths(target_root: Path) -> tuple[Path, ...]:
         ) from exc
     if not stat.S_ISDIR(root_mode) or stat.S_ISLNK(root_mode):
         raise KnowledgeSchemaError("knowledge root must be a non-symlink directory")
+
+    def fail_traversal(error: OSError) -> None:
+        location = error.filename or root
+        raise KnowledgeSchemaError(
+            f"knowledge traversal unavailable: {location}"
+        ) from error
+
     paths: list[Path] = []
-    for current, directory_names, file_names in os.walk(root, followlinks=False):
-        current_path = Path(current)
-        for name in directory_names:
-            directory = current_path / name
-            mode = directory.lstat().st_mode
-            if not stat.S_ISDIR(mode) or stat.S_ISLNK(mode):
-                raise KnowledgeSchemaError(
-                    f"knowledge traversal directory must be regular: {directory}"
-                )
-        for name in file_names:
-            if not name.endswith(".md"):
-                continue
-            path = current_path / name
-            mode = path.lstat().st_mode
-            if not stat.S_ISREG(mode) or stat.S_ISLNK(mode):
-                raise KnowledgeSchemaError(
-                    f"Markdown entry must be a regular non-symlink file: {path}"
-                )
-            if is_canonical_document_path(root, path):
-                paths.append(path)
+    try:
+        for current, directory_names, file_names in os.walk(
+            root, followlinks=False, onerror=fail_traversal
+        ):
+            current_path = Path(current)
+            for name in directory_names:
+                directory = current_path / name
+                try:
+                    mode = directory.lstat().st_mode
+                except OSError as exc:
+                    raise KnowledgeSchemaError(
+                        f"knowledge traversal entry unavailable: {directory}"
+                    ) from exc
+                if name.endswith(".md"):
+                    raise KnowledgeSchemaError(
+                        "Markdown entry must be a regular non-symlink file: "
+                        f"{directory}"
+                    )
+                if not stat.S_ISDIR(mode) or stat.S_ISLNK(mode):
+                    raise KnowledgeSchemaError(
+                        f"knowledge traversal directory must be regular: {directory}"
+                    )
+            for name in file_names:
+                if not name.endswith(".md"):
+                    continue
+                path = current_path / name
+                try:
+                    mode = path.lstat().st_mode
+                except OSError as exc:
+                    raise KnowledgeSchemaError(
+                        f"knowledge traversal entry unavailable: {path}"
+                    ) from exc
+                if not stat.S_ISREG(mode) or stat.S_ISLNK(mode):
+                    raise KnowledgeSchemaError(
+                        f"Markdown entry must be a regular non-symlink file: {path}"
+                    )
+                if is_canonical_document_path(root, path):
+                    paths.append(path)
+    except OSError as exc:
+        fail_traversal(exc)
     return tuple(sorted(paths))
 
 
@@ -426,18 +612,7 @@ def _parse_frontmatter(text: str) -> tuple[dict, list[str]]:
 
 def _section_ranges(lines: list[str]) -> tuple[list[str], dict[str, list[str]]]:
     headings: list[tuple[str, int]] = []
-    fenced = False
-    fence_token = ""
-    for index, line in enumerate(lines):
-        stripped = line.lstrip()
-        if stripped.startswith(("```", "~~~")):
-            token = stripped[:3]
-            if not fenced:
-                fenced = True
-                fence_token = token
-            elif token == fence_token:
-                fenced = False
-            continue
+    for index, (line, fenced) in enumerate(zip(lines, markdown_fence_mask(lines))):
         if not fenced and line.startswith("## "):
             headings.append((line[3:].strip(), index))
     sections: dict[str, list[str]] = {}
@@ -555,7 +730,12 @@ def parse_markdown(
             for row in member_rows
         ]
 
-    links = [Path(match).stem for match in WIKILINK_RE.findall("\n".join(body_lines))]
+    links = [
+        Path(match).stem
+        for line, fenced in zip(body_lines, markdown_fence_mask(body_lines))
+        if not fenced
+        for match in WIKILINK_RE.findall(line)
+    ]
     instance = {
         "id": path.stem,
         "properties": properties,
@@ -567,16 +747,3 @@ def parse_markdown(
     }
     validate_instance(instance, validator_for("DocumentInstance", schema_path))
     return instance
-
-
-def inspect_markdown(path: Path, text: str | None = None) -> tuple[dict, list[str]]:
-    source = path.read_text(encoding="utf-8") if text is None else text
-    properties, body_lines = _parse_frontmatter(source)
-    ordered_sections, _ = _section_ranges(body_lines)
-    return properties, ordered_sections
-
-
-def inspect_headings(path: Path, text: str | None = None) -> list[str]:
-    source = path.read_text(encoding="utf-8") if text is None else text
-    ordered_sections, _ = _section_ranges(source.splitlines())
-    return ordered_sections

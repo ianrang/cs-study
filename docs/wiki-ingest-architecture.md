@@ -12,7 +12,7 @@
 - 당시 wiki에는 안정 page ID, collection, relation의 machine contract가 없었다.
 - 당시 dirty code/wiki 변경은 설계 작성 범위가 아니었다.
 
-현재 전환 범위(2026-08-28, 순서 1–8)는 immutable capture·target schema/parser/checker·migration inventory, 75-page preservation resolution·clipping capture·no-apply preview, external-reference no-write cascade planner, resolved-plan·cascade-plan 결합 journal v2 apply·restore·recovery engine, strict PageWritePlan 기반 synthesize·promote·collection·move command와 deterministic materializer까지다. 결합 transaction의 실행 여부와 결과는 승인 digest, journal state, live wiki tree와 external digest vector로 판정하며 이 아키텍처 문서의 서술을 운영 상태 SoT로 사용하지 않는다. 현재 실행 surface와 최종 목표 surface는 §7에서 분리하고, 시점별 검증 evidence는 `docs/wiki-ingest-review.md`가 기록한다.
+현재 실행 범위는 immutable capture, target schema/parser/checker, strict PageWritePlan 기반 synthesize·promote·collection·move command와 deterministic materializer다. 순서 6 전환 engine과 순서 9 legacy surface는 target runtime에서 제거했다. 당시 순서 6에서 현재 확인 가능한 digest·journal·rollback candidate·검증 보고는 historical evidence로 보존하고 exact plan·backup bytes 미회수는 limitation으로 기록한다. 시점별 검증 evidence는 `docs/wiki-ingest-review.md`가 기록한다.
 
 ## 2. 아키텍처 원칙
 
@@ -20,7 +20,7 @@
 2. **Canonical before derived**: 수동 입력과 재생성 가능한 결과를 구분한다.
 3. **Pull boundary**: downstream consumer만 upstream artifact contract를 안다.
 4. **Append-only raw**: raw identity는 capture-contract bytes digest이며 overwrite하지 않는다. clipping Markdown은 개인 로컬 홈 prefix를 결정적으로 치환한 bytes가 capture contract다.
-5. **At most one knowledge page per ordinary apply**: 일반 lifecycle·page command는 no-op 또는 knowledge page 1개만 변경한다. 사용자 승인 전역 schema migration은 NFR-KP-015와 BR-MIG-001~015의 exact full-tree transaction·active 이전 참조 snapshot만 예외다.
+5. **At most one knowledge page per ordinary apply**: 현재 lifecycle·page command는 no-op 또는 knowledge page 1개만 변경한다. 향후 전역 schema migration은 현재 runtime의 예외가 아니며 별도 설계·승인 전에는 실행할 수 없다.
 6. **Outgoing-only graph**: inverse, backlink, transitive closure는 계산한다.
 7. **Parse then validate**: Markdown을 deterministic instance로 변환한 뒤 표준 JSON Schema로 검증한다.
 8. **Fail closed**: checker가 지원하지 않는 hard rule은 PASS가 아니라 unsupported failure다.
@@ -58,6 +58,7 @@ wiki_ingest.py -> artifacts.py
 wiki_ingest.py -> documents.py
 wiki_ingest.py -> materialize.py
 wiki_ingest.py -> check.py
+wiki_ingest.py -> fs.py
 artifacts.py -> schema.py
 artifacts.py -> fs.py
 artifacts.py -> privacy.py
@@ -72,7 +73,7 @@ schema.py -> timestamps.py
 graph.py: validated DocumentInstance만 소비하며 project module import 없음
 ```
 
-CLI entrypoint module끼리 import하지 않는다. 목표 core+neutral-contract 그래프는 10 modules, 15 directed edges, cycle 0, 최대 dependency edge chain 3이다. `fs.py`는 path confinement, repository lock, atomic leaf primitive의 canonical owner이므로 `check.py`가 confinement 검증을 위해, `materialize.py`가 generated leaf 적용을 위해 직접 의존한다. dependency-free `scripts/contracts/timestamps.py`는 canonical date-time predicate의 단일 owner이며 knowledge와 project가 단방향 소비한다. dependency-free `scripts/contracts/privacy.py`는 clipping Markdown의 local-user-home 정규화 단일 owner이며 artifact capture와 preservation migration이 단방향 소비한다. P2-T5 구현 뒤 내부 Python 전환 그래프는 9 modules, 17 directed edges, cycle 0, 최대 edge chain 3이다. 목표 edge인 `wiki_ingest.py → documents.py`, `documents.py → fs.py`, `documents.py → schema.py`가 활성화됐고 전환 전용 `migration.py → documents.py`가 아직 함께 존재한다. P2-T6은 `wiki_ingest.py → materialize.py`, `materialize.py → schema.py`, `materialize.py → fs.py` 세 edge를 추가하므로 구현 직후 내부 전환 그래프의 기대값은 10 modules, 20 directed edges, cycle 0, 최대 edge chain 3이다. cascade planner의 실제 command edge와 project imports를 포함한 P2-T5 command-inclusive baseline은 12 modules, 21 directed edges, cycle 0, 최대 dependency edge chain 4이고, P2-T6 전환 상태는 materialize module 한 개와 세 edge를 더한 13 modules, 24 directed edges, cycle 0, 최대 dependency edge chain 4다. edge 4는 NFR-KP-002 경고선의 승인된 transition ratchet이며 더 늘리지 않는다. AST architecture test는 목표 graph, 내부 전환 graph, subprocess target과 project import를 합친 command-inclusive graph를 각각 계산한다. 실제 수치가 다르면 문서를 임의 갱신하지 않고 설계 변경 게이트를 연다.
+CLI entrypoint module끼리 import하지 않는다. 최종 core+neutral-contract 그래프는 10 modules, 16 directed edges, cycle 0, 최대 dependency edge chain 3이다. `wiki_ingest.py → fs.py`는 승인 plan의 atomic no-replace 게시를 위한 직접 leaf edge이며 이를 숨기기 위한 pass-through wrapper를 추가하지 않는다. `fs.py`는 path confinement, repository lock, atomic leaf primitive의 canonical owner이므로 checker와 materializer도 직접 의존한다. dependency-free `scripts/contracts/timestamps.py`와 `scripts/contracts/privacy.py`는 각각 canonical date-time과 clipping privacy normalization을 소유한다. runtime checker는 `knowledge`·`contracts` 실제 Python module inventory와 CLI entrypoint를 hidden-inclusive로 열거해 10-module exact set과 16-edge exact set을 비교하고, package 깊이 안의 absolute·relative `ImportFrom` alias를 포함한 cycle·최대 depth를 검사한다. package 깊이를 초과하거나 package가 없는 CLI가 사용하는 relative import는 `VR-KP-019`로 거부한다. canonical import namespace는 `knowledge.*`·`contracts.*` 하나씩이며 동일 파일을 별도 module object로 로드하는 `scripts.knowledge.*`·`scripts.contracts.*` alternate import는 거부한다. repository root·`scripts`·두 module root는 regular non-symlink directory여야 하며 invalid ancestor는 하위 source bytes를 읽지 않고 fail-closed한다. 모든 architecture source는 regular non-symlink UTF-8 Python file이어야 하고 두 package `__init__.py`는 import-free여야 한다. core·contract·CLI에서 `projects.*`와 declared DAG 밖의 identifier-named top-level `scripts` file·package import는 금지한다. module identity는 path 정렬 순서로 만들고 같은 identity에 둘 이상의 path가 대응하면 duplicate finding으로 거부한다. source·inventory·stat의 unreadable UTF-8·syntax·I/O 오류는 `VR-KP-019` finding으로 거부한다. project generator chain은 knowledge runtime에 결합하지 않고 project boundary AST test가 `ImportFrom` alias를 포함한 command-inclusive 12 modules, 18 edges, cycle 0, 최대 dependency edge chain 3을 검증한다.
 
 ## 4. Canonical·Derived 소유권
 
@@ -95,7 +96,7 @@ CLI entrypoint module끼리 import하지 않는다. 목표 core+neutral-contract
 - schema `PageType`의 각 값에 대응하는 `wiki/templates/<page-type>.md`
 - `wiki/views/knowledge-pages.base`
 
-`schema.py`의 `CANONICAL_ROOT_EXCLUSIONS`는 canonical parser 입력에서 `index.md`·`overview.md`·legacy `log.md`를 제외하는 전환 상수이며 최종 generated-only manifest의 owner가 아니다. 값은 순서 9가 `log.md`를 제거할 때까지 유지한다. materializer expected path set은 schema `PageType`에서 별도로 계산하므로 legacy exclusion을 generated manifest로 해석하지 않는다.
+`schema.py`의 `CANONICAL_ROOT_EXCLUSIONS`는 canonical parser 입력에서 generated root인 `index.md`·`overview.md`만 제외한다. materializer expected path set은 schema `PageType`에서 별도로 계산하므로 이 exclusion을 generated manifest로 해석하지 않는다.
 
 `index.md`는 active page의 완전 카탈로그다. domain registry의 모든 domain heading을 key 오름차순으로 출력하고, 각 domain의 active page를 `page_type`, stable ID 오름차순으로 열거한다. `collections/`의 active page는 별도 Collections heading에서 같은 순서로 열거한다. 각 entry는 repository-vault-relative wikilink, title, summary를 가지며 `domains/`와 `collections/` 밖의 staging·archive page는 0개다.
 
@@ -107,7 +108,7 @@ template은 schema `PageType` enum의 exact set과 `DocumentInstance` section co
 
 `knowledge-pages.base`는 [공식 Obsidian Bases syntax](https://obsidian.md/help/bases/syntax)의 valid YAML로 한 파일만 생성한다. global `filters.or`는 `file.inFolder("wiki/domains")`, `file.inFolder("wiki/collections")` 두 식만 가진다. 첫 view는 `type: table`, `name: All active`, 이어서 active domain key 오름차순의 `file.inFolder("wiki/domains/<key>")` domain view, 마지막은 `file.inFolder("wiki/collections")`인 `Collections` view다. 모든 table view의 `order`는 Obsidian UI가 저장하는 canonical property 식별자인 `file.name`, `title`, `page_type`, `summary`, `date_updated`로 같다. serializer는 sequence indentation을 보존하고 YAML alias를 만들지 않아 Obsidian 1.13.7에서 열고 다시 저장해도 bytes가 바뀌지 않아야 한다. domain별 Base 파일과 persistent backlink view는 만들지 않는다.
 
-generated 파일의 generator identity는 `cs-study-materializer/1.0`이다. Markdown marker의 exact grammar는 `<!-- generated-by: cs-study-materializer/1.0; schema-sha256: <64 lowercase hex> -->`다. Base는 Obsidian이 YAML 주석을 저장 시 제거하므로 공식 `formulas` 영역의 `_generated_by` constant formula에 같은 generator identity와 schema digest를 정확히 한 번 기록한다. 이 formula는 어떤 view의 `order`에도 넣지 않아 화면 열로 노출하지 않는다. root Markdown은 첫 heading 앞, template Markdown은 frontmatter closing delimiter 직후에 marker를 둔다. checker는 독립 검증된 expected in-memory bytes와 committed exact manifest를 byte 비교한다. expected path의 ownership marker 누락·중복·문법 불일치, schema digest 불일치, expected path 누락, generated namespace의 예상 밖 ownership-bearing 파일은 drift다. marker 없는 기존 파일의 최초 전환은 승인된 순서 8 commit 경계의 repository data change만 소유하며 steady-state command가 marker 없는 파일을 덮어쓰거나 삭제하지 않는다. `wiki/log.md`는 현재 legacy system page이며 순서 6a migration inventory에서 content migration 제외 대상으로만 취급한다. `wiki/log.md`, 현행 backlink 외부 인덱스 선언(`AGENTS.md` §Cross-link), 현행 provenance 외부 인덱스 선언(`_meta/frontmatter-spec.md` §human_authored 추적)의 제거는 순서 9 no-write plan과 별도 승인 후 apply가 소유한다. 두 외부 인덱스 파일은 현재 생성되지 않았다.
+generated 파일의 generator identity는 `cs-study-materializer/1.0`이다. Markdown marker의 exact grammar는 `<!-- generated-by: cs-study-materializer/1.0; schema-sha256: <64 lowercase hex> -->`다. Base는 Obsidian이 YAML 주석을 저장 시 제거하므로 공식 `formulas` 영역의 `_generated_by` constant formula에 같은 generator identity와 schema digest를 정확히 한 번 기록한다. 이 formula는 어떤 view의 `order`에도 넣지 않아 화면 열로 노출하지 않는다. root Markdown은 첫 heading 앞, template Markdown은 frontmatter closing delimiter 직후에 marker를 둔다. checker는 독립 검증된 expected in-memory bytes와 committed exact manifest를 byte 비교한다. expected path의 ownership marker 누락·중복·문법 불일치, schema digest 불일치, expected path 누락, generated namespace의 예상 밖 ownership-bearing 파일은 drift다. marker 없는 파일을 steady-state command가 덮어쓰거나 삭제하지 않는다. backlink와 inverse relation은 outgoing edge에서 계산하고 persistent external index를 만들지 않는다.
 
 ## 5. 데이터 모델
 
@@ -186,7 +187,7 @@ Claim은 page의 `Claims` table 한 행이다. ID는 page 내부에서 유일하
 
 CollectionPage는 일반 Markdown page이며 별도 collection registry를 갖지 않는다. `Members` table의 행 순서 자체가 canonical sequence다. 행은 member wikilink와 역할·순서 근거만 가진다. 숫자 position을 행 순서와 중복 저장하지 않는다.
 
-2026-08-24 사용자 승인 A에 따라 현재 `wiki/collections/info-sec-engineer-practical-past-exams.md`는 migration에서 제외하지 않고 canonical universe에 포함한다. 목표 stable ID와 경로는 `wiki/collections/info-sec-engineer-practical-past-exams.md`, 목표 `page_type`은 `collection`이며 전체 canonical universe는 75개다. `_meta/knowledge-migration-resolution.json`이 target path·page type·source digest와 현재 index link 순서에서 승인된 52개 `Members` ID를 단일 machine-readable resolution으로 소유한다. role·rationale는 의미 추론을 하지 않고 빈 문자열로 보존한다.
+2026-08-24 사용자 승인 A에 따라 `wiki/collections/info-sec-engineer-practical-past-exams.md`를 포함한 75-page migration을 수행했다. 당시 machine-readable resolution은 target path·page type·source digest와 legacy index link 순서에서 승인된 52개 `Members` ID를 소유했고 role·rationale를 빈 문자열로 보존했다. 순서 9 이후 resolution 파일은 runtime에서 제거했으며 승인 결과와 검증 증거는 Git history와 P2-T4 보고가 소유한다.
 
 ### Relation
 
@@ -245,7 +246,7 @@ Obsidian 표현 규칙:
 
 cs-study knowledge pipeline의 persistent write·plan·apply 단일 진입점은 `python scripts/wiki_ingest.py`다. read-only lifecycle validation dispatcher인 `scripts/lint.py`는 write 진입점이 아니다. legacy `scripts/pipeline.py`와 `scripts/ingest.py`는 2026-08-23 제거됐다. 독립 저장소의 ytscript extractor CLI와 cs-study의 무관한 도구 CLI는 이 단일 write 진입점 범위 밖이다.
 
-현재 전환 CLI(순서 1–8 engine):
+순서 9 전환 이전 CLI(historical non-normative):
 
 | Command | 상태 | persistent write 범위 | 역할·수명 |
 |---|---|---:|---|
@@ -286,7 +287,7 @@ cs-study knowledge pipeline의 persistent write·plan·apply 단일 진입점은
 
 terminal state가 보존한 repository-top-level `.<knowledge-root>.migration.*`와 `.<knowledge-root>.restore.*` regular tree는 rollback artifact이며 active reference owner가 아니다. exact journal shape·canonical bytes·terminal state·knowledge root·candidate path와 state별 candidate tree digest가 결속된 root만 cascade scan과 staging에서 제외하고, prefix만 같은 unbound·nonterminal·digest-mismatched regular tree는 다른 hidden active owner와 동일하게 포함한다. current in-flight candidate는 호출자가 명시한 excluded root로만 제외한다. reserved root 자체가 symlink·special file이거나 내부 regular-tree 검증에 실패하면 제외로 우회하지 않고 거부한다.
 
-최종 목표 CLI(순서 7–9 완료 후):
+순서 9 target tree 통합 뒤의 CLI 목표 상태:
 
 | Command | persistent write 범위 | 역할 |
 |---|---:|---|
@@ -310,19 +311,18 @@ terminal state가 보존한 repository-top-level `.<knowledge-root>.migration.*`
 
 모든 P2-T5 command는 plan mode와 apply mode를 배타적으로 제공한다. plan mode만 semantic·path·order 옵션을 받고 promote plan mode는 claim별 verdict JSON을 추가로 받는다. apply mode는 PageWritePlan과 confirmation만 받고 promote만 별도 `--review-approved`를 요구한다. apply는 plan을 다시 해석해 새 결정을 만들지 않고 invoked command·plan operation·plan bytes·schema digest·base tree·source/target precondition·candidate check를 재검증한다. 별도 ReviewRecord entity는 만들지 않는다.
 
-현재 전환 모듈(순서 1–8 구현·재검증 완료):
+순서 9 원자 통합을 마친 현재 모듈:
 
 | Module | 상태·수명 |
 |---|---|
 | `wiki_ingest.py` | 현재 argparse routing과 exit code |
 | `knowledge/schema.py` | 구현된 target schema load·parse·instance validation |
-| `knowledge/fs.py` | 구현된 path confinement·atomic no-replace·Darwin/Linux directory exchange primitive |
+| `knowledge/fs.py` | 구현된 path confinement·repository lock·atomic leaf exchange·no-replace path rename |
 | `knowledge/artifacts.py` | 구현된 capture·asset capture·digest 검증 |
-| `knowledge/documents.py` | preservation target serializer와 P2-T5 일반 lifecycle plan/apply 구현·검증 완료 |
+| `knowledge/documents.py` | 일반 lifecycle plan/apply 구현·검증 완료 |
 | `knowledge/materialize.py` | deterministic generated render·digest·drift·shared-lock leaf apply와 candidate coverage 구현·검증 완료 |
 | `knowledge/graph.py` | 구현된 link·relation·collection graph 계산 |
 | `knowledge/check.py` | 구현된 target fixture·no-write tree checker |
-| `knowledge/migration.py` | 전환 전용 resolution·capture request·preview, inventory, resolved-plan validation, external-reference no-write cascade plan, exact backup, full-tree candidate, apply·restore·recovery transaction owner; artifact capture·검증은 CLI가 sibling `artifacts.py`로 조합하며 승인된 순서 9 apply 뒤 제거 |
 
 최종 목표 모듈 책임:
 
@@ -378,7 +378,7 @@ terminal state가 보존한 repository-top-level `.<knowledge-root>.migration.*`
 
 vendored extractor contract는 downstream이 편집하는 SoT가 아니다. upstream `$id`, version, SHA-256을 기록한 pinned dependency이며 update command와 contract test로만 교체한다.
 
-기존 `.claude/rules/structure-rules.md`의 authored tree 규칙은 `cs/`, `lang/`, `coding-test/`, `tools/`, `development/`에만 적용하도록 scope를 정정해야 한다. raw/wiki/schema tree에는 본 문서의 구조가 적용된다.
+`.claude/rules/structure-rules.md`의 authored tree 규칙은 `cs/`, `lang/`, `coding-test/`, `tools/`, `development/`에만 적용한다. raw/wiki/schema tree에는 본 문서의 구조를 적용한다.
 
 ## 9. 트랜잭션·멱등성·동시성
 
@@ -392,10 +392,10 @@ vendored extractor contract는 downstream이 편집하는 SoT가 아니다. upst
 
 ### Ordinary knowledge page command
 
-- 일반 lifecycle·page command는 page 한 개만 수정한다. NFR-KP-015의 승인된 전역 schema migration은 §7의 full-tree transaction을 따른다.
+- 일반 lifecycle·page command는 page 한 개만 수정한다. 향후 전역 schema migration은 NFR-KP-015에 따라 별도 설계·backup·사용자 승인을 먼저 요구한다.
 - 모든 ordinary apply router는 invoked command와 exact `PageWritePlan.operation`을 결속한다. collection은 `add-member`와 `reorder`도 서로 교차 적용할 수 없다.
 - plan은 knowledge page 전체 base tree SHA-256과 operation별 page precondition을 함께 요구한다. replace는 source base SHA-256·bytes를, create는 target 부재를, move는 source base SHA-256·bytes와 target 부재를 모두 기록하며 no-op은 page precondition이 없다.
-- apply·migration apply/restore/recover는 `fs.py`가 교체되지 않는 repository-root directory descriptor에 제공하는 POSIX `flock(LOCK_EX|LOCK_NB)`를 공유하며, lock 획득 실패·미지원 플랫폼은 write 0으로 거부한다. knowledge-root directory exchange 전후에도 같은 repository-root inode가 lock authority다. OS descriptor close/process 종료가 lock을 자동 해제하므로 lock file·stale lock cleanup을 만들지 않는다. ordinary apply는 plan load부터 candidate check·commit·rollback/reconcile 종료까지 lock을 보유한다.
+- ordinary apply와 materializer apply는 `fs.py`가 repository-root directory descriptor에 제공하는 POSIX `flock(LOCK_EX|LOCK_NB)`를 공유하며, lock 획득 실패·미지원 플랫폼은 write 0으로 거부한다. OS descriptor close/process 종료가 lock을 자동 해제하므로 lock file·stale lock cleanup을 만들지 않는다. ordinary apply는 plan load부터 candidate check·commit·rollback/reconcile 종료까지 lock을 보유한다.
 - lock 안에서 plan SHA-256·schema SHA-256을 확인하고 candidate check 직후 current tree와 source bytes·mode를 다시 확인한다. current tree·target page bytes·mode·move source 부재가 plan target state와 정확히 일치하는 replay는 idempotent no-op이고, base·target 어느 쪽도 아닌 tree는 stale-plan으로 write 0 거부한다.
 - create는 canonical mode `0644`로 게시하고 replace·move는 plan에 결속된 기존 mode를 보존한다. namespace commit 뒤 directory fsync 또는 post-tree 검증이 실패하면 planned target bytes·mode가 그대로 관찰된 own leaf만 이전 상태로 복구한다. rollback 전에 관찰된 same-leaf 외부 변경은 덮지 않고 indeterminate로 중단하지만 관찰과 syscall 사이의 새 non-cooperative 경합은 POSIX content CAS 부재로 무손실 보장 범위 밖이다. in-process rollback 실패도 observed state를 포함한 indeterminate error다. process crash는 atomic namespace operation의 base 또는 target 중 하나로 남고 다음 exact replay가 판별한다.
 - promote는 content를 변경하지 않고 staging page를 target으로 rename한다. lifecycle은 path에서 파생한다.
@@ -421,7 +421,7 @@ materialize input digest는 exact schema bytes digest, exact domain registry byt
 
 `check`는 현재 활성 normative rule-set의 모든 hard rule을 보고한다. active normative 문서에 hard rule이 선언됐지만 구현 rule ID가 없으면 `UNSUPPORTED_RULE` HIGH finding으로 실패한다. historical·superseded 절과 구현·검증 surface가 아직 활성화되지 않은 `inactive-until-*` rule은 registry의 active 대상이 아니다.
 
-전환 중 `scripts/lint.py`는 별도 wiki rule을 복제하지 않는 lifecycle dispatcher다. live wiki tree digest가 preservation resolution의 `base_tree_sha256`과 정확히 같을 때만 legacy 15-field wiki lint를 실행한다. 그 외 tree는 `check --all`과 같은 canonical checker가 단독 소유하며, canonical failure를 legacy fallback으로 바꾸지 않는다. raw·authored directive 검사는 이 wiki contract 선택과 독립적으로 계속 실행한다.
+`scripts/lint.py`는 별도 wiki rule을 복제하지 않는 read-only dispatcher다. wiki 요청은 tree 상태와 무관하게 canonical checker와 materializer의 generated repository parity를 단방향 조립하며 canonical failure를 legacy fallback으로 바꾸지 않는다. CLI `check --all`은 합성 structural verdict·findings·exclusions를, lint는 동등한 HIGH findings·exit semantics를 제공한다. raw·authored recency·필수 필드·directive·broken-link 검사는 wiki 계약과 독립적으로 계속 실행한다.
 
 | Validator | 입력 | 보장 |
 |---|---|---|
@@ -496,12 +496,12 @@ finding은 `rule_id`, severity, path, line, subject_id, message, remediation을 
 | 6 | 6a stable ID·basename·frontmatter inventory, 6b fail-closed engine, semantic resolved plan 사용자 승인 후 실제 apply | 5 | 75-page exact universe, canonical collision 0·reserved conflict 1, exact-tree backup·failure-injection·migration parity report |
 | 7 | synthesize·promote·collection·move leaf command 구현 | 5,6 | one-page write-set·stale base digest tests |
 | 8 | materializer 구현 후 index·overview·template·Bases 전환 | 5,7 | two-run tree hash, active coverage 100% |
-| 9 | legacy structure-rule scope·log/backlink/provenance no-write removal plan, 사용자 승인 후 migration apply | 8 | repository grep와 derived parity report |
+| 9 | legacy structure-rule scope·log/backlink/provenance no-write removal plan, 사용자 승인 후 검증된 Git target tree 통합 | 8 | repository grep와 derived parity report |
 | 10 | local hook와 두 저장소 독립 CI 연결 | 2,5,8 | clean checkout required commands 성공 |
 | 11 | 두 대상 YouTube source를 새 pipeline로 재처리 | 7, 8, 9, 10 | artifact·draft·통합 wiki evidence trace |
 | 12 | full vault 검증과 Claude/code review | 11 | HIGH 0, 자동화 가능한 5계층 영역 전부 시도 |
 
-각 순서는 독립 commit 후보이며 앞 단계 검증 실패 시 다음 단계로 진행하지 않는다. 6a와 순서 9의 no-write plan은 변경 없이 실행하고, 6b와 순서 9의 migration apply는 각 plan의 별도 사용자 승인 없이는 실행하지 않는다.
+각 순서는 독립 commit 후보이며 표의 선행 게이트만 의존성을 정의한다. 같은 의존 경로의 선행 게이트가 실패하면 그 후속 작업은 진행하지 않되, 번호만 앞선 독립 작업의 차단을 전역 차단으로 확대하지 않는다. 6a와 순서 9의 no-write plan은 변경 없이 실행하고, 6b actual apply와 순서 9의 승인된 Git target tree 통합은 각 plan의 별도 사용자 승인 없이는 실행하지 않는다.
 
 ## 14. 자체 검증
 
@@ -527,7 +527,7 @@ finding은 `rule_id`, severity, path, line, subject_id, message, remediation을 
 | FR-KP-016 | §5, §7, §9 | BR-APPLY-004~BR-APPLY-013, VR-KP-015, VR-KP-016 |
 | FR-KP-017 | §4, §7, §9, §10 | BR-GEN-001~BR-GEN-014, VR-KP-017, VR-KP-018, VR-KP-021 |
 | FR-KP-018 | §7, §10 | BR-CHK-002, BR-CHK-003 |
-| FR-KP-019 | §4, §6, §10 | BR-CHK-001, VR-KP-020 |
+| FR-KP-019 | §4, §6, §10 | BR-CHK-001, BR-CHK-010, VR-KP-020, VR-KP-023 |
 | FR-KP-020 | §9, §10 | BR-CHK-004, BR-CHK-009, VR-KP-017, VR-KP-018 |
 | FR-KP-021 | §5, §8 | BR-ASSET-001, BR-ASSET-002 |
 | FR-KP-022 | §5, §7, §9 | BR-MOVE-001, BR-APPLY-007, BR-APPLY-008, BR-APPLY-010, BR-GEN-005, BR-GEN-007, VR-KP-018 |
@@ -545,7 +545,7 @@ finding은 `rule_id`, severity, path, line, subject_id, message, remediation을 
 | NFR-KP-012 | §4, §9, §11 | BR-CHK-001, BR-GEN-006, BR-GEN-009, BR-GEN-010 |
 | NFR-KP-013 | §10 | BR-CHK-008 |
 | NFR-KP-014 | §5, §7, §10 | BR-LIFE-005, BR-CHK-005, BR-CHK-006, VR-KP-022 |
-| NFR-KP-015 | §7, §13 | BR-MIG-001~BR-MIG-015 |
+| NFR-KP-015 | §7, §13 | historical BR-MIG-001~BR-MIG-015 evidence; future migration은 별도 설계·승인 |
 
 요구사항 추적성 표의 Logic surface 셀에서 물결표는 동일 rule 접두사의 시작 ID부터 종료 ID까지 양 끝을 포함하는 연속 숫자 범위를 뜻한다. 이 표는 문서 section·logic mapping을 소유하고, `_meta/knowledge-requirements.json`은 FR/NFR의 구현 순서와 구현·검증 파일 mapping을 소유한다. 아래 Acceptance 표는 별도 AC의 구현 순서와 관찰 증거 계획을 소유한다.
 
@@ -568,9 +568,9 @@ finding은 `rule_id`, severity, path, line, subject_id, message, remediation을 
 
 | 항목 | 설계 판정 | 구현 판정 |
 |---|---|---|
-| dependency cycle | 목표 module DAG 10 modules·15 edges·cycle 0 | P2-T6 내부 전환 graph 10 modules·20 edges·cycle 0, command-inclusive graph 13 modules·24 edges·cycle 0 exact guard |
-| module dependency 깊이 | 목표 dependency edge chain 3 | 현재 command-inclusive graph 최대 dependency edge 4 transition ratchet |
-| 자기 코드 호출 깊이 | 함수 5개 미만 직렬(= 호출 edge 4 미만)을 목표로 하고 edge 4 이상은 설계 경고 | P2-T5 CLI apply candidate의 동적 callback 포함 exact 경로는 `main → _apply_page_plan → apply_page_write_plan → _apply_page_write_plan_unlocked → _check_page_candidate callback → check_target → parse_markdown → _parse_table → _split_table_row`의 함수 9개 직렬(= edge 8)이다. P2-T6 materialize core의 실제 최대는 함수 6개 직렬(= edge 5), CLI dispatch 포함 함수 7개 직렬(= edge 6)이다. 호출 graph 전체에서 도달 가능한 최대를 계산하는 AST ratchet으로 증가와 cycle을 금지하며 CLI·apply transaction·render/independent validation·schema parsing의 서로 다른 의미 경계로 수용한다. pyan3 정적 그래프는 P2-T5 전환 전체에서 경고 경로 16개를 보고했으며 최대 migration 경로 edge 7, P2-T5 ordinary 경로 7개·최대 edge 6이다. 최대 동적 경로는 callback exact binding 정적 guard로 증가를 금지하고, transition 전체는 P2-T5 검증 보고의 pyan3 결과를 ratchet baseline으로 보존한다 |
+| dependency cycle | 최종 module DAG 10 modules·16 edges·cycle 0 | command-inclusive graph 12 modules·18 edges·cycle 0 exact guard |
+| module dependency 깊이 | 목표 dependency edge chain 3 | 현재 command-inclusive graph 최대 dependency edge 3 |
+| 자기 코드 호출 깊이 | 함수 5개 미만 직렬(= 호출 edge 4 미만)을 목표로 하고 edge 4 이상은 설계 경고 | P2-T5 CLI apply의 대표 semantic parse 경로는 `main → _apply_page_plan → apply_page_write_plan → _apply_page_write_plan_unlocked → _check_page_candidate callback → check_target → parse_markdown → _parse_table → _split_table_row`의 함수 9개 직렬(= edge 8)이다. 작은 AST contract는 이 경로의 직접 호출 edge 7개와 `candidate_check=_check_page_candidate` binding 및 callback invocation만 검증한다. class method·lambda·varargs 등 Python callable 전체를 재해석하는 별도 분석기는 두지 않으며 이 검사는 전체 repository call graph의 exact maximum을 보장하지 않는다. P2-T6 materializer는 범위가 고정된 세 module의 call graph에서 core 함수 6개 직렬(= edge 5), CLI dispatch 포함 함수 7개 직렬(= edge 6)을 ratchet한다. CLI·apply transaction·render/independent validation·schema parsing의 서로 다른 의미 경계로 경고 깊이를 수용한다. pyan3 정적 그래프 수치는 P2-T5 전환 당시 historical baseline으로만 보존한다 |
 | canonical owner | concern별 owner 1개 | payload contract는 extractor, ArtifactManifest·지식 구조는 cs-study가 단독 소유 |
 | raw immutability | append-only digest bundle | atomic no-replace capture와 same/new digest·corruption·경쟁 주입 test 구현 |
 | page apply atomicity | one-page temp+replace 또는 rename | shared lock 안 candidate 재검증, base bytes·mode 재검증, atomic leaf commit, post-commit rollback·indeterminate 분류를 구현하고 순서 7 회귀·교차검증을 완료 |
@@ -578,9 +578,9 @@ finding은 `rule_id`, severity, path, line, subject_id, message, remediation을 
 | relation inverse duplication | outgoing-only | schema·graph checker와 candidate overlay를 구현하고 순서 7 candidate 검증을 완료 |
 | generated drift | regeneration diff | materializer exact 11-file parity·two-run digest 구현; required CI는 순서 10 소유 |
 | semantic correctness | evidence review로 분리 | 사용자·review 필수 영역 |
-| requirement coverage | PRD FR/NFR 전체 surface 매핑 | 순서 1–8 구현·자동화·Obsidian 사용자 검증 완료; 순서 9–12 GAP 유지 |
+| requirement coverage | PRD FR/NFR 전체 surface 매핑 | 순서 1–9 live 통합과 P2-T7/P2-T8 검증 증거 반영; 순서 10–12 GAP 유지 |
 
-설계 모델은 순환·양방향 canonical dependency를 만들지 않는다. 2026-08-28 기준 순서 1–8은 구현·자동화·Obsidian 사용자 검증을 완료했다. 순서 9–12가 남아 있으므로 전체 시스템 PASS를 주장하지 않는다.
+설계 모델은 순환·양방향 canonical dependency를 만들지 않는다. 2026-09-02 target state 기준 순서 1–9를 반영했으며 live 적용 전의 no-write 검증·승인 상태는 payload 밖 P2-T7 검증 보고가 소유한다. 순서 10–12가 남아 있으므로 전체 시스템 PASS를 주장하지 않는다.
 
 ## 15. 변경 이력
 
@@ -595,3 +595,5 @@ finding은 `rule_id`, severity, path, line, subject_id, message, remediation을 
 - 2026-08-26: P2-T5 CLI apply candidate 자기 코드 경로를 함수 9개 직렬(= edge 8)로 실측했다. NFR-KP-002는 edge 4 이상의 설계 경고이므로 책임 경계를 제거하지 않고 현재 경로를 수용하되 exact path 정적 guard로 증가를 금지하도록 결정했다.
 - 2026-08-26: pyan3 전환 전체 측정에서 edge 4 이상 경로 16개를 확인했고 P2-T5 ordinary 경로 7개·최대 edge 6과 migration 전환 경로를 분리했다. one-line validator pass-through는 제거했으며, 남은 의미 경계는 경고·ratchet baseline으로 검증 보고에 결속했다.
 - 2026-08-28: P2-T6 구현 전 materializer의 generated lifecycle 소유권, `schema.py`·`fs.py` 공용 leaf 의존, exact marker와 공식 Bases YAML 계약, 최초 markerless 전환의 commit-only 경계, candidate base parity→canonical overlay→candidate coverage 검증 순서와 P2-T6 관련 FR/NFR logic surface mapping을 정합화했다. Obsidian 1.13.7 실환경 round-trip에서 YAML 주석 제거·alias 전개·note property canonicalization이 확인되어 Base ownership을 보존되는 `_generated_by` formula로 이동하고 serializer contract를 UI 저장 형식과 일치시켰다.
+- 2026-08-29: 순서 9 no-write candidate에서 legacy log·external index 선언과 전환 전용 migration runtime 제거를 검증했으며 Git target tree 통합은 NFR-KP-015 증거 gate로 차단했다. plan 게시의 실제 `wiki_ingest.py → fs.py` edge를 목표 DAG에 반영해 core 10 modules·16 edges, command-inclusive 12 modules·18 edges, cycle 0·최대 edge 3으로 고정했다.
+- 2026-09-02: P2-T5 호출 깊이 검증을 대표 semantic path·callback binding으로 한정하고 불완전한 범용 Python 분석기 요구를 제거했다. PageWrite lifecycle path는 JSON Schema `LifecyclePath` 한 곳이 소유하고 `target_path`와 nullable `source_path`의 non-null branch가 이를 참조한다. schema 변경은 현재 `3 + |PageType| = 11`개 generated marker를 materializer로 재생성하고 이후 생성되는 PageWritePlan의 `schema_sha256`에 반영한다. 기존 plan bytes는 수정하지 않으며 이전 digest를 가진 plan은 stale로 거부한다.

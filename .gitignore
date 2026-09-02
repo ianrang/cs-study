@@ -2,8 +2,7 @@
 .obsidian/
 .claude/settings.local.json
 
-# LLM Wiki v3 — 재생성 가능 artifact (Panel A C2 결정)
-_meta/backlinks.json
+# LLM Wiki v3 — 재생성 가능 cache
 _meta/.cache/
 scripts/__pycache__/
 *.pyc

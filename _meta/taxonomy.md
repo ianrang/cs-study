@@ -7,7 +7,7 @@
 | 변경 | 절차 |
 |---|---|
 | 신규 vocab 추가 | PR 1개 — taxonomy.md 수정 + 사람 review |
-| vocab supersede (예: foundation → frontier) | ADR + `alias:` 필드 추가 (frontmatter + taxonomy.md 양쪽, taxonomy.md canonical). 자동 일괄 치환 금지 |
+| vocab supersede (예: foundation → frontier) | ADR + taxonomy.md canonical 항목의 `(alias: ...)` 갱신. page frontmatter `tags:`는 canonical만 저장하고 자동 일괄 치환하지 않는다 |
 | vocab 삭제 | ADR + 1주 deprecation window + alias redirect |
 
 ## Tag 목록 — LLM/AI 도메인
@@ -95,7 +95,6 @@
 - `in-context-learning` (alias: `icl`)
 - `few-shot`
 - `zero-shot`
-- `chain-of-thought`
 - `prompt-engineering`
 
 ## Tag 목록 — Information Security 및 기존 workspace
@@ -185,7 +184,7 @@
 - `llama-4`
 - `mixtral-8x7b`
 - `mixtral-8x22b`
-- `qwen-2.5`
+- `qwen-2-5` (alias: `qwen-2.5`, `qwen-2.0`)
 
 ### Foundational papers (evergreen)
 
@@ -205,13 +204,13 @@
 
 alias 는 같은 개념의 다른 표기를 동일 entity 로 redirect. taxonomy.md canonical, frontmatter `tags:` 는 canonical 만 사용.
 
-예: `tags: [self-attention]` 금지. `tags: [attention]` 만 허용 (canonical).
+예: canonical 작성값은 `tags: [attention]`이다. `tags: [self-attention]`은 저장 목표가 아니지만 checker는 자동 치환하지 않고 MEDIUM 대체 안내를 반환한다.
 
-LLM 이 alias 어휘를 사용하면 lint.py가 canonical 대체값을 MEDIUM으로 안내한다. 자동 치환은 수행하지 않는다.
+LLM 이 alias 어휘를 사용하면 canonical checker가 canonical 대체값을 MEDIUM으로 안내한다. 자동 치환은 수행하지 않는다.
 
 ## 검증
 
-`scripts/lint.py`가 wiki content page의 `tags`와 entity 경로형 wikilink를 전수 검사한다. canonical tag는 통과하고, alias tag는 canonical 대체값을 MEDIUM으로 안내하며, taxonomy 미등재 tag는 HIGH로 실패한다. entity는 wikilink target 경로가 `.../entities/<slug>`인 경우와 `entities/<slug>.md`의 `<slug>`를 검사하며, canonical이면 통과, alias면 MEDIUM, 미등록이면 HIGH다. 일반 wikilink와 concept 링크는 entity 검사 대상이 아니다.
+`scripts/knowledge/check.py`의 `VR-KP-023`이 wiki content page의 `tags`와 entity 경로형 wikilink를 전수 검사한다. canonical tag는 통과하고, alias tag는 canonical 대체값을 MEDIUM으로 안내하며, taxonomy 미등재 tag는 HIGH로 실패한다. entity는 wikilink target 경로가 `.../entities/<slug>`인 경우와 `entities/<slug>.md`의 `<slug>`를 검사하며, canonical이면 통과, alias면 MEDIUM, 미등록이면 HIGH다. 일반 wikilink와 concept 링크는 entity 검사 대상이 아니다. `scripts/knowledge/schema.py`의 taxonomy loader는 canonical 중복·alias 중복·canonical/alias 충돌을 거부한다.
 
 ## 참고
 

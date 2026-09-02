@@ -21,6 +21,7 @@ from .schema import (
     KnowledgeSchemaError,
     active_domains,
     document_tree_sha256,
+    lifecycle_roots,
     parse_markdown,
     schema_digest,
     section_contract,
@@ -47,85 +48,16 @@ class PagePlanError(ValueError):
     pass
 
 
-def _demote_level_two_headings(lines: Sequence[str]) -> list[str]:
-    rendered: list[str] = []
-    fenced = False
-    fence_token = ""
-    for line in lines:
-        stripped = line.lstrip()
-        if stripped.startswith(("```", "~~~")):
-            token = stripped[:3]
-            if not fenced:
-                fenced = True
-                fence_token = token
-            elif token == fence_token:
-                fenced = False
-            rendered.append(line)
-        elif not fenced and line.startswith("## "):
-            rendered.append(f"#{line}")
-        else:
-            rendered.append(line)
-    return rendered
+def _parse_page(repo_root: Path, path: Path, text: str | None = None) -> dict:
+    return parse_markdown(
+        path,
+        text,
+        schema_path=repo_root / "_meta" / "knowledge.schema.json",
+    )
 
 
 def _table(lines: Sequence[str]) -> list[str]:
     return ["", *lines, ""]
-
-
-def render_preserved_document(
-    *,
-    properties: Mapping[str, object],
-    legacy_body_lines: Sequence[str],
-    legacy_frontmatter_end_line: int,
-    required_sections: Sequence[str],
-    source_manifest: str,
-    members: Sequence[str],
-    path_replacements: Mapping[str, str],
-) -> bytes:
-    frontmatter = yaml.safe_dump(
-        dict(properties),
-        allow_unicode=True,
-        default_flow_style=False,
-        sort_keys=False,
-    ).rstrip("\n")
-    first_section = required_sections[0]
-    prefix = ["---", *frontmatter.splitlines(), "---", "", f"## {first_section}"]
-    prefix.extend("" for _ in range(max(0, legacy_frontmatter_end_line - len(prefix))))
-
-    body = _demote_level_two_headings(legacy_body_lines)
-    if path_replacements:
-        body = [replace_paths(line, path_replacements) for line in body]
-    lines = [*prefix, *body]
-    for section in required_sections[1:]:
-        lines.extend(["", f"## {section}"])
-        if section == "Members":
-            rows = [f"| [[{member}]] |  |  |" for member in members]
-            lines.extend(_table([*_table_header("Members"), *rows]))
-        elif section == "Claims":
-            lines.extend(_table(_table_header("Claims")))
-        elif section == "Relations":
-            lines.extend(_table(_table_header("Relations")))
-        elif section == "Sources":
-            lines.extend(["", f"- `{source_manifest}`", ""])
-    return ("\n".join(lines).rstrip() + "\n").encode("utf-8")
-
-
-def replace_paths(line: str, replacements: Mapping[str, str]) -> str:
-    rendered = line
-    for source, target in replacements.items():
-        source_id = source.rsplit("/", 1)[-1].removesuffix(".md")
-        target_id = target.rsplit("/", 1)[-1].removesuffix(".md")
-        source_short = source.removeprefix("domains/information-security/")
-        target_short = target.removeprefix("domains/information-security/")
-        rendered = rendered.replace(f"wiki/{source}", f"wiki/{target}")
-        rendered = rendered.replace(source, target)
-        if source_short != source:
-            rendered = rendered.replace(source_short, target_short)
-        if source_id != target_id:
-            rendered = rendered.replace(f"[[{source_id}]]", f"[[{target_id}]]")
-            rendered = rendered.replace(f"[[{source_id}|", f"[[{target_id}|")
-            rendered = rendered.replace(f"[[{source_id}#", f"[[{target_id}#")
-    return rendered
 
 
 def page_plan_bytes(plan: dict) -> bytes:
@@ -240,8 +172,10 @@ def _relation_row(item: Mapping[str, object]) -> str:
     return "| " + " | ".join(escaped) + " |"
 
 
-def _render_semantic_plan(plan: dict, page_id: str, now: str) -> str:
-    required = section_contract(plan["page_type"])
+def _render_semantic_plan(
+    plan: dict, page_id: str, now: str, repo_root: Path
+) -> str:
+    required = section_contract(plan["page_type"], repo_root)
     generated = {"Claims", "Relations", "Sources", "Members"}
     expected_sections = [heading for heading in required if heading not in generated]
     supplied_sections = [section["heading"] for section in plan["sections"]]
@@ -299,7 +233,10 @@ def _render_semantic_plan(plan: dict, page_id: str, now: str) -> str:
         elif heading == "Sources":
             lines.extend(f"- `{path}`" for path in plan["source_paths"])
     rendered = "\n".join(lines).rstrip() + "\n"
-    parse_markdown(Path(f"{page_id}.md"), rendered)
+    try:
+        _parse_page(repo_root, Path(f"{page_id}.md"), rendered)
+    except KnowledgeSchemaError as exc:
+        raise PagePlanError(str(exc)) from exc
     return rendered
 
 
@@ -360,7 +297,7 @@ def build_synthesize_plan(
     target = knowledge_root / target_relative
     if target.exists() or target.is_symlink():
         raise PagePlanError(f"synthesize target already exists: {target}")
-    content = _render_semantic_plan(semantic, page_id, now)
+    content = _render_semantic_plan(semantic, page_id, now, repo_root)
     entry = _write_entry("create", None, target_relative, content, None, None, None)
     plan = _build_page_plan(
         operation="synthesize",
@@ -379,13 +316,15 @@ def build_synthesize_plan(
     return plan
 
 
-def _existing_page(knowledge_root: Path, path: Path) -> tuple[str, str, dict]:
+def _existing_page(
+    repo_root: Path, knowledge_root: Path, path: Path
+) -> tuple[str, str, dict]:
     relative = _relative_page(knowledge_root, path)
     if not path.is_file() or path.is_symlink():
         raise PagePlanError(f"source page must be a regular file: {path}")
     try:
         content = path.read_bytes().decode("utf-8")
-        instance = parse_markdown(path, content)
+        instance = _parse_page(repo_root, path, content)
     except (OSError, UnicodeDecodeError, KnowledgeSchemaError) as exc:
         raise PagePlanError(f"invalid source page: {exc}") from exc
     return relative, content, instance
@@ -402,7 +341,7 @@ def _move_plan(
     operation_input: dict,
     review_verdicts: list[dict] | None = None,
 ) -> dict:
-    source_relative, content, _ = _existing_page(knowledge_root, source)
+    source_relative, content, _ = _existing_page(repo_root, knowledge_root, source)
     if not target_dir.is_dir() or target_dir.is_symlink():
         raise PagePlanError(f"target directory must already exist: {target_dir}")
     target = target_dir / source.name
@@ -465,7 +404,7 @@ def build_promote_plan(
     target_relative = _relative_page(knowledge_root, target_dir / draft.name)
     if not target_relative.startswith(("domains/", "collections/")):
         raise PagePlanError("promote target must be an active lifecycle directory")
-    _, _, instance = _existing_page(knowledge_root, draft)
+    _, _, instance = _existing_page(repo_root, knowledge_root, draft)
     try:
         verdicts = json.loads(review_verdicts_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
@@ -497,9 +436,9 @@ def build_promote_plan(
     return plan
 
 
-def _lifecycle(relative: str) -> str:
+def _lifecycle(relative: str, roots: tuple[str, ...]) -> str:
     first = PurePosixPath(relative).parts[0]
-    if first not in {"staging", "domains", "collections", "archive"}:
+    if first not in roots:
         raise PagePlanError(f"page is outside a lifecycle root: {relative}")
     return first
 
@@ -513,7 +452,8 @@ def build_move_plan(
 ) -> dict:
     source_relative = _relative_page(knowledge_root, page)
     target_relative = _relative_page(knowledge_root, target_dir / page.name)
-    if _lifecycle(source_relative) != _lifecycle(target_relative):
+    roots = lifecycle_roots(repo_root)
+    if _lifecycle(source_relative, roots) != _lifecycle(target_relative, roots):
         raise PagePlanError("move must remain in the same lifecycle root")
     plan = _move_plan(
         operation="move",
@@ -555,7 +495,9 @@ def _collection_plan(
     repo_root: Path,
     knowledge_root: Path,
 ) -> dict:
-    relative, content, instance = _existing_page(knowledge_root, collection)
+    relative, content, instance = _existing_page(
+        repo_root, knowledge_root, collection
+    )
     if instance["properties"]["page_type"] != "collection":
         raise PagePlanError("collection command requires page_type collection")
     rendered = _replace_members(content, members)
@@ -592,7 +534,7 @@ def build_collection_add_member_plan(
     repo_root: Path,
     knowledge_root: Path,
 ) -> dict:
-    relative, _, instance = _existing_page(knowledge_root, collection)
+    relative, _, instance = _existing_page(repo_root, knowledge_root, collection)
     existing = list(instance["members"])
     targets = [item["target"] for item in existing]
     if len(targets) != len(set(targets)):
@@ -634,7 +576,7 @@ def build_collection_reorder_plan(
     repo_root: Path,
     knowledge_root: Path,
 ) -> dict:
-    relative, _, instance = _existing_page(knowledge_root, collection)
+    relative, _, instance = _existing_page(repo_root, knowledge_root, collection)
     targets = [item["target"] for item in instance["members"]]
     if len(targets) != len(set(targets)):
         raise PagePlanError("duplicate collection member in source page")
@@ -667,7 +609,7 @@ def load_page_write_plan(path: Path, repo_root: Path) -> tuple[bytes, dict]:
     return raw, plan
 
 
-def _validate_plan_operation(plan: dict, entry: dict) -> None:
+def _validate_plan_operation(plan: dict, entry: dict, repo_root: Path) -> None:
     expected_actions = {
         "synthesize": "create",
         "promote": "move",
@@ -679,6 +621,7 @@ def _validate_plan_operation(plan: dict, entry: dict) -> None:
         raise PagePlanError("operation and page action do not match")
     source = entry["source_path"]
     target = entry["target_path"]
+    roots = lifecycle_roots(repo_root)
     operation_input = plan["operation_input"]
     if plan["operation"] in {"promote", "move"} and (
         operation_input["source_path"] != source
@@ -691,9 +634,9 @@ def _validate_plan_operation(plan: dict, entry: dict) -> None:
         raise PagePlanError("collection operation input path does not match write-set")
     if plan["operation"] == "synthesize":
         operation_input = plan["operation_input"]
-        instance = parse_markdown(Path(target), entry["content"])
+        instance = _parse_page(repo_root, Path(target), entry["content"])
         properties = instance["properties"]
-        if _lifecycle(target) != "staging":
+        if _lifecycle(target, roots) != "staging":
             raise PagePlanError("synthesize target must be staging")
         if (
             PurePosixPath(target).stem != operation_input["page_id"]
@@ -703,12 +646,12 @@ def _validate_plan_operation(plan: dict, entry: dict) -> None:
         ):
             raise PagePlanError("synthesize operation input does not match target page")
     if plan["operation"] == "promote":
-        if source is None or _lifecycle(source) != "staging":
+        if source is None or _lifecycle(source, roots) != "staging":
             raise PagePlanError("promote source must be staging")
-        if _lifecycle(target) not in {"domains", "collections"}:
+        if _lifecycle(target, roots) not in {"domains", "collections"}:
             raise PagePlanError("promote target must be active")
     if plan["operation"] == "move":
-        if source is None or _lifecycle(source) != _lifecycle(target):
+        if source is None or _lifecycle(source, roots) != _lifecycle(target, roots):
             raise PagePlanError("move must remain in the same lifecycle root")
 
 
@@ -720,12 +663,16 @@ def _outside_members_section(content: str) -> tuple[str, str]:
 
 
 def _validate_collection_delta(
-    plan: dict, path: Path, source_content: str, content: str
+    plan: dict,
+    path: Path,
+    source_content: str,
+    content: str,
+    repo_root: Path,
 ) -> None:
     if _outside_members_section(source_content) != _outside_members_section(content):
         raise PagePlanError("collection delta must preserve raw bytes outside Members")
-    before = parse_markdown(path, source_content)["members"]
-    after = parse_markdown(path, content)["members"]
+    before = _parse_page(repo_root, path, source_content)["members"]
+    after = _parse_page(repo_root, path, content)["members"]
     before_targets = [row["target"] for row in before]
     if len(before_targets) != len(set(before_targets)):
         raise PagePlanError("duplicate collection member in source page")
@@ -771,14 +718,16 @@ def _validate_collection_delta(
             raise PagePlanError("collection reorder delta is invalid")
 
 
-def _validate_noop_operation(plan: dict, knowledge_root: Path) -> None:
+def _validate_noop_operation(
+    plan: dict, repo_root: Path, knowledge_root: Path
+) -> None:
     operation_input = plan["operation_input"]
     if plan["operation"] == "collection-reorder":
         collection = knowledge_root / operation_input["collection_path"]
         _relative_page(knowledge_root, collection)
         if not collection.is_file() or collection.is_symlink():
             raise PagePlanError("no-op collection page is missing")
-        instance = parse_markdown(collection)
+        instance = _parse_page(repo_root, collection)
         if instance["properties"]["page_type"] != "collection":
             raise PagePlanError("no-op collection operation requires a collection page")
         if [row["target"] for row in instance["members"]] != operation_input["members"]:
@@ -787,7 +736,8 @@ def _validate_noop_operation(plan: dict, knowledge_root: Path) -> None:
     if plan["operation"] == "move":
         source = operation_input["source_path"]
         target = operation_input["target_path"]
-        if source != target or _lifecycle(source) != _lifecycle(target):
+        roots = lifecycle_roots(repo_root)
+        if source != target or _lifecycle(source, roots) != _lifecycle(target, roots):
             raise PagePlanError("no-op move requires one unchanged lifecycle path")
         page = knowledge_root / source
         _relative_page(knowledge_root, page)
@@ -842,7 +792,7 @@ def _apply_page_write_plan_unlocked(
     candidate_check(write_set)
     current_tree = document_tree_sha256(knowledge_root)
     if not write_set:
-        _validate_noop_operation(plan, knowledge_root)
+        _validate_noop_operation(plan, repo_root, knowledge_root)
         if plan["target_tree_sha256"] != plan["base_tree_sha256"]:
             raise PagePlanError("no-op plan target tree differs from base tree")
         if current_tree != plan["base_tree_sha256"]:
@@ -859,7 +809,7 @@ def _apply_page_write_plan_unlocked(
     content_bytes = entry["content"].encode("utf-8")
     if hashlib.sha256(content_bytes).hexdigest() != entry["target_sha256"]:
         raise PagePlanError("target content digest does not match plan")
-    _validate_plan_operation(plan, entry)
+    _validate_plan_operation(plan, entry, repo_root)
     if entry["action"] == "create":
         if (
             source is not None
@@ -898,11 +848,16 @@ def _apply_page_write_plan_unlocked(
             raise PagePlanError("target tree matches but move source still exists")
         if plan["operation"] == "promote":
             _validate_review_verdicts(
-                parse_markdown(target, entry["content"]), plan["review_verdicts"]
+                _parse_page(repo_root, target, entry["content"]),
+                plan["review_verdicts"],
             )
         if plan["operation"].startswith("collection-"):
             _validate_collection_delta(
-                plan, target, entry["base_content"], entry["content"]
+                plan,
+                target,
+                entry["base_content"],
+                entry["content"],
+                repo_root,
             )
         return False
     if current_tree != plan["base_tree_sha256"]:
@@ -932,14 +887,21 @@ def _apply_page_write_plan_unlocked(
     if plan["operation"].startswith("collection-"):
         if (
             source is None
-            or parse_markdown(source)["properties"]["page_type"] != "collection"
+            or _parse_page(repo_root, source)["properties"]["page_type"]
+            != "collection"
         ):
             raise PagePlanError("collection operation requires a collection page")
         _validate_collection_delta(
-            plan, source, entry["base_content"], entry["content"]
+            plan,
+            source,
+            entry["base_content"],
+            entry["content"],
+            repo_root,
         )
     if plan["operation"] == "promote":
-        _validate_review_verdicts(parse_markdown(source), plan["review_verdicts"])
+        _validate_review_verdicts(
+            _parse_page(repo_root, source), plan["review_verdicts"]
+        )
     overrides = write_set_overrides(knowledge_root, write_set)
     if document_tree_sha256(knowledge_root, overrides) != plan["target_tree_sha256"]:
         raise PagePlanError("target tree digest does not match candidate")

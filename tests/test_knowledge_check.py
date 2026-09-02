@@ -7,14 +7,23 @@ import sys
 import tempfile
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
+import knowledge.check as check_module  # noqa: E402
 import wiki_ingest  # noqa: E402
 from knowledge.artifacts import capture  # noqa: E402
 from knowledge.check import (  # noqa: E402
+    ARCHITECTURE_EXPECTED_EDGES,
+    ARCHITECTURE_INITIALIZER_PATHS,
+    ARCHITECTURE_MAX_EDGE_DEPTH,
+    ARCHITECTURE_MODULE_PATHS,
     RULE_REGISTRY,
     CheckResult,
+    _architecture_import_targets,
+    _taxonomy_entity_slugs,
     check_target,
     contract_findings,
     generated_surface_findings,
@@ -61,6 +70,18 @@ def _setup() -> tuple[tempfile.TemporaryDirectory, Path, Path, str]:
         raw_root=repo / "raw",
     ).manifest_path
     relative_manifest = str(manifest.resolve().relative_to(repo.resolve()))
+    meta = repo / "_meta"
+    meta.mkdir()
+    (meta / "knowledge.schema.json").write_bytes(
+        (ROOT / "_meta" / "knowledge.schema.json").read_bytes()
+    )
+    (meta / "taxonomy.md").write_text(
+        "## Tag 목록\n\n"
+        "- `architecture` (alias: `legacy-architecture`)\n\n"
+        "## Entity 목록\n\n"
+        "- `canonical-entity` (alias: `legacy-entity`)\n",
+        encoding="utf-8",
+    )
     target = repo / "wiki"
     (target / "staging").mkdir(parents=True)
     return temporary, repo, target, relative_manifest
@@ -89,9 +110,156 @@ def test_valid_target_has_separate_structural_and_semantic_verdicts():
     temporary, repo, target, manifest = _setup()
     try:
         _write_concept(target, "valid-concept", manifest)
-        result = check_target(target, repo_root=repo)
+        result = check_target(
+            target, repo_root=repo, include_repository_contracts=False
+        )
         assert result.structural_verdict == "PASS", result.findings
         assert result.semantic_review == "not-performed"
+    finally:
+        temporary.cleanup()
+
+
+def test_check_target_reads_each_disk_page_once(monkeypatch: pytest.MonkeyPatch):
+    temporary, repo, target, manifest = _setup()
+    try:
+        page = _write_concept(target, "single-snapshot", manifest)
+        original_read_text = Path.read_text
+        page_reads = 0
+
+        def count_page_reads(path: Path, *args, **kwargs):
+            nonlocal page_reads
+            if path == page:
+                page_reads += 1
+            return original_read_text(path, *args, **kwargs)
+
+        monkeypatch.setattr(Path, "read_text", count_page_reads)
+
+        result = check_target(
+            target, repo_root=repo, include_repository_contracts=False
+        )
+
+        assert result.structural_verdict == "PASS", result.findings
+        assert page_reads == 1
+    finally:
+        temporary.cleanup()
+
+
+def test_check_target_does_not_read_an_overridden_page(
+    monkeypatch: pytest.MonkeyPatch,
+):
+    temporary, repo, target, manifest = _setup()
+    try:
+        page = _write_concept(target, "override-snapshot", manifest).resolve()
+        target = target.resolve()
+        source = page.read_text(encoding="utf-8")
+        original_read_text = Path.read_text
+        page_reads = 0
+
+        def count_page_reads(path: Path, *args, **kwargs):
+            nonlocal page_reads
+            if path == page:
+                page_reads += 1
+            return original_read_text(path, *args, **kwargs)
+
+        monkeypatch.setattr(Path, "read_text", count_page_reads)
+
+        result = check_target(
+            target,
+            repo_root=repo,
+            overrides={page: source},
+            include_repository_contracts=False,
+        )
+
+        assert result.structural_verdict == "PASS", result.findings
+        assert page_reads == 0
+    finally:
+        temporary.cleanup()
+
+
+def test_check_target_reports_invalid_utf8_page_as_structural_failure():
+    temporary, repo, target, _ = _setup()
+    try:
+        page = target / "staging" / "invalid-utf8.md"
+        page.write_bytes(b"\xff\n")
+
+        result = check_target(
+            target, repo_root=repo, include_repository_contracts=False
+        )
+
+        assert result.structural_verdict == "FAIL"
+        assert any(
+            item["rule_id"] == "VR-KP-004"
+            and Path(item["path"]) == page
+            and "utf-8" in item["message"].lower()
+            for item in result.findings
+        )
+    finally:
+        temporary.cleanup()
+
+
+def test_check_target_passes_repo_root_to_repository_contract_checks(
+    monkeypatch: pytest.MonkeyPatch,
+):
+    temporary, repo, target, manifest = _setup()
+    try:
+        _write_concept(target, "repository-contract-root", manifest)
+        observed: list[tuple[str, Path]] = []
+
+        def record_contract(root: Path):
+            observed.append(("contract", root))
+            return []
+
+        def record_coverage(*, repo_root: Path):
+            observed.append(("coverage", repo_root))
+            return []
+
+        def record_architecture(root: Path):
+            observed.append(("architecture", root))
+            return []
+
+        monkeypatch.setattr(check_module, "contract_findings", record_contract)
+        monkeypatch.setattr(check_module, "rule_coverage_findings", record_coverage)
+        monkeypatch.setattr(
+            check_module, "architecture_findings", record_architecture
+        )
+
+        result = check_target(target, repo_root=repo)
+
+        assert result.structural_verdict == "PASS", result.findings
+        assert observed == [
+            ("contract", repo),
+            ("coverage", repo),
+            ("architecture", repo),
+        ]
+    finally:
+        temporary.cleanup()
+
+
+def test_rule_coverage_reports_business_logic_read_errors(tmp_path: Path):
+    findings = rule_coverage_findings(repo_root=tmp_path)
+
+    assert any(
+        finding["rule_id"] == "VR-KP-020"
+        and "unavailable business logic" in finding["message"]
+        for finding in findings
+    )
+
+
+def test_check_target_uses_requested_repository_document_schema():
+    temporary, repo, target, manifest = _setup()
+    try:
+        _write_concept(target, "repo-schema", manifest)
+        schema_path = repo / "_meta" / "knowledge.schema.json"
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        schema["$defs"]["Properties"]["required"].append("repo_only_field")
+        schema_path.write_text(json.dumps(schema), encoding="utf-8")
+
+        result = check_target(
+            target, repo_root=repo, include_repository_contracts=False
+        )
+
+        assert result.structural_verdict == "FAIL"
+        assert any("repo_only_field" in item["message"] for item in result.findings)
     finally:
         temporary.cleanup()
 
@@ -208,6 +376,118 @@ def test_non_collection_page_under_collections_is_rejected():
         temporary.cleanup()
 
 
+@pytest.mark.parametrize(
+    "subdir",
+    ("invalid/staging", ".hidden/domains/software-engineering", "staging/domains"),
+)
+def test_lifecycle_root_must_be_the_first_and_only_root_component(subdir: str):
+    temporary, repo, target, manifest = _setup()
+    try:
+        (repo / "_meta" / "domains.yaml").write_text(
+            "version: 1\ndomains:\n  software-engineering:\n"
+            "    status: active\n    label: Software Engineering\n"
+            "    source_roots: [development]\n",
+            encoding="utf-8",
+        )
+        _write_concept(target, "invalid-lifecycle", manifest, subdir=subdir)
+
+        result = check_target(target, repo_root=repo)
+
+        assert any(item["rule_id"] == "VR-KP-014" for item in result.findings)
+    finally:
+        temporary.cleanup()
+
+
+def test_lifecycle_path_remediation_uses_schema_owned_roots():
+    temporary, repo, target, manifest = _setup()
+    try:
+        schema_path = repo / "_meta" / "knowledge.schema.json"
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        lifecycle_path = schema["$defs"]["LifecyclePath"]
+        lifecycle_path["pattern"] = lifecycle_path["pattern"].replace(
+            "staging|domains|collections|archive",
+            "staging|domains|collections|archive|incubator",
+        )
+        schema_path.write_text(json.dumps(schema), encoding="utf-8")
+        _write_concept(target, "invalid-lifecycle", manifest, subdir="outside")
+
+        result = check_target(target, repo_root=repo)
+
+        finding = next(
+            item
+            for item in result.findings
+            if item["rule_id"] == "VR-KP-014"
+            and item["message"] == "page path must identify exactly one lifecycle root"
+        )
+        assert finding["remediation"] == (
+            "place the page under one of: "
+            "staging, domains, collections, archive, incubator"
+        )
+    finally:
+        temporary.cleanup()
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    ["missing", "properties-list", "properties-null", "properties-scalar"],
+)
+def test_lifecycle_schema_error_remediation_names_the_path_pattern_contract(
+    mutation: str,
+):
+    temporary, repo, target, _manifest = _setup()
+    try:
+        schema_path = repo / "_meta" / "knowledge.schema.json"
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        if mutation == "missing":
+            del schema["$defs"]["LifecyclePath"]
+        else:
+            schema["$defs"]["PageWrite"]["properties"] = {
+                "properties-list": [],
+                "properties-null": None,
+                "properties-scalar": 1,
+            }[mutation]
+        schema_path.write_text(json.dumps(schema), encoding="utf-8")
+
+        result = check_target(target, repo_root=repo)
+
+        finding = next(
+            item
+            for item in result.findings
+            if item["rule_id"] == "VR-KP-004" and item["subject_id"] == "schema"
+        )
+        assert finding["remediation"] == (
+            "define one non-empty LifecyclePath and reference it from "
+            "PageWrite source_path and target_path"
+        )
+    finally:
+        temporary.cleanup()
+
+
+def test_concept_lifecycle_accepts_staging_domain_and_archive_roots():
+    temporary, repo, target, manifest = _setup()
+    try:
+        (repo / "_meta" / "domains.yaml").write_text(
+            "version: 1\ndomains:\n  software-engineering:\n"
+            "    status: active\n    label: Software Engineering\n"
+            "    source_roots: [development]\n",
+            encoding="utf-8",
+        )
+        _write_concept(target, "staging-concept", manifest, subdir="staging")
+        _write_concept(
+            target,
+            "domain-concept",
+            manifest,
+            subdir="domains/software-engineering",
+        )
+        _write_concept(target, "archive-concept", manifest, subdir="archive")
+
+        result = check_target(target, repo_root=repo)
+
+        assert not any(item["rule_id"] == "VR-KP-014" for item in result.findings)
+    finally:
+        temporary.cleanup()
+
+
 def test_empty_target_is_not_a_structural_pass():
     with tempfile.TemporaryDirectory() as directory:
         target = Path(directory) / "wiki"
@@ -221,20 +501,24 @@ def test_full_check_excludes_generated_root_pages_and_templates():
     temporary, repo, target, manifest = _setup()
     try:
         _write_concept(target, "valid-concept", manifest)
-        for filename in ("index.md", "overview.md", "log.md"):
+        for filename in ("index.md", "overview.md"):
             (target / filename).write_text("invalid generated page\n", encoding="utf-8")
         (target / "templates").mkdir()
         (target / "templates" / "invalid.md").write_text(
             "invalid template\n", encoding="utf-8"
         )
-        result = check_target(target, repo_root=repo, mode="all")
+        result = check_target(
+            target,
+            repo_root=repo,
+            mode="all",
+            include_repository_contracts=False,
+        )
         assert result.structural_verdict == "PASS", result.findings
         assert result.exclusions == (
             ".git",
             ".venv",
             "__pycache__",
             "index.md",
-            "log.md",
             "node_modules",
             "overview.md",
             "templates/**",
@@ -258,6 +542,147 @@ def test_full_check_includes_hidden_canonical_markdown():
         assert any(Path(item["path"]) == page for item in result.findings)
     finally:
         temporary.cleanup()
+
+
+def test_taxonomy_rejects_unknown_and_alias_tags():
+    temporary, repo, target, manifest = _setup()
+    try:
+        page = _write_concept(target, "valid-concept", manifest)
+        original = page.read_text(encoding="utf-8")
+        for tag, expected_severity in (
+            ("not-in-taxonomy", "HIGH"),
+            ("legacy-architecture", "MEDIUM"),
+        ):
+            candidate = original.replace("tags: [architecture]", f"tags: [{tag}]")
+            page.write_text(candidate, encoding="utf-8")
+            result = check_target(
+                target, repo_root=repo, include_repository_contracts=False
+            )
+            taxonomy = [
+                item for item in result.findings if item["rule_id"] == "VR-KP-023"
+            ]
+            assert len(taxonomy) == 1, result.findings
+            assert taxonomy[0]["severity"] == expected_severity
+            assert tag in taxonomy[0]["message"]
+            assert result.structural_verdict == (
+                "FAIL" if expected_severity == "HIGH" else "PASS"
+            )
+    finally:
+        temporary.cleanup()
+
+
+def test_taxonomy_checks_entity_pages_and_path_links_only():
+    temporary, repo, target, manifest = _setup()
+    try:
+        alias_page = _write_concept(
+            target,
+            "legacy-entity",
+            manifest,
+            subdir="staging/entities",
+        )
+        link_page = _write_concept(target, "link-page", manifest)
+        linked = link_page.read_text(encoding="utf-8").replace(
+            "## Open Questions",
+            "Unknown [[wiki/domains/test/entities/not-in-taxonomy]] and "
+            "ordinary [[not-in-taxonomy]].\n\n## Open Questions",
+        )
+        link_page.write_text(linked, encoding="utf-8")
+        result = check_target(target, repo_root=repo)
+        taxonomy = [
+            item for item in result.findings if item["rule_id"] == "VR-KP-023"
+        ]
+        assert any(
+            Path(item["path"]) == alias_page
+            and item["severity"] == "MEDIUM"
+            and "legacy-entity" in item["message"]
+            for item in taxonomy
+        )
+        assert sum("not-in-taxonomy" in item["message"] for item in taxonomy) == 1
+    finally:
+        temporary.cleanup()
+
+
+def test_check_target_ignores_fenced_wikilinks_in_graph_and_taxonomy():
+    temporary, repo, target, manifest = _setup()
+    try:
+        page = _write_concept(target, "fenced-link", manifest)
+        source = page.read_text(encoding="utf-8").replace(
+            "Definition body.",
+            "Definition body.\n\n````markdown\n"
+            "[[missing-page]]\n"
+            "[[wiki/domains/test/entities/not-in-taxonomy]]\n"
+            "````",
+            1,
+        )
+        page.write_text(source, encoding="utf-8")
+
+        result = check_target(
+            target, repo_root=repo, include_repository_contracts=False
+        )
+
+        assert result.structural_verdict == "PASS", result.findings
+        assert not any(
+            finding["rule_id"] in {"VR-KP-008", "VR-KP-023"}
+            for finding in result.findings
+        )
+    finally:
+        temporary.cleanup()
+
+
+@pytest.mark.parametrize("marker", ["`", "~"])
+def test_taxonomy_links_ignore_content_until_a_long_enough_closing_fence(
+    tmp_path: Path, marker: str
+):
+    text = "\n".join(
+        (
+            marker * 4,
+            marker * 3,
+            "[[wiki/domains/test/entities/not-in-taxonomy]]",
+            marker * 4,
+        )
+    )
+
+    assert _taxonomy_entity_slugs(tmp_path / "page.md", text) == []
+
+
+def test_taxonomy_dotted_entity_aliases_point_to_kebab_canonical():
+    temporary, repo, target, manifest = _setup()
+    try:
+        (repo / "_meta" / "taxonomy.md").write_text(
+            "## Tag 목록\n\n- `architecture`\n\n"
+            "## Entity 목록\n\n- `qwen-2-5` (alias: `qwen-2.5`, `qwen-2.0`)\n",
+            encoding="utf-8",
+        )
+        link_page = _write_concept(target, "link-page", manifest)
+        linked = link_page.read_text(encoding="utf-8").replace(
+            "## Open Questions",
+            "Canonical [[wiki/domains/ai/entities/qwen-2-5]] and "
+            "[[wiki/domains/ai/entities/qwen-2-5.md]]; aliases "
+            "[[wiki/domains/ai/entities/qwen-2.5]] and "
+            "[[wiki/domains/ai/entities/qwen-2.0]].\n\n## Open Questions",
+        )
+        link_page.write_text(linked, encoding="utf-8")
+
+        result = check_target(target, repo_root=repo)
+        taxonomy = [
+            item for item in result.findings if item["rule_id"] == "VR-KP-023"
+        ]
+
+        assert len(taxonomy) == 2, taxonomy
+        assert all(item["severity"] == "MEDIUM" for item in taxonomy)
+        assert any("qwen-2.0" in item["message"] for item in taxonomy)
+        assert any("qwen-2.5" in item["message"] for item in taxonomy)
+        assert all("qwen-2-5" in item["message"] for item in taxonomy)
+    finally:
+        temporary.cleanup()
+
+
+def test_taxonomy_rule_is_active_and_executable():
+    assert RULE_REGISTRY["VR-KP-023"] == ("active", "taxonomy-check")
+    assert not any(
+        finding["subject_id"] == "VR-KP-023"
+        for finding in rule_coverage_findings()
+    )
 
 
 def test_p2_t5_validation_rules_are_active_and_executable():
@@ -352,6 +777,596 @@ def test_architecture_check_includes_cli_entrypoint():
         assert any("wiki_ingest -> ytscript" in item["message"] for item in findings)
 
 
+def _copy_architecture_fixture(destination_root: Path) -> None:
+    import shutil
+
+    for relative in ARCHITECTURE_MODULE_PATHS.values():
+        destination = destination_root / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT / relative, destination)
+    for relative in ARCHITECTURE_INITIALIZER_PATHS:
+        destination = destination_root / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT / relative, destination)
+
+
+def test_architecture_check_rejects_acyclic_edge_outside_exact_contract(tmp_path: Path):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    materialize = tmp_path / "scripts/knowledge/materialize.py"
+    materialize.write_text(
+        materialize.read_text(encoding="utf-8") + "\nimport knowledge.graph\n",
+        encoding="utf-8",
+    )
+
+    findings = architecture_findings(tmp_path)
+
+    assert any(
+        item["rule_id"] == "VR-KP-019"
+        and "unexpected architecture edge" in item["message"]
+        for item in findings
+    )
+
+
+def test_architecture_check_rejects_unregistered_module(tmp_path: Path):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    rogue = tmp_path / "scripts/knowledge/rogue.py"
+    rogue.write_text("import knowledge.materialize\n", encoding="utf-8")
+
+    findings = architecture_findings(tmp_path)
+
+    assert any(
+        item["rule_id"] == "VR-KP-019"
+        and "unexpected architecture module" in item["message"]
+        for item in findings
+    )
+
+
+@pytest.mark.parametrize(
+    "statement",
+    (
+        "import knowledge.missing",
+        "from knowledge.missing import leaf",
+        "import scripts.contracts.missing",
+        "import knowledge",
+        "import contracts",
+        "from knowledge import *",
+        "from contracts import *",
+        "import scripts.knowledge",
+        "import scripts.contracts",
+        "from scripts import knowledge",
+        "from scripts import contracts",
+        "import scripts",
+        "from scripts import *",
+        "import scripts.missing",
+        "from scripts import missing",
+        "import scripts.knowledge.check",
+        "from scripts.knowledge import check",
+        "import scripts.contracts.privacy",
+        "from scripts.contracts import privacy",
+    ),
+)
+def test_architecture_check_rejects_import_of_unregistered_local_module(
+    tmp_path: Path, statement: str
+):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    graph = tmp_path / "scripts/knowledge/graph.py"
+    graph.write_text(
+        graph.read_text(encoding="utf-8") + f"\n{statement}\n",
+        encoding="utf-8",
+    )
+
+    findings = architecture_findings(tmp_path)
+
+    assert any(
+        item["rule_id"] == "VR-KP-019"
+        and "unregistered architecture import" in item["message"]
+        for item in findings
+    )
+
+
+def test_architecture_check_rejects_unregistered_local_package_import(tmp_path: Path):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    helpers = tmp_path / "scripts/helpers"
+    helpers.mkdir()
+    (helpers / "__init__.py").write_text("", encoding="utf-8")
+    graph = tmp_path / "scripts/knowledge/graph.py"
+    graph.write_text(
+        graph.read_text(encoding="utf-8") + "\nimport helpers\n",
+        encoding="utf-8",
+    )
+
+    findings = architecture_findings(tmp_path)
+
+    assert any(
+        item["rule_id"] == "VR-KP-019"
+        and "forbidden repository import" in item["message"]
+        for item in findings
+    )
+
+
+def test_architecture_module_identity_collision_is_deterministic(tmp_path: Path):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    collision = tmp_path / "scripts/knowledge/check"
+    collision.mkdir()
+    (collision / "__init__.py").write_text("", encoding="utf-8")
+
+    first = architecture_findings(tmp_path)
+    second = architecture_findings(tmp_path)
+
+    assert first == second
+    assert any(
+        item["rule_id"] == "VR-KP-019"
+        and "duplicate architecture module identity" in item["message"]
+        for item in first
+    )
+
+
+@pytest.mark.parametrize(
+    "statement",
+    (
+        "from knowledge import check",
+        "from knowledge import check as checker",
+        "from . import check",
+    ),
+)
+def test_architecture_check_resolves_import_from_alias_cycles(
+    tmp_path: Path, statement: str
+):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    graph = tmp_path / "scripts/knowledge/graph.py"
+    graph.write_text(
+        graph.read_text(encoding="utf-8") + f"\n{statement}\n",
+        encoding="utf-8",
+    )
+
+    findings = architecture_findings(tmp_path)
+
+    assert any("import cycle detected" in item["message"] for item in findings)
+    assert not any(
+        "invalid relative architecture import" in item["message"]
+        for item in findings
+    )
+
+
+@pytest.mark.parametrize(
+    ("relative_path", "statement"),
+    (
+        ("scripts/knowledge/graph.py", "from .. import os"),
+        ("scripts/knowledge/graph.py", "from ... import os"),
+        ("scripts/contracts/timestamps.py", "from .. import os"),
+        ("scripts/contracts/timestamps.py", "from ... import os"),
+        ("scripts/wiki_ingest.py", "from . import os"),
+    ),
+)
+def test_architecture_check_rejects_relative_import_beyond_package(
+    tmp_path: Path, relative_path: str, statement: str
+):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    source = tmp_path / relative_path
+    source.write_text(
+        source.read_text(encoding="utf-8") + f"\n{statement}\n",
+        encoding="utf-8",
+    )
+
+    findings = architecture_findings(tmp_path)
+
+    assert any(
+        item["rule_id"] == "VR-KP-019"
+        and "invalid relative architecture import" in item["message"]
+        for item in findings
+    )
+
+
+def test_architecture_check_rejects_alternate_scripts_contract_import(tmp_path: Path):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    timestamps = tmp_path / "scripts/contracts/timestamps.py"
+    timestamps.write_text(
+        timestamps.read_text(encoding="utf-8")
+        + "\nimport scripts.contracts.privacy\n",
+        encoding="utf-8",
+    )
+
+    findings = architecture_findings(tmp_path)
+
+    assert any(
+        item["rule_id"] == "VR-KP-019"
+        and item["message"]
+        == "unregistered architecture import: contracts.timestamps -> scripts.contracts.privacy"
+        for item in findings
+    )
+
+
+@pytest.mark.parametrize(
+    ("payload", "mode"),
+    ((b"def broken(:\n", "syntax"), (b"\xff\n", "encoding")),
+)
+def test_architecture_check_reports_unreadable_source(
+    tmp_path: Path, payload: bytes, mode: str
+):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    materialize = tmp_path / "scripts/knowledge/materialize.py"
+    materialize.write_bytes(payload)
+
+    findings = architecture_findings(tmp_path)
+
+    assert any(
+        item["rule_id"] == "VR-KP-019"
+        and "unavailable architecture source" in item["message"]
+        and mode in item["message"]
+        for item in findings
+    )
+
+
+def test_architecture_check_reports_source_read_error(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    materialize = tmp_path / "scripts/knowledge/materialize.py"
+    original = Path.read_text
+
+    def fail_selected(path: Path, *args, **kwargs):
+        if path == materialize:
+            raise OSError("fixture read failure")
+        return original(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "read_text", fail_selected)
+
+    findings = architecture_findings(tmp_path)
+
+    assert any(
+        item["rule_id"] == "VR-KP-019"
+        and "unavailable architecture source" in item["message"]
+        and "read" in item["message"]
+        for item in findings
+    )
+
+
+def test_page_command_contract_reports_invalid_utf8_surface(tmp_path: Path):
+    documents = tmp_path / "scripts" / "knowledge" / "documents.py"
+    commands = tmp_path / "tests" / "test_page_commands.py"
+    fs_tests = tmp_path / "tests" / "test_fs.py"
+    for path in (documents, commands, fs_tests):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("", encoding="utf-8")
+    documents.write_bytes(b"\xff\n")
+
+    findings = check_module.page_command_contract_findings(tmp_path)
+
+    assert any(
+        item["rule_id"] == "VR-KP-020"
+        and Path(item["path"]) == documents
+        and "unavailable" in item["message"]
+        for item in findings
+    )
+
+
+@pytest.mark.parametrize(
+    ("package", "statement"),
+    (
+        ("knowledge", "from . import check\n"),
+        ("contracts", "import ytscript\n"),
+    ),
+)
+def test_architecture_check_rejects_package_initializer_imports(
+    tmp_path: Path, package: str, statement: str
+):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    initializer = tmp_path / "scripts" / package / "__init__.py"
+    initializer.write_text(statement, encoding="utf-8")
+
+    findings = architecture_findings(tmp_path)
+
+    assert any(
+        item["rule_id"] == "VR-KP-019"
+        and "package initializer import" in item["message"]
+        for item in findings
+    )
+
+
+def test_architecture_check_rejects_unregistered_nested_initializer(tmp_path: Path):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    initializer = tmp_path / "scripts/knowledge/rogue/__init__.py"
+    initializer.parent.mkdir()
+    initializer.write_text("from knowledge import check\n", encoding="utf-8")
+
+    findings = architecture_findings(tmp_path)
+
+    assert any(
+        item["rule_id"] == "VR-KP-019"
+        and "unexpected architecture module" in item["message"]
+        and Path(item["path"]) == initializer
+        for item in findings
+    )
+
+
+@pytest.mark.parametrize("failed_packages", (("knowledge",), ("knowledge", "contracts")))
+def test_architecture_check_reports_inventory_errors(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    failed_packages: tuple[str, ...],
+):
+    import os
+
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    original = os.walk
+    failed_roots = {tmp_path / "scripts" / package for package in failed_packages}
+
+    def fail_selected(path: Path, *args, **kwargs):
+        if Path(path) in failed_roots:
+            error = OSError("fixture inventory failure")
+            error.filename = str(Path(path) / "blocked")
+            kwargs["onerror"](error)
+            return iter(())
+        return original(path, *args, **kwargs)
+
+    monkeypatch.setattr(os, "walk", fail_selected)
+
+    findings = architecture_findings(tmp_path)
+
+    assert sum(
+        item["rule_id"] == "VR-KP-019"
+        and "unavailable architecture inventory" in item["message"]
+        for item in findings
+    ) == len(failed_packages)
+
+
+def test_architecture_check_rejects_nested_symlink_directory(tmp_path: Path):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    external = tmp_path / "external"
+    external.mkdir()
+    (external / "rogue.py").write_text("", encoding="utf-8")
+    nested = tmp_path / "scripts/knowledge/nested"
+    nested.symlink_to(external, target_is_directory=True)
+
+    findings = architecture_findings(tmp_path)
+
+    assert any(
+        item["rule_id"] == "VR-KP-019"
+        and "non-regular architecture inventory" in item["message"]
+        and Path(item["path"]) == nested
+        for item in findings
+    )
+
+
+def test_architecture_check_reports_entrypoint_stat_error(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    entrypoint = tmp_path / "scripts/wiki_ingest.py"
+    original = Path.lstat
+
+    def fail_selected(path: Path):
+        if path == entrypoint:
+            raise OSError("fixture stat failure")
+        return original(path)
+
+    monkeypatch.setattr(Path, "lstat", fail_selected)
+
+    findings = architecture_findings(tmp_path)
+
+    assert any(
+        item["rule_id"] == "VR-KP-019"
+        and "unavailable architecture inventory" in item["message"]
+        for item in findings
+    )
+
+
+@pytest.mark.parametrize("relative", ("scripts/knowledge/materialize.py", "scripts/knowledge/rogue.py"))
+def test_architecture_check_rejects_symlink_sources(tmp_path: Path, relative: str):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    source = tmp_path / relative
+    if source.exists():
+        source.unlink()
+    source.symlink_to(ROOT / "scripts/knowledge/materialize.py")
+
+    findings = architecture_findings(tmp_path)
+
+    assert any(
+        item["rule_id"] == "VR-KP-019"
+        and "non-regular architecture source" in item["message"]
+        and Path(item["path"]) == source
+        for item in findings
+    )
+
+
+def test_architecture_check_rejects_non_symlink_special_source(tmp_path: Path):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    source = tmp_path / "scripts/knowledge/materialize.py"
+    source.unlink()
+    source.mkdir()
+
+    findings = architecture_findings(tmp_path)
+
+    assert any(
+        item["rule_id"] == "VR-KP-019"
+        and "non-regular architecture source" in item["message"]
+        and Path(item["path"]) == source
+        for item in findings
+    )
+
+
+@pytest.mark.parametrize(
+    "relative", (".", "scripts", "scripts/knowledge", "scripts/contracts")
+)
+def test_architecture_check_rejects_symlink_inventory_ancestors(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, relative: str
+):
+    import shutil
+
+    from knowledge.check import architecture_findings
+
+    external = tmp_path / "external"
+    repo = tmp_path / "repo"
+    _copy_architecture_fixture(external)
+    if relative == ".":
+        repo.symlink_to(external)
+    elif relative == "scripts":
+        repo.mkdir()
+        (repo / "scripts").symlink_to(external / "scripts")
+    else:
+        repo.mkdir()
+        (repo / "scripts").mkdir()
+        package = Path(relative).name
+        other = "contracts" if package == "knowledge" else "knowledge"
+        (repo / relative).symlink_to(external / relative)
+        shutil.copytree(external / "scripts" / other, repo / "scripts" / other)
+        shutil.copy2(
+            external / "scripts/wiki_ingest.py", repo / "scripts/wiki_ingest.py"
+        )
+    external_reads: list[Path] = []
+    original = Path.read_text
+
+    def observe_external_reads(path: Path, *args, **kwargs):
+        if path.resolve().is_relative_to(external.resolve()):
+            external_reads.append(path)
+        return original(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "read_text", observe_external_reads)
+
+    findings = architecture_findings(repo)
+
+    assert any(
+        item["rule_id"] == "VR-KP-019"
+        and "non-regular architecture inventory" in item["message"]
+        and Path(item["path"]) == (repo if relative == "." else repo / relative)
+        for item in findings
+    )
+    assert external_reads == []
+
+
+@pytest.mark.parametrize(
+    ("relative", "statement", "local_sibling"),
+    (
+        ("scripts/contracts/privacy.py", "import projects.hidden_adapter\n", False),
+        (
+            "scripts/contracts/privacy.py",
+            "from projects import hidden_adapter\n",
+            False,
+        ),
+        ("scripts/wiki_ingest.py", "import projects.hidden_adapter\n", False),
+        ("scripts/contracts/privacy.py", "import llm_config\n", True),
+        ("scripts/wiki_ingest.py", "from llm_config import load\n", True),
+    ),
+)
+def test_architecture_check_rejects_project_and_local_sibling_imports(
+    tmp_path: Path, relative: str, statement: str, local_sibling: bool
+):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    if local_sibling:
+        (tmp_path / "scripts/llm_config.py").write_text(
+            "def load():\n    return None\n", encoding="utf-8"
+        )
+    source = tmp_path / relative
+    source.write_text(
+        source.read_text(encoding="utf-8") + f"\n{statement}", encoding="utf-8"
+    )
+
+    findings = architecture_findings(tmp_path)
+
+    assert any(
+        item["rule_id"] == "VR-KP-019"
+        and "forbidden repository import" in item["message"]
+        and Path(item["path"]) == source
+        for item in findings
+    )
+
+
+@pytest.mark.parametrize(
+    ("relative", "statement", "target"),
+    (
+        ("scripts/knowledge/check.py", "import pipeline_sdk\n", "pipeline_sdk"),
+        ("scripts/contracts/privacy.py", "import ingest_client\n", "ingest_client"),
+        ("scripts/wiki_ingest.py", "import ytscript_tools\n", "ytscript_tools"),
+    ),
+)
+def test_architecture_check_allows_legacy_near_prefix_external_imports(
+    tmp_path: Path, relative: str, statement: str, target: str
+):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    source = tmp_path / relative
+    source.write_text(
+        source.read_text(encoding="utf-8") + f"\n{statement}", encoding="utf-8"
+    )
+
+    findings = architecture_findings(tmp_path)
+
+    assert not any(
+        item["rule_id"] == "VR-KP-019"
+        and item["message"].startswith("forbidden import edge: ")
+        and item["message"].endswith(f" -> {target}")
+        for item in findings
+    )
+
+
+@pytest.mark.parametrize(
+    "target",
+    (
+        "ytscript",
+        "ytscript.client",
+        "ingest",
+        "ingest.client",
+        "pipeline",
+        "pipeline.client",
+    ),
+)
+def test_architecture_check_rejects_exact_legacy_module_roots(
+    tmp_path: Path, target: str
+):
+    from knowledge.check import architecture_findings
+
+    _copy_architecture_fixture(tmp_path)
+    source = tmp_path / "scripts/wiki_ingest.py"
+    source.write_text(
+        source.read_text(encoding="utf-8") + f"\nimport {target}\n", encoding="utf-8"
+    )
+
+    findings = architecture_findings(tmp_path)
+
+    assert any(
+        item["rule_id"] == "VR-KP-019"
+        and item["message"] == f"forbidden import edge: wiki_ingest -> {target}"
+        for item in findings
+    )
+
+
 def test_target_dag_contract_covers_current_non_transitional_edges():
     import ast
     import re
@@ -370,8 +1385,8 @@ def test_target_dag_contract_covers_current_non_transitional_edges():
     target_modules = {module for edge in target_edges for module in edge}
 
     assert len(target_modules) == 10
-    assert len(parsed_edges) == 15
-    assert len(target_edges) == 15
+    assert len(parsed_edges) == 16
+    assert len(target_edges) == 16
     assert ("check.py", "fs.py") in target_edges
 
     adjacency = {module: set() for module in target_modules}
@@ -400,62 +1415,34 @@ def test_target_dag_contract_covers_current_non_transitional_edges():
 
     assert max(longest_path(module) for module in target_modules) == 3
 
-    scripts_root = ROOT / "scripts"
-    python_paths = list((scripts_root / "knowledge").glob("*.py"))
-    python_paths.append(scripts_root / "contracts" / "privacy.py")
-    python_paths.append(scripts_root / "wiki_ingest.py")
-    current_modules = {path.stem for path in python_paths if path.stem != "__init__"}
+    module_by_path = {
+        ROOT / relative: module for module, relative in ARCHITECTURE_MODULE_PATHS.items()
+    }
+    path_by_module = {module: path for path, module in module_by_path.items()}
+    current_modules = {path.stem for path in module_by_path}
     current_edges: set[tuple[str, str]] = set()
-    for path in python_paths:
-        if path.stem == "__init__":
-            continue
+    for path, module in module_by_path.items():
         source = f"{path.stem}.py"
         tree = ast.parse(path.read_text(encoding="utf-8"))
         for node in ast.walk(tree):
-            modules: list[str] = []
-            if isinstance(node, ast.Import):
-                modules = [alias.name for alias in node.names]
-            elif isinstance(node, ast.ImportFrom) and node.module:
-                modules = [node.module]
-            for module in modules:
-                target_stem = module.split(".")[-1]
-                if target_stem in current_modules:
-                    current_edges.add((source, f"{target_stem}.py"))
+            for target in _architecture_import_targets(module, node):
+                if target in path_by_module:
+                    current_edges.add((source, path_by_module[target].name))
 
-    non_transitional_edges = {
-        edge
-        for edge in current_edges
-        if "migration.py" not in edge and edge != ("wiki_ingest.py", "fs.py")
+    assert ("check.py", "fs.py") in current_edges
+    expected_final_edges = {
+        (
+            ARCHITECTURE_MODULE_PATHS[source].name,
+            ARCHITECTURE_MODULE_PATHS[target].name,
+        )
+        for source, target in ARCHITECTURE_EXPECTED_EDGES
+        if ARCHITECTURE_MODULE_PATHS[source].stem in current_modules
+        and ARCHITECTURE_MODULE_PATHS[target].stem in current_modules
     }
-    assert ("check.py", "fs.py") in non_transitional_edges
-    assert non_transitional_edges <= target_edges, sorted(
-        non_transitional_edges - target_edges
+    assert current_edges == expected_final_edges, sorted(
+        current_edges.symmetric_difference(expected_final_edges)
     )
-    expected_transition_edges = {
-        ("wiki_ingest.py", "artifacts.py"),
-        ("wiki_ingest.py", "check.py"),
-        ("wiki_ingest.py", "documents.py"),
-        ("wiki_ingest.py", "materialize.py"),
-        ("wiki_ingest.py", "fs.py"),
-        ("wiki_ingest.py", "migration.py"),
-        ("artifacts.py", "fs.py"),
-        ("artifacts.py", "privacy.py"),
-        ("artifacts.py", "schema.py"),
-        ("check.py", "fs.py"),
-        ("check.py", "graph.py"),
-        ("check.py", "schema.py"),
-        ("documents.py", "fs.py"),
-        ("documents.py", "schema.py"),
-        ("migration.py", "documents.py"),
-        ("migration.py", "fs.py"),
-        ("migration.py", "privacy.py"),
-        ("migration.py", "schema.py"),
-        ("materialize.py", "fs.py"),
-        ("materialize.py", "schema.py"),
-    }
-    assert current_edges == expected_transition_edges, sorted(
-        current_edges.symmetric_difference(expected_transition_edges)
-    )
+    assert current_edges == target_edges
     current_adjacency = {module: set() for module in current_modules}
     for source, target in current_edges:
         current_adjacency[Path(source).stem].add(Path(target).stem)
@@ -471,7 +1458,10 @@ def test_target_dag_contract_covers_current_non_transitional_edges():
             + max(current_longest_path(target, next_visiting) for target in targets)
         )
 
-    assert max(current_longest_path(module, set()) for module in current_modules) == 3
+    assert (
+        max(current_longest_path(module, set()) for module in current_modules)
+        == ARCHITECTURE_MAX_EDGE_DEPTH
+    )
 
 
 def test_project_timestamp_boundary_is_exact_and_one_way():
@@ -489,22 +1479,30 @@ def test_project_timestamp_boundary_is_exact_and_one_way():
     for node in ast.walk(converter_tree):
         if isinstance(node, ast.Import):
             imports.update(alias.name for alias in node.names)
-        elif isinstance(node, ast.ImportFrom) and node.module:
-            imports.add(node.module)
-    assert {name for name in imports if name.startswith("contracts.")} == {
+        elif isinstance(node, ast.ImportFrom):
+            imports.update(_architecture_import_targets("past_exam_converter", node))
+    assert {
+        name
+        for name in imports
+        if name in {"contracts.privacy", "contracts.timestamps"}
+    } == {
         "contracts.timestamps"
     }
     assert not any(name.startswith("knowledge.") for name in imports)
 
-    knowledge_paths = list((ROOT / "scripts" / "knowledge").glob("*.py"))
+    architecture_paths = [
+        ROOT / relative for relative in ARCHITECTURE_MODULE_PATHS.values()
+    ]
     reverse_imports = []
-    for path in knowledge_paths:
+    for path in architecture_paths:
         tree = ast.parse(path.read_text(encoding="utf-8"))
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):
                 names = [alias.name for alias in node.names]
-            elif isinstance(node, ast.ImportFrom) and node.module:
-                names = [node.module]
+            elif isinstance(node, ast.ImportFrom):
+                names = _architecture_import_targets(
+                    f"knowledge.{path.stem}", node
+                )
             else:
                 names = []
             reverse_imports.extend(
@@ -517,14 +1515,8 @@ def test_project_timestamp_boundary_is_exact_and_one_way():
     assert reverse_imports == []
 
     build_entry = converter.parent / "build-practice-data.py"
-    contract_paths = [
-        path
-        for path in (ROOT / "scripts" / "contracts").glob("*.py")
-        if path.stem != "__init__"
-    ]
-    combined_paths = [path for path in knowledge_paths if path.stem != "__init__"] + [
-        ROOT / "scripts" / "wiki_ingest.py",
-        *contract_paths,
+    combined_paths = [
+        *architecture_paths,
         build_entry,
         converter,
     ]
@@ -535,94 +1527,38 @@ def test_project_timestamp_boundary_is_exact_and_one_way():
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):
                 names = [alias.name for alias in node.names]
-            elif isinstance(node, ast.ImportFrom) and node.module:
-                names = [node.module]
+            elif isinstance(node, ast.ImportFrom):
+                package = (
+                    "knowledge"
+                    if path.parent.name == "knowledge"
+                    else "contracts"
+                    if path.parent.name == "contracts"
+                    else ""
+                )
+                module = ".".join(part for part in (package, path.stem) if part)
+                names = _architecture_import_targets(module, node)
             else:
                 names = []
             for name in names:
                 target = name.split(".")[-1]
                 if target in combined_modules:
                     combined_edges.add((path.stem, target))
-    migration_source = (ROOT / "scripts" / "knowledge" / "migration.py").read_text(
-        encoding="utf-8"
-    )
-
-    def command_dependency(source: str) -> str:
-        tree = ast.parse(source)
-        planner = next(
-            node
-            for node in tree.body
-            if isinstance(node, ast.FunctionDef)
-            and node.name == "build_reference_cascade_plan"
+    expected_combined_edges = {
+        (
+            ARCHITECTURE_MODULE_PATHS[source].stem,
+            ARCHITECTURE_MODULE_PATHS[target].stem,
         )
-        constants = {
-            target.id: node.value.args[0].value
-            for node in ast.walk(tree)
-            if isinstance(node, ast.Assign)
-            and len(node.targets) == 1
-            and isinstance((target := node.targets[0]), ast.Name)
-            and target.id == "CASCADE_PRACTICE_GENERATOR"
-            and isinstance(node.value, ast.Call)
-            and node.value.args
-            and isinstance(node.value.args[0], ast.Constant)
-            and isinstance(node.value.args[0].value, str)
-        }
-        assert set(constants) == {"CASCADE_PRACTICE_GENERATOR"}
-        assignments = {
-            target.id: ast.unparse(node.value)
-            for node in ast.walk(planner)
-            if isinstance(node, ast.Assign)
-            and len(node.targets) == 1
-            and isinstance((target := node.targets[0]), ast.Name)
-            and target.id in {"generator", "baseline_generator"}
-        }
-        assert set(assignments) == {"generator", "baseline_generator"}
-        assert all(
-            "CASCADE_PRACTICE_GENERATOR.parts" in value
-            for value in assignments.values()
-        )
-        subprocess_targets = []
-        for node in ast.walk(planner):
-            if (
-                isinstance(node, ast.Call)
-                and isinstance(node.func, ast.Attribute)
-                and isinstance(node.func.value, ast.Name)
-                and node.func.value.id == "subprocess"
-                and node.func.attr == "run"
-                and node.args
-                and isinstance(node.args[0], ast.List)
-            ):
-                path_args = [
-                    element.args[0].id
-                    for element in node.args[0].elts
-                    if isinstance(element, ast.Call)
-                    and isinstance(element.func, ast.Attribute)
-                    and isinstance(element.func.value, ast.Name)
-                    and element.func.value.id == "os"
-                    and element.func.attr == "fspath"
-                    and element.args
-                    and isinstance(element.args[0], ast.Name)
-                ]
-                assert len(path_args) == 1
-                subprocess_targets.extend(path_args)
-        assert sorted(subprocess_targets) == ["baseline_generator", "generator"]
-        return Path(constants["CASCADE_PRACTICE_GENERATOR"]).stem
-
-    command_target = command_dependency(migration_source)
-    assert command_target == "build-practice-data"
-    retargeted = migration_source.replace(
-        "os.fspath(generator)", "os.fspath(repo_root / 'other.py')", 1
+        for source, target in ARCHITECTURE_EXPECTED_EDGES
+    } | {
+        ("build-practice-data", "past_exam_converter"),
+        ("past_exam_converter", "timestamps"),
+    }
+    assert combined_modules == {
+        path.stem for path in ARCHITECTURE_MODULE_PATHS.values()
+    } | {"build-practice-data", "past_exam_converter"}
+    assert combined_edges == expected_combined_edges, sorted(
+        combined_edges.symmetric_difference(expected_combined_edges)
     )
-    try:
-        command_dependency(retargeted)
-    except AssertionError:
-        pass
-    else:
-        raise AssertionError("retargeted generator command edge was accepted")
-    combined_edges.add(("migration", command_target))
-    assert len(combined_modules) == 13
-    assert len(combined_edges) == 24
-    assert ("migration", "build-practice-data") in combined_edges
     assert ("build-practice-data", "past_exam_converter") in combined_edges
     assert ("past_exam_converter", "timestamps") in combined_edges
     assert {
@@ -641,27 +1577,150 @@ def test_project_timestamp_boundary_is_exact_and_one_way():
             + max(longest(target, visiting | {module}) for target in adjacency[module])
         )
 
-    assert max(longest(module, set()) for module in combined_modules) == 4
+    assert (
+        max(longest(module, set()) for module in combined_modules)
+        == ARCHITECTURE_MAX_EDGE_DEPTH
+    )
     business_logic = (ROOT / "docs" / "wiki-ingest-business-logic.md").read_text(
         encoding="utf-8"
     )
     assert (
-        "P2-T6 전환 command-inclusive 13 modules·24 edges·cycle 0·최대 dependency "
-        "edge chain 4" in business_logic
+        "최종 core+contract edge set exact(10 modules·16 edges)·command-inclusive "
+        "12 modules·18 edges·cycle 0·최대 dependency edge chain 3" in business_logic
     )
 
 
-def test_page_apply_candidate_call_path_does_not_gain_an_edge():
+def test_post_migration_normative_surfaces_use_current_contract_only():
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    business_logic = (ROOT / "docs" / "wiki-ingest-business-logic.md").read_text(
+        encoding="utf-8"
+    )
+    review = (ROOT / "docs" / "wiki-ingest-review.md").read_text(
+        encoding="utf-8"
+    )
+    agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+    frontmatter = (ROOT / "_meta" / "frontmatter-spec.md").read_text(
+        encoding="utf-8"
+    )
+    page_type = (ROOT / "_meta" / "page-type-spec.md").read_text(
+        encoding="utf-8"
+    )
+    resume = (ROOT / ".claude" / "resume_prompt.md").read_text(encoding="utf-8")
+    todo = (ROOT / "todo.md").read_text(encoding="utf-8")
+    removal_plan = json.loads(
+        (ROOT / "reports" / "P2-T7-removal-plan.json").read_text(encoding="utf-8")
+    )
+
+    assert "10-module·15-edge" not in review
+    assert "순서 9 apply: no-write removal plan" not in review
+    assert "base tree에만 legacy wiki contract" not in architecture
+    assert "BR-MIG-001~015 적용" not in business_logic
+    assert "wiki/queries/" not in agents
+    assert "global/,staging/" not in agents
+    assert "사용자는 legacy `wiki/`를 검토·정정할 수 있다" not in agents
+    assert "target pipeline 전환 후 canonical write" not in agents
+    assert "raw/ 또는 cs/ source 파일 read" not in agents
+    assert (
+        "raw/authored 입력은 선행 capture로 content-addressed artifact manifest를 "
+        "만든 뒤에만 이 lifecycle에 들어온다" in agents
+    )
+    assert "사용자가 명시한 artifact manifest와 결속된 immutable payload read" in agents
+    assert (
+        "사용자는 `wiki/`를 검토·정정할 수 있다. canonical write는 승인된 "
+        "semantic plan을 deterministic renderer가 수행한다" in agents
+    )
+    assert "cs/, development/, coding-test/, lang/, tools/ = authored SoT" in agents
+    assert (
+        "file-back이 필요하면 해당 `wiki/domains/<domain>/`의 적합한 canonical "
+        "page를 갱신" in agents
+    )
+    assert "knowledge.schema.json" in frontmatter
+    assert "knowledge.schema.json" in page_type
+    assert "WIKI-INGEST-REMAINDER — 구현 순서 9–12" not in resume
+    assert "P2-T7부터 P2-T11까지" not in resume
+    assert "WIKI-INGEST-REMAINDER — 구현 순서 10–12" in resume
+    assert "순서 9–12는 각각의 설계 gate와 독립 commit 후보" not in resume
+    assert "NFR-KP-015 exact historical evidence GAP" not in resume
+    assert "next_task: P2-T9" in resume
+    assert "next_task: P2-T8" not in resume
+    assert "P2-T9 순서 10 독립 CI 연결" in resume
+    assert "P2-T8 별도 승인" not in resume
+    assert "| P2-T9 | [ ] | [구현]" in todo and "| P2-T6 | extractor/current" in todo
+    assert "| P2-T7 | [x] | [검증]" in todo
+    assert "verified: [[reports/P2-T7-verification]]" in todo
+    assert "| P2-T8 | [x] | [운영]" in todo
+    assert "verified: [[reports/P2-T8-verification]]" in todo
+    assert (ROOT / "reports" / "P2-T7-verification.md").is_file()
+    assert (ROOT / "reports" / "P2-T8-verification.md").is_file()
+    assert removal_plan["approval_state"] == "P2-T8-closure-approved"
+    assert removal_plan["p2_t8_closure"]["overlay_paths"] == [
+        ".claude/resume_prompt.md",
+        "docs/wiki-ingest-architecture.md",
+        "docs/wiki-ingest-prd.md",
+        "docs/wiki-ingest-review.md",
+        "tests/test_knowledge_check.py",
+        "todo.md",
+    ]
+    assert "final commit tree" in removal_plan["p2_t8_closure"][
+        "self_reference_rule"
+    ]
+    assert "P2-T6 독립 commit은 아직 생성하지 않았으며" not in resume
+    assert (
+        "P2-T6 독립 commit `e4e2d5b035401fe74b0f69721f4038a4e2bff2c8`로 "
+        "확정됐다" in resume
+    )
+    assert "P2-T8은 exact patch·base commit·target tree OID" not in resume
+    assert "사용자 승인 후 migration apply" not in architecture
+    assert "순서 9의 migration apply" not in architecture
+    assert "순서 9 승인 적용 뒤 제거" not in prd
+    assert "순서 6b와 9의 전환 적용은 각각 별도 승인으로 수행했다" not in prd
+    assert "현재 모듈(순서 9 완료 후)" not in architecture
+    assert "순서 6 전환 engine과 순서 9 legacy surface는 target runtime에서 제거" in architecture
+    assert "표의 선행 게이트만 의존성을 정의" in architecture
+    assert "순서 9는 승인된 no-write candidate 재검증 중" not in architecture
+    assert "Darwin/Linux directory exchange primitive" not in architecture
+    assert "atomic leaf exchange·no-replace path rename" in architecture
+    assert (
+        "Git status를 보존해 wiki 삭제·이동은 현재 `WIKI_DIR` canonical 검사로 "
+        "수렴" in business_logic
+    )
+    assert "project boundary AST test" in business_logic
+    assert "순서 9: 해소 — 승인된 migration apply" not in review
+    assert "순서 9: 해소 —" in review
+    assert "target state 기준 구현 순서 1–9가 반영됐다" in review
+    assert "다음 진입 gate: 순서 10" in review
+    assert "## 7. P2-T6 historical 5계층 snapshot" in review
+    assert "live target 270 passed" not in review
+    assert "| Global migration safety |" not in business_logic
+    assert "historical evidence이며 현재 완료 술어가 아니다" in business_logic
+    assert (
+        "structure-rule scope/depth·wiki path·log·backlink·provenance legacy "
+        "surface | 해소 — 순서 9 target state" in review
+    )
+
+
+def test_taxonomy_supersede_keeps_frontmatter_field_ownership_in_schema():
+    taxonomy = (ROOT / "_meta" / "taxonomy.md").read_text(encoding="utf-8")
+
+    assert "`alias:` 필드 추가 (frontmatter + taxonomy.md 양쪽" not in taxonomy
+    assert "taxonomy.md canonical 항목의 `(alias: ...)` 갱신" in taxonomy
+    assert "page frontmatter `tags:`는 canonical만 저장" in taxonomy
+
+
+def test_page_apply_representative_semantic_path_contract():
     import ast
 
-    sources = {
+    source_paths = {
         "wiki_ingest": ROOT / "scripts" / "wiki_ingest.py",
         "documents": ROOT / "scripts" / "knowledge" / "documents.py",
         "check": ROOT / "scripts" / "knowledge" / "check.py",
         "schema": ROOT / "scripts" / "knowledge" / "schema.py",
     }
     functions = {}
-    for module, path in sources.items():
+    for module, path in source_paths.items():
         tree = ast.parse(path.read_text(encoding="utf-8"))
         functions.update(
             {
@@ -670,6 +1729,32 @@ def test_page_apply_candidate_call_path_does_not_gain_an_edge():
                 if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
             }
         )
+
+    class DirectCallVisitor(ast.NodeVisitor):
+        def __init__(self):
+            self.calls = []
+
+        def visit_Call(self, node):
+            self.calls.append(node)
+            self.generic_visit(node)
+
+        def visit_FunctionDef(self, node):
+            return None
+
+        def visit_AsyncFunctionDef(self, node):
+            return None
+
+        def visit_Lambda(self, node):
+            return None
+
+        def visit_ClassDef(self, node):
+            return None
+
+    def direct_calls(function):
+        visitor = DirectCallVisitor()
+        for statement in function.body:
+            visitor.visit(statement)
+        return visitor.calls
 
     expected_path = (
         ("wiki_ingest", "main"),
@@ -685,7 +1770,7 @@ def test_page_apply_candidate_call_path_does_not_gain_an_edge():
     assert len(expected_path) == 9
     assert len(expected_path) - 1 == 8
 
-    concrete_edges = (
+    direct_edges = (
         (expected_path[0], expected_path[1]),
         (expected_path[1], expected_path[2]),
         (expected_path[2], expected_path[3]),
@@ -694,42 +1779,44 @@ def test_page_apply_candidate_call_path_does_not_gain_an_edge():
         (expected_path[6], expected_path[7]),
         (expected_path[7], expected_path[8]),
     )
-    for source, target in concrete_edges:
+    for source, target in direct_edges:
         called_names = {
             call.func.id
-            for call in ast.walk(functions[source])
-            if isinstance(call, ast.Call) and isinstance(call.func, ast.Name)
+            for call in direct_calls(functions[source])
+            if isinstance(call.func, ast.Name)
         }
-        assert target[1] in called_names, f"missing call edge: {source} -> {target}"
+        assert target[1] in called_names, f"missing representative edge: {source} -> {target}"
 
     apply_calls = [
         call
-        for call in ast.walk(functions[("wiki_ingest", "_apply_page_plan")])
-        if isinstance(call, ast.Call)
-        and isinstance(call.func, ast.Name)
-        and call.func.id == "apply_page_write_plan"
+        for call in direct_calls(functions[("wiki_ingest", "_apply_page_plan")])
+        if isinstance(call.func, ast.Name) and call.func.id == "apply_page_write_plan"
     ]
     assert len(apply_calls) == 1
-    candidate_bindings = [
+    callback_bindings = [
         keyword.value
         for keyword in apply_calls[0].keywords
         if keyword.arg == "candidate_check"
     ]
-    assert len(candidate_bindings) == 1
-    assert isinstance(candidate_bindings[0], ast.Name)
-    assert candidate_bindings[0].id == "_check_page_candidate"
+    assert len(callback_bindings) == 1
+    assert isinstance(callback_bindings[0], ast.Name)
+    assert callback_bindings[0].id == "_check_page_candidate"
 
-    unlocked = functions[("documents", "_apply_page_write_plan_unlocked")]
     callback_calls = {
         call.func.id
-        for call in ast.walk(unlocked)
-        if isinstance(call, ast.Call) and isinstance(call.func, ast.Name)
+        for call in direct_calls(
+            functions[("documents", "_apply_page_write_plan_unlocked")]
+        )
+        if isinstance(call.func, ast.Name)
     }
     assert "candidate_check" in callback_calls
+
     architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
         encoding="utf-8"
     )
     assert "함수 9개 직렬(= edge 8)" in architecture
+    assert "Python callable 전체를 재해석하는 별도 분석기는 두지 않으며" in architecture
+    assert "전체 repository call graph의 exact maximum을 보장하지 않는다" in architecture
 
 
 def test_corrupt_evidence_is_rejected():

@@ -20,7 +20,7 @@ Task Quality Gate Capsule:
 | SoT | 사용자 요구, 실제 코드, canonical 설계 3문서 |
 | Derived | 본 review, traceability, 구현 순서 |
 | Forbidden | dirty code/wiki 수정, 검증 전 구현, 중복 schema owner, extractor→cs-study 역의존, canonical↔derived 양방향 쓰기 |
-| Invariants | extractor는 wiki를 모름; canonical owner는 concern당 1개; raw revision overwrite 0; generated surface 수동 편집 0; typed directed relation cycle 0; ordinary page apply canonical write 0 또는 1, 승인된 전역 schema migration은 exact full-tree transaction 예외 |
+| Invariants | extractor는 wiki를 모름; canonical owner는 concern당 1개; raw revision overwrite 0; generated surface 수동 편집 0; typed directed relation cycle 0; ordinary page apply canonical write 0 또는 1; future global migration은 별도 설계·승인 전 실행 불가 |
 | Completion Predicates | FR/NFR 전수 downstream mapping; logic·grounding finding 0; 구현 drift는 owning implementation step에 전수 매핑; 사용자 최종 설계 승인 |
 | Validation Plan | ID·heading·traceability 정적 검사; finding별 단건 재검증; 최종 logic·grounding·requirements 검증; 현행 코드 spec drift 재측정 |
 | User-required Gates | 교차 검증 비용·조합 승인; 최종 설계 승인; 기준 worktree·migration dry-run 승인 |
@@ -76,7 +76,7 @@ Task Quality Gate Capsule:
 | generated navigation | 수동/LLM 혼합 | materializer 단독 | ❌ 미구현 |
 | raw revision | video ID overwrite | content digest append-only | ❌ migration 필요 |
 | canonical apply width | 명시 계약 없음 | page 1 | ⚠️ 설계됨, 미구현 |
-| target dependency graph | 미구현 | 8 modules, 11 edges, cycles 0, max chain 2 | ⚠️ 당시 설계 모델; 현재 10-module·15-edge 계약으로 superseded |
+| target dependency graph | 미구현 | 8 modules, 11 edges, cycles 0, max chain 2 | ⚠️ 당시 설계 모델; 현재 10-module·16-edge 계약으로 superseded |
 
 관리 지점은 파일 개수가 아니라 사람이 독립적으로 동일 사실을 수정해야 하는 canonical owner 수로 계산한다. generated index·template·Bases는 파일이지만 수동 관리 지점이 아니다.
 
@@ -91,7 +91,7 @@ Task Quality Gate Capsule:
 | grounding finding reconcile | ✅ 최종 review 검증 0 | citations 7/7 checked, abstain false, errors 0 |
 | requirement coverage | ✅ 설계 ID mapping 51/51 | 로컬 ID diff missing·extra·duplicate 각 0; checker 2/2 findings 0, requirements 51, surfaces 16; 당시 구현 manifest·tests는 GAP |
 | architecture cycle | ✅ 설계 cycle 0 | command sibling import 금지와 leaf dependencies만 허용 |
-| module dependency depth | ✅ 당시 설계 dependency edge chain 2 | historical baseline이며 현재 목표 core+contract 10 modules·15 edges·최대 edge 3과 P2-T5 command-inclusive 12 modules·21 edges·최대 edge 4 ratchet으로 superseded |
+| module dependency depth | ✅ 당시 설계 dependency edge chain 2 | historical baseline이며 순서 9 최종 core+contract 10 modules·16 edges·최대 edge 3과 command-inclusive 12 modules·18 edges·최대 edge 3으로 superseded |
 | 자기 코드 호출 깊이 | ✅ 함수 5개 미만 직렬(= 호출 edge 4 미만) 기준 | 당시 구현 call graph는 GAP |
 | last-leaf scenarios | ✅ 설계 충족 | 전역 schema migration은 명시적 예외 |
 | idempotence definition | ✅ input digest+schema digest+generator version+normalized command options tuple | 당시 file-exists skip은 FAIL |
@@ -121,13 +121,13 @@ requirements checker의 `surfaces`는 requirement ID cardinality가 아니라 �
 
 공식 기준은 현재 최소 설계를 지지한다. 전체 PROV/SKOS/RDF 모델이나 OCI registry를 도입하는 것은 요구 범위를 넘어 관리 surface를 증가시키므로 기각했다.
 
-## 7. 현재 5계층 검증 상태
+## 7. P2-T6 historical 5계층 snapshot
 
 | 계층 | 현재 결과 | 판정 |
 |---|---|---|
-| 1 명제 일관성 | FR/NFR/AC 51개 mapping과 10-module·15-edge 목표 core+contract DAG | ✅ P2-T6 generated·candidate 명제는 설계 logic repeat 2 findings 0; 구현 후 spec·standards 적대 검증은 별도 P2-T6 검증 보고가 소유 |
-| 2 정적 분석 | live lint HIGH 0·MEDIUM 0, canonical findings 0, generated drift 0, target DAG 10 modules·15 edges, 내부 전환 10 modules·20 edges, command-inclusive 13 modules·24 edges | ✅ cycle 0, 내부 최대 edge 3·command-inclusive 최대 edge 4 ratchet |
-| 3 단위 | live target 270 passed·legacy-base 전용 11 skipped | ✅ materializer normal·edge·exception·race·symlink·partial failure·schema mutation·Base round-trip·pseudo marker·temp 내용 변조·중단 잔여 회수와 requirement traceability owner-boundary mutation 포함 |
+| 1 명제 일관성 | FR/NFR/AC 51개 mapping과 10-module·16-edge 최종 core+contract DAG | ✅ P2-T6 generated·candidate 명제는 설계 logic repeat 2 findings 0; 구현 후 spec·standards 적대 검증은 별도 P2-T6 검증 보고가 소유 |
+| 2 정적 분석 | live lint HIGH 0·MEDIUM 0, canonical findings 0, generated drift 0, 최종 DAG 10 modules·16 edges, command-inclusive 12 modules·18 edges | ✅ cycle 0, 최대 dependency edge 3 |
+| 3 단위 | P2-T6 target 270 passed·legacy-base 전용 11 skipped | ✅ materializer normal·edge·exception·race·symlink·partial failure·schema mutation·Base round-trip·pseudo marker·temp 내용 변조·중단 잔여 회수와 requirement traceability owner-boundary mutation 포함 |
 | 4 mock 통합 | capture·schema·graph·page candidate·shared lock·atomic leaf와 materialize CLI check/apply fixture 연결 | ✅ base parity→canonical overlay→candidate coverage 순서와 partial derived drift→replay 수렴 구현 |
 | 5 실환경 | canonical 75, index link 75/75 unique, missing 0·extra 0, generated 11, 연속 render `97b874e0…`/`609bda25…` input/output digest 동일, Base SHA `5aeb2154…` | ✅ Obsidian 1.13.7 open·save 뒤 SHA·mtime·size 불변, All active 75개와 canonical columns 렌더링·formula 비노출 확인 |
 
@@ -140,7 +140,7 @@ P2-T6의 자동화 가능한 로컬 정적·단위·mock 통합·실데이터·O
 | Drift family | 구현 소유 순서 |
 |---|---:|
 | generated marker·navigation·template | 해소 — 순서 8 |
-| structure-rule scope/depth·wiki path·log·backlink·provenance legacy surface | 9 |
+| structure-rule scope/depth·wiki path·log·backlink·provenance legacy surface | 해소 — 순서 9 target state |
 | 독립 CI·required check | 10 |
 | 두 영상 재처리·full vault review | 11, 12 |
 
@@ -158,19 +158,19 @@ P2-T6의 자동화 가능한 로컬 정적·단위·mock 통합·실데이터·O
 | claim 사실성·누락 | 자동 증명 불가 | claim-level grounding review |
 | remote required check | 미확인 | GitHub branch setting 확인 |
 
-남은 단계별 진입 gate:
+단계별 진입 gate 상태:
 
 - 순서 8: 해소 — Obsidian Base 사용자 확인, 자동화 open·save byte 불변, All active 렌더링·formula 비노출 확인
-- 순서 9 apply: no-write removal plan과 derived parity plan의 사용자 승인 전 migration apply 금지
+- 순서 9: 해소 — 2026-09-02 사용자가 NFR-KP-015 미회수 bytes를 historical limitation으로 종결하고 lifecycle single owner·호출 깊이 검증을 단순화하는 재설계와 P2-T8 원자 통합을 승인했다. 기능 payload·closure overlay·검증 증거는 하나의 commit 경계로 결속한다.
 
 ## 9. 최종 판정
 
-2026-08-28 기준 구현 순서 1–8이 구현됐다. `materialize.py → fs.py`를 포함하는 최종 목표 core+contract DAG는 10 modules·15 edges·cycle 0·최대 dependency edge 3이며, 실제 P2-T6 command-inclusive DAG는 13 modules·24 edges·cycle 0·최대 dependency edge 4 ratchet으로 AST guard에 연결됐다. 순서 8은 schema·domain registry·canonical page를 입력으로 index·overview·PageType별 template·단일 Obsidian Base의 exact 11-file manifest를 생성하고, shared lock·marker ownership·atomic leaf·partial failure replay·candidate 검증 순서를 구현했다. 순서 9–12는 실행되지 않았다.
+2026-09-02 target state 기준 구현 순서 1–9가 반영됐다. final core+contract DAG는 10 modules·16 edges·cycle 0·최대 dependency edge 3이며, project generator를 포함한 command-inclusive DAG는 12 modules·18 edges·cycle 0·최대 dependency edge 3으로 AST guard에 연결됐다. 순서 9는 legacy log·external backlink/provenance 선언과 전환 전용 migration runtime을 제거하고 lifecycle single owner·generated 재기준화·호출 깊이 검증 단순화를 반영한다. 순서 10–12는 실행되지 않았다.
 
 - 설계 문서 gate: 승인된 목표 DAG와 AST regression guard 정합
-- 현재 범위 판정: 순서 1–8 engine과 generated cutover를 정적·단위·mock 통합·실데이터·filesystem failure injection으로 검증
-- 전체 시스템 판정: 순서 8 materializer의 구현·실환경 검증은 충족했지만 순서 9–12 GAP 때문에 전체 PASS 선언 불가
-- 다음 진입 gate: P2-T6 최종 교차검증·SoT 전이 뒤 순서 9 legacy removal no-write plan
+- 현재 범위 판정: target state의 순서 1–9 runtime과 generated cutover를 검증 대상으로 고정
+- 전체 시스템 판정: 순서 10–12가 남아 전체 PASS 선언 불가
+- 다음 진입 gate: 순서 10 독립 CI·required check
 
 75-page preservation resolution은 source/target 75/75, 이동 8, collection 1, `Members` 52 unique, unresolved 0으로 고정됐다. `Members` 순서는 legacy index의 Markdown link 52개와 exact-order로 대조했다. 활성 clipping manifest/payload는 75/75이며 P2-T2에서 개인 홈 prefix가 있던 8개 revision을 append-only로 추가하고 active manifest reference 16개와 resolution digest 8개를 새 digest로 전환했다. 당시 no-apply preview는 structural PASS, payload parity 75/75, Claims 0, Relations 0, Members 52를 확인했고 project question-pack의 전체 sourceRef 410/410이 target preview의 동일 line·excerpt를 가리켰다. 외부 참조 관찰값 676회는 active question-pack 329회, generated `practice-data.js` 329회, project docs 5회, `.claude/resume_prompt.md` 11회, architecture 1회와 append-only `log.md`의 historical 1회로 분해된다. historical 기록은 수정하지 않는다. 이전 actual apply에 사용한 cascade plan SHA-256은 `1004572e3966031923f0b1f168b15a7f1140e8b8de0c54622d75df4548105d28`였다. lifecycle remediation 후 승인·적용한 resolved plan은 `ef15632778e1490c281dd63224939ac20f56b1e99689e1ba694f00764dd0299c`, cascade plan은 `b0a8e366fb76fce6b7a3dddb3f5c266a9b3eece779df36ec2b728bd5e80f11b0`, full diff는 `636255b5ac3988c1c8ff0354844cd6376337055ce3641ced3a9b99c11336495a`, backup은 `3553e4ed6ef96a9069d46103e73f3e5335018f10862a6e78562e74540133d885`이며 두 번의 생성 결과가 byte-identical이었다. 당시 journal target wiki tree는 `23c8e82e54af6f6f5331435df64dcc0357601577e1f8282f45243eafec9e0d4a`였고, P2-T2 privacy 이행 뒤 현재 live wiki tree는 `ef5d0c42f08d1a5841a78633cb3e92adabc322e85eff8aeb5b87cf41bf0c6b21`이다. apply 시점의 external target 15/15 중 비문서 14개는 그대로이며, architecture는 승인된 후속 evidence 수정으로 SHA-256 `7377a1e206d0b405e1a0904be2bbf07dbcb5b551251fa23bae9c7ee9744c00f5`가 됐다. apply·restore·reapply journal과 journal-bound 세 candidate는 historical execution·recovery evidence로 보존한다.
 
@@ -193,3 +193,4 @@ P2-T6의 자동화 가능한 로컬 정적·단위·mock 통합·실데이터·O
 - 2026-08-25: 후속 교차검증의 prefix-only candidate exclusion, checker text exclusions 누락, architecture live-state drift를 TDD로 보강하고 historical cascade vector와 후속 architecture digest를 분리 기록했다.
 - 2026-08-28: P2-T6 최종 리뷰의 temp 내용 결속·중단 잔여 회수·display 문자열 trailing newline·overview rule routing·call-depth 산출·AST 계약 검사 단일화 결함을 TDD로 수정하고 254-test·실데이터 two-run digest를 재검증했다.
 - 2026-08-28: Obsidian 1.13.7 round-trip에서 Base 주석 제거·alias 전개·`note.*` canonicalization drift를 재현하고 formula ownership·alias-free canonical serializer·bare property ID로 수정했다. 전체 255-test, generated parity, open·save SHA·mtime·size 불변과 화면 열 비노출을 재검증했다.
+- 2026-09-02: NFR-KP-015 미회수 bytes를 historical limitation으로 종결하는 사용자 결정을 반영하고 순서 9 target state에 lifecycle single owner·generated 재기준화·호출 깊이 검증 단순화를 반영했다.
