@@ -79,8 +79,8 @@
 - tests run: `uv run --with-requirements requirements-lint.txt python -m pytest -q` → 428 passed; path-focused 5 files → 235 passed; `... python tests/test_project_boundaries.py` → 9 passed; `... wiki_ingest.py check --all ...` → findings 0; `... materialize --check`, `... scripts/lint.py --report jsonl`, `git diff --check`, `py_compile`, Ruff hard-error subset → exit 0.
 - changed files: tracked=기존 추적 schema 1개·설계 2개·fs/artifacts/check 3개·tests 5개·schema-derived generated 11개·todo·resume; untracked=P2-T10 video ArtifactBundle 2개·6 files, active concept 1개, 본 보고서 1개. 사용자 raw clipping 8 bundle/16 files는 제외한다.
 - known gaps: none
-- observations: P2-T10 독립 commit·remote CI는 closure 절차로 이어지며 구현 결함이나 후속 task가 아니다.
-- SoT sync: todo=P2-T10 in-progress·P2-T11 pending; resume=next_task P2-T10 closure; memory=todo·resume·본 보고서가 상태를 소유하므로 별도 갱신 제외.
+- observations: P2-T10 구현은 독립 commit `cefc60ae2c50d36ff5364aae4dba01cdc9631e83`로 고정됐다. origin push run `33624656646`과 PR run `33624661153`의 `verify` job이 모두 success다.
+- SoT sync: todo=P2-T10 completed·P2-T11 pending 및 본 보고서 연결; resume=next_task P2-T11; memory=todo·resume·본 보고서가 상태를 소유하므로 별도 갱신 제외.
 
 ## 검증 결과
 
@@ -93,3 +93,4 @@
 - correction: grounding review에서 대기 전략 링크가 직접 발언보다 50초 앞선 것을 발견했다. transcript `raw/sources/video/fsou1Butd6U/2ada173b83e1e10bbe734029fb39f008b325e0964b09be4002349c015a889045/content.md:1794-1803`에 맞춰 `01:22:50`/`t=4970`으로 교정했다. 최초 active/generated delta를 pre-promotion 상태로 복구한 뒤 교정 SemanticPlan에서 strict synthesize plan 2개를 독립 생성해 bytes 동일성을 확인하고 plan `99dfc4957b4c764a71c688b21e8f2d27eb305566bd09d9531a0d3ed6d6a48727`을 apply했다. staging candidate SHA-256은 `f9d33e2ce2a79b1098767036b2aba5bf164c7d5219dd2c06929e6a7a3a1b36ef`이다.
 - path-safety review: schema-valid dot component, symlink pre-read, FIFO blocking, bundle별 trust-boundary 축소, multi-read 사이 directory·중간 ancestor swap, consumer 예외 오역, privacy Markdown direct read를 TDD RED로 재현했다. schema 4 field, nonblocking descriptor-held directory chain context 1개, 명시적 trust anchor, fail-closed Markdown inventory, artifact·checker·privacy consumer를 정합화했다. trust anchor 상위의 운영체제 경로는 호출자 소유 범위이며, 그 아래 모든 열린 ancestor·bundle identity를 종료 시 재확인한다. production path 기반 bundle inventory와 project-boundary direct `read_text` sibling은 각각 0건(검색 범위 `scripts/`, `tests/test_project_boundaries.py`)이며, path-focused 235 passed·전체 428 passed다.
 - promotion closure: schema-bound promote plan SHA-256 `a1e2dca4513533d8460c4ec6e30eca8cd0189851d93970b1b3da257f557b8c9f`, candidate SHA-256 `f9d33e2ce2a79b1098767036b2aba5bf164c7d5219dd2c06929e6a7a3a1b36ef`을 사용자가 명시 승인했다. apply는 `applied`; 활성화 직후 materialize 전 replay는 generated drift 2건을 write 없이 거부했고, 설계 순서대로 materialize(`replaced=2, unchanged=9`)·check 후 exact replay는 `unchanged`였다.
+- commit·remote CI: 구현 commit `cefc60ae2c50d36ff5364aae4dba01cdc9631e83`; GitHub Knowledge push run `33624656646`·PR run `33624661153`은 같은 head SHA에서 모두 success다.
