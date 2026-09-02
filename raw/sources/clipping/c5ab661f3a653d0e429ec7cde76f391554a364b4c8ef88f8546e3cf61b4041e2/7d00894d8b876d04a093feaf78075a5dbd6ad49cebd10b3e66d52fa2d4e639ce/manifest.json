@@ -1,0 +1,15 @@
+{
+  "artifact_digest": "sha256:7d00894d8b876d04a093feaf78075a5dbd6ad49cebd10b3e66d52fa2d4e639ce",
+  "created_at": "2026-08-24T10:38:12Z",
+  "generator": {
+    "name": "cs-study-capture",
+    "version": "1.0"
+  },
+  "media_type": "text/markdown",
+  "payload": "payload.md",
+  "primary_source": "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+  "schema_version": "1.0",
+  "size": 8354,
+  "source_id": "c5ab661f3a653d0e429ec7cde76f391554a364b4c8ef88f8546e3cf61b4041e2",
+  "source_type": "clipping"
+}

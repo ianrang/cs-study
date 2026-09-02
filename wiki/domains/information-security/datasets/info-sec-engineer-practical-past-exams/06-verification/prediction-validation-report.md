@@ -1,35 +1,35 @@
 ---
-title: "정보보안기사 실기 2026년 2회 예상문제 검증 리포트"
-tier: llm-synthesis
+title: 정보보안기사 실기 2026년 2회 예상문제 검증 리포트
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, predicted-questions, verification]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-03
+tags:
+- information-security
+- certification
+- predicted-questions
+- verification
+date_created: '2026-07-03'
+date_updated: '2026-07-03'
 source_paths:
-  - "../08-prediction/predicted-practical-questions-2026-02.md"
-  - "../07-study/study-strategy-2026-02.md"
-  - "../05-analysis/significance-review.md"
-  - "../05-analysis/session-slot-pattern-analysis.md"
-  - "../04-mapping/item-reference-map.md"
-source_count: 5
-provenance: inferred
-summary: "2026년 2회 예상문제가 기출 빈도, 최근성, 출제기준 연결, medium confidence 주의사항을 반영하는지 검증한 리포트."
-evergreen: false
+- raw/sources/clipping/d9c93a6d04020d0e71c8a9569c2c96cf913b28a8f43f8ea3f84ee47c880613b5/53040e2978adc7c77e693a0160e965d1ef16294c9ea334f4842c5a04a40f9b83/manifest.json
+summary: 2026년 2회 예상문제가 기출 빈도, 최근성, 출제기준 연결, medium confidence 주의사항을 반영하는지 검증한 리포트.
 ---
+
+## Overview
+
+
+
+
+
+
 
 # 정보보안기사 실기 2026년 2회 예상문제 검증 리포트
 
-## Verdict
+### Verdict
 - Prediction scope: pass. 예상문제는 실제 출제 보장이 아니라 기출 기반 학습 문제로 제한했다.
 - Coverage: pass. 위험관리, 접근통제, 시스템 명령/로그, 웹 취약점, 서비스 설정, 네트워크/프로토콜, 개인정보/ISMS-P, 관제/탐지, 최근 확장 주제를 포함한다.
 - Confidence handling: pass. Cyber Kill Chain 등 medium confidence 항목은 `medium` 또는 `medium-high`로 낮춰 표기했다.
 - Slot analysis handling: pass. 2회 슬롯 경향은 보조 가중치로만 사용하고, 강한 법칙으로 단정하지 않았다.
 
-## Checks
+### Checks
 | check | result |
 |---|---|
 | predicted question count | 36 |
@@ -39,7 +39,7 @@ evergreen: false
 | medium confidence cautions preserved | pass |
 | 3-week study roadmap present | pass |
 
-## Coverage Matrix
+### Coverage Matrix
 | priority topic | covered question numbers |
 |---|---|
 | 위험관리/위험평가 | 1, 2, 3 |
@@ -54,7 +54,29 @@ evergreen: false
 | DB/데이터보호 | 18, 30, 35 |
 | 무선/모바일/최근 확장 | 36 |
 
-## Known Limits
+### Known Limits
 - 예상문제는 2026년 2회 공식 출제 문항을 예언하지 않는다.
 - KCA 공식 원문 문구를 주장하지 않는 한계는 유지된다.
 - 3주 전략은 하루 학습 가능 시간이 확보된다는 전제다. 시간이 더 적으면 `study-strategy-2026-02.md`의 priority 1~2부터 압축해야 한다.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/d9c93a6d04020d0e71c8a9569c2c96cf913b28a8f43f8ea3f84ee47c880613b5/53040e2978adc7c77e693a0160e965d1ef16294c9ea334f4842c5a04a40f9b83/manifest.json`

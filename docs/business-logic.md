@@ -1,5 +1,7 @@
 # Business Logic: video importer (`scripts/ingest.py` — 1차)
 
+> **상태: Superseded.** 2026-08-23 immutable capture 전환으로 본 규칙은 historical non-normative가 됐다. 활성 artifact 규칙은 `docs/wiki-ingest-business-logic.md`가 소유한다.
+
 > 대상: `docs/prd.md` + `docs/architecture.md`. 본 문서는 **규칙 명제·일관성**만 다룬다(구조·패턴은 architecture.md).
 >
 > **인용 경로 범례**: cs-study 파일은 `~/dev/personal/001_cs-study/` 기준(`lint.py`=`scripts/`, `*-spec.md`·`quality-bar.md`·`taxonomy.md`·`llm-config.yaml`=`_meta/`, `AGENTS.md`=루트). 추출기 파일은 `~/dev/personal/007_youtube-script/` 기준(`domain.py`·`pipeline.py`=`src/ytscript/`, `doc_hook.py`=`src/ytscript/hooks/`, `default.md.j2`=`templates/`).

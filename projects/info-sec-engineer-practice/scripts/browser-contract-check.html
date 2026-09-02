@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko">
+  <head><meta charset="utf-8" /><title>running</title></head>
+  <body>
+    <pre id="result">running</pre>
+    <iframe id="app" title="practice browser contract check"></iframe>
+    <script>
+      const result = document.querySelector("#result");
+      const frame = document.querySelector("#app");
+      const failures = [];
+      const expect = (condition, message) => { if (!condition) failures.push(message); };
+      localStorage.removeItem("info-security-practice-theme-v1");
+      localStorage.removeItem("info-security-practice-progress-v1");
+      localStorage.removeItem("info-security-past-exam-progress-v1");
+      frame.addEventListener("load", () => {
+        const doc = frame.contentDocument;
+        const click = (selector) => doc.querySelector(selector).click();
+        try {
+          const root = doc.documentElement;
+          expect(!root.dataset.theme, "theme should begin in system mode");
+          click("#theme-toggle");
+          expect(root.dataset.theme === "dark", "first theme click should select dark");
+          click("#theme-toggle");
+          expect(root.dataset.theme === "light", "second theme click should select light");
+          click("#theme-toggle");
+          expect(!root.dataset.theme, "third theme click should restore system mode");
+
+          const panel = doc.querySelector(".practice-panel");
+          let scrollIntoViewCalls = 0;
+          panel.scrollIntoView = () => { scrollIntoViewCalls += 1; };
+          click("#quick-next-question");
+          expect(doc.querySelector("#question-position").textContent.startsWith("문항 2 /"), "quick next should use the current question index");
+          expect(doc.querySelector("#quick-question-position").textContent.startsWith("문항 2 /"), "quick navigation should mirror the current question position");
+          expect(scrollIntoViewCalls === 0, "quick next should preserve the reader's scroll position");
+          click("#quick-previous-question");
+          expect(doc.querySelector("#question-position").textContent.startsWith("문항 1 /"), "quick previous should use the same index state");
+
+          const stage = doc.querySelector("#stage-filter");
+          stage.value = "recall";
+          stage.dispatchEvent(new Event("change", { bubbles: true }));
+          const answer = doc.querySelector("#answer-main");
+          expect(Boolean(answer), "first question should expose a short answer input");
+          answer.value = "__wrong__";
+          click("#submit-answer");
+          expect(doc.activeElement.classList.contains("feedback-head"), "answer submission should focus feedback heading");
+
+          stage.value = "order";
+          stage.dispatchEvent(new Event("change", { bubbles: true }));
+          const firstOrderItem = doc.querySelector("[data-order-item-id]");
+          expect(Boolean(firstOrderItem), "order filter should render an order item");
+          firstOrderItem.focus();
+          firstOrderItem.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", altKey: true, bubbles: true }));
+          expect(doc.activeElement.dataset.orderItemId === firstOrderItem.dataset.orderItemId, "keyboard order move should restore focus to the moved item");
+
+          const draggedOrderItem = doc.querySelector("[data-order-item-id]");
+          const dropTarget = [...doc.querySelectorAll("[data-order-item-id]")].find((item) => item !== draggedOrderItem);
+          const transfer = new DataTransfer();
+          draggedOrderItem.focus();
+          draggedOrderItem.dispatchEvent(new DragEvent("dragstart", { bubbles: true, dataTransfer: transfer }));
+          dropTarget.dispatchEvent(new DragEvent("drop", { bubbles: true, cancelable: true, dataTransfer: transfer }));
+          expect(doc.activeElement.dataset.orderItemId === draggedOrderItem.dataset.orderItemId, "drag order move should restore focus to the moved item");
+
+          stage.value = "essay";
+          stage.dispatchEvent(new Event("change", { bubbles: true }));
+          click("#submit-answer");
+          expect(Boolean(doc.querySelector(".badge-attempted")), "unconfirmed essay self-grading should expose the attempted badge");
+          expect(Boolean(doc.querySelector(".question-step-attempted")), "unconfirmed essay self-grading should expose the attempted navigator state");
+
+          const contentKind = doc.querySelector("#content-kind-filter");
+          contentKind.value = "past-exam";
+          contentKind.dispatchEvent(new Event("change", { bubbles: true }));
+          expect(doc.querySelector("#past-year-filter-group").hidden === false, "past-exam filters should appear when past-exam content is selected");
+          expect(doc.querySelector("#learning-path-filter").closest(".filter-group").hidden === true, "learning filters should be hidden when past-exam content is selected");
+          expect(doc.querySelector("#stat-total").textContent === "513", "past-exam view should expose all reconstructed items");
+          expect(Boolean(doc.querySelector("#past-exam-answer")), "past-exam view should render a free-form answer field");
+          expect(Boolean(doc.querySelector(".prompt br")), "past-exam source line-break markers should render as line breaks");
+          const learningMeta = doc.querySelector(".question-meta").textContent;
+          expect(learningMeta.includes("2013년 1회 · R01"), "learning past-exam mode should display the source-derived year/session/round label");
+          expect((learningMeta.match(/2013년 1회 · R01/g) || []).length === 1, "learning past-exam mode should not duplicate the year/session/round label");
+          expect(doc.querySelector(".question-title").textContent === "기출 복원 문항", "past-exam title should not duplicate round provenance");
+          click('[data-practice-mode="exam"]');
+          const examMeta = doc.querySelector(".question-meta").textContent;
+          expect(examMeta.includes("2013년 1회 · R01"), "exam past-exam mode should retain the source-derived year/session/round label");
+          expect((examMeta.match(/2013년 1회 · R01/g) || []).length === 1, "exam past-exam mode should not duplicate the year/session/round label");
+          expect(examMeta.includes("실전 모드"), "exam past-exam mode should identify the active mode without hiding provenance");
+          expect(doc.querySelector(".question-title").textContent === "기출 복원 문항", "exam past-exam title should remain generic");
+          click('[data-practice-mode="learning"]');
+          click('[data-question-index="3"]');
+          expect(doc.querySelectorAll(".prompt br").length >= 2, "legacy answer-slot labels should render as readable prompt line breaks");
+          click("#reveal-past-exam-answer");
+          expect(Boolean(doc.querySelector("[data-past-result='self-understood']")), "past-exam answer reveal should require self-assessment");
+          click("[data-past-result='self-understood']");
+          expect(Boolean(doc.querySelector(".badge-mastered")), "past-exam self-assessment should mark the item complete");
+          expect(localStorage.getItem("info-security-past-exam-progress-v1") !== null, "past-exam progress must use a separate storage key");
+          expect(localStorage.getItem("info-security-practice-progress-v1") !== null, "learning progress must remain in its existing storage key");
+
+          const pastRound = doc.querySelector("#past-round-filter");
+          pastRound.value = "R07";
+          pastRound.dispatchEvent(new Event("change", { bubbles: true }));
+          click('[data-question-index="3"]');
+          expect(Boolean(doc.querySelector(".exam-code-block pre code")), "actual Snort reconstruction should render as a code block");
+          expect(doc.querySelector(".exam-code-block").dataset.language === "snort", "code block should retain its source-declared language");
+
+          pastRound.value = "R08";
+          pastRound.dispatchEvent(new Event("change", { bubbles: true }));
+          click('[data-question-index="5"]');
+          expect(Boolean(doc.querySelector(".exam-reference-block")), "actual TCP flow reconstruction should render as a reference block");
+
+          pastRound.value = "R11";
+          pastRound.dispatchEvent(new Event("change", { bubbles: true }));
+          click('[data-question-index="14"]');
+          click("#reveal-past-exam-answer");
+          expect(Boolean(doc.querySelector(".feedback .exam-code-block")), "actual reconstructed answer should render code blocks after answer reveal");
+
+          expect(!doc.querySelector("#future-topic-list").textContent.includes("undefined"), "future topic labels must not expose undefined metadata");
+          expect([...doc.querySelectorAll(".stat")].every((stat) => stat.classList.contains("surface") && stat.classList.contains("surface-stat")), "statistics must compose the Surface contract");
+        } catch (error) {
+          failures.push(error.stack || String(error));
+        }
+        result.textContent = failures.length ? `FAIL\n${failures.join("\n")}` : "PASS";
+        document.title = failures.length ? "FAIL" : "PASS";
+      });
+      frame.src = "../index.html";
+    </script>
+  </body>
+</html>

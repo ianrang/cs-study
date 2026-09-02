@@ -1,31 +1,31 @@
 ---
-title: "정보보안기사 실기 3회 2014년 1회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 3회 2014년 1회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://information-security.tistory.com/291"
-source_count: 1
-provenance: inferred
-summary: "정보보안기사 실기 3회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지."
-evergreen: false
+- raw/sources/clipping/5239761f72bf1d46fd1da96ff7d32c95966d6a42bf739ef9eb9f71c7eb8aea75/2a672daff5a00a0381ac8cbd133839560aaeb44c5c6408d14396bbead6b424b8/manifest.json
+summary: 정보보안기사 실기 3회 복원 항목을 Tistory 원문 답안 블록 기준으로 정리한 페이지.
 ---
+
+## Overview
+
+
+
 
 # 정보보안기사 실기 3회 2014년 1회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2014년 1회 실기.
 - Source status: Information Security Tistory direct reconstruction post; confidence: medium-high.
 - This file stores paraphrased reconstruction notes and answer keys, not verbatim official exam text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | Diffie-Hellman 키 교환 과정에서 빈칸을 채우시오. 공개값은 소수 `p`와 원시근 `g`, Alice의 비밀값은 `a`, Bob의 비밀값은 `b`이다. Alice는 `g^a mod p`를 Bob에게 보내고 Bob은 `g^b mod p`를 Alice에게 보낸다. (A): Alice가 계산하는 최종 공유 비밀값. (B): Bob이 계산하는 최종 공유 비밀값. (C): 최종 공유값의 용도. | A : B^a mod p (Bob이 전송한 값의 a 거듭제곱 mod p) B : A^b mod p (Alice가 전송한 값의 b 거듭제곱 mod p) C : 비밀키(대칭키) | source-derived from Information Security Tistory; DH process restored |
@@ -38,14 +38,36 @@ evergreen: false
 | 8 | short | 정보보호관리체계의 관리적 요구사항 절차를 올바른 순서로 나열하시오. 보기: ㄱ. 사후관리, ㄴ. 위험관리, ㄷ. 경영진 책임 및 조직 구성, ㄹ. 정보보호정책 수립 및 범위설정, ㅁ. 정보보호대책 구현. | ㄹ → ㄷ → ㄴ → ㅁ → ㄱ | source-derived from Information Security Tistory; option list restored |
 | 9 | short | IP 패킷 단편화 재조합 취약점을 이용해 중첩된 offset 값을 가진 조각 패킷을 보내 목표 시스템 정지나 재부팅을 유발하는 공격 기법의 명칭을 쓰시오. | Teardrop 공격 | source-derived from Information Security Tistory; answer block present |
 | 10 | short | 위험 대응 보호 대책의 명칭을 쓰시오. (1) 사업 목적 달성을 위해 보안 통제를 적용하여 위험 수준을 낮추는 방안. (2) 위험이 존재하는 프로세스나 사업 자체를 수행하지 않고 포기하는 방안. (3) 보험이나 외주 등으로 잠재적 위험의 재정적 책임을 제3자에게 이전하는 방안. | (1) 위험 감소(Risk Reduction) (2) 위험 회피(Risk Avoidance) (3) 위험 전가(Risk Transfer) | source-derived from Information Security Tistory; prompt descriptions restored |
-| 11 | essay | 무선랜 MAC 주소 보안에 관한 물음에 답하시오. | (1) MAC 주소는 제조사 코드(OUI) 24비트와 장치 고유 일련번호 24비트로 구성된다. (2) 사전에 등록된 MAC 주소를 가진 단말기만 무선 AP 접속을 허용하고 나머지는 차단하는 방식이다. 장점 : 비인가 단말기의 무선 네트워크 접속을 차단하여 보안성을 높인다. 단점 : 공격자가 허용된 MAC 주소를 탈취하여 자신의 MAC 주소를 위장(MAC 스푸핑)하면 우회가 가능하므로 완전한 보안 수단이 되지 못한다. (3) ARP 스푸핑 또는 MAC 스푸핑을 통해 허용된 MAC 주소를 탈취한 후 자신의 네트워크 인터페이스의 MAC 주소를 허용된 주소로 변경하여 필터링을 우회한다. | source-derived from Information Security Tistory; answer block present |
-| 12 | essay | 네트워크 패킷에 `Cache-Control: no-cache, max-age=0` 헤더가 포함되어 있고 동일 출발지 IP에서 짧은 시간에 대량 트래픽이 발생한다. `Referer`와 `Cache-Control`의 의미, 공격 유형, 서버 영향도를 서술하시오. | (1) Referer : 하이퍼링크를 통해 유입된 경우 링크가 걸려 있던 원래 페이지의 주소를 기록하는 헤더 필드이다. Cache-Control : HTTP 1.1에서 추가된 캐시 제어 속성으로, 동일 페이지 재방문 시 캐시 정보 제어 방식을 지정한다. (예: no-cache, max-age=0 등) (2) Cache-Control 공격(CC 공격) (3) max-age=0으로 설정하여 캐시를 무효화함으로써 서버가 모든 요청에 대해 직접 응답을 생성해야 하므로 서버에 과도한 부하(오버헤드)가 발생한다. | source-derived from Information Security Tistory; context restored from source text |
+| 11 | essay | 무선랜의 MAC 주소 필터링에 관하여 다음을 서술하시오. (1) 48비트 MAC 주소의 구성 (2) MAC 주소 필터링의 개념과 장점·단점 (3) MAC 주소 필터링 우회 방법 | (1) 48비트 MAC 주소는 제조사 식별자(OUI) 24비트와 장치 식별자 24비트로 구성된다. (2) 사전에 등록된 MAC 주소를 가진 단말기만 무선 AP 접속을 허용하고 나머지는 차단하는 방식이다. 장점: 비인가 단말기의 무선 네트워크 접속을 차단한다. 단점: 공격자가 허용된 MAC 주소를 관찰·위장(MAC 스푸핑)하면 우회할 수 있어 완전한 보안 수단이 되지 못한다. (3) 공격자는 무선 트래픽을 관찰해 허용된 MAC 주소를 확인한 뒤, 자신의 네트워크 인터페이스 MAC 주소를 그 값으로 변경하는 MAC 스푸핑으로 필터링을 우회한다. | source-derived from Information Security Tistory; answer block present; 2026-07-18 prompt restoration: answer's three-part structure made explicit; technical correction: MAC spoofing is the direct filtering-bypass technique, and ARP spoofing is not required; exact official wording unavailable |
+| 12 | essay | 네트워크 패킷에 `Cache-Control: no-cache, max-age=0` 헤더가 포함되어 있고 동일 출발지 IP에서 짧은 시간에 대량 트래픽이 발생한다. 다음을 서술하시오.<br>(1) `Referer`와 `Cache-Control`의 의미<br>(2) 공격 유형<br>(3) 서버 영향 | (1) Referer : 하이퍼링크를 통해 유입된 경우 링크가 걸려 있던 원래 페이지의 주소를 기록하는 헤더 필드이다. Cache-Control : HTTP 1.1에서 추가된 캐시 제어 속성으로, 동일 페이지 재방문 시 캐시 정보 제어 방식을 지정한다. (예: no-cache, max-age=0 등)<br>(2) Cache-Control 공격(CC 공격)<br>(3) max-age=0으로 설정하여 캐시를 무효화함으로써 서버가 모든 요청에 대해 직접 응답을 생성해야 하므로 서버에 과도한 부하(오버헤드)가 발생한다. | source-derived from Information Security Tistory; 2026-07-18 prompt-format correction: three requested answer parts are explicitly mapped; exact official wording unavailable |
 | 13 | essay | 재난 복구 서비스의 분류 5가지 이상을 명칭과 함께 특징을 설명하시오. | (1) Mirror Site : 주 센터와 동일한 수준의 정보기술 자원을 원격지에 구축하고 Active-Active 상태로 실시간 동시 서비스를 제공한다. (2) Hot Site : 주 센터와 동일한 수준의 자원을 원격지에 구축하여 Stand-by 상태로 유지하다가 재해 발생 시 즉시 Active 상태로 전환하여 서비스를 제공한다. (3) Warm Site : 중요도가 높은 정보 시스템만 부분적으로 재해복구 센터에 보유하며, 데이터는 주기적으로 백업한다. (4) Cold Site : 데이터만 원격지에 보관하고, 서비스를 위한 정보 자원은 최소한으로만 확보하거나 확보하지 않으며, 재해 발생 시 자원을 새로 조달하여 복구를 시작한다. (5) 상호 지원 협약 : 두 개 이상의 기관이 재해 발생 시 상대 기관의 시스템을 이용하도록 협약을 맺는 방식이다. | source-derived from Information Security Tistory; answer block present |
-| 14 | essay | 구형 VPN 장비를 재사용하는 환경에서 ESP 모드는 정상 연결되지만 AH 모드는 연결되지 않는다. 사내 네트워크는 NAT로 사설 IP를 사용하며, IPSec 모듈 업그레이드 후 문제가 해결되었다. AH 연결 실패 원인과 PSK 방식 연결의 장단점을 서술하시오. | (1) VPN 장비의 SAD(Security Association Database)에 AH 관련 보안 연계 정보가 존재하지 않거나 호환 가능한 AH 관련 정보가 없었을 것으로 추정된다. 또한 AH 프로토콜은 IP 헤더를 포함하여 인증하므로 NAT 환경에서는 IP 헤더가 변경되어 AH 인증이 실패하는 구조적 문제도 원인일 수 있다. (2) 장점 : 사전에 공유한 키를 사용하여 별도의 인증기관(CA) 없이 간단하게 상호 인증이 가능하다. 단점 : 인증서 방식에 비해 강력한 인증을 제공하지 못하며, 사전에 공유한 키가 유출될 경우 보안이 위협받는 위험이 있다. | source-derived from Information Security Tistory; context restored from source text |
-| 15 | essay | HTTP 웹 서버 접속 후 로그인이 되지 않는 상황에서 동일 출발지 IP가 짧은 시간 동안 대량의 GET 요청을 지속 전송하는 것이 확인되었다. 공격 유형과 서버에 미치는 영향을 서술하시오. | (1) HTTP GET Flooding 공격 (2) 대량의 HTTP GET 요청을 지속적으로 전송하여 서버의 TCP 세션 자원과 처리 자원을 모두 소진시킨다. 그 결과 정상적인 사용자가 접속 요청을 해도 서버가 새로운 연결을 수용하지 못하여 서비스 거부 상태가 발생한다. | source-derived from Information Security Tistory; context restored from source text |
-| 16 | essay | 개인정보 영향평가 대상으로 대통령령으로 정한 기준에 해당하는 개인정보 파일의 유형을 서술하시오. | (1) 구축·운용 또는 변경하려는 개인정보 파일로서 5만 명 이상의 정보주체에 관한 민감 정보 또는 고유식별정보의 처리가 수반되는 개인정보 파일 (2) 구축·운용하고 있는 개인정보 파일을 해당 공공기관 내부 또는 외부에서 구축·운용하고 있는 다른 개인정보 파일과 연계하려는 경우로서, 연계 결과 50만 명 이상의 정보주체에 관한 개인정보가 포함되는 개인정보 파일 (3) 구축·운용 또는 변경하려는 개인정보 파일로서 100만 명 이상의 정보주체에 관한 개인정보 파일 | source-derived from Information Security Tistory; answer block present |
+| 14 | essay | 사설망의 IPsec 피어가 경로상의 NAT를 통과한다. ESP는 NAT-T를 사용하여 정상 동작하지만 AH 보안 연결은 수립되지 않는다. (1) AH 연결이 실패하는 원인을 서술하시오. (2) PSK 방식의 의미와 IKE 피어 인증에 PSK를 사용하는 방식의 장점 및 단점을 서술하시오. | (1) AH는 IP 헤더의 변경 불가능한 필드와 상위 계층 데이터를 무결성·인증 범위에 포함한다. NAT가 외부 IP 헤더의 출발지·목적지 주소를 변경하면 AH 무결성 검증값이 일치하지 않아 연결이 실패한다. 따라서 NAT 환경에서는 일반적으로 NAT-T를 적용한 ESP를 사용한다. (2) PSK(Pre-Shared Key)는 VPN 피어가 사전에 동일하게 설정한 공유 비밀키로, IKE에서 상대 피어 인증에 사용할 수 있다. 장점: 인증서·CA 없이 설정이 간단하다. 단점: 피어가 많아질수록 키 배포·교체 관리가 어렵고, 키가 유출되면 해당 연결의 신뢰성이 훼손된다. | source-derived from Information Security Tistory; 2026-07-18 prompt restoration: NAT path and two independent answer parts made explicit; technical correction cross-checked against RFC 4302, RFC 3948, and RFC 7296; SAD 누락 여부는 제시 조건만으로 단정할 수 없다, and SAD is intentionally not a condition in this revised prompt; exact official wording unavailable |
+| 15 | essay | HTTP 웹 서버 접속 후 로그인이 되지 않는 상황에서 동일 출발지 IP가 짧은 시간 동안 대량의 GET 요청을 지속 전송하는 것이 확인되었다. 다음을 서술하시오.<br>(1) 공격 유형<br>(2) 서버에 미치는 영향 | (1) HTTP GET Flooding 공격<br>(2) 대량의 HTTP GET 요청을 지속적으로 전송하여 서버의 TCP 세션 자원과 처리 자원을 모두 소진시킨다. 그 결과 정상적인 사용자가 접속 요청을 해도 서버가 새로운 연결을 수용하지 못하여 서비스 거부 상태가 발생한다. | source-derived from Information Security Tistory; 2026-07-18 prompt-format correction: two requested answer parts are explicitly mapped; exact official wording unavailable |
+| 16 | essay | 개인정보 영향평가 대상으로 대통령령으로 정한 기준에 해당하는 개인정보 파일 유형을 각각 서술하시오.<br>(1) 민감정보 또는 고유식별정보 처리 기준<br>(2) 개인정보 파일 연계 기준<br>(3) 일반 개인정보 파일 기준 | (1) 구축·운용 또는 변경하려는 개인정보 파일로서 5만 명 이상의 정보주체에 관한 민감 정보 또는 고유식별정보의 처리가 수반되는 개인정보 파일<br>(2) 구축·운용하고 있는 개인정보 파일을 해당 공공기관 내부 또는 외부에서 구축·운용하고 있는 다른 개인정보 파일과 연계하려는 경우로서, 연계 결과 50만 명 이상의 정보주체에 관한 개인정보가 포함되는 개인정보 파일<br>(3) 구축·운용 또는 변경하려는 개인정보 파일로서 100만 명 이상의 정보주체에 관한 개인정보 파일 | source-derived from Information Security Tistory; 2026-07-18 prompt-format correction: three requested answer slots are explicit; statutory answer remains source-derived |
 
-## Verification Notes
+### Verification Notes
 - Cross-check basis: the round-specific Tistory post linked in `source_paths` was parsed by sequential question number and answer marker.
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/5239761f72bf1d46fd1da96ff7d32c95966d6a42bf739ef9eb9f71c7eb8aea75/2a672daff5a00a0381ac8cbd133839560aaeb44c5c6408d14396bbead6b424b8/manifest.json`

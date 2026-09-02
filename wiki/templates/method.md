@@ -1,50 +1,38 @@
 ---
-title: ""
-tier: llm-synthesis
+title: ''
 page_type: method
-domain: ""
-domain_confidence: high
-shared_scope: domain
 tags: []
-status: active
-date_created: ""
-date_updated: ""
+date_created: ''
+date_updated: ''
 source_paths: []
-source_count: 0
-provenance: extracted
-summary: ""
+summary: ''
+aliases: []
 ---
-
-[1-2 문장 summary]
+<!-- generated-by: cs-study-materializer/1.0; schema-sha256: fec09cc5b30e4966c142c1596c493b8c1d0d1e59313ac276cb981cec04142637 -->
 
 ## Definition
 
-[기법의 본질 1-2 문단]
 
 ## Algorithm
 
-```
-# pseudo-code 또는 수식
-```
 
 ## Implementation
 
-[구현 노트·라이브러리·예시 코드]
-
-```python
-# 예시
-```
 
 ## Trade-offs
 
-| 측면 | 장점 | 단점 |
-|---|---|---|
-| ... | ... | ... |
 
 ## Open Questions
 
-- [미해결·후속 연구]
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
 
 ## Sources
-
-- [[source path]] ^[extracted] — 1-line context

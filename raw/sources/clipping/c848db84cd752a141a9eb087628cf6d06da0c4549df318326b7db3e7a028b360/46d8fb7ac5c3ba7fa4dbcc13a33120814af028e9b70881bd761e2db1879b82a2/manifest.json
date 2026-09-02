@@ -1,0 +1,15 @@
+{
+  "artifact_digest": "sha256:46d8fb7ac5c3ba7fa4dbcc13a33120814af028e9b70881bd761e2db1879b82a2",
+  "created_at": "2026-08-24T10:38:12Z",
+  "generator": {
+    "name": "cs-study-capture",
+    "version": "1.0"
+  },
+  "media_type": "text/markdown",
+  "payload": "payload.md",
+  "primary_source": "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/098-199-prompt-clarity-review-2026-07-18.md",
+  "schema_version": "1.0",
+  "size": 7161,
+  "source_id": "c848db84cd752a141a9eb087628cf6d06da0c4549df318326b7db3e7a028b360",
+  "source_type": "clipping"
+}

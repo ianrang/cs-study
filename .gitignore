@@ -2,8 +2,7 @@
 .obsidian/
 .claude/settings.local.json
 
-# LLM Wiki v3 — 재생성 가능 artifact (Panel A C2 결정)
-_meta/backlinks.json
+# LLM Wiki v3 — 재생성 가능 cache
 _meta/.cache/
 scripts/__pycache__/
 *.pyc
@@ -12,6 +11,11 @@ scripts/__pycache__/
 .llm-cache/
 .lint-cache/
 .venv-lint/
+
+# Terminal migration journals and rollback candidates (local recovery evidence)
+.knowledge-migration-*.json
+.wiki.migration.*/
+.wiki.restore.*/
 
 # Exam OCR / cbtbank fetch intermediates (regenerable via scripts/)
 .tmp/

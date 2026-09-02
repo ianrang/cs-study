@@ -1,37 +1,37 @@
 ---
-title: "정보보안기사 실기 기출 패턴 기반 통합 학습·실습 로드맵"
-tier: llm-synthesis
+title: 정보보안기사 실기 기출 패턴 기반 통합 학습·실습 로드맵
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, study-roadmap, hands-on-lab, exam-pattern]
-status: active
-date_created: 2026-07-09
-date_updated: 2026-07-09
+tags:
+- information-security
+- certification
+- study-roadmap
+- hands-on-lab
+- exam-pattern
+date_created: '2026-07-09'
+date_updated: '2026-07-09'
 source_paths:
-  - "../index.md"
-  - "../05-analysis/frequency-analysis.md"
-  - "../05-analysis/recurrence-analysis.md"
-  - "../05-analysis/pattern-analysis.md"
-  - "learning-priority-and-prediction-validity-2026-02.md"
-  - "../04-mapping/item-reference-map.md"
-  - "../02-references/reference-source-index.md"
-  - "../02-references/exam-criteria-and-reference-catalog.md"
-  - "study-strategy-2026-02.md"
-  - "integrated-study-guide-2026-02.md"
-  - "hands-on-lab-feasibility-deep-research.md"
-  - "/Users/ian/study/information-security/AI 요약.pdf"
-  - "/Users/ian/study/information-security/정보보안기사+핵심전략+1.3.pdf-20260622004728.pdf"
-source_count: 13
-provenance: inferred
-summary: "정보보안기사 실기 1~31회 기출 패턴, 최근성, KCA 출제기준, 공식·준공식 레퍼런스, 현재 학습 PDF를 교차해 논리적 학습 순서와 독립 재사용 가능한 테스트베드 구성을 함께 제시한 실행 로드맵."
-evergreen: false
+- raw/sources/clipping/cb21c0e4c20c05750b55d1f6ad0e80c972a3d3765702d5751042d96ad35cd5dd/98c03eb7f502bd47964e188acb0630502d501c2734b5de0ded54959044b5bf99/manifest.json
+summary: 정보보안기사 실기 1~31회 기출 패턴, 최근성, KCA 출제기준, 공식·준공식 레퍼런스, 현재 학습 PDF를 교차해 논리적 학습
+  순서와 독립 재사용 가능한 테스트베드 구성을 함께 제시한 실행 로드맵.
 ---
+
+## Overview
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 정보보안기사 실기 기출 패턴 기반 통합 학습·실습 로드맵
 
-## 결론
+### 결론
 과하지 않다. 지금 필요한 것은 단순 실습환경이 아니라 `기출 패턴 -> 출제기준/레퍼런스 -> 논리적 학습 묶음 -> 안전한 실습 -> 답안 작성`으로 이어지는 학습 체계다.
 
 현재 데이터 기준으로는 특정 문제가 그대로 나올 것을 기대하면 안 된다. 대신 같은 개념이 `단답형`, `설정값`, `로그 해석`, `공격 판단근거`, `대응방안`, `법규 적용 상황`으로 바뀌어 나오는 패턴을 학습해야 한다.
@@ -44,7 +44,7 @@ evergreen: false
 4. 실습은 로컬·사설망·일회용 환경에서만 수행한다.
 5. 외부 시스템, 호스트 OS 설정, 개인 작업환경, 기존 코드에는 영향을 주지 않는다.
 
-## 근거 계층
+### 근거 계층
 | 우선순위 | 근거 | 사용 방식 |
 |---:|---|---|
 | 1 | `REF-KCA-INFOSEC-PRACTICAL-CRITERIA` | 출제 범위의 최상위 기준. 모든 학습 묶음은 이 기준 안에 있어야 한다. |
@@ -53,7 +53,7 @@ evergreen: false
 | 4 | 패칭된 공공·공식 문서 | 개인정보, ISMS-P, KISA 취약점 가이드, 시큐어코딩 등 직접 근거가 있는 항목을 확인한다. |
 | 5 | `AI 요약.pdf`, `정보보안기사+핵심전략+1.3.pdf` | 개념 이해, 빠른 복습, 답안 작성 방식 참고용이다. 충돌 시 로컬 기출 분석과 공식 레퍼런스를 우선한다. |
 
-## 학습 순서
+### 학습 순서
 학습은 과목 순서가 아니라 사고 흐름 순서로 진행한다.
 
 | 단계 | 묶음 | 이유 |
@@ -67,7 +67,7 @@ evergreen: false
 | 6 | 관제·Snort·로그·침해사고 | Snort 룰, HIDS/NIDS, SIEM, 포렌식, PCAP 해석을 묶어 훈련한다. |
 | 7 | 암호통신·DB·모바일·DR 보강 | IPSec/TLS/DB/MDM/BCP는 고득점 분기와 최근 변형 대비용이다. |
 
-## 답안 템플릿
+### 답안 템플릿
 모든 단원은 아래 3단 구조로 답안을 만든다.
 
 `무엇인가 -> 왜 문제인가/왜 필요한가 -> 어떻게 설정·탐지·대응하는가`
@@ -81,7 +81,7 @@ evergreen: false
 | 법규형 | 적용 주체 -> 의무/요건 -> 기록·보관·통지·점검 |
 | 비교형 | 비교 대상 -> 차이 기준 -> 적용 상황 |
 
-## PDF 사용 규칙
+### PDF 사용 규칙
 | 자료 | 현재 역할 | 사용법 | 주의 |
 |---|---|---|---|
 | `AI 요약.pdf` | 개념 이해용 1차 읽기 자료 | 새 단원을 시작할 때 전체 구조를 잡는다. 표와 명령어는 암기표로 옮긴다. | 요약본 특성상 과포함·단순화 가능성이 있다. 기출 빈도와 레퍼런스로 걸러야 한다. |
@@ -91,7 +91,7 @@ evergreen: false
 
 PDF는 `읽기 -> 기출 매핑 확인 -> 레퍼런스 확인 -> 답안 작성 -> 실습 관찰` 순서로만 사용한다. PDF를 먼저 완독하고 외우는 방식은 우선순위가 흐려진다.
 
-## 학습 묶음 0. 공통 배경과 답안 작성
+### 학습 묶음 0. 공통 배경과 답안 작성
 ### 학습 내용
 - CIA: 기밀성, 무결성, 가용성
 - 식별, 인증, 인가, 감사
@@ -111,7 +111,7 @@ PDF는 `읽기 -> 기출 매핑 확인 -> 레퍼런스 확인 -> 답안 작성 -
 ### 실습
 실습보다 답안 템플릿 훈련이 우선이다. 모든 단원에서 3단 답안을 3문장 이하로 작성한다.
 
-## 학습 묶음 1. 위험관리·접근통제·법규 기초
+### 학습 묶음 1. 위험관리·접근통제·법규 기초
 ### 왜 먼저 하는가
 위험관리/위험평가는 반복 개념군 최상위이고, 접근통제/권한관리는 시스템·개인정보·ISMS-P와 연결된다. 관리/법규는 전체 과목 비중도 가장 높다.
 
@@ -154,7 +154,7 @@ PDF는 `읽기 -> 기출 매핑 확인 -> 레퍼런스 확인 -> 답안 작성 -
 | 개인정보 처리 흐름 점검 | 수집, 저장, 이용, 제공, 파기 단계별로 필요한 보호조치를 표로 쓴다. |
 | 접근권한 점검표 | 사용자, 역할, 권한, 승인자, 변경일, 말소일, 로그 점검 여부를 만든다. |
 
-## 학습 묶음 2. Linux/Unix·Windows 계정·로그·권한
+### 학습 묶음 2. Linux/Unix·Windows 계정·로그·권한
 ### 핵심 학습 내용
 | 축 | 반드시 알아야 할 내용 |
 |---|---|
@@ -198,7 +198,7 @@ PDF는 `읽기 -> 기출 매핑 확인 -> 레퍼런스 확인 -> 답안 작성 -
 5. `lsof`로 프로세스가 연 파일을 확인한다.
 6. 결과를 `파일/명령 -> 보안 의미 -> 조치` 형식으로 정리한다.
 
-## 학습 묶음 3. 서비스 보안설정
+### 학습 묶음 3. 서비스 보안설정
 ### 핵심 학습 내용
 | 서비스 | 학습 내용 |
 |---|---|
@@ -236,7 +236,7 @@ PDF는 `읽기 -> 기출 매핑 확인 -> 레퍼런스 확인 -> 답안 작성 -
 
 외부 포트는 기본적으로 `127.0.0.1`에만 바인딩한다. DNS 실습은 Docker 내부 네트워크에서만 수행한다.
 
-## 학습 묶음 4. 네트워크 프로토콜·장비·공격
+### 학습 묶음 4. 네트워크 프로토콜·장비·공격
 ### 핵심 학습 내용
 | 축 | 반드시 알아야 할 내용 |
 |---|---|
@@ -279,7 +279,7 @@ PDF는 `읽기 -> 기출 매핑 확인 -> 레퍼런스 확인 -> 답안 작성 -
 4. DNS zone transfer 허용/차단 결과를 비교한다.
 5. SNMP는 실제 장비 대신 샘플 설정과 로그로 community 위험을 해석한다.
 
-## 학습 묶음 5. 웹 취약점·시큐어코딩
+### 학습 묶음 5. 웹 취약점·시큐어코딩
 ### 핵심 학습 내용
 | 축 | 반드시 알아야 할 내용 |
 |---|---|
@@ -316,7 +316,7 @@ PDF는 `읽기 -> 기출 매핑 확인 -> 레퍼런스 확인 -> 답안 작성 -
 
 실습 결과는 항상 `취약 입력 -> 서버 반응 -> 보안 영향 -> 대응 코드/설정`으로 정리한다.
 
-## 학습 묶음 6. 관제·Snort·로그·침해사고
+### 학습 묶음 6. 관제·Snort·로그·침해사고
 ### 핵심 학습 내용
 | 축 | 반드시 알아야 할 내용 |
 |---|---|
@@ -352,7 +352,7 @@ PDF는 `읽기 -> 기출 매핑 확인 -> 레퍼런스 확인 -> 답안 작성 -
 
 Security Onion은 무겁고 x86-64 요구가 있을 수 있으므로, 처음에는 Suricata/Snort offline PCAP 분석으로 시작한다.
 
-## 학습 묶음 7. 암호통신·DB·모바일·DR 보강
+### 학습 묶음 7. 암호통신·DB·모바일·DR 보강
 ### 핵심 학습 내용
 | 축 | 반드시 알아야 할 내용 |
 |---|---|
@@ -380,7 +380,7 @@ Security Onion은 무겁고 x86-64 요구가 있을 수 있으므로, 처음에�
 | 모바일 보안 | MDM, MAM/MCM/EMM, 인증서 고정, deep link 검증 |
 | DR | site 유형, RTO/RPO, BIA와 복구전략 연결 |
 
-## 독립 테스트베드 아키텍처
+### 독립 테스트베드 아키텍처
 ### 기본 원칙
 | 원칙 | 규칙 |
 |---|---|
@@ -391,20 +391,18 @@ Security Onion은 무겁고 x86-64 요구가 있을 수 있으므로, 처음에�
 | 재사용 | 실습별 compose/README/checklist를 두고, 데이터는 volume 또는 snapshot으로 초기화한다. |
 | 정리 | 실습 종료 후 컨테이너/VM/임시 네트워크/임시 파일 삭제 절차를 실행한다. |
 
-### 권장 디렉터리
-실제 구현은 기출 데이터셋과 분리된 `../../labs/info-sec-engineer-practical/` 아래에 둔다.
+### 실습 묶음
 
-| 위치 | 용도 |
+| 실습 묶음 | 학습 범위 |
 |---|---|
-| `../../labs/info-sec-engineer-practical/` | 정보보안기사 실기 학습·실습 실행물 루트 |
-| `../../labs/info-sec-engineer-practical/labs/01-linux-hardening` | Linux 계정·권한·로그 실습 |
-| `../../labs/info-sec-engineer-practical/labs/02-service-config` | Apache/BIND/SMTP/xinetd 설정 해석 |
-| `../../labs/info-sec-engineer-practical/labs/03-network-protocol` | TCP/ARP/DNS/iptables 증거 해석 |
-| `../../labs/info-sec-engineer-practical/labs/04-web-vuln-review` | 웹 취약점 코드·요청 해석 |
-| `../../labs/info-sec-engineer-practical/labs/05-ids-log-triage` | Snort/IDS/로그 triage |
-| `../../labs/info-sec-engineer-practical/labs/06-risk-law-tabletop` | 위험관리·법규 tabletop |
+| Linux hardening | Linux 계정·권한·로그 실습 |
+| Service configuration | Apache/BIND/SMTP/xinetd 설정 해석 |
+| Network protocol | TCP/ARP/DNS/iptables 증거 해석 |
+| Web vulnerability review | 웹 취약점 코드·요청 해석 |
+| IDS log triage | Snort/IDS/로그 triage |
+| Risk and law tabletop | 위험관리·법규 tabletop |
 
-이 실행형 Lab은 각 Lab의 `.sandbox/` 아래에만 산출물을 생성한다. `.sandbox/`는 `labs/info-sec-engineer-practical/.gitignore`에서 제외한다.
+실행 경로, 샌드박스와 정리 절차는 canonical 지식이 아니라 실행 프로젝트 계약이 소유한다.
 
 ### Lab별 산출물 표준
 각 Lab은 아래 파일을 가진다.
@@ -417,7 +415,7 @@ Security Onion은 무겁고 x86-64 요구가 있을 수 있으므로, 처음에�
 | `expected-observations.md` | 기대 로그·출력·패킷 |
 | `cleanup.md` | 정리 명령과 초기화 방법 |
 
-## 4주 실행 로드맵
+### 4주 실행 로드맵
 기간이 더 짧으면 Week 1~2를 우선하고, Week 3~4는 고득점 보강으로 본다.
 
 | 주차 | 목표 | 학습 묶음 | 실습 |
@@ -427,7 +425,7 @@ Security Onion은 무겁고 x86-64 요구가 있을 수 있으므로, 처음에�
 | Week 3 | 관제·침해사고·암호통신 보강 | Snort/Suricata, SIEM, IPSec/TLS, DB 감사 | Offline PCAP, Snort/Suricata 룰 |
 | Week 4 | 회차형 답안과 오답 회수 | 최근 23~31회, 예상문제, 법규 확장 | 실습 결과 기반 서술형 답안 작성 |
 
-## 일일 루틴
+### 일일 루틴
 | 블록 | 시간 | 수행 |
 |---|---:|---|
 | 개념 정리 | 30분 | AI 요약 또는 통합 학습본으로 해당 묶음 개념 읽기 |
@@ -436,7 +434,7 @@ Security Onion은 무겁고 x86-64 요구가 있을 수 있으므로, 처음에�
 | 실습/관찰 | 40분 | 해당 묶음의 로컬 실습 또는 샘플 로그/PCAP 해석 |
 | 오답 회수 | 20분 | 오답을 `개념부족/키워드누락/문장화실패/레퍼런스미확인`으로 분류 |
 
-## 오답 분류 규칙
+### 오답 분류 규칙
 | 원인 | 조치 |
 |---|---|
 | 개념부족 | AI 요약 또는 통합 학습본으로 돌아가 3줄 정의를 작성한다. |
@@ -445,7 +443,7 @@ Security Onion은 무겁고 x86-64 요구가 있을 수 있으므로, 처음에�
 | 레퍼런스미확인 | `reference-source-index.md`와 `item-reference-map.md`에서 근거 상태를 확인한다. |
 | 실습이해부족 | 해당 Lab의 기대 관찰값을 보고 다시 실행하거나 샘플 로그로 대체한다. |
 
-## 학습 우선순위 결정 규칙
+### 학습 우선순위 결정 규칙
 | 조건 | 처리 |
 |---|---|
 | 반복도 높음 + 최근성 높음 + 레퍼런스 명확 | 반드시 자세히 학습하고 실습까지 한다. |
@@ -454,7 +452,7 @@ Security Onion은 무겁고 x86-64 요구가 있을 수 있으므로, 처음에�
 | 레퍼런스가 medium 또는 벤더 용어 차이 있음 | 공식 용어를 단정하지 않고 비교·주의점 중심으로 학습한다. |
 | PDF에만 있고 기출·출제기준 연결이 약함 | 시험 직전 암기 또는 배경지식으로 낮춘다. |
 
-## 개인정보보호법·법규 학습 확장 예시
+### 개인정보보호법·법규 학습 확장 예시
 기출에 특정 조문이나 수치가 나왔다고 그 문항만 외우면 변형에 약하다. 법규는 `주체 -> 의무 -> 증거/기록 -> 점검/통지`로 확장한다.
 
 | 기출 출발점 | 확장 학습 |
@@ -468,7 +466,7 @@ Security Onion은 무겁고 x86-64 요구가 있을 수 있으므로, 처음에�
 
 법규 수치와 시행일은 시험 직전에 공식 법령·고시 원천으로 다시 확인한다. 이 문서는 법률 자문이 아니라 시험 학습 로드맵이다.
 
-## 최종 학습 산출물
+### 최종 학습 산출물
 시험 전까지 아래 6개 산출물을 직접 만들어야 한다.
 
 | 산출물 | 완료 기준 |
@@ -480,9 +478,31 @@ Security Onion은 무겁고 x86-64 요구가 있을 수 있으므로, 처음에�
 | 실습 관찰표 | 각 Lab의 관찰값과 시험형 질문 답안 작성 |
 | 오답 회수표 | 오답 원인과 재학습 위치를 연결 |
 
-## 최종 판단
+### 최종 판단
 현재 두 PDF만 순서대로 읽는 방식은 효율이 낮다. PDF는 개념 설명과 문제풀이 재료로 쓰고, 실제 학습 순서는 `기출 반복 개념군`, `최근성`, `KCA 출제기준`, `공식 레퍼런스`, `답안 작성 가능성`으로 재배열해야 한다.
 
 가장 먼저 해야 할 일은 Linux/Unix 로그·명령, 위험관리/접근통제, 서비스 보안설정, 웹 취약점, DNS/SNMP/VLAN, Snort/관제를 묶어서 공부하는 것이다. 그 다음 개인정보·ISMS-P·법규를 상황형으로 확장하고, IPSec/TLS/DB/모바일/DR은 고득점 보강으로 붙인다.
 
 독립 테스트베드는 충분히 구성할 수 있다. 다만 실습의 목적은 공격 성공이 아니라 `관찰 가능한 증거를 보고 시험 답안으로 바꾸는 능력`을 만드는 것이다.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/cb21c0e4c20c05750b55d1f6ad0e80c972a3d3765702d5751042d96ad35cd5dd/98c03eb7f502bd47964e188acb0630502d501c2734b5de0ded54959044b5bf99/manifest.json`

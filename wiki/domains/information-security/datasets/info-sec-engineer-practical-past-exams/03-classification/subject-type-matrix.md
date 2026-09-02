@@ -1,62 +1,62 @@
 ---
-title: "정보보안기사 실기 회차별 과목/문제유형 매트릭스"
-tier: llm-synthesis
+title: 정보보안기사 실기 회차별 과목/문제유형 매트릭스
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-09
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-09'
 source_paths:
-  - "../index.md"
-  - "../01-rounds/2013-01-practical-01.md"
-  - "../01-rounds/2013-02-practical-02.md"
-  - "../01-rounds/2014-01-practical-03.md"
-  - "../01-rounds/2014-02-practical-04.md"
-  - "../01-rounds/2015-01-practical-05.md"
-  - "../01-rounds/2015-02-practical-06.md"
-  - "../01-rounds/2016-01-practical-07.md"
-  - "../01-rounds/2016-02-practical-08.md"
-  - "../01-rounds/2017-01-practical-09.md"
-  - "../01-rounds/2017-02-practical-10.md"
-  - "../01-rounds/2018-01-practical-11.md"
-  - "../01-rounds/2018-02-practical-12.md"
-  - "../01-rounds/2019-01-practical-13.md"
-  - "../01-rounds/2019-02-practical-14.md"
-  - "../01-rounds/2020-01-practical-15.md"
-  - "../01-rounds/2020-02-practical-16.md"
-  - "../01-rounds/2021-01-practical-17.md"
-  - "../01-rounds/2021-02-practical-18.md"
-  - "../01-rounds/2022-01-practical-19.md"
-  - "../01-rounds/2022-02-practical-20.md"
-  - "../01-rounds/2022-04-practical-21.md"
-  - "../01-rounds/2023-01-practical-22.md"
-  - "../01-rounds/2023-02-practical-23.md"
-  - "../01-rounds/2023-04-practical-24.md"
-  - "../01-rounds/2024-01-practical-25.md"
-  - "../01-rounds/2024-02-practical-26.md"
-  - "../01-rounds/2024-04-practical-27.md"
-  - "../01-rounds/2025-01-practical-28.md"
-  - "../01-rounds/2025-02-practical-29.md"
-  - "../01-rounds/2025-04-practical-30.md"
-  - "../01-rounds/2026-01-practical-31.md"
-source_count: 32
-provenance: inferred
-summary: "정보보안기사 실기 복원 항목을 5개 과목과 단답형·서술형/실무형으로 분류한 회차별 매트릭스."
-evergreen: false
+- raw/sources/clipping/38a578af1c4bc885f25774d753166352d2b02a6ca1df087b0a795a9037b667ac/90dfa9bac8a26b888e1bd84a2ec42deca87c2d636c516c0c68cf40c3e1f24a57/manifest.json
+summary: 정보보안기사 실기 복원 항목을 5개 과목과 단답형·서술형/실무형으로 분류한 회차별 매트릭스.
 ---
+
+## Overview
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 정보보안기사 실기 회차별 과목/문제유형 매트릭스
 
-## Scope
+### Scope
 - Input: same-directory round reconstruction files, 1회 through 31회.
 - Classification unit: each reconstructed row in `## Reconstruction`.
 - This table does not infer missing original questions. Rows that are source gaps, blog navigation text, or insufficiently specific are excluded or left unclassified.
 - Cell format: `count (question numbers)`.
 
-## Matrix
+### Matrix
 | 회차 | 시험 | 시스템 보안 | 시스템 보안 | 네트워크 보안 | 네트워크 보안 | 어플리케이션 보안 | 어플리케이션 보안 | 정보보안 일반 | 정보보안 일반 | 정보보안 관리 및 법규 | 정보보안 관리 및 법규 |
 |  |  | 단답형 | 서술형/실무형 | 단답형 | 서술형/실무형 | 단답형 | 서술형/실무형 | 단답형 | 서술형/실무형 | 단답형 | 서술형/실무형 |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -92,13 +92,35 @@ evergreen: false
 | 30회 | 2025년 4회 | 4 (1, 3, 8, 10) | 2 (15, 17) | 2 (2, 4) | 1 (16) | - | 1 (18) | 2 (7, 9) | - | 4 (5, 6, 11, 12) | 2 (13, 14) |
 | 31회 | 2026년 1회 | 3 (1, 4, 5) | - | 2 (2, 3) | 1 (16) | 3 (8, 9, 10) | 3 (14, 17, 18) | 1 (6) | - | 3 (7, 11, 12) | 2 (13, 15) |
 
-## Unclassified / Excluded
+### Unclassified / Excluded
 | round | unclassified item numbers | excluded non-question/source-gap rows |
 |---|---|---|
 | - | - | - |
 
-## Classification Rules
+### Classification Rules
 - 5 subjects follow the information security engineer practical taxonomy: 시스템 보안, 네트워크 보안, 어플리케이션 보안, 정보보안 일반, 정보보안 관리 및 법규.
 - `essay` and `practical` rows are grouped together as `서술형/실무형` because many restored sources mix these labels and the user requested that combined split.
 - When a source title explicitly included a subject label, that label was preferred.
 - Otherwise, classification used visible keywords only; no missing prompt wording was reconstructed.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/38a578af1c4bc885f25774d753166352d2b02a6ca1df087b0a795a9037b667ac/90dfa9bac8a26b888e1bd84a2ec42deca87c2d636c516c0c68cf40c3e1f24a57/manifest.json`

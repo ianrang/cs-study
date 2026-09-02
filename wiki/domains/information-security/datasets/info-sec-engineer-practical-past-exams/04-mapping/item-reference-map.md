@@ -1,35 +1,35 @@
 ---
-title: "정보보안기사 실기 문항-출제기준-참고문서 매핑"
-tier: llm-synthesis
+title: 정보보안기사 실기 문항-출제기준-참고문서 매핑
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-references, mapping]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-09
+tags:
+- information-security
+- certification
+- exam-references
+- mapping
+date_created: '2026-07-03'
+date_updated: '2026-07-09'
 source_paths:
-  - "../02-references/reference-source-index.md"
-  - "../02-references/exam-criteria-and-reference-catalog.md"
-  - "../03-classification/subject-type-classification-detail.md"
-  - "../01-rounds/2023-02-practical-23.md"
-  - "../01-rounds/2023-04-practical-24.md"
-  - "../01-rounds/2024-01-practical-25.md"
-  - "../01-rounds/2024-02-practical-26.md"
-  - "../01-rounds/2024-04-practical-27.md"
-  - "../01-rounds/2025-01-practical-28.md"
-  - "../01-rounds/2025-02-practical-29.md"
-  - "../01-rounds/2025-04-practical-30.md"
-source_count: 11
-provenance: inferred
-summary: "최근 23~30회 정보보안기사 실기 복원 문항을 KCA 실기 출제기준 세부항목과 패칭된 참고문서 ref_id에 연결한 1차 매핑."
-evergreen: false
+- raw/sources/clipping/e417d0ceb1633daed63b48ed96d7c912996d1facb338bc245b6fbe420f9ccabc/e4fb014305b0d0032b082355f94cdcd82d2fb01a95814beca087eed3731e6a25/manifest.json
+summary: 최근 23~30회 정보보안기사 실기 복원 문항을 KCA 실기 출제기준 세부항목과 패칭된 참고문서 ref_id에 연결한 1차 매핑.
 ---
+
+## Overview
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 정보보안기사 실기 문항-출제기준-참고문서 매핑
 
-## Scope
+### Scope
 - 이 문서는 문항별 근거 연결의 SSOT이다.
 - 현재 범위는 23회~29회 Naver 블로그 복원본과 30회 기존 wiki 복원본을 기준으로 정리한 최근 23회~30회 144개 문항이다.
 - 문항 원문 전체는 회차별 복원 문서가 SSOT이므로 이 문서에는 반복하지 않는다.
@@ -37,7 +37,7 @@ evergreen: false
 - `official page confirmed` 상태의 ref_id는 공식 URL을 확인했지만 raw/source 원문 저장은 아직 하지 않은 보조 원천이다.
 - 2026-07-03 2차 보강에서는 IETF RFC, NIST CSRC glossary/SP, GNU manual, OWASP community attack page, 국가법령정보센터 현행 법령 페이지를 공식 페이지 확인 상태로 추가했다. 해당 원천도 KCA 공식 참고문헌으로 단정하지 않고 보조 원천으로만 쓴다.
 
-## Mapping
+### Mapping
 
 | item_id | round | no | criteria_detail | reference_ids | evidence | confidence | notes |
 |---|---|---:|---|---|---|---|---|
@@ -186,7 +186,7 @@ evergreen: false
 | R30-Q17 | 30회 | 17 | 운영체제 보안설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-CIIP-VULN-ASSESSMENT-GUIDE | TMOUT, securetty, passwd/shadow 권한, world-writable, umask, xinetd는 Linux 보안설정 점검 항목이다. | high | 운영체제 취약점 보완 |
 | R30-Q18 | 30회 | 18 | 서비스 보안설정 점검과 보완 | REF-KCA-INFOSEC-PRACTICAL-CRITERIA; REF-SECURE-CODING-GUIDE | SQL Injection은 DB 조회 쿼리 입력값 조작 취약점이다. | high | 시큐어코딩 가이드 SQL 삽입 항목과 직접 연결 |
 
-## Coverage
+### Coverage
 
 | range | mapped_items | high | medium | low |
 |---|---:|---:|---:|---:|
@@ -200,9 +200,31 @@ evergreen: false
 | 30회 | 18 | 16 | 2 | 0 |
 | 합계 | 144 | 140 | 4 | 0 |
 
-## Follow-Up
+### Follow-Up
 - 23~27회는 Naver 블로그 기반으로 회차별 복원 문항을 보강하고 같은 스키마로 확장했다. 28~29회도 Naver 카테고리에서 회차별 분석 글이 확인되었고, 30회는 기존 wiki 복원본 기준이다. 1~28회 thodi-lab/blog-source PDF 편집본은 대조했지만 KCA 공식 원문 문구는 미주장이다.
 - 2026-07-03 1차 보강에서 CVE/NVD/CWE/CVSS/MITRE ATT&CK, OWASP Top 10 Web, OWASP Mobile Top 10 공식 페이지 확인으로 6개 medium 행을 high로 승격했다.
 - 2026-07-03 2차 보강에서 IETF RFC, CWE-444, NIST CSRC glossary/SP, GNU manual, OWASP credential stuffing, 국가법령정보센터 현행 법령 페이지 확인으로 16개 medium 행을 high로 승격했다.
 - 기존 패칭 원천 재검토에서 PIPC 개인정보 안전성 확보조치 기준 안내서의 `랜덤 라운딩` 직접 근거를 확인해 1개 medium 행을 high로 승격했다.
 - 남은 4개 medium 행은 무선랜 세부 표준, Cyber Kill Chain 전용 원천, DB 마스킹 방식명, EAM/IAM 벤더 용어 차이에 대한 직접 공식 원천이 더 필요하므로 보수적으로 유지한다.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/e417d0ceb1633daed63b48ed96d7c912996d1facb338bc245b6fbe420f9ccabc/e4fb014305b0d0032b082355f94cdcd82d2fb01a95814beca087eed3731e6a25/manifest.json`

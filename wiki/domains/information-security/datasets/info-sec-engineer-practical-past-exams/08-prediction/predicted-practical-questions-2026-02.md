@@ -1,36 +1,36 @@
 ---
-title: "정보보안기사 실기 2026년 2회 예상문제"
-tier: llm-synthesis
+title: 정보보안기사 실기 2026년 2회 예상문제
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, predicted-questions]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- predicted-questions
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "../05-analysis/frequency-analysis.md"
-  - "../05-analysis/recurrence-analysis.md"
-  - "../05-analysis/pattern-analysis.md"
-  - "../05-analysis/significance-review.md"
-  - "../05-analysis/session-slot-pattern-analysis.md"
-  - "../07-study/study-strategy-2026-02.md"
-  - "../04-mapping/item-reference-map.md"
-source_count: 7
-provenance: inferred
-summary: "기출 빈도·최근성·출제기준 연결·회차 슬롯 경향을 근거로 작성한 정보보안기사 실기 2026년 2회 예상문제와 채점 키워드."
-evergreen: false
+- raw/sources/clipping/2e4e16a438740d618f950f3407b28c583b69a56ff9720ff7ca2c219ff5ed71bd/bb7d82f4ec3582e2aa98188c397b16847405f36453605945a60e06d6587a5062/manifest.json
+summary: 기출 빈도·최근성·출제기준 연결·회차 슬롯 경향을 근거로 작성한 정보보안기사 실기 2026년 2회 예상문제와 채점 키워드.
 ---
+
+## Overview
+
+
+
+
+
+
+
+
+
 
 # 정보보안기사 실기 2026년 2회 예상문제
 
-## Scope
+### Scope
 - 본 문서는 실제 출제를 보장하지 않는다.
 - 예상 근거는 1~30회 복원본의 반복 개념, 최근 23~30회 출제기준 연결, 2회 슬롯 보조 가중치다.
 - 1~28회 thodi-lab/blog-source PDF 편집본은 대조했지만 KCA 공식 원문 문구는 미주장이므로 예상문제는 공식 문구 재현이 아니라 개념·유형 기반 학습 문제다.
 
-## Short Answer
+### Short Answer
 | no | predicted question | answer key | basis | confidence |
 |---:|---|---|---|---|
 | 1 | 위험분석에서 자산, 위협, 취약점의 관계를 설명하고 위험을 산정할 때 고려하는 요소를 쓰시오. | 자산 가치, 위협 가능성, 취약점, 영향도, 위험도 | 위험관리/위험평가 79건 | high |
@@ -52,7 +52,7 @@ evergreen: false
 | 17 | HIDS와 NIDS의 차이를 쓰시오. | 호스트 로그·파일·프로세스 감시 / 네트워크 패킷·트래픽 감시 | IDS/IPS 반복 | high |
 | 18 | DLP가 보호하는 데이터 상태 3가지를 쓰시오. | data in use, data in motion, data at rest | 최근 DLP 출제 | medium-high |
 
-## Essay / Practical
+### Essay / Practical
 | no | predicted question | scoring points | basis | confidence |
 |---:|---|---|---|---|
 | 19 | Apache에서 디렉터리 리스팅이 가능한 설정을 확인했다. 위험과 대응 설정을 설명하시오. | `Options Indexes` 위험, 파일 목록 노출, `-Indexes` 또는 제거, 접근통제 | 서비스 보안설정 최다 | high |
@@ -68,7 +68,7 @@ evergreen: false
 | 29 | APT 공격을 단계적으로 분석하는 체계를 쓰고, 탐지/대응 관점에서 설명하시오. | Cyber Kill Chain 또는 ATT&CK, 정찰·침투·명령제어·목표달성, 로그/EDR/관제 대응 | Kill Chain medium 주의 | medium |
 | 30 | DB 감사 설정과 감사 로그 외부 저장이 필요한 이유를 설명하시오. | audit 설정, 권한 오남용 추적, 무결성, 관리자 변조 방지, 외부 전송/보관 | DB/감사 최근성 | medium-high |
 
-## Practical Scenario
+### Practical Scenario
 | no | scenario | scoring points | basis | confidence |
 |---:|---|---|---|---|
 | 31 | 웹 로그에 `GET /search?q=' or '1'='1` 형태가 보인다. 공격명, 판단근거, 대응 방안을 쓰시오. | SQL Injection, 항상 참 조건, PreparedStatement, 입력검증, 오류 메시지 제한, WAF | SQL Injection 반복 | high |
@@ -78,7 +78,7 @@ evergreen: false
 | 35 | Oracle DB 감사 로그가 DB 내부에만 저장된다. 문제점과 개선 방안을 쓰시오. | 관리자 변조 가능성, 무결성 저하, 외부 로그 서버, 접근통제, 정기 점검 | DB 감사 최근성 | medium-high |
 | 36 | 모바일 앱에서 특정 화면으로 바로 이동하는 링크가 인증 없이 민감 기능을 호출한다. 관련 기술과 대응을 쓰시오. | deep link, 인증/인가 검증, URL scheme 검증, 민감 기능 재인증 | 모바일 최근 확장 | medium |
 
-## Must-Memorize Answer Keys
+### Must-Memorize Answer Keys
 | topic | keys |
 |---|---|
 | 위험대응 | 수용, 감소, 회피, 전가 |
@@ -91,3 +91,25 @@ evergreen: false
 | HTTP | CR, LF, OPTIONS, Cookie Secure/HttpOnly, Cache-Control |
 | IDS/IPS | HIDS, NIDS, false positive, false negative, Snort rule |
 | DR | mirror, hot, warm, cold, RTO, RPO |
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/2e4e16a438740d618f950f3407b28c583b69a56ff9720ff7ca2c219ff5ed71bd/bb7d82f4ec3582e2aa98188c397b16847405f36453605945a60e06d6587a5062/manifest.json`

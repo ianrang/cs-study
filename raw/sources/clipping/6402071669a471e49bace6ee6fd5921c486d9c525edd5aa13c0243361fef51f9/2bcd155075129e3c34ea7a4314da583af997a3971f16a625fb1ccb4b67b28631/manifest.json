@@ -1,0 +1,15 @@
+{
+  "artifact_digest": "sha256:2bcd155075129e3c34ea7a4314da583af997a3971f16a625fb1ccb4b67b28631",
+  "created_at": "2026-08-24T10:38:12Z",
+  "generator": {
+    "name": "cs-study-capture",
+    "version": "1.0"
+  },
+  "media_type": "text/markdown",
+  "payload": "payload.md",
+  "primary_source": "wiki/domains/information-security/drafts/study/2장 정리.md",
+  "schema_version": "1.0",
+  "size": 85528,
+  "source_id": "6402071669a471e49bace6ee6fd5921c486d9c525edd5aa13c0243361fef51f9",
+  "source_type": "clipping"
+}

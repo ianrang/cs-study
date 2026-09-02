@@ -1,0 +1,125 @@
+@layer tokens {
+  :root {
+    color-scheme: light dark;
+
+    /* Raw values live only in this token source. light-dark() follows the
+       OS preference unless html[data-theme] fixes the chosen scheme. */
+    --font-family-sans: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+    --font-family-code: "SFMono-Regular", Consolas, monospace;
+    --font-size-2xs: 0.75rem;
+    --font-size-xs: 0.8125rem;
+    --font-size-sm: 0.875rem;
+    --font-size-md: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-stat: 1.5rem;
+    --font-size-display: clamp(1.875rem, 4vw, 2.625rem);
+    --font-size-question: clamp(1.25rem, 3vw, 1.75rem);
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 700;
+    --font-weight-bold: 750;
+    --font-weight-strong: 800;
+    --font-weight-black: 850;
+    --line-height-compact: 1.15;
+    --line-height-default: 1.5;
+    --line-height-reading: 1.65;
+    --letter-spacing-eyebrow: 0.09em;
+    --letter-spacing-heading: -0.03em;
+    --letter-spacing-display: -0.045em;
+    --letter-spacing-drag: -0.18em;
+    --space-0: 0;
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-7: 1.75rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-11: 2.625rem;
+    --space-12: 3rem;
+    --space-14: 3.5rem;
+    --space-16: 4rem;
+    --radius-sm: 0.5rem;
+    --radius-md: 0.625rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 0.875rem;
+    --radius-2xl: 1.125rem;
+    --radius-full: 999px;
+    --border-width: 1px;
+    --focus-inner-width: 0.125rem;
+    --focus-outer-width: 0.25rem;
+    --control-height: 2.625rem;
+    --control-height-compact: 2rem;
+    --button-height: 2.375rem;
+    --question-step-size: 2rem;
+    --stat-min-height: 5.375rem;
+    --panel-min-height: 36.25rem;
+    --content-max-width: 77.5rem;
+    --reading-max-width: 43.75rem;
+    --sidebar-width: 16.25rem;
+    --content-gutter: var(--space-10);
+    --app-shell-width: min(var(--content-max-width), calc(100% - (var(--content-gutter) * 2)));
+    --app-shell-padding-top: var(--space-11);
+    --app-shell-padding-bottom: var(--space-14);
+    --question-card-padding: clamp(1.375rem, 5vw, 2.625rem);
+    --textarea-min-height: 8.25rem;
+    --dashboard-column-min: 8.75rem;
+    --mobile-content-max-width: 45rem;
+    --shadow-surface: light-dark(0 0.875rem 2.1875rem rgb(28 45 78 / 9%), 0 0.875rem 2.1875rem rgb(0 0 0 / 28%));
+    --shadow-subtle: light-dark(0 0.3125rem 0.875rem rgb(28 45 78 / 4%), 0 0.3125rem 0.875rem rgb(0 0 0 / 18%));
+    --opacity-dragging: 0.45;
+    --filter-hover-dim: brightness(0.97);
+    --z-index-floating: 10;
+    /* Responsive breakpoints are documented here but must remain in layout.css:
+       53.125rem (two-column controls) and 32.5rem (single-column controls). */
+
+    /* Semantic tokens are the public contract for components and layouts. */
+    --color-text-primary: light-dark(#172033, #f4f7fb);
+    --color-text-secondary: light-dark(#5e6b82, #bdc8dc);
+    --color-text-tertiary: light-dark(#4b5a72, #d6deeb);
+    --color-text-inverse: light-dark(#ffffff, #101827);
+    --color-text-code: light-dark(#e5edf9, #edf3ff);
+    --color-surface-canvas: light-dark(#f7f8fc, #101827);
+    --color-surface-canvas-accent: light-dark(#e7edff, #1f335d);
+    --color-surface-panel: light-dark(#ffffff, #182235);
+    --color-surface-subtle: light-dark(#fbfcff, #202c42);
+    --color-surface-raised: light-dark(#fafbfe, #243149);
+    --color-surface-hover: light-dark(#f1f4fa, #2b3952);
+    --color-surface-field: light-dark(#ffffff, #111b2b);
+    --color-surface-navigator: light-dark(#f4f6fa, #253149);
+    --color-surface-badge: light-dark(#edf0f5, #2a3851);
+    --color-surface-keyword: light-dark(#edf1f8, #29364e);
+    --color-surface-code: light-dark(#111a2a, #0b1220);
+    --color-border-default: light-dark(#dce2ec, #3a4961);
+    --color-border-strong: light-dark(#bcc7d8, #596982);
+    --color-border-subtle: light-dark(#edf0f5, #2d3c55);
+    --color-border-accent: light-dark(#c7d6ff, #6e94e8);
+    --color-accent: light-dark(#2457d6, #91b0ff);
+    --color-accent-strong: light-dark(#183f9f, #c3d3ff);
+    --color-accent-subtle: light-dark(#e9efff, #254b94);
+    --color-focus-inner: light-dark(#ffffff, #101827);
+    --color-focus-outer: light-dark(#173ea5, #dce8ff);
+    --color-status-success: light-dark(#087a4b, #77dfa9);
+    --color-status-success-subtle: light-dark(#e5f7ee, #153d31);
+    --color-status-success-border: light-dark(#a8dec3, #398469);
+    --color-status-danger: light-dark(#b4233b, #ff9cac);
+    --color-status-danger-subtle: light-dark(#fff0f2, #4a2130);
+    --color-status-danger-border: light-dark(#f3bec8, #9c4b61);
+    --color-status-warning: light-dark(#8a5900, #ffd47d);
+    --color-status-warning-subtle: light-dark(#fff6df, #493919);
+    --color-status-warning-border: light-dark(#edc879, #9a7830);
+    --color-status-inferred: light-dark(#5b44a2, #c7b6ff);
+    --color-status-inferred-subtle: light-dark(#f0edff, #32275e);
+    --color-status-past-exam: light-dark(#0b5c92, #8acdf8);
+    --color-status-past-exam-subtle: light-dark(#e6f4ff, #173c58);
+    --color-status-predicted: light-dark(#7437a6, #e1b8ff);
+    --color-status-predicted-subtle: light-dark(#f5ebff, #4b2b65);
+    --gradient-canvas: radial-gradient(circle at top right, var(--color-surface-canvas-accent) var(--space-0), transparent var(--space-12));
+  }
+
+  :root[data-theme="light"] { color-scheme: light; }
+  :root[data-theme="dark"] { color-scheme: dark; }
+}

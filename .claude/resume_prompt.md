@@ -1,35 +1,77 @@
-# cs-study 다음 세션 진입 — 정보보안 실기 문서·wiki-ingest 기반 교차검증 완료
+# cs-study 다음 세션 진입 — 지식 파이프라인 순서 1–12 완료
 
-> 작성: 2026-07-12
-> 직전 세션 작업: 정보보안기사 실기 1~5장·네트워크 질의 문서를 검토하고, raw video → wiki synthesis 기반의 PRD·아키텍처·비즈니스 규칙·domain registry·SemanticWritePlan schema·lint를 교차검증해 enum·roll-up·추적성 경계 충돌을 정정했다.
-> 작업 위치: `/Users/ian/dev/personal/001_cs-study` (`docs/infosec-exam-reorg` 브랜치)
-> 다음 세션 첫 동작 의무: 본 파일과 `docs/wiki-ingest-prd.md`, `docs/wiki-ingest-architecture.md`, `docs/wiki-ingest-business-logic.md`, `docs/wiki-ingest-review.md`, `wiki/domains/information-security/drafts/study/1장 정리.md`~`5장 정리.md`, `wiki/domains/information-security/queries/network-path-functions-and-placement.md`를 먼저 읽고 추측 없이 진행.
-> commit: 본 handoff는 이번 세션 dev-commit 대상에 포함된다. 재개 시 `git log -1 --oneline`으로 최종 SHA를 확인한다.
-
----
-
-## 1. 본 세션 한정 정책
-
-- `cs/`, `development/`, `coding-test/`, `lang/`, `tools/` authored SoT는 수정하지 않는다.
-- 이번 변경은 정보보안 실기 1~5장·네트워크 질의 문서와 raw video → wiki synthesis의 설계·schema·lint 기반 작업에 한정한다.
-- 예상문제는 기출 기반 학습용 예측이며 실제 출제를 보장하지 않는다.
-- 연도·회차 슬롯 패턴은 보조 가중치로만 사용한다. 회차만으로 결정적 예측 규칙을 만들지 않는다.
-- 현재 근거만으로 high 승격하지 않기로 한 medium confidence 항목은 추후 직접 대응 가능한 공식·표준·공공기관·벤더 1차 원천이 생길 때 재개한다.
-- 보조 원천 raw/source는 대량 저장하지 않는다. 핵심 반복 근거 또는 외부 삭제 위험이 확인된 원천만 선별 패칭한다.
-- 문서 물리 디렉터리 분리는 현재 보류한다. same-directory 링크와 `source_paths` 정합을 우선하고, 필요 시 별도 마이그레이션 작업으로 수행한다.
-- worktree에는 사용자/이전 작업으로 보이는 대량 `cs/` 삭제와 별도 dataset·`wiki/index.md` 변경이 섞여 있으므로 커밋 시 아래 allowlist만 선별한다.
-- 이번 마무리의 commit allowlist는 정보보안 `drafts/study/` 1~5장과 네트워크 질의, `wiki/overview.md`, `AGENTS.md`, `_meta/{frontmatter-spec.md,page-type-spec.md,domains.yaml,wiki-ingest-write-plan.schema.json}`, `docs/{prd.md,wiki-ingest-*.md,adr/0003-domain-registry.md}`, `scripts/lint.py`, `requirements-lint.txt`, `tests/{test_lint.py,test_wiki_ingest_schema.py}`, 본 handoff 파일이다. 나머지 dirty worktree는 staging하지 않는다.
-- 정보보안기사 실기 답안은 상위 분류보다 기출의 채점 단위를 우선한다. Slow HTTP Header(Slowloris), Slow HTTP POST(RUDY), Slow HTTP Read를 패킷 단서와 대응별로 구분한다.
-- 법규 수치는 2026-07-18 시험 적용일을 기준으로 하며, 이후 시행 법령·고시는 현행 답안으로 섞지 않는다.
+> 작성: 2026-09-02
+> 직전 작업: P2-T11에서 full vault·설계·코드와 자동화 가능한 5계층 영역을 최종 감사했다.
+> 작업 위치: 현재 cs-study linked worktree (`feat/knowledge-pipeline` 브랜치)
+> 다음 세션 첫 동작 의무: 본 파일, `todo.md`, `reports/P2-T11-verification.md`를 읽고 사용자가 새 범위를 지정하기 전 pipeline 후속 task를 추론해 만들지 않는다.
+> commit: P2-T11 감사 구현은 `0075659`이며 push run `33631360562`·PR run `33631364222`가 성공했다.
 
 ---
 
-## 2. 잔여 task
+## 1. 현재 작업 정책
 
-### 2-1. OFFICIAL-PDF-GATE — 공식 PDF 원문 대조
+- `cs/`, `development/`, `coding-test/`, `lang/`, `tools/` authored SoT는 현재 status 변경 0건이며 baseline 범위 밖이다.
+- P2-T2는 privacy-normalized clipping contract와 persistent 경로 guard, 8개 append-only revision 이행까지 검증했다.
+- terminal journal 3개와 journal-bound candidate 3개(255 files)는 삭제하지 않고 로컬 rollback evidence로 보존하며 commit에서 제외한다.
+- P2-T4 final restage에서 staged ACMR 363개 index/worktree byte mismatch 0과 tracked unstaged 0을 확인했다.
+- active persistent snapshot의 Apple·Windows local-user-home 경로는 P2-T2에서 TDD로 제거·재생성·cascade 검증했다.
+- runtime evidence를 제외한 순서 1–6b snapshot은 P2-T4에서 전체 검증과 사용자 commit 승인을 마쳤다.
+- 순서 7은 P2-T5, 순서 8은 P2-T6, 순서 9는 P2-T7·P2-T8, 순서 10은 P2-T9, 순서 11은 P2-T10, 순서 12는 P2-T11에서 구현·검증·독립 CI까지 닫혔다.
+
+---
+
+## 2. 완료 이력과 외부 trigger
+
+### P2-T2. persistent 절대경로 비식별화
+- 완료: Apple·Windows user-home prefix를 단일 privacy leaf로 정규화하고 active persistent offender 0을 확인했다.
+- 완료: 8개 immutable clipping revision을 append-only로 추가하고 active manifest reference 16개·resolution digest 8개·live target을 정합화했다.
+- 증거: `reports/P2-T2-verification.md`; 전체 154 passed, 11 skipped, active manifest 75/75 검증.
+
+### P2-T3. runtime evidence ignore guard
+- 완료: terminal journal 3개·candidate root 3개/255 files를 보존하고 exact ignore pattern 3개로 격리했다.
+- 완료: runtime path tracked·staged·normal porcelain 각 0, journal digest와 candidate count 불변을 확인했다.
+- 증거: `reports/P2-T3-verification.md`; 전체 155 passed, 11 skipped.
+
+### P2-T4. 순서 1–6b atomic baseline commit
+- 완료: persistent allowlist 385개만 stage하고 index/worktree 일치·전체 검증·별도 사용자 commit 승인을 확인했다.
+- 증거: `reports/P2-T4-verification.md`; root 156 passed, 11 skipped, project contract 27 tests OK, 자동화 가능한 5계층 영역 미시도 0건.
+
+### P2-T5. 순서 7 leaf command TDD
+- 완료: synthesize·promote·collection·move command, strict PageWritePlan, shared writer lock, validate-before-write, atomic rollback·exact replay를 TDD로 구현·검증했다.
+- 증거: `reports/P2-T5-verification.md`; root 212 passed, 11 skipped, live structural findings 0, lint exit 0.
+- P2-T6~P2-T11의 세부 작업·직접 선행·완료 증거의 canonical은 `todo.md`다.
+
+### P2-T6. 순서 8 deterministic materializer
+- 완료: canonical page·registry·schema에서 index·overview·PageType template·단일 Obsidian Base의 exact 11-file generated view를 결정적으로 생성한다.
+- 증거: `reports/P2-T6-verification.md`; 전체 270 passed, 11 skipped, active coverage 75/75, two-run tree hash 동일, Obsidian Base open·save bytes 불변, spec·standards·grounding finding 0.
+- 완료 gate: 별도 사용자 commit 승인을 거쳐 P2-T6 독립 commit `e4e2d5b035401fe74b0f69721f4038a4e2bff2c8`로 확정됐다.
+
+### P2-T7. 순서 9 legacy 제거 no-write 검증
+- 완료: taxonomy hard rule 이관, legacy surface·전환 runtime 제거, lifecycle schema single owner, generated 재기준화, 대표 page-apply 호출 경계를 exact candidate에서 검증했다.
+- 결정: 회수되지 않은 순서 6 exact plan·backup bytes는 historical limitation으로 기록하고 현재 runtime·P2-T7 완료 입력에서 제외한다.
+- 증거: `reports/P2-T7-verification.md`, `reports/P2-T7-removal-plan.json`, exact patch SHA-256·target Git tree OID.
+
+### P2-T8. 순서 9 target tree 통합
+- 완료: exact patch의 pre-closure tree와 38-operation unaffected projection을 보존하고 작업 상태·검증 증거를 비순환 closure overlay로 결속했다.
+- 증거: `reports/P2-T8-verification.md`, `reports/P2-T7-removal-plan.json`, exact patch SHA-256·pre-closure tree OID.
+- 경계: raw 16파일과 terminal evidence 6개 root는 보존·비추적 상태이며 순서 10–12는 변경하지 않았다.
+
+### P2-T9. 순서 10 독립 CI 연결
+- 완료: 두 저장소의 local hook과 repository-local `verify` workflow를 연결하고 canonical CI profile을 단일 설계 SoT로 고정했다.
+- 완료: extractor GitHub Actions push·PR run과 cs-study push run이 성공했고, 두 main branch가 실제 `verify` check와 GitHub Actions app ID `15368`을 required status로 강제한다.
+- 증거: `reports/P2-T9-verification.md`; extractor 194 passed·build 성공, cs-study 403 passed·full check findings 0·materialize/lint 성공.
+
+### P2-T10. 순서 11 두 YouTube source 재처리
+- 완료: 지정된 두 transcript를 content-addressed video bundle 2개로 보존하고, C1–C12 직접 근거를 검토한 하나의 active concept page로 통합했다.
+- 완료: 승인된 promote plan 적용 뒤 generated 11 files를 재물질화했고 동일 plan replay `unchanged`, 전체 428 passed, canonical findings 0을 확인했다.
+- 증거: `reports/P2-T10-verification.md`; candidate `f9d33e2ce2a79b1098767036b2aba5bf164c7d5219dd2c06929e6a7a3a1b36ef`, plan `a1e2dca4513533d8460c4ec6e30eca8cd0189851d93970b1b3da257f557b8c9f`.
+- 구현 evidence: commit `cefc60a`; origin push·PR `verify` run `33624656646`, `33624661153` success.
+- closure evidence: commit `c60446c`; origin push·PR `verify` run `33625135719`, `33625140180` success.
+
+### 2-1. OFFICIAL-PRIMARY-SOURCE-GATE — KCA 공식 원문 대조
 - 근거: 회차 파일 공통 note와 `subject-type-cross-verify-report.md`의 official PDF scope limit.
-- 진입 전 확인: 현재 공식 PDF는 비밀번호를 알 수 없어 대조하지 않았다.
-- 작업 범위: 비밀번호 또는 독립 원천 확보 시 1~28회 원문 문구를 최종 대조한다.
+- 진입 전 확인: 사용자 제공 편집본 PDF 4개는 해제·대조했지만 KCA 공식 원문은 확보하지 못했다.
+- 작업 범위: KCA 공식 원문 또는 독립 1차 원천 확보 시 1~28회 문구를 최종 대조한다.
 
 ### 2-2. REMAINING-MEDIUM-REFS — 남은 4개 medium confidence 문항 보조 원천 보강
 - 근거: `item-reference-map.md` coverage가 144개 중 high 140개, medium 4개로 닫힌다.
@@ -51,19 +93,24 @@
 - 진입 전 확인: 현재는 same-directory 링크와 `source_paths` 정합 때문에 보류한다.
 - 작업 범위: 실제 디렉터리 분리가 필요해지면 링크·frontmatter·인덱스 마이그레이션을 별도 작업으로 수행한다.
 
-### 2-6. WIKI-INGEST-MVP — raw video → wiki 실행기 구현
-- 근거: `docs/wiki-ingest-review.md` §8 구현 전 체크리스트.
-- 진입 전 확인: domain registry, strict SemanticWritePlan schema, claim-table lint와 설계 교차검증까지만 완료됐다.
-- 작업 범위: `scripts/wiki_ingest.py` plan-only 기본, `tests/test_wiki_ingest.py` fixture, 전역 유일성·active override·apply 검증을 구현한다.
-
-### 2-7. PAGE-TYPE-MIGRATION — 복합 dataset/lab 표준 섹션 정합화
-- 근거: `_meta/page-type-spec.md`의 승격 content 표준 섹션과 현재 복합 dataset/lab 89개 문서 구조가 다르다.
-- 진입 전 확인: 이번 PR에서는 `wiki/domains/<domain>/drafts/`를 승격 전 초안으로 명시해 study draft의 섹션 강제를 제외했다.
-- 작업 범위: dataset/lab 복합 산출물의 page type 모델을 별도 결정한 뒤 표준 섹션 마이그레이션과 lint soft-warn 활성화를 함께 수행한다.
+### 2-6. WIKI-INGEST-PIPELINE — 순서 1–12 완료
+- 근거: `docs/wiki-ingest-architecture.md` §13, `docs/wiki-ingest-review.md` §9.
+- 완료: 순서 1–12 engine·canonical cutover·privacy/runtime guard·legacy 제거·독립 CI·두 source 운영 처리·최종 감사가 완료됐다.
+- 증거: `reports/P2-T11-verification.md`; P2-T11 commit `0075659`, push·PR `verify` run `33631360562`·`33631364222` success.
 
 ---
 
-## 3. 본 세션 변경 핵심
+## 3. 현재 상태와 과거 변경 이력
+
+### 3-0. 2026-08-25 commit-boundary preflight
+
+- P2-T1 SoT 적용 전 historical Git status baseline은 ignored 39개 제외 626 records, 분류 626/626이었다.
+- P2-T3 이후 P2-T4 restage 전 normal porcelain-v1 logical record는 391개였으며 terminal journal 3개·candidate root 3개/255 files는 ignore됐다.
+- P2-T4 restage 전 index는 rename 77개이며 destination 52개의 index bytes가 worktree와 달라 commit을 금지한 상태였다.
+- active persistent local-user-home offender는 0이고, active reference가 없는 기존 clipping revision 8개/34 occurrences는 P2-T4 denylist다.
+- 이 preflight 시점에는 순서 7–12가 미구현이었고 다음 진입은 별도 승인 gate인 P2-T4였다.
+
+아래 3-1~3-5는 2026-07-12 handoff의 과거 변경 이력이다.
 
 ### 3-1. 신규 자산
 
@@ -85,11 +132,11 @@
 
 | 파일 | 변경 의미 |
 |---|---|
-| `drafts/study/1장 정리.md` | 시스템 보안 기출형 설정·로그·Windows 구성요소·답안 체크리스트 확장; IIS 경로와 P1/P2 분류 정합화 |
-| `drafts/study/2장 정리.md` | 라우팅·NAT·DoS 계열 답안 확장; Slow HTTP Header/POST/Read를 패킷 단서·영향·대응별로 분리 |
-| `drafts/study/3장 정리.md` | 응용 보안 설명 보강 및 IIS/HTTPERR 로그 경로 기준 유지 |
-| `drafts/study/4장 정리.md` | 암호·인증·PKI 학습 본문과 답안 템플릿 확장 |
-| `drafts/study/5장 정리.md` | 관리·위험·사고·인증·개인정보보호 법규를 2026-07-18 시험 적용일 기준으로 확장 |
+| `wiki/domains/information-security/drafts/study/info-sec-engineer-system-security-study.md` | 시스템 보안 기출형 설정·로그·Windows 구성요소·답안 체크리스트 확장; IIS 경로와 P1/P2 분류 정합화 |
+| `wiki/domains/information-security/drafts/study/info-sec-engineer-network-security-study.md` | 라우팅·NAT·DoS 계열 답안 확장; Slow HTTP Header/POST/Read를 패킷 단서·영향·대응별로 분리 |
+| `wiki/domains/information-security/drafts/study/info-sec-engineer-application-security-study.md` | 응용 보안 설명 보강 및 IIS/HTTPERR 로그 경로 기준 유지 |
+| `wiki/domains/information-security/drafts/study/info-sec-engineer-security-general-study.md` | 암호·인증·PKI 학습 본문과 답안 템플릿 확장 |
+| `wiki/domains/information-security/drafts/study/info-sec-engineer-management-and-law-study.md` | 관리·위험·사고·인증·개인정보보호 법규를 2026-07-18 시험 적용일 기준으로 확장 |
 | `AGENTS.md` | domain registry·SemanticWritePlan SoT와 video ingest MVP lifecycle 반영 |
 | `_meta/frontmatter-spec.md` | wiki 15필드, source-summary claim table·derived roll-up 규칙 정합화 |
 | `scripts/lint.py` | system/template scope, link resolver, claim table와 안전한 count validation 구현 |
@@ -125,34 +172,52 @@
 | 1. 명제 일관성 | OK | 초기 design-cross finding을 원인별 재분류·수정 후 독립 `logic-reverify` → `findings=0`, `scanned=7`; coverage 21개 → `findings=0`; grounding 301개 → `findings=0` |
 | 2. 정적 분석 | OK | 전체 `scripts/lint.py` → `HIGH=0, MEDIUM=0`; `git diff --check`; `check-ai-contract-leak.sh --all` 통과 |
 | 3. 단위 | OK | `test_lint.py` 17/17, `test_wiki_ingest_schema.py` 8/8 |
-| 4. mock 통합 | OK | 기존 `test_ingest.py` 14/14, `test_pipeline.py` 8/8; 전체 47/47 |
+| 4. mock 통합 | historical | 2026-07-12 기록값은 당시 importer 14/14·pipeline 8/8·전체 47/47이며, 두 legacy test 파일은 현재 전환에서 삭제됐다 |
 | 5a. 자동화 영역 | OK | schema·lint·문서 명제·요구사항 ID·BR/VR 참조·정보보안 공식 근거를 결정적으로 검증 |
 | 5b. 사용자 필수 영역 | N/A | UI/디바이스/주관 판단 없음 |
 
 외부 `run-parallel.sh` 재검은 최초 finding 산출 후 주간 모델 한도 HTTP 429로 실행 불가했다. 이를 성공으로 간주하지 않고 동일 범위를 현재 세션의 독립 논리·coverage·grounding 검사자 3개로 대체해 최종 0건을 확인했다.
 
-### 3-6. dev-todo-update 결과
+### 3-6. dev-todo-update 현재 결과
 
-- `.work-management.json`, `todo.md`, `.manage/todo/todo.md`가 없어 harness todo SoT는 없음.
-- 이번 세션의 미해결 review finding은 없으며 todo 파일을 새로 만들지 않았다.
+- local mode canonical은 `todo.md`이며 `.work-management.json`과 `.manage/todo/todo.md`는 없다.
+- `지속 가능한 지식 파이프라인` 그룹의 P2-T1~P2-T11은 완료 이력·직접 선행·완료 증거를 소유한다.
+
+### 3-7. 2026-08-28 P2-T6 deterministic materializer
+
+- schema·domain registry·canonical page에서 exact 11-file generated manifest를 만들고 shared lock·atomic leaf·ownership-bound replay로 적용한다.
+- Base ownership은 Obsidian이 보존하는 `formulas._generated_by`에 두고 alias-free·bare property order로 open/save byte round-trip을 확인했다.
+- requirement traceability는 PRD·architecture·manifest의 header/body/top-level/entry/ID/semantic-empty 경계를 11개 계약으로 검증한다.
+- 전체 270 passed·11 skipped, canonical findings 0, lint HIGH 0·MEDIUM 0, materialize drift 0, spec·standards·grounding finding 0이다.
+- 사용자 소유 raw untracked 16개는 수정·stage·삭제·ignore하지 않았고 구현 전 지문과 같다.
+- P2-T6 독립 commit `e4e2d5b035401fe74b0f69721f4038a4e2bff2c8`로 확정됐다.
+
+### 3-8. 2026-09-02 P2-T9 독립 CI
+
+- canonical CI profile은 `docs/wiki-ingest-architecture.md` §10이 단독 소유하고 BR-CHK-011이 참조한다.
+- extractor 194개와 cs-study 403개 전체 suite, full check·materialize·lint, 실제 GitHub Actions 3건을 실행했다.
+- 두 main protection은 `strict=true`, `verify/app_id=15368`, `enforce_admins=true`로 API 재조회가 일치한다.
+- 1~4계층과 자동화 가능한 5계층 영역을 모두 시도했고 P2-T9 사용자 필수 영역은 없다.
 
 ---
 
-## 4. 진입 전 필수 read
+## 4. 보존된 정보보안 작업 read
+
+Pipeline 진입 read는 문서 상단이 단독 소유한다. 아래 표는 정보보안 학습 문서 작업을 재개할 때의 보존된 목록이다.
 
 | 우선순위 | 파일 | 역할 |
 |---:|---|---|
-| 1 | `wiki/domains/information-security/drafts/study/1장 정리.md` | 시스템 보안 통합 학습 문서 |
-| 2 | `wiki/domains/information-security/drafts/study/2장 정리.md` | 네트워크 보안 및 Slow HTTP·DoS 답안 기준 |
-| 3 | `wiki/domains/information-security/drafts/study/3장 정리.md` | 응용 보안 통합 학습 문서 |
-| 4 | `wiki/domains/information-security/drafts/study/4장 정리.md` | 암호·인증·PKI 통합 학습 문서 |
-| 5 | `wiki/domains/information-security/drafts/study/5장 정리.md` | 관리·법규 및 2026 시험일 현행 기준 |
+| 1 | `wiki/domains/information-security/drafts/study/info-sec-engineer-system-security-study.md` | 시스템 보안 통합 학습 문서 |
+| 2 | `wiki/domains/information-security/drafts/study/info-sec-engineer-network-security-study.md` | 네트워크 보안 및 Slow HTTP·DoS 답안 기준 |
+| 3 | `wiki/domains/information-security/drafts/study/info-sec-engineer-application-security-study.md` | 응용 보안 통합 학습 문서 |
+| 4 | `wiki/domains/information-security/drafts/study/info-sec-engineer-security-general-study.md` | 암호·인증·PKI 통합 학습 문서 |
+| 5 | `wiki/domains/information-security/drafts/study/info-sec-engineer-management-and-law-study.md` | 관리·법규 및 2026 시험일 현행 기준 |
 | 6 | `wiki/domains/information-security/queries/network-path-functions-and-placement.md` | 네트워크 장비 기능·배치·패킷 흐름 질의 정리 |
 | 7 | `wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/00-management/analysis-roadmap-todo.md` | 후속 작업과 리스크 상태 |
 | 8 | `docs/wiki-ingest-prd.md` | 2차 wiki synthesis 요구사항 SoT |
 | 9 | `docs/wiki-ingest-architecture.md` | 구조·모델·추적성 설계 |
 | 10 | `docs/wiki-ingest-business-logic.md` | BR/VR와 상태 전이 SoT |
-| 11 | `docs/wiki-ingest-review.md` | 구현 전 완료 기반과 잔여 구현 목록 |
+| 11 | `docs/wiki-ingest-review.md` | 구현 이력·해소 상태·최종 판정 |
 
 ---
 
@@ -170,9 +235,9 @@
 - 발생 사례: 문서 관리 스캐폴딩 중 디렉터리 분리 여부를 검토했다.
 - 회피 방법: 현재는 same-directory 링크와 `source_paths` 정합을 유지한다. 이동은 별도 마이그레이션으로만 수행한다.
 
-### 5-4. 무관한 dirty worktree
-- 발생 사례: 세션 시작 전부터 대량 `cs/` 삭제, `_meta`, `docs`, `scripts`, `tests`, `wiki/index.md` 변경이 존재했다.
-- 회피 방법: 이번 세션의 명시된 allowlist만 staging하고, authored `cs/` 삭제·별도 dataset·`wiki/index.md`·digital-forensics·DS_Store 변경은 절대 함께 커밋하지 않는다.
+### 5-4. 대량 dirty worktree 임의 분할 금지
+- 발생 사례: 626 records가 pipeline·canonical migration·project relocation·task handoff·runtime evidence에 결속돼 있고 authored SoT 5개 영역의 변경은 0건이다.
+- 회피 방법: P2-T2·P2-T3 이후 inventory를 다시 만들고 persistent snapshot의 중간 tree 검증 근거가 없으면 기능군별로 소급 분할하지 않는다.
 
 ### 5-5. 장비와 네트워크 기능의 일대일 대응 금지
 - 발생 사례: 라우터와 NAT 장비가 반드시 하나인지, 포트 매핑을 어느 장비에서 수행하는지 혼동했다.
@@ -188,7 +253,7 @@
 
 ### 5-8. 요구사항 coverage finding을 구현 누락으로 단정 금지
 - 발생 사례: requirements checker가 접두사형 `docs/wiki-ingest-business-logic.md`를 선언 범위대로 읽지 않아 실제 존재하는 FR-5 매핑까지 uncovered로 보고했다.
-- 회피 방법: exact ID grep 결과와 의미 매핑을 분리해 검증한다. 현재 canonical traceability는 `docs/wiki-ingest-architecture.md` §12이다.
+- 회피 방법: exact ID grep 결과와 의미 매핑을 분리해 검증한다. 현재 canonical traceability는 `docs/wiki-ingest-architecture.md` §14이다.
 
 ### 5-9. Candidate와 roll-up 경계 재확장 금지
 - 발생 사례: generic page type 6종과 중복되는 `new` 상태가 MVP schema에 들어가고, 핵심 claim 0개·비핵심 rejected row의 roll-up이 모호했다.
@@ -198,14 +263,21 @@
 - 발생 사례: system page 링크 검사를 통째로 제외하고 verified evidence를 문자열 패턴만으로 허용해 broken link·부재 파일·path traversal이 통과했다.
 - 회피 방법: system page는 content frontmatter만 면제하고 내부 link는 검사한다. verified evidence는 resolve 후 repo 내부 허용 raw root의 실제 Markdown 파일인지 확인한다.
 
+### 5-11. staged rename-only commit 금지
+- 발생 당시 77개 rename 중 52개 destination의 후속 수정이 index에 없어 중간 상태였다. P2-T4 final allowlist restage로 mismatch 0을 확인하기 전까지 commit하지 않았다.
+
+### 5-12. immutable clipping 제자리 수정 금지
+- P2-T2는 payload를 덮어쓰지 않고 새 content digest revision을 만든 뒤 manifest reference와 target digest를 함께 cascade한다.
+
+### 5-13. terminal rollback evidence 삭제·commit 금지
+- journal 3개와 candidate 255 files는 복구 증거로 보존하되 P2-T3 ignore guard로 stage를 차단한다.
+
 ---
 
 ## 6. 본 세션에 미진입한 안건
 
-- 공식 PDF 비밀번호 확보 시 1~28회 원문 문구 최종 대조.
+- KCA 공식 원문 또는 독립 1차 원천 확보 시 1~28회 문구 최종 대조.
 - 예상문제 풀이 결과를 오답표로 회수해 학습 전략과 예상문제를 보정.
 - 남은 4개 medium confidence 문항의 전용 공식 원천 보강 또는 medium 유지 결정.
 - 보조 원천 raw/source 선별 패칭 여부 결정.
 - 문서 물리 디렉터리 분리가 필요해질 경우 별도 마이그레이션 수행.
-- 이번 dev-finish allowlist 밖의 기존 dirty worktree는 검토·수정·커밋하지 않았으므로 별도 작업에서 소유권과 상태를 확인한다.
-- `scripts/wiki_ingest.py`와 `tests/test_wiki_ingest.py` 구현은 아직 시작하지 않았다. 현재 완료 범위는 설계·registry·strict schema·lint 기반이며, 구현은 `docs/wiki-ingest-review.md` §8 체크리스트에서 재개한다.

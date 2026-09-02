@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "video": {
+    "url": "https://www.youtube.com/watch?v=fixture-video",
+    "id": "fixture-video",
+    "title": "Contract fixture",
+    "channel": "Fixture channel",
+    "upload_date": "2026-08-21",
+    "duration_seconds": 2,
+    "language": "ko"
+  },
+  "extraction": {
+    "method": "manual",
+    "language": "ko",
+    "model": null,
+    "engine": null,
+    "extracted_at": "2026-08-21T00:00:00+00:00"
+  },
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 2.0,
+      "text": "계약 fixture 본문"
+    }
+  ],
+  "full_text": "계약 fixture 본문"
+}

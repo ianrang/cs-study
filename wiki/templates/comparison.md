@@ -1,51 +1,35 @@
 ---
-title: ""
-tier: llm-synthesis
+title: ''
 page_type: comparison
-domain: ""
-domain_confidence: high
-shared_scope: domain
 tags: []
-status: active
-date_created: ""
-date_updated: ""
+date_created: ''
+date_updated: ''
 source_paths: []
-source_count: 0
-provenance: extracted
-summary: ""
+summary: ''
+aliases: []
 ---
-
-[1-2 문장 summary — 무엇을 비교하는가]
+<!-- generated-by: cs-study-materializer/1.0; schema-sha256: fec09cc5b30e4966c142c1596c493b8c1d0d1e59313ac276cb981cec04142637 -->
 
 ## Comparison Table
 
-| 항목 | A | B | C |
-|---|---|---|---|
-| 정의 | ... | ... | ... |
-| 메커니즘 | ... | ... | ... |
-| 비용 | ... | ... | ... |
-| 적용 조건 | ... | ... | ... |
 
 ## Trade-offs
 
-### A
-- 장점: ...
-- 단점: ...
-
-### B
-- 장점: ...
-- 단점: ...
 
 ## When to Use
 
-- A: ...
-- B: ...
-- C: ...
 
 ## Open Questions
 
-- [비교 한계·미해결 영역]
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
 
 ## Sources
-
-- [[source path]] ^[extracted] — 1-line context

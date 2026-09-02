@@ -1,0 +1,751 @@
+{
+  "version": 1,
+  "packId": "governance-incident-forensics",
+  "questions": [
+    {
+      "id": "information-protection-objectives-01",
+      "curriculumId": "information-protection-objectives",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "정보보호 3요소",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "인가된 주체만 정보에 접근하게 하는 것은 (A), 정보가 허가 없이 변경·파괴되지 않게 하는 것은 (B), 필요할 때 정보와 서비스를 사용할 수 있게 하는 것은 (C)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          { "id": "A", "label": "접근 제한 속성", "accepted": ["기밀성", "confidentiality"] },
+          { "id": "B", "label": "비인가 변경 방지 속성", "accepted": ["무결성", "integrity"] },
+          { "id": "C", "label": "필요 시 사용 가능 속성", "accepted": ["가용성", "availability"] }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "CIA는 유출 방지(기밀성), 위·변조 방지(무결성), 서비스 지속 가능(가용성)을 각각 구분합니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2013-02-practical-02.md",
+          "line": 37,
+          "excerpt": "정보보안 3요소의 빈칸을 채우시오.",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 118,
+          "excerpt": "가용성(Availability) | 필요할 때 정보·서비스 사용 가능",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["governance", "cia", "recall"]
+    },
+    {
+      "id": "information-protection-objectives-02",
+      "curriculumId": "information-protection-objectives",
+      "stage": "cloze",
+      "prerequisites": ["information-protection-objectives-01"],
+      "title": "확장 정보보호 속성 구분",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "주체나 메시지의 출처가 주장과 일치함을 확인하는 속성은 (A), 행위를 특정 주체까지 추적하는 속성은 (B), 송수신·행위 사실을 사후에 부인하기 어렵게 하는 속성은 (C)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          { "id": "A", "label": "출처 일치 속성", "accepted": ["인증성", "authentication"] },
+          { "id": "B", "label": "행위 추적 속성", "accepted": ["책임추적성", "책임 추적성", "accountability"] },
+          { "id": "C", "label": "사후 부인 방지 속성", "accepted": ["부인방지", "부인 방지", "non-repudiation"] }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "인증성은 출처 확인, 책임추적성은 행위자 추적, 부인방지는 행위 사실의 사후 부인을 막는 속성입니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 119,
+          "excerpt": "인증성 | 주체·메시지 출처가 주장과 일치",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 120,
+          "excerpt": "책임추적성 | 행위를 특정 주체까지 추적",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 121,
+          "excerpt": "부인방지 | 송수신·행위 사실의 사후 부인을 어렵게 함",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["governance", "authentication", "accountability", "nonrepudiation"]
+    },
+    {
+      "id": "security-governance-02",
+      "curriculumId": "security-governance",
+      "stage": "order",
+      "prerequisites": ["security-governance-01"],
+      "title": "PDCA 순환",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "정보보호 관리체계의 지속개선 순환을 올바른 순서로 배열하세요."
+        }
+      ],
+      "answer": {
+        "type": "order",
+        "items": [
+          { "id": "plan", "label": "Plan(계획)" },
+          { "id": "do", "label": "Do(실행)" },
+          { "id": "check", "label": "Check(점검)" },
+          { "id": "act", "label": "Act(개선)" }
+        ],
+        "expected": ["plan", "do", "check", "act"]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "Plan에서 범위·목표·위험과 대책을 계획하고, Do에서 운영하며, Check에서 점검·감사하고, Act에서 부적합을 시정하여 다음 계획에 반영합니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+          "line": 37,
+          "excerpt": "계획단계(Plan) B : 실행단계(Do) C : 점검단계(Check)",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 132,
+          "excerpt": "Act | 부적합 원인 시정, 지속 개선과 다음 계획 반영",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["governance", "pdca", "order"]
+    },
+    {
+      "id": "security-governance-03",
+      "curriculumId": "security-governance",
+      "stage": "essay",
+      "prerequisites": ["security-governance-02"],
+      "title": "CISO 역할 4가지",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "정보보호 최고책임자(CISO)의 역할과 책임을 네 가지로 서술하세요. 관리체계, 위험, 교육·훈련, 법령상 조치를 각각 구분합니다."
+        }
+      ],
+      "answer": {
+        "type": "essay",
+        "modelAnswer": [
+          "정보보호 관리체계를 수립·시행하고 지속적으로 개선한다.",
+          "정보보호 위험을 식별·평가하고 필요한 보호대책을 마련·이행한다.",
+          "임직원 정보보호 교육과 모의훈련의 계획을 수립하고 시행한다.",
+          "정보통신망법 등 관계 법령에 따라 정보보호에 필요한 조치를 이행·관리한다."
+        ],
+        "keywordGroups": [
+          { "label": "관리체계", "terms": ["관리체계", "수립", "시행", "개선"] },
+          { "label": "위험과 대책", "terms": ["위험", "식별", "평가", "대책"] },
+          { "label": "교육·훈련", "terms": ["교육", "모의훈련", "훈련", "계획"] },
+          { "label": "법령상 조치", "terms": ["법령", "관계 법령", "필요한 조치", "이행"] }
+        ],
+        "deductionRisks": [
+          "CISO와 CPO의 책임 범위를 혼동하지 않는다.",
+          "사고대응만 쓰고 관리체계·위험관리·교육훈련을 빠뜨리지 않는다."
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "기출형 CISO 답안은 ‘관리체계 → 위험·대책 → 교육·모의훈련 → 법령상 조치’의 네 묶음으로 쓰면 누락을 줄일 수 있습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+          "line": 43,
+          "excerpt": "정보보호 최고책임자(CISO; Chief Information Security Officer)의 역할 및 책임(R&R) 4가지를 서술하시오.",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 138,
+          "excerpt": "임직원 교육, 인식제고, 사고대응 훈련·모의훈련을 실시한다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["governance", "ciso", "essay", "past-pattern"]
+    },
+    {
+      "id": "security-governance-01",
+      "curriculumId": "security-governance",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "방침에서 실행계획까지",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "정보보호 목표·범위·책임을 문서화한 것은 (A)이고, 이를 토대로 예산·일정을 포함해 수립하는 것은 (B)입니다. (B)는 (C)이 승인하고 (D)가 추진상황을 관리합니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          { "id": "A", "label": "상위 방침", "accepted": ["정보보호 정책", "정보보호 방침"] },
+          { "id": "B", "label": "연간 실행 문서", "accepted": ["정보보호 실행계획", "정보보호 실행 계획"] },
+          { "id": "C", "label": "승인 주체", "accepted": ["최고경영층", "최고경영진"] },
+          { "id": "D", "label": "추진 관리 책임자", "accepted": ["CISO", "정보보호 최고책임자", "정보보호최고책임자"] }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "정책은 방향과 원칙이고, 실행계획은 예산·일정이 포함된 당해 연도 이행 계획입니다. 승인과 추진 관리를 분리해 씁니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2024-04-practical-27.md",
+          "line": 46,
+          "excerpt": "정보보호 목표, 범위, 책임 등을 포함한 정보보호 방침을 수립한다.",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 156,
+          "excerpt": "최고경영층이 실행계획을 승인하고 CISO가 추진상황을 매 반기 점검한다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["governance", "policy", "execution-plan", "ciso"]
+    },
+    {
+      "id": "isms-certification-01",
+      "curriculumId": "isms-certification",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "ISMS-P 인증기준 3영역",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "ISMS-P의 세 인증기준 영역은 (A), (B), (C)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          { "id": "A", "label": "관리 영역", "accepted": ["관리체계 수립 및 운영"] },
+          { "id": "B", "label": "보호조치 영역", "accepted": ["보호대책 요구사항"] },
+          { "id": "C", "label": "개인정보 영역", "accepted": ["개인정보 처리 단계별 요구사항"] }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "ISMS는 1·2영역, ISMS-P는 1·2·3영역을 적용합니다. 과거 기출의 항목 수와 현재 기준 수는 분리해서 봅니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2023-02-practical-23.md",
+          "line": 36,
+          "excerpt": "관리체계 수립 및 운영, 보호대책 요구사항, 개인정보 처리 단계별 요구사항",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 477,
+          "excerpt": "영역 1+2+3을 적용한다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["governance", "isms", "isms-p", "certification"]
+    },
+    {
+      "id": "isms-certification-02",
+      "curriculumId": "isms-certification",
+      "stage": "practical",
+      "prerequisites": ["isms-certification-01"],
+      "title": "현행 ISMS-P 항목 수",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "현행 ISMS-P에서 관리체계 수립 및 운영, 보호대책 요구사항, 개인정보 처리 단계별 요구사항의 인증기준 수와 ISMS-P 합계를 순서대로 쓰세요."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          { "id": "A", "label": "관리체계 수", "accepted": ["16", "16개"] },
+          { "id": "B", "label": "보호대책 수", "accepted": ["64", "64개"] },
+          { "id": "C", "label": "개인정보 처리 수", "accepted": ["21", "21개"] },
+          { "id": "D", "label": "ISMS-P 합계", "accepted": ["101", "101개"] }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "현행 학습 기준은 16+64+21=101개이며, ISMS는 앞의 두 영역인 80개입니다. 과거 102개 표기를 현재 문제에 그대로 적용하지 않습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 485,
+          "excerpt": "ISMS-P 합계** | **21** | **101** | **16+64+21**",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 487,
+          "excerpt": "ISMS는 1+2영역인 80개, ISMS-P는 101개다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["governance", "isms", "isms-p", "current-standard"]
+    },
+    {
+      "id": "incident-response-01",
+      "curriculumId": "incident-response",
+      "stage": "order",
+      "prerequisites": [],
+      "title": "국내 침해사고 대응 7단계",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "학습용 국내 침해사고 대응 단계를 올바른 순서로 배열하세요."
+        }
+      ],
+      "answer": {
+        "type": "order",
+        "items": [
+          { "id": "prepare", "label": "사고 전 준비" },
+          { "id": "detect", "label": "사고 탐지" },
+          { "id": "initial", "label": "초기 대응" },
+          { "id": "strategy", "label": "대응 전략 체계화" },
+          { "id": "investigate", "label": "사고 조사" },
+          { "id": "report", "label": "보고서 작성" },
+          { "id": "recover", "label": "복구 및 재발방지" }
+        ],
+        "expected": ["prepare", "detect", "initial", "strategy", "investigate", "report", "recover"]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "기출 복원에는 마지막 단계를 ‘해결’로 표기한 사례가 있으나, 학습 답안은 복구와 재발방지 활동을 드러내도록 ‘복구 및 재발방지’로 씁니다. 실제 보기에서 ‘해결’이 주어지면 그 표현을 따릅니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2021-01-practical-17.md",
+          "line": 37,
+          "excerpt": "사고 전 준비과정 > 사고 탐지 > (A) > 대응 전략 체계화 > 사고 조사 > 보고서 작성 > 해결",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 374,
+          "excerpt": "→ 사고 조사 → 보고서 작성 → 복구 및 재발방지",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["incident-response", "order", "recovery", "past-pattern"]
+    },
+    {
+      "id": "incident-response-02",
+      "curriculumId": "incident-response",
+      "stage": "cloze",
+      "prerequisites": ["incident-response-01"],
+      "title": "초기 대응과 마지막 단계",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "사고 탐지 뒤 증거 보존, 대응팀 소집·통지, 임시 조치를 하는 단계는 (A)입니다. 사고 조사와 보고서 작성 뒤 검증된 상태로 정상화하고 같은 사고를 막는 단계는 (B)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          { "id": "A", "label": "탐지 직후 단계", "accepted": ["초기 대응"] },
+          { "id": "B", "label": "마지막 단계", "accepted": ["복구 및 재발방지", "복구 및 재발 방지"] }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "초기 대응은 확산 억제와 증거보존을 시작하는 단계이고, 마지막 단계는 단순 복구에서 끝나지 않고 통제·정책·훈련 개선까지 연결합니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 381,
+          "excerpt": "초기 대응 | 증거 보존, 사고대응팀 소집·관련 부서 통지, 임시 조치",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 385,
+          "excerpt": "복구 및 재발방지 | 검증된 백업·정상 이미지로 복구하고",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["incident-response", "initial-response", "recovery"]
+    },
+    {
+      "id": "incident-response-03",
+      "curriculumId": "incident-response",
+      "stage": "recall",
+      "prerequisites": ["incident-response-01"],
+      "title": "Cyber Kill Chain의 관점",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "Cyber Kill Chain은 공격자와 방어자 중 어느 관점에서 공격 진행을 설명하나요?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "관점",
+        "accepted": ["공격자", "공격자 관점", "공격자 관점이다"]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "침해사고 대응은 방어자가 사고를 처리하는 절차이고, Cyber Kill Chain은 공격자가 목표 달성까지 진행하는 생명주기입니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 412,
+          "excerpt": "공격자가 목표를 달성하기까지의 진행을 시간 순서로 설명한다.",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 428,
+          "excerpt": "사고대응 절차는 조직이 사고를 처리하는 방어자 관점이고, Kill Chain은 공격 진행을 보는 공격자 생명주기 관점이다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["incident-response", "cyber-kill-chain", "attacker-perspective"]
+    },
+    {
+      "id": "incident-response-04",
+      "curriculumId": "incident-response",
+      "stage": "order",
+      "prerequisites": ["incident-response-03"],
+      "title": "Cyber Kill Chain 7단계",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "Cyber Kill Chain의 공격 진행 7단계를 올바른 순서로 배열하세요."
+        }
+      ],
+      "answer": {
+        "type": "order",
+        "items": [
+          { "id": "recon", "label": "정찰" },
+          { "id": "weapon", "label": "무기화" },
+          { "id": "delivery", "label": "전달" },
+          { "id": "exploit", "label": "취약점 악용" },
+          { "id": "install", "label": "설치" },
+          { "id": "c2", "label": "명령·제어(C2)" },
+          { "id": "objective", "label": "목적 달성" }
+        ],
+        "expected": ["recon", "weapon", "delivery", "exploit", "install", "c2", "objective"]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "앞 세 단계는 ‘찾아본다 → 공격 도구를 만든다 → 대상에게 보낸다’로, 이후는 악용·설치·명령제어·목적달성으로 흐름을 잡습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-01-practical-07.md",
+          "line": 38,
+          "excerpt": "정찰·무기화·배달·취약점 공격·설치·명령 및 제어·표적 행동 단계",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 417,
+          "excerpt": "→ 명령·제어(Command and Control, C2) → 목적 달성(Actions on Objectives)",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["incident-response", "cyber-kill-chain", "order"]
+    },
+    {
+      "id": "digital-forensics-01",
+      "curriculumId": "digital-forensics",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "디지털 포렌식 5대 원칙",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "법적 권한·절차에 따른 수집은 (A), 같은 조건·방법에서 같은 결과를 확인하는 것은 (B), 휘발·변경 전에 확보하는 것은 (C), 증거의 인수인계·보관 경로를 추적하는 것은 (D), 증거가 변경되지 않았음을 보장하는 것은 (E) 원칙입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          { "id": "A", "label": "적법한 수집", "accepted": ["정당성", "적법성"] },
+          { "id": "B", "label": "동일 결과 확인", "accepted": ["재현성"] },
+          { "id": "C", "label": "적시 확보", "accepted": ["신속성"] },
+          { "id": "D", "label": "증거 이동 추적", "accepted": ["연계보관성", "연계 보관성", "chain of custody", "coc"] },
+          { "id": "E", "label": "변경·훼손 방지", "accepted": ["무결성"] }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "정합성은 이 5대 원칙의 명칭이 아닙니다. 무결성은 증거의 변경·훼손이 없음을, 연계보관성은 증거 이동의 추적 가능성을 뜻합니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2020-02-practical-16.md",
+          "line": 43,
+          "excerpt": "디지털 포렌식 5대 원칙 중 3가지를 설명하시오.",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 444,
+          "excerpt": "연계보관성 | 발견부터 법정 제출까지 인수인계·보관 경로를 추적",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["forensics", "principles", "chain-of-custody"]
+    },
+    {
+      "id": "digital-forensics-02",
+      "curriculumId": "digital-forensics",
+      "stage": "recall",
+      "prerequisites": ["digital-forensics-01"],
+      "title": "원본과 사본의 동일성 확인",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "포렌식에서 원본과 수집 사본의 동일성, 그리고 수집 뒤 변조 여부를 확인하기 위해 비교하는 값은 무엇인가요?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "확인 값",
+        "accepted": ["해시", "해시값", "hash", "hash value"]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "원본은 쓰기 방지 후 보존하고 분석은 사본에서 수행합니다. 수집 전후 해시값을 비교해 무결성을 입증하되, 해시 일치만으로 수집의 적법성까지 자동 입증되는 것은 아닙니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 446,
+          "excerpt": "무결성은 원본 쓰기방지, bit-stream image, 수집 전후 hash",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["forensics", "hash", "integrity"]
+    },
+    {
+      "id": "digital-forensics-03",
+      "curriculumId": "digital-forensics",
+      "stage": "order",
+      "prerequisites": ["digital-forensics-01"],
+      "title": "연계보관성의 증거 이동",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "학습용 정리: 연계보관성(Chain of Custody)을 설명하기 위한 증거 이동 단계를 배열하세요. 이 배열은 학습용 정리이며, 대조한 비공식 PDF 복원본만으로는 분석·보관의 공식 기출 단일 순서를 확정할 수 없습니다."
+        }
+      ],
+      "answer": {
+        "type": "order",
+        "items": [
+          { "id": "collect", "label": "증거 수집" },
+          { "id": "transfer", "label": "이송" },
+          { "id": "analyze", "label": "분석" },
+          { "id": "store", "label": "보관" },
+          { "id": "submit", "label": "법정 제출" }
+        ],
+        "expected": ["collect", "transfer", "analyze", "store", "submit"]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "각 단계에서 담당자·책임자와 인수인계 이력이 명확하고 전체 과정이 추적 가능해야 합니다. 제시한 배열은 학습용 정리이며, 비공식 PDF 복원본의 분석·보관 표기는 공식 기출 채점 순서를 확정하는 근거가 아닙니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2016-02-practical-08.md",
+          "line": 43,
+          "excerpt": "연계보관성(Chain of Custody)의 원칙",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 458,
+          "excerpt": "모든 인계자·인수자·시간·목적·보관장소를 기록한다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["forensics", "chain-of-custody", "order"]
+    },
+    {
+      "id": "digital-forensics-04",
+      "curriculumId": "digital-forensics",
+      "stage": "cloze",
+      "prerequisites": ["digital-forensics-02"],
+      "title": "Live와 Dead 포렌식 구분",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "실행 중인 시스템의 메모리·프로세스·네트워크 연결을 확보하는 방식은 (A), 전원이 꺼진 저장매체를 쓰기 방지 장치로 획득해 변경을 줄이는 방식은 (B)입니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          { "id": "A", "label": "실행 중 수집", "accepted": ["Live Forensics", "라이브 포렌식"] },
+          { "id": "B", "label": "전원 종료 후 획득", "accepted": ["Dead Forensics", "데드 포렌식"] }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "Live는 휘발성 정보를 확보할 수 있지만 시스템을 변경할 위험이 있고, Dead는 저장매체 변경을 줄이지만 메모리·연결 상태는 잃을 수 있습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 456,
+          "excerpt": "Live Forensics는 실행 중 메모리·프로세스·연결을 확보하지만",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 457,
+          "excerpt": "Dead Forensics는 전원을 끈 저장매체를 write blocker로 획득해",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["forensics", "live-forensics", "dead-forensics"]
+    },
+    {
+      "id": "information-communications-law-01",
+      "curriculumId": "information-communications-law",
+      "stage": "cloze",
+      "prerequisites": [],
+      "title": "침해사고 신고 시점과 기관",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "정보통신서비스 제공자는 침해사고 발생 시 (A) 신고해야 하며, 사고를 인지한 때부터 (B) 이내에 과학기술정보통신부장관 또는 (C)에 신고해야 합니다."
+        }
+      ],
+      "answer": {
+        "type": "cloze",
+        "matchPolicy": "case-insensitive",
+        "blanks": [
+          { "id": "A", "label": "법률상 신고 시점", "accepted": ["즉시"] },
+          { "id": "B", "label": "인지 후 기한", "accepted": ["24시간", "24 시간", "24시간 이내", "24 시간 이내"] },
+          { "id": "C", "label": "신고 기관", "accepted": ["KISA", "한국인터넷진흥원", "한국 인터넷 진흥원"] }
+        ]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "이 문항은 정보통신서비스 제공자의 침해사고 신고입니다. 개인정보 유출의 72시간 통지·신고와 적용 법률·주체·기한을 섞지 않습니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 548,
+          "excerpt": "과학기술정보통신부장관이나 KISA에 **즉시 신고**한다.",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 549,
+          "excerpt": "사고를 인지한 때부터 **24시간 이내** 신고",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["law", "incident-reporting", "kisa", "deadline"]
+    },
+    {
+      "id": "information-communications-law-02",
+      "curriculumId": "information-communications-law",
+      "stage": "recall",
+      "prerequisites": ["information-communications-law-01"],
+      "title": "IDC 사업자 기출 단서",
+      "prompt": [
+        {
+          "type": "text",
+          "content": "타인의 정보통신서비스 제공을 위해 집적된 시설을 운영·관리하고, 보험·공제 가입 및 보호조치 이행점검·시정명령의 대상이 되는 사업자는 무엇인가요?"
+        }
+      ],
+      "answer": {
+        "type": "short",
+        "matchPolicy": "case-insensitive",
+        "inputLabel": "사업자 명칭",
+        "accepted": ["집적정보통신시설 사업자", "집적 정보통신시설 사업자", "IDC 사업자", "idc 사업자"]
+      },
+      "explanation": [
+        {
+          "type": "text",
+          "content": "IDC 사업자는 ‘보호조치 이행 + 보험·공제 + 이행점검·시정명령’ 단서 묶음으로 식별합니다. ‘직접’이 아니라 ‘집적’정보통신시설입니다."
+        }
+      ],
+      "sourceRefs": [
+        {
+          "path": "datasets/info-sec-engineer-practical-past-exams/01-rounds/2026-01-practical-31.md",
+          "line": 41,
+          "excerpt": "집적정보통신시설(IDC) 사업자",
+          "status": "source-derived"
+        },
+        {
+          "path": "drafts/study/info-sec-engineer-management-and-law-study.md",
+          "line": 541,
+          "excerpt": "멸실·훼손·운영장애 피해배상을 위해 법이 정한 보험·공제 등에 가입한다.",
+          "status": "source-derived"
+        }
+      ],
+      "tags": ["law", "idc", "information-communications-network-act", "past-pattern"]
+    }
+  ]
+}

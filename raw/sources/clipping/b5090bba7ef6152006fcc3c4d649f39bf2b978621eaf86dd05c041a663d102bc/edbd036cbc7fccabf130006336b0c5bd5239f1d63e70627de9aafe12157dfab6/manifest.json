@@ -1,0 +1,15 @@
+{
+  "artifact_digest": "sha256:edbd036cbc7fccabf130006336b0c5bd5239f1d63e70627de9aafe12157dfab6",
+  "created_at": "2026-08-24T10:38:12Z",
+  "generator": {
+    "name": "cs-study-capture",
+    "version": "1.0"
+  },
+  "media_type": "text/markdown",
+  "payload": "payload.md",
+  "primary_source": "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/01-rounds/2015-02-practical-06.md",
+  "schema_version": "1.0",
+  "size": 12198,
+  "source_id": "b5090bba7ef6152006fcc3c4d649f39bf2b978621eaf86dd05c041a663d102bc",
+  "source_type": "clipping"
+}

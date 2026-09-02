@@ -14,7 +14,7 @@ paths:
       domain: information-security    # cs/* 의 최다 비중 — 명시 노트는 override
       inferred: true
       source_paths: []
-      provenance: extracted
+      provenance: extracted            # 사람 작성 원문에 직접 존재하는 내용
 
   - pattern: "development/**"
     defaults:
@@ -24,7 +24,7 @@ paths:
       domain: software-engineering
       inferred: true
       source_paths: []
-      provenance: extracted
+      provenance: extracted            # 사람 작성 원문에 직접 존재하는 내용
 
   - pattern: "coding-test/**"
     defaults:
@@ -34,7 +34,7 @@ paths:
       domain: algorithms
       inferred: true
       source_paths: []
-      provenance: extracted
+      provenance: extracted            # 사람 작성 원문에 직접 존재하는 내용
 
   - pattern: "lang/**"
     defaults:
@@ -44,7 +44,7 @@ paths:
       domain: programming-language
       inferred: true
       source_paths: []
-      provenance: extracted
+      provenance: extracted            # 사람 작성 원문에 직접 존재하는 내용
 
   - pattern: "tools/**"
     defaults:
@@ -54,11 +54,10 @@ paths:
       domain: developer-tools
       inferred: true
       source_paths: []
-      provenance: extracted
+      provenance: extracted            # 사람 작성 원문에 직접 존재하는 내용
 
 # 사용자가 의도적으로 frontmatter 추가 시 lazy default 가 무시된다 (사용자 명시 값 우선).
 # 본 파일은 ingest.py / lint.py 가 참조. 본문 변경 0.
 
-# 사용자가 어떤 cs/ 노트가 LLM paste 라 표시하고 싶을 때:
-# 옵션 A — 노트 frontmatter 에 `human_authored: partial` + `source: "..."` 직접 추가
-# 옵션 B — wiki/_meta/provenance.json 외부 인덱스에 entry 추가 (cs/ 본문 무변경)
+# 사용자가 어떤 authored 노트가 LLM paste라고 표시할 때는 해당 노트 frontmatter에
+# `human_authored: partial`과 `source: "..."`를 직접 추가한다.

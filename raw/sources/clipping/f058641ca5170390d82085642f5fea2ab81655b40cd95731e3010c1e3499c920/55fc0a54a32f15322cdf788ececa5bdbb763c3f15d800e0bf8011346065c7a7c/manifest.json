@@ -1,0 +1,15 @@
+{
+  "artifact_digest": "sha256:55fc0a54a32f15322cdf788ececa5bdbb763c3f15d800e0bf8011346065c7a7c",
+  "created_at": "2026-08-24T10:38:12Z",
+  "generator": {
+    "name": "cs-study-capture",
+    "version": "1.0"
+  },
+  "media_type": "text/markdown",
+  "payload": "payload.md",
+  "primary_source": "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/06-verification/pdf-source-cross-verify-report.md",
+  "schema_version": "1.0",
+  "size": 8201,
+  "source_id": "f058641ca5170390d82085642f5fea2ab81655b40cd95731e3010c1e3499c920",
+  "source_type": "clipping"
+}

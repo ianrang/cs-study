@@ -1,0 +1,15 @@
+{
+  "artifact_digest": "sha256:e7f46816dca1f2169f14431ffc1b202fd298a2797858b72552eb5571c84354dc",
+  "created_at": "2026-08-24T10:38:12Z",
+  "generator": {
+    "name": "cs-study-capture",
+    "version": "1.0"
+  },
+  "media_type": "text/markdown",
+  "payload": "payload.md",
+  "primary_source": "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/00-management/analysis-roadmap-todo.md",
+  "schema_version": "1.0",
+  "size": 10962,
+  "source_id": "4561a2f1f2a1df2fdb4570052e388cd0f0ac8eda5d809a9095e8a92aeaedcba2",
+  "source_type": "clipping"
+}

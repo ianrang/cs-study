@@ -1,33 +1,33 @@
 ---
-title: "정보보안기사 실기 재출제 및 변형출제 분석"
-tier: llm-synthesis
+title: 정보보안기사 실기 재출제 및 변형출제 분석
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-analysis, recurrence]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-analysis
+- recurrence
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "../03-classification/subject-type-classification-detail.md"
-  - "../03-classification/subject-type-matrix.md"
-  - "../04-mapping/item-reference-map.md"
-  - "frequency-analysis.md"
-source_count: 4
-provenance: inferred
-summary: "정보보안기사 실기 1~30회 복원 문항에서 반복 개념과 최근 변형 출제 축을 추출한 분석."
-evergreen: false
+- raw/sources/clipping/92120807839dd92c3b9e40088d10cf7d65b4e1e9a41eb4699d999a472c389ce3/853cab9c0749feb8fc76d6a2f7c5d8f2d7584d32e6ddbd521b9c002913d8822a/manifest.json
+summary: 정보보안기사 실기 1~30회 복원 문항에서 반복 개념과 최근 변형 출제 축을 추출한 분석.
 ---
+
+## Overview
+
+
+
+
+
 
 # 정보보안기사 실기 재출제 및 변형출제 분석
 
-## Scope
+### Scope
 - 반복 개념은 회차 파일의 prompt/answer 및 `subject-type-classification-detail.md`의 evidence를 키워드 기준으로 묶었다.
 - 같은 개념이 다른 과목 분류에 걸치는 경우, 학습 관점의 개념군으로 통합했다.
 - 1~28회 thodi-lab/blog-source PDF 편집본은 대조했지만 KCA 공식 원문 문구는 미주장이므로 동일 문구 반복이 아니라 동일 개념·동일 실무기술 반복이다.
 
-## Recurring Concept Groups
+### Recurring Concept Groups
 | concept group | matched items | appeared rounds | recent items, 23~30회 | interpretation |
 |---|---:|---:|---:|---|
 | 위험관리/위험평가 | 79 | 30 | 25 | 전 회차에 걸쳐 반복되는 최상위 축. 위험분석 방법, 위험대응, 자산 중요도, BIA/ALE/SLE가 변형된다. |
@@ -45,7 +45,7 @@ evergreen: false
 | 데이터베이스/데이터보호 | 19 | 14 | 7 | DB 보안, 감사, 암호화 저장, 마스킹, DLP 계열로 변형된다. |
 | 무선/모바일 | 12 | 11 | 5 | WEP/WPA, CSMA/CA, deep link, MDM/BYOD 등으로 최근 확장된다. |
 
-## Transformation Patterns
+### Transformation Patterns
 | pattern | examples | implication |
 |---|---|---|
 | 개념명 단답 → 구성요소 빈칸 | IPSec → AH/ESP/IKE, 위험관리 → 자산/위협/취약점, 접근통제 → DAC/MAC/RBAC | 핵심 약어와 구성요소를 같이 암기해야 한다. |
@@ -54,7 +54,7 @@ evergreen: false
 | 법규/관리 기준 → 적용 상황 판단 | 개인정보 안전성 확보조치, ISMS-P, CISO, 영상정보처리기기, 위탁 공개사항 | 조문 암기보다 상황별 요구사항을 분리해야 한다. |
 | 장비/프로토콜 특성 → 보안 설정 | VLAN, SNMP, DNS zone, IPsec, NetBIOS, NTP | 네트워크 지식과 보안 운영 설정을 함께 묻는다. |
 
-## High-Recurrence Priorities
+### High-Recurrence Priorities
 | priority | concept group | why |
 |---:|---|---|
 | 1 | 위험관리/위험평가 | 전 30회에 등장하고 최근 23~30회에서도 25건이 탐지된다. |
@@ -63,6 +63,28 @@ evergreen: false
 | 4 | HTTP/웹서버 설정 + 웹 취약점 | HTTP 설정과 취약점이 단답·실무형 모두에서 반복된다. |
 | 5 | DNS/SNMP/VLAN/네트워크장비 | 최근 23~30회에서 장비/프로토콜 실무 문항으로 반복된다. |
 
-## Limits
+### Limits
 - 키워드 기반 재출제 분석이므로 동의어 누락과 과포함 가능성이 있다.
 - KCA 공식 원문 문구를 주장하지 않으므로 "동일 공식 문구 반복"이 아니라 "동일 개념 반복"으로 해석해야 한다.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/92120807839dd92c3b9e40088d10cf7d65b4e1e9a41eb4699d999a472c389ce3/853cab9c0749feb8fc76d6a2f7c5d8f2d7584d32e6ddbd521b9c002913d8822a/manifest.json`

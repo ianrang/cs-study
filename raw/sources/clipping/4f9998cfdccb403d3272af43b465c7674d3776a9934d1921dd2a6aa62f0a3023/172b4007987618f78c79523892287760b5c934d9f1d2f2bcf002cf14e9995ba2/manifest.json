@@ -1,0 +1,15 @@
+{
+  "artifact_digest": "sha256:172b4007987618f78c79523892287760b5c934d9f1d2f2bcf002cf14e9995ba2",
+  "created_at": "2026-08-24T10:38:12Z",
+  "generator": {
+    "name": "cs-study-capture",
+    "version": "1.0"
+  },
+  "media_type": "text/markdown",
+  "payload": "payload.md",
+  "primary_source": "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/00-management/document-architecture.md",
+  "schema_version": "1.0",
+  "size": 8791,
+  "source_id": "4f9998cfdccb403d3272af43b465c7674d3776a9934d1921dd2a6aa62f0a3023",
+  "source_type": "clipping"
+}

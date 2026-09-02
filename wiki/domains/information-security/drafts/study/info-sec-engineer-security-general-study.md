@@ -1,0 +1,642 @@
+---
+title: 정보보안기사 실기 4장 — 정보보안 일반
+page_type: method
+tags: []
+date_created: '2026-07-11'
+date_updated: '2026-07-12'
+source_paths:
+- raw/sources/clipping/ca2b37c24f829dc0c07d2219b41402c1cacd008ac66f4c84dd777b357bb8ecb4/4b012c5549493353f60ed880347addb198926434fff2fe802f88afd116fb7cf6/manifest.json
+summary: 정보보안기사 실기의 암호·키 분배·해시·인증·접근통제·전자서명·PKI를 우선순위와 답안 형태로 통합한 학습 문서.
+---
+
+## Definition
+
+
+
+
+
+
+
+
+
+# 4 정보보안 일반
+
+> 목표: 암호·인증·접근통제·전자서명 문제에서 **기능, 동작 원리, 보안 속성, 공격 조건, 적용 목적**을 구분하여 답안으로 쓴다. 이 문서는 KCA **필기 4과목 정보보안 일반의 지식범위**와 실기 수행준거의 전자서명·PKI 및 인증·접근통제 연계 범위를 실기 답안용으로 통합한다.
+
+> 학습 순서는 공식 기준의 나열 순서보다 개념 의존성을 따른다. `암호학 기초 → 대칭·공개키 → 키 분배 → 해시·MAC → 인증 → 접근통제 → 전자서명·PKI → 답안화` 순서로 읽는다.
+
+> 이 문서는 4장 개념 복습의 기준 문서다. PDF를 다시 대조할 필요는 없지만, 계산·비교·순서 배열 문제는 기출에서 직접 손으로 풀어야 한다.
+
+### 0. 학습 우선순위와 출제 패턴
+
+### 태그 규칙
+
+- **[P1]**: 기출 풀이 전 정의·차이·동작을 자료 없이 답해야 하는 핵심.
+- **[P2]**: P1 뒤에 연결하는 변형·응용·계산 항목.
+- **[P3]**: 저빈도·고전 방식·표준 세부. 이름과 보안 목적을 우선 기억한다.
+- **[답안]**: 단답·서술·계산형에서 점수로 바꾸는 문장 구조다.
+
+### 한눈에 보는 논리 흐름
+
+```text
+암호 원리           키를 안전하게 공유       신원·권한 결정          무결성·서명 검증        답안 작성
+대칭·공개키·해시 → KDC·DH·PKI          → 인증 → 접근통제     → MAC·전자서명·인증서 → 정의·원리·차이·적용
+```
+
+### 문제를 읽기 위한 최소 용어
+
+| 용어 | 이 문서에서의 뜻 | 판단 기준 |
+|---|---|---|
+| Algorithm/Primitive | 암호화·Hash·MAC·서명 같은 기본 연산 | 무엇을 제공하는가 |
+| Key | 암호 연산 결과를 결정하는 비밀값 또는 공개키·개인키 쌍 | 누가 생성·보유·교체·폐기하는가 |
+| Mode | Block Cipher를 여러 block과 실제 data에 적용하는 방법 | IV/Nonce·Padding·인증 제공 여부 |
+| IV | Block Cipher Mode의 첫 상태·입력을 초기화하는 값 | Mode에 따라 유일성 또는 예측 불가능성이 필요 |
+| Nonce | 같은 key에서 한 번만 사용해 실행·요청을 구별하는 값 | 재사용 금지, freshness(새 실행임을 확인)에 활용 |
+| Randomness / Entropy | 공격자가 key·nonce·secret을 추측하기 어렵게 하는 불확실성 | 단순 시간값·반복값을 안전한 난수로 보지 않음 |
+| XOR(`⊕`) | 두 bit가 다르면 1인 배타적 논리합 | Stream Cipher·Mode·HMAC 식에서 사용 |
+| Oracle | 공격자가 선택한 입력의 암호화·복호화·오류 결과를 관찰할 수 있는 기능 | CPA·CCA·Padding Oracle 판단 |
+| Key Establishment | 통신 당사자가 사용할 key를 함께 확보하는 전체 과정 | Key Agreement와 Key Transport 포함 |
+| KDC | 장기 공유키를 바탕으로 session key와 ticket을 배포하는 신뢰 서버·논리 기능 | Kerberos의 AS·TGS와 연결 |
+| DH | 비밀값을 직접 보내지 않고 shared secret을 합의하는 방식 | 자체 상대 인증이 없어 MITM 가능 |
+| PKI | CA·certificate를 이용해 공개키와 주체의 신뢰관계를 관리하는 체계 | 발급·검증·폐기 상태 관리 |
+| Authentication / Authorization | 주체의 신원 확인 / 해당 주체의 행위·객체 접근 허용 결정 | 인증 성공이 모든 접근 허용을 뜻하지 않음 |
+| Certificate | 공개키와 주체 identity를 CA signature로 결합한 data | Path·기간·이름·용도·폐기 상태 검증 |
+
+> 문제를 풀 때는 `필요한 보안속성 → 사용한 key → algorithm/mode → 제공 속성 → 한계·검증` 순서로 표시한다.
+
+### 어디까지 외워야 하는가
+
+| 학습 방식 | 대상 | 완료 기준 |
+|---|---|---|
+| 정확 암기 | P1 비교표·보안속성·순서·BLP/Biba 규칙·DH 식 | 자료 없이 용어와 방향을 정확히 씀 |
+| 원리 이해 후 재현 | Mode 동작, HMAC·RSA 구조, Kerberos·PKI 흐름 | 제시된 그림·식에서 빈칸을 채움 |
+| 이름·목적 우선 | P2의 제품·표준 확장과 P3 전체 | 대표 목적과 P1과의 차이를 한 줄로 설명 |
+| 통암기 제외 | S-box·Round 내부 전개, RFC/FIPS 번호 전체, 제품별 menu | 문제에 제공된 조건을 읽고 목적만 판별 |
+
+### 근거 기반 우선순위
+
+| 우선순위 | 학습 묶음 | 근거 | 시험 변형 |
+|---|---|---|---|
+| P1 | 대칭·공개키·운영모드 | KCA 필기 4과목 암호 알고리즘 범위와 실기 보안특성의 기반 | 알고리즘 비교, ECB/CBC/CTR/GCM 특징, RSA 원리 |
+| P1 | 해시·MAC·전자서명 | 필기 4과목 직접 범위, 실기 전자서명·PKI 연계, 31회 해시 출제 | 보안 속성 비교, 충돌, HMAC, 서명 절차 |
+| P1 | 인증·접근통제 | 필기 4과목 직접 범위, 실기 OS·서비스 보안특성과 연계 | 인증요소·OTP·생체지표, DAC/MAC/RBAC, BLP/Biba |
+| P1 | 키 분배·PKI | 필기 키 분배 직접 범위와 실기 전자서명·PKI 직접 범위 | DH 계산·MITM, Kerberos, 인증서 필드·CRL/OCSP |
+| P2 | 국내 암호·응용 서명·연합 인증 | 공식 세부범위의 변형 대비 | SEED/ARIA/LEA, 이중서명, SAML/OAuth/OIDC |
+| P3 | 고전 암호·레거시 프로토콜·표준 세부 | 저빈도 또는 구현·표준 종속 | 치환 계산, Needham-Schroeder, TCSEC/CC 세부 |
+
+> 1~31회 513문항 분류에서 정보보안 일반은 46문항(9.0%), 최근 23~31회는 10/162문항(6.2%)이다. 전체 46문항 중 단답형 36문항, 서술·실무형 10문항이므로 넓게 확장하기보다 P1의 정확한 비교와 계산을 먼저 확보한다.
+>
+> 복원 기출의 과목 라벨이 침해사고·재해복구 등을 정보보안 일반로 분류한 사례가 있어도, 이 장의 경계는 KCA 공식 보안요소·암호학 범위를 우선한다.
+
+### 반복 출제 패턴
+
+1. **정의·비교형**: 대칭키/공개키, 해시/MAC/전자서명, DAC/MAC/RBAC 차이를 묻는다.
+2. **구성요소 빈칸형**: Kerberos, PKI, 인증서, 접근통제 모델의 요소를 채운다.
+3. **절차 배열형**: 키 합의, 전자서명 생성·검증, 인증서 검증 순서를 배열한다.
+4. **계산형**: 기출에서 확인되는 Diffie-Hellman과 modular arithmetic을 우선하고, RSA는 공식이 제시될 때 작은 수 계산을 수행한다.
+5. **상황 적용형**: 기밀성·무결성·인증·부인방지 중 필요한 기술을 선택한다.
+
+### KCA 필기 4과목 지식범위 대응표
+
+| KCA 세세 범위 | 이 문서 |
+|---|---|
+| 사용자·메시지·디바이스 인증 | 4.5 |
+| 접근통제 정책·구성요소·모델 | 4.6 |
+| 대칭키·공개키 기반 키 분배 | 4.3 |
+| 인증서·디지털서명·PKI·응용서명 | 4.7 |
+| 암호 용어·공격·대칭키·공개키 | 4.1~4.3 |
+| 해시 요구사항·구조·MAC | 4.4 |
+
+### 4장과 다른 장의 경계
+
+- TLS·IPsec의 패킷·프로토콜 동작은 2장, 이 장은 그 안에서 쓰이는 암호·키 합의·인증서 원리를 다룬다.
+- 패스워드 파일·PAM·OS 권한은 1장, 웹 세션·인증 취약점은 3장이다. 이 장은 인증 방식과 접근통제 모델을 다룬다.
+- 전자서명의 수학·PKI는 4장, 전자서명법의 현행 의무와 법적 효력은 5장이다.
+- 침해사고 대응·디지털 포렌식·BCP/DRP는 5장이다.
+
+### 4.1 [P1] 암호학 기초와 공격 모델
+
+### 4.1.1 [P1] 목적과 기본 용어
+
+- 평문(Plaintext)을 암호화 알고리즘과 키로 암호문(Ciphertext)으로 만들고, 정당한 키 보유자가 복호화한다.
+- 암호 알고리즘의 비밀이 아니라 **키의 비밀**에 안전성을 의존하는 것이 Kerckhoffs 원칙이다.
+- 기밀성은 암호화, 무결성·메시지 인증은 MAC 또는 전자서명, 부인방지는 공개키 전자서명과 검증 가능한 운영 절차로 지원한다.
+- 암호화만으로 송신자 인증이나 무결성이 자동 보장되지 않는다. 필요한 속성을 먼저 식별한 뒤 기술을 고른다.
+
+| 방식 | 키 관계 | 장점 | 한계·대표 용도 |
+|---|---|---|---|
+| 대칭키 암호 | 암·복호화에 같은 비밀키 | 빠르고 대용량 처리에 적합 | 키 분배가 어려움, 데이터·세션 암호화 |
+| 공개키 암호 | 공개키와 개인키 쌍 | 키 분배·서명에 유리 | 느리고 메시지 크기 제약, 키 캡슐화·서명 |
+| 해시 | 키 없이 고정 길이 digest | 무결성 비교·서명 전 요약 | 단독으로 송신자 인증 불가 |
+| MAC | 송수신자가 비밀키 공유 | 무결성+메시지 인증 | 양쪽이 같은 키를 가져 부인방지 불가 |
+| 전자서명 | 개인키 서명·공개키 검증 | 무결성·서명자 인증·부인방지 | 기밀성은 별도 암호화 필요 |
+
+### 4.1.2 [P1] 공격자가 가진 정보에 따른 분류
+
+| 공격 | 공격자가 이용하는 것 | 시험 판단어 |
+|---|---|---|
+| Ciphertext-Only Attack(COA) | 암호문만 | 암호문 통계·패턴 분석 |
+| Known-Plaintext Attack(KPA) | 일부 평문-암호문 쌍 | 알려진 문서 형식·header |
+| Chosen-Plaintext Attack(CPA) | 선택한 평문의 암호문 | Encryption Oracle |
+| Chosen-Ciphertext Attack(CCA) | 선택한 암호문의 복호 결과 | Decryption Oracle, Padding Oracle |
+
+- Brute Force는 가능한 키를 전수 탐색한다. 안전성은 알고리즘 이름만이 아니라 키 길이·구현·난수·키 관리에 좌우된다.
+- 차분·선형 공격은 블록암호 구조를 분석하고, Side-Channel은 시간·전력·전자기파·cache 같은 구현 누출을 이용한다.
+- Replay는 유효한 메시지를 다시 보내는 공격이므로 nonce·timestamp·sequence number·challenge로 freshness를 확인한다.
+
+**[답안]** 선택한 암호문을 복호화 장치에 질의하고 결과 차이를 이용한다면 Chosen-Ciphertext Attack이다. 인증암호 사용, 오류 응답 통일, 안전한 padding 검증과 oracle 제거로 대응한다.
+
+### 4.2 [P1] 대칭키 암호와 운영모드
+
+### 4.2.1 [P1] 블록·스트림 암호와 대표 알고리즘
+
+| 알고리즘 | 구조·블록 | 키·라운드 | 시험 포인트 |
+|---|---|---|---|
+| DES | Feistel, 64-bit block | 56-bit key, 16 rounds | 짧은 키로 안전하지 않음 |
+| 3DES | DES 반복, 64-bit block | 2-key/3-key 구성 | Legacy, 신규 적용에 부적합 |
+| AES | SPN, 128-bit block | 128/192/256-bit, 10/12/14 rounds | 국제 표준 대표 블록암호 |
+| SEED | Feistel, 128-bit block | 128-bit, 16 rounds | 국내 개발 블록암호 |
+| ARIA | SPN, 128-bit block | 128/192/256-bit, 12/14/16 rounds | 국내 표준 블록암호 |
+| LEA | ARX, 128-bit block | 128/192/256-bit, 24/28/32 rounds | 경량·소프트웨어 환경 고려 |
+
+- P1은 DES와 AES의 구조·block/key 관계·안전성 차이다. 정확한 round 수와 SEED·ARIA·LEA의 세부 수치는 P2로 회독한다.
+- Feistel은 한 round에서 절반에 round 함수를 적용해 다른 절반과 결합하며, 암·복호화 구조가 유사하다.
+- SPN은 substitution과 permutation을 반복하여 confusion과 diffusion을 만든다.
+- Stream Cipher는 keystream과 평문을 결합한다. 같은 key/nonce의 keystream을 재사용하면 두 암호문 관계가 노출될 수 있다.
+
+### 4.2.2 [P1] 블록암호 운영모드
+
+| Mode | 핵심 동작 | 장점 | 주의점 |
+|---|---|---|---|
+| ECB | 각 block 독립 암호화 | 단순·병렬 가능 | 같은 평문 block→같은 암호문, 패턴 노출 |
+| CBC | 이전 암호문 block과 XOR 후 암호화 | 패턴 은폐 | 예측 불가능한 IV, padding·인증 필요 |
+| CFB | 암호 출력을 feedback하여 stream처럼 사용 | Padding 불필요 | IV 재사용 금지, 순차 처리 |
+| OFB | 암호 출력 자체를 feedback | 전송 오류 확산이 제한적 | Key/IV 재사용 시 keystream 재사용 |
+| CTR | Nonce+Counter를 암호화해 keystream 생성 | 병렬·Random Access, Padding 불필요 | 같은 key에서 nonce/counter 중복 금지 |
+| GCM | CTR 암호화+GHASH 인증 | 기밀성·무결성의 AEAD | Nonce 재사용 시 기밀성·인증 모두 위험 |
+
+- P1은 ECB·CBC·CTR·GCM의 동작과 인증 제공 여부다. CFB·OFB는 대표 동작을 식별하고 오류 전파와 함께 P2로 회독한다.
+- IV/Nonce는 항상 비밀일 필요는 없지만, mode가 요구하는 **유일성 또는 예측 불가능성**을 만족해야 한다.
+- ECB·CBC 같은 기밀성 mode만 쓰면 변조 탐지가 보장되지 않는다. 가능하면 GCM·CCM·ChaCha20-Poly1305 같은 AEAD를 사용한다.
+- CBC에 MAC을 결합할 때 조합 순서와 오류 처리까지 안전해야 한다. 시험에서는 “암호화만으로 무결성 보장”이라고 쓰지 않는다.
+
+**[P2] 전송 중 암호문 bit 오류의 복호화 영향**
+
+| Mode | 대표 오류 전파 |
+|---|---|
+| ECB | 해당 평문 block 전체가 손상 |
+| CBC | 해당 평문 block 전체가 손상되고 다음 평문 block의 대응 bit가 반전 |
+| CFB | 해당 segment의 대응 bit와 이후 feedback 구간에 영향. Segment 크기에 따라 범위가 달라짐 |
+| OFB·CTR | 해당 평문 bit만 반전 |
+
+> 이 표는 우발적인 ciphertext bit 오류의 복호화 영향을 비교한다. 공격자의 능동 변조 방어는 오류 전파가 아니라 MAC·AEAD의 tag 검증으로 보장한다.
+
+**[답안]** 같은 그림 영역이 같은 암호문 block으로 반복되어 윤곽이 남는다면 ECB의 독립 block 처리 때문이다. Random nonce를 사용하는 인증암호 mode를 적용하고 nonce 재사용을 방지한다.
+
+### 4.2.3 [P2] Stream Cipher·AEAD 확장
+
+- AEAD(Authenticated Encryption with Associated Data)는 ciphertext와 authentication tag를 함께 만든다. Header 같은 AAD는 암호화하지 않지만 무결성·인증 대상에 결합하며, 수신자는 tag 검증에 성공하기 전 plaintext를 사용하지 않는다.
+- RC4는 keystream bias 등 알려진 약점 때문에 안전한 신규 protocol에 사용하지 않는다. 이름과 “legacy stream cipher”라는 판단만 기억한다.
+- ChaCha20은 key·nonce·counter로 keystream을 만들고, Poly1305와 결합한 ChaCha20-Poly1305는 기밀성과 무결성을 함께 제공하는 AEAD다. 같은 key에서 nonce를 재사용하지 않는다.
+- CCM은 CTR mode의 암호화와 CBC-MAC의 인증을 결합한 AEAD다. GCM과 마찬가지로 nonce 관리와 tag 검증 실패 시 평문을 사용하지 않는 처리가 중요하다.
+
+### 4.3 [P1] 공개키 암호와 키 분배
+
+### 4.3.1 [P1] 대표 공개키 방식
+
+| 방식 | 안전성 기반 | 주요 기능 | 핵심 주의점 |
+|---|---|---|---|
+| RSA | 큰 정수 인수분해의 어려움 | 암호화·키 캡슐화·전자서명 | 암호화 OAEP, 서명 PSS 등 안전한 padding 필요 |
+| Diffie-Hellman | 이산로그 문제 | 공동 비밀 합의 | 자체 인증이 없어 MITM 가능 |
+| ElGamal | 이산로그 문제 | 확률적 공개키 암호·서명 계열 | 안전한 난수 필수, 암호문 확장 |
+| ECC/ECDH/ECDSA | 타원곡선 이산로그 문제 | 키 합의·서명 | Curve·점 검증·nonce 구현 중요 |
+
+- 공개키로 암호화한 데이터는 대응 개인키로 복호화한다. 전자서명은 개인키로 서명하고 공개키로 검증한다. 이를 단순히 “개인키로 암호화”라고 설명하지 않는다.
+- 공개키 암호는 대용량 평문 전체보다 session key를 보호하고 실제 데이터는 대칭키로 처리하는 Hybrid Encryption에 주로 쓰인다.
+
+### 4.3.2 [P2] RSA 계산 원리
+
+1. 서로 다른 소수 `p`, `q`를 선택하고 `n=pq`, `φ(n)=(p-1)(q-1)`를 구한다.
+2. `gcd(e, φ(n))=1`인 공개지수 `e`를 정한다.
+3. `ed ≡ 1 (mod φ(n))`인 개인지수 `d`를 구한다.
+4. 공개키는 `(e,n)`, 개인키는 `(d,n)`이다.
+5. 교재형 암호화는 `C=M^e mod n`, 복호화는 `M=C^d mod n`이다.
+
+```text
+p=3, q=11 → n=33, φ(n)=20
+e=3 → d=7  (3×7 ≡ 1 mod 20)
+M=4 → C=4³ mod 33=31 → 31⁷ mod 33=4
+```
+
+> 작은 수 계산은 원리 확인용이다. 실제 RSA는 충분한 key 크기, 검증된 library, OAEP/PSS와 안전한 난수·개인키 보호를 사용한다.
+
+### 4.3.3 [P1] Diffie-Hellman과 MITM
+
+```text
+공개값 p=23, g=5
+Alice: 비밀 a=6, A=g^a mod p=8
+Bob:   비밀 b=15, B=g^b mod p=19
+공유값: B^a mod p = A^b mod p = 2
+```
+
+- DH는 비밀지수를 보내지 않고 같은 shared secret을 합의한다.
+- 공격자가 양쪽과 별도 DH를 수행하면 MITM이 가능하다. 인증서 서명·PSK·전자서명 등으로 교환값과 상대 신원을 인증해야 한다.
+- DHE/ECDHE처럼 매 session 임시 key를 쓰고 장기 key가 나중에 노출되어도 과거 session key가 복구되지 않는 성질을 Forward Secrecy라 한다.
+
+### 4.3.4 [P1] 대칭키 분배·KDC·키 생명주기
+
+- KDC는 각 principal과 공유하는 장기키를 바탕으로 통신 당사자에게 session key와 ticket을 배포한다.
+- Key Lifecycle은 생성 → 등록·배포 → 저장·사용 → 갱신·교체 → 폐기·파기로 관리한다.
+- Key는 데이터와 분리 저장하고, 최소권한·접근기록·backup/복구·rotation·compromise 대응을 적용한다. HSM은 key를 보호하고 내부에서 암호 연산을 수행하도록 돕는다.
+- Key Agreement는 참여자들이 공동으로 key를 도출하고, Key Transport는 한쪽이 만든 key를 상대 공개키 등으로 전달한다.
+
+### 4.3.5 [P2] KDF와 Key Separation
+
+- 일반 KDF(Key Derivation Function)는 DH shared secret 같은 keying material로부터 필요한 길이의 cryptographic key를 도출한다. 원재료를 그대로 암호키로 사용하는 것과 구분한다.
+- Salt는 입력의 다양성을, Context/Info·Label은 protocol·방향·용도 결합을 돕는다. 암호화용·MAC용·송신용·수신용 key를 서로 다른 context로 도출하여 Key Separation을 적용한다.
+- Password KDF는 낮은 entropy password의 대입 비용을 높이는 목적이 추가된다. 4.4.3의 PBKDF2·scrypt·bcrypt·Argon2와 일반 protocol KDF를 같은 용도로 쓰지 않는다.
+
+### 4.3.6 [P1] Hybrid Encryption과 TLS 적용
+
+- Hybrid Encryption은 공개키 기술로 상대를 인증하거나 shared secret/session key를 설정하고, 실제 대용량 data는 빠른 대칭키 AEAD로 보호한다.
+- Certificate 기반 TLS 1.3에서는 certificate의 공개키로 server의 CertificateVerify signature와 신원을 검증한다.
+- (EC)DHE shared secret에서 HKDF로 traffic key를 도출하고, AES-GCM·ChaCha20-Poly1305 같은 대칭키 AEAD로 record를 보호한다. PSK handshake에서는 certificate가 생략될 수 있다.
+- 구형 TLS의 RSA key transport에서는 client가 만든 premaster secret을 server RSA public key로 암호화할 수 있었다. 이를 모든 TLS version의 공통 동작으로 일반화하지 않는다.
+
+**[답안]** 공개키 기술은 certificate 검증과 key establishment에 사용되고, 실제 application data는 합의·도출된 session key 기반 대칭키 암호로 처리한다. 따라서 공개키가 대용량 data 전체를 직접 암호화한다고 쓰지 않는다.
+
+### 4.4 [P1] 해시함수·MAC·패스워드 저장
+
+### 4.4.1 [P1] 해시 요구사항과 공격
+
+- Hash Function은 임의 길이 입력을 고정 길이 digest로 매핑한다.
+- Preimage Resistance: 주어진 `h`에 대해 `H(m)=h`인 `m`을 찾기 어렵다.
+- Second-Preimage Resistance: 주어진 `m1`과 같은 hash를 갖는 다른 `m2`를 찾기 어렵다.
+- Collision Resistance: 임의의 서로 다른 `m1,m2` 중 같은 hash 쌍을 찾기 어렵다.
+- n-bit 이상적 hash의 collision 탐색은 Birthday Paradox 때문에 약 `2^(n/2)` 작업과 연결된다.
+
+| 계열 | 출력 | 시험 판단 |
+|---|---|---|
+| MD5 | 128-bit | Collision이 깨져 보안 목적에 사용 금지 |
+| SHA-1 | 160-bit | Collision 안전성 부족, 신규 서명·인증 용도 금지 |
+| SHA-2 | 224/256/384/512 등 | SHA-256·SHA-512가 대표 |
+| SHA-3 | 224/256/384/512 | Sponge 구조, SHA-2와 다른 설계 |
+
+- Merkle-Damgård 구조는 padding한 message를 block으로 나누고 이전 chaining value와 다음 block을 compression function에 반복 입력한다. MD5·SHA-1·SHA-2 계열을 구조 문제에서 연결한다.
+- Sponge 구조는 고정 크기 내부 state에 입력을 Absorb하고 출력을 Squeeze한다. SHA-3/Keccak을 Merkle-Damgård와 구분한다.
+- Hash만으로 파일 무결성을 비교할 때 공격자가 파일과 hash를 모두 바꿀 수 있으면 신뢰할 수 없다. 서명·MAC·신뢰된 별도 저장이 필요하다.
+- Merkle-Damgård 계열의 단순 `Hash(key || message)`는 Length Extension에 취약할 수 있으므로 검증된 HMAC을 쓴다.
+
+### 4.4.2 [P1] Hash·MAC·전자서명 구분
+
+| 구분 | 비밀값 | 제공 속성 | 제3자 검증·부인방지 |
+|---|---|---|---|
+| Hash | 없음 | 변경 탐지의 재료 | 불가 |
+| HMAC/CMAC | 공유 비밀키 | 무결성·메시지 인증 | 공유키 보유자 모두 생성 가능하므로 불가 |
+| 전자서명 | 서명자 개인키 | 무결성·서명자 인증·부인방지 지원 | 공개키로 검증 가능 |
+
+- HMAC은 hash의 내부·외부 padding과 key를 결합한다. 단순히 `Hash(key+message)`라고 답하지 않는다.
+- **[P2]** 정확한 구조는 `H((K' ⊕ opad) || H((K' ⊕ ipad) || message))`다.
+- **[P2]** 원래 key `K`가 hash block보다 길면 먼저 `H(K)`로 줄이고, 짧으면 zero-padding하여 block 크기의 `K'`를 만든다. `ipad`는 `0x36`, `opad`는 `0x5C` byte를 block 크기만큼 반복한다.
+- CMAC은 block cipher, GMAC은 GCM의 인증 기능을 이용한다.
+
+### 4.4.3 [P1] 패스워드 저장
+
+- Password는 복호화 가능한 일반 암호문보다 Salt를 적용한 password hashing/KDF로 저장한다.
+- Salt는 사용자별 고유 random 값으로 같은 password의 hash를 다르게 하고 rainbow table·일괄 사전공격 효율을 낮춘다. Salt는 비밀일 필요가 없다.
+- Iteration/work factor와 memory-hard 설계로 공격 비용을 높인다. PBKDF2·scrypt·bcrypt·Argon2 같은 검증된 방식을 정책에 맞게 사용한다.
+- Pepper를 사용한다면 DB와 분리된 secret 관리 영역에 둔다. Salt와 Pepper를 같은 개념으로 쓰지 않는다.
+
+**[답안]** 일반 SHA-256만으로 password를 저장하면 빠른 대입 공격과 동일 password 식별에 취약하다. 사용자별 random salt와 조정 가능한 work factor를 갖는 password hashing을 사용하고 secret·접근권한을 분리한다.
+
+### 4.5 [P1] 인증
+
+### 4.5.1 [P1] 인증요소와 MFA
+
+| 요소 | 의미 | 예시 |
+|---|---|---|
+| Knowledge | 사용자가 아는 것 | Password, PIN |
+| Possession | 사용자가 가진 것 | OTP Token, Smart Card, Phone |
+| Inherence | 사용자 신체·행동 생체 특성 | Fingerprint, Iris, Face, Typing pattern |
+| Context/Risk Signal | 인증 시점의 환경·위험 신호 | Location, Device, Network, 접속 행태 |
+
+- MFA는 서로 **다른 factor category**를 두 개 이상 결합한다. Password+PIN은 둘 다 Knowledge라서 MFA가 아니다.
+- 위치·device·risk signal은 지속·적응형 인증의 보조 판단에 쓸 수 있지만, 그 자체를 항상 독립 MFA factor로 계산하지 않는다.
+- 인증 강도는 factor 수만 아니라 phishing resistance, 재사용 방지, verifier 보호, recovery 절차까지 포함해 평가한다.
+
+### 4.5.2 [P1] Password·Challenge-Response
+
+- Password verifier는 평문 또는 빠른 일반 hash가 아니라 4.4.3의 Salt 적용 password hashing으로 보호한다. 전송 구간은 TLS로 보호하고 시도 제한·MFA·안전한 recovery를 결합한다.
+- Challenge-Response는 verifier가 매번 새로운 nonce를 보내고 claimant가 secret 또는 private key로 계산한 response를 돌려준다.
+- Server는 response와 nonce를 검증하므로 secret 자체 전송과 과거 response의 replay를 줄인다. Nonce가 반복되면 과거 response의 재사용이 가능해진다.
+- Nonce가 예측 가능하거나 공격자가 통제하면 protocol에 따라 preplay·선계산 위험이 커진다. Server identity를 인증하지 않으면 relay·MITM 위험도 남는다.
+
+### 4.5.3 [P1] OTP와 생체인증
+
+| 방식 | 변화 기준 | 핵심 위험·대응 |
+|---|---|---|
+| HOTP | Counter | Server와 counter 동기화·재사용 통제 |
+| TOTP | Time step | 시간 동기화·허용 window·replay 통제 |
+| S/Key | One-time hash chain | 사용 순서와 seed·초기 등록 보호 |
+
+| 생체 지표 | 뜻 |
+|---|---|
+| FAR | 타인을 본인으로 잘못 받아들이는 비율 |
+| FRR | 본인을 잘못 거부하는 비율 |
+| EER | FAR와 FRR이 같아지는 지점의 오류율 |
+
+- Threshold를 완화하면 일반적으로 FAR은 커지고 FRR은 작아지는 trade-off가 있다.
+- 생체정보는 유출 시 password처럼 쉽게 교체할 수 없으므로 template 보호·liveness detection·대체 인증·접근통제가 필요하다.
+
+### 4.5.4 [P1] Kerberos
+
+```text
+Client → AS  : 사용자 초기 인증, TGT 요청
+AS → Client : TGT + Client/TGS Session Key
+Client → TGS: TGT로 Service Ticket 요청
+TGS → Client: Service Ticket
+Client → Server: Service Ticket + Authenticator
+```
+
+- KDC는 AS(Authentication Server)와 TGS(Ticket Granting Server) 역할을 포함한다.
+- TGT는 매 service마다 password를 다시 보내지 않고 service ticket을 받게 한다.
+- Ticket, session key, timestamp/authenticator로 인증하지만 KDC 가용성·시간 동기화·초기 password 공격·ticket 탈취를 관리해야 한다.
+
+### 4.5.5 [P2] SSO·SAML·OAuth·OIDC·FIDO
+
+| 기술 | 주목적 | 혼동 방지 |
+|---|---|---|
+| SSO | 한 번 인증으로 여러 service 이용 | 구현 protocol 자체의 이름은 아님 |
+| SAML | XML assertion 기반 federation | 인증·속성 assertion 전달 |
+| OAuth 2.0 | Resource 접근 권한 위임 | 그 자체가 사용자 인증 protocol은 아님 |
+| OpenID Connect | OAuth 2.0 위의 identity layer | ID Token으로 사용자 인증 정보 제공 |
+| FIDO2 | Public-key 기반 phishing-resistant 인증 | Server에 password secret 대신 public key 등록 |
+
+### 4.5.6 [P2] 메시지·디바이스 인증
+
+- 사용자 Challenge-Response는 4.5.2, 메시지 인증은 4.4.2의 MAC·전자서명 구분을 우선 참조한다.
+- Mutual Authentication은 client와 server가 서로 신원을 검증한다.
+- 802.1X는 Supplicant, Authenticator, Authentication Server 구조로 port-based network access를 통제하며 EAP를 운반한다.
+- Device Certificate는 device identity와 public key를 CA signature로 결합한다. 대응 private key는 TPM·Secure Element 등에 보호하고 certificate의 발급·교체·폐기와 device inventory를 함께 관리한다.
+
+### 4.6 [P1] 접근통제
+
+### 4.6.1 [P1] 구성요소와 정책
+
+- 인증(Authentication)은 주체가 누구인지 확인하고, 인가(Authorization)는 인증된 주체가 특정 object에 operation을 수행할 권한이 있는지 결정한다. 접근통제 문제에서는 두 단계를 분리한다.
+- Subject는 접근을 요청하고, Object는 보호 대상이며, Operation은 read/write/execute 같은 행위다.
+- Reference Monitor는 모든 접근을 중재하고 변조에 강하며 검증 가능해야 한다. 이를 구현하는 보호 기반을 TCB와 연결한다.
+
+| 정책 | 권한 결정 기준 | 장점 | 한계·예시 |
+|---|---|---|---|
+| DAC | 소유자가 권한 부여 | 유연함 | 권한 전파·Trojan 위험, 일반 file ACL |
+| MAC | 중앙정책·보안 label | 강한 정보흐름 통제 | 경직됨, 군사 보안등급 |
+| RBAC | 역할과 직무 | 조직 권한관리·SoD에 적합 | 역할 설계·Role Explosion |
+| ABAC | Subject/Object/Environment 속성·정책 | 세밀하고 context-aware | 정책 복잡성·속성 신뢰 필요 |
+
+### 4.6.2 [P1] ACL·Capability와 운영 원칙
+
+- Access Control Matrix는 행을 Subject, 열을 Object, cell을 허용된 operation으로 표현한다.
+- ACL은 특정 Object의 열을 구현한 관점으로 “누가 이 Object에 어떤 권한을 갖는가”를 저장한다.
+- Capability List는 특정 Subject의 행을 구현한 관점으로 “이 Subject가 어떤 Object에 어떤 권한이 있는가”를 나타낸다. 위조·복제·위임·폐기 통제가 필요하다.
+- Least Privilege는 필요한 최소 권한만, Need-to-Know는 업무에 필요한 정보만 허용한다.
+- Separation of Duties는 중요한 업무를 여러 사람·역할로 나누고, Dual Control은 중요한 동작에 두 사람의 참여를 요구한다.
+
+### 4.6.3 [P1] Bell-LaPadula·Biba
+
+| 모델 | 보호 목표 | 핵심 규칙 | 기억법 |
+|---|---|---|---|
+| Bell-LaPadula | Confidentiality | No Read Up, No Write Down | 위 비밀 읽지 말고 아래로 유출하지 않음 |
+| Biba | Integrity | No Read Down, No Write Up | 낮은 무결성 읽지 말고 높은 곳 오염하지 않음 |
+
+- Bell-LaPadula의 Simple Security Property는 No Read Up, `*-property`는 No Write Down과 연결한다.
+- Biba는 정보 유출보다 신뢰 낮은 정보가 높은 무결성 영역을 오염시키는 것을 막는다.
+
+### 4.6.4 [P2] Clark-Wilson·Brewer-Nash
+
+- Clark-Wilson은 상업적 무결성을 위해 CDI(통제 데이터)를 TP(검증된 변환절차)로만 변경하고 IVP로 무결성을 확인한다. Well-Formed Transaction과 Separation of Duties가 핵심이다.
+- Brewer-Nash(Chinese Wall)는 한 이해충돌 집단의 회사 정보에 접근하면 경쟁 회사 정보 접근을 동적으로 제한한다.
+
+**[답안]** 주체의 security level보다 높은 object를 읽지 못하고 낮은 object로 쓰지 못하게 한다면 Bell-LaPadula의 기밀성 통제다. 각각 No Read Up과 No Write Down으로 설명한다.
+
+### 4.7 [P1] 디지털서명·인증서·PKI
+
+### 4.7.1 [P1] 서명 생성·검증
+
+```text
+생성: Message → Hash → Signer's Private Key로 Signature 생성
+전송: Message + Signature (+ Certificate)
+검증: Message를 다시 Hash + Signature를 Signer's Public Key로 검증 → 값 비교
+```
+
+- 제공 속성: 메시지 무결성, 서명자 인증, 부인방지 지원. 기밀성은 별도 암호화가 필요하다.
+- 전자서명 보안 요구조건은 다음처럼 답안화한다.
+
+| 요구조건 | 의미 |
+|---|---|
+| 서명자 인증 | 서명 생성에 서명자만 통제하는 private key가 사용됨 |
+| 위조 불가 | 제3자가 유효한 signature를 생성하기 어려움 |
+| 변경 탐지 | Message가 달라지면 signature 검증이 실패함 |
+| 재사용 불가 | 다른 Message의 signature로 그대로 사용할 수 없음 |
+| 부인방지 | 검증 가능한 signature와 key·certificate 관리로 서명 사실 부인을 어렵게 함 |
+
+- Private Key 보호, 안전한 hash, 서명 당시 인증서 상태와 timestamp·감사기록이 함께 보장되어야 부인방지 주장이 강해진다.
+- RSA-PSS, DSA, ECDSA, EdDSA는 서명 방식이다. NIST FIPS 186-5에서 기존 DSA는 과거 서명의 검증만 허용되고 신규 서명 생성에서는 제외되었다.
+- ECDSA/DSA에서 per-message nonce가 재사용되거나 예측되면 private key가 노출될 수 있다.
+
+### 4.7.2 [P1] X.509 인증서와 PKI 구성요소
+
+| 요소 | 역할 |
+|---|---|
+| CA | 인증서 발급·서명·폐기 상태 관리 |
+| RA | 가입자 신원 확인·등록 업무를 CA에 위임받아 수행 |
+| Repository | 인증서·CRL 등 공개정보 제공 |
+| VA | 인증서 상태·경로 검증 지원 |
+| Subscriber / Relying Party | 인증서 주체 / 검증 결과를 신뢰해 사용하는 당사자 |
+
+- 주요 인증서 필드: Version, Serial Number, Signature Algorithm, Issuer, Validity, Subject, Subject Public Key Info, Extensions, CA Signature.
+- 주요 확장: Subject Alternative Name, Key Usage, Extended Key Usage, Basic Constraints.
+- 인증서는 “공개키와 Subject identity를 CA 서명으로 결합”한다. 인증서가 있다고 현재 신뢰 가능한 것은 아니며 검증 절차가 필요하다.
+
+### 4.7.3 [P1] 인증서 검증과 폐기
+
+1. 신뢰하는 Root까지 certification path와 각 CA signature를 검증한다.
+2. 현재가 Not Before~Not After 안인지 확인한다.
+3. TLS server 이름은 SAN을 우선 확인하고, SAN이 없는 legacy certificate에서만 정책에 따라 Subject CN fallback을 고려한다. 이어 사용 목적·Key Usage가 일치하는지 확인한다.
+4. Basic Constraints·path length 등 CA 제약을 확인한다.
+5. CRL 또는 OCSP 등으로 revocation status를 확인한다.
+
+| 방식 | 동작 | 장단점 |
+|---|---|---|
+| CRL | CA가 폐기된 인증서 serial 목록을 주기 배포 | Offline 확인 가능, 목록 크기·갱신 지연 |
+| OCSP | 특정 인증서 상태를 responder에 질의 | 비교적 최신·작은 응답, 가용성·privacy 고려 |
+| OCSP Stapling | Server가 받아 둔 서명된 OCSP response를 전달 | Client 직접 질의 감소, freshness 관리 필요 |
+
+- OCSP의 certificate status는 `good`, `revoked`, `unknown`이다.
+- `good`은 certificate의 모든 신뢰조건을 보증한다는 뜻이 아니라, responder가 알고 있는 폐기 상태를 나타낸다.
+
+### 4.7.4 [P2] PKI 신뢰 구조·응용 서명
+
+- Hierarchical: Root CA 아래 Sub CA가 이어지는 단일 tree. 경로가 단순하지만 root 신뢰가 중요하다.
+- Mesh: CA들이 cross-certification하여 서로 신뢰한다. 유연하지만 path가 복잡하다.
+- Bridge: 서로 다른 PKI domain을 Bridge CA로 연결한다.
+- Blind Signature는 서명자가 원문을 알지 못한 채 서명하도록 하여 익명성이 필요한 응용에 사용한다.
+- SET의 Dual Signature는 주문정보 OI와 결제정보 PI의 hash를 결합해 두 정보를 연결하면서 판매자와 결제기관에는 필요한 정보만 보이게 한다.
+
+### 4.8 [P1] 실전 답안·계산·체크리스트
+
+### 4.8.1 [P1] 문제 풀이 순서
+
+1. 요구 보안속성이 기밀성·무결성·인증·인가·부인방지 중 무엇인지 표시한다.
+2. 입력에서 key 관계, algorithm, mode, certificate, label 같은 단서를 찾는다.
+3. 정상 동작과 공격 성립 조건을 구분한다.
+4. `정의 → 원리/계산 → 제공 속성 → 한계·대응` 순서로 쓴다.
+5. 계산형은 공식, 대입, modular 연산, 최종값을 분리한다.
+
+### 4.8.2 [P1] 비교형 한 줄 답안
+
+- 대칭키/공개키: 대칭키는 같은 secret key로 빠르게 처리하지만 key distribution이 어렵고, 공개키는 key pair로 분배·서명을 지원하지만 연산비용이 크다.
+- Hash/MAC/서명: Hash는 key 없는 digest, MAC은 공유키 기반 무결성·인증, 전자서명은 개인키 생성·공개키 검증으로 부인방지를 지원한다.
+- DAC/MAC/RBAC: DAC는 owner, MAC은 중앙 label, RBAC은 role을 기준으로 권한을 결정한다.
+- CRL/OCSP: CRL은 폐기 목록 배포, OCSP는 특정 certificate의 상태 질의다.
+- HOTP/TOTP: HOTP는 counter, TOTP는 time step을 이동요소로 사용한다.
+- 인증/인가: 인증은 주체의 신원을 확인하고, 인가는 해당 주체의 object·operation 권한을 결정한다.
+
+### 4.8.3 [P1] 즉답 체크리스트
+
+- [ ] 대칭키·공개키·Hash·MAC·전자서명의 key와 보안속성을 비교한다.
+- [ ] COA·KPA·CPA·CCA와 Replay·Side-Channel을 구분한다.
+- [ ] DES·AES의 구조·block/key·안전성 차이를 설명한다.
+- [ ] ECB·CBC·CTR·GCM의 IV/Nonce와 무결성 제공 여부를 쓴다.
+- [ ] DH 공유값을 계산하고 MITM·인증된 DH·Forward Secrecy를 설명한다.
+- [ ] TLS에서 certificate·(EC)DHE·KDF·대칭키 AEAD의 역할을 순서대로 설명한다.
+- [ ] Preimage·Second Preimage·Collision Resistance와 HMAC의 공유키·내부/외부 hash 원리를 설명한다.
+- [ ] Salt·Pepper·Stretching과 일반 Hash 저장의 문제를 설명한다.
+- [ ] Knowledge·Possession·Inherence와 MFA 조건을 설명한다.
+- [ ] Password verifier와 Challenge-Response의 nonce·replay 방어 원리를 설명한다.
+- [ ] HOTP·TOTP, FAR·FRR·EER을 구분한다.
+- [ ] Kerberos의 AS·TGS·TGT·Service Ticket 순서를 쓴다.
+- [ ] 인증과 인가를 구분하고 Access Control Matrix·ACL·Capability 및 DAC·MAC·RBAC·ABAC를 비교한다.
+- [ ] BLP·Biba의 목표와 네 가지 read/write 규칙을 쓴다.
+- [ ] 전자서명 생성·검증 순서와 제공하지 않는 기밀성을 쓴다.
+- [ ] CA·RA·Repository·VA와 X.509 주요 field를 설명한다.
+- [ ] 인증서 path·기간·이름·용도·폐기 상태를 검증한다.
+
+**P2 확장 체크**
+
+- [ ] **[P2]** RSA의 `n, φ(n), e, d` 관계와 작은 수 계산을 수행한다.
+- [ ] **[P2]** DES·AES의 round 수와 SEED·ARIA·LEA의 block/key/structure를 구분한다.
+- [ ] **[P2]** ECB·CBC·CFB·OFB·CTR의 ciphertext 오류 전파를 구분한다.
+- [ ] **[P2]** RC4의 한계와 ChaCha20-Poly1305·CCM의 AEAD 목적을 설명한다.
+- [ ] **[P2]** 일반 KDF와 Password KDF, Key Separation의 목적을 구분한다.
+- [ ] **[P2]** HMAC 공식과 `K'`·`ipad=0x36`·`opad=0x5C`를 재현한다.
+- [ ] **[P2]** SAML·OAuth·OIDC·FIDO2의 주목적을 구분한다.
+- [ ] **[P2]** Clark-Wilson·Brewer-Nash의 적용 목적을 쓴다.
+- [ ] **[P2]** PKI Hierarchy·Mesh·Bridge와 Blind·Dual Signature를 설명한다.
+
+### 4.8.4 [P1] 자주 틀리는 구분
+
+| 오답 | 바로잡기 |
+|---|---|
+| 암호화하면 무결성도 보장된다 | 일반 암호화 mode는 기밀성 중심이며 MAC·AEAD가 필요하다 |
+| Hash는 송신자를 인증한다 | Key 없는 Hash만으로 송신자 인증 불가 |
+| MAC은 부인방지를 제공한다 | 공유키 보유자가 모두 MAC을 만들 수 있어 부인방지 불가 |
+| 전자서명은 기밀성을 제공한다 | 전자서명은 무결성·서명자 인증·부인방지, 기밀성은 별도 암호화 |
+| 기본 DH는 상대를 인증한다 | DH 단독은 MITM 가능, signature·certificate·PSK 등으로 인증 |
+| OAuth는 인증 protocol이다 | OAuth는 권한 위임, 사용자 인증은 OIDC 등 identity layer가 담당 |
+| 접근통제 MAC과 HMAC의 MAC은 같다 | Mandatory Access Control / Message Authentication Code로 서로 다름 |
+| Certificate가 있으면 무조건 신뢰한다 | Path·기간·이름·용도·폐기 상태까지 검증 |
+
+### 4.9 [P3] 세부 참고·저빈도 암기
+
+### 4.9.1 [P3] 고전 암호
+
+- Caesar Cipher는 alphabet을 일정 칸 이동하는 monoalphabetic substitution이다.
+- Vigenère는 반복 key로 여러 Caesar shift를 적용하는 polyalphabetic substitution이다.
+- Transposition은 문자 자체가 아니라 위치를 바꾼다.
+- One-Time Pad는 message와 같은 길이의 진정한 random key를 한 번만 사용하고 완전히 비밀 배포해야 정보이론적 안전성을 갖는다. Key 재사용은 금지한다.
+
+### 4.9.2 [P3] 레거시·세부 프로토콜
+
+- Needham-Schroeder 대칭키 방식은 KDC가 session key와 ticket을 배포한다. 오래된 session key 재사용 공격과 nonce/timestamp 개선 개념을 이름 수준으로 기억한다.
+- Otway-Rees, Blom Key Distribution, Station-to-Station은 원리·구성요소를 기출에 제시했을 때 식별하는 수준으로 둔다.
+- Key Escrow는 복구·법적 요구 등을 위해 key를 제3의 통제 영역에 보관하는 방식으로, 접근통제·분리·감사가 필요하다.
+
+### 4.9.3 [P3] 추가 암호·인증 용어
+
+- Rabin 암호는 합성수 modulo에서 제곱을 이용하고 인수분해의 어려움과 연결되는 공개키 방식이다. RSA와 함께 인수분해 기반 예시로만 식별한다.
+- HIGHT는 64-bit block·128-bit key를 사용하는 국내 경량 block cipher다. 저자원 환경용 이름·목적 수준으로 기억한다.
+- XTS는 storage sector 암호화용 mode이며 자체 authentication은 제공하지 않는다.
+- Key Wrapping은 다른 cryptographic key를 기밀성·무결성과 함께 보호해 운반한다.
+- KMAC은 SHA-3 계열 sponge 기반 MAC이다.
+- Group Signature는 group member가 익명으로 서명하되 지정 권한자가 필요 시 서명자를 확인하는 구조를 가질 수 있다.
+- TCSEC는 역사적 평가기준, CC(Common Criteria, ISO/IEC 15408)는 Protection Profile·Security Target·평가보증 등으로 제품을 평가한다. 인증제도 운영은 5장에서 다룬다.
+
+### 4.9.4 [P3] 암기 범위 제한
+
+- P1/P2 algorithm은 S-box·round 내부 전개 대신 구조·block·key·안전성 상태와 지정된 수치만 학습한다. P3 algorithm은 이름과 대표 목적만 기억한다.
+- RFC·FIPS 번호 전체를 통암기하지 않는다. 문제에 번호가 제시되면 기술과 연결하는 수준으로 준비한다.
+- 제품별 certificate menu·HSM command는 이 장 범위가 아니다.
+
+### 4.10 이 장만 보는 최종 회독 순서
+
+### 1회독: 개념 의존성
+
+`암호 목적(4.1) → 대칭키(4.2) → 공개키·키 분배(4.3) → Hash·MAC(4.4) → 인증(4.5) → 인가(4.6) → 서명·PKI(4.7)` 순서로 읽는다.
+
+### 2회독: 백지 회상
+
+아래 질문에 자료 없이 2~4문장 또는 계산식으로 답한다.
+
+1. 대칭키·공개키·Hash·MAC·전자서명은 어떤 key와 보안속성을 사용하는가?
+2. ECB의 pattern 노출과 GCM의 nonce 재사용 위험은 왜 발생하는가?
+3. DH에 MITM이 가능한 이유와 인증 방법은 무엇인가?
+4. 현대 TLS에서 certificate·(EC)DHE·KDF·대칭키 AEAD는 각각 무슨 역할을 하는가?
+5. 세 가지 hash 저항성과 Birthday Attack의 관계는 무엇이며, HMAC이 공유키와 내부·외부 hash를 사용하는 목적은 무엇인가?
+6. Password에 Salt와 느린 KDF가 필요한 이유는 무엇인가?
+7. Challenge-Response에서 nonce가 반복되면 왜 replay 방어가 깨지는가?
+8. Kerberos에서 TGT와 Service Ticket의 역할은 무엇인가?
+9. 인증과 인가는 어떻게 다르며, Access Control Matrix의 행·열은 ACL·Capability와 어떻게 연결되는가?
+10. DAC·MAC·RBAC·ABAC의 권한 결정 기준은 무엇인가?
+11. BLP와 Biba의 목표와 read/write 규칙은 무엇인가?
+12. 전자서명 생성·검증과 인증서 검증의 차이는 무엇인가?
+13. CA·RA·CRL·OCSP의 역할은 무엇인가?
+
+### 3회독: 기출 답안화
+
+- 단답형은 algorithm·model·구성요소 이름을 정확히 쓴다.
+- 비교형은 비교 기준을 `key/주체/속성/한계`로 고정한다.
+- 계산형은 공식과 modular 중간값을 남겨 부분점수를 확보한다.
+- 상황형은 필요한 보안속성을 먼저 쓰고 기술을 선택한다.
+
+### 완료 조건
+
+- P1 체크리스트 17개 중 15개 이상을 자료 없이 설명한다.
+- DH 작은 수 계산을 10분 안에 수행하고, P2 학습 시 RSA 공식과 작은 수 예제를 설명한다.
+- Hash/MAC/서명, DAC/MAC/RBAC, BLP/Biba 비교를 각 3분 안에 쓴다.
+- 인증서 검증 순서를 빠짐없이 5단계로 설명한다.
+- 틀린 항목은 해당 본문으로 돌아가고 P3는 위 조건 충족 후 학습한다.
+
+## Algorithm
+
+## Implementation
+
+## Trade-offs
+
+## Open Questions
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/ca2b37c24f829dc0c07d2219b41402c1cacd008ac66f4c84dd777b357bb8ecb4/4b012c5549493353f60ed880347addb198926434fff2fe802f88afd116fb7cf6/manifest.json`

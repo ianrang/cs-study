@@ -1,0 +1,15 @@
+{
+  "artifact_digest": "sha256:98c03eb7f502bd47964e188acb0630502d501c2734b5de0ded54959044b5bf99",
+  "created_at": "2026-08-24T10:38:12Z",
+  "generator": {
+    "name": "cs-study-capture",
+    "version": "1.0"
+  },
+  "media_type": "text/markdown",
+  "payload": "payload.md",
+  "primary_source": "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/07-study/hands-on-integrated-study-roadmap-2026-02.md",
+  "schema_version": "1.0",
+  "size": 28250,
+  "source_id": "cb21c0e4c20c05750b55d1f6ad0e80c972a3d3765702d5751042d96ad35cd5dd",
+  "source_type": "clipping"
+}

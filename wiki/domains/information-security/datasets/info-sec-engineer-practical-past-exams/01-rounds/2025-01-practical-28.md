@@ -1,37 +1,37 @@
 ---
-title: "정보보안기사 실기 28회 2025년 1회 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 28회 2025년 1회 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://blog.naver.com/stereok2/224130288134"
-  - "https://jaesung.tistory.com/90"
-  - "https://jaesung.tistory.com/category/자격증/정보보안 기사?page=1..8"
-  - "cs/information-security/round-1/docs/info-sec-engineer-criteria-2023-2026.pdf"
-  - "cs/information-security/round-1/docs/외부자료-검증체크리스트.md"
-  - "cs/information-security/round-1/01.system-security/03.linux-basic.md"
-  - "cs/information-security/round-1/02.network-security/08.security-solutions-and-monitoring.md"
-  - "cs/information-security/round-1/05.management-and-law/02.risk-assessment.md"
-source_count: 8
-provenance: inferred
-summary: "2025년 1회 정보보안기사 실기 28회 복원 문항을 단답형·서술형·실무형 동일 구조로 정리한 검증본. Naver category post was added as a cross-check source."
-evergreen: false
+- raw/sources/clipping/a0d2e8c6d316242a9b9abd35b6fb37a7aea8c29cc828024465495199a5b9648a/9f085cff41ff1e39b01198df625362e8633cf91457fc7cb1848050b22fe0dc2b/manifest.json
+summary: 2025년 1회 정보보안기사 실기 28회 복원 문항을 단답형·서술형·실무형 동일 구조로 정리한 검증본. Naver category
+  post was added as a cross-check source.
 ---
+
+## Overview
+
+
+
+
+
+
+
+
+
 
 # 정보보안기사 실기 28회 2025년 1회 복원
 
-## Scope
+### Scope
 - Source classification: Naver category post and Jaesung category pages contained explicit practical exam restoration posts for this round.
 - This file is a paraphrased reconstruction, not a verbatim copy of the blog post.
 - Count: 18 items = 12 short-answer, 4 essay, 2 practical.
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 반사 서버를 경유하여 대량의 ICMP echo reply 패킷을 전송해 서비스 거부를 유발하는 공격을 (A)라고 한다. 반사 서버로 악용되지 않기 위해 차단해야 하는 (B) 패킷과 (C) 패킷을 쓰시오. | Smurf, Directed Broadcast, ICMP echo request | PDF compilation cross-check restored prompt condition |
@@ -53,7 +53,29 @@ evergreen: false
 | 17 | practical | Oracle 감사 로그 설정 결과 `audit_file_dest string /u01/app/oracle/admin/ORCL/adump`, `audit_sys_operations boolean FALSE`, `audit_syslog_level string LOCAL0.INFO`, `audit_trail string NONE`을 보고 답하시오. 1) 설정 의미를 설명하시오. 2) 감사 로그를 `SYS.AUD$` 테이블에 저장하려면 어떤 값을 수정해야 하는가? 3) 감사 로그를 DB 내부보다 외부에 남기는 것이 좋은 이유를 보안 측면에서 설명하시오. | audit_file_dest는 OS 감사 로그 저장 경로, audit_sys_operations=FALSE는 SYS 계정 감사 미수행, audit_syslog_level은 syslog 전송 등급, audit_trail=NONE은 감사 로그 미저장을 의미한다. SYS.AUD$에 저장하려면 audit_trail을 DB로 변경한다. 외부 저장은 DB 장악 시 로그 위변조를 줄이고 SIEM 연계와 신뢰 가능한 증거 확보에 유리하다 | PDF compilation cross-check restored prompt condition |
 | 18 | practical | 리눅스 OS 접속 화면 (A)는 Telnet으로 `192.168.10.20` 접속 시 `Ubuntu 20.04.6 LTS`, 커널 정보, `server01 login: root`, root 로그인 성공이 표시된다. (B)는 FTP로 `192.168.10.30` 접속 시 `220 Welcome to vsFTPd 3.0.3`, `Name (...:root): root`, `230 Login successful`이 표시된다. 1) A와 B에서 확인된 취약점은 무엇인가? 2) A 대응 방안은? 3) B 대응 방안은? | Telnet/FTP 평문 서비스, OS·커널·데몬 버전 배너 노출, root 직접 로그인 허용이 취약점이다. Telnet은 SSH로, FTP는 SFTP/FTPS로 대체하고 root 직접 로그인을 차단하며, issue.net·vsftpd 배너 설정 등으로 상세 버전 노출을 제거한다 | PDF compilation cross-check restored prompt condition |
 
-## Verification Notes
+### Verification Notes
 - Completeness: primary source exposes 18 numbered items and one attached PDF for the same round.
 - Confidence: high for item count and answer topics; medium for exact original wording because KCA does not publish official practical question text.
 - Known normalization: item 11 was normalized to ISMS-P physical security control terminology. Items 14~16 follow the Naver post order: NetBIOS, IPsec, asset importance.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/a0d2e8c6d316242a9b9abd35b6fb37a7aea8c29cc828024465495199a5b9648a/9f085cff41ff1e39b01198df625362e8633cf91457fc7cb1848050b22fe0dc2b/manifest.json`

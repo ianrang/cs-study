@@ -1,0 +1,15 @@
+{
+  "artifact_digest": "sha256:61d1df6f789718a2532b5a5c89d2f8500a5128718311e6eacd2fea5e745d99be",
+  "created_at": "2026-08-24T10:38:12Z",
+  "generator": {
+    "name": "cs-study-capture",
+    "version": "1.0"
+  },
+  "media_type": "text/markdown",
+  "payload": "payload.md",
+  "primary_source": "wiki/domains/information-security/datasets/info-sec-engineer-practical-past-exams/07-study/hands-on-lab-feasibility-deep-research.md",
+  "schema_version": "1.0",
+  "size": 12574,
+  "source_id": "960e7fb1a276cfbf08a203d8a6c8cb7286ccec0e4af7139018a235ab48e48a63",
+  "source_type": "clipping"
+}

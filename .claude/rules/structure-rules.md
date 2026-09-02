@@ -1,13 +1,12 @@
 # 프로젝트 구조 규칙
 
-이 문서는 cs-study 프로젝트의 폴더 구조, 파일 배치, 네이밍에 대한 규칙을 정의한다.
-모든 콘텐츠 생성과 수정은 이 규칙을 따른다.
+이 문서는 cs-study의 authored 5개 tree와 `projects/`의 폴더 구조, 파일 배치, 네이밍을 정의한다. `raw/`, `wiki/`, `_meta/`, `scripts/`에는 각 계층의 schema와 architecture 규칙을 적용한다.
 
 ---
 
 ## 1. 최상위 분류 (Depth 1)
 
-모든 콘텐츠는 다음 5개 카테고리 중 하나에 속한다. 예외는 없다.
+모든 authored 학습 콘텐츠는 다음 5개 카테고리 중 하나에 속한다. 실행 코드·테스트·프로젝트 문서는 이 분류와 분리해 `projects/<project>/`에 둔다.
 
 | 카테고리 | 폴더 | 정의 | 판별 기준 |
 |----------|------|------|-----------|
@@ -16,6 +15,10 @@
 | 코딩 테스트 | `coding-test/` | 코딩 테스트 준비를 위한 커리큘럼과 실습 | "코딩 테스트 준비 목적인가?" |
 | 개발 도구 | `tools/` | 개발 과정에서 사용하는 도구의 사용법 | "개발할 때 쓰는 도구인가?" |
 | 개발 실무 | `development/` | 소프트웨어를 설계하고 만드는 방법론과 실무 지식 | "소프트웨어를 어떻게 만드는가?" |
+
+`projects/`는 여섯 번째 학습 카테고리가 아니다. 각 하위 디렉터리는 독립 실행·테스트 가능한 프로젝트 경계이며 `wiki/`의 knowledge migration 입력에서 제외한다. 프로젝트가 지식 원본을 참조할 때는 repo-relative 단방향 경로를 사용하고 canonical 지식을 프로젝트 문서에 복제하지 않는다.
+
+프로젝트 Markdown은 일반 문서로 유지하고 `tier`, `page_type`, `source_paths` 등 `wiki/` 전용 frontmatter를 두지 않는다. 프로젝트 계약은 본문과 프로젝트별 실행 테스트가 검증한다.
 
 ### 분류 판별 순서
 
@@ -192,7 +195,7 @@ Java:  PascalCase.java     (예: GenericMain.java, IoScanner.java)
 | `CURRICULUM.md` | `coding-test/` 루트 | 커리큘럼 전체 구조와 랭크 체계 |
 | `PROGRESS.md` | `coding-test/` 루트 | 학습 진행 상황 추적 |
 | `CLAUDE.md` | 각 `docs/` 폴더 | AI 도구(claude-mem)가 자동 생성하는 컨텍스트 파일 — 수동 편집하지 않는다 |
-| `STRUCTURE-RULES.md` | 프로젝트 루트 | 이 문서. 프로젝트 구조 규칙 정의 |
+| `.claude/rules/structure-rules.md` | 저장소 규칙 디렉터리 | 이 문서. authored·project 구조 규칙 정의 |
 
 메타 문서는 대문자로 작성하여 일반 학습 문서와 구분한다.
 
@@ -216,13 +219,13 @@ Java:  PascalCase.java     (예: GenericMain.java, IoScanner.java)
 - 문서 간 참조는 Obsidian 위키링크를 사용할 수 있다: `[[파일명]]`
 - 위키링크는 최단 경로(Shortest path) 설정을 사용한다
 - 동일 파일명이 여러 위치에 존재할 경우 상대 경로를 포함한다: `[[cs/network/05.tcp-connection]]`
-- 태그는 문서 상단 frontmatter에 작성한다:
+- authored 학습 문서의 선택 태그는 문서 상단 frontmatter에 작성한다:
   ```yaml
   ---
   tags: [network, tcp, protocol]
   ---
   ```
-- frontmatter 태그는 선택 사항이다 — 폴더 구조가 1차 분류 체계이며, 태그는 교차 참조 보조 수단이다
+- authored frontmatter 태그는 선택 사항이다 — 폴더 구조가 1차 분류 체계이며, 태그는 교차 참조 보조 수단이다. `projects/**/*.md`에는 frontmatter를 두지 않는다.
 
 ---
 
@@ -239,5 +242,5 @@ cs-study/
 └── development/{주제}/{번호}.{kebab-case}.md
 ```
 
-최대 깊이는 4이다. 이를 초과하는 중첩은 허용하지 않는다.
+위 authored 경로의 최대 깊이는 4이다. `projects/`와 이 문서 적용 범위 밖의 `wiki/`에는 이 상한을 적용하지 않는다.
 단, `coding-test/stage4/week{N}/docs/`는 커리큘럼 특수 구조로 예외를 허용한다.

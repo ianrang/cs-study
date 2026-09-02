@@ -1,0 +1,1132 @@
+#!/usr/bin/env python3
+import copy
+import hashlib
+import json
+import re
+import sys
+from pathlib import Path
+
+import pytest
+
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import knowledge.schema as schema_module  # noqa: E402
+from knowledge.schema import (  # noqa: E402
+    CANONICAL_ROOT_EXCLUSIONS,
+    SCHEMA_PATH,
+    KnowledgeSchemaError,
+    canonical_document_paths,
+    domain_registry,
+    load_taxonomy,
+    page_types,
+    parse_markdown,
+    schema_digest,
+    table_contract,
+    validator_for,
+)
+
+FIXTURES = ROOT / "tests" / "fixtures" / "knowledge"
+REQUIREMENT_ID_PATTERN = r"(?:FR|NFR)-KP-\d{3}"
+REQUIREMENT_MANIFEST_KEYS = {"schema_version", "requirements"}
+REQUIREMENT_ENTRY_KEYS = {"id", "steps", "surfaces", "verification"}
+PRD_REQUIREMENT_TABLES = (
+    (
+        "| ID | 요구사항 | 관찰 가능한 수용 기준 |\n|---|---|---|\n",
+        r"FR-KP-\d{3}",
+    ),
+    ("| ID | 요구사항 | 기준 |\n|---|---|---|\n", r"NFR-KP-\d{3}"),
+)
+TRACEABILITY_HEADER = (
+    "| PRD ID | Architecture surface | Logic surface |\n"
+    "|---|---|---|\n"
+)
+
+
+def test_canonical_document_paths_fails_closed_when_walk_reports_error(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    def failed_walk(root: Path, *, followlinks: bool, onerror):
+        assert root == tmp_path.absolute()
+        assert followlinks is False
+        onerror(OSError("blocked traversal"))
+        yield from ()
+
+    monkeypatch.setattr(schema_module.os, "walk", failed_walk)
+
+    with pytest.raises(KnowledgeSchemaError, match="traversal unavailable"):
+        canonical_document_paths(tmp_path)
+
+
+@pytest.mark.parametrize("entry_kind", ["directory", "file"])
+def test_canonical_document_paths_wraps_entry_lstat_errors(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, entry_kind: str
+):
+    target = tmp_path / ("blocked" if entry_kind == "directory" else "blocked.md")
+    if entry_kind == "directory":
+        target.mkdir()
+    else:
+        target.write_text("# blocked\n", encoding="utf-8")
+    original_lstat = Path.lstat
+
+    def failed_lstat(path: Path):
+        if path == target:
+            raise OSError("blocked entry")
+        return original_lstat(path)
+
+    monkeypatch.setattr(Path, "lstat", failed_lstat)
+
+    with pytest.raises(KnowledgeSchemaError, match="entry unavailable"):
+        canonical_document_paths(tmp_path)
+
+
+def test_canonical_document_paths_rejects_markdown_named_directory(tmp_path: Path):
+    (tmp_path / "page.md").mkdir()
+
+    with pytest.raises(KnowledgeSchemaError, match="Markdown entry must be"):
+        canonical_document_paths(tmp_path)
+
+
+def _requirement_traceability_errors(
+    manifest: dict, prd: str, architecture: str
+) -> list[str]:
+    errors = []
+    prd_id_list = []
+    for header, id_pattern in PRD_REQUIREMENT_TABLES:
+        if prd.count(header) != 1:
+            errors.append("PRD requirement table header differs from the exact contract")
+            continue
+        table = prd.split(header, 1)[1].split("\n\n", 1)[0]
+        for row in table.splitlines():
+            cells = row.split("|")
+            if len(cells) > 1 and re.fullmatch(REQUIREMENT_ID_PATTERN, cells[1].strip()):
+                prd_id_list.append(cells[1].strip())
+            if not re.fullmatch(rf"\| {id_pattern} \| [^|]+ \| [^|]+ \|", row):
+                errors.append("PRD requirement row differs from the exact contract")
+            semantic_cells = cells[1:-1]
+            if len(semantic_cells) == 3 and any(
+                not cell.strip() for cell in semantic_cells[1:]
+            ):
+                errors.append("PRD requirement semantic cells must be non-empty")
+    prd_ids = set(prd_id_list)
+    entries = manifest.get("requirements", [])
+    manifest_ids = [entry.get("id") for entry in entries]
+
+    if set(manifest) != REQUIREMENT_MANIFEST_KEYS:
+        errors.append("manifest top-level keys differ from the exact contract")
+    if len(prd_id_list) != len(prd_ids):
+        errors.append("PRD requirement IDs are duplicated")
+    if any(set(entry) != REQUIREMENT_ENTRY_KEYS for entry in entries):
+        errors.append("manifest requirement entry keys differ from the exact contract")
+    if len(manifest_ids) != len(set(manifest_ids)) or set(manifest_ids) != prd_ids:
+        errors.append("manifest requirement IDs differ from PRD IDs")
+
+    if architecture.count(TRACEABILITY_HEADER) != 1:
+        errors.append("architecture traceability table header differs from the exact contract")
+        return errors
+    table = architecture.split(TRACEABILITY_HEADER, 1)[1].split("\n\n", 1)[0]
+    architecture_rows = table.splitlines()
+    architecture_id_list = []
+    for row in architecture_rows:
+        cells = row.split("|")
+        if len(cells) > 1 and re.fullmatch(REQUIREMENT_ID_PATTERN, cells[1].strip()):
+            architecture_id_list.append(cells[1].strip())
+        mapping_cells = cells[1:-1]
+        if len(mapping_cells) == 3 and any(
+            not cell.strip() for cell in mapping_cells[1:]
+        ):
+            errors.append("architecture mapping cells must be non-empty")
+    architecture_ids = set(architecture_id_list)
+    if len(architecture_id_list) != len(architecture_ids):
+        errors.append("architecture requirement IDs are duplicated")
+    if any(
+        not re.fullmatch(
+            rf"\| {REQUIREMENT_ID_PATTERN} \| [^|]+ \| [^|]+ \|", row
+        )
+        for row in architecture_rows
+    ):
+        errors.append("architecture requirement row differs from the exact contract")
+    if architecture_ids != prd_ids:
+        errors.append("architecture requirement IDs differ from PRD IDs")
+    return errors
+
+
+def test_schema_metadata_contract_has_one_validated_owner():
+    registry = domain_registry(ROOT)
+    assert list(registry) == list(sorted(registry))
+    assert registry["software-engineering"]["status"] == "active"
+    assert schema_digest(ROOT) == hashlib.sha256(SCHEMA_PATH.read_bytes()).hexdigest()
+    assert CANONICAL_ROOT_EXCLUSIONS == {"index.md", "overview.md"}
+    assert table_contract("Claims") == [
+        "id",
+        "primary",
+        "claim",
+        "status",
+        "evidence",
+        "notes",
+    ]
+    assert table_contract("Relations") == ["type", "target", "notes"]
+    assert table_contract("Members") == ["member", "role", "rationale"]
+
+
+def test_lifecycle_paths_share_one_schema_definition():
+    roots = schema_module.lifecycle_roots(ROOT)
+
+    assert roots == ("staging", "domains", "collections", "archive")
+    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    lifecycle_path = schema["$defs"]["LifecyclePath"]
+    path_properties = schema["$defs"]["PageWrite"]["properties"]
+    assert path_properties["source_path"] == {
+        "anyOf": [
+            {"$ref": "#/$defs/LifecyclePath"},
+            {"type": "null"},
+        ]
+    }
+    assert path_properties["target_path"] == {"$ref": "#/$defs/LifecyclePath"}
+    assert lifecycle_path["type"] == "string"
+    assert lifecycle_path["pattern"].startswith("^(?:" + "|".join(roots) + ")/")
+    schema_text = SCHEMA_PATH.read_text(encoding="utf-8")
+    assert schema_text.count(lifecycle_path["pattern"].replace("\\", "\\\\")) == 1
+    duplicate_literal = '{"staging", "domains", "collections", "archive"}'
+    assert duplicate_literal not in (ROOT / "scripts" / "knowledge" / "check.py").read_text(
+        encoding="utf-8"
+    )
+    assert duplicate_literal not in (
+        ROOT / "scripts" / "knowledge" / "documents.py"
+    ).read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize(
+    "invalid_prefix",
+    ["", "staging|staging", "Staging|domains"],
+)
+def test_lifecycle_roots_reject_invalid_source_pattern_roots(
+    tmp_path: Path, invalid_prefix: str
+):
+    meta = tmp_path / "_meta"
+    meta.mkdir()
+    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    lifecycle_path = schema["$defs"]["LifecyclePath"]
+    lifecycle_path["pattern"] = re.sub(
+        r"^\^\(\?:[^)]*\)", f"^(?:{invalid_prefix})", lifecycle_path["pattern"]
+    )
+    (meta / "knowledge.schema.json").write_text(
+        json.dumps(schema), encoding="utf-8"
+    )
+
+    with pytest.raises(KnowledgeSchemaError, match="LifecycleRoot path pattern"):
+        schema_module.lifecycle_roots(tmp_path)
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "missing",
+        "properties-list",
+        "properties-null",
+        "properties-scalar",
+        "lifecycle-list",
+        "lifecycle-null",
+        "lifecycle-scalar",
+        "source-ref-drift",
+        "target-ref-drift",
+    ],
+)
+def test_lifecycle_roots_reject_missing_or_drifted_schema_reference(
+    tmp_path: Path, mutation: str
+):
+    meta = tmp_path / "_meta"
+    meta.mkdir()
+    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    if mutation == "missing":
+        del schema["$defs"]["LifecyclePath"]
+    elif mutation.startswith("properties-"):
+        schema["$defs"]["PageWrite"]["properties"] = {
+            "properties-list": [],
+            "properties-null": None,
+            "properties-scalar": 1,
+        }[mutation]
+    elif mutation.startswith("lifecycle-"):
+        schema["$defs"]["LifecyclePath"] = {
+            "lifecycle-list": [],
+            "lifecycle-null": None,
+            "lifecycle-scalar": 1,
+        }[mutation]
+    elif mutation == "source-ref-drift":
+        schema["$defs"]["PageWrite"]["properties"]["source_path"] = {
+            "type": ["string", "null"]
+        }
+    else:
+        schema["$defs"]["PageWrite"]["properties"]["target_path"] = {
+            "type": "string"
+        }
+    (meta / "knowledge.schema.json").write_text(
+        json.dumps(schema), encoding="utf-8"
+    )
+
+    with pytest.raises(KnowledgeSchemaError, match="LifecycleRoot"):
+        schema_module.lifecycle_roots(tmp_path)
+
+
+def test_domain_registry_rejects_duplicate_and_non_string_keys(tmp_path: Path):
+    meta = tmp_path / "_meta"
+    meta.mkdir()
+    invalid_documents = (
+        "version: 1\ndomains:\n  alpha:\n    status: active\n    label: A\n"
+        "    source_roots: []\n  alpha:\n    status: inactive\n    label: B\n"
+        "    source_roots: []\n",
+        "version: 1\ndomains:\n  1:\n    status: active\n    label: A\n"
+        "    source_roots: []\n  alpha:\n    status: active\n    label: B\n"
+        "    source_roots: []\n",
+    )
+    for document in invalid_documents:
+        (meta / "domains.yaml").write_text(document, encoding="utf-8")
+        try:
+            domain_registry(tmp_path)
+        except KnowledgeSchemaError:
+            pass
+        else:
+            raise AssertionError("invalid domain registry accepted")
+
+
+def test_taxonomy_rejects_duplicate_canonical_and_alias_collisions(tmp_path: Path):
+    meta = tmp_path / "_meta"
+    meta.mkdir()
+    (meta / "knowledge.schema.json").write_bytes(SCHEMA_PATH.read_bytes())
+    invalid_documents = (
+        "## Tag 목록\n\n- `architecture`\n- `architecture`\n"
+        "\n## Entity 목록\n\n- `entity`\n",
+        "## Tag 목록\n\n- `architecture` (alias: `legacy`)\n"
+        "- `legacy`\n\n## Entity 목록\n\n- `entity`\n",
+        "## Tag 목록\n\n- `architecture` (alias: `shared`)\n"
+        "- `design` (alias: `shared`)\n\n## Entity 목록\n\n- `entity`\n",
+        "## Tag 목록\n\n- `architecture` (alias: `legacy`, `legacy`)\n"
+        "\n## Entity 목록\n\n- `entity`\n",
+        "## Tag 목록\n\n- `architecture` (alias: `legacy`)\n"
+        "- `architecture` (alias: `legacy`)\n\n## Entity 목록\n\n- `entity`\n",
+    )
+    for document in invalid_documents:
+        (meta / "taxonomy.md").write_text(document, encoding="utf-8")
+        try:
+            load_taxonomy(tmp_path)
+        except KnowledgeSchemaError:
+            pass
+        else:
+            raise AssertionError("ambiguous taxonomy accepted")
+
+
+def test_taxonomy_rejects_dotted_entity_canonical(tmp_path: Path):
+    meta = tmp_path / "_meta"
+    meta.mkdir()
+    (meta / "knowledge.schema.json").write_bytes(SCHEMA_PATH.read_bytes())
+    (meta / "taxonomy.md").write_text(
+        "## Tag 목록\n\n- `architecture`\n\n"
+        "## Entity 목록\n\n- `qwen-2.5` (alias: `qwen-2.0`)\n",
+        encoding="utf-8",
+    )
+    try:
+        load_taxonomy(tmp_path)
+    except KnowledgeSchemaError as exc:
+        assert "entity canonical" in str(exc)
+    else:
+        raise AssertionError("dotted entity canonical accepted")
+
+
+def test_taxonomy_entity_canonical_pattern_is_owned_by_schema(tmp_path: Path):
+    meta = tmp_path / "_meta"
+    meta.mkdir()
+    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    schema["$defs"]["DocumentInstance"]["properties"]["id"]["pattern"] = (
+        r"^[a-z0-9]+(?:[.-][a-z0-9]+)*$"
+    )
+    (meta / "knowledge.schema.json").write_text(
+        json.dumps(schema), encoding="utf-8"
+    )
+    (meta / "taxonomy.md").write_text(
+        "## Tag 목록\n\n- `architecture`\n\n"
+        "## Entity 목록\n\n- `qwen-2.5`\n",
+        encoding="utf-8",
+    )
+
+    _, _, entities, _ = load_taxonomy(tmp_path)
+
+    assert entities == {"qwen-2.5"}
+
+
+def test_repository_taxonomy_uses_kebab_case_entity_canonical():
+    _, _, entities, aliases = load_taxonomy(ROOT)
+
+    assert "qwen-2-5" in entities
+    assert "qwen-2.5" not in entities
+    assert aliases["qwen-2.5"] == "qwen-2-5"
+    assert aliases["qwen-2.0"] == "qwen-2-5"
+
+
+def test_parser_produces_deterministic_document_instance():
+    path = FIXTURES / "valid-concept.md"
+    first = parse_markdown(path)
+    second = parse_markdown(path)
+    assert first == second
+    assert first["id"] == "valid-concept"
+    assert first["claims"][0]["primary"] is True
+    assert first["relations"][0]["target"] == "fixture-parent"
+
+
+def _parse_links_with_fence(opening: str, body: list[str]) -> list[str]:
+    path = FIXTURES / "valid-concept.md"
+    source = path.read_text(encoding="utf-8").replace(
+        "Definition body.",
+        "\n".join(("Definition body.", opening, *body)),
+        1,
+    )
+    return parse_markdown(path, source)["links"]
+
+
+@pytest.mark.parametrize(
+    ("opening", "closing"),
+    (
+        ("```python", "```"),
+        ("   ```python", "   ````"),
+        ("~~~ language", "~~~~"),
+    ),
+)
+def test_parser_excludes_wikilinks_inside_commonmark_fences(
+    opening: str, closing: str
+):
+    links = _parse_links_with_fence(opening, ["[[fenced-target]]", closing])
+
+    assert "fenced-target" not in links
+
+
+@pytest.mark.parametrize(
+    "opening",
+    (
+        "    ```python",
+        "``` invalid`info",
+    ),
+)
+def test_parser_does_not_treat_invalid_commonmark_openers_as_fences(opening: str):
+    path = FIXTURES / "valid-concept.md"
+    source = path.read_text(encoding="utf-8") + f"\n{opening}\n[[visible-target]]\n"
+    links = parse_markdown(path, source)["links"]
+
+    assert "visible-target" in links
+
+
+@pytest.mark.parametrize("closing", ("```", "~~~~"))
+def test_parser_requires_same_marker_and_sufficient_closing_length(closing: str):
+    path = FIXTURES / "valid-concept.md"
+    source = path.read_text(encoding="utf-8") + "\n" + "\n".join(
+        (
+            "````python",
+            "[[first-fenced-target]]",
+            closing,
+            "[[second-fenced-target]]",
+        )
+    )
+    links = parse_markdown(path, source)["links"]
+
+    assert "first-fenced-target" not in links
+    assert "second-fenced-target" not in links
+
+
+def test_collection_member_row_order_is_preserved():
+    instance = parse_markdown(FIXTURES / "valid-collection.md")
+    assert instance["members"] == [
+        {
+            "target": "valid-concept",
+            "role": "foundation",
+            "rationale": "reviewed sequence",
+        }
+    ]
+
+
+def test_section_order_mutation_is_rejected():
+    path = FIXTURES / "valid-concept.md"
+    text = path.read_text(encoding="utf-8")
+    mutated = (
+        text.replace("## Mechanism", "## TEMP", 1)
+        .replace("## Variants", "## Mechanism", 1)
+        .replace("## TEMP", "## Variants", 1)
+    )
+    try:
+        parse_markdown(path, mutated)
+    except KnowledgeSchemaError as exc:
+        assert "ordered_sections" in str(exc)
+    else:
+        raise AssertionError("section order mutation accepted")
+
+
+def test_unknown_frontmatter_property_is_rejected():
+    path = FIXTURES / "valid-concept.md"
+    text = path.read_text(encoding="utf-8").replace(
+        "title: Contract Fixture Concept",
+        "title: Contract Fixture Concept\nstatus: active",
+    )
+    try:
+        parse_markdown(path, text)
+    except KnowledgeSchemaError as exc:
+        assert "Additional properties" in str(exc)
+    else:
+        raise AssertionError("unknown property accepted")
+
+
+def _page_type_literal_owners(root: Path, expected: set[str]) -> list[str]:
+    import ast
+
+    duplicate_owners = []
+    for path in sorted(root.rglob("*.py")):
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        owned_values: set[str] = set()
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.Assign, ast.AnnAssign)):
+                value = node.value
+            elif isinstance(node, ast.ClassDef) and (
+                node.name == "PageType"
+                or any(
+                    (
+                        isinstance(base, ast.Name)
+                        and base.id in {"Enum", "StrEnum"}
+                    )
+                    or (
+                        isinstance(base, ast.Attribute)
+                        and base.attr in {"Enum", "StrEnum"}
+                    )
+                    for base in node.bases
+                )
+            ):
+                value = node
+            else:
+                continue
+            if value is None:
+                continue
+            owned_values.update(
+                child.value
+                for child in ast.walk(value)
+                if isinstance(child, ast.Constant)
+                and isinstance(child.value, str)
+                and child.value in expected
+            )
+        if owned_values == expected:
+            duplicate_owners.append(path.relative_to(root).as_posix())
+    return duplicate_owners
+
+
+def test_page_type_enum_has_no_second_python_owner():
+    duplicate_owners = _page_type_literal_owners(
+        ROOT / "scripts", set(page_types(ROOT))
+    )
+
+    assert duplicate_owners == []
+
+
+@pytest.mark.parametrize(
+    "source",
+    (
+        "PAGE_TYPES = ['concept', 'entity', 'comparison', 'benchmark', "
+        "'dataset', 'method', 'source-summary', 'collection']\n",
+        "PAGE_TYPES = {'concept': 1, 'entity': 2, 'comparison': 3, "
+        "'benchmark': 4, 'dataset': 5, 'method': 6, "
+        "'source-summary': 7, 'collection': 8}\n",
+        "from enum import Enum\nclass PageType(Enum):\n"
+        "    CONCEPT = 'concept'\n    ENTITY = 'entity'\n"
+        "    COMPARISON = 'comparison'\n    BENCHMARK = 'benchmark'\n"
+        "    DATASET = 'dataset'\n    METHOD = 'method'\n"
+        "    SOURCE_SUMMARY = 'source-summary'\n    COLLECTION = 'collection'\n",
+        "import enum\nclass PageType(enum.Enum):\n"
+        "    CONCEPT = 'concept'\n    ENTITY = 'entity'\n"
+        "    COMPARISON = 'comparison'\n    BENCHMARK = 'benchmark'\n"
+        "    DATASET = 'dataset'\n    METHOD = 'method'\n"
+        "    SOURCE_SUMMARY = 'source-summary'\n    COLLECTION = 'collection'\n",
+        "from enum import StrEnum\nclass PageType(StrEnum):\n"
+        "    CONCEPT = 'concept'\n    ENTITY = 'entity'\n"
+        "    COMPARISON = 'comparison'\n    BENCHMARK = 'benchmark'\n"
+        "    DATASET = 'dataset'\n    METHOD = 'method'\n"
+        "    SOURCE_SUMMARY = 'source-summary'\n    COLLECTION = 'collection'\n",
+        "CONCEPT = 'concept'\nENTITY = 'entity'\nCOMPARISON = 'comparison'\n"
+        "BENCHMARK = 'benchmark'\nDATASET = 'dataset'\nMETHOD = 'method'\n"
+        "SOURCE_SUMMARY = 'source-summary'\nCOLLECTION = 'collection'\n",
+    ),
+)
+def test_page_type_owner_guard_rejects_literal_container_and_enum(
+    tmp_path: Path, source: str
+):
+    (tmp_path / "duplicate.py").write_text(source, encoding="utf-8")
+
+    owners = _page_type_literal_owners(tmp_path, set(page_types(ROOT)))
+
+    assert owners == ["duplicate.py"]
+
+
+def test_duplicate_yaml_property_is_rejected():
+    path = FIXTURES / "valid-concept.md"
+    text = path.read_text(encoding="utf-8").replace(
+        "title: Contract Fixture Concept",
+        "title: Contract Fixture Concept\ntitle: duplicate",
+    )
+    try:
+        parse_markdown(path, text)
+    except KnowledgeSchemaError as exc:
+        assert "duplicate YAML property" in str(exc)
+    else:
+        raise AssertionError("duplicate YAML property accepted")
+
+
+def test_semantic_plan_rejects_write_authority_fields():
+    plan = {
+        "title": "Draft",
+        "page_type": "concept",
+        "domain": "software-engineering",
+        "tags": ["architecture"],
+        "source_paths": ["raw/sources/video/a/d/manifest.json"],
+        "summary": "Draft summary",
+        "sections": [],
+        "claims": [],
+        "relations": [],
+        "members": [],
+        "path": "wiki/domains/software-engineering/draft.md",
+    }
+    errors = list(validator_for("SemanticPlan").iter_errors(plan))
+    assert any(error.validator == "additionalProperties" for error in errors)
+
+
+def test_semantic_plan_reuses_manifest_path_contract():
+    plan = {
+        "title": "Draft",
+        "page_type": "concept",
+        "domain": "software-engineering",
+        "tags": ["architecture"],
+        "source_paths": ["raw/sources/video/a/d/manifest.json"],
+        "summary": "Draft summary",
+        "sections": [],
+        "claims": [],
+        "relations": [],
+        "members": [],
+    }
+    errors = list(validator_for("SemanticPlan").iter_errors(plan))
+    assert any(list(error.path) == ["source_paths", 0] for error in errors)
+
+
+@pytest.mark.parametrize(
+    "source_path",
+    (
+        "raw/sources/../source/" + "a" * 64 + "/manifest.json",
+        "raw/sources/video/../" + "a" * 64 + "/manifest.json",
+        "raw/sources/video\\escape/source/" + "a" * 64 + "/manifest.json",
+    ),
+)
+def test_manifest_path_rejects_dot_and_backslash_components(source_path: str):
+    plan = {
+        "title": "Draft",
+        "page_type": "concept",
+        "domain": "software-engineering",
+        "tags": ["architecture"],
+        "source_paths": [source_path],
+        "summary": "Draft summary",
+        "sections": [],
+        "claims": [],
+        "relations": [],
+        "members": [],
+    }
+
+    errors = list(validator_for("SemanticPlan").iter_errors(plan))
+
+    assert any(list(error.path) == ["source_paths", 0] for error in errors)
+
+
+@pytest.mark.parametrize(
+    ("definition", "instance"),
+    (
+        (
+            "Descriptor",
+            {
+                "digest": "sha256:" + "a" * 64,
+                "size": 0,
+                "media_type": "text/plain",
+                "path": "..",
+            },
+        ),
+        (
+            "ArtifactManifest",
+            {
+                "schema_version": "1.0",
+                "source_type": "video",
+                "source_id": ".",
+                "artifact_digest": "sha256:" + "a" * 64,
+                "media_type": "application/json",
+                "size": 0,
+                "payload": "payload.json",
+                "created_at": "2026-08-21T00:00:00Z",
+                "generator": {"name": "test", "version": "1.0"},
+                "primary_source": "https://example.invalid/source",
+            },
+        ),
+        (
+            "AssetManifest",
+            {
+                "schema_version": "1.0",
+                "source_id": "..",
+                "asset_digest": "sha256:" + "a" * 64,
+                "media_type": "image/png",
+                "size": 0,
+                "payload": "asset.png",
+                "created_at": "2026-08-21T00:00:00Z",
+                "generator": {"name": "test", "version": "1.0"},
+            },
+        ),
+    ),
+)
+def test_artifact_path_components_reject_dot_values(
+    definition: str, instance: dict
+):
+    assert list(validator_for(definition).iter_errors(instance))
+
+
+def test_page_write_plan_is_strict_and_allows_at_most_one_page():
+    digest = "a" * 64
+    entry = {
+        "action": "create",
+        "source_path": None,
+        "target_path": "staging/software-engineering/page-id.md",
+        "base_sha256": None,
+        "target_sha256": digest,
+        "base_mode": None,
+        "target_mode": 420,
+        "base_content": None,
+        "content": "# page\n",
+    }
+    plan = {
+        "schema_version": "1.0",
+        "operation": "synthesize",
+        "knowledge_root": "wiki",
+        "schema_sha256": digest,
+        "base_tree_sha256": digest,
+        "target_tree_sha256": digest,
+        "input_sha256": digest,
+        "generator": {"name": "cs-study", "version": "1.0"},
+        "requires_review_approval": False,
+        "review_verdicts": [],
+        "operation_input": {
+            "semantic_plan_sha256": digest,
+            "source_paths": ["raw/sources/video/source/" + digest + "/manifest.json"],
+            "page_id": "page-id",
+            "now": "2026-08-26",
+        },
+        "write_set": [entry, entry],
+    }
+    errors = list(validator_for("PageWritePlan").iter_errors(plan))
+    assert any(
+        list(error.path) == ["write_set"] and error.validator == "maxItems"
+        for error in errors
+    )
+
+    plan["write_set"] = [entry]
+    plan["unexpected"] = True
+    errors = list(validator_for("PageWritePlan").iter_errors(plan))
+    assert any(error.validator == "additionalProperties" for error in errors)
+
+
+def test_page_write_plan_rejects_invalid_mode_and_review_verdict_shape():
+    digest = "a" * 64
+    plan = {
+        "schema_version": "1.0",
+        "operation": "promote",
+        "knowledge_root": "wiki",
+        "schema_sha256": digest,
+        "base_tree_sha256": digest,
+        "target_tree_sha256": digest,
+        "input_sha256": digest,
+        "generator": {"name": "cs-study", "version": "1.0"},
+        "requires_review_approval": True,
+        "review_verdicts": [{"claim_id": "C1", "verdict": "support"}],
+        "operation_input": {
+            "source_path": "staging/software-engineering/page-id.md",
+            "target_path": "domains/software-engineering/page-id.md",
+            "review_verdicts_sha256": digest,
+        },
+        "write_set": [
+            {
+                "action": "move",
+                "source_path": "staging/software-engineering/page-id.md",
+                "target_path": "domains/software-engineering/page-id.md",
+                "base_sha256": digest,
+                "target_sha256": digest,
+                "base_mode": 420,
+                "target_mode": 8192,
+                "base_content": None,
+                "content": "# page\n",
+            }
+        ],
+    }
+    errors = list(validator_for("PageWritePlan").iter_errors(plan))
+    assert any(list(error.path)[-1:] == ["target_mode"] for error in errors)
+
+    plan["write_set"][0]["target_mode"] = 420
+    plan["review_verdicts"][0]["unexpected"] = True
+    errors = list(validator_for("PageWritePlan").iter_errors(plan))
+    assert any(error.validator == "additionalProperties" for error in errors)
+
+    plan["review_verdicts"][0].pop("unexpected")
+    plan["operation"] = "move"
+    plan["requires_review_approval"] = False
+    plan["review_verdicts"] = []
+    errors = list(validator_for("PageWritePlan").iter_errors(plan))
+    assert errors, "move accepted promote-only operation_input and review verdicts"
+
+
+def test_page_write_plan_rejects_ambiguous_collection_add_ordering_policy():
+    digest = "a" * 64
+    plan = {
+        "schema_version": "1.0",
+        "operation": "collection-add-member",
+        "knowledge_root": "wiki",
+        "schema_sha256": digest,
+        "base_tree_sha256": digest,
+        "target_tree_sha256": digest,
+        "input_sha256": digest,
+        "generator": {"name": "cs-study", "version": "1.0"},
+        "requires_review_approval": False,
+        "review_verdicts": [],
+        "operation_input": {
+            "collection_path": "collections/sequence.md",
+            "member": "new-member",
+            "before": "existing-member",
+            "after": "existing-member",
+            "order_by_id": True,
+        },
+        "write_set": [],
+    }
+    errors = list(validator_for("PageWritePlan").iter_errors(plan))
+    assert errors, "ambiguous collection ordering policy was accepted"
+
+    plan["operation"] = "collection-reorder"
+    plan["operation_input"] = {
+        "collection_path": "collections/sequence.md",
+        "members": ["new-member"],
+    }
+    plan["write_set"] = [
+        {
+            "action": "replace",
+            "source_path": "collections/sequence.md",
+            "target_path": "collections/sequence.md",
+            "base_sha256": digest,
+            "target_sha256": digest,
+            "base_mode": None,
+            "target_mode": 420,
+            "base_content": "# sequence\n",
+            "content": "# sequence\n",
+        }
+    ]
+    errors = list(validator_for("PageWritePlan").iter_errors(plan))
+    assert errors, "replace accepted a null base_mode"
+
+    plan["operation"] = "synthesize"
+    plan["operation_input"] = {
+        "semantic_plan_sha256": digest,
+        "source_paths": ["raw/sources/video/source-id/" + digest + "/manifest.json"],
+        "page_id": "page-id",
+        "now": "2026-08-26",
+    }
+    plan["write_set"] = []
+    errors = list(validator_for("PageWritePlan").iter_errors(plan))
+    assert errors, "synthesize accepted an empty write_set"
+
+
+def test_empty_source_paths_are_rejected_for_document_and_semantic_plan():
+    collection = FIXTURES / "valid-collection.md"
+    text = collection.read_text(encoding="utf-8").replace(
+        "source_paths:\n"
+        "  - raw/sources/clipping/fixture-collection/" + "b" * 64 + "/manifest.json",
+        "source_paths: []",
+    )
+    try:
+        parse_markdown(collection, text)
+    except KnowledgeSchemaError as exc:
+        assert "should be non-empty" in str(exc)
+    else:
+        raise AssertionError("empty DocumentInstance source_paths accepted")
+
+    plan = {
+        "title": "Draft",
+        "page_type": "concept",
+        "domain": "software-engineering",
+        "tags": ["architecture"],
+        "source_paths": [],
+        "summary": "Draft summary",
+        "sections": [],
+        "claims": [],
+        "relations": [],
+        "members": [],
+    }
+    errors = list(validator_for("SemanticPlan").iter_errors(plan))
+    assert any(
+        list(error.path) == ["source_paths"] and error.validator == "minItems"
+        for error in errors
+    )
+
+
+def test_incompatible_schema_mutation_rejects_unchanged_fixture():
+    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    instance = parse_markdown(FIXTURES / "valid-concept.md")
+    mutated = copy.deepcopy(schema)
+    mutated["$defs"]["Properties"]["required"].append("new_required_field")
+    selected = {
+        "$schema": mutated["$schema"],
+        "$ref": "#/$defs/DocumentInstance",
+        "$defs": mutated["$defs"],
+    }
+    from jsonschema import Draft202012Validator
+
+    assert list(Draft202012Validator(selected).iter_errors(instance))
+
+
+def test_requirement_manifest_exactly_covers_prd_ids():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    entries = manifest["requirements"]
+    ids = [entry["id"] for entry in entries]
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    declared = set(re.findall(r"^\| ((?:FR|NFR)-KP-\d{3}) \|", prd, re.MULTILINE))
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    assert _requirement_traceability_errors(manifest, prd, architecture) == []
+    assert len(ids) == len(set(ids)) == 37
+    assert set(ids) == declared
+    for entry in entries:
+        assert entry["steps"] and entry["surfaces"] and entry["verification"]
+        if min(entry["steps"]) <= 6:
+            assert any(
+                (ROOT / path).exists()
+                for path in entry["surfaces"] + entry["verification"]
+            )
+
+
+def test_requirement_traceability_rejects_architecture_id_omission():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    mutated = architecture.replace(
+        "| FR-KP-001 | §3, §4, §8 | BR-ART-007 |\n",
+        "",
+    )
+
+    assert "architecture requirement IDs differ from PRD IDs" in (
+        _requirement_traceability_errors(manifest, prd, mutated)
+    )
+
+
+def test_requirement_traceability_rejects_manifest_mapping_key():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    mutated = copy.deepcopy(manifest)
+    mutated["requirements"][0]["architecture"] = ["§4"]
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "manifest requirement entry keys differ from the exact contract" in (
+        _requirement_traceability_errors(mutated, prd, architecture)
+    )
+
+
+def test_requirement_traceability_rejects_prd_duplicate_id():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    duplicate = (
+        "| FR-KP-001 | extractor는 provider-agnostic canonical payload를 출력한다 | "
+        "payload가 versioned contract를 만족하고 cs-study 식별자·경로가 0건이며 "
+        "exact payload path를 CLI 결과로 반환한다 |"
+    )
+    mutated = prd.replace(duplicate, f"{duplicate}\n{duplicate}", 1)
+
+    assert "PRD requirement IDs are duplicated" in (
+        _requirement_traceability_errors(manifest, mutated, architecture)
+    )
+
+
+def test_requirement_traceability_rejects_architecture_duplicate_id():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    duplicate = "| FR-KP-001 | §3, §4, §8 | BR-ART-007 |"
+    mutated = architecture.replace(duplicate, f"{duplicate}\n{duplicate}", 1)
+
+    assert "architecture requirement IDs are duplicated" in (
+        _requirement_traceability_errors(manifest, prd, mutated)
+    )
+
+
+def test_requirement_traceability_rejects_malformed_architecture_duplicate():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    canonical = "| FR-KP-001 | §3, §4, §8 | BR-ART-007 |"
+    malformed = "| FR-KP-001 | §3 | BR-ART-007 | unexpected |"
+    mutated = architecture.replace(canonical, f"{canonical}\n{malformed}", 1)
+
+    errors = _requirement_traceability_errors(manifest, prd, mutated)
+    assert "architecture requirement IDs are duplicated" in errors
+    assert "architecture requirement row differs from the exact contract" in errors
+
+
+def test_requirement_traceability_rejects_whitespace_malformed_architecture_row():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    canonical = "| FR-KP-001 | §3, §4, §8 | BR-ART-007 |"
+    malformed = "|FR-KP-001| §3 | BR-ART-007 |"
+    mutated = architecture.replace(canonical, f"{canonical}\n{malformed}", 1)
+
+    assert "architecture requirement row differs from the exact contract" in (
+        _requirement_traceability_errors(manifest, prd, mutated)
+    )
+
+
+def test_requirement_traceability_rejects_manifest_top_level_mapping():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    mutated = copy.deepcopy(manifest)
+    mutated["architecture"] = {"FR-KP-001": ["§3"]}
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "manifest top-level keys differ from the exact contract" in (
+        _requirement_traceability_errors(mutated, prd, architecture)
+    )
+
+
+def test_requirement_traceability_rejects_whitespace_malformed_prd_row():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    canonical = (
+        "| FR-KP-001 | extractor는 provider-agnostic canonical payload를 출력한다 | "
+        "payload가 versioned contract를 만족하고 cs-study 식별자·경로가 0건이며 "
+        "exact payload path를 CLI 결과로 반환한다 |"
+    )
+    malformed = "|FR-KP-001| duplicate | duplicate |"
+    mutated = prd.replace(canonical, f"{canonical}\n{malformed}", 1)
+
+    assert "PRD requirement row differs from the exact contract" in (
+        _requirement_traceability_errors(manifest, mutated, architecture)
+    )
+
+
+def test_requirement_traceability_rejects_blank_prd_semantic_cells():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    canonical = (
+        "| FR-KP-001 | extractor는 provider-agnostic canonical payload를 출력한다 | "
+        "payload가 versioned contract를 만족하고 cs-study 식별자·경로가 0건이며 "
+        "exact payload path를 CLI 결과로 반환한다 |"
+    )
+    mutations = (
+        "| FR-KP-001 |   | payload contract |",
+        "| FR-KP-001 | extractor contract |   |",
+    )
+
+    for replacement in mutations:
+        mutated = prd.replace(canonical, replacement, 1)
+        assert "PRD requirement semantic cells must be non-empty" in (
+            _requirement_traceability_errors(manifest, mutated, architecture)
+        )
+
+
+def test_requirement_traceability_rejects_blank_architecture_mapping_cells():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    prd = (ROOT / "docs" / "wiki-ingest-prd.md").read_text(encoding="utf-8")
+    architecture = (ROOT / "docs" / "wiki-ingest-architecture.md").read_text(
+        encoding="utf-8"
+    )
+    canonical = "| FR-KP-001 | §3, §4, §8 | BR-ART-007 |"
+    mutations = (
+        "| FR-KP-001 |   | BR-ART-007 |",
+        "| FR-KP-001 | §3 |   |",
+    )
+
+    for replacement in mutations:
+        mutated = architecture.replace(canonical, replacement, 1)
+        assert "architecture mapping cells must be non-empty" in (
+            _requirement_traceability_errors(manifest, prd, mutated)
+        )
+
+
+def test_retired_migration_preservation_requirement_has_exact_evidence_owners():
+    manifest = json.loads(
+        (ROOT / "_meta" / "knowledge-requirements.json").read_text(encoding="utf-8")
+    )
+    entry = next(
+        item for item in manifest["requirements"] if item["id"] == "NFR-KP-015"
+    )
+    assert entry == {
+        "id": "NFR-KP-015",
+        "steps": [6, 9],
+        "surfaces": [
+            ".gitignore",
+            "docs/wiki-ingest-architecture.md",
+        ],
+        "verification": [
+            "reports/P2-T4-verification.md",
+            "reports/P2-T7-verification.md",
+            "tests/test_project_boundaries.py",
+        ],
+    }
+
+
+def main() -> int:
+    tests = [
+        value for name, value in sorted(globals().items()) if name.startswith("test_")
+    ]
+    failed = 0
+    for test in tests:
+        try:
+            test()
+            print(f"PASS {test.__name__}")
+        except Exception as exc:
+            failed += 1
+            print(f"FAIL {test.__name__}: {exc}")
+    print(f"\n--- {len(tests) - failed} passed, {failed} failed / {len(tests)} ---")
+    return int(bool(failed))
+
+
+if __name__ == "__main__":
+    sys.exit(main())

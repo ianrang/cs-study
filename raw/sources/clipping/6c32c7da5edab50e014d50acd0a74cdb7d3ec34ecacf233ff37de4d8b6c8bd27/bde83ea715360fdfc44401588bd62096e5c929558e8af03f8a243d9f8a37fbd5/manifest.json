@@ -1,0 +1,15 @@
+{
+  "artifact_digest": "sha256:bde83ea715360fdfc44401588bd62096e5c929558e8af03f8a243d9f8a37fbd5",
+  "created_at": "2026-08-24T10:38:12Z",
+  "generator": {
+    "name": "cs-study-capture",
+    "version": "1.0"
+  },
+  "media_type": "text/markdown",
+  "payload": "payload.md",
+  "primary_source": "wiki/domains/information-security/drafts/study/past-exam-recurring-topic-priorities.md",
+  "schema_version": "1.0",
+  "size": 16433,
+  "source_id": "6c32c7da5edab50e014d50acd0a74cdb7d3ec34ecacf233ff37de4d8b6c8bd27",
+  "source_type": "clipping"
+}

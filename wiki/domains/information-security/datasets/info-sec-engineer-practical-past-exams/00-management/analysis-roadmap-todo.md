@@ -1,53 +1,53 @@
 ---
-title: "정보보안기사 실기 기출 분석 및 2026년 2회 대비 로드맵 TODO"
-tier: llm-synthesis
+title: 정보보안기사 실기 기출 분석 및 2026년 2회 대비 로드맵 TODO
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-strategy, todo]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-09
+tags:
+- information-security
+- certification
+- exam-strategy
+- todo
+date_created: '2026-07-03'
+date_updated: '2026-07-09'
 source_paths:
-  - "../02-references/reference-patching-review.md"
-  - "../02-references/reference-source-index.md"
-  - "document-architecture.md"
-  - "document-management-scaffold.md"
-  - "../02-references/exam-criteria-and-reference-catalog.md"
-  - "../04-mapping/item-reference-map.md"
-  - "../03-classification/subject-type-matrix.md"
-  - "../03-classification/subject-type-classification-detail.md"
-  - "../03-classification/subject-type-cross-verify-report.md"
-  - "../06-verification/prompt-completeness-cross-verify-report.md"
-  - "../05-analysis/frequency-analysis.md"
-  - "../05-analysis/recurrence-analysis.md"
-  - "../05-analysis/pattern-analysis.md"
-  - "../05-analysis/significance-review.md"
-  - "../05-analysis/analysis-cross-verify-report.md"
-  - "../05-analysis/session-slot-pattern-analysis.md"
-  - "../07-study/study-strategy-2026-02.md"
-  - "../08-prediction/predicted-practical-questions-2026-02.md"
-  - "../06-verification/prediction-validation-report.md"
-  - "../06-verification/pdf-source-cross-verify-report.md"
-source_count: 20
-provenance: inferred
-summary: "정보보안기사 실기 합격 전략을 위해 기출 복원부터 예상문제 생성까지 단계별 작업을 추적하고, 검증된 복원 원천이 없는 회차는 생성하지 않도록 관리한다."
-evergreen: false
+- raw/sources/clipping/4561a2f1f2a1df2fdb4570052e388cd0f0ac8eda5d809a9095e8a92aeaedcba2/e7f46816dca1f2169f14431ffc1b202fd298a2797858b72552eb5571c84354dc/manifest.json
+summary: 정보보안기사 실기 합격 전략을 위해 기출 복원부터 예상문제 생성까지 단계별 작업을 추적하고, 검증된 복원 원천이 없는 회차는 생성하지
+  않도록 관리한다.
 ---
+
+## Overview
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 정보보안기사 실기 기출 분석 및 2026년 2회 대비 로드맵 TODO
 
-## 목표
+### 목표
 2026년 2회 정보보안기사 실기 시험 대비를 위해, 기출 문제를 정확히 복원·분류하고 공식 출제기준 및 참고문서와 연결한 뒤, 재출제 빈도와 패턴을 기반으로 학습 전략과 예상문제를 만든다.
 
-## 원칙
+### 원칙
 - 누락된 문제는 추론으로 채우지 않는다.
 - 원문·출처·근거가 불명확한 항목은 `미확인`, `후보`, `검증 필요`로 표시한다.
 - 공식 출제기준과 법령/고시/공공 가이드는 최신성을 확인한다.
 - 예상문제는 `기출 기반 예측`이며 실제 출제를 보장하지 않는다고 명시한다.
 
-## 단계별 TODO
+### 단계별 TODO
 
 | 단계 | 작업 | 상태 | 산출물 | 완료 기준 |
 |---:|---|---|---|---|
@@ -78,7 +78,7 @@ evergreen: false
 | 7-1 | 예상문제 정답·채점포인트 작성 | 완료 | `predicted-practical-questions-2026-02.md` | 단답형 키워드, 서술형 채점요소, 실무형 절차 답안 포함 |
 | 7-2 | 예상문제 검증 | 완료 | `prediction-validation-report.md` | 근거 없는 문제 제거, 문서 연결 누락 보정 |
 
-## 우선순위
+### 우선순위
 
 | 우선순위 | 작업 | 이유 |
 |---:|---|---|
@@ -90,7 +90,7 @@ evergreen: false
 | 6 | 보조 원천 raw/source 선별 패칭 | 현재는 대량 패칭하지 않는다. 학습전략·예상문제의 핵심 반복 근거 또는 외부 삭제 위험이 확인된 원천만 선별 패칭한다. |
 | 7 | 문서 물리 디렉터리 분리 | 현재는 same-directory 링크와 `source_paths` 정합을 우선해 보류한다. 필요 시 별도 마이그레이션 작업으로 수행한다. |
 
-## 현재 리스크
+### 현재 리스크
 
 | 리스크 | 영향 | 대응 |
 |---|---|---|
@@ -103,7 +103,7 @@ evergreen: false
 | 법령·고시 개정 | 최신 시험 대비 오류 가능 | 문서별 적용일/시행일 필드 유지 |
 | 예상문제 과신 | 학습 범위 왜곡 | 예상문제마다 근거와 확신도 표기 |
 
-## 다음 작업 후보
+### 다음 작업 후보
 
 1. `subject-type-cross-verify-report.md` 잔여 MEDIUM finding 판단 또는 저신뢰 회차 원천 보강.
 2. KCA 공식 원천 확보 시 1~28회 원문 문구 최종 대조.
@@ -111,3 +111,25 @@ evergreen: false
 4. 예상문제 풀이 결과를 오답표로 회수해 `study-strategy-2026-02.md`의 priority 1~2를 보강한다.
 5. 남은 4개 medium confidence 행은 현재 레퍼런스로 보강하지 않는다. 추후 직접 대응 가능한 신규 공식·표준·공공기관·벤더 1차 원천이 생기면 재개한다.
 6. 보조 원천 raw/source는 대량 저장하지 않는다. 핵심 반복 근거 또는 외부 삭제 위험이 확인된 원천만 선별 패칭한다.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/4561a2f1f2a1df2fdb4570052e388cd0f0ac8eda5d809a9095e8a92aeaedcba2/e7f46816dca1f2169f14431ffc1b202fd298a2797858b72552eb5571c84354dc/manifest.json`

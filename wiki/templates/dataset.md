@@ -1,49 +1,35 @@
 ---
-title: ""
-tier: llm-synthesis
+title: ''
 page_type: dataset
-domain: ""
-domain_confidence: high
-shared_scope: domain
 tags: []
-status: active
-date_created: ""
-date_updated: ""
+date_created: ''
+date_updated: ''
 source_paths: []
-source_count: 0
-provenance: extracted
-summary: ""
+summary: ''
+aliases: []
 ---
-
-[1-2 문장 summary]
+<!-- generated-by: cs-study-materializer/1.0; schema-sha256: fec09cc5b30e4966c142c1596c493b8c1d0d1e59313ac276cb981cec04142637 -->
 
 ## Overview
 
-[데이터셋 출처·규모·라이선스]
-
-| 속성 | 값 |
-|---|---|
-| 규모 | ... rows / ... tokens |
-| 라이선스 | ... |
-| 출처 | ... |
-| 발표 시점 | ... |
 
 ## Schema / Composition
 
-[필드·예시·통계]
-
-```
-{field1: ..., field2: ..., ...}
-```
 
 ## Usage
 
-[학습·평가·연구 활용 예]
 
 ## Limitations / Biases
 
-- [데이터 편향·noise]
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
 
 ## Sources
-
-- [[source path]] ^[extracted] — 1-line context

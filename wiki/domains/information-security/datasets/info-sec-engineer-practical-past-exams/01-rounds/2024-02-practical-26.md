@@ -1,33 +1,33 @@
 ---
-title: "정보보안기사 실기 26회 2024년 2회 실기 복원"
-tier: llm-synthesis
+title: 정보보안기사 실기 26회 2024년 2회 실기 복원
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-06
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-06'
 source_paths:
-  - "https://it-utopia.tistory.com/entry/정보보안기사-2024년-26회-정보보안기사-실기-기출문제-복원"
-  - "https://blog.naver.com/stereok2/223603394618"
-source_count: 2
-provenance: inferred
-summary: "정보보안기사 실기 26회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: direct web reconstruction, Naver blog cross-check."
-evergreen: false
+- raw/sources/clipping/427ee7551bda6628e3ca517472a0f13fdb035608286540afbd06a1f7fac72c91/682fbb2d9fdbc016a9770b4fba19450727ea7bbddc74c2aa03ab5a3056b18276/manifest.json
+summary: '정보보안기사 실기 26회 복원 항목을 동일 표 구조로 정리한 페이지. 출처 상태: direct web reconstruction,
+  Naver blog cross-check.'
 ---
+
+## Overview
+
+
+
 
 # 정보보안기사 실기 26회 2024년 2회 실기 복원
 
-## Scope
+### Scope
 - Exam mapping: 2024년 2회 실기.
 - Source status: direct web reconstruction cross-checked with Naver blog `stereok2/223603394618`; confidence: high for topic coverage, official wording still unverified.
 - This file stores paraphrased reconstruction notes, not verbatim source text.
 - Local 1~28회 thodi-lab/blog-source PDF compilation was unlocked and text-extracted on 2026-07-06; KCA official wording is still not claimed.
 
 
-## Reconstruction
+### Reconstruction
 | no | type | reconstructed prompt | answer | verification |
 |---:|---|---|---|---|
 | 1 | short | 리눅스에서 패스워드 최소 길이를 8자리 이상으로 설정하려고 한다. 패스워드 설정을 위한 파일명(A)과 설정 내용(B, C)을 기술하시오. # cat /etc/(A) (B) (C) | (A) : login.defs, (B) : PASS_MIN_LEN, (C) : 8 | source-derived; exact wording unverified |
@@ -42,14 +42,36 @@ evergreen: false
 | 10 | short | 침입탐지 시스템에는 호스트 컴퓨터의 내부 상태 또는 저장된 로그를 분석하여 침입을 탐지하는 (A), 통신망을 통해 전송되는 패킷 데이터를 분석하여 침입 여부를 판단하는 (B)가 있다. | (A) : HIDS(호스트기반 IDS), (B) : NIDS(네트워크기반 IDS) | source-derived; exact wording unverified |
 | 11 | short | 위험을 구성하는 요소에 대한 설명이다. ( )에 들어갈 용어를 기술하시오. (1) (A) : 조직 내에서 가치를 가지고 있는 모든 것으로, 보호해야 할 대상 (2) (B) : 자산에 손실을 초래할 수 있는 원치 않는 사건의 잠재적인 원인 또는 행위자 (3) (C) : 위협의 이용 대상이 되는 자산의 잠재적인 약점 | (A) : 자산(Asset), (B) : 위협(Threat), (C) : 취약성 또는 취약점(Vulnerability) | source-derived; exact wording unverified |
 | 12 | short | (A)는 조직의 자산에 대한 위험을 감수할 수 있는 수준으로 유지하기 위해 위험을 분석하고, 비용대비 효과적인 대책을 마련하는 일련의 과정이다. (A)의 단계는 (B), 위험평가, (C)이다. (B)는 잠재적으로 식별된 위험이 조직의 목표 및 운영에 미칠 가능성과 잠재적 영향을 분석하는 단계이다. (C)는 식별된 위험을 완화, 이전, 수용 또는 방지하기 위한 위험 처리 방안을 결정하는 단계이다. | (A) : 위험관리, (B) : 위험분석, (C) : 보호대책 선정(위험 처리) | source-derived; exact wording unverified |
-| 13 | essay | 사용자가 `cmd.exe`를 실행하려고 할 때 UAC 팝업에 "다음 프로그램이 이 컴퓨터를 변경할 수 있도록 허용하시겠습니까?", 프로그램 이름 `Windows 명령 처리기`, 확인된 게시자 `Microsoft Windows`, 파일 원본 `이 컴퓨터의 하드 드라이브`가 표시되고, 관리자 암호 입력 안내와 함께 [예] 버튼은 비활성화되고 [아니오] 버튼만 활성화되어 있다. 1) 사용자가 윈도우 명령 처리기를 실행한 의도와 2) [예] 버튼이 비활성화된 이유를 설명하시오. | 1) 현재 권한으로 수행할 수 없는 명령을 처리하기 위해 명령 처리기를 관리자 권한으로 실행하려는 의도이다. 2) 관리자 계정이 비활성화·삭제 등 정상 상태가 아니거나 윈도우 시스템 파일이 손상된 경우로 볼 수 있다. | source-derived; Naver cross-checked; official wording unverified |
+| 13 | essay | 사용자가 `cmd.exe`를 실행하려고 할 때 UAC 팝업에 "다음 프로그램이 이 컴퓨터를 변경할 수 있도록 허용하시겠습니까?", 프로그램 이름 `Windows 명령 처리기`, 확인된 게시자 `Microsoft Windows`, 파일 원본 `이 컴퓨터의 하드 드라이브`가 표시되고, 관리자 암호 입력 안내와 함께 [예] 버튼은 비활성화되고 [아니오] 버튼만 활성화되어 있다. 1) 사용자가 윈도우 명령 처리기를 실행한 의도와 2) [예] 버튼이 비활성화된 이유를 설명하시오. | 1) 현재 권한으로 수행할 수 없는 명령을 처리하기 위해 명령 처리기를 관리자 권한으로 실행하려는 의도이다. 2) 화면만으로 관리자 계정 비활성·시스템 파일 손상을 확정할 수 없다. 표준 사용자 정책에서 elevation 요청을 자동 거부하거나 유효한 관리자 자격증명이 제공되지 않은 경우 등 UAC 정책·계정 상태를 확인해야 한다. | source-derived; 2026-07-17 technical correction: UAC evidence boundary |
 | 14 | essay | 개인정보 처리가 수반되는 사업 추진 시 해당 사업이 개인정보에 미치는 영향을 사전에 분석하고 이에 대한 개선방안을 수립하여 개인정보 침해사고를 사전에 예방하기 위하여 개인정보 영향평가를 수행한다. 개인정보 영향평가 수행 시 고려해야 할 사항 5가지를 기술하시오. | 처리하는 개인정보의 수, 개인정보의 제3자 제공 여부, 정보주체의 권리를 해할 가능성 및 그 위험 정도, 민감정보 또는 고유식별정보의 처리 여부, 개인정보 보유기간 | source-derived; Naver cross-checked; official wording unverified |
-| 15 | essay | 시스템 로그 점검 중 `device eth0 entered Promiscuous mode` 로그가 발견되었다. 1) Promiscuous mode의 의미, 2) 해당 모드에서 가능한 공격, 3) 대응 방법을 설명하시오. | 1) `eth0` 인터페이스로 들어오는 모든 패킷을 목적지와 무관하게 수신하는 모드이다. 2) 패킷 내용을 훔쳐보는 스니핑 공격이 가능하다. 3) SSH/HTTPS 등 암호화 통신 사용, 스위치 운용으로 불필요한 브로드캐스트 최소화, `ifconfig eth0 -promisc`로 무차별 모드 해제, PromqryUI/Nmap 등으로 지속 점검한다. | source-derived; exact wording unverified |
+| 15 | essay | 시스템 로그 점검 중 `device eth0 entered Promiscuous mode` 로그가 발견되었다. 1) Promiscuous mode의 의미, 2) 해당 모드에서 가능한 공격, 3) 대응 방법을 설명하시오. | 1) `eth0`이 목적지 MAC과 무관한 프레임을 수신하도록 하는 모드이다. 2) 패킷 스니핑에 악용될 수 있으나 가상화·브리지·모니터링에도 사용되므로 단일 로그만으로 공격을 확정하지 않는다. 3) 승인된 사용 여부를 확인하고 불필요하면 `ip link set dev eth0 promisc off`로 해제하며, 암호화 통신·스위치 포트 보안·변경 모니터링을 병행한다. | source-derived; 2026-07-17 technical correction: promiscuous mode is not conclusive attack evidence |
 | 16 | essay | XSS(Cross Site Script) 공격의 정의와 공격 기법 2가지를 설명하시오. | XSS는 웹페이지에 악성 스크립트를 포함시켜 사용자 브라우저에서 실행되도록 하는 공격이다. Reflected XSS는 악성 URL 파라미터가 응답에 반사되어 실행되는 방식, Stored XSS는 게시판·프로필 등에 저장된 악성 스크립트가 다른 사용자 열람 시 실행되는 방식이다. DOM based XSS는 서버를 거치지 않고 DOM 생성 과정에서 실행되는 유형이다. | source-derived; exact wording unverified |
-| 17 | practical | 데이터베이스 관리가 미흡한 경우 비인가자가 DB에 접근해 정보 유출·훼손·파괴 등 악의적 행위를 할 수 있다. 1) DBA가 일반 사용자 또는 원격 사용자에게 부여하면 안 되는 권한 3가지와 2) 접근 권한을 최소화할 수 있는 방법 4가지를 기술하시오. | 부여 금지 권한 예시는 `CREATE USER`, `DROP USER`, `DROP ANY TABLE`, `BACKUP ANY TABLE` 등이다. 최소화 방법은 지정 IP에서만 원격 DB 접속 허용, DBA 외 시스템 테이블 접근 제한, 응용프로그램/DBA 계정 Role의 Public 설정 금지, `OS_ROLES`·`REMOTE_OS_AUTHENT` 등 원격/OS 인증 관련 위험 설정 제한, 최신 보안패치와 벤더 권고 적용 등이다. | source-derived; exact wording unverified |
+| 17 | practical | 데이터베이스 권한 관리가 미흡한 경우 비인가자가 DB에 접근해 정보 유출·훼손·파괴 등 악의적 행위를 할 수 있다. (1) DBA가 일반 사용자 또는 원격 사용자에게 부여하면 안 되는 권한 3가지, (2) 접근권한을 최소화할 수 있는 방법 4가지를 기술하시오. | (1) Oracle 예시로 `CREATE USER`, `DROP USER`, `DROP ANY TABLE`, `BACKUP ANY TABLE` 중 3가지. (2) 지정 IP에서만 원격 DB 접속 허용, DBA 외 시스템 테이블 접근 제한, 응용프로그램/DBA 계정 Role의 Public 설정 금지, `OS_ROLES`·`REMOTE_OS_AUTHENTICATION`·`REMOTE_OS_ROLES`를 `FALSE`로 제한, 최신 보안 패치·벤더 권고 적용 중 4가지. 이는 Oracle 예시이며 권한명·매개변수 지원 여부는 제품·버전에 종속된다. | PDF compilation cross-check restored the full question and listed choices. This is a non-official blog compilation, not KCA wording; the answer is explicitly Oracle-version-bound. |
 | 18 | practical | 아래 취약점 점검 결과를 기반으로, 다음 물음에 답하시오. [취약점 점검 결과] # openssl version -a OpenSSL 1.0.1 14 May 2012 # openssl s_client -connect domain.com:8443 -tlsextdebug -debug -state \| grep -i heartbeat SSL_connect:before SSL initialization SSL_connect:SSLv3/TLS write client hello SSL_connect:SSLv3/TLS read server hello TLS server extension "heartbeat" (id=15), len=1 1) 취약점 명은? 2) 시스템적으로 해당 취약점을 조치하는 방법은? 3) 서비스적으로 해당 취약점을 조치하는 방법은? | 취약점명: 하트블리드(HeartBleed). 시스템 조치: OpenSSL을 취약점이 패치된 버전으로 업데이트하거나 Heartbeat를 비활성화해 재컴파일한다. 서비스 조치: 인증서와 개인키를 교체하고 취약점 조치 완료 후 사용자 비밀번호 재설정을 안내한다. | source-derived; Naver cross-checked; official wording unverified |
 
-## Verification Notes
+### Verification Notes
 - Exact official KCA/KISA practical question wording is not available in this workspace.
 - Rows are normalized from accessible web reconstructions and cross-checked against the Naver blog reconstruction listed in `source_paths`; they were cross-checked against the unlocked thodi-lab/blog-source PDFs where in 1~28 scope; KCA official wording is still not claimed.
 - Legal/regulatory answers should be checked against current statutes before memorization.
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/427ee7551bda6628e3ca517472a0f13fdb035608286540afbd06a1f7fac72c91/682fbb2d9fdbc016a9770b4fba19450727ea7bbddc74c2aa03ab5a3056b18276/manifest.json`

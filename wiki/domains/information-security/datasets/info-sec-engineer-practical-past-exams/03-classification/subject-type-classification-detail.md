@@ -1,56 +1,56 @@
 ---
-title: "정보보안기사 실기 과목/문제유형 분류 상세"
-tier: llm-synthesis
+title: 정보보안기사 실기 과목/문제유형 분류 상세
 page_type: dataset
-domain: information-security
-domain_confidence: high
-shared_scope: domain
-tags: [information-security, certification, exam-reconstruction]
-status: active
-date_created: 2026-07-03
-date_updated: 2026-07-09
+tags:
+- information-security
+- certification
+- exam-reconstruction
+date_created: '2026-07-03'
+date_updated: '2026-07-09'
 source_paths:
-  - "../index.md"
-  - "../01-rounds/2013-01-practical-01.md"
-  - "../01-rounds/2013-02-practical-02.md"
-  - "../01-rounds/2014-01-practical-03.md"
-  - "../01-rounds/2014-02-practical-04.md"
-  - "../01-rounds/2015-01-practical-05.md"
-  - "../01-rounds/2015-02-practical-06.md"
-  - "../01-rounds/2016-01-practical-07.md"
-  - "../01-rounds/2016-02-practical-08.md"
-  - "../01-rounds/2017-01-practical-09.md"
-  - "../01-rounds/2017-02-practical-10.md"
-  - "../01-rounds/2018-01-practical-11.md"
-  - "../01-rounds/2018-02-practical-12.md"
-  - "../01-rounds/2019-01-practical-13.md"
-  - "../01-rounds/2019-02-practical-14.md"
-  - "../01-rounds/2020-01-practical-15.md"
-  - "../01-rounds/2020-02-practical-16.md"
-  - "../01-rounds/2021-01-practical-17.md"
-  - "../01-rounds/2021-02-practical-18.md"
-  - "../01-rounds/2022-01-practical-19.md"
-  - "../01-rounds/2022-02-practical-20.md"
-  - "../01-rounds/2022-04-practical-21.md"
-  - "../01-rounds/2023-01-practical-22.md"
-  - "../01-rounds/2023-02-practical-23.md"
-  - "../01-rounds/2023-04-practical-24.md"
-  - "../01-rounds/2024-01-practical-25.md"
-  - "../01-rounds/2024-02-practical-26.md"
-  - "../01-rounds/2024-04-practical-27.md"
-  - "../01-rounds/2025-01-practical-28.md"
-  - "../01-rounds/2025-02-practical-29.md"
-  - "../01-rounds/2025-04-practical-30.md"
-  - "../01-rounds/2026-01-practical-31.md"
-source_count: 32
-provenance: inferred
-summary: "회차별 매트릭스 산출에 사용한 문항 단위 과목 분류 상세표."
-evergreen: false
+- raw/sources/clipping/517fb5f11c7306161e1a87ac681af30c26e9e4672bbf3ef5a910433851053665/7a67b6ab4bc953185ebe23491d516ee0226dd9de0620a9847454e00c9863848a/manifest.json
+summary: 회차별 매트릭스 산출에 사용한 문항 단위 과목 분류 상세표.
 ---
+
+## Overview
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 정보보안기사 실기 과목/문제유형 분류 상세
 
-## Items
+### Items
 | round | no | type group | subject | prompt evidence |
 |---|---:|---|---|---|
 | 1회 | 1 | 단답형 | 정보보안 관리 및 법규 | 다음 설명의 빈칸 (A), (B), (C)를 채우시오. |
@@ -566,3 +566,25 @@ evergreen: false
 | 31회 | 16 | 서술형/실무형 | 네트워크 보안 | SSL/TLS 핸드셰이크 이후 비대칭키와 대칭키 암호화 사용 단계와 용도. |
 | 31회 | 17 | 서술형/실무형 | 어플리케이션 보안 | Fiddler HTTPS 복호화·SSLv3 호환 ClientHello와 XSS 페이로드 취약점 대응. |
 | 31회 | 18 | 서술형/실무형 | 어플리케이션 보안 | CSRF 취약점 명칭, 세션·쿠키 설명, 토큰·Referer·재인증 조치방안. |
+
+## Schema / Composition
+
+## Usage
+
+## Limitations / Biases
+
+## Claims
+
+| id | primary | claim | status | evidence | notes |
+|---|---|---|---|---|---|
+
+
+## Relations
+
+| type | target | notes |
+|---|---|---|
+
+
+## Sources
+
+- `raw/sources/clipping/517fb5f11c7306161e1a87ac681af30c26e9e4672bbf3ef5a910433851053665/7a67b6ab4bc953185ebe23491d516ee0226dd9de0620a9847454e00c9863848a/manifest.json`
