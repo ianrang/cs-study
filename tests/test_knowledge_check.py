@@ -1644,11 +1644,11 @@ def test_post_migration_normative_surfaces_use_current_contract_only():
     assert "WIKI-INGEST-REMAINDER — 구현 순서 10–12" in resume
     assert "순서 9–12는 각각의 설계 gate와 독립 commit 후보" not in resume
     assert "NFR-KP-015 exact historical evidence GAP" not in resume
-    assert "next_task: P2-T9" in resume
+    assert "next_task: P2-T10" in resume
     assert "next_task: P2-T8" not in resume
-    assert "P2-T9 순서 10 독립 CI 연결" in resume
+    assert "P2-T9. 순서 10 독립 CI 연결" in resume
     assert "P2-T8 별도 승인" not in resume
-    assert "| P2-T9 | [ ] | [구현]" in todo and "| P2-T6 | extractor/current" in todo
+    assert "| P2-T9 | [x] | [구현]" in todo and "| P2-T6 | extractor/current" in todo
     assert "| P2-T7 | [x] | [검증]" in todo
     assert "verified: [[reports/P2-T7-verification]]" in todo
     assert "| P2-T8 | [x] | [운영]" in todo
