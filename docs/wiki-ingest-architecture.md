@@ -135,9 +135,9 @@ generated 파일의 generator identity는 `cs-study-materializer/1.0`이다. Mar
 | `generator` | name+version | artifact 생성 activity |
 | `primary_source` | URI 또는 local locator | provenance origin |
 
-manifest는 generated descriptor이며 payload와 함께 immutable bundle로 commit된다. normalized Markdown이나 screen asset이 포함되면 각각 digest·size·media type descriptor를 가진다.
+manifest는 generated descriptor이며 payload와 함께 immutable bundle로 commit된다. normalized Markdown이나 screen asset이 포함되면 각각 digest·size·media type descriptor를 가진다. 저장된 manifest와 descriptor leaf는 schema의 safe component 검증 후 `fs.py`의 단일 descriptor-based context가 호출자가 명시한 `raw` trust anchor를 한 번 canonicalize하고, 그 아래 각 ancestor와 bundle directory를 descriptor-relative `O_NOFOLLOW`로 연다. 하나의 bundle descriptor를 검증 종료까지 유지하면서 manifest·payload·content·asset leaf와 directory inventory를 모두 descriptor-relative로 읽고 regular file인지 확인하며, 정상 종료 직전에 열린 전체 ancestor chain의 path identity를 parent descriptor 기준으로 재검증한다. trust anchor 상위의 운영체제 경로는 호출자가 소유하고 검사 범위에 포함하지 않는다. checker·artifact verifier·privacy boundary가 이 primitive와 같은 `raw` 경계를 직접 재사용하며 resolve 후 거부하거나 consumer별 path 규칙을 복제하지 않는다.
 
-`source_type=clipping`이면서 `media_type=text/markdown`인 primary payload는 UTF-8이어야 한다. capture와 preservation migration은 digest 계산 전에 Apple `/Users/<profile>/` 및 Windows `<drive>:\\Users\\<profile>\\` prefix만 `<local-user-home>/` 또는 `<local-user-home>\\`로 치환한다. 일반 Linux `/home/**`, `/tmp/**`, `/var/**` 예시는 개인 경로로 단정하지 않고 그대로 보존한다. 이 정규화는 결정적·멱등인 `privacy.py` leaf가 단독 소유하며 기존 revision을 overwrite하지 않는다. 그 밖의 source type·media type은 입력 exact bytes가 capture-contract bytes다.
+`source_type=clipping`이면서 `media_type=text/markdown`인 primary payload는 UTF-8이어야 한다. capture와 preservation migration은 digest 계산 전에 Apple `/Users/<profile>/` 및 Windows `<drive>:\\Users\\<profile>\\` prefix만 `<local-user-home>/` 또는 `<local-user-home>\\`로 치환한다. 일반 Linux `/home/**`, `/tmp/**`, `/var/**` 예시는 개인 경로로 단정하지 않고 그대로 보존한다. 이 정규화는 결정적·멱등인 `privacy.py` leaf가 단독 소유하며 기존 revision을 overwrite하지 않는다. persistent privacy boundary는 project·wiki·raw web Markdown tree를 non-symlink inventory로 먼저 검증하고 각 content를 해당 project·wiki·raw trust anchor의 공용 reader로만 읽으며, artifact manifest와 payload는 위 bundle context 하나에서 함께 읽는다. 그 밖의 source type·media type은 입력 exact bytes가 capture-contract bytes다.
 
 ### KnowledgePage
 

@@ -8,7 +8,7 @@
     },
     "ManifestPath": {
       "type": "string",
-      "pattern": "^raw/sources/[^/]+/[^/]+/[a-f0-9]{64}/manifest\\.json$"
+      "pattern": "^raw/sources/(?!\\.{1,2}/)[^/\\\\]+/(?!\\.{1,2}/)[^/\\\\]+/[a-f0-9]{64}/manifest\\.json$"
     },
     "Digest": {
       "type": "string",
@@ -68,7 +68,7 @@
         "digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
         "size": {"type": "integer", "minimum": 0},
         "media_type": {"type": "string", "minLength": 1},
-        "path": {"type": "string", "pattern": "^[^/\\\\]+$"}
+        "path": {"type": "string", "pattern": "^(?!\\.{1,2}$)[^/\\\\]+$"}
       }
     },
     "Properties": {
@@ -122,7 +122,7 @@
       "properties": {
         "schema_version": {"const": "1.0"},
         "source_type": {"enum": ["video", "web", "paper", "blog", "podcast", "conversation", "clipping"]},
-        "source_id": {"type": "string", "minLength": 1, "pattern": "^[^/\\\\]+$"},
+        "source_id": {"type": "string", "minLength": 1, "pattern": "^(?!\\.{1,2}$)[^/\\\\]+$"},
         "artifact_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
         "media_type": {"type": "string", "minLength": 1},
         "size": {"type": "integer", "minimum": 0},
@@ -140,7 +140,7 @@
       "required": ["schema_version", "source_id", "asset_digest", "media_type", "size", "payload", "created_at", "generator"],
       "properties": {
         "schema_version": {"const": "1.0"},
-        "source_id": {"type": "string", "minLength": 1, "pattern": "^[^/\\\\]+$"},
+        "source_id": {"type": "string", "minLength": 1, "pattern": "^(?!\\.{1,2}$)[^/\\\\]+$"},
         "asset_digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
         "media_type": {"type": "string", "minLength": 1},
         "size": {"type": "integer", "minimum": 0},

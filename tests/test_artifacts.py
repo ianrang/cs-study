@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from knowledge import artifacts  # noqa: E402
+from knowledge import artifacts, fs as knowledge_fs  # noqa: E402
 from knowledge.check import artifact_replay_findings  # noqa: E402
 from wiki_ingest import _utc_now  # noqa: E402
 
@@ -218,6 +218,117 @@ def test_existing_corruption_is_rejected_without_repair():
         assert payload.read_text(encoding="utf-8") == "corrupt"
 
 
+def test_payload_symlink_is_rejected_before_read():
+    with tempfile.TemporaryDirectory() as directory:
+        root = Path(directory)
+        raw = root / "raw"
+        result = _capture(FIXTURE, raw)
+        payload = result.manifest_path.parent / "payload.json"
+        external = root / "external.json"
+        external.write_bytes(payload.read_bytes())
+        payload.unlink()
+        payload.symlink_to(external)
+
+        try:
+            artifacts.verify_manifest(result.manifest_path, raw_root=raw)
+        except artifacts.ArtifactError as exc:
+            assert "regular non-symlink" in str(exc)
+        else:
+            raise AssertionError("payload symlink accepted")
+
+
+def test_manifest_symlink_is_rejected_before_read():
+    with tempfile.TemporaryDirectory() as directory:
+        root = Path(directory)
+        raw = root / "raw"
+        result = _capture(FIXTURE, raw)
+        external = root / "external-manifest.json"
+        result.manifest_path.replace(external)
+        result.manifest_path.symlink_to(external)
+
+        try:
+            artifacts.verify_manifest(result.manifest_path, raw_root=raw)
+        except artifacts.ArtifactError as exc:
+            assert "regular non-symlink" in str(exc)
+        else:
+            raise AssertionError("manifest symlink accepted")
+
+
+def test_bundle_ancestor_symlink_is_rejected_from_raw_root():
+    with tempfile.TemporaryDirectory() as directory:
+        root = Path(directory)
+        raw = root / "raw"
+        result = _capture(FIXTURE, raw)
+        source_type = raw / "sources" / "video"
+        external = root / "external-video"
+        source_type.replace(external)
+        source_type.symlink_to(external, target_is_directory=True)
+
+        try:
+            artifacts.verify_manifest(result.manifest_path, raw_root=raw)
+        except artifacts.ArtifactError as exc:
+            assert "regular non-symlink" in str(exc)
+        else:
+            raise AssertionError("bundle ancestor symlink accepted")
+
+
+def test_bundle_swap_during_verification_is_rejected():
+    with tempfile.TemporaryDirectory() as directory:
+        root = Path(directory)
+        raw = root / "raw"
+        result = _capture(FIXTURE, raw)
+        bundle = result.manifest_path.parent
+        original = root / "original-bundle"
+        external = root / "external-bundle"
+        external.mkdir()
+        for name in ("manifest.json", "payload.json", "content.md"):
+            (external / name).write_bytes(f"ATTACK-{name}".encode())
+
+        real_read = knowledge_fs.os.read
+        nonempty_reads = 0
+
+        def swap_after_bundle_reads(descriptor: int, size: int) -> bytes:
+            nonlocal nonempty_reads
+            data = real_read(descriptor, size)
+            if data:
+                nonempty_reads += 1
+                if nonempty_reads == 3:
+                    bundle.replace(original)
+                    bundle.symlink_to(external, target_is_directory=True)
+            return data
+
+        knowledge_fs.os.read = swap_after_bundle_reads
+        try:
+            try:
+                artifacts.verify_manifest(result.manifest_path, raw_root=raw)
+            except artifacts.ArtifactError:
+                pass
+            else:
+                raise AssertionError("bundle replacement was accepted")
+        finally:
+            knowledge_fs.os.read = real_read
+
+
+def test_payload_traversal_is_rejected_by_manifest_schema_before_read():
+    with tempfile.TemporaryDirectory() as directory:
+        root = Path(directory)
+        raw = root / "raw"
+        result = _capture(FIXTURE, raw)
+        manifest = json.loads(result.manifest_path.read_text(encoding="utf-8"))
+        manifest["payload"] = "../external.json"
+        result.manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        (result.manifest_path.parent.parent / "external.json").write_bytes(
+            (result.manifest_path.parent / "payload.json").read_bytes()
+        )
+
+        try:
+            artifacts.verify_manifest(result.manifest_path, raw_root=raw)
+        except artifacts.ArtifactError as exc:
+            assert "does not match" in str(exc)
+        else:
+            raise AssertionError("payload traversal accepted")
+
+
 def test_directory_input_is_rejected():
     with tempfile.TemporaryDirectory() as directory:
         root = Path(directory)
@@ -400,6 +511,90 @@ def test_asset_same_bytes_no_op_and_changed_bytes_new_revision():
         )
         assert first.manifest_path.parent != changed.manifest_path.parent
         assert _tree(first.manifest_path.parent) == first_tree
+
+
+def test_existing_asset_payload_symlink_is_rejected_before_read():
+    with tempfile.TemporaryDirectory() as directory:
+        root = Path(directory)
+        raw = root / "raw"
+        source = root / "frame.jpg"
+        source.write_bytes(b"image")
+        result = artifacts.capture_asset(
+            source,
+            source_id="fixture-video",
+            media_type="image/jpeg",
+            created_at=NOW,
+            raw_root=raw,
+        )
+        payload = result.manifest_path.parent / "asset.jpg"
+        external = root / "external.jpg"
+        external.write_bytes(payload.read_bytes())
+        payload.unlink()
+        payload.symlink_to(external)
+
+        try:
+            artifacts.capture_asset(
+                source,
+                source_id="fixture-video",
+                media_type="image/jpeg",
+                created_at=NOW,
+                raw_root=raw,
+            )
+        except artifacts.ArtifactError as exc:
+            assert "regular non-symlink" in str(exc)
+        else:
+            raise AssertionError("asset payload symlink accepted")
+
+
+def test_asset_bundle_swap_during_verification_is_rejected():
+    with tempfile.TemporaryDirectory() as directory:
+        root = Path(directory)
+        raw = root / "raw"
+        source = root / "frame.jpg"
+        source.write_bytes(b"image")
+        result = artifacts.capture_asset(
+            source,
+            source_id="fixture-video",
+            media_type="image/jpeg",
+            created_at=NOW,
+            raw_root=raw,
+        )
+        bundle = result.manifest_path.parent
+        original = root / "original-asset-bundle"
+        external = root / "external-asset-bundle"
+        external.mkdir()
+        for name in ("manifest.json", "asset.jpg"):
+            (external / name).write_bytes(f"ATTACK-{name}".encode())
+
+        real_read = knowledge_fs.os.read
+        nonempty_reads = 0
+
+        def swap_after_bundle_reads(descriptor: int, size: int) -> bytes:
+            nonlocal nonempty_reads
+            data = real_read(descriptor, size)
+            if data:
+                nonempty_reads += 1
+                if nonempty_reads == 2:
+                    bundle.replace(original)
+                    bundle.symlink_to(external, target_is_directory=True)
+            return data
+
+        knowledge_fs.os.read = swap_after_bundle_reads
+        try:
+            try:
+                artifacts.capture_asset(
+                    source,
+                    source_id="fixture-video",
+                    media_type="image/jpeg",
+                    created_at=NOW,
+                    raw_root=raw,
+                )
+            except artifacts.ArtifactError:
+                pass
+            else:
+                raise AssertionError("asset bundle replacement was accepted")
+        finally:
+            knowledge_fs.os.read = real_read
 
 
 def main() -> int:

@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import knowledge.check as check_module  # noqa: E402
+import knowledge.fs as knowledge_fs  # noqa: E402
 import wiki_ingest  # noqa: E402
 from knowledge.artifacts import capture  # noqa: E402
 from knowledge.check import (  # noqa: E402
@@ -1644,8 +1645,18 @@ def test_post_migration_normative_surfaces_use_current_contract_only():
     assert "WIKI-INGEST-REMAINDER — 구현 순서 10–12" in resume
     assert "순서 9–12는 각각의 설계 gate와 독립 commit 후보" not in resume
     assert "NFR-KP-015 exact historical evidence GAP" not in resume
-    assert "next_task: P2-T10" in resume
-    assert "next_task: P2-T8" not in resume
+    next_task_lines = [
+        line for line in resume.splitlines() if line.startswith("- next_task: ")
+    ]
+    assert len(next_task_lines) == 1
+    next_task = next_task_lines[0].removeprefix("- next_task: ")
+    todo_states = {
+        columns[1].strip(): columns[2].strip()
+        for line in todo.splitlines()
+        if line.startswith("| P")
+        and len(columns := line.split("|")) >= 4
+    }
+    assert todo_states[next_task] in {"[ ]", "[-]"}
     assert "P2-T9. 순서 10 독립 CI 연결" in resume
     assert "P2-T8 별도 승인" not in resume
     assert "| P2-T9 | [x] | [구현]" in todo and "| P2-T6 | extractor/current" in todo
@@ -1840,6 +1851,61 @@ def test_corrupt_normalized_content_is_rejected():
             b"corrupt"
         )
         result = check_target(target, repo_root=repo)
+        assert any(item["rule_id"] == "VR-KP-009" for item in result.findings)
+    finally:
+        temporary.cleanup()
+
+
+def test_artifact_manifest_ancestor_symlink_is_rejected_before_read():
+    temporary, repo, target, manifest = _setup()
+    try:
+        source_root = (repo / manifest).parents[1]
+        external = repo / "external-source"
+        source_root.replace(external)
+        source_root.symlink_to(external, target_is_directory=True)
+        _write_concept(target, "valid-concept", manifest)
+
+        result = check_target(target, repo_root=repo)
+
+        assert any(
+            item["rule_id"] == "VR-KP-009"
+            and "regular non-symlink" in item["message"]
+            for item in result.findings
+        )
+    finally:
+        temporary.cleanup()
+
+
+def test_artifact_bundle_swap_during_check_is_rejected():
+    temporary, repo, target, manifest = _setup()
+    try:
+        bundle = (repo / manifest).parent
+        original = repo / "original-bundle"
+        external = repo / "external-bundle"
+        external.mkdir()
+        for item in bundle.iterdir():
+            (external / item.name).write_bytes(f"ATTACK-{item.name}".encode())
+        _write_concept(target, "valid-concept", manifest)
+
+        real_read = knowledge_fs.os.read
+        nonempty_reads = 0
+
+        def swap_after_bundle_reads(descriptor: int, size: int) -> bytes:
+            nonlocal nonempty_reads
+            data = real_read(descriptor, size)
+            if data:
+                nonempty_reads += 1
+                if nonempty_reads == 3:
+                    bundle.replace(original)
+                    bundle.symlink_to(external, target_is_directory=True)
+            return data
+
+        knowledge_fs.os.read = swap_after_bundle_reads
+        try:
+            result = check_target(target, repo_root=repo)
+        finally:
+            knowledge_fs.os.read = real_read
+
         assert any(item["rule_id"] == "VR-KP-009" for item in result.findings)
     finally:
         temporary.cleanup()

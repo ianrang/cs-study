@@ -13,7 +13,12 @@ from pathlib import Path
 from jsonschema import Draft202012Validator
 from jsonschema.exceptions import SchemaError, ValidationError
 
-from .fs import confined
+from .fs import (
+    PathSafetyError,
+    list_directory_at,
+    read_regular_leaf_at,
+    verified_confined_directory,
+)
 from .graph import inspect_graph
 from .schema import (
     REPO_ROOT,
@@ -503,35 +508,46 @@ def _artifact_findings(repo_root: Path, path: Path, instance: dict) -> list[dict
     for relative in source_paths:
         manifest_path = repo_root / relative
         try:
-            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-            validate_instance(manifest, validator_for("ArtifactManifest"))
-            descriptors = [
-                {
-                    "path": manifest["payload"],
-                    "digest": manifest["artifact_digest"],
-                    "size": manifest["size"],
-                }
-            ]
-            if "content" in manifest:
-                descriptors.append(manifest["content"])
-            descriptors.extend(manifest.get("assets", []))
-            expected_names = {"manifest.json"}
-            for descriptor in descriptors:
-                item = confined(
-                    manifest_path.parent, manifest_path.parent / descriptor["path"]
-                )
-                item_bytes = item.read_bytes()
-                item_digest = hashlib.sha256(item_bytes).hexdigest()
-                if descriptor["digest"] != f"sha256:{item_digest}" or descriptor[
-                    "size"
-                ] != len(item_bytes):
-                    raise ValueError(
-                        f"descriptor digest or size mismatch: {descriptor['path']}"
+            with verified_confined_directory(
+                repo_root / "raw", manifest_path.parent
+            ) as directory:
+                manifest_bytes = read_regular_leaf_at(directory, "manifest.json")
+                if manifest_bytes is None:
+                    raise PathSafetyError(
+                        f"leaf must be regular non-symlink: {manifest_path}"
                     )
-                expected_names.add(descriptor["path"])
-            actual_names = {item.name for item in manifest_path.parent.iterdir()}
-            if actual_names != expected_names:
-                raise ValueError("artifact bundle file set mismatch")
+                manifest = json.loads(manifest_bytes.decode("utf-8"))
+                validate_instance(manifest, validator_for("ArtifactManifest"))
+                descriptors = [
+                    {
+                        "path": manifest["payload"],
+                        "digest": manifest["artifact_digest"],
+                        "size": manifest["size"],
+                    }
+                ]
+                if "content" in manifest:
+                    descriptors.append(manifest["content"])
+                descriptors.extend(manifest.get("assets", []))
+                expected_names = {"manifest.json"}
+                for descriptor in descriptors:
+                    item_bytes = read_regular_leaf_at(
+                        directory, descriptor["path"]
+                    )
+                    if item_bytes is None:
+                        raise PathSafetyError(
+                            "leaf must be regular non-symlink: "
+                            f"{manifest_path.parent / descriptor['path']}"
+                        )
+                    item_digest = hashlib.sha256(item_bytes).hexdigest()
+                    if descriptor["digest"] != f"sha256:{item_digest}" or descriptor[
+                        "size"
+                    ] != len(item_bytes):
+                        raise ValueError(
+                            f"descriptor digest or size mismatch: {descriptor['path']}"
+                        )
+                    expected_names.add(descriptor["path"])
+                if list_directory_at(directory) != expected_names:
+                    raise ValueError("artifact bundle file set mismatch")
             digest = manifest["artifact_digest"].removeprefix("sha256:")
             expected = (
                 repo_root

@@ -12,6 +12,103 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from knowledge import fs  # noqa: E402
 
 
+def test_read_confined_regular_file_reads_valid_leaf():
+    with tempfile.TemporaryDirectory() as directory:
+        root = Path(directory)
+        leaf = root / "nested" / "manifest.json"
+        leaf.parent.mkdir()
+        leaf.write_bytes(b"manifest\n")
+
+        assert fs.read_confined_regular_file(root, leaf) == b"manifest\n"
+
+
+def test_read_confined_regular_file_rejects_escape_and_symlinks():
+    with tempfile.TemporaryDirectory() as directory:
+        parent = Path(directory)
+        root = parent / "root"
+        root.mkdir()
+        outside = parent / "outside"
+        outside.mkdir()
+        external = outside / "manifest.json"
+        external.write_bytes(b"external\n")
+        (root / "ancestor-link").symlink_to(outside, target_is_directory=True)
+        (root / "leaf-link").symlink_to(external)
+        (root / "directory-leaf").mkdir()
+
+        candidates = (
+            root / ".." / "outside" / "manifest.json",
+            root / "ancestor-link" / "manifest.json",
+            root / "leaf-link",
+            root / "directory-leaf",
+        )
+        for candidate in candidates:
+            with pytest.raises(fs.PathSafetyError):
+                fs.read_confined_regular_file(root, candidate)
+
+
+@pytest.mark.parametrize(
+    "call",
+    (
+        "fs.read_confined_regular_file(root, fifo)",
+        "with fs.verified_directory(root) as directory:\n"
+        "    fs.observe_regular_leaf_at(directory, fifo.name)",
+    ),
+)
+def test_regular_leaf_readers_reject_fifo_without_blocking(call: str):
+    source = (
+        "import os, sys, tempfile\n"
+        "from pathlib import Path\n"
+        f"sys.path.insert(0, {str(ROOT / 'scripts')!r})\n"
+        "from knowledge import fs\n"
+        "with tempfile.TemporaryDirectory() as directory:\n"
+        "    root = Path(directory)\n"
+        "    fifo = root / 'fifo'\n"
+        "    os.mkfifo(fifo)\n"
+        "    try:\n"
+        + "\n".join(f"        {line}" for line in call.splitlines())
+        + "\n"
+        "    except fs.PathSafetyError:\n"
+        "        raise SystemExit(0)\n"
+        "    raise SystemExit(1)\n"
+    )
+
+    result = subprocess.run(
+        [sys.executable, "-c", source], capture_output=True, text=True, timeout=1
+    )
+
+    assert result.returncode == 0, result.stderr
+
+
+def test_verified_confined_directory_preserves_consumer_error_and_closes_fd():
+    with tempfile.TemporaryDirectory() as directory:
+        root = Path(directory)
+        descriptor = None
+
+        with pytest.raises(OSError, match="caller failure"):
+            with fs.verified_confined_directory(root, root) as opened:
+                descriptor = opened.descriptor
+                raise OSError("caller failure")
+
+        assert descriptor is not None
+        with pytest.raises(OSError):
+            fs.os.fstat(descriptor)
+
+
+def test_verified_confined_directory_rejects_ancestor_swap_on_exit():
+    with tempfile.TemporaryDirectory() as directory:
+        parent = Path(directory)
+        root = parent / "raw"
+        ancestor = root / "sources"
+        bundle = ancestor / "video" / "bundle"
+        bundle.mkdir(parents=True)
+        original = parent / "original-sources"
+
+        with pytest.raises(fs.PathSafetyError):
+            with fs.verified_confined_directory(root, bundle):
+                ancestor.replace(original)
+                ancestor.symlink_to(original, target_is_directory=True)
+
+
 def test_publish_bytes_no_replace_is_atomic_and_idempotent():
     with tempfile.TemporaryDirectory() as directory:
         output = Path(directory) / "plan.json"

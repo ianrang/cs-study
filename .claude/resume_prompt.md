@@ -1,10 +1,10 @@
-# cs-study 다음 세션 진입 — P2-T10 두 YouTube source 재처리
+# cs-study 현재 작업 — P2-T10 commit·remote CI closure
 
 > 작성: 2026-09-02
-> 직전 작업: P2-T9에서 두 저장소의 독립 local feedback·canonical CI와 main required `verify` merge authority를 구현·실환경 검증했다.
+> 직전 작업: P2-T10에서 두 YouTube source를 immutable artifact로 capture하고 하나의 검토된 active concept page로 통합했다.
 > 작업 위치: 현재 cs-study linked worktree (`feat/knowledge-pipeline` 브랜치)
-> 다음 세션 첫 동작 의무: 본 파일, `todo.md`, `reports/P2-T9-verification.md`, `docs/wiki-ingest-architecture.md` §13을 읽고 P2-T10의 두 source 재처리 범위를 고정한다.
-> commit: P2-T9 구현은 extractor `74b3038`, `1891e0c`와 cs-study `381d3df`, `b6fe1b1`에 있으며 closure 문서의 실제 SHA는 `git log -1 --oneline`으로 확인한다.
+> 다음 동작 의무: 본 파일, `todo.md`, `reports/P2-T10-verification.md`를 기준으로 P2-T10 독립 commit·remote CI를 확정한 뒤 P2-T11로 전이한다.
+> commit: P2-T10 독립 commit과 원격 CI는 현재 세션의 closure 단계에서 확정하며 실제 SHA와 run은 `reports/P2-T10-verification.md`에 기록한다.
 
 ---
 
@@ -16,7 +16,7 @@
 - P2-T4 final restage에서 staged ACMR 363개 index/worktree byte mismatch 0과 tracked unstaged 0을 확인했다.
 - active persistent snapshot의 Apple·Windows local-user-home 경로는 P2-T2에서 TDD로 제거·재생성·cascade 검증했다.
 - runtime evidence를 제외한 순서 1–6b snapshot은 P2-T4에서 전체 검증과 사용자 commit 승인을 마쳤다.
-- 순서 7은 P2-T5, 순서 8은 P2-T6, 순서 9는 P2-T7·P2-T8, 순서 10은 P2-T9에서 구현·검증했다. 순서 11–12는 각각의 설계 gate와 독립 commit 후보를 유지한다.
+- 순서 7은 P2-T5, 순서 8은 P2-T6, 순서 9는 P2-T7·P2-T8, 순서 10은 P2-T9에서 닫혔다. 순서 11은 P2-T10 구현·검증을 마치고 독립 commit·remote CI closure 중이며, 순서 12는 별도 검증 commit 후보다.
 
 ---
 
@@ -64,6 +64,12 @@
 - 완료: extractor GitHub Actions push·PR run과 cs-study push run이 성공했고, 두 main branch가 실제 `verify` check와 GitHub Actions app ID `15368`을 required status로 강제한다.
 - 증거: `reports/P2-T9-verification.md`; extractor 194 passed·build 성공, cs-study 403 passed·full check findings 0·materialize/lint 성공.
 
+### P2-T10. 순서 11 두 YouTube source 재처리
+- 완료: 지정된 두 transcript를 content-addressed video bundle 2개로 보존하고, C1–C12 직접 근거를 검토한 하나의 active concept page로 통합했다.
+- 완료: 승인된 promote plan 적용 뒤 generated 11 files를 재물질화했고 동일 plan replay `unchanged`, 전체 428 passed, canonical findings 0을 확인했다.
+- 증거: `reports/P2-T10-verification.md`; candidate `f9d33e2ce2a79b1098767036b2aba5bf164c7d5219dd2c06929e6a7a3a1b36ef`, plan `a1e2dca4513533d8460c4ec6e30eca8cd0189851d93970b1b3da257f557b8c9f`.
+- 남은 closure: 검증된 allowlist를 독립 commit으로 고정하고 origin CI 성공을 보고서에 기록한 뒤 P2-T11로 전이한다.
+
 ### 2-1. OFFICIAL-PRIMARY-SOURCE-GATE — KCA 공식 원문 대조
 - 근거: 회차 파일 공통 note와 `subject-type-cross-verify-report.md`의 official PDF scope limit.
 - 진입 전 확인: 사용자 제공 편집본 PDF 4개는 해제·대조했지만 KCA 공식 원문은 확보하지 못했다.
@@ -92,7 +98,7 @@
 ### 2-6. WIKI-INGEST-REMAINDER — 구현 순서 10–12
 - 근거: `docs/wiki-ingest-architecture.md` §13, `docs/wiki-ingest-review.md` §9.
 - 진입 전 확인: 순서 1–10 engine·canonical cutover·privacy/runtime guard·legacy 제거·독립 CI의 live 통합이 완료됐다.
-- 작업 범위: 현재 `next_task`는 P2-T10이다. 두 대상 YouTube source를 새 pipeline로 재처리하고 artifact→draft→통합 wiki evidence trace를 독립 commit으로 고정한다.
+- 작업 범위: 현재 `next_task`는 P2-T10 closure다. 독립 commit·origin CI 성공을 확정한 뒤 P2-T11 full vault·설계·코드 교차검증으로 전이한다.
 
 ### 2-7. PAGE-TYPE-MIGRATION — 복합 dataset/lab 표준 섹션 정합화
 - 근거: `_meta/page-type-spec.md`의 승격 content 표준 섹션과 현재 복합 dataset/lab 89개 문서 구조가 다르다.
@@ -283,4 +289,4 @@
 - 보조 원천 raw/source 선별 패칭 여부 결정.
 - 문서 물리 디렉터리 분리가 필요해질 경우 별도 마이그레이션 수행.
 - 순서 1–6b persistent baseline은 P2-T4에서 final verification과 별도 commit 승인을 마쳤다.
-- `scripts/wiki_ingest.py` 기반 순서 1–8, 순서 9 legacy·전환 runtime 제거, 순서 10 독립 CI의 live 통합은 구현·검증했다. 다음 범위는 P2-T10의 순서 11 두 source 재처리다.
+- `scripts/wiki_ingest.py` 기반 순서 1–8, 순서 9 legacy·전환 runtime 제거, 순서 10 독립 CI는 닫혔고 순서 11 두 source 재처리는 구현·검증 후 commit·CI closure 중이다. closure 뒤 다음 범위는 P2-T11의 순서 12 전체 최종 감사다.

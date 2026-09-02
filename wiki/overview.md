@@ -1,10 +1,10 @@
-<!-- generated-by: cs-study-materializer/1.0; schema-sha256: a303523fe6fdd3090ae1c88bae2e7513260c1b22aa40e5d9b8c0e41d9cb38836 -->
+<!-- generated-by: cs-study-materializer/1.0; schema-sha256: fec09cc5b30e4966c142c1596c493b8c1d0d1e59313ac276cb981cec04142637 -->
 
 # Knowledge Overview
 
 | domain | label | status | active pages |
 |---|---|---|---|
-| [[wiki/index#ai-engineering|ai-engineering]] | AI Engineering | active | 0 |
+| [[wiki/index#ai-engineering|ai-engineering]] | AI Engineering | active | 1 |
 | [[wiki/index#algorithms|algorithms]] | Algorithms | active | 0 |
 | [[wiki/index#cryptography|cryptography]] | Cryptography | active | 0 |
 | [[wiki/index#developer-tools|developer-tools]] | Developer Tools | active | 0 |

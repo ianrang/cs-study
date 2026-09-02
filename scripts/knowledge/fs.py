@@ -88,7 +88,11 @@ def _observe_regular_leaf_from_descriptor(
 ) -> LeafObservation | None:
     if Path(name).name != name:
         raise PathSafetyError(f"leaf name must be a basename: {name}")
-    flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)
+    flags = (
+        os.O_RDONLY
+        | getattr(os, "O_NOFOLLOW", 0)
+        | getattr(os, "O_NONBLOCK", 0)
+    )
     try:
         descriptor = os.open(name, flags, dir_fd=directory.descriptor)
     except FileNotFoundError:
@@ -401,6 +405,115 @@ def confined(root: Path, candidate: Path) -> Path:
     except ValueError as exc:
         raise PathSafetyError(f"path escapes root: {candidate}") from exc
     return resolved
+
+
+def _trusted_relative_path(
+    trusted_root: Path, candidate: Path
+) -> tuple[Path, Path]:
+    lexical_root = Path(os.path.abspath(trusted_root))
+    try:
+        root_path = trusted_root.resolve(strict=True)
+    except OSError as exc:
+        raise PathSafetyError(f"trusted root is unavailable: {trusted_root}") from exc
+    candidate_path = Path(os.path.abspath(candidate))
+    try:
+        relative = candidate_path.relative_to(lexical_root)
+    except ValueError:
+        try:
+            relative = candidate_path.relative_to(root_path)
+        except ValueError as exc:
+            raise PathSafetyError(f"path escapes root: {candidate}") from exc
+    if any(part in {"", ".", ".."} for part in relative.parts):
+        raise PathSafetyError(f"path escapes root: {candidate}")
+    return root_path, relative
+
+
+def _assert_directory_chain_identity(
+    root_path: Path,
+    components: tuple[str, ...],
+    descriptors: list[int],
+    candidate: Path,
+) -> None:
+    try:
+        root_observed = root_path.lstat()
+        root_opened = os.fstat(descriptors[0])
+        if (
+            not stat.S_ISDIR(root_observed.st_mode)
+            or stat.S_ISLNK(root_observed.st_mode)
+            or (root_observed.st_dev, root_observed.st_ino)
+            != (root_opened.st_dev, root_opened.st_ino)
+        ):
+            raise PathSafetyError(f"directory chain changed: {candidate}")
+        for index, component in enumerate(components):
+            observed = os.stat(
+                component, dir_fd=descriptors[index], follow_symlinks=False
+            )
+            opened = os.fstat(descriptors[index + 1])
+            if (
+                not stat.S_ISDIR(observed.st_mode)
+                or stat.S_ISLNK(observed.st_mode)
+                or (observed.st_dev, observed.st_ino)
+                != (opened.st_dev, opened.st_ino)
+            ):
+                raise PathSafetyError(f"directory chain changed: {candidate}")
+    except PathSafetyError:
+        raise
+    except OSError as exc:
+        raise PathSafetyError(f"directory chain changed: {candidate}") from exc
+
+
+@contextmanager
+def verified_confined_directory(
+    trusted_root: Path, candidate: Path
+) -> Iterator[VerifiedDirectory]:
+    root_path, relative = _trusted_relative_path(trusted_root, candidate)
+
+    directory_flags = (
+        os.O_RDONLY | getattr(os, "O_DIRECTORY", 0) | getattr(os, "O_NOFOLLOW", 0)
+    )
+    descriptors: list[int] = []
+    try:
+        try:
+            descriptor = os.open(root_path, directory_flags)
+            descriptors.append(descriptor)
+            for component in relative.parts:
+                descriptor = os.open(component, directory_flags, dir_fd=descriptor)
+                descriptors.append(descriptor)
+                if not stat.S_ISDIR(os.fstat(descriptor).st_mode):
+                    raise PathSafetyError(
+                        f"ancestor must be regular non-symlink directory: {candidate}"
+                    )
+            state = os.fstat(descriptor)
+            handle = VerifiedDirectory(
+                root_path.joinpath(relative), descriptor, state.st_dev, state.st_ino
+            )
+        except PathSafetyError:
+            raise
+        except OSError as exc:
+            raise PathSafetyError(
+                f"directory path must be regular non-symlink: {candidate}"
+            ) from exc
+        yield handle
+        _assert_directory_chain_identity(
+            root_path, relative.parts, descriptors, candidate
+        )
+    finally:
+        for descriptor in reversed(descriptors):
+            os.close(descriptor)
+
+
+def list_directory_at(directory: VerifiedDirectory) -> set[str]:
+    directory.assert_identity()
+    return set(os.listdir(directory.descriptor))
+
+
+def read_confined_regular_file(trusted_root: Path, candidate: Path) -> bytes:
+    candidate_path = Path(os.path.abspath(candidate))
+    with verified_confined_directory(trusted_root, candidate_path.parent) as directory:
+        data = read_regular_leaf_at(directory, candidate_path.name)
+        if data is None:
+            raise PathSafetyError(f"leaf must be regular non-symlink: {candidate}")
+        return data
 
 
 def write_bytes_fsync(path: Path, data: bytes) -> None:

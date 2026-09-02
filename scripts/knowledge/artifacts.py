@@ -12,9 +12,13 @@ from contracts.privacy import normalize_local_user_paths
 from jsonschema import Draft202012Validator
 
 from .fs import (
+    PathSafetyError,
     confined,
     fsync_directory,
+    list_directory_at,
+    read_regular_leaf_at,
     rename_path_no_replace,
+    verified_confined_directory,
     write_bytes_fsync,
 )
 from .schema import (
@@ -125,57 +129,79 @@ def _manifest_bytes(manifest: dict) -> bytes:
     ).encode("utf-8")
 
 
-def _verify_bundle(bundle: Path, expected: dict | None = None) -> dict:
+def _verify_bundle(
+    bundle: Path, expected: dict | None = None, *, raw_root: Path
+) -> dict:
     manifest_path = bundle / "manifest.json"
     try:
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        validate_instance(manifest, validator_for("ArtifactManifest"))
-    except (OSError, json.JSONDecodeError, KnowledgeSchemaError) as exc:
+        with verified_confined_directory(raw_root, bundle) as directory:
+            manifest_bytes = read_regular_leaf_at(directory, "manifest.json")
+            if manifest_bytes is None:
+                raise PathSafetyError(
+                    f"leaf must be regular non-symlink: {manifest_path}"
+                )
+            manifest = json.loads(manifest_bytes.decode("utf-8"))
+            validate_instance(manifest, validator_for("ArtifactManifest"))
+            if expected is not None:
+                comparable_manifest = {
+                    key: value for key, value in manifest.items() if key != "created_at"
+                }
+                comparable_expected = {
+                    key: value for key, value in expected.items() if key != "created_at"
+                }
+                if comparable_manifest != comparable_expected:
+                    raise ArtifactError(
+                        f"existing artifact manifest differs: {manifest_path}"
+                    )
+
+            descriptors = [
+                {
+                    "digest": manifest["artifact_digest"],
+                    "size": manifest["size"],
+                    "path": manifest["payload"],
+                }
+            ]
+            if "content" in manifest:
+                descriptors.append(manifest["content"])
+            descriptors.extend(manifest.get("assets", []))
+            expected_names = {"manifest.json"}
+            for descriptor in descriptors:
+                item = bundle / descriptor["path"]
+                data = read_regular_leaf_at(directory, descriptor["path"])
+                if data is None:
+                    raise PathSafetyError(
+                        f"leaf must be regular non-symlink: {item}"
+                    )
+                if descriptor["digest"] != f"sha256:{_digest(data)}" or descriptor[
+                    "size"
+                ] != len(data):
+                    raise ArtifactError(f"artifact descriptor mismatch: {item}")
+                expected_names.add(descriptor["path"])
+            actual_names = list_directory_at(directory)
+            if actual_names != expected_names:
+                raise ArtifactError(
+                    "artifact bundle file set mismatch: "
+                    f"expected={sorted(expected_names)} actual={sorted(actual_names)}"
+                )
+    except (
+        OSError,
+        UnicodeDecodeError,
+        json.JSONDecodeError,
+        KnowledgeSchemaError,
+        PathSafetyError,
+    ) as exc:
         raise ArtifactError(
             f"corrupt artifact manifest: {manifest_path}: {exc}"
         ) from exc
-    if expected is not None:
-        comparable_manifest = {
-            key: value for key, value in manifest.items() if key != "created_at"
-        }
-        comparable_expected = {
-            key: value for key, value in expected.items() if key != "created_at"
-        }
-        if comparable_manifest != comparable_expected:
-            raise ArtifactError(f"existing artifact manifest differs: {manifest_path}")
-
-    descriptors = [
-        {
-            "digest": manifest["artifact_digest"],
-            "size": manifest["size"],
-            "path": manifest["payload"],
-        }
-    ]
-    if "content" in manifest:
-        descriptors.append(manifest["content"])
-    descriptors.extend(manifest.get("assets", []))
-    expected_names = {"manifest.json"}
-    for descriptor in descriptors:
-        item = confined(bundle, bundle / descriptor["path"])
-        data = item.read_bytes()
-        if descriptor["digest"] != f"sha256:{_digest(data)}" or descriptor[
-            "size"
-        ] != len(data):
-            raise ArtifactError(f"artifact descriptor mismatch: {item}")
-        expected_names.add(descriptor["path"])
-    actual_names = {path.name for path in bundle.iterdir()}
-    if actual_names != expected_names:
-        raise ArtifactError(
-            "artifact bundle file set mismatch: "
-            f"expected={sorted(expected_names)} actual={sorted(actual_names)}"
-        )
     return manifest
 
 
-def verify_manifest(manifest_path: Path) -> dict:
+def verify_manifest(
+    manifest_path: Path, *, raw_root: Path = DEFAULT_RAW_ROOT
+) -> dict:
     if manifest_path.name != "manifest.json":
         raise ArtifactError(f"artifact manifest filename is invalid: {manifest_path}")
-    return _verify_bundle(manifest_path.parent)
+    return _verify_bundle(manifest_path.parent, raw_root=raw_root)
 
 
 def capture(
@@ -249,7 +275,7 @@ def capture(
     source_root = confined(raw_root, raw_root / "sources" / source_type / source_id)
     final = confined(source_root, source_root / digest)
     if final.exists():
-        _verify_bundle(final, manifest)
+        _verify_bundle(final, manifest, raw_root=raw_root)
         return CaptureResult(final / "manifest.json", created=False)
 
     source_root.mkdir(parents=True, exist_ok=True)
@@ -260,14 +286,14 @@ def capture(
         if content_bytes is not None:
             write_bytes_fsync(temp / "content.md", content_bytes)
         write_bytes_fsync(temp / "manifest.json", _manifest_bytes(manifest))
-        _verify_bundle(temp, manifest)
+        _verify_bundle(temp, manifest, raw_root=raw_root)
         fsync_directory(temp)
         try:
             rename_path_no_replace(temp, final)
         except OSError:
             if not final.exists():
                 raise
-            _verify_bundle(final, manifest)
+            _verify_bundle(final, manifest, raw_root=raw_root)
             created = False
         fsync_directory(source_root)
     finally:
@@ -313,13 +339,28 @@ def capture_asset(
 
     def verify(bundle: Path) -> None:
         try:
-            existing = json.loads(
-                (bundle / "manifest.json").read_text(encoding="utf-8")
-            )
-            validate_instance(existing, validator_for("AssetManifest"))
-            payload = bundle / existing["payload"]
-            payload_data = payload.read_bytes()
-        except (OSError, json.JSONDecodeError, KnowledgeSchemaError) as exc:
+            with verified_confined_directory(raw_root, bundle) as directory:
+                manifest_bytes = read_regular_leaf_at(directory, "manifest.json")
+                if manifest_bytes is None:
+                    raise PathSafetyError(
+                        f"leaf must be regular non-symlink: {bundle / 'manifest.json'}"
+                    )
+                existing = json.loads(manifest_bytes.decode("utf-8"))
+                validate_instance(existing, validator_for("AssetManifest"))
+                payload = bundle / existing["payload"]
+                payload_data = read_regular_leaf_at(directory, existing["payload"])
+                if payload_data is None:
+                    raise PathSafetyError(
+                        f"leaf must be regular non-symlink: {payload}"
+                    )
+                actual_names = list_directory_at(directory)
+        except (
+            OSError,
+            UnicodeDecodeError,
+            json.JSONDecodeError,
+            KnowledgeSchemaError,
+            PathSafetyError,
+        ) as exc:
             raise ArtifactError(f"corrupt asset bundle: {bundle}: {exc}") from exc
         comparable_existing = {
             key: value for key, value in existing.items() if key != "created_at"
@@ -329,7 +370,7 @@ def capture_asset(
         }
         if comparable_existing != comparable_manifest or payload_data != data:
             raise ArtifactError(f"existing asset bundle differs: {bundle}")
-        if {path.name for path in bundle.iterdir()} != {"manifest.json", payload_name}:
+        if actual_names != {"manifest.json", payload_name}:
             raise ArtifactError(f"asset bundle file set mismatch: {bundle}")
 
     if final.exists():

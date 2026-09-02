@@ -607,6 +607,81 @@ def test_semantic_plan_reuses_manifest_path_contract():
     assert any(list(error.path) == ["source_paths", 0] for error in errors)
 
 
+@pytest.mark.parametrize(
+    "source_path",
+    (
+        "raw/sources/../source/" + "a" * 64 + "/manifest.json",
+        "raw/sources/video/../" + "a" * 64 + "/manifest.json",
+        "raw/sources/video\\escape/source/" + "a" * 64 + "/manifest.json",
+    ),
+)
+def test_manifest_path_rejects_dot_and_backslash_components(source_path: str):
+    plan = {
+        "title": "Draft",
+        "page_type": "concept",
+        "domain": "software-engineering",
+        "tags": ["architecture"],
+        "source_paths": [source_path],
+        "summary": "Draft summary",
+        "sections": [],
+        "claims": [],
+        "relations": [],
+        "members": [],
+    }
+
+    errors = list(validator_for("SemanticPlan").iter_errors(plan))
+
+    assert any(list(error.path) == ["source_paths", 0] for error in errors)
+
+
+@pytest.mark.parametrize(
+    ("definition", "instance"),
+    (
+        (
+            "Descriptor",
+            {
+                "digest": "sha256:" + "a" * 64,
+                "size": 0,
+                "media_type": "text/plain",
+                "path": "..",
+            },
+        ),
+        (
+            "ArtifactManifest",
+            {
+                "schema_version": "1.0",
+                "source_type": "video",
+                "source_id": ".",
+                "artifact_digest": "sha256:" + "a" * 64,
+                "media_type": "application/json",
+                "size": 0,
+                "payload": "payload.json",
+                "created_at": "2026-08-21T00:00:00Z",
+                "generator": {"name": "test", "version": "1.0"},
+                "primary_source": "https://example.invalid/source",
+            },
+        ),
+        (
+            "AssetManifest",
+            {
+                "schema_version": "1.0",
+                "source_id": "..",
+                "asset_digest": "sha256:" + "a" * 64,
+                "media_type": "image/png",
+                "size": 0,
+                "payload": "asset.png",
+                "created_at": "2026-08-21T00:00:00Z",
+                "generator": {"name": "test", "version": "1.0"},
+            },
+        ),
+    ),
+)
+def test_artifact_path_components_reject_dot_values(
+    definition: str, instance: dict
+):
+    assert list(validator_for(definition).iter_errors(instance))
+
+
 def test_page_write_plan_is_strict_and_allows_at_most_one_page():
     digest = "a" * 64
     entry = {
