@@ -444,7 +444,18 @@ static format/lint
   -> replay/failure-injection integration
 ```
 
-local pre-commit은 `check --changed`와 빠른 test만 실행한다. merge authority는 우회 불가능한 required CI status check가 가진다.
+local pre-commit은 아래 저장소별 staged validation과 빠른 test만 실행한다. merge authority는 우회 불가능한 required CI status check가 가진다.
+
+순서 10의 검증 명령은 저장소별로 독립 실행한다. 공용 wrapper나 상대 저장소 경로를 두지 않으며, tracked hook과 CI workflow가 각 저장소의 기존 명령을 직접 조립한다.
+
+| 저장소 | local pre-commit feedback | required CI command set |
+|---|---|---|
+| extractor | source tree Ruff와 contract·architecture 빠른 test | locked dependency sync, Ruff, non-network 전체 test, package build |
+| cs-study | 격리 Git index snapshot에서 repository lint canonical scope의 status-aware staged Markdown과 contract·project-boundary 빠른 test | schema를 포함한 전체 test, `check --all`, `materialize --check`, repository lint |
+
+cs-study의 local hook은 dependency-free system Python 표준 라이브러리 bootstrap으로 `--name-status -z --no-renames` staged Markdown 상태와 경로를 읽고, 전체 Git index를 임시 격리 tree로 materialize한다. 실제 lint 입력·링크·canonical sibling lookup·빠른 test·lint dependency·Python patch는 같은 index snapshot에 결속한다. hook은 non-delete 후보 전체를 `scripts/lint.py --repository-paths`에 전달하고, `lint.py`의 `default_repository_paths`·`repository_lint_paths`가 canonical default scope와 후보 filtering을 단독 소유한다. 후보 parent와 scope root는 dot-segment와 symlink ancestor를 해소한 canonical path로 비교해 lexical scope 우회를 허용하지 않되, 원래 leaf identity를 보존해 inventory의 symlink·파일 타입 검사를 우회하지 않는다. Markdown 삭제가 하나라도 있으면 mixed write-set 누락을 막기 위해 snapshot의 default repository lint로 수렴시키며, scope 밖 Markdown은 그 owner가 제외하고 빠른 test 대상으로만 남긴다. 전달 경로의 선행 하이픈은 `./`로 명시하고, staged 삭제 경로가 worktree에 다시 존재하거나 나머지 staged 경로에 unstaged 변경이 겹치면 index와 worktree 불일치로 거부하며, snapshot 생성·회수 실패도 non-zero다. branch 전체 diff를 `--changed`의 입력으로 사용하지 않으며, 파일명이 공백·개행을 포함해도 하나의 경로로 보존한다. terminal migration journal·rollback candidate의 local 존재 여부는 clean checkout의 source contract가 아니다. CI는 ignore pattern과 tracked·staged 부재를 검증하고, 실제 local recovery evidence 보존은 작업 검증 보고가 소유한다.
+
+hook은 Git inventory 실패를 별도 non-zero로 전파한다. extractor는 index와 다른 unstaged·untracked file이 하나라도 있으면 전체 빠른 검사를 시작하지 않고 거부한다. cs-study는 staged Markdown의 index·worktree 직접 불일치를 거부하고, lint와 빠른 test는 untracked target이나 unstaged sibling·test repair가 관찰되지 않는 격리 index snapshot에서 실행한다. Markdown 삭제가 하나라도 있으면 snapshot의 default repository lint로 수렴시키고, 삭제가 없는 후보는 repository scope owner가 filter하며, 빈 staged Markdown 집합은 lint 입력 0으로 명시 처리한 뒤 snapshot 빠른 test만 실행한다. CI는 `ubuntu-24.04`, full commit SHA의 action, 저장소별 `.python-version`의 exact Python patch를 사용한다.
 
 finding은 `rule_id`, severity, path, line, subject_id, message, remediation을 가진 machine-readable JSONL과 사람용 text 두 형식으로 출력한다.
 
@@ -543,7 +554,7 @@ finding은 `rule_id`, severity, path, line, subject_id, message, remediation을 
 | NFR-KP-010 | §4, §9, §11 | BR-COL-001, BR-REL-007, BR-GEN-005~BR-GEN-010, BR-GEN-014 |
 | NFR-KP-011 | §4, §6 | BR-CLM-005, BR-GEN-009, BR-GEN-010 |
 | NFR-KP-012 | §4, §9, §11 | BR-CHK-001, BR-GEN-006, BR-GEN-009, BR-GEN-010 |
-| NFR-KP-013 | §10 | BR-CHK-008 |
+| NFR-KP-013 | §10 | BR-CHK-008, BR-CHK-011 |
 | NFR-KP-014 | §5, §7, §10 | BR-LIFE-005, BR-CHK-005, BR-CHK-006, VR-KP-022 |
 | NFR-KP-015 | §7, §13 | historical BR-MIG-001~BR-MIG-015 evidence; future migration은 별도 설계·승인 |
 

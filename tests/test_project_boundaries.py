@@ -66,17 +66,12 @@ def test_persistent_markdown_does_not_expose_local_user_paths():
     assert offenders == []
 
 
-def test_terminal_migration_evidence_is_preserved_and_git_ignored():
-    journals = sorted(ROOT.glob(".knowledge-migration-*.json"))
-    candidates = sorted(ROOT.glob(".wiki.migration.*")) + sorted(
-        ROOT.glob(".wiki.restore.*")
-    )
-    runtime_roots = journals + candidates
-    assert len(journals) == 3
-    assert len(candidates) == 3
-    assert all(path.exists() for path in runtime_roots)
-
-    relative = [path.relative_to(ROOT).as_posix() for path in runtime_roots]
+def test_terminal_migration_surfaces_are_git_ignored_and_untracked():
+    relative = [
+        ".knowledge-migration-fixture.json",
+        ".wiki.migration.fixture/marker",
+        ".wiki.restore.fixture/marker",
+    ]
     ignored = subprocess.run(
         ["git", "check-ignore", "--no-index", "--stdin"],
         cwd=ROOT,
@@ -106,14 +101,13 @@ def test_terminal_migration_evidence_is_preserved_and_git_ignored():
             check=True,
         ).stdout.splitlines()
     )
-    assert all(
-        not any(item == path or item.startswith(f"{path}/") for item in tracked)
-        for path in relative
+    forbidden_prefixes = (
+        ".knowledge-migration-",
+        ".wiki.migration.",
+        ".wiki.restore.",
     )
-    assert all(
-        not any(item == path or item.startswith(f"{path}/") for item in staged)
-        for path in relative
-    )
+    assert not any(item.startswith(forbidden_prefixes) for item in tracked)
+    assert not any(item.startswith(forbidden_prefixes) for item in staged)
 
 
 def main() -> int:

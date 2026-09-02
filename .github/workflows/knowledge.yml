@@ -1,0 +1,23 @@
+name: Knowledge
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6
+        with:
+          enable-cache: true
+      - run: uv python install
+      - run: uv run --with-requirements requirements-lint.txt python -m pytest -q
+      - run: uv run --with-requirements requirements-lint.txt python scripts/wiki_ingest.py check --all --target-root wiki --report jsonl
+      - run: uv run --with-requirements requirements-lint.txt python scripts/wiki_ingest.py materialize --check
+      - run: uv run --with-requirements requirements-lint.txt python scripts/lint.py --report jsonl

@@ -85,6 +85,155 @@ def test_flat_curated_raw_markdown_remains_in_legacy_lint_scope():
 
 
 @_register
+def test_repository_lint_paths_share_the_default_inventory_owner():
+    candidates = [
+        REPO_ROOT / "wiki" / "page.md",
+        REPO_ROOT / "raw" / "source.md",
+        REPO_ROOT / "_meta" / "contract.md",
+        REPO_ROOT / "AGENTS.md",
+        REPO_ROOT / "docs" / "design.md",
+        REPO_ROOT / "README.md",
+    ]
+
+    assert lint.default_repository_paths() == [
+        lint.WIKI_DIR,
+        REPO_ROOT / "raw",
+        lint.META_DIR,
+        REPO_ROOT / "AGENTS.md",
+    ]
+    assert lint.repository_lint_paths(candidates) == candidates[:4]
+
+
+@_register
+def test_repository_lint_paths_normalize_dot_segments_before_scope_selection():
+    candidates = [
+        REPO_ROOT / "raw" / ".." / "docs" / "design.md",
+        REPO_ROOT / "raw" / ".." / "raw" / "source.md",
+        REPO_ROOT / "wiki" / ".." / ".." / "outside.md",
+    ]
+
+    assert lint.repository_lint_paths(candidates) == [
+        (REPO_ROOT / "raw" / "source.md").resolve(strict=False)
+    ]
+
+
+@_register
+def test_repository_lint_paths_reject_scope_symlink_that_resolves_outside_repository():
+    with tempfile.TemporaryDirectory() as outside_directory:
+        outside = Path(outside_directory)
+        with tempfile.TemporaryDirectory(dir=REPO_ROOT / "raw") as directory:
+            link = Path(directory) / "external"
+            link.symlink_to(outside, target_is_directory=True)
+            candidate = link / "source.md"
+
+            assert lint.repository_lint_paths([candidate]) == []
+
+
+@_register
+def test_repository_lint_paths_preserve_internal_symlink_leaf_for_inventory_rejection():
+    with tempfile.TemporaryDirectory(dir=REPO_ROOT / "raw") as directory:
+        root = Path(directory)
+        target = root / "target.md"
+        target.write_text("# target\n", encoding="utf-8")
+        link = root / "link.md"
+        link.symlink_to(target)
+
+        selected = lint.repository_lint_paths([link])
+        findings = lint.collect_findings(selected)
+
+        assert selected == [link]
+        assert any(
+            finding.severity == "HIGH"
+            and finding.path == link
+            and "symbolic links" in finding.message
+            for finding in findings
+        )
+
+
+@_register
+def test_repository_lint_paths_preserve_external_symlink_leaf_for_inventory_rejection():
+    with tempfile.TemporaryDirectory() as outside_directory:
+        target = Path(outside_directory) / "target.md"
+        target.write_text("# target\n", encoding="utf-8")
+        with tempfile.TemporaryDirectory(dir=REPO_ROOT / "raw") as directory:
+            link = Path(directory) / "link.md"
+            link.symlink_to(target)
+
+            selected = lint.repository_lint_paths([link])
+            findings = lint.collect_findings(selected)
+
+            assert selected == [link]
+            assert any(
+                finding.severity == "HIGH"
+                and finding.path == link
+                and "symbolic links" in finding.message
+                for finding in findings
+            )
+
+
+@_register
+def test_repository_lint_paths_preserve_single_file_scope_symlink_for_inventory_rejection():
+    original_defaults = lint.default_repository_paths
+    with tempfile.TemporaryDirectory(dir=REPO_ROOT) as directory:
+        root = Path(directory)
+        for scope in ("wiki", "raw", "_meta"):
+            (root / scope).mkdir()
+        internal_target = root / "directive.md"
+        internal_target.write_text("# target\n", encoding="utf-8")
+        with tempfile.TemporaryDirectory() as outside_directory:
+            external_target = Path(outside_directory) / "directive.md"
+            external_target.write_text("# target\n", encoding="utf-8")
+            try:
+                for target in (internal_target, external_target):
+                    agents = root / "AGENTS.md"
+                    agents.symlink_to(target)
+                    lint.default_repository_paths = lambda: [
+                        root / "wiki",
+                        root / "raw",
+                        root / "_meta",
+                        agents,
+                    ]
+
+                    selected = lint.repository_lint_paths([agents])
+                    findings = lint.collect_findings(selected)
+
+                    assert selected == [agents]
+                    assert any(
+                        finding.severity == "HIGH"
+                        and finding.path == agents
+                        and "symbolic links" in finding.message
+                        for finding in findings
+                    )
+                    agents.unlink()
+            finally:
+                lint.default_repository_paths = original_defaults
+
+
+@_register
+def test_repository_paths_cli_filters_paths_outside_default_scope():
+    original_argv = sys.argv
+    original_collect = lint.collect_findings
+    captured = []
+
+    try:
+        lint.collect_findings = lambda paths: captured.extend(paths) or []
+        sys.argv = [
+            str(LINT_PATH),
+            "--repository-paths",
+            "docs/design.md",
+            "raw/source.md",
+            "--report",
+            "jsonl",
+        ]
+        assert lint.main() == 0
+    finally:
+        lint.collect_findings = original_collect
+        sys.argv = original_argv
+
+    assert captured == [REPO_ROOT / "raw" / "source.md"]
+
+
+@_register
 def test_digest_shaped_path_without_manifest_is_not_excluded():
     candidate = (
         REPO_ROOT

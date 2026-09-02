@@ -25,7 +25,7 @@
     {"id": "FR-KP-022", "steps": [7, 8], "surfaces": ["scripts/wiki_ingest.py", "scripts/knowledge/documents.py", "scripts/knowledge/materialize.py"], "verification": ["tests/test_page_commands.py", "tests/test_materialize.py"]},
     {"id": "NFR-KP-001", "steps": [2, 5, 10], "surfaces": ["scripts/knowledge/check.py"], "verification": ["tests/test_knowledge_check.py"]},
     {"id": "NFR-KP-002", "steps": [2, 5, 12], "surfaces": ["scripts/wiki_ingest.py", "scripts/knowledge/documents.py", "scripts/knowledge/check.py", "scripts/knowledge/schema.py"], "verification": ["scripts/knowledge/check.py", "tests/test_knowledge_check.py"]},
-    {"id": "NFR-KP-003", "steps": [2, 5, 10], "surfaces": ["_meta/contracts/canonical-transcript-v1.schema.json"], "verification": ["tests/test_contract.py"]},
+    {"id": "NFR-KP-003", "steps": [2, 5, 10], "surfaces": ["_meta/contracts/canonical-transcript-v1.schema.json", ".github/workflows/knowledge.yml"], "verification": ["tests/test_contract.py", "tests/test_ci_contract.py"]},
     {"id": "NFR-KP-004", "steps": [4], "surfaces": ["scripts/knowledge/artifacts.py"], "verification": ["tests/test_artifacts.py"]},
     {"id": "NFR-KP-005", "steps": [4, 7, 8], "surfaces": ["scripts/knowledge/artifacts.py", "scripts/wiki_ingest.py", "scripts/knowledge/documents.py", "scripts/knowledge/materialize.py"], "verification": ["tests/test_artifacts.py", "tests/test_page_commands.py", "tests/test_materialize.py"]},
     {"id": "NFR-KP-006", "steps": [3, 4, 8], "surfaces": ["scripts/knowledge/schema.py", "scripts/knowledge/artifacts.py", "scripts/knowledge/materialize.py"], "verification": ["tests/test_knowledge_schema.py", "tests/test_artifacts.py", "tests/test_materialize.py"]},
@@ -35,7 +35,7 @@
     {"id": "NFR-KP-010", "steps": [3, 5, 8, 9], "surfaces": ["_meta/knowledge.schema.json", "scripts/knowledge/graph.py", "scripts/knowledge/materialize.py"], "verification": ["tests/test_knowledge_check.py", "tests/test_materialize.py"]},
     {"id": "NFR-KP-011", "steps": [3, 8], "surfaces": ["_meta/knowledge.schema.json", "scripts/knowledge/schema.py", "scripts/knowledge/materialize.py"], "verification": ["tests/test_knowledge_schema.py", "tests/test_materialize.py"]},
     {"id": "NFR-KP-012", "steps": [3, 5, 8], "surfaces": ["_meta/knowledge.schema.json", "scripts/knowledge/schema.py", "scripts/knowledge/check.py", "scripts/knowledge/materialize.py"], "verification": ["tests/test_knowledge_schema.py", "tests/test_knowledge_check.py", "tests/test_materialize.py"]},
-    {"id": "NFR-KP-013", "steps": [10], "surfaces": [".github/workflows/knowledge.yml"], "verification": ["scripts/knowledge/check.py"]},
+    {"id": "NFR-KP-013", "steps": [10], "surfaces": [".github/workflows/knowledge.yml", ".githooks/pre-commit", "scripts/lint.py"], "verification": ["tests/test_ci_contract.py", "tests/test_lint.py"]},
     {"id": "NFR-KP-014", "steps": [5, 7], "surfaces": ["_meta/knowledge.schema.json", "scripts/wiki_ingest.py", "scripts/knowledge/check.py", "scripts/knowledge/documents.py"], "verification": ["tests/test_knowledge_schema.py", "tests/test_knowledge_check.py", "tests/test_page_commands.py"]},
     {"id": "NFR-KP-015", "steps": [6, 9], "surfaces": [".gitignore", "docs/wiki-ingest-architecture.md"], "verification": ["reports/P2-T4-verification.md", "reports/P2-T7-verification.md", "tests/test_project_boundaries.py"]}
   ]

@@ -115,6 +115,29 @@ def is_relative_to(path: Path, parent: Path) -> bool:
         return False
 
 
+def default_repository_paths() -> list[Path]:
+    return [WIKI_DIR, REPO_ROOT / "raw", META_DIR, REPO_ROOT / "AGENTS.md"]
+
+
+def canonical_leaf_path(path: Path) -> Path:
+    absolute = path.absolute()
+    return absolute.parent.resolve(strict=False) / absolute.name
+
+
+def repository_lint_paths(paths: list[Path]) -> list[Path]:
+    roots = [canonical_leaf_path(path) for path in default_repository_paths()]
+    directories = roots[:-1]
+    single_file = roots[-1]
+    selected: list[Path] = []
+    for path in paths:
+        candidate = canonical_leaf_path(path)
+        if candidate == single_file or any(
+            candidate == root or root in candidate.parents for root in directories
+        ):
+            selected.append(candidate)
+    return selected
+
+
 def strip_fenced_code_blocks(text: str) -> str:
     return re.sub(r"```.*?```", "", text, flags=re.DOTALL)
 
@@ -473,6 +496,12 @@ def git_changed_paths(base: str = "main") -> list[Path]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--paths", nargs="*", default=None, help="특정 path. 기본 = wiki/ + raw/ + _meta/ + AGENTS.md")
+    ap.add_argument(
+        "--repository-paths",
+        nargs="*",
+        default=None,
+        help="repository 기본 lint scope에 속하는 명시 path만 검사",
+    )
     ap.add_argument("--changed", action="store_true", help="git diff base..HEAD 변경 .md 만")
     ap.add_argument("--base", default="main")
     ap.add_argument("--report", choices=["text", "jsonl", "markdown"], default="text")
@@ -493,6 +522,22 @@ def main() -> int:
                     "Git changed-path inventory failure",
                 )
             )
+    elif args.repository_paths is not None:
+        try:
+            paths = repository_lint_paths(
+                [_utf8_path(p).absolute() for p in args.repository_paths]
+            )
+        except UnicodeError:
+            paths = []
+            initial_findings.append(
+                Finding(
+                    "HIGH",
+                    "io",
+                    REPO_ROOT,
+                    None,
+                    "Markdown input path encoding failure",
+                )
+            )
     elif args.paths:
         try:
             paths = [_utf8_path(p).absolute() for p in args.paths]
@@ -508,7 +553,7 @@ def main() -> int:
                 )
             )
     else:
-        paths = [WIKI_DIR, REPO_ROOT / "raw", META_DIR, REPO_ROOT / "AGENTS.md"]
+        paths = default_repository_paths()
 
     findings = [*initial_findings, *collect_findings(paths)]
     high = sum(1 for f in findings if f.severity == "HIGH")
